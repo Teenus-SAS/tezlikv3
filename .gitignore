@@ -1,0 +1,8 @@
+env.php
+api/logs/
+api/environment.env
+api/*.env
+*.env
+app/assets/images/avatars/
+app/assets/images/signatures/
+app/assets/images/products/

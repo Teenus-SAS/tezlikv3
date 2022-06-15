@@ -1,0 +1,4 @@
+Options +FollowSymLinks
+RewriteEngine on
+
+RewriteRule ^auth$ views/login/loginDoubleFactor.php
