@@ -37,7 +37,7 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProducts.php')">Creación Productos</a></li>
+                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','cost/views/operations/basic/createProducts.php')">Creación Productos</a></li>
                                         <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
                                         <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createMachines.php')">Creación Máquinas</a></li>
                                         <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProcess.php')">Creación Procesos</a></li>

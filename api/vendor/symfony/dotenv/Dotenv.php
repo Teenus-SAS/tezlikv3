@@ -147,7 +147,7 @@ final class Dotenv
      */
     public function bootEnv(string $path, string $defaultEnv = 'dev', array $testEnvs = ['test']): void
     {
-        $p = $path.'.local.php';
+        $p = $path . '.local.php';
         $env = is_file($p) ? include $p : null;
         $k = $this->envKey;
 
@@ -220,7 +220,7 @@ final class Dotenv
             $_ENV['SYMFONY_DOTENV_VARS'] = $_SERVER['SYMFONY_DOTENV_VARS'] = $loadedVars;
 
             if ($this->usePutenv) {
-                putenv('SYMFONY_DOTENV_VARS='.$loadedVars);
+                putenv('SYMFONY_DOTENV_VARS=' . $loadedVars);
             }
         }
     }
@@ -278,7 +278,7 @@ final class Dotenv
     private function lexVarname(): string
     {
         // var name + optional export
-        if (!preg_match('/(export[ \t]++)?('.self::VARNAME_REGEX.')/A', $this->data, $matches, 0, $this->cursor)) {
+        if (!preg_match('/(export[ \t]++)?(' . self::VARNAME_REGEX . ')/A', $this->data, $matches, 0, $this->cursor)) {
             throw $this->createFormatException('Invalid character in variable name');
         }
         $this->moveCursor($matches[0]);
@@ -368,7 +368,7 @@ final class Dotenv
 
                     if ('$' === $this->data[$this->cursor] && isset($this->data[$this->cursor + 1]) && '(' === $this->data[$this->cursor + 1]) {
                         ++$this->cursor;
-                        $value .= '('.$this->lexNestedExpression().')';
+                        $value .= '(' . $this->lexNestedExpression() . ')';
                     }
 
                     ++$this->cursor;
@@ -405,7 +405,7 @@ final class Dotenv
             $value .= $this->data[$this->cursor];
 
             if ('(' === $this->data[$this->cursor]) {
-                $value .= $this->lexNestedExpression().')';
+                $value .= $this->lexNestedExpression() . ')';
             }
 
             ++$this->cursor;
@@ -458,7 +458,7 @@ final class Dotenv
                 throw new \LogicException('Resolving commands requires the Symfony Process component.');
             }
 
-            $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline('echo '.$matches[0]) : new Process('echo '.$matches[0]);
+            $process = method_exists(Process::class, 'fromShellCommandline') ? Process::fromShellCommandline('echo ' . $matches[0]) : new Process('echo ' . $matches[0]);
 
             if (!method_exists(Process::class, 'fromShellCommandline') && method_exists(Process::class, 'inheritEnvironmentVariables')) {
                 // Symfony 3.4 does not inherit env vars by default:
@@ -495,7 +495,7 @@ final class Dotenv
             \$
             (?!\()                             # no opening parenthesis
             (?P<opening_brace>\{)?             # optional brace
-            (?P<name>'.self::VARNAME_REGEX.')? # var name
+            (?P<name>' . self::VARNAME_REGEX . ')? # var name
             (?P<default_value>:[-=][^\}]++)?   # optional default value
             (?P<closing_brace>\})?             # optional closing brace
         /x';
@@ -545,7 +545,7 @@ final class Dotenv
                 $value .= '}';
             }
 
-            return $matches['backslashes'].$value;
+            return $matches['backslashes'] . $value;
         }, $value);
 
         return $value;

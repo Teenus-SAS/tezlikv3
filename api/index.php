@@ -38,47 +38,46 @@ require_once('../api/src/routes/admin/dashboard/routeDashboardGeneral.php');
 /* App */
 
 // Analysis
-require_once('../api/src/routes/app/analysis/routeReviewRawMaterials.php');
+require_once('../api/src/routes/app/cost/analysis/routeReviewRawMaterials.php');
 
 // Basic
-require_once('../api/src/routes/app/basic/routeMachines.php');
-require_once('../api/src/routes/app/basic/routeMaterials.php');
-require_once('../api/src/routes/app/basic/routeProcess.php');
-require_once('../api/src/routes/app/basic/routeProducts.php');
+require_once('../api/src/routes/app/cost/basic/routeMachines.php');
+require_once('../api/src/routes/app/cost/basic/routeMaterials.php');
+require_once('../api/src/routes/app/cost/basic/routeProcess.php');
+require_once('../api/src/routes/app/cost/basic/routeProducts.php');
 
 // Config
-require_once('../api/src/routes/app/config/routeExternalServices.php');
-require_once('../api/src/routes/app/config/routeFactoryLoad.php');
-require_once('../api/src/routes/app/config/routeProductsMaterials.php');
-require_once('../api/src/routes/app/config/routeProductsProcess.php');
+require_once('../api/src/routes/app/cost/config/routeExternalServices.php');
+require_once('../api/src/routes/app/cost/config/routeFactoryLoad.php');
+require_once('../api/src/routes/app/cost/config/routeProductsMaterials.php');
+require_once('../api/src/routes/app/cost/config/routeProductsProcess.php');
 
 // Dashboard
-require_once('../api/src/routes/app/dashboard/routeDashboardGenerals.php');
-require_once('../api/src/routes/app/dashboard/routeDashboardProducts.php');
+require_once('../api/src/routes/app/cost/dashboard/routeDashboardGenerals.php');
+require_once('../api/src/routes/app/cost/dashboard/routeDashboardProducts.php');
 
-// Double factor
-require_once('../api/src/routes/app/doubleFactor/routeDoubleFactor.php');
 
 // General
-require_once('../api/src/routes/app/general/routeExpenses.php');
-require_once('../api/src/routes/app/general/routeExpensesDistribution.php');
-require_once('../api/src/routes/app/general/routePayroll.php');
-require_once('../api/src/routes/app/general/routeProcessPayroll.php');
+require_once('../api/src/routes/app/cost/general/routeExpenses.php');
+require_once('../api/src/routes/app/cost/general/routeExpensesDistribution.php');
+require_once('../api/src/routes/app/cost/general/routePayroll.php');
+require_once('../api/src/routes/app/cost/general/routeProcessPayroll.php');
 
 // Global
 require_once('../api/src/routes/app/global/routeCompany.php');
+require_once('../api/src/routes/app/global/routeDoubleFactor.php');
 require_once('../api/src/routes/app/global/routePuc.php');
 
 // Login
-require_once('../api/src/routes/app/login/routeLogin.php');
 require_once('../api/src/routes/app/login/routeLicenseCompany.php');
+require_once('../api/src/routes/app/login/routeLogin.php');
 require_once('../api/src/routes/app/login/routepassUser.php');
 
 // Prices
-require_once('../api/src/routes/app/prices/routePrices.php');
+require_once('../api/src/routes/app/cost/prices/routePrices.php');
 
 // Tools
-require_once('../api/src/routes/app/tools/routeSupport.php');
+require_once('../api/src/routes/app/cost/tools/routeSupport.php');
 
 // User
 require_once('../api/src/routes/app/users/routeUserAccess.php');
