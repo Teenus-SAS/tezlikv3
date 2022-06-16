@@ -25,12 +25,12 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <div class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','views/companies/companies.php')">
+                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','../admin/views/companies/companies.php')">
                                     <span>Empresas</span>
                                 </a>
                             </div>
                             <div class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','views/companies/companiesLicenses.php')">
+                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','../admin/views/companies/companiesLicenses.php')">
                                     <span>Licencias</span>
                                 </a>
                             </div>
@@ -48,7 +48,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <div class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','views/users/usersLog.php')">
+                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','../admin/views/users/usersLog.php')">
                                     <span>Sesiones Activas</span>
                                 </a>
                             </div>
@@ -71,7 +71,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <div class="dropdown">
-                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','views/puc/puc.php')">
+                                <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" onclick="loadContent('page-content','../admin/views/puc/puc.php')">
                                     <span>Cuentas</span>
                                 </a>
                             </div>

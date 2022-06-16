@@ -2,7 +2,7 @@
 
 use tezlikv2\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -138,11 +138,11 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../../app/js/productProcess/tblConfigProcess.js"></script>
-<script src="../../app/js/products/configProducts.js"></script>
-<script src="../../app/js/payroll/configProcessPayroll.js"></script>
-<script src="../../app/js/machines/configMachines.js"></script>
-<script src="../../app/js/productProcess/productProcess.js"></script>
-<script src="../../app/js/import/import.js"></script>
-<script src="../../app/js/productProcess/importProductProcess.js"></script>
-<script src="../../app/js/import/file.js"></script>
+<script src="../../app/cost/js/productProcess/tblConfigProcess.js"></script>
+<script src="../../app/cost/js/products/configProducts.js"></script>
+<script src="../../app/cost/js/payroll/configProcessPayroll.js"></script>
+<script src="../../app/cost/js/machines/configMachines.js"></script>
+<script src="../../app/cost/js/productProcess/productProcess.js"></script>
+<script src="../../app/cost/js/import/import.js"></script>
+<script src="../../app/cost/js/productProcess/importProductProcess.js"></script>
+<script src="../../app/cost/js/import/file.js"></script>

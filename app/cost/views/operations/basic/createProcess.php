@@ -2,7 +2,7 @@
 
 use tezlikv2\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -102,8 +102,8 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../../app/js/process/tblProcess.js"></script>
-<script src="../../app/js/process/process.js"></script>
-<script src="../../app/js/import/import.js"></script>
-<script src="../../app/js/process/importProcess.js"></script>
-<script src="../../app/js/import/file.js"></script>
+<script src="../../app/cost/js/process/tblProcess.js"></script>
+<script src="../../app/cost/js/process/process.js"></script>
+<script src="../../app/cost/js/import/import.js"></script>
+<script src="../../app/cost/js/process/importProcess.js"></script>
+<script src="../../app/cost/js/import/file.js"></script>

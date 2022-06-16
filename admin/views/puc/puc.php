@@ -2,8 +2,7 @@
 
 use tezlikv2\dao\UserInactiveTimeDao;
 
-// require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
-require_once(dirname(dirname(dirname(__DIR__))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -21,7 +20,7 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
 
-                <div class="form-inline justify-content-sm-end">                    
+                <div class="form-inline justify-content-sm-end">
                     <div>
                         <button class="btn btn-warning" id="btnNewPUC">Nueva Cuenta</button>
                     </div>
