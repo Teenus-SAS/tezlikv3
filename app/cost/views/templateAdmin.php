@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(__DIR__)) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(__DIR__)) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
 include_once('../modals/modalNewSeller.php');
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();

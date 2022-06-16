@@ -14,29 +14,33 @@ $userinactivetimeDao->findSession();
                 <div class="page-title">
                     <h3 class="mb-1 font-weight-bold text-dark">Máquinas</h3>
                     <ol class="breadcrumb mb-3 mb-md-0">
-                        <li class="breadcrumb-item active">Planeación de Máquinas</li>
+                        <li class="breadcrumb-item active">Creación de Máquinas</li>
                     </ol>
                 </div>
             </div>
-            <!-- <div class="col-sm-7 col-xl-6">
+            <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
                     <button class="btn btn-warning" id="btnNewMachine" name="btnNewMachine">Nueva Máquina</button>
                     <button class="btn btn-info ml-3" id="btnImportNewMachines" name="btnNewImportMachines">Importar Máquinas</button>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </div>
 
-<!-- <div class="page-content-wrapper mt--45 mb-5 cardCreateMachines">
+<div class="page-content-wrapper mt--45 mb-5 cardCreateMachines">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    <!--  <div class="card-header">
+                        <h5 class="card-title">Crear Máquina</h5>
+                    </div> -->
                     <div class="card-body">
                         <form id="formCreateMachine">
                             <div class="gridx4cm">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                    <!-- <input type="text" class="form-control" name="idMachine" id="idMachine" hidden> -->
                                     <input type="text" class="form-control" name="machine" id="machine">
                                     <label for="">Nombre</label>
                                 </div>
@@ -62,6 +66,10 @@ $userinactivetimeDao->findSession();
                                     <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
                                     <label for="">Dias de Trabajo</label>
                                 </div>
+                                <!--<div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                    <input type="text" class="form-control money text-center" name="depreciationMinute" id="depreciationMinute">
+                                    <label for="">Depreciación x Min</label>
+                                </div>-->
                                 <div style="margin-bottom:0px;margin-top:5px;">
                                     <button class="btn btn-success" id="btnCreateMachine">Crear Máquina</button>
                                 </div>
@@ -100,7 +108,7 @@ $userinactivetimeDao->findSession();
             </form>
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- page content -->
 <div class="page-content-wrapper mt--45">
@@ -124,11 +132,11 @@ $userinactivetimeDao->findSession();
         </div>
     </div>
 </div>
-<script src="../../app/planning/js/machines/tblMachines.js"></script>
-<!--
-<script src="../../app/planning/js/global/number.js"></script>
-<script src="../../app/planning/js/machines/machines.js"></script>
-<script src="../../app/planning/js/import/import.js"></script>
-<script src="../../app/planning/js/machines/importMachines.js"></script>
-<script src="../../app/planning/js/import/file.js"></script>
-<script src="../../app/planning/js/global/validateExt.js"></script> -->
+
+<script src="../../app/cost/js/global/number.js"></script>
+<script src="../../app/global/js/machines/tblMachines.js"></script>
+<script src="../../app/global/js/machines/machines.js"></script>
+<script src="../../app/cost/js/import/import.js"></script>
+<script src="../../app/global/js/machines/importMachines.js"></script>
+<script src="../../app/cost/js/import/file.js"></script>
+<script src="../../app/cost/js/global/validateExt.js"></script>

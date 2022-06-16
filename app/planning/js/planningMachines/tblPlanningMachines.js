@@ -24,28 +24,83 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
-        title: 'Trabajadas',
+        title: 'Trabajadores',
         data: 'number_workers',
         className: 'text-center',
       },
       {
-        title: 'Hora Dia',
+        title: 'Hora x Dia',
         data: 'hours_day',
         className: 'text-center',
       },
       {
-        title: 'Hora Inicio',
+        title: 'Hora x Inicio',
         data: 'hour_start',
         className: 'text-center',
       },
       {
-        title: 'Hora Fin',
+        title: 'Hora x Fin',
         data: 'hour_end',
         className: 'text-center',
       },
       {
-        title: 'Año',
-        data: 'year',
+        title: 'Enero',
+        data: 'january',
+        className: 'text-center',
+      },
+      {
+        title: 'Febrero',
+        data: 'february',
+        className: 'text-center',
+      },
+      {
+        title: 'Marzo',
+        data: 'march',
+        className: 'text-center',
+      },
+      {
+        title: 'Abril',
+        data: 'april',
+        className: 'text-center',
+      },
+      {
+        title: 'Mayo',
+        data: 'may',
+        className: 'text-center',
+      },
+      {
+        title: 'Junio',
+        data: 'june',
+        className: 'text-center',
+      },
+      {
+        title: 'Julio',
+        data: 'july',
+        className: 'text-center',
+      },
+      {
+        title: 'Agosto',
+        data: 'august',
+        className: 'text-center',
+      },
+      {
+        title: 'Septiembre',
+        data: 'september',
+        className: 'text-center',
+      },
+      {
+        title: 'Octubre',
+        data: 'october',
+        className: 'text-center',
+      },
+      {
+        title: 'Noviembre',
+        data: 'november',
+        className: 'text-center',
+      },
+      {
+        title: 'Diciembre',
+        data: 'december',
         className: 'text-center',
       },
       {

@@ -20,7 +20,8 @@ class Planning_machinesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT pm.id_program_machines, m.machine, pm.number_workers, pm.hours_day, pm.hour_start, pm.hour_end, pm.year 
+        $stmt = $connection->prepare("SELECT pm.id_program_machines, m.machine, pm.number_workers, pm.hours_day, pm.hour_start, pm.hour_end, pm.january, pm.february,
+                                             pm.march, pm.april, pm.may, pm.june, pm.july, pm.august, pm.september, pm.october, pm.november, pm.december                                
                                       FROM plan_program_machines pm
                                         INNER JOIN machines m ON m.id_machine = pm.id_machine
                                       WHERE pm.id_company = :id_company;");

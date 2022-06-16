@@ -193,5 +193,5 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="/app/cost/js/users/tblUsers.js"></script>
-<script src="/app/cost/js/users/users.js"></script>
+<script src="/app/global/js/users/tblUsers.js"></script>
+<script src="/app/global/js/users/users.js"></script>
