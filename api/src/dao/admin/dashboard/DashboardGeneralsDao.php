@@ -1,8 +1,8 @@
 <?php
 
-namespace tezlikv2\dao;
+namespace tezlikv3\dao;
 
-use tezlikv2\Constants\Constants;
+use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -50,7 +50,7 @@ class DashboardGeneralsDao
         $users = $stmt->fetch($connection::FETCH_ASSOC);
         $this->logger->notice("UsersCount", array('UsersCount' => $users));
         return $users;
-    }    
+    }
 
     // Obtener todos los Usuarios en sesión
     public function findAllActiveUsersSession()

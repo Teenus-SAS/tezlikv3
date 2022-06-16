@@ -1,8 +1,8 @@
 <?php
 
-namespace tezlikv2\dao;
+namespace tezlikv3\dao;
 
-use tezlikv2\Constants\Constants;
+use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -53,7 +53,7 @@ class CompanyUsers
         try {
             $stmt = $connection->prepare("UPDATE users SET active = :active WHERE id_user = :id_user");
             $stmt->execute([
-                'active' => $status,              
+                'active' => $status,
                 'id_user' => $id_user,
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -63,6 +63,4 @@ class CompanyUsers
             return $error;
         }
     }
-
-   
 }

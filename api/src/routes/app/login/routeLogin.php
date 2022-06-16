@@ -1,11 +1,11 @@
 <?php
 
-use tezlikv2\dao\AutenticationUserDao;
-use tezlikv2\dao\LicenseCompanyDao;
-use tezlikv2\dao\StatusActiveUserDao;
-use tezlikv2\dao\GenerateCodeDao;
-use tezlikv2\dao\SendEmailDao;
-use tezlikv2\dao\LastLoginDao;
+use tezlikv3\dao\AutenticationUserDao;
+use tezlikv3\dao\LicenseCompanyDao;
+use tezlikv3\dao\StatusActiveUserDao;
+use tezlikv3\dao\GenerateCodeDao;
+use tezlikv3\dao\SendEmailDao;
+use tezlikv3\dao\LastLoginDao;
 
 $licenseDao = new LicenseCompanyDao();
 $autenticationDao = new AutenticationUserDao();

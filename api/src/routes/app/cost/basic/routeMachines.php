@@ -1,9 +1,9 @@
 <?php
 
-use tezlikv2\dao\MachinesDao;
-use tezlikv2\dao\MinuteDepreciationDao;
-use tezlikv2\dao\IndirectCostDao;
-use tezlikv2\dao\PriceProductDao;
+use tezlikv3\dao\MachinesDao;
+use tezlikv3\dao\MinuteDepreciationDao;
+use tezlikv3\dao\IndirectCostDao;
+use tezlikv3\dao\PriceProductDao;
 
 $machinesDao = new MachinesDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();

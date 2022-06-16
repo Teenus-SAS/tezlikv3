@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\LastLoginsDao;
+use tezlikv3\dao\LastLoginsDao;
 
 $lastLoginsDao = new LastLoginsDao();
 

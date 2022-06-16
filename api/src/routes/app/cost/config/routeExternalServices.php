@@ -1,8 +1,8 @@
 <?php
 
-use tezlikv2\dao\ExternalServicesDao;
-use tezlikv2\dao\ProductsDao;
-use tezlikv2\dao\PriceProductDao;
+use tezlikv3\dao\ExternalServicesDao;
+use tezlikv3\dao\ProductsDao;
+use tezlikv3\dao\PriceProductDao;
 
 $externalServicesDao = new ExternalServicesDao();
 $productsDao = new ProductsDao();

@@ -1,10 +1,10 @@
 <?php
 
-use tezlikv2\dao\UsersDao;
+use tezlikv3\dao\UsersDao;
 // Cantidad de usuarios
-use tezlikv2\dao\QuantityUsersDao;
+use tezlikv3\dao\QuantityUsersDao;
 //Acceso de usuario
-use tezlikv2\dao\AccessUserDao;
+use tezlikv3\dao\AccessUserDao;
 
 $userDao = new UsersDao();
 $quantityUsersDao = new QuantityUsersDao();

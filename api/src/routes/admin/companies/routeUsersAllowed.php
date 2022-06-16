@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\CompaniesAllowedUsersDao;
+use tezlikv3\dao\CompaniesAllowedUsersDao;
 
 $companiesAllowedUsersDao = new CompaniesAllowedUsersDao();
 

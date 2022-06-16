@@ -1,7 +1,7 @@
 <?php
 
-use tezlikv2\dao\CompaniesDao;
-use tezlikv2\dao\CompaniesLicenseDao;
+use tezlikv3\dao\CompaniesDao;
+use tezlikv3\dao\CompaniesLicenseDao;
 
 $companiesDao = new CompaniesDao();
 $companiesLicDao = new CompaniesLicenseDao();

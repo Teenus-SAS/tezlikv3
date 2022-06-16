@@ -1,12 +1,12 @@
 <?php
 
-use tezlikv2\dao\ProductsProcessDao;
-use tezlikv2\dao\ProductsDao;
-use tezlikv2\dao\ProcessPayrollDao;
-use tezlikv2\dao\MachinesDao;
-use tezlikv2\dao\CostWorkforceDao;
-use tezlikv2\dao\IndirectCostDao;
-use tezlikv2\Dao\PriceProductDao;
+use tezlikv3\dao\ProductsProcessDao;
+use tezlikv3\dao\ProductsDao;
+use tezlikv3\dao\ProcessPayrollDao;
+use tezlikv3\dao\MachinesDao;
+use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\IndirectCostDao;
+use tezlikv3\Dao\PriceProductDao;
 
 $productsProcessDao = new ProductsProcessDao();
 $productsDao = new ProductsDao();

@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\ProcessPayrollDao;
+use tezlikv3\dao\ProcessPayrollDao;
 
 $processPayrollDao = new ProcessPayrollDao();
 

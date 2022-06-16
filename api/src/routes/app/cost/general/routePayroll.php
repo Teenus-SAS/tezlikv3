@@ -1,9 +1,9 @@
 <?php
 
-use tezlikv2\dao\PayrollDao;
-use tezlikv2\dao\ProcessDao;
-use tezlikv2\dao\CostWorkforceDao;
-use tezlikv2\dao\PriceProductDao;
+use tezlikv3\dao\PayrollDao;
+use tezlikv3\dao\ProcessDao;
+use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\PriceProductDao;
 
 $payrollDao = new PayrollDao();
 $processDao = new ProcessDao();
@@ -38,7 +38,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
         for ($i = 0; $i < sizeof($payroll); $i++) {
             // Obtener id proceso
             $findProcess = $processDao->findProcess($payroll[$i], $id_company);
-            
+
             if (!$findProcess) {
                 $i = $i + 1;
                 $dataImportPayroll = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila {$i}");

@@ -1,9 +1,9 @@
 <?php
 
-namespace tezlikv2\dao;
+namespace tezlikv3\dao;
 
 use DateTime;
-use tezlikv2\Constants\Constants;
+use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 

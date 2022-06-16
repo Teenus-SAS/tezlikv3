@@ -1,8 +1,8 @@
 <?php
 
-namespace tezlikv2\dao;
+namespace tezlikv3\dao;
 
-use tezlikv2\Constants\Constants;
+use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -26,7 +26,7 @@ class UserInactiveTimeDao extends StatusActiveUserDao
       //$this->changeStatusUserLogin();
 
       session_destroy();
-      echo "<script> window.location='http://tezlikv2/'; </script>";
+      echo "<script> window.location='http://tezlikv3/'; </script>";
       exit();
     } else
       @session_start();

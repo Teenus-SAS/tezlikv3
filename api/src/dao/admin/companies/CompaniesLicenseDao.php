@@ -1,8 +1,8 @@
 <?php
 
-namespace tezlikv2\dao;
+namespace tezlikv3\dao;
 
-use tezlikv2\Constants\Constants;
+use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
@@ -32,7 +32,7 @@ class CompaniesLicenseDao
         $this->logger->notice("licenses", array('licenses' => $licenses));
 
         return $licenses;
-    }   
+    }
 
     //Agregar Licencia
     public function addLicense($dataLicense, $id_company)

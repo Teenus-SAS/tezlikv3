@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\StatusUserDao;
+use tezlikv3\dao\StatusUserDao;
 
 $usersStatusDao = new StatusUserDao();
 

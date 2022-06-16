@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\UserInactiveTimeDao;
+use tezlikv3\dao\UserInactiveTimeDao;
 
 // require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
 require_once(dirname(dirname(dirname(__DIR__))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");

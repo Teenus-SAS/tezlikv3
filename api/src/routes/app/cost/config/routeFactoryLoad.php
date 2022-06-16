@@ -1,10 +1,10 @@
 <?php
 
-use tezlikv2\dao\FactoryLoadDao;
-use tezlikv2\dao\MachinesDao;
-use tezlikv2\dao\CostMinuteDao;
-use tezlikv2\dao\IndirectCostDao;
-use tezlikv2\dao\PriceProductDao;
+use tezlikv3\dao\FactoryLoadDao;
+use tezlikv3\dao\MachinesDao;
+use tezlikv3\dao\CostMinuteDao;
+use tezlikv3\dao\IndirectCostDao;
+use tezlikv3\dao\PriceProductDao;
 
 $factoryloadDao = new FactoryLoadDao();
 $machinesDao = new MachinesDao();

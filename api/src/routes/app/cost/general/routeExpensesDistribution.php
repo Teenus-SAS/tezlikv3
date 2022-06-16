@@ -1,10 +1,10 @@
 <?php
 
-use tezlikv2\dao\ExpensesDistributionDao;
-use tezlikv2\dao\ProductsDao;
-use tezlikv2\dao\TotalExpenseDao;
-use tezlikv2\dao\AssignableExpenseDao;
-use tezlikv2\dao\PriceProductDao;
+use tezlikv3\dao\ExpensesDistributionDao;
+use tezlikv3\dao\ProductsDao;
+use tezlikv3\dao\TotalExpenseDao;
+use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\PriceProductDao;
 
 $expensesDistributionDao = new ExpensesDistributionDao();
 $productsDao = new ProductsDao();

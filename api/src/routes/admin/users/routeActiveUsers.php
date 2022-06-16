@@ -1,7 +1,7 @@
 <?php
 
-use tezlikv2\dao\ActiveUsersDao;
-use tezlikv2\dao\LastLoginUsersDao;
+use tezlikv3\dao\ActiveUsersDao;
+use tezlikv3\dao\LastLoginUsersDao;
 
 $activeUsersDao = new ActiveUsersDao();
 $lastLogUsersDao = new LastLoginUsersDao();

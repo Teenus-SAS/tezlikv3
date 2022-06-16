@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\SendEmailDao;
+use tezlikv3\dao\SendEmailDao;
 
 $sendEmailDao = new SendEmailDao();
 

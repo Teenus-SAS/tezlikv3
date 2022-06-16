@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\DashboardGeneralsDao;
+use tezlikv3\dao\DashboardGeneralsDao;
 
 $dashboardGeneralsDao = new DashboardGeneralsDao();
 
@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/dashboardCountsGeneral', function (Request $request, Response $response, $args) use ($dashboardGeneralsDao) {
-   
+
     // Obtener Cantidad de Productos
     $products = $dashboardGeneralsDao->findAllProducts();
 

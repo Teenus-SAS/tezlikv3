@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\PucsDao;
+use tezlikv3\dao\PucsDao;
 
 $pucsDao = new PucsDao();
 

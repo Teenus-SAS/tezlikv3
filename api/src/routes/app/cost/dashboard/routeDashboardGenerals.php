@@ -1,7 +1,7 @@
 <?php
 
-use tezlikv2\dao\DashboardGeneralDao;
-use tezlikv2\dao\PricesDao;
+use tezlikv3\dao\DashboardGeneralDao;
+use tezlikv3\dao\PricesDao;
 
 $dashboardGeneralDao = new DashboardGeneralDao();
 $pricesDao = new PricesDao();

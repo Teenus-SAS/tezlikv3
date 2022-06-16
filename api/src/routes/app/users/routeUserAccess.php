@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\AccessUserDao;
+use tezlikv3\dao\AccessUserDao;
 
 $userAccessDao = new AccessUserDao();
 

@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\CloseSessionUsersDao;
+use tezlikv3\dao\CloseSessionUsersDao;
 
 $closeSessionUser = new CloseSessionUsersDao();
 

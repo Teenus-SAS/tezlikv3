@@ -1,8 +1,8 @@
 <?php
 
-use tezlikv2\dao\ExpensesDao;
-use tezlikv2\dao\PucDao;
-use tezlikv2\dao\TotalExpenseDao;
+use tezlikv3\dao\ExpensesDao;
+use tezlikv3\dao\PucDao;
+use tezlikv3\dao\TotalExpenseDao;
 
 $expensesDao = new ExpensesDao();
 $pucDao = new PucDao();

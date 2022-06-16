@@ -1,8 +1,8 @@
 <?php
 
-namespace tezlikv2\Dao;
+namespace tezlikv3\Dao;
 
-use tezlikv2\Constants\Constants;
+use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
@@ -12,7 +12,7 @@ use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Class Connection
- * @package tezlikv2\Dao
+ * @package tezlikv3\Dao
  * @author Teenus <Teenus-SAS>
  */
 class Connection

@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\LicenseCompanyDao;
+use tezlikv3\dao\LicenseCompanyDao;
 
 $licenseCompanyDao = new LicenseCompanyDao();
 

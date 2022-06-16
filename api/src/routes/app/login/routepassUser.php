@@ -1,7 +1,7 @@
 <?php
 
-use tezlikv2\dao\passUserDao;
-use tezlikv2\dao\SendEmailDao;
+use tezlikv3\dao\passUserDao;
+use tezlikv3\dao\SendEmailDao;
 
 $passUserDao = new passUserDao();
 $sendEmailDao = new SendEmailDao();

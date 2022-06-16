@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\PricesDao;
+use tezlikv3\dao\PricesDao;
 
 $pricesDao = new PricesDao();
 

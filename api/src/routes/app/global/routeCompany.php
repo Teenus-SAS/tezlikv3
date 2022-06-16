@@ -1,8 +1,8 @@
 <?php
 
-use tezlikv2\dao\CompanyDao;
-use tezlikv2\dao\UsersDao;
-use tezlikv2\dao\licenseCompanyDao;
+use tezlikv3\dao\CompanyDao;
+use tezlikv3\dao\UsersDao;
+use tezlikv3\dao\licenseCompanyDao;
 
 $companyDao = new CompanyDao();
 

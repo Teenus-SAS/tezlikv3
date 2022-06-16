@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\Planning_machinesDao;
+use tezlikv3\dao\Planning_machinesDao;
 
 $planningMachinesDao = new Planning_machinesDao();
 

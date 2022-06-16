@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\UserInactiveTimeDao;
+use tezlikv3\dao\UserInactiveTimeDao;
 
 require_once(dirname(dirname(__DIR__)) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();

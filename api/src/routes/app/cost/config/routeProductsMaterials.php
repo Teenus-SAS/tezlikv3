@@ -1,10 +1,10 @@
 <?php
 
-use tezlikv2\dao\ProductsMaterialsDao;
-use tezlikv2\dao\ProductsDao;
-use tezlikv2\dao\MaterialsDao;
-use tezlikv2\dao\CostMaterialsDao;
-use tezlikv2\dao\PriceProductDao;
+use tezlikv3\dao\ProductsMaterialsDao;
+use tezlikv3\dao\ProductsDao;
+use tezlikv3\dao\MaterialsDao;
+use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\PriceProductDao;
 
 $productsMaterialsDao = new ProductsMaterialsDao();
 $productsDao = new ProductsDao();

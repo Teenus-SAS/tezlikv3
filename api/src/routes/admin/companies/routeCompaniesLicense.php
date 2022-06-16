@@ -1,7 +1,7 @@
 <?php
 
-use tezlikv2\dao\CompaniesLicenseDao;
-use tezlikv2\dao\CompaniesLicenseStatusDao;
+use tezlikv3\dao\CompaniesLicenseDao;
+use tezlikv3\dao\CompaniesLicenseStatusDao;
 
 $companiesLicenseDao = new CompaniesLicenseDao();
 $companiesLicenseStatusDao = new CompaniesLicenseStatusDao();
@@ -45,7 +45,6 @@ $app->post('/changeStatusCompany/{id_company}', function (Request $request, Resp
         } else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
         }
-        
     }
 
     if ($status == 0) {
@@ -56,7 +55,6 @@ $app->post('/changeStatusCompany/{id_company}', function (Request $request, Resp
         } else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
         }
-        
     }
 
     $response->getBody()->write(json_encode($resp));

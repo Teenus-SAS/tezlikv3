@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv2\dao\CompanyUsers;
+use tezlikv3\dao\CompanyUsers;
 
 $companyUsers = new CompanyUsers();
 
@@ -28,7 +28,6 @@ $app->post('/updateCompanyUsersStatus/{id_user}', function (Request $request, Re
         } else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
         }
-        
     }
 
     if ($status == 0) {
@@ -39,7 +38,6 @@ $app->post('/updateCompanyUsersStatus/{id_user}', function (Request $request, Re
         } else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
         }
-        
     }
 
     $response->getBody()->write(json_encode($resp));
