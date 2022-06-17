@@ -44,15 +44,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 
-    /* crear archivo txt
-
-    $arch = fopen('attempsSession.txt', 'r');
-    $att = fgets($arch);
-
-    fclose($arch); */
-
-
-    /* valide licenciamiento empresa */
+     /* valide licenciamiento empresa */
 
     $license = $licenseDao->findLicense($user['id_company']);
 

@@ -16,4 +16,9 @@ class templateController
     {
         include __DIR__ . '../../cost/views/templateAdmin.php';
     }
+    
+    public function ctrTemplateGlobal()
+    {
+        include __DIR__ . '../../cost/views/templateAdmin.php';
+    }
 }
