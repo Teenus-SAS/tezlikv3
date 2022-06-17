@@ -80,8 +80,8 @@ $userinactivetimeDao->findSession();
 		tipo = "<?= $_SESSION['rol'] ?>"
 	</script>
 	<script src="js/global/validation.js"></script>
-	<script src="../app/js/users/users.js"></script>
-	<script src="../app/js/users/rols.js"></script>
+	<script src="../app/global/js/users/users.js"></script>
+	<!-- <script src="../app/js/users/rols.js"></script> -->
 	<script src="../app/js/global/logout.js"></script>
 	<script src="../app/js/global/profile.js"></script>
 

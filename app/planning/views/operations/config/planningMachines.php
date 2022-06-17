@@ -7,6 +7,8 @@ $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
 
+<?php require_once dirname(dirname(dirname(__DIR__))) . '/modals/createPlanMachine.php'; ?>
+
 <div class="page-title-box">
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -20,7 +22,7 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnNewMachine" name="btnNewMachine">Nueva Máquina</button>
+                    <button class="btn btn-warning" id="btnNewPlanMachine" name="btnNewPlanMachine">Adicionar Plan Máquina</button>
                     <!-- <button class="btn btn-info ml-3" id="btnImportNewMachines" name="btnNewImportMachines">Importar Máquinas</button> -->
                 </div>
             </div>
@@ -28,17 +30,17 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<!-- <div class="page-content-wrapper mt--45 mb-5 cardCreateMachines">
+<!-- <div class="page-content-wrapper mt--45 mb-5 cardCreatePlanMachines">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="formCreateMachine">
+                        <form id="formCreatePlanMachine">
                             <div class="gridx4cm">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control" name="machine" id="machine">
-                                    <label for="">Nombre</label>
+                                    <select class="form-control" name="idMachine" id="idMachine"></select>
+                                    <label for="">Maquina</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                     <input type="text" class="form-control money text-center" name="cost" id="costMachine">
@@ -63,7 +65,7 @@ $userinactivetimeDao->findSession();
                                     <label for="">Dias de Trabajo</label>
                                 </div>
                                 <div style="margin-bottom:0px;margin-top:5px;">
-                                    <button class="btn btn-success" id="btnCreateMachine">Crear Máquina</button>
+                                    <button class="btn btn-success" id="btnCreatePlanMachine">Crear Máquina</button>
                                 </div>
 
                             </div>
@@ -114,7 +116,7 @@ $userinactivetimeDao->findSession();
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="tblMachines">
+                            <table class="table table-striped" id="tblPMachines">
 
                             </table>
                         </div>
@@ -125,10 +127,13 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 <script src="../../app/planning/js/planningMachines/tblPlanningMachines.js"></script>
+<script src="../../app/planning/js/planningMachines/planningMachines.js"></script>
+<script src="../../app/global/js/machines/configMachines.js"></script>
+<script src="../../app/global/js/global/validateExt.js"></script>
 <!--
 <script src="../../app/planning/js/global/number.js"></script>
 <script src="../../app/planning/js/machines/machines.js"></script>
 <script src="../../app/planning/js/import/import.js"></script>
 <script src="../../app/planning/js/machines/importMachines.js"></script>
 <script src="../../app/planning/js/import/file.js"></script>
-<script src="../../app/planning/js/global/validateExt.js"></script> -->
+-->

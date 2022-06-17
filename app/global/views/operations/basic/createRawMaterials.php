@@ -114,10 +114,10 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../../app/cost/js/global/number.js"></script>
+<script src="../../app/global/js/global/number.js"></script>
 <script src="../../app/global/js/rawMaterials/tblRawMaterials.js"></script>
 <script src="../../app/global/js/rawMaterials/rawMaterials.js"></script>
 <script src="../../app/cost/js/import/import.js"></script>
 <script src="../../app/global/js/rawMaterials/importRawMaterials.js"></script>
 <script src="../../app/cost/js/import/file.js"></script>
-<script src="../../app/cost/js/global/validateExt.js"></script>
+<script src="../../app/global/js/global/validateExt.js"></script>

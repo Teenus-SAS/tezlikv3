@@ -1,1 +1,1 @@
-<script src="/app/cost/js/users/usersAccess.js"></script>
+<script src="/app/global/js/users/usersAccess.js"></script>

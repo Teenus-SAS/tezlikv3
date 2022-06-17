@@ -87,7 +87,7 @@ $userinactivetimeDao->findSession();
 </div>
 
 
-<script src="../../app/cost/js/global/number.js"></script>
+<script src="../../app/global/js/global/number.js"></script>
 <script src="../../app/cost/js/payroll/tblPayroll.js"></script>
 <script src="../../app/cost/js/process/configProcess.js"></script>
 <script src="../../app/cost/js/payroll/payroll.js"></script>

@@ -37,16 +37,16 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../global/views/operations/basic/createProducts.php')">Creación Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../global/views/operations/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../global/views/operations/basic/createMachines.php')">Creación Máquinas</a></li>
+                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','global/views/operations/basic/createProducts.php')">Creación Productos</a></li>
+                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','global/views/operations/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
+                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','global/views/operations/basic/createMachines.php')">Creación Máquinas</a></li>
                                         <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','cost/views/operations/basic/createProcess.php')">Creación Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../global/views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
+                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','global/views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
                                         <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','cost/views/operations/config/productProcess.php')">Ficha Técnica Procesos</a></li>
                                         <li class="factoryLoad"><a href="javascript:void(0);" onclick="loadContent('page-content','cost/views/operations/config/factoryLoad.php')">Carga Fabril</a></li>
                                         <li class="servicesExternal"><a href="javascript:void(0);" onclick="loadContent('page-content','cost/views/operations/config/externalServices.php')">Servicios Externos</a></li>
@@ -64,7 +64,7 @@
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','cost/views/users/users.php')">Usuarios</a></li>
+                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','global/views/users/users.php')">Usuarios</a></li>
                                         <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../admin/views/companies/companies.php')">pruebas empresas</a></li>
                                         <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../admin/views/companies/companiesLicenses.php')">pruebas licencias</a></li>
                                         <!-- <li><a href="javascript:void(0);">Compact Sidebar</a></li>

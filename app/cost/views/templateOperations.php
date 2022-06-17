@@ -369,8 +369,8 @@ $userinactivetimeDao->findSession();
 	<!-- Page End -->
 
 	<?php include_once dirname(__DIR__) . '../../../admin/partials/scriptsJS.php'; ?>
-	<script src="/app/cost/js/global/loadContent.js"></script>
-	<script src="/app/cost/js/global/logout.js"></script>
+	<script src="/app/global/js/global/loadContent.js"></script>
+	<script src="/app/global/js/global/logout.js"></script>
 	<script src="/app/cost/js/login/access.js"></script>
 </body>
 

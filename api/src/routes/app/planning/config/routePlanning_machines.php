@@ -14,3 +14,50 @@ $app->get('/planningMachines', function (Request $request, Response $response, $
     $response->getBody()->write(json_encode($planningMachines, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+$app->post('/addPlanMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataPMachines = $request->getParsedBody();
+
+    if (
+        empty($dataPMachines['idMachine']) || empty($dataPMachines['numberWorkers']) || empty($dataPMachines['hoursDay']) ||
+        empty($dataPMachines['hourStart']) || empty($dataPMachines['hourEnd'])
+    )
+        $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
+    else {
+        $planningMachines = $planningMachinesDao->insertPlanMachinesByCompany($dataPMachines, $id_company);
+
+        if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina creada correctamente');
+        else $resp = array('error' => true, 'message' => 'Ocurrio un problema al crear la planeación, intente nuevamente');
+    }
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/updatePlanMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+    $dataPMachines = $request->getParsedBody();
+
+    if (
+        empty($dataPMachines['idProgramMachines']) || empty($dataPMachines['idMachine']) || empty($dataPMachines['numberWorkers']) ||
+        empty($dataPMachines['hoursDay']) || empty($dataPMachines['hourStart']) || empty($dataPMachines['hourEnd'])
+    )
+        $resp = array('error' => true, 'message' => 'No hubo ningún cambio');
+    else {
+        $planningMachines = $planningMachinesDao->updatePlanMachines($dataPMachines);
+
+        if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina actualizada correctamente');
+        else $resp = array('error' => true, 'message' => 'Ocurrio un problema al actualizar la planeación, intente nuevamente');
+    }
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/deletePlanMachines/{id_program_machines}', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+    $planningMachines = $planningMachinesDao->deletePlanMachines($args['id_program_machines']);
+
+    if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina eliminada correctamente');
+    else $resp = array('error' => true, 'message' => 'No se pudo eliminar la planeación, existe información asociada a ella');
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
