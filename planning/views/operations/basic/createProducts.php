@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -56,14 +56,6 @@ $userinactivetimeDao->findSession();
                         <div class="card-body pt-3 pb-0">
                             <!-- <form id="formCreateProduct"> -->
                             <div class="gridx4rp">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-top:0px!important">
-                                    <input type="number" class="form-control text-center" name="profitability" id="profitability">
-                                    <label for="">Rentabilidad(%)</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="number" class="form-control text-center" name="commissionSale" id="commisionSale">
-                                    <label for="">Comisión de Ventas(%)</label>
-                                </div>
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
                                     <!-- <input class="form-control form-control-sm" id="formFile" type="file" style="padding:10px;width:40%"> -->
                                     <input class="form-control" type="file" id="formFile">
@@ -134,9 +126,9 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../../app/global/js/products/tblProducts.js"></script>
-<script src="../../app/global/js/products/products.js"></script>
-<script src="../../app/cost/js/import/import.js"></script>
-<script src="../../app/global/js/products/importProducts.js"></script>
-<script src="../../app/cost/js/import/file.js"></script>
-<script src="../../app/global/js/global/validateImgExt.js"></script>
+<script src="../planning/js/products/tblProducts.js"></script>
+<script src="../planning/js/products/products.js"></script>
+<script src="../global/js/import/import.js"></script>
+<script src="../planning/js/products/importProducts.js"></script>
+<script src="../global/js/import/file.js"></script>
+<script src="../global/js/global/validateImgExt.js"></script>

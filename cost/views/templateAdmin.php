@@ -2,8 +2,8 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(__DIR__)) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
-include_once('../modals/modalNewSeller.php');
+require_once(dirname(dirname(__DIR__)) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
+// include_once('../modals/modalNewSeller.php');
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -12,17 +12,20 @@ $userinactivetimeDao->findSession();
 <html lang="es">
 
 <head>
-	<?php include_once('../partials/admin/admin_scripts.php'); ?>
+	<?php //include_once('../partials/admin/admin_scripts.php'); 
+	?>
 </head>
 
 <body>
 	<!--wrapper-->
-	<div class="wrapper">admin/
+	<div class="wrapper">
 		<!--sidebar wrapper -->
-		<?php include_once('../partials/admin/admin_sidebar.php'); ?>
+		<?php //include_once('../partials/admin/admin_sidebar.php'); 
+		?>
 
 		<!--start header -->
-		<?php include_once('../partials/admin/admin_header.php'); ?>
+		<?php // include_once('../partials/admin/admin_header.php'); 
+		?>
 
 		<!--start page wrapper -->
 		<div class="page-wrapper">

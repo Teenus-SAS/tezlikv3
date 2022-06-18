@@ -14,11 +14,11 @@ class templateController
 
     public function ctrTemplateAdmin()
     {
-        include __DIR__ . '../../cost/views/templateAdmin.php';
+        include __DIR__ . '../../admin/views/templateAdmin.php';
     }
-    
+
     public function ctrTemplateGlobal()
     {
-        include __DIR__ . '../../cost/views/templateAdmin.php';
+        include __DIR__ . '../../selector/views/templateSelector.php';
     }
 }

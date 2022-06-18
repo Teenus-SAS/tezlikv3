@@ -44,7 +44,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 
-     /* valide licenciamiento empresa */
+    /* valide licenciamiento empresa */
 
     $license = $licenseDao->findLicense($user['id_company']);
 
@@ -96,7 +96,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     /* Modificar el estado de la sesion del usuario en BD */
     //$statusActiveUserDao->changeStatusUserLogin();
 
-    $user["id_rols"] == 1 ? $location = '../../admin/' : $location = '../../app/';
+    $user["id_rols"] == 1 ? $location = '../../admin/' : $location = '../../planning/';
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
     $response->getBody()->write(json_encode($resp));

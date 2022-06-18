@@ -20,13 +20,7 @@
 
         </div>
         <div class="right-bar">
-            <!-- <form class="app-search mr-2 d-none d-lg-block">
-                <div class="search-box position-relative">
-                    <input type="text" placeholder="Search..." class="form-control">
-                    <span class="bx bx-search"></span>
-                </div>
-            </form> -->
-            <div class="dropdown-mega dropdown d-none d-lg-block ml-2">
+            <!-- <div class="dropdown-mega dropdown d-none d-lg-block ml-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
                     <i class="bx bx-cog bx-spin" style="font-size: 2em;"></i>
                 </a>
@@ -40,7 +34,6 @@
                                         <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createProducts.php')">Productos</a></li>
                                         <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createRawMaterials.php')">Materia Prima</a></li>
                                         <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createMachines.php')">Máquinas</a></li>
-                                        <!-- <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProcess.php')">Planeación Procesos</a></li>-->
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
@@ -48,17 +41,8 @@
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
                                         <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planningMachines.php')">Datos Programación Máquinas</a></li>
-                                        <!--<li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/productProcess.php')">Ficha Técnica Procesos</a></li>-->
                                     </ul>
                                 </div>
-                                <!-- <div class="col-md-3" id="navGeneral">
-                                            <h5 class="font-size-14 font-weight-600">General</h5>
-                                            <ul class="list-unstyled megamenu-list">
-                                                <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/createPayroll.php')">Carga Nómina</a></li>
-                                                <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
-                                                <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li>
-                                            </ul>
-                                        </div>-->
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
@@ -67,10 +51,9 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="d-inline-flex ml-0 ml-sm-2 d-lg-none dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-search-dropdown" aria-expanded="false" class="btn header-item notify-icon">
                     <i class="bx bx-search"></i>

@@ -11,31 +11,33 @@ $userinactivetimeDao->findSession();
         <div class="row align-items-center">
             <div class="col-sm-5 col-xl-6">
                 <div class="page-title">
-                    <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
+                    <h3 class="mb-1 font-weight-bold text-dark">Productos</h3>
                     <ol class="breadcrumb mb-3 mb-md-0">
-                        <li class="breadcrumb-item active">Distribución Gastos Generales</li>
+                        <li class="breadcrumb-item active">Asignación de materias primas al producto</li>
                     </ol>
                 </div>
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
-                    <button class="btn btn-info ml-3" id="btnImportNewExpensesDistribution">Importar Distribuir Gastos</button>
+                    <button class="btn btn-warning" id="btnCreateProduct">Adicionar Nueva Materia Prima</button>
+                    <button class="btn btn-info ml-3" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
+<div class="page-content-wrapper mt--45 mb-5 cardCreateRawMaterials">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="gridx2">
-                            <label for="">Gastos a distribuir</label>
-                            <input type="text" class="form-control number text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">
+                            <label for="">Referencia</label>
+                            <label for="">Producto</label>
+                            <select class="form-control" name="refProduct" id="refProduct"></select>
+                            <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
                         </div>
                     </div>
                 </div>
@@ -43,24 +45,23 @@ $userinactivetimeDao->findSession();
         </div>
     </div>
 </div>
-<div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
+
+<div class="page-content-wrapper mt--45 mb-5 cardAddMaterials">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="formExpensesDistribution">
-                            <div class="gridx5">
-                                <label for="">Referencia</label>
-                                <label for="">Nombre Producto</label>
-                                <label for="">Und Vendidas</label>
-                                <label for="">Vol Ventas</label>
+                        <form id="formAddMaterials">
+                            <div class="gridx4pm">
+                                <label for="">Materia Prima</label>
+                                <label for="">Cantidad</label>
+                                <label for="">Unidad</label>
                                 <label for=""></label>
-                                <select class="form-control" name="refProduct" id="refProduct"></select>
-                                <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
-                                <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
-                                <input type="text" class="form-control number text-center" id="volVendidas" name="turnover">
-                                <button class="btn btn-primary" id="btnAssignExpenses">Asignar Gasto</button>
+                                <select class="form-control" name="material" id="material"></select>
+                                <input class="form-control text-center" type="number" name="quantity" id="quantity">
+                                <input class="form-control text-center" type="text" name="unity" id="unity" disabled>
+                                <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
                             </div>
                         </form>
                     </div>
@@ -70,23 +71,23 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardImportDistributionExpenses">
+<div class="page-content-wrapper mt--45 mb-5 cardImportProductsMaterials">
     <div class="container-fluid">
         <div class="row">
-            <form id="formImportDistributionExpenses" enctype="multipart/form-data">
+            <form id="formImportProductMaterial" enctype="multipart/form-data">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body pt-3 pb-0">
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <input class="form-control" type="file" id="fileDistributionExpenses" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label">Importar Distribución</label>
+                                    <input class="form-control" type="file" id="fileProductsMaterials" accept=".xls,.xlsx">
+                                    <label for="formFile" class="form-label"> Importar Productos*Materia Prima</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-success" id="btnImportDistributionExpenses">Importar</button>
+                                    <button type="text" class="btn btn-success" id="btnImportProductsMaterials">Importar</button>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-info" id="btnDownloadImportsDistributionExpenses">Descarga Formato</button>
+                                    <button type="text" class="btn btn-info" id="btnDownloadImportsProductsMaterials">Descarga Formato</button>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +107,7 @@ $userinactivetimeDao->findSession();
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="tblExpensesDistribution">
+                            <table class="table table-striped text-center" id="tblConfigMaterials" name="tblConfigMaterials">
 
                             </table>
                         </div>
@@ -117,11 +118,10 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../global/js/global/number.js"></script>
-<script src="../cost/js/expensesDistribution/tblExpensesDistribution.js"></script>
+<script src="../cost/js/productMaterials/tblConfigMaterials.js"></script>
 <script src="../cost/js/products/configProducts.js"></script>
-<script src="../cost/js/expensesDistribution/configExpensesDistribution.js"></script>
-<script src="../cost/js/expensesDistribution/expensesDistribution.js"></script>
+<script src="../cost/js/productMaterials/productMaterials.js"></script>
+<script src="../cost/js/rawMaterials/configRawMaterials.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../cost/js/expensesDistribution/importExpensesDistribution.js"></script>
+<script src="../cost/js/productMaterials/importProductMaterials.js"></script>
 <script src="../global/js/import/file.js"></script>

@@ -93,6 +93,25 @@ class LicenseCompanyDao
         }
     }
 
+    public function addCostOrPlanning($dataLicenseCompany, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("UPDATE companies_licenses SET cost = :cost, planning = :planning
+                                          WHERE id_company = :id_company");
+            $stmt->execute([
+                'id_company' => $id_company,
+                'cost' => $dataLicenseCompany['cost'],
+                'planning' => $dataLicenseCompany['planning']
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     public function deleteLicenseCompany($id_company_license)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -119,10 +119,10 @@ $userinactivetimeDao->findSession();
         </div>
     </div> -->
 
-<script src="../../app/global/js/global/number.js"></script>
-<script src="../../app/cost/js/products/configProducts.js"></script>
-<script src="../../app/cost/js/services/tblExternalServices.js"></script>
-<script src="../../app/cost/js/services/externalServices.js"></script>
-<script src="../../app/cost/js/import/import.js"></script>
-<script src="../../app/cost/js/services/importExternalServices.js"></script>
-<script src="../../app/cost/js/import/file.js"></script>
+<script src="../global/js/global/number.js"></script>
+<script src="../cost/js/products/configProducts.js"></script>
+<script src="../cost/js/services/tblExternalServices.js"></script>
+<script src="../cost/js/services/externalServices.js"></script>
+<script src="../global/js/import/import.js"></script>
+<script src="../cost/js/services/importExternalServices.js"></script>
+<script src="../global/js/import/file.js"></script>

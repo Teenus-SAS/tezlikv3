@@ -42,4 +42,4 @@
 
 
 <!-- Deshabilitar Acceso Usuario -->
-<script src="/app/global/js/users/usersAccess.js"></script>
+<script src="/cost/js/users/usersAccess.js"></script>

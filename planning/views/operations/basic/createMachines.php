@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../../api/src/dao/app/cost/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -40,24 +40,9 @@ $userinactivetimeDao->findSession();
                         <form id="formCreateMachine">
                             <div class="gridx4cm">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <!-- <input type="text" class="form-control" name="idMachine" id="idMachine" hidden> -->
                                     <input type="text" class="form-control" name="machine" id="machine">
                                     <label for="">Nombre</label>
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control money text-center" name="cost" id="costMachine">
-                                    <label for="">Precio</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control money text-center" name="residualValue" id="residualValue">
-                                    <label for="">Valor Residual</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control number text-center" name="depreciationYears" id="depreciationYears">
-                                    <label for="">Años Depreciación</label>
-                                </div>
-                            </div>
-                            <div class="gridx4m mt-3">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                     <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
                                     <label for="">Horas de Trabajo</label>
@@ -66,14 +51,9 @@ $userinactivetimeDao->findSession();
                                     <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
                                     <label for="">Dias de Trabajo</label>
                                 </div>
-                                <!--<div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control money text-center" name="depreciationMinute" id="depreciationMinute">
-                                    <label for="">Depreciación x Min</label>
-                                </div>-->
                                 <div style="margin-bottom:0px;margin-top:5px;">
-                                    <button class="btn btn-success" id="btnCreateMachine">Crear Máquina</button>
+                                    <button class="btn btn-success" id="btnCreateMachine">Crear</button>
                                 </div>
-
                             </div>
                         </form>
                     </div>
@@ -133,10 +113,10 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../../app/global/js/global/number.js"></script>
-<script src="../../app/global/js/machines/tblMachines.js"></script>
-<script src="../../app/global/js/machines/machines.js"></script>
-<script src="../../app/cost/js/import/import.js"></script>
-<script src="../../app/global/js/machines/importMachines.js"></script>
-<script src="../../app/cost/js/import/file.js"></script>
-<script src="../../app/global/js/global/validateExt.js"></script>
+<script src="../global/js/global/number.js"></script>
+<script src="../planning/js/machines/tblMachines.js"></script>
+<script src="../planning/js/machines/machines.js"></script>
+<script src="../global/js/import/import.js"></script>
+<script src="../planning/js/machines/importMachines.js"></script>
+<script src="../global/js/import/file.js"></script>
+<script src="../global/js/global/validateExt.js"></script>
