@@ -93,7 +93,7 @@ class LicenseCompanyDao
         }
     }
 
-    public function addCostOrPlanning($dataLicenseCompany, $id_company)
+    /* public function addCostOrPlanning($dataLicenseCompany, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
@@ -110,7 +110,7 @@ class LicenseCompanyDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
-    }
+    } */
 
     public function deleteLicenseCompany($id_company_license)
     {
