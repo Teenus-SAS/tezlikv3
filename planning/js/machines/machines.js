@@ -2,7 +2,6 @@ $(document).ready(function () {
   /* Ocultar panel para crear Machinees */
 
   $('.cardCreateMachines').hide();
-  $('#depreciationMinute').prop('disabled', true);
 
   /* Abrir panel para crear Machinees */
 
@@ -25,8 +24,14 @@ $(document).ready(function () {
       Machine = $('#machine').val();
       hoursMachine = $('#hoursMachine').val();
       daysMachine = $('#daysMachine').val();
+      ciclesMachine = $('#ciclesHour').val();
 
-      data = hoursMachine * daysMachine;
+      data = hoursMachine * daysMachine * ciclesMachine;
+
+      if (ciclesMachine == 0) {
+        toastr.error('Ciclo de maquina debe ser mayor a cero (0)');
+        return false;
+      }
 
       if (Machine == '' || Machine == null || data == null || data <= 0) {
         toastr.error('Ingrese todos los campos');
@@ -35,15 +40,19 @@ $(document).ready(function () {
 
       machine = $('#formCreateMachine').serialize();
 
-      $.post('/api/addMachines', machine, function (data, textStatus, jqXHR) {
-        message(data);
-      });
+      $.post(
+        '../api/addPlanMachines',
+        machine,
+        function (data, textStatus, jqXHR) {
+          message(data);
+        }
+      );
     } else {
       updateMachine();
     }
   });
 
-  /* Actualizar productos */
+  /* Actualizar maquinas */
 
   $(document).on('click', '.updateMachines', function (e) {
     $('.cardCreateMachines').show(800);
@@ -55,11 +64,9 @@ $(document).ready(function () {
     let data = tblMachines.fnGetData(row);
 
     $('#machine').val(data.machine);
-    $('#costMachine').val(data.cost.toLocaleString());
-    $('#residualValue').val(data.residual_value.toLocaleString());
-    $('#depreciationYears').val(data.years_depreciation);
     $('#hoursMachine').val(data.hours_machine);
     $('#daysMachine').val(data.days_machine);
+    $('#ciclesHour').val(data.cicles_hour);
 
     $('html, body').animate(
       {

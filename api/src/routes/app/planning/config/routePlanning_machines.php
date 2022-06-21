@@ -15,7 +15,7 @@ $app->get('/planningMachines', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+$app->post('/addPlannningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPMachines = $request->getParsedBody();
@@ -35,7 +35,7 @@ $app->post('/addPlanMachines', function (Request $request, Response $response, $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+$app->post('/updatePlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
     $dataPMachines = $request->getParsedBody();
 
     if (
@@ -53,7 +53,7 @@ $app->post('/updatePlanMachines', function (Request $request, Response $response
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePlanMachines/{id_program_machines}', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+$app->get('/deletePlanningMachines/{id_program_machines}', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
     $planningMachines = $planningMachinesDao->deletePlanMachines($args['id_program_machines']);
 
     if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina eliminada correctamente');

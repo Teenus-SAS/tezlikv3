@@ -71,7 +71,7 @@ $(document).ready(function () {
       planningMachines = $('#formCreatePlanMachine').serialize();
 
       $.post(
-        '/api/addPlanMachines',
+        '/api/addPlannningMachines',
         planningMachines,
         function (data, textStatus, jqXHR) {
           $('#createPlanMachine').modal('hide');
@@ -131,10 +131,14 @@ $(document).ready(function () {
     id_planning_machine = sessionStorage.getItem('id_planning_machine');
     data = `${data}&idProgramMachines=${id_planning_machine}`;
 
-    $.post('/api/updatePlanMachines', data, function (data, textStatus, jqXHR) {
-      $('#createPlanMachine').modal('hide');
-      message(data);
-    });
+    $.post(
+      '/api/updatePlanningMachines',
+      data,
+      function (data, textStatus, jqXHR) {
+        $('#createPlanMachine').modal('hide');
+        message(data);
+      }
+    );
   };
 
   // Eliminar Plan maquina
@@ -158,7 +162,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `/api/deletePlanMachines/${id_program_machines}`,
+            `/api/deletePlanningMachines/${id_program_machines}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

@@ -4,7 +4,7 @@ $(document).ready(function () {
   tblRawMaterials = $('#tblRawMaterials').dataTable({
     pageLength: 50,
     ajax: {
-      url: '../../api/materials',
+      url: '../../api/planMaterials',
       dataSrc: '',
     },
     language: {

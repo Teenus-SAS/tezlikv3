@@ -96,7 +96,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     /* Modificar el estado de la sesion del usuario en BD */
     //$statusActiveUserDao->changeStatusUserLogin();
 
-    $user["id_rols"] == 1 ? $location = '../../admin/' : $location = '../../cost/';
+    $user["id_rols"] == 1 ? $location = '../../admin/' : $location = '../../selector/';
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
     $response->getBody()->write(json_encode($resp));

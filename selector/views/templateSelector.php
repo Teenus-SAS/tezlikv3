@@ -57,8 +57,8 @@ $userinactivetimeDao->findSession();
 					<div class="col-lg-6 mx-auto">
 						<h1 class="display-5 fw-bold">Escoja un sitio al cual desee navegar</h1>
 						<div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-4">
-							<button type="button" class="btn btn-primary btn-lg px-4 me-sm-3" style="margin-left:20px;">Costos</button>
-							<button type=" button" class="btn btn-primary btn-lg px-4 me-sm-3" style="margin-left:20px">Planeación</button>
+							<button type="button" class="btnLocation btn btn-primary btn-lg px-4 me-sm-3" style="margin-left:20px;" id="1">Costos</button>
+							<button type="button" class="btnLocation btn btn-primary btn-lg px-4 me-sm-3" style="margin-left:20px" id="2">Planeación</button>
 						</div>
 					</div>
 				</div>
@@ -108,6 +108,7 @@ $userinactivetimeDao->findSession();
 	<script src="../global/js/global/loadContent.js"></script>
 	<script src="../global/js/global/logout.js"></script>
 	<script src="../global/js/login/access.js"></script>
+	<script src="../../selector/js/location/location.js"></script>
 </body>
 
 </html>

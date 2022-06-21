@@ -60,3 +60,20 @@ $app->post('/changeStatusCompany/{id_company}', function (Request $request, Resp
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
+
+//Modificar Costos y planeación
+$app->post('/updateCompanyLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataLicense = $request->getParsedBody();
+
+    $resp = $companiesLicenseDao->addCostOrPlanning($dataLicense, $id_company);
+
+    if ($resp == null) {
+        $dataLicense["cost"] == 1 ? $location = '../../cost/' : $location = '../../planning/';
+        $resp = array('success' => true, 'location' => $location);
+    } else $resp = array('error' => true, 'message' => 'Ocurrio un error, intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
