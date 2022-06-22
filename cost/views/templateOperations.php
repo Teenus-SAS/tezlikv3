@@ -27,10 +27,10 @@ $userinactivetimeDao->findSession();
 	<!-- Begin Page -->
 	<div class="page-wrapper">
 		<!-- Begin Header -->
-		<?php include_once dirname(__DIR__) . '../../admin/partials/header.php'; ?>
+		<?php include_once dirname(__DIR__) . '../partials/header.php'; ?>
 
 		<!-- Begin Left Navigation -->
-		<?php include_once dirname(__DIR__) . '../../admin/partials/nav.php'; ?>
+		<?php include_once dirname(__DIR__) . '../partials/nav.php'; ?>
 
 		<!-- Begin main content -->
 		<div class="main-content">

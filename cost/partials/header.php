@@ -20,12 +20,6 @@
 
         </div>
         <div class="right-bar">
-            <!-- <form class="app-search mr-2 d-none d-lg-block">
-                <div class="search-box position-relative">
-                    <input type="text" placeholder="Search..." class="form-control">
-                    <span class="bx bx-search"></span>
-                </div>
-            </form> -->
             <div class="dropdown-mega dropdown d-none d-lg-block ml-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
                     <i class="bx bx-cog bx-spin" style="font-size: 2em;"></i>
@@ -37,37 +31,38 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createProducts.php')">Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createRawMaterials.php')">Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createMachines.php')">Máquinas</a></li>
-                                        <!-- <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProcess.php')">Planeación Procesos</a></li>-->
+                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProducts.php')">Creación Productos</a></li>
+                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
+                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createMachines.php')">Creación Máquinas</a></li>
+                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProcess.php')">Creación Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planningMachines.php')">Datos Programación Máquinas</a></li>
-                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planCiclesMachine.php')">Plan Ciclos Maquina</a></li>
+                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
+                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/productProcess.php')">Ficha Técnica Procesos</a></li>
+                                        <li class="factoryLoad"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/factoryLoad.php')">Carga Fabril</a></li>
+                                        <li class="servicesExternal"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/externalServices.php')">Servicios Externos</a></li>
+                                        <!-- <li class="linesProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/lines.php')">Lineas de Producto</a></li> -->
                                     </ul>
                                 </div>
-                                <!-- <div class="col-md-3" id="navGeneral">
-                                            <h5 class="font-size-14 font-weight-600">General</h5>
-                                            <ul class="list-unstyled megamenu-list">
-                                                <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/createPayroll.php')">Carga Nómina</a></li>
-                                                <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
-                                                <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li>
-                                            </ul>
-                                        </div>-->
+                                <div class="col-md-3" id="navGeneral">
+                                    <h5 class="font-size-14 font-weight-600">General</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/createPayroll.php')">Carga Nómina</a></li>
+                                        <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
+                                        <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li>
+                                    </ul>
+                                </div>
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/users/users.php')">Usuarios</a></li>
+                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','views/users/users.php')">Usuarios</a></li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -87,12 +82,36 @@
                 </div>
             </div>
 
+            <div class="d-none d-lg-inline-flex ml-2 dropdown">
+                <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-app-dropdown" aria-expanded="false" class="btn header-item notify-icon">
+                    <i class="bx bx-customize"></i>
+                </button>
+                <div aria-labelledby="page-header-app-dropdown" class="dropdown-menu-lg dropdown-menu-right dropdown-menu">
+                    <div class="px-lg-2">
+                        <div class="row no-gutters">
+                            <div class="col">
+                                <a href="javascript: void(0);" class="dropdown-icon-item">
+                                    <img src="/selector/assets/img/cost.png" alt="cost">
+                                    <span>Costos</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="javascript: void(0);" class="dropdown-icon-item">
+                                    <img src="/selector/assets/img/time-planning.png" alt="planning">
+                                    <span>Planeación</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="d-none d-lg-inline-flex ml-2">
                 <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">
                     <i class="bx bx-fullscreen"></i>
                 </button>
             </div>
+
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-notification-dropdown" aria-expanded="false" class="btn header-item notify-icon position-relative">
                     <i class="bx bx-bell bx-tada"></i>
@@ -194,14 +213,7 @@
                     </a>
                 </div>
             </div>
-            <!-- <div class="d-inline-flex">
-                <button type="button" id="layout" class="btn header-item notify-icon">
-                    <i class="bx bx-cog bx-spin"></i>
-                </button>
-            </div> -->
         </div>
     </div>
 </header>
 <!-- Header End -->
-
-<?php include_once dirname(__DIR__) . '/partials/scriptsJS.php'; ?>
