@@ -204,4 +204,4 @@
 </header>
 <!-- Header End -->
 
-<?php include_once dirname(__DIR__) . '/partials/scriptsJS.php'; ?>
+<?php include_once dirname(__DIR__) . '../../global/partials/scriptsJS.php'; ?>

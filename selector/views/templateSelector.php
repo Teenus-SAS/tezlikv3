@@ -20,7 +20,7 @@ $userinactivetimeDao->findSession();
 	<title>Tezlik - Selector </title>
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-	<?php include_once dirname(__DIR__) . '/partials/scriptsCSS.php'; ?>
+	<?php include_once dirname(__DIR__) . '../../global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -59,7 +59,7 @@ $userinactivetimeDao->findSession();
 
 						<div style="display: flex;">
 							<div class="card mr-3" style="width: 18rem;">
-								<img src="/selector/assets/img/cost.png" class="card-img-top btnLocation" alt="cost" style="width:80%">
+								<img src="/selector/assets/img/cost.png" class="card-img-top btnLocation" alt="cost" style="width:80%; margin:auto;" id="1">
 								<div class="card-body">
 									<h5 class="card-title">Costos</h5>
 									<p class="card-text"></p>
@@ -68,7 +68,7 @@ $userinactivetimeDao->findSession();
 							</div>
 
 							<div class="card" style="width: 18rem;">
-								<img src="/selector/assets/img/time-planning.png" class="card-img-top btnLocation" alt="planning" style="width:80%">
+								<img src="/selector/assets/img/time-planning.png" class="card-img-top btnLocation" alt="planning" style="width:80%; margin:auto;" id="2">
 								<div class="card-body">
 									<h5 class="card-title">Planeación</h5>
 									<p class="card-text"></p>
@@ -89,7 +89,7 @@ $userinactivetimeDao->findSession();
 		<!-- main content End -->
 
 		<!-- footer -->
-		<?php include_once  dirname(__DIR__) . '/partials/footer.php'; ?>
+		<?php include_once  dirname(__DIR__) . '../../global/partials/footer.php'; ?>
 
 		<!-- <div class="setting-sidebar">
 			<div class="card mb-0">
@@ -124,7 +124,7 @@ $userinactivetimeDao->findSession();
 	</div>
 	<!-- Page End -->
 
-	<?php include_once dirname(__DIR__) . '../../admin/partials/scriptsJS.php'; ?>
+	<?php include_once dirname(__DIR__) . '../../global/partials/scriptsJS.php'; ?>
 	<script src="../global/js/global/loadContent.js"></script>
 	<script src="../global/js/global/logout.js"></script>
 	<script src="../global/js/login/access.js"></script>

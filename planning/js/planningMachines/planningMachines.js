@@ -8,6 +8,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_planning_machine');
 
+    $('#hourEnd').css('border-color', '');
     $('#formCreatePlanMachine').trigger('reset');
   });
 
@@ -25,23 +26,22 @@ $(document).ready(function () {
 
     if (id_planning_machine == '' || id_planning_machine == null) {
       idMachine = parseInt($('#idMachine').val());
-      numberWorkers = $('#numberWorkers').val();
-      hoursDay = $('#hoursDay').val();
-      hourStart = $('#hourStart').val();
-      hourEnd = $('#hourEnd').val();
-      year = $('#year').val();
-      january = $('#january').val();
-      february = $('#february').val();
-      march = $('#march').val();
-      april = $('#april').val();
-      may = $('#may').val();
-      june = $('#june').val();
-      july = $('#july').val();
-      august = $('#august').val();
-      september = $('#september').val();
-      october = $('#october').val();
-      november = $('#november').val();
-      december = $('#december').val();
+      numberWorkers = parseInt($('#numberWorkers').val());
+      hoursDay = parseInt($('#hoursDay').val());
+      hourStart = parseInt($('#hourStart').val());
+      hourEnd = parseInt($('#hourEnd').val());
+      january = parseInt($('#january').val());
+      february = parseInt($('#february').val());
+      march = parseInt($('#march').val());
+      april = parseInt($('#april').val());
+      may = parseInt($('#may').val());
+      june = parseInt($('#june').val());
+      july = parseInt($('#july').val());
+      august = parseInt($('#august').val());
+      september = parseInt($('#september').val());
+      october = parseInt($('#october').val());
+      november = parseInt($('#november').val());
+      december = parseInt($('#december').val());
 
       data =
         idMachine *
@@ -49,7 +49,6 @@ $(document).ready(function () {
         hoursDay *
         hourStart *
         hourEnd *
-        year *
         january *
         february *
         march *
@@ -65,6 +64,12 @@ $(document).ready(function () {
 
       if (!data || data == '' || data == null || data == 0) {
         toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (hourEnd > hourStart) {
+        toastr.error('La hora final no puede ser mayor a la hora inicio');
+        $('#hourEnd').css('border-color', 'red');
         return false;
       }
 

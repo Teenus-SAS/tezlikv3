@@ -30,80 +30,6 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<!-- <div class="page-content-wrapper mt--45 mb-5 cardCreatePlanMachines">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form id="formCreatePlanMachine">
-                            <div class="gridx4cm">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <select class="form-control" name="idMachine" id="idMachine"></select>
-                                    <label for="">Maquina</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control money text-center" name="cost" id="costMachine">
-                                    <label for="">Precio</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control money text-center" name="residualValue" id="residualValue">
-                                    <label for="">Valor Residual</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control number text-center" name="depreciationYears" id="depreciationYears">
-                                    <label for="">Años Depreciación</label>
-                                </div>
-                            </div>
-                            <div class="gridx4m mt-3">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
-                                    <label for="">Horas de Trabajo</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
-                                    <label for="">Dias de Trabajo</label>
-                                </div>
-                                <div style="margin-bottom:0px;margin-top:5px;">
-                                    <button class="btn btn-success" id="btnCreatePlanMachine">Crear Máquina</button>
-                                </div>
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="page-content-wrapper mt--45 mb-5 cardImportMachines">
-    <div class="container-fluid">
-        <div class="row">
-            <form id="formImportMachines" enctype="multipart/form-data">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body pt-3 pb-0">
-                            <div class="gridx4ip">
-                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <input class="form-control" type="file" id="fileMachines" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label"> Importar Máquinas</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-success" id="btnImportMachines">Importar</button>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-info" id="btnDownloadImportsMachines">Descarga Formato</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div> -->
-
 <!-- page content -->
 <div class="page-content-wrapper mt--45">
     <div class="container-fluid">
@@ -130,10 +56,3 @@ $userinactivetimeDao->findSession();
 <script src="../planning/js/planningMachines/planningMachines.js"></script>
 <script src="../planning/js/machines/configMachines.js"></script>
 <script src="../global/js/global/validateExt.js"></script>
-<!--
-<script src="../planning/js/global/number.js"></script>
-<script src="../planning/js/machines/machines.js"></script>
-<script src="../planning/js/import/import.js"></script>
-<script src="../planning/js/machines/importMachines.js"></script>
-<script src="../planning/js/import/file.js"></script>
--->
