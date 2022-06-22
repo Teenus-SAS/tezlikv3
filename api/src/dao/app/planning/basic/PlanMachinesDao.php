@@ -73,7 +73,6 @@ class PlanMachinesDao
         'hours_machine' => $dataMachine['hoursMachine'],
         'days_machine' => $dataMachine['daysMachine']
       ]);
-
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
