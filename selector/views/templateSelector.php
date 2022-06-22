@@ -55,11 +55,31 @@ $userinactivetimeDao->findSession();
 				<!-- page content -->
 				<div class="px-4 pt-5 my-5 text-center border-bottom">
 					<div class="col-lg-6 mx-auto">
-						<h1 class="display-5 fw-bold">Escoja un sitio al cual desee navegar</h1>
-						<div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-4">
+						<!-- <h1 class="display-5 fw-bold">Escoja un sitio al cual desee navegar</h1> -->
+
+						<div style="display: flex;">
+							<div class="card mr-3" style="width: 18rem;">
+								<img src="/selector/assets/img/cost.png" class="card-img-top btnLocation" alt="cost" style="width:80%">
+								<div class="card-body">
+									<h5 class="card-title">Costos</h5>
+									<p class="card-text"></p>
+									<!-- <a href="#" class="btn btn-primary btnLocation px-4 me-sm-3">Ir</a> -->
+								</div>
+							</div>
+
+							<div class="card" style="width: 18rem;">
+								<img src="/selector/assets/img/time-planning.png" class="card-img-top btnLocation" alt="planning" style="width:80%">
+								<div class="card-body">
+									<h5 class="card-title">Planeación</h5>
+									<p class="card-text"></p>
+									<!-- <a href="javascript:;" class="btn btn-primary btnLocation px-4 me-sm-3">Ir</a> -->
+								</div>
+							</div>
+						</div>
+						<!-- <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-4">
 							<button type="button" class="btnLocation btn btn-primary btn-lg px-4 me-sm-3" style="margin-left:20px;" id="1">Costos</button>
 							<button type="button" class="btnLocation btn btn-primary btn-lg px-4 me-sm-3" style="margin-left:20px" id="2">Planeación</button>
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<!-- <script src="/app/js/dashboard/indicatorsGeneral.js"></script>
