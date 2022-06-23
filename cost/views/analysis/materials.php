@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once dirname(dirname(dirname(__DIR__))) . "/api/src/dao/app/login/UserInactiveTimeDao.php";
+require_once dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php";
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -133,9 +133,9 @@ $userinactivetimeDao->findSession();
 </div>
 
 
-<script src="../../app/js/global/number.js"></script>
-<script src="../../app/js/products/configProducts.js"></script>
-<script src="../../app/js/rawMaterials/configRawMaterials.js"></script>
-<script src="../../app/js/analysis/materials/tblmaterials.js"></script>
-<script src="../../app/js/analysis/materials/tblAnalysisMaterials.js"></script>
-<script src="../../app/js/analysis/materials/materials.js"></script>
+<script src="../../global/js/global/number.js"></script>
+<script src="../../cost/js/products/configProducts.js"></script>
+<script src="../../cost/js/rawMaterials/configRawMaterials.js"></script>
+<script src="../../cost/js/analysis/materials/tblmaterials.js"></script>
+<script src="../../cost/js/analysis/materials/tblAnalysisMaterials.js"></script>
+<script src="../../cost/js/analysis/materials/materials.js"></script>

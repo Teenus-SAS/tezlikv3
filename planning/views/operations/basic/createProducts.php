@@ -35,7 +35,7 @@ $userinactivetimeDao->findSession();
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="gridx4">
+                            <div class="gridx2">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                     <!-- <input type="text" class="form-control" name="idProduct" id="idProduct" hidden> -->
                                     <input type="text" class="form-control" name="referenceProduct" id="referenceProduct">

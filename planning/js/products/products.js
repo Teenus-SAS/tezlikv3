@@ -14,11 +14,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product');
 
-    $('#referenceProduct').val('');
-    $('#product').val('');
-    $('#profitability').val('');
-    $('#commisionSale').val('');
-    $('#formFile').val('');
+    $('#formCreateProduct').trigger('reset');
   });
 
   /* Crear producto */
@@ -30,19 +26,8 @@ $(document).ready(function () {
     if (idProduct == '' || idProduct == null) {
       ref = $('#referenceProduct').val();
       prod = $('#product').val();
-      prof = $('#profitability').val();
-      comission = $('#commisionSale').val();
 
-      if (
-        ref == '' ||
-        ref == 0 ||
-        prod == '' ||
-        prod == 0 ||
-        prof == '' ||
-        prof == 0 ||
-        comission == '' ||
-        comission == 0
-      ) {
+      if (ref == '' || ref == 0 || prod == '' || prod == 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
@@ -54,7 +39,7 @@ $(document).ready(function () {
 
       $.ajax({
         type: 'POST',
-        url: '/api/addProducts',
+        url: '/api/addPlanProduct',
         data: dataProduct,
         contentType: false,
         cache: false,
@@ -88,8 +73,6 @@ $(document).ready(function () {
 
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);
-    $('#profitability').val(data.profitability);
-    $('#commisionSale').val(data.commission_sale);
 
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });
@@ -104,7 +87,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: 'POST',
-      url: '/api/updateProducts',
+      url: '/api/updatePlanProduct',
       data: dataProduct,
       contentType: false,
       cache: false,
@@ -124,8 +107,6 @@ $(document).ready(function () {
 
   $(document).on('click', '.deleteProducts', function (e) {
     let idProduct = this.id;
-    dataProduct = {};
-    dataProduct['idProduct'] = idProduct;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -143,9 +124,8 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteProduct',
-            dataProduct,
+          $.get(
+            `/api/deletePlanProduct/${idProduct}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

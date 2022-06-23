@@ -25,16 +25,6 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
-        title: 'Horas Maquina',
-        data: 'hours_machine',
-        className: 'classCenter',
-      },
-      {
-        title: 'Dias Maquina',
-        data: 'days_machine',
-        className: 'classCenter',
-      },
-      {
         title: 'Acciones',
         data: 'id_machine',
         className: 'uniqueClassName',

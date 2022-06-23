@@ -92,6 +92,7 @@ require_once('../api/src/routes/app/planning/basic/routeMachines.php');
 require_once('../api/src/routes/app/planning/basic/routeMaterials.php');
 require_once('../api/src/routes/app/planning/basic/routeProducts.php');
 // Config
+require_once('../api/src/routes/app/planning/config/routeProductsMaterials.php');
 require_once('../api/src/routes/app/planning/config/routePlanning_machines.php');
 require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php');
 

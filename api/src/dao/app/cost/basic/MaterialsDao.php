@@ -51,17 +51,15 @@ class MaterialsDao
   public function insertMaterialsByCompany($dataMaterial, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
 
     try {
-      $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, cost) 
-                                      VALUES(:id_company ,:reference, :material, :unit, :cost)");
+      $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit) 
+                                      VALUES(:id_company ,:reference, :material, :unit)");
       $stmt->execute([
         'id_company' => $id_company,
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
-        'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'cost' => $costRawMaterial
+        'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial'])))
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -80,17 +78,15 @@ class MaterialsDao
   public function updateMaterialsByCompany($dataMaterial)
   {
     $connection = Connection::getInstance()->getConnection();
-    $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
 
     try {
-      $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, cost = :cost 
+      $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit 
                                     WHERE id_material = :id_material");
       $stmt->execute([
         'id_material' => $dataMaterial['idMaterial'],
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
-        'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'cost' => $costRawMaterial
+        'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial'])))
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -100,17 +96,17 @@ class MaterialsDao
     }
   }
 
-  public function deleteMaterial($dataMaterial)
+  public function deleteMaterial($id_material)
   {
     $connection = Connection::getInstance()->getConnection();
 
     $stmt = $connection->prepare("SELECT * FROM materials WHERE id_material = :id_material");
-    $stmt->execute(['id_material' => $dataMaterial['idMaterial']]);
+    $stmt->execute(['id_material' => $id_material]);
     $rows = $stmt->rowCount();
 
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM materials WHERE id_material = :id_material");
-      $stmt->execute(['id_material' => $dataMaterial['idMaterial']]);
+      $stmt->execute(['id_material' => $id_material]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }

@@ -85,7 +85,6 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     /* Actualizar metodo ultimo logueo */
     $lastLoginDao->findLastLogin();
 
-
     /* Genera codigo */
     //$code = $generateCodeDao->GenerateCode();
     //$_SESSION["code"] = $code;
@@ -96,7 +95,13 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     /* Modificar el estado de la sesion del usuario en BD */
     //$statusActiveUserDao->changeStatusUserLogin();
 
-    $user["id_rols"] == 1 ? $location = '../../admin/' : $location = '../../selector/';
+    if ($user["id_rols"] == 1) $location = '../../admin/';
+    else {
+        $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
+        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1) $location = '../../selector/';
+        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0) $location = '../../cost/';
+        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) $location = '../../planning/';
+    }
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
     $response->getBody()->write(json_encode($resp));

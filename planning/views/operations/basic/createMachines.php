@@ -38,23 +38,12 @@ $userinactivetimeDao->findSession();
                     </div> -->
                     <div class="card-body">
                         <form id="formCreateMachine">
-                            <div class="gridx6">
+                            <div class="gridx2p">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                     <input type="text" class="form-control" name="machine" id="machine">
                                     <label for="">Nombre</label>
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
-                                    <label for="">Horas de Trabajo</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
-                                    <label for="">Dias de Trabajo</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control text-center number" name="ciclesHour" id="ciclesHour">
-                                    <label for="">Ciclo Horas</label>
-                                </div>
+
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:5px">
                                     <button class="btn btn-success" id="btnCreateMachine">Crear</button>
                                 </div>
