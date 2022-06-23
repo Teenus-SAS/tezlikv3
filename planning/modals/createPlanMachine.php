@@ -56,7 +56,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="hourEnd" name="hourEnd" type="text" class="form-control text-center">
+                                                <input id="hourEnd" name="hourEnd" type="text" class="form-control text-center" data-td-target='#hourEnd'>
                                                 <label for="hourEnd">Horas Fin<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>

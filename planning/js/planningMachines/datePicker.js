@@ -1,4 +1,21 @@
 $(document).ready(function () {
+  /* Horas */
+  new tempusDominus.TempusDominus(document.getElementById('hourEnd'), {
+    display: {
+      viewMode: 'clock',
+      components: {
+        decades: false,
+        year: false,
+        month: false,
+        date: false,
+        hours: true,
+        minutes: true,
+        seconds: false,
+      },
+    },
+  });
+
+  /* Meses 
   let date = new Date();
 
   $('#january').datepicker({
@@ -15,5 +32,5 @@ $(document).ready(function () {
   $('#september').datepicker();
   $('#october').datepicker();
   $('#november').datepicker();
-  $('#december').datepicker();
+  $('#december').datepicker(); */
 });
