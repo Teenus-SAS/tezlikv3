@@ -10,6 +10,21 @@
                         </a>
                     </li>
 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/materials.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-tone mr-1"></i> Inventarios
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/materials.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-tone mr-1"></i> Pedidos
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-customize mr-1"></i> Programación
@@ -17,13 +32,28 @@
                         </a>
                     </li>
 
-                    <!-- <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/materials.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-tone mr-1"></i> Análisis Materia Prima
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bxs-customize mr-1"></i> Cargues
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bxs-customize mr-1"></i> Explosión de Materiales
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bxs-customize mr-1"></i> Despachos
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
 
+                    <!--
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

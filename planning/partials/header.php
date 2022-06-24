@@ -87,6 +87,29 @@
                 </div>
             </div>
 
+            <div class="d-none d-lg-inline-flex ml-2 dropdown">
+                <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-app-dropdown" aria-expanded="false" class="btn header-item notify-icon">
+                    <i class="bx bx-customize"></i>
+                </button>
+                <div aria-labelledby="page-header-app-dropdown" class="dropdown-menu-lg dropdown-menu-right dropdown-menu">
+                    <div class="px-lg-2">
+                        <div class="row no-gutters">
+                            <div class="col">
+                                <a href="javascript: void(0);" class="dropdown-icon-item">
+                                    <img src="/selector/assets/img/cost.png" alt="cost">
+                                    <span>Costos</span>
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="javascript: void(0);" class="dropdown-icon-item">
+                                    <img src="/selector/assets/img/time-planning.png" alt="planning">
+                                    <span>Planeación</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="d-none d-lg-inline-flex ml-2">
                 <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">
