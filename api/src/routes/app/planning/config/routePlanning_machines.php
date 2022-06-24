@@ -55,6 +55,8 @@ $app->post('/planningMachinesDataValidation', function (Request $request, Respon
             }
         }
     } else $dataImportPlanMachines = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
+    $response->getBody()->write(json_encode($dataImportPlanMachines, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/addPlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {

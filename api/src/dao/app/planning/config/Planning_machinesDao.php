@@ -36,8 +36,8 @@ class Planning_machinesDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM plan_program_machines 
-                                      WHERE id_program_machines = :id_program_machines AND id_company = :id_company");
-        $stmt->execute(['id_program_machines' => $dataPMachines['idProgramMachines'], 'id_company' => $id_company]);
+                                      WHERE id_machine = :id_machine AND id_company = :id_company");
+        $stmt->execute(['id_machine' => $dataPMachines['idMachine'], 'id_company' => $id_company]);
         $planningMachines = $stmt->fetch($connection::FETCH_ASSOC);
         return $planningMachines;
     }

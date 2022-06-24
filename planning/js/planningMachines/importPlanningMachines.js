@@ -29,7 +29,7 @@ $(document).ready(function () {
         let machinesToImport = data.map((item) => {
           return {
             machine: item.maquina,
-            numberWorkes: item.no_trabajadores,
+            numberWorkers: item.no_trabajadores,
             hoursDay: item.hora_dia,
             hourStart: item.hora_inicio,
             hourEnd: item.hora_fin,
