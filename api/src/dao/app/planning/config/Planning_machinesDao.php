@@ -16,7 +16,7 @@ class Planning_machinesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findPlanMachines($id_company)
+    public function findAllPlanMachines($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -30,9 +30,26 @@ class Planning_machinesDao
         return $planningMachines;
     }
 
+    /* Buscar si existe en la base de datos */
+    public function findPlanMachines($dataPMachines, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM plan_program_machines 
+                                      WHERE id_program_machines = :id_program_machines AND id_company = :id_company");
+        $stmt->execute(['id_program_machines' => $dataPMachines['idProgramMachines'], 'id_company' => $id_company]);
+        $planningMachines = $stmt->fetch($connection::FETCH_ASSOC);
+        return $planningMachines;
+    }
+
     public function insertPlanMachinesByCompany($dataPMachines, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
+
+        $year = date('Y');
+
+        $hourStart = date("G:i", strtotime($dataPMachines['hourStart']));
+        $hourEnd = date("G:i", strtotime($dataPMachines['hourEnd']));
 
         try {
             $stmt = $connection->prepare("INSERT INTO plan_program_machines (id_machine, id_company, number_workers, hours_day, hour_start, hour_end, year, january, 
@@ -42,11 +59,11 @@ class Planning_machinesDao
             $stmt->execute([
                 'id_company' => $id_company,                            'april' => $dataPMachines['april'],
                 'id_machine' => $dataPMachines['idMachine'],            'may' => $dataPMachines['may'],
-                'number_workers' => $dataPMachines['numberWorkers'],     'june' => $dataPMachines['june'],
+                'number_workers' => $dataPMachines['numberWorkers'],    'june' => $dataPMachines['june'],
                 'hours_day' => $dataPMachines['hoursDay'],              'july' => $dataPMachines['july'],
-                'hour_start' => $dataPMachines['hourStart'],            'august' => $dataPMachines['august'],
-                'hour_end' => $dataPMachines['hourEnd'],                'september' => $dataPMachines['september'],
-                'year' => $dataPMachines['year'],                       'october' => $dataPMachines['october'],
+                'hour_start' => $hourStart,                             'august' => $dataPMachines['august'],
+                'hour_end' => $hourEnd,                                 'september' => $dataPMachines['september'],
+                'year' =>  $year,                                       'october' => $dataPMachines['october'],
                 'january' => $dataPMachines['january'],                 'november' => $dataPMachines['november'],
                 'february' => $dataPMachines['february'],               'december' => $dataPMachines['december'],
                 'march' => $dataPMachines['march']
@@ -63,6 +80,8 @@ class Planning_machinesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        $year = date('Y');
+
         try {
             $stmt = $connection->prepare("UPDATE plan_program_machines SET id_machine = :id_machine, number_workers = :number_workers, hours_day = :hours_day, hour_start = :hour_start, hour_end = :hour_end, 
                                                     year = :year, january = :january, february = :february, march = :march, april = :april, may = :may, june = :june, july = :july,
@@ -71,11 +90,11 @@ class Planning_machinesDao
             $stmt->execute([
                 'id_program_machines' => $dataPMachines['idProgramMachines'],   'april' => $dataPMachines['april'],
                 'id_machine' => $dataPMachines['idMachine'],                    'may' => $dataPMachines['may'],
-                'number_workers' => $dataPMachines['numberWorkers'],             'june' => $dataPMachines['june'],
+                'number_workers' => $dataPMachines['numberWorkers'],            'june' => $dataPMachines['june'],
                 'hours_day' => $dataPMachines['hoursDay'],                      'july' => $dataPMachines['july'],
                 'hour_start' => $dataPMachines['hourStart'],                    'august' => $dataPMachines['august'],
                 'hour_end' => $dataPMachines['hourEnd'],                        'september' => $dataPMachines['september'],
-                'year' => $dataPMachines['year'],                               'october' => $dataPMachines['october'],
+                'year' => $year,                                                'october' => $dataPMachines['october'],
                 'january' => $dataPMachines['january'],                         'november' => $dataPMachines['november'],
                 'february' => $dataPMachines['february'],                       'december' => $dataPMachines['december'],
                 'march' => $dataPMachines['march']

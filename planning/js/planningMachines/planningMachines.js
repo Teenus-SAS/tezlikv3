@@ -30,54 +30,68 @@ $(document).ready(function () {
       hoursDay = parseInt($('#hoursDay').val());
       hourStart = $('#hourStart').val();
       hourEnd = $('#hourEnd').val();
-      january = parseInt($('#january').val());
-      february = parseInt($('#february').val());
-      march = parseInt($('#march').val());
-      april = parseInt($('#april').val());
-      may = parseInt($('#may').val());
-      june = parseInt($('#june').val());
-      july = parseInt($('#july').val());
-      august = parseInt($('#august').val());
-      september = parseInt($('#september').val());
-      october = parseInt($('#october').val());
-      november = parseInt($('#november').val());
-      december = parseInt($('#december').val());
+      january = $('#january').val();
+      february = $('#february').val();
+      march = $('#march').val();
+      april = $('#april').val();
+      may = $('#may').val();
+      june = $('#june').val();
+      july = $('#july').val();
+      august = $('#august').val();
+      september = $('#september').val();
+      october = $('#october').val();
+      november = $('#november').val();
+      december = $('#december').val();
+      data = idMachine * numberWorkers * hoursDay;
 
-      debugger;
-      data =
-        idMachine *
-        numberWorkers *
-        hoursDay *
-        january *
-        february *
-        march *
-        april *
-        may *
-        june *
-        july *
-        august *
-        september *
-        october *
-        november *
-        december;
-
-      if (!data || data == '' || data == null || data == 0) {
+      if (
+        !data ||
+        data == null ||
+        data == 0 /*||
+        january == '' ||
+        january == null ||
+        february == '' ||
+        february == null ||
+        march == '' ||
+        march == null ||
+        april == '' ||
+        april == null ||
+        may == '' ||
+        may == null ||
+        june == '' ||
+        june == null ||
+        july == '' ||
+        july == null ||
+        august == '' ||
+        august == null ||
+        september == '' ||
+        september == null ||
+        october == '' ||
+        october == null ||
+        november == '' ||
+        november == null ||
+        december == '' ||
+        december == null*/
+      ) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      if (hourEnd > hourStart) {
-        toastr.error('La hora final no puede ser mayor a la hora inicio');
-        $('#hourEnd').css('border-color', 'red');
-        return false;
+      if (hourStart.includes('pm') && hourEnd.includes('am')) {
+        if (hourEnd > hourStart) {
+          toastr.error('La hora final no puede ser mayor a la hora inicio');
+          $('#hourEnd').css('border-color', 'red');
+          return false;
+        }
       }
 
       planningMachines = $('#formCreatePlanMachine').serialize();
 
       $.post(
-        '/api/addPlannningMachines',
+        '/api/addPlanningMachines',
         planningMachines,
         function (data, textStatus, jqXHR) {
+          $('#hourEnd').css('border-color', '');
           $('#createPlanMachine').modal('hide');
           message(data);
         }
@@ -99,14 +113,18 @@ $(document).ready(function () {
     );
 
     let row = $(this).parent().parent()[0];
-    let data = tblPMachines.fnGetData(row);
+    let data = tblPlanMachines.fnGetData(row);
 
     $(`#idMachine option:contains(${data.machine})`).prop('selected', true);
     $('#numberWorkers').val(data.number_workers);
 
     $('#hoursDay').val(data.hours_day);
-    $('#hourStart').val(data.hour_start);
-    $('#hourEnd').val(data.hour_end);
+
+    hourStart = moment(data.hour_start, ['HH:mm']).format('h:mm A');
+    hourEnd = moment(data.hour_end, ['HH:mm']).format('h:mm A');
+    $('#hourStart').val(hourStart);
+    $('#hourEnd').val(hourEnd);
+
     $('#year').val(data.year);
 
     $('#january').val(data.january);
@@ -191,7 +209,7 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   function updateTable() {
-    $('#tblPMachines').DataTable().clear();
-    $('#tblPMachines').DataTable().ajax.reload();
+    $('#tblPlanMachines').DataTable().clear();
+    $('#tblPlanMachines').DataTable().ajax.reload();
   }
 });

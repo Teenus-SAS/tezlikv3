@@ -1,6 +1,6 @@
 $(document).ready(function () {
   // Mostrar Tabla planeacion maquinas
-  tblPMachines = $('#tblPMachines').dataTable({
+  tblPlanMachines = $('#tblPlanMachines').dataTable({
     pageLength: 50,
     ajax: {
       url: '/api/planningMachines',
@@ -35,13 +35,21 @@ $(document).ready(function () {
       },
       {
         title: 'Hora x Inicio',
-        data: 'hour_start',
+        data: null,
         className: 'text-center',
+        render: function (data) {
+          hourStart = moment(data.hour_start, ['HH:mm']).format('h:mm A');
+          return `<p>${hourStart}</p>`;
+        },
       },
       {
         title: 'Hora x Fin',
-        data: 'hour_end',
+        data: null,
         className: 'text-center',
+        render: function (data) {
+          hourEnd = moment(data.hour_end, ['HH:mm']).format('h:mm A');
+          return `<p>${hourEnd}</p>`;
+        },
       },
       {
         title: 'Enero',
@@ -109,8 +117,8 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: function (data) {
           return `
-                    <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updatePMachines" data-toggle='tooltip' title='Actualizar Maquina' style="font-size: 30px;"></i></a>
-                    <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever deletePMachines" data-toggle='tooltip' title='Eliminar Maquina' style="font-size: 30px;color:red"></i></a>`;
+                    <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updatePMachines" data-toggle='tooltip' title='Actualizar Plan Maquina' style="font-size: 30px;"></i></a>
+                    <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever deletePMachines" data-toggle='tooltip' title='Eliminar Plan Maquina' style="font-size: 30px;color:red"></i></a>`;
         },
       },
     ],
