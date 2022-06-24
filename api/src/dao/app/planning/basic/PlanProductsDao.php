@@ -19,10 +19,8 @@ class PlanProductsDao
   public function findAllProductsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.profitability, pc.commission_sale, pc.price, p.img 
-                                  FROM products p 
-                                  INNER JOIN products_costs pc ON p.id_product = pc.id_product
-                                  WHERE p.id_company = :id_company");
+    $stmt = $connection->prepare("SELECT * FROM products 
+                                  WHERE id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -77,7 +75,7 @@ class PlanProductsDao
   }
 
   /* Actualizar producto */
-  public function updateProductByCompany($dataProduct)
+  public function updateProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
 
@@ -88,6 +86,7 @@ class PlanProductsDao
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
         'id_product' => $dataProduct['idProduct'],
+        'id_company' => $id_company
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -146,17 +145,17 @@ class PlanProductsDao
     }
   }
 
-  public function deleteProduct($dataProduct)
+  public function deleteProduct($id_product)
   {
     $connection = Connection::getInstance()->getConnection();
 
     $stmt = $connection->prepare("SELECT * FROM products WHERE id_product = :id_product");
-    $stmt->execute(['id_product' => $dataProduct['idProduct']]);
+    $stmt->execute(['id_product' => $id_product]);
     $rows = $stmt->rowCount();
 
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM products WHERE id_product = :id_product");
-      $stmt->execute(['id_product' => $dataProduct['idProduct']]);
+      $stmt->execute(['id_product' => $id_product]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }

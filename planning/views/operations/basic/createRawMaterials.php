@@ -34,7 +34,7 @@ $userinactivetimeDao->findSession();
                 <div class="card">
                     <div class="card-body">
                         <form name="formCreateMaterial" id="formCreateMaterial">
-                            <div class="gridx4">
+                            <!-- <div class="gridx4">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                     <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
                                     <label for="">Referencia</label>
@@ -44,6 +44,23 @@ $userinactivetimeDao->findSession();
                                     <label for="">Nombre Materia Prima</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:5px">
+                                    <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
+                                </div>
+                            </div> -->
+                            <div class="row">
+                                <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
+                                    <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
+                                    <label for="">Referencia</label>
+                                </div>
+                                <div class="form-group floating-label enable-floating-label show-label col-6" style="margin-bottom:0px">
+                                    <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
+                                    <label for="">Nombre Materia Prima</label>
+                                </div>
+                                <div class="form-group floating-label enable-floating-label show-label col col-lg-2" style="margin-bottom:0px">
+                                    <input type="text" class="form-control" id="unityRawMaterial" name="unityRawMaterial">
+                                    <label for="">Unidad</label>
+                                </div>
+                                <div class="form-group floating-label enable-floating-label show-label col col-lg-2" style="margin-bottom:0px;margin-top:5px">
                                     <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
                                 </div>
                             </div>
@@ -106,7 +123,6 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../global/js/global/number.js"></script>
 <script src="../planning/js/rawMaterials/tblRawMaterials.js"></script>
 <script src="../planning/js/rawMaterials/rawMaterials.js"></script>
 <script src="../global/js/import/import.js"></script>

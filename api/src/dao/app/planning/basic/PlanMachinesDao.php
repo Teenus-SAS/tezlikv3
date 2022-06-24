@@ -47,31 +47,17 @@ class PlanMachinesDao
     return $findMachine;
   }
 
-  //Buscrar ultima maquina registrada
-  public function findLastMachine($id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT MAX(id_machine) AS id_machine FROM machines 
-                                  WHERE id_company = :id_company");
-    $stmt->execute(['id_company' => $id_company]);
-    $lastMachine = $stmt->fetch($connection::FETCH_ASSOC);
-    return $lastMachine;
-  }
-
   /* Insertar maquina */
   public function insertMachinesByCompany($dataMachine, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("INSERT INTO machines (id_company ,machine, hours_machine, days_machine) 
-                                    VALUES (:id_company ,:machine, :hours_machine, :days_machine)");
+      $stmt = $connection->prepare("INSERT INTO machines (id_company ,machine) 
+                                    VALUES (:id_company ,:machine)");
       $stmt->execute([
         'id_company' => $id_company,
-        'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
-        'hours_machine' => $dataMachine['hoursMachine'],
-        'days_machine' => $dataMachine['daysMachine']
+        'machine' => ucfirst(strtolower(trim($dataMachine['machine'])))
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -89,21 +75,12 @@ class PlanMachinesDao
   public function updateMachine($dataMachine)
   {
     $connection = Connection::getInstance()->getConnection();
-    $costMachine = str_replace('.', '', $dataMachine['cost']);
-    $residualValue = str_replace('.', '', $dataMachine['residualValue']);
 
     try {
-      $stmt = $connection->prepare("UPDATE machines SET machine = :machine, cost = :cost, years_depreciation = :years_depreciation,
-                                       residual_value = :residual_value , hours_machine = :hours_machine, days_machine = :days_machine   
-                                    WHERE id_machine = :id_machine");
+      $stmt = $connection->prepare("UPDATE machines SET machine = :machine WHERE id_machine = :id_machine");
       $stmt->execute([
         'id_machine' => $dataMachine['idMachine'],
-        'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
-        'cost' => $costMachine,
-        'years_depreciation' => $dataMachine['depreciationYears'],
-        'residual_value' => $residualValue,
-        'hours_machine' => $dataMachine['hoursMachine'],
-        'days_machine' => $dataMachine['daysMachine']
+        'machine' => ucfirst(strtolower(trim($dataMachine['machine'])))
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

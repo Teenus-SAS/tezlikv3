@@ -1,12 +1,8 @@
 <?php
 
 use tezlikv3\dao\MaterialsDao;
-use tezlikv3\dao\CostMaterialsDao;
-use tezlikv3\dao\PriceProductDao;
 
-$materialsDao = new MaterialsDao();
-$costMaterialsDao = new CostMaterialsDao();
-$priceProductDao = new PriceProductDao();
+$materialsDao = new MaterialsDao();;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -39,9 +35,8 @@ $app->post('/planMaterialsDataValidation', function (Request $request, Response 
             $reference = $materials[$i]['refRawMaterial'];
             $material = $materials[$i]['nameRawMaterial'];
             $unity = $materials[$i]['unityRawMaterial'];
-            $cost = $materials[$i]['costRawMaterial'];
 
-            if (empty($reference) || empty($material) || empty($unity) || empty($cost))
+            if (empty($reference) || empty($material) || empty($unity))
                 $dataImportMaterial = array('error' => true, 'message' => 'Ingrese todos los datos');
             else {
                 $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);
@@ -96,20 +91,12 @@ $app->post('/addPlanMaterials', function (Request $request, Response $response, 
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanMaterials', function (Request $request, Response $response, $args) use ($materialsDao, $costMaterialsDao, $priceProductDao) {
-    session_start();
-    $id_company = $_SESSION['id_company'];
+$app->post('/updatePlanMaterials', function (Request $request, Response $response, $args) use ($materialsDao) {
     $dataMaterial = $request->getParsedBody();
 
     $materials = $materialsDao->updateMaterialsByCompany($dataMaterial);
 
-    // Calcular precio total materias
-    $costMaterials = $costMaterialsDao->calcCostMaterialsByRawMaterial($dataMaterial, $id_company);
-
-    // Calcular precio
-    $priceProduct = $priceProductDao->calcPriceByMaterial($dataMaterial['idMaterial'], $id_company);
-
-    if ($materials == null && $costMaterials == null && $priceProduct == null)
+    if ($materials == null)
         $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
@@ -118,15 +105,8 @@ $app->post('/updatePlanMaterials', function (Request $request, Response $respons
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deletePlanMaterial', function (Request $request, Response $response, $args) use ($materialsDao) {
-    /*session_start();
-    $id_company = $_SESSION['id_company'];*/
-    $dataMaterial = $request->getParsedBody();
-
-    $materials = $materialsDao->deleteMaterial($dataMaterial);
-    // Calcular precio total materias
-    //$productCost = $calcProductsCostDao->calcCostMaterialsByRawMaterial($dataMaterial, $id_company);
-
+$app->get('/deletePlanMaterial/{id_material}', function (Request $request, Response $response, $args) use ($materialsDao) {
+    $materials = $materialsDao->deleteMaterial($args['id_material']);
     if ($materials == null)
         $resp = array('success' => true, 'message' => 'Material eliminado correctamente');
 

@@ -70,8 +70,8 @@ $app->post('/updateCompanyLicense', function (Request $request, Response $respon
     $resp = $companiesLicenseDao->addCostOrPlanning($dataLicense, $id_company);
 
     if ($resp == null) {
-        $dataLicense["cost"] == 1 ? $location = '../../cost/' : $location = '../../planning/';
-        $resp = array('success' => true, 'location' => $location);
+        // $dataLicense["cost"] == 1 ? $location = '../../cost/' : $location = '../../planning/'; 'location' => $location
+        $resp = array('success' => true, 'message' => 'Licencia de compañia actualizada correctamente');
     } else $resp = array('error' => true, 'message' => 'Ocurrio un error, intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));

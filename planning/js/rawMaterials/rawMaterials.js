@@ -13,10 +13,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_material');
 
-    $('#refRawMaterial').val('');
-    $('#nameRawMaterial').val('');
-    $('#unityRawMaterial').val('');
-    $('#costRawMaterial').val('');
+    $('#formCreateMaterial').trigger('reset');
   });
 
   /* Crear producto */
@@ -29,7 +26,6 @@ $(document).ready(function () {
       ref = $('#refRawMaterial').val();
       material = $('#nameRawMaterial').val();
       unity = $('#unityRawMaterial').val();
-      cost = $('#costRawMaterial').val();
 
       if (
         ref == '' ||
@@ -37,9 +33,7 @@ $(document).ready(function () {
         material == '' ||
         material == 0 ||
         unity == '' ||
-        unity == 0 ||
-        cost == '' ||
-        cost == 0
+        unity == 0
       ) {
         toastr.error('Ingrese todos los campos');
         return false;
@@ -48,7 +42,7 @@ $(document).ready(function () {
       material = $('#formCreateMaterial').serialize();
 
       $.post(
-        '../../api/addMaterials',
+        '../../api/addPlanMaterials',
         material,
         function (data, textStatus, jqXHR) {
           message(data);
@@ -75,7 +69,6 @@ $(document).ready(function () {
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
     $('#unityRawMaterial').val(data.unit);
-    $('#costRawMaterial').val(data.cost.toLocaleString());
 
     $('html, body').animate(
       {
@@ -91,7 +84,7 @@ $(document).ready(function () {
     data = data + '&idMaterial=' + idMaterial;
 
     $.post(
-      '../../api/updateMaterials',
+      '../../api/updatePlanMaterials',
       data,
       function (data, textStatus, jqXHR) {
         message(data);
@@ -103,8 +96,6 @@ $(document).ready(function () {
 
   $(document).on('click', '.deleteRawMaterials', function (e) {
     let idMaterial = this.id;
-    dataMaterial = {};
-    dataMaterial['idMaterial'] = idMaterial;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -122,9 +113,8 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '../../api/deleteMaterial',
-            dataMaterial,
+          $.get(
+            `../../api/deletePlanMaterial/${idMaterial}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

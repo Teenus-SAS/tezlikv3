@@ -52,7 +52,8 @@ $userinactivetimeDao->findSession();
         </div>
     </div>
 </div>
-<script src="../planning/js/planningMachines/tblPlanningMachines.js"></script>
-<script src="../planning/js/planningMachines/planningMachines.js"></script>
-<script src="../planning/js/machines/configMachines.js"></script>
-<script src="../global/js/global/validateExt.js"></script>
+<script src="/planning/js/planningMachines/datePicker.js"></script>
+<script src="/planning/js/planningMachines/tblPlanningMachines.js"></script>
+<script src="/planning/js/planningMachines/planningMachines.js"></script>
+<script src="/planning/js/machines/configMachines.js"></script>
+<script src="/global/js/global/validateExt.js"></script>

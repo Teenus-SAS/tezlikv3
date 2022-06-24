@@ -17,6 +17,19 @@ class LicenseCompanyDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findCostandPlanning($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT cost, planning 
+                                  FROM companies_licenses  WHERE id_company = :id_company;");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $dataCompany = $stmt->fetch($connection::FETCH_ASSOC);
+
+        return $dataCompany;
+    }
+
     public function findLicense($id_company)
     {
         $connection = Connection::getInstance()->getConnection();

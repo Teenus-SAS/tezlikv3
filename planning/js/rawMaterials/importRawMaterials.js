@@ -31,7 +31,6 @@ $(document).ready(function () {
             refRawMaterial: item.referencia,
             nameRawMaterial: item.material,
             unityRawMaterial: item.unidad,
-            costRawMaterial: item.costo,
           };
         });
 
@@ -44,10 +43,9 @@ $(document).ready(function () {
 
   /* Mensaje de advertencia */
   checkProduct = (data) => {
-    debugger;
     $.ajax({
       type: 'POST',
-      url: '/api/materialsDataValidation',
+      url: '/api/planMaterialsDataValidation',
       data: { importMaterials: data },
       success: function (resp) {
         if (resp.error == true) {
@@ -80,7 +78,7 @@ $(document).ready(function () {
   saveMaterialTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../api/addMaterials',
+      url: '../api/addPlanMaterials',
       data: { importMaterials: data },
       success: function (r) {
         /* Mensaje de exito */

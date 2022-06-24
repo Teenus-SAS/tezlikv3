@@ -29,11 +29,6 @@ $(document).ready(function () {
         let machinesToImport = data.map((item) => {
           return {
             machine: item.maquina,
-            cost: item.costo,
-            depreciationYears: item.años_depreciacion,
-            residualValue: item.valor_residual,
-            hoursMachine: item.horas_maquina,
-            daysMachine: item.dias_maquina,
           };
         });
         checkMachine(machinesToImport);
@@ -47,7 +42,7 @@ $(document).ready(function () {
   checkMachine = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/machinesDataValidation',
+      url: '/api/planMachinesDataValidation',
       data: { importMachines: data },
       success: function (resp) {
         if (resp.error == true) {
@@ -81,7 +76,7 @@ $(document).ready(function () {
   saveMachineTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addMachines',
+      url: '/api/addPlanMachines',
       data: { importMachines: data },
       success: function (r) {
         /* Mensaje de exito */

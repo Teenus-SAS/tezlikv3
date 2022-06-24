@@ -45,27 +45,22 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="hourStart" name="hourStart" type="number" class="form-control text-center" min="1" max="23">
+                                                <input id="hourStart" name="hourStart" type="text" class="form-control text-center">
                                                 <label for="hourStart">Horas Inicio<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                </span>
                                             </div>
                                         </div>
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="hourEnd" name="hourEnd" type="number" class="form-control text-center" min="1" max="23">
-                                                <label for=" hourEnd">Horas Fin<span class="text-danger">*</span></label>
+                                                <input id="hourEnd" name="hourEnd" type="text" class="form-control text-center" data-td-target='#hourEnd'>
+                                                <label for="hourEnd">Horas Fin<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
-
-                                        <!--<div class="col-12 col-lg-3">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="year" name="year" type="text" class="form-control text-center number">
-                                                <label for="year">Año<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
-                                            </div>
-                                        </div> -->
 
                                         <div class="col-12 col-lg-12 titlePayroll">
                                             <label for=""><b>Meses</b></label>
@@ -73,7 +68,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="january" name="january" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="january" name="january" type="text" class="form-control text-center">
                                                 <label for="january">Enero<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -81,7 +76,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="february" name="february" type="number" class="form-control text-center" min="1" max="28">
+                                                <input id="february" name="february" type="text" class="form-control text-center">
                                                 <label for="february">Febrero<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -89,7 +84,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="march" name="march" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="march" name="march" type="text" class="form-control text-center">
                                                 <label for="march">Marzo<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -97,7 +92,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="april" name="april" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="april" name="april" type="text" class="form-control text-center">
                                                 <label for="april">Abril<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -105,7 +100,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="may" name="may" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="may" name="may" type="text" class="form-control text-center">
                                                 <label for="may">Mayo<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -113,7 +108,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="june" name="june" type="number" class="form-control text-center" min="1" max="30">
+                                                <input id="june" name="june" type="text" class="form-control text-center">
                                                 <label for="june">Junio<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -121,7 +116,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="july" name="july" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="july" name="july" type="text" class="form-control text-center">
                                                 <label for="july">Julio<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -129,7 +124,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="august" name="august" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="august" name="august" type="text" class="form-control text-center">
                                                 <label for="august">Agosto<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -137,7 +132,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="september" name="september" type="number" class="form-control text-center" min="1" max="30">
+                                                <input id="september" name="september" type="text" class="form-control text-center">
                                                 <label for="september">Septiembre<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -145,7 +140,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="october" name="october" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="october" name="october" type="text" class="form-control text-center">
                                                 <label for="october">Octubre<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -153,7 +148,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="november" name="november" type="number" class="form-control text-center" min="1" max="30 ">
+                                                <input id="november" name="november" type="text" class="form-control text-center">
                                                 <label for="november">Noviembre<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -161,7 +156,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="december" name="december" type="number" class="form-control text-center" min="1" max="31">
+                                                <input id="december" name="december" type="text" class="form-control text-center">
                                                 <label for="december">Diciembre<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>

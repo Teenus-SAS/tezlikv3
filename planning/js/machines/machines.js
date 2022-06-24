@@ -22,18 +22,8 @@ $(document).ready(function () {
     let idMachine = sessionStorage.getItem('id_machine');
     if (idMachine == '' || idMachine == null) {
       Machine = $('#machine').val();
-      hoursMachine = $('#hoursMachine').val();
-      daysMachine = $('#daysMachine').val();
-      ciclesMachine = $('#ciclesHour').val();
 
-      data = hoursMachine * daysMachine * ciclesMachine;
-
-      if (ciclesMachine == 0) {
-        toastr.error('Ciclo de maquina debe ser mayor a cero (0)');
-        return false;
-      }
-
-      if (Machine == '' || Machine == null || data == null || data <= 0) {
+      if (Machine == '' || Machine == null) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
@@ -64,9 +54,6 @@ $(document).ready(function () {
     let data = tblMachines.fnGetData(row);
 
     $('#machine').val(data.machine);
-    $('#hoursMachine').val(data.hours_machine);
-    $('#daysMachine').val(data.days_machine);
-    $('#ciclesHour').val(data.cicles_hour);
 
     $('html, body').animate(
       {
@@ -81,7 +68,7 @@ $(document).ready(function () {
     idMachine = sessionStorage.getItem('id_machine');
 
     data = data + '&idMachine=' + idMachine;
-    $.post('/api/updateMachines', data, function (data, textStatus, jqXHR) {
+    $.post('/api/updatePlanMachines', data, function (data, textStatus, jqXHR) {
       message(data);
     });
   };
@@ -108,7 +95,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `../../api/deleteMachine/${id_machine}`,
+            `../../api/deletePlanMachine/${id_machine}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

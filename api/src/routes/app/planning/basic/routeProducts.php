@@ -1,12 +1,8 @@
 <?php
 
-use tezlikv3\dao\ProductsDao;
-use tezlikv3\dao\ProductsCostDao;
-use tezlikv3\dao\PriceProductDao;
+use tezlikv3\dao\PlanProductsDao;
 
-$productsDao = new ProductsDao();
-$productsCostDao = new ProductsCostDao();
-$priceProductDao = new PriceProductDao();
+$productsDao = new PlanProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -36,19 +32,10 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
 
         for ($i = 0; $i < sizeof($products); $i++) {
 
-            if (isset($products[$i]['referenceProduct']))
-                $reference = $products[$i]['referenceProduct'];
+            $reference = $products[$i]['referenceProduct'];
+            $product = $products[$i]['product'];
 
-            if (isset($products[$i]['product']))
-                $product = $products[$i]['product'];
-
-            if (isset($products[$i]['profitability']))
-                $profitability = $products[$i]['profitability'];
-
-            if (isset($products[$i]['commissionSale']))
-                $commisionSale = $products[$i]['commissionSale'];
-
-            if (empty($reference) || empty($product) || empty($profitability) || empty($commisionSale))
+            if (empty($reference) || empty($product))
                 $dataImportProduct = array('error' => true, 'message' => 'Ingrese todos los datos');
             else {
                 $findProduct = $productsDao->findProduct($products[$i], $id_company);
@@ -65,7 +52,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProducts', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao) {
+$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
@@ -80,15 +67,9 @@ $app->post('/addPlanProducts', function (Request $request, Response $response, $
         //ULTIMO REGISTRO DE ID, EL MÁS ALTO
         $lastProductId = $productsDao->lastInsertedProductId($id_company);
 
-        if (sizeof($_FILES) > 0)
-            $productsDao->imageProduct($lastProductId['id_product'], $id_company);
+        if (sizeof($_FILES) > 0) $productsDao->imageProduct($lastProductId['id_product'], $id_company);
 
-
-        //AGREGA ULTIMO ID A DATA
-        $dataProduct['idProduct'] = $lastProductId['id_product'];
-        $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
-
-        if ($products == null &&  $productsCost == null)
+        if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto creado correctamente');
         else
             $resp = array('error' => true, 'message' => 'Ocurrió un error mientras ingresaba la información. Intente nuevamente');
@@ -101,15 +82,13 @@ $app->post('/addPlanProducts', function (Request $request, Response $response, $
 
             if (!$product) {
                 $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
-                $lastProductId = $productsDao->lastInsertedProductId($id_company);
+                // $lastProductId = $productsDao->lastInsertedProductId($id_company);
 
-                $products[$i]['idProduct'] = $lastProductId['id_product'];
-
-                $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
+                // $products[$i]['idProduct'] = $lastProductId['id_product'];
             } else {
                 $products[$i]['idProduct'] = $product['id_product'];
-                $resolution = $productsDao->updateProductByCompany($products[$i]);
-                $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
+                $resolution = $productsDao->updateProductByCompany($products[$i], $id_company);
+                // $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
             }
         }
         if ($resolution == null)
@@ -117,34 +96,25 @@ $app->post('/addPlanProducts', function (Request $request, Response $response, $
         else
             $resp = array('error' => true, 'message' => 'Ocurrió un error mientras importaba los datos. Intente nuevamente');
     }
-
-
-
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanProducts', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao, $priceProductDao) {
+$app->post('/updatePlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao, $priceProductDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataProduct = $request->getParsedBody();
     //$imgProduct = $request->getUploadedFiles();
 
-    if (
-        empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) ||
-        empty($dataProduct['profitability']) || empty($dataProduct['commissionSale'])
-    )
+    if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         // Actualizar Datos, Imagen y Calcular Precio del producto
-        $products = $productsDao->updateProductByCompany($dataProduct);
+        $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
         if (sizeof($_FILES) > 0)
             $products = $productsDao->imageProduct($dataProduct['idProduct'], $id_company);
-
-        $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
-        $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
@@ -156,13 +126,10 @@ $app->post('/updatePlanProducts', function (Request $request, Response $response
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deletePlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao) {
-    $dataProduct = $request->getParsedBody();
+$app->get('/deletePlanProduct/{id_product}', function (Request $request, Response $response, $args) use ($productsDao) {
+    $product = $productsDao->deleteProduct($args['id_product']);
 
-    $productsCost = $productsCostDao->deleteProductsCost($dataProduct);
-    $product = $productsDao->deleteProduct($dataProduct);
-
-    if ($product == null && $productsCost == null)
+    if ($product == null)
         $resp = array('success' => true, 'message' => 'Producto eliminado correctamente');
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el producto, existe información asociada a él');

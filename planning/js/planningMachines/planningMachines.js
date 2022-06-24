@@ -28,8 +28,8 @@ $(document).ready(function () {
       idMachine = parseInt($('#idMachine').val());
       numberWorkers = parseInt($('#numberWorkers').val());
       hoursDay = parseInt($('#hoursDay').val());
-      hourStart = parseInt($('#hourStart').val());
-      hourEnd = parseInt($('#hourEnd').val());
+      hourStart = $('#hourStart').val();
+      hourEnd = $('#hourEnd').val();
       january = parseInt($('#january').val());
       february = parseInt($('#february').val());
       march = parseInt($('#march').val());
@@ -43,12 +43,11 @@ $(document).ready(function () {
       november = parseInt($('#november').val());
       december = parseInt($('#december').val());
 
+      debugger;
       data =
         idMachine *
         numberWorkers *
         hoursDay *
-        hourStart *
-        hourEnd *
         january *
         february *
         march *

@@ -11,14 +11,14 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../cost/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-customize mr-1"></i> Generar Precios
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/materials.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../cost/views/analysis/materials.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-tone mr-1"></i> Análisis Materia Prima
                             <i class="bx bx-chevron-down"></i>
                         </a>
@@ -51,14 +51,14 @@
                                 </div>
                             </div>
                             <div class="dropdown">
-                                <a href="javascript:void(0);" onclick="loadContent('page-content','../app/views/tutorials/tutorials.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                <a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/tutorials/tutorials.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bx-table mr-1"></i>
                                     <span> Tutoriales </span>
                                     <i class="bx bx-chevron-right"></i>
                                 </a>
                             </div>
                             <div class="dropdown">
-                                <a href="javascript:void(0);" onclick="loadContent('page-content','../app/views/support/emailSupport.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                <a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/support/emailSupport.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bxs-bar-chart-alt-2 mr-1"></i>
                                     <span> Soporte</span>
                                     <i class="bx bx-chevron-right"></i>
