@@ -53,113 +53,63 @@ $(document).ready(function () {
       },
       {
         title: 'Enero',
-        data: null,
+        data: 'january',
         className: 'text-center',
-        render: function (data) {
-          january = moment(data.january, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${january}</p>`;
-        },
       },
       {
         title: 'Febrero',
-        data: null,
+        data: 'february',
         className: 'text-center',
-        render: function (data) {
-          february = moment(data.february, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${february}</p>`;
-        },
       },
       {
         title: 'Marzo',
-        data: null,
+        data: 'march',
         className: 'text-center',
-        render: function (data) {
-          march = moment(data.march, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${march}</p>`;
-        },
       },
       {
         title: 'Abril',
-        data: null,
+        data: 'april',
         className: 'text-center',
-        render: function (data) {
-          april = moment(data.april, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${april}</p>`;
-        },
       },
       {
         title: 'Mayo',
-        data: null,
+        data: 'may',
         className: 'text-center',
-        render: function (data) {
-          may = moment(data.may, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${may}</p>`;
-        },
       },
       {
         title: 'Junio',
-        data: null,
+        data: 'june',
         className: 'text-center',
-        render: function (data) {
-          june = moment(data.june, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${june}</p>`;
-        },
       },
       {
         title: 'Julio',
-        data: null,
+        data: 'july',
         className: 'text-center',
-        render: function (data) {
-          july = moment(data.july, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${july}</p>`;
-        },
       },
       {
         title: 'Agosto',
-        data: null,
+        data: 'august',
         className: 'text-center',
-        render: function (data) {
-          august = moment(data.august, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${august}</p>`;
-        },
       },
       {
         title: 'Septiembre',
-        data: null,
+        data: 'september',
         className: 'text-center',
-        render: function (data) {
-          september = moment(data.september, ['YYYY-MM-DD']).format(
-            'DD/MM/YYYY'
-          );
-          return `<p>${september}</p>`;
-        },
       },
       {
         title: 'Octubre',
-        data: null,
+        data: 'october',
         className: 'text-center',
-        render: function (data) {
-          october = moment(data.october, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${october}</p>`;
-        },
       },
       {
         title: 'Noviembre',
-        data: null,
+        data: 'november',
         className: 'text-center',
-        render: function (data) {
-          november = moment(data.november, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${november}</p>`;
-        },
       },
       {
         title: 'Diciembre',
-        data: null,
+        data: 'december',
         className: 'text-center',
-        render: function (data) {
-          december = moment(data.december, ['YYYY-MM-DD']).format('DD/MM/YYYY');
-          return `<p>${december}</p>`;
-        },
       },
       {
         title: 'Acciones',

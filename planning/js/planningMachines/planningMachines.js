@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_planning_machine');
 
-    $('#hourEnd').css('border-color', '');
+    $('.month').css('border-color', '');
     $('#formCreatePlanMachine').trigger('reset');
   });
 
@@ -91,7 +91,7 @@ $(document).ready(function () {
         '/api/addPlanningMachines',
         planningMachines,
         function (data, textStatus, jqXHR) {
-          $('#hourEnd').css('border-color', '');
+          $('.month').css('border-color', '');
           $('#createPlanMachine').modal('hide');
           message(data);
         }
@@ -127,30 +127,18 @@ $(document).ready(function () {
 
     $('#year').val(data.year);
 
-    january = moment(data.january, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    february = moment(data.february, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    march = moment(data.march, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    april = moment(data.april, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    may = moment(data.may, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    june = moment(data.june, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    july = moment(data.july, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    august = moment(data.august, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    september = moment(data.september, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    october = moment(data.october, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    november = moment(data.november, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    december = moment(data.december, ['YYYY-MM-DD']).format('DD-MM-YYYY');
-    $('#january').val(january);
-    $('#february').val(february);
-    $('#march').val(march);
-    $('#april').val(april);
-    $('#may').val(may);
-    $('#june').val(june);
-    $('#july').val(july);
-    $('#august').val(august);
-    $('#september').val(september);
-    $('#october').val(october);
-    $('#november').val(november);
-    $('#december').val(december);
+    $('#january').val(data.january);
+    $('#february').val(data.february);
+    $('#march').val(data.march);
+    $('#april').val(data.april);
+    $('#may').val(data.may);
+    $('#june').val(data.june);
+    $('#july').val(data.july);
+    $('#august').val(data.august);
+    $('#september').val(data.september);
+    $('#october').val(data.october);
+    $('#november').val(data.november);
+    $('#december').val(data.december);
 
     $('html, body').animate(
       {

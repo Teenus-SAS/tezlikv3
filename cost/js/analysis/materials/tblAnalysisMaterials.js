@@ -71,7 +71,8 @@ $(document).ready(function () {
     e.preventDefault();
 
     unitsmanufacturated = $('#unitsmanufacturated').val();
-    unitsmanufacturated = unitsmanufacturated.replace('.', '');
+    // Eliminar decimales
+    unitsmanufacturated = decimalNumber(unitsmanufacturated);
     unitsmanufacturated = parseFloat(unitsmanufacturated);
 
     if (!unitsmanufacturated) {
@@ -131,7 +132,9 @@ $(document).ready(function () {
 
   $(document).on('keyup', '#unitsmanufacturated', function (e) {
     unitsmanufacturated = this.value;
-    unitsmanufacturated = unitsmanufacturated.replace('.', '');
+
+    // Eliminar decimales
+    unitsmanufacturated = decimalNumber(unitsmanufacturated);
     unitsmanufacturated = parseFloat(unitsmanufacturated);
 
     isNaN(unitsmanufacturated)
@@ -157,8 +160,13 @@ $(document).ready(function () {
       unityCost = $(`#unityCost-${i}`).html();
       quantity = $(`#quantity-${i}`).html();
 
-      unityCost = unityCost.replace('$', '').replace('.', '').replace(',', '.');
-      quantity = quantity.replace('.', '').replace(',', '.');
+      unityCost = unityCost.replace('$', '').replace(',', '.');
+      // Eliminar decimales
+      unityCost = decimalNumber(unityCost);
+
+      quantity = quantity.replace(',', '.');
+      // Eliminar decimales
+      quantity = decimalNumber(quantity);
 
       unityCost = parseFloat(unityCost);
       quantity = parseFloat(quantity);
@@ -179,7 +187,9 @@ $(document).ready(function () {
 
       if (negotiatePrice == '') return false;
 
-      negotiatePrice = negotiatePrice.replace('.', '').replace('$', '');
+      negotiatePrice = negotiatePrice.replace('$', '');
+      // Eliminar decimales
+      negotiatePrice = decimalNumber(negotiatePrice);
       negotiatePrice = parseFloat(negotiatePrice);
 
       if (negotiatePrice) {
@@ -205,19 +215,15 @@ $(document).ready(function () {
 
       if (projectedCost == '') return false;
 
-      projectedCost = projectedCost
-        .replace('$', '')
-        .replace('.', '')
-        .replace('.', '')
-        .replace(',', '.');
+      projectedCost = projectedCost.replace('$', '').replace(',', '.');
+      // Eliminar decimales
+      projectedCost = decimalNumber(projectedCost);
       projectedCost = parseFloat(projectedCost);
 
       let currentCost = $(`#totalCost-${i}`).html();
-      currentCost = currentCost
-        .replace('$', '')
-        .replace('.', '')
-        .replace('.', '')
-        .replace(',', '.');
+      currentCost = currentCost.replace('$', '').replace(',', '.');
+      // Eliminar decimales
+      currentCost = decimalNumber(currentCost);
       currentCost = parseFloat(currentCost);
 
       monthlySavingsRow = currentCost - projectedCost;
@@ -245,5 +251,13 @@ $(document).ready(function () {
       annualSavings = totalMonthlySavings * 12;
       $('#annualSavings').val(`$ ${annualSavings.toLocaleString('es-ES')}`);
     }
+  };
+
+  /* Eliminar puntos decimales */
+  decimalNumber = (num) => {
+    while (num.includes('.')) {
+      num = num.replace('.', '');
+    }
+    return num;
   };
 });

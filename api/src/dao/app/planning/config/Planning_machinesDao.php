@@ -54,16 +54,16 @@ class Planning_machinesDao
                                       VALUES (:id_machine, :id_company, :number_workers, :hours_day, :hour_start, :hour_end, :year, :january, 
                                               :february, :march, :april, :may, :june, :july, :august, :september, :october, :november, :december)");
             $stmt->execute([
-                'id_company' => $id_company,                            'april' => $time['april'],
-                'id_machine' => $dataPMachines['idMachine'],            'may' => $time['may'],
-                'number_workers' => $dataPMachines['numberWorkers'],    'june' => $time['june'],
-                'hours_day' => $dataPMachines['hoursDay'],              'july' => $time['july'],
-                'hour_start' => $time['hourStart'],                     'august' => $time['august'],
-                'hour_end' => $time['hourEnd'],                         'september' => $time['september'],
-                'year' =>  $time['year'],                               'october' => $time['october'],
-                'january' => $time['january'],                          'november' => $time['november'],
-                'february' => $time['february'],                        'december' => $time['december'],
-                'march' => $time['march']
+                'id_company' => $id_company,                            'april' => $dataPMachines['april'],
+                'id_machine' => $dataPMachines['idMachine'],            'may' => $dataPMachines['may'],
+                'number_workers' => $dataPMachines['numberWorkers'],    'june' => $dataPMachines['june'],
+                'hours_day' => $dataPMachines['hoursDay'],              'july' => $dataPMachines['july'],
+                'hour_start' => $time['hourStart'],                     'august' => $dataPMachines['august'],
+                'hour_end' => $time['hourEnd'],                         'september' => $dataPMachines['september'],
+                'year' =>  $time['year'],                               'october' => $dataPMachines['october'],
+                'january' => $dataPMachines['january'],                 'november' => $dataPMachines['november'],
+                'february' => $dataPMachines['february'],               'december' => $dataPMachines['december'],
+                'march' => $dataPMachines['march']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -85,16 +85,16 @@ class Planning_machinesDao
                                                     august = :august, september = :september, october = :october, november = :november, december = :december
                                           WHERE id_program_machine = :id_program_machine");
             $stmt->execute([
-                'id_program_machine' => $dataPMachines['idProgramMachine'],     'april' => $time['april'],
-                'id_machine' => $dataPMachines['idMachine'],                    'may' => $time['may'],
-                'number_workers' => $dataPMachines['numberWorkers'],            'june' => $time['june'],
-                'hours_day' => $dataPMachines['hoursDay'],                      'july' => $time['july'],
-                'hour_start' => $time['hourStart'],                             'august' => $time['august'],
-                'hour_end' => $time['hourEnd'],                                 'september' => $time['september'],
-                'year' => $time['year'],                                        'october' => $time['october'],
-                'january' => $time['january'],                                  'november' => $time['november'],
-                'february' => $time['february'],                                'december' => $time['december'],
-                'march' => $time['march']
+                'id_program_machine' => $dataPMachines['idProgramMachine'],     'april' => $dataPMachines['april'],
+                'id_machine' => $dataPMachines['idMachine'],                    'may' => $dataPMachines['may'],
+                'number_workers' => $dataPMachines['numberWorkers'],            'june' => $dataPMachines['june'],
+                'hours_day' => $dataPMachines['hoursDay'],                      'july' => $dataPMachines['july'],
+                'hour_start' => $time['hourStart'],                             'august' => $dataPMachines['august'],
+                'hour_end' => $time['hourEnd'],                                 'september' => $dataPMachines['september'],
+                'year' => $time['year'],                                        'october' => $dataPMachines['october'],
+                'january' => $dataPMachines['january'],                         'november' => $dataPMachines['november'],
+                'february' => $dataPMachines['february'],                       'december' => $dataPMachines['december'],
+                'march' => $dataPMachines['march']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -125,18 +125,6 @@ class Planning_machinesDao
         $time['year'] = date('Y');
         $time['hourStart'] = date("G:i", strtotime($dataPMachines['hourStart']));
         $time['hourEnd'] = date("G:i", strtotime($dataPMachines['hourEnd']));
-        $time['january'] = date("Y-m-d", strtotime($dataPMachines['january']));
-        $time['february'] = date("Y-m-d", strtotime($dataPMachines['february']));
-        $time['march'] = date("Y-m-d", strtotime($dataPMachines['march']));
-        $time['april'] = date("Y-m-d", strtotime($dataPMachines['april']));
-        $time['may'] = date("Y-m-d", strtotime($dataPMachines['may']));
-        $time['june'] = date("Y-m-d", strtotime($dataPMachines['june']));
-        $time['july'] = date("Y-m-d", strtotime($dataPMachines['july']));
-        $time['august'] = date("Y-m-d", strtotime($dataPMachines['august']));
-        $time['september'] = date("Y-m-d", strtotime($dataPMachines['september']));
-        $time['october'] = date("Y-m-d", strtotime($dataPMachines['october']));
-        $time['november'] = date("Y-m-d", strtotime($dataPMachines['november']));
-        $time['december'] = date("Y-m-d", strtotime($dataPMachines['december']));
 
         return $time;
     }
