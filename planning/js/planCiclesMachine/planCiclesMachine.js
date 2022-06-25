@@ -31,6 +31,7 @@ $(document).ready(function () {
       }
 
       planCiclesMachine = $('#formCreatePlanCiclesMachine').serialize();
+      planCiclesMachine = planCiclesMachine + '&idProduct=' + idProduct;
 
       $.post(
         '/api/addPlanCiclesMachine',
@@ -75,8 +76,9 @@ $(document).ready(function () {
 
   updatePlanCiclesMachine = () => {
     let data = $('#formCreatePlanCiclesMachine').serialize();
+    idProduct = $('#selectNameProduct').val();
     id_cicles_machine = sessionStorage.getItem('id_cicles_machine');
-    data = `${data}&idCiclesMachine=${id_cicles_machine}`;
+    data = `${data}&idCiclesMachine=${id_cicles_machine}&idProduct=${idProduct}`;
 
     $.post(
       '/api/updatePlanCiclesMachine',

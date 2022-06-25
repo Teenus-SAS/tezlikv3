@@ -16,7 +16,7 @@ class PlanCiclesMachineDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findPlanCiclesMachine($id_company)
+    public function findAllPlanCiclesMachine($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -26,7 +26,22 @@ class PlanCiclesMachineDao
                                        INNER JOIN products p ON p.id_product = pcm.id_product
                                       WHERE pcm.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $planCiclesMachine = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $planCiclesMachines = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $planCiclesMachines;
+    }
+
+    // Buscar si existe en la BD
+    public function findPlanCiclesMachine($dataCiclesMachine, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT *  FROM plan_cicles_machine
+                                      WHERE id_product = :id_product AND id_company = :id_company");
+        $stmt->execute([
+            'id_product' => $dataCiclesMachine['idProduct'],
+            'id_company' => $id_company
+        ]);
+        $planCiclesMachine = $stmt->fetch($connection::FETCH_ASSOC);
         return $planCiclesMachine;
     }
 
@@ -36,17 +51,15 @@ class PlanCiclesMachineDao
 
         $ciclesHour = str_replace('.', '', $dataCiclesMachine['ciclesHour']);
 
-        if (empty($dataCiclesMachine['selectNameProduct'])) {
-            $capture = "{$dataCiclesMachine['idMachine']},{$id_company},{$ciclesHour}";
-            $sql = "INSERT INTO plan_cicles_machine (id_machine, id_company, cicles_hour) VALUES({$capture})";
-        } else {
-            $capture =  "{$dataCiclesMachine['selectNameProduct']},{$dataCiclesMachine['idMachine']},{$id_company},{$ciclesHour}";
-            $sql = "INSERT INTO plan_cicles_machine (id_product, id_machine, id_company, cicles_hour) VALUES({$capture})";
-        }
-
         try {
-            $stmt = $connection->prepare($sql);
-            $stmt->execute();
+            $stmt = $connection->prepare("INSERT INTO plan_cicles_machine (id_product, id_machine, id_company, cicles_hour) 
+                                          VALUES(:id_product, :id_machine, :id_company, :cicles_hour)");
+            $stmt->execute([
+                'id_product' => $dataCiclesMachine['idProduct'],
+                'id_machine' => $dataCiclesMachine['idMachine'],
+                'id_company' => $id_company,
+                'cicles_hour' => $ciclesHour
+            ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -66,7 +79,7 @@ class PlanCiclesMachineDao
                                           WHERE id_cicles_machine = :id_cicles_machine");
             $stmt->execute([
                 'id_cicles_machine' => $dataCiclesMachine['idCiclesMachine'],
-                'id_product' => $dataCiclesMachine['selectNameProduct'],
+                'id_product' => $dataCiclesMachine['idProduct'],
                 'id_machine' => $dataCiclesMachine['idMachine'],
                 'cicles_hour' => $ciclesHour
             ]);

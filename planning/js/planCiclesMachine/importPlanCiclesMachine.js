@@ -1,22 +1,22 @@
 $(document).ready(function () {
   let selectedFile;
-  $('.cardImportPlanMachines').hide();
+  $('.cardImportPlanCiclesMachine').hide();
 
-  $('#btnImportNewPlanMachines').click(function (e) {
+  $('#btnImportNewPlanCiclesMachine').click(function (e) {
     e.preventDefault();
-    $('.cardCreatePlanMachines').hide(800);
-    $('.cardImportPlanMachines').toggle(800);
+    $('.cardCreatePlanCiclesMachine').hide(800);
+    $('.cardImportPlanCiclesMachine').toggle(800);
   });
 
-  $('#filePlanMachines').change(function (e) {
+  $('#filePlanCiclesMachine').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportPlanMachines').click(function (e) {
+  $('#btnImportPlanCiclesMachine').click(function (e) {
     e.preventDefault();
 
-    file = $('#filePlanMachines').val();
+    file = $('#filePlanCiclesMachine').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -25,28 +25,15 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let machinesToImport = data.map((item) => {
+        let planCiclesMachineToImport = data.map((item) => {
           return {
+            referenceProduct: item.referencia_producto,
+            product: item.producto,
             machine: item.maquina,
-            numberWorkers: item.no_trabajadores,
-            hoursDay: item.hora_dia,
-            hourStart: item.hora_inicio,
-            hourEnd: item.hora_fin,
-            january: item.enero,
-            february: item.febrero,
-            march: item.marzo,
-            april: item.abril,
-            may: item.mayo,
-            june: item.junio,
-            july: item.julio,
-            august: item.agosto,
-            september: item.septiembre,
-            october: item.octubre,
-            november: item.noviembre,
-            december: item.diciembre,
+            ciclesHour: item.ciclo_hora,
           };
         });
-        checkMachine(machinesToImport);
+        checkCiclesMachine(planCiclesMachineToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -54,11 +41,11 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkMachine = (data) => {
+  checkCiclesMachine = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/planningMachinesDataValidation',
-      data: { importPlanMachines: data },
+      url: '/api/planCiclesMachineDataValidation',
+      data: { importPlanCiclesMachine: data },
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
@@ -80,24 +67,24 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveMachineTable(data);
-            } else $('#filePlanMachines').val('');
+              saveCiclesMachineTable(data);
+            } else $('#filePlanCiclesMachine').val('');
           },
         });
       },
     });
   };
 
-  saveMachineTable = (data) => {
+  saveCiclesMachineTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addPlanningMachines',
-      data: { importPlanMachines: data },
+      url: '/api/addPlanCiclesMachine',
+      data: { importPlanCiclesMachine: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportPlanMachines').hide(800);
-          $('#formImportPlanMachines')[0].reset();
+          $('.cardImportPlanCiclesMachine').hide(800);
+          $('#formImportPlanCiclesMachine')[0].reset();
           updateTable();
           toastr.success(r.message);
           return false;
@@ -106,18 +93,18 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblPlanMachines').DataTable().clear();
-          $('#tblPlanMachines').DataTable().ajax.reload();
+          $('#tblPlanCiclesMachine').DataTable().clear();
+          $('#tblPlanCiclesMachine').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsPlanMachines').click(function (e) {
+  $('#btnDownloadImportsPlanCiclesMachine').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Planeacion_Maquinas.xlsx';
+    url = 'assets/formatsXlsx/Ciclos_Maquina.xlsx';
 
     link = document.createElement('a');
 

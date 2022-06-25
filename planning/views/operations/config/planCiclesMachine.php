@@ -21,7 +21,7 @@ $userinactivetimeDao->findSession();
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
                     <button class="btn btn-warning" id="btnNewPlanCiclesMachine" name="btnNewPlanCiclesMachine">Nuevo Ciclo Máquina</button>
-                    <!-- <button class="btn btn-info ml-3" id="btnImportNewMachines" name="btnNewImportMachines">Importar Máquinas</button> -->
+                    <button class="btn btn-info ml-3" id="btnImportNewPlanCiclesMachine" name="btnImportNewPlanCiclesMachine">Importar Ciclos Máquina</button>
                 </div>
             </div>
         </div>
@@ -60,6 +60,33 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
+<div class="page-content-wrapper mt--45 mb-5 cardImportPlanCiclesMachine">
+    <div class="container-fluid">
+        <div class="row">
+            <form id="formImportPlanCiclesMachine" enctype="multipart/form-data">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body pt-3 pb-0">
+                            <div class="gridx4ip">
+                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
+                                    <input class="form-control" type="file" id="filePlanCiclesMachine" accept=".xls,.xlsx">
+                                    <label for="formFile" class="form-label"> Importar Máquinas</label>
+                                </div>
+                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                    <button type="text" class="btn btn-success" id="btnImportPlanCiclesMachine">Importar</button>
+                                </div>
+                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                    <button type="text" class="btn btn-info" id="btnDownloadImportsPlanCiclesMachine">Descarga Formato</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <!-- page content -->
 <div class="page-content-wrapper mt--45">
     <div class="container-fluid">
@@ -67,9 +94,9 @@ $userinactivetimeDao->findSession();
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <!--<div class="card-header">
-                        <h5 class="card-title">Máquinas</h5>
-                    </div>-->
+                    <div class="card-header">
+                        <h5 class="card-title">Ciclos</h5>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="tblPlanCiclesMachine">
@@ -86,8 +113,8 @@ $userinactivetimeDao->findSession();
 <script src="/global/js/global/number.js"></script>
 <script src="/planning/js/products/configProducts.js"></script>
 <script src="/planning/js/machines/configMachines.js"></script>
-<script src="/planning/js/planCiclesMachine/planCiclesMachine.js"></script>
 <script src="/planning/js/planCiclesMachine/tblPlanCiclesMachine.js"></script>
-<!-- <script src="../global/js/import/import.js"></script>
-<script src="../planning/js/productMaterials/importProductMaterials.js"></script>
-<script src="../global/js/import/file.js"></script> -->
+<script src="/planning/js/planCiclesMachine/planCiclesMachine.js"></script>
+<script src="/global/js/import/file.js"></script>
+<script src="/global/js/import/import.js"></script>
+<script src="/planning/js/planCiclesMachine/importPlanCiclesMachine.js"></script>

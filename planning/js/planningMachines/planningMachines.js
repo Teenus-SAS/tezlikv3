@@ -30,18 +30,18 @@ $(document).ready(function () {
       hoursDay = parseInt($('#hoursDay').val());
       hourStart = $('#hourStart').val();
       hourEnd = $('#hourEnd').val();
-      january = $('#january').val();
-      february = $('#february').val();
-      march = $('#march').val();
-      april = $('#april').val();
-      may = $('#may').val();
-      june = $('#june').val();
-      july = $('#july').val();
-      august = $('#august').val();
-      september = $('#september').val();
-      october = $('#october').val();
-      november = $('#november').val();
-      december = $('#december').val();
+      // january = $('#january').val();
+      // february = $('#february').val();
+      // march = $('#march').val();
+      // april = $('#april').val();
+      // may = $('#may').val();
+      // june = $('#june').val();
+      // july = $('#july').val();
+      // august = $('#august').val();
+      // september = $('#september').val();
+      // october = $('#october').val();
+      // november = $('#november').val();
+      // december = $('#december').val();
       data = idMachine * numberWorkers * hoursDay;
 
       if (
@@ -77,7 +77,7 @@ $(document).ready(function () {
         return false;
       }
 
-      if (hourStart.includes('pm') && hourEnd.includes('am')) {
+      if (hourStart.includes('PM') && hourEnd.includes('AM')) {
         if (hourEnd > hourStart) {
           toastr.error('La hora final no puede ser mayor a la hora inicio');
           $('#hourEnd').css('border-color', 'red');
@@ -127,18 +127,30 @@ $(document).ready(function () {
 
     $('#year').val(data.year);
 
-    $('#january').val(data.january);
-    $('#february').val(data.february);
-    $('#march').val(data.march);
-    $('#april').val(data.april);
-    $('#may').val(data.may);
-    $('#june').val(data.june);
-    $('#july').val(data.july);
-    $('#august').val(data.august);
-    $('#september').val(data.september);
-    $('#october').val(data.october);
-    $('#november').val(data.november);
-    $('#december').val(data.december);
+    january = moment(data.january, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    february = moment(data.february, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    march = moment(data.march, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    april = moment(data.april, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    may = moment(data.may, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    june = moment(data.june, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    july = moment(data.july, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    august = moment(data.august, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    september = moment(data.september, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    october = moment(data.october, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    november = moment(data.november, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    december = moment(data.december, ['YYYY-MM-DD']).format('DD-MM-YYYY');
+    $('#january').val(january);
+    $('#february').val(february);
+    $('#march').val(march);
+    $('#april').val(april);
+    $('#may').val(may);
+    $('#june').val(june);
+    $('#july').val(july);
+    $('#august').val(august);
+    $('#september').val(september);
+    $('#october').val(october);
+    $('#november').val(november);
+    $('#december').val(december);
 
     $('html, body').animate(
       {
@@ -151,7 +163,7 @@ $(document).ready(function () {
   updatePlanningMachines = () => {
     let data = $('#formCreatePlanMachine').serialize();
     id_planning_machine = sessionStorage.getItem('id_planning_machine');
-    data = `${data}&idProgramMachines=${id_planning_machine}`;
+    data = `${data}&idProgramMachine=${id_planning_machine}`;
 
     $.post(
       '/api/updatePlanningMachines',
@@ -165,7 +177,7 @@ $(document).ready(function () {
 
   // Eliminar Plan maquina
   $(document).on('click', '.deletePMachines', function (e) {
-    let id_program_machines = this.id;
+    let id_program_machine = this.id;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -184,7 +196,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `/api/deletePlanningMachines/${id_program_machines}`,
+            `/api/deletePlanningMachines/${id_program_machine}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

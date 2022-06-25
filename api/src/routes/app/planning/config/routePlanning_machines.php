@@ -59,22 +59,38 @@ $app->post('/planningMachinesDataValidation', function (Request $request, Respon
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+$app->post('/addPlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao, $machinesDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPMachines = $request->getParsedBody();
 
-    if (
-        empty($dataPMachines['idMachine']) || empty($dataPMachines['numberWorkers']) || empty($dataPMachines['hoursDay']) ||
-        empty($dataPMachines['hourStart']) || empty($dataPMachines['hourEnd'])
-    )
-        $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
-    else {
+    $dataPMachine =  sizeof($dataPMachines);
+
+    if ($dataPMachine > 1) {
         $planningMachines = $planningMachinesDao->insertPlanMachinesByCompany($dataPMachines, $id_company);
 
         if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina creada correctamente');
         else $resp = array('error' => true, 'message' => 'Ocurrio un problema al crear la planeación, intente nuevamente');
+    } else {
+        $planningMachines = $dataPMachines['importPlanMachines'];
+
+        for ($i = 0; $i < sizeof($planningMachines); $i++) {
+            // Obtener id maquina
+            $findMachine = $machinesDao->findMachine($planningMachines[$i], $id_company);
+            $planningMachines[$i]['idMachine'] = $findMachine['id_machine'];
+
+            $findPlanMachines = $planningMachinesDao->findPlanMachines($planningMachines[$i], $id_company);
+
+            if (!$findPlanMachines) $resolution = $planningMachinesDao->insertPlanMachinesByCompany($planningMachines[$i], $id_company);
+            else {
+                $planningMachines[$i]['idProgramMachine'] = $findPlanMachines['id_program_machine'];
+                $resolution = $planningMachinesDao->updatePlanMachines($planningMachines[$i]);
+            }
+        }
+        if ($resolution == null) $resp = array('success' => true, 'message' => 'Planeacion de maquina importada correctamente');
+        else $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
@@ -83,7 +99,7 @@ $app->post('/updatePlanningMachines', function (Request $request, Response $resp
     $dataPMachines = $request->getParsedBody();
 
     if (
-        empty($dataPMachines['idProgramMachines']) || empty($dataPMachines['idMachine']) || empty($dataPMachines['numberWorkers']) ||
+        empty($dataPMachines['idProgramMachine']) || empty($dataPMachines['idMachine']) || empty($dataPMachines['numberWorkers']) ||
         empty($dataPMachines['hoursDay']) || empty($dataPMachines['hourStart']) || empty($dataPMachines['hourEnd'])
     )
         $resp = array('error' => true, 'message' => 'No hubo ningún cambio');
@@ -97,8 +113,8 @@ $app->post('/updatePlanningMachines', function (Request $request, Response $resp
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePlanningMachines/{id_program_machines}', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
-    $planningMachines = $planningMachinesDao->deletePlanMachines($args['id_program_machines']);
+$app->get('/deletePlanningMachines/{id_program_machine}', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+    $planningMachines = $planningMachinesDao->deletePlanMachines($args['id_program_machine']);
 
     if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina eliminada correctamente');
     else $resp = array('error' => true, 'message' => 'No se pudo eliminar la planeación, existe información asociada a ella');

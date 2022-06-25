@@ -14,7 +14,7 @@ $(document).ready(function () {
     january.getMonth() + 1
   }/${january.getDate()}/${january.getFullYear()}`;
   $('#januaryPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: januaryFirst,
     maxDate: januaryLast,
   });
@@ -27,7 +27,7 @@ $(document).ready(function () {
     february.getMonth() + 1
   }/${february.getDate()}/${february.getFullYear()}`;
   $('#februaryPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: februaryFirst,
     maxDate: februaryLast,
   });
@@ -40,7 +40,7 @@ $(document).ready(function () {
     march.getMonth() + 1
   }/${march.getDate()}/${march.getFullYear()}`;
   $('#marchPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: marchFirst,
     maxDate: marchLast,
   });
@@ -53,7 +53,7 @@ $(document).ready(function () {
     april.getMonth() + 1
   }/${april.getDate()}/${april.getFullYear()}`;
   $('#aprilPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: aprilFirst,
     maxDate: aprilLast,
   });
@@ -64,7 +64,7 @@ $(document).ready(function () {
   may = new Date(date.getFullYear(), 5, 0);
   mayLast = `${may.getMonth() + 1}/${may.getDate()}/${may.getFullYear()}`;
   $('#mayPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: mayFirst,
     maxDate: mayLast,
   });
@@ -75,7 +75,7 @@ $(document).ready(function () {
   june = new Date(date.getFullYear(), 6, 0);
   juneLast = `${june.getMonth() + 1}/${june.getDate()}/${june.getFullYear()}`;
   $('#junePicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: juneFirst,
     maxDate: juneLast,
   });
@@ -86,7 +86,7 @@ $(document).ready(function () {
   july = new Date(date.getFullYear(), 7, 0);
   julyLast = `${july.getMonth() + 1}/${july.getDate()}/${july.getFullYear()}`;
   $('#julyPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: julyFirst,
     maxDate: julyLast,
   });
@@ -99,7 +99,7 @@ $(document).ready(function () {
     august.getMonth() + 1
   }/${august.getDate()}/${august.getFullYear()}`;
   $('#augustPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: augustFirst,
     maxDate: augustLast,
   });
@@ -112,7 +112,7 @@ $(document).ready(function () {
     september.getMonth() + 1
   }/${september.getDate()}/${september.getFullYear()}`;
   $('#septemberPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: septemberFirst,
     maxDate: septemberLast,
   });
@@ -125,7 +125,7 @@ $(document).ready(function () {
     october.getMonth() + 1
   }/${october.getDate()}/${october.getFullYear()}`;
   $('#octoberPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: octoberFirst,
     maxDate: octoberLast,
   });
@@ -138,7 +138,7 @@ $(document).ready(function () {
     november.getMonth() + 1
   }/${november.getDate()}/${november.getFullYear()}`;
   $('#novemberPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: novemberFirst,
     maxDate: novemberLast,
   });
@@ -153,7 +153,7 @@ $(document).ready(function () {
     december.getMonth() + 1
   }/${december.getDate()}/${december.getFullYear()}`;
   $('#decemberPicker').datetimepicker({
-    format: 'YYYY-MM-DD',
+    format: 'DD-MM-YYYY',
     minDate: decemberFirst,
     maxDate: decemberLast,
   });

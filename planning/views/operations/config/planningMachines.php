@@ -30,7 +30,6 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-
 <div class="page-content-wrapper mt--45 mb-5 cardImportPlanMachines">
     <div class="container-fluid">
         <div class="row">
