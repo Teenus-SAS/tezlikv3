@@ -1,23 +1,23 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportProducts').hide();
+  $('.cardImportProcess').hide();
 
-  $('#btnImportNewProducts').click(function (e) {
+  $('#btnImportNewProcess').click(function (e) {
     e.preventDefault();
-    $('.cardCreateProduct').hide(800);
-    $('.cardImportProducts').toggle(800);
+    $('.cardCreateProcess').hide(800);
+    $('.cardImportProcess').toggle(800);
   });
 
-  $('#fileProducts').change(function (e) {
+  $('#fileProcess').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportProducts').click(function (e) {
+  $('#btnImportProcess').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProducts').val();
+    file = $('#fileProcess').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -26,14 +26,12 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let productsToImport = data.map((item) => {
+        let ProcessToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            quantity_product: item.cantidad,
+            process: item.proceso,
           };
         });
-        checkProduct(productsToImport);
+        checkProcess(ProcessToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -41,20 +39,20 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProduct = (data) => {
+  checkProcess = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/planProductsDataValidation',
-      data: { importProducts: data },
+      url: '/api/planProcessDataValidation',
+      data: { importProcess: data },
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
-          $('#formImportProduct')[0].reset();
           return false;
         }
+
         bootbox.confirm({
           title: '¿Desea continuar con la importación?',
-          message: `Se encontraron los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
+          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
           buttons: {
             confirm: {
               label: 'Si',
@@ -67,26 +65,24 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveProductTable(data);
-            } else $('#fileProducts').val('');
+              saveProcessTable(data);
+            } else $('#fileProcess').val('');
           },
         });
       },
     });
   };
 
-  /* Guardar Importacion */
-  saveProductTable = (data) => {
+  saveProcessTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addPlanProduct',
-      //data: data,
-      data: { importProducts: data },
+      url: '../../api/addPlanProcess',
+      data: { importProcess: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportProducts').hide(800);
-          $('#formImportProduct')[0].reset();
+          $('.cardImportProcess').hide(800);
+          $('#formImportProcess')[0].reset();
           updateTable();
           toastr.success(r.message);
           return false;
@@ -95,20 +91,21 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblProducts').DataTable().clear();
-          $('#tblProducts').DataTable().ajax.reload();
+          $('#tblProcess').DataTable().clear();
+          $('#tblProcess').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsProducts').click(function (e) {
+  $('#btnDownloadImportsProcess').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos.xlsx';
+    url = 'assets/formatsXlsx/Procesos.xlsx';
 
     link = document.createElement('a');
+
     link.target = '_blank';
 
     link.href = url;
@@ -118,13 +115,4 @@ $(document).ready(function () {
     document.body.removeChild(link);
     delete link;
   });
-
-  /* Mensaje de exito */
-
-  message = (data) => {
-    if (data.success == true) {
-      toastr.success(data.message);
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
-  };
 });

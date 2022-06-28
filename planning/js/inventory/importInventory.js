@@ -1,23 +1,22 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportProducts').hide();
+  $('.cardImportInventory').hide();
 
-  $('#btnImportNewProducts').click(function (e) {
+  $('#btnImportNewInventory').click(function (e) {
     e.preventDefault();
-    $('.cardCreateProduct').hide(800);
-    $('.cardImportProducts').toggle(800);
+    $('.cardImportInventory').toggle(800);
   });
 
-  $('#fileProducts').change(function (e) {
+  $('#fileInventory').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportProducts').click(function (e) {
+  $('#btnImportInventory').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProducts').val();
+    file = $('#fileInventory').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -26,14 +25,18 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let productsToImport = data.map((item) => {
+        let InventoryToImport = data.map((item) => {
           return {
             referenceProduct: item.referencia_producto,
             product: item.producto,
-            quantity_product: item.cantidad,
+            quantityProduct: item.cantidad_producto,
+            refRawMaterial: item.referencia_material,
+            nameRawMaterial: item.material,
+            unityRawMaterial: item.unidad,
+            quantityRawMaterial: item.cantidad_material,
           };
         });
-        checkProduct(productsToImport);
+        checkInventory(InventoryToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -41,20 +44,20 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProduct = (data) => {
+  checkInventory = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/planProductsDataValidation',
-      data: { importProducts: data },
+      url: '/api/inventoryDataValidation',
+      data: { importInventory: data },
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
-          $('#formImportProduct')[0].reset();
           return false;
         }
+
         bootbox.confirm({
           title: '¿Desea continuar con la importación?',
-          message: `Se encontraron los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
+          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
           buttons: {
             confirm: {
               label: 'Si',
@@ -67,26 +70,23 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveProductTable(data);
-            } else $('#fileProducts').val('');
+              saveInventoryTable(data);
+            } else $('#fileInventory').val('');
           },
         });
       },
     });
   };
 
-  /* Guardar Importacion */
-  saveProductTable = (data) => {
+  saveInventoryTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addPlanProduct',
-      //data: data,
-      data: { importProducts: data },
+      url: '../../api/addInventory',
+      data: { importInventory: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportProducts').hide(800);
-          $('#formImportProduct')[0].reset();
+          $('.cardImportInventory').hide(800);
           updateTable();
           toastr.success(r.message);
           return false;
@@ -95,20 +95,21 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblProducts').DataTable().clear();
-          $('#tblProducts').DataTable().ajax.reload();
+          $('.table').DataTable().clear();
+          $('.table').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsProducts').click(function (e) {
+  $('#btnDownloadImportsInventory').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos.xlsx';
+    url = 'assets/formatsXlsx/Inventario.xlsx';
 
     link = document.createElement('a');
+
     link.target = '_blank';
 
     link.href = url;
@@ -118,13 +119,4 @@ $(document).ready(function () {
     document.body.removeChild(link);
     delete link;
   });
-
-  /* Mensaje de exito */
-
-  message = (data) => {
-    if (data.success == true) {
-      toastr.success(data.message);
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
-  };
 });

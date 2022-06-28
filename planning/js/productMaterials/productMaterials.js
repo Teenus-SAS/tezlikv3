@@ -125,10 +125,6 @@ $(document).ready(function () {
 
   $(document).on('click', '.deleteMaterials', function (e) {
     let idProductMaterial = this.id;
-    idProduct = $('#selectNameProduct').val();
-    dataProductMaterial = {};
-    dataProductMaterial['idProductMaterial'] = idProductMaterial;
-    dataProductMaterial['idProduct'] = idProduct;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -146,9 +142,8 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deletePlanProductMaterial',
-            dataProductMaterial,
+          $.get(
+            `/api/deletePlanProductMaterial/${idProductMaterial}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

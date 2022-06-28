@@ -1,8 +1,8 @@
 <?php
 
-use tezlikv3\dao\MaterialsDao;
+use tezlikv3\dao\PlanMaterialsDao;
 
-$materialsDao = new MaterialsDao();;
+$materialsDao = new PlanMaterialsDao();;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -35,8 +35,9 @@ $app->post('/planMaterialsDataValidation', function (Request $request, Response 
             $reference = $materials[$i]['refRawMaterial'];
             $material = $materials[$i]['nameRawMaterial'];
             $unity = $materials[$i]['unityRawMaterial'];
+            $quantity = $material[$i]['quantityRawMaterial'];
 
-            if (empty($reference) || empty($material) || empty($unity))
+            if (empty($reference) || empty($material) || empty($unity) || empty($quantity))
                 $dataImportMaterial = array('error' => true, 'message' => 'Ingrese todos los datos');
             else {
                 $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);

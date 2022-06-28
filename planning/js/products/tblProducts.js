@@ -39,6 +39,11 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Cantidad',
+        data: 'quantity',
+        className: 'uniqueClassName',
+      },
+      {
         title: 'Acciones',
         data: 'id_product',
         className: 'uniqueClassName',

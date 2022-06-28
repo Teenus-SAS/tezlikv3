@@ -104,17 +104,17 @@ class PlanProductsMaterialsDao
     }
 
     // Borrar productos materia prima general
-    public function deleteProductMaterial($dataProductMaterial)
+    public function deleteProductMaterial($id_product_material)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM products_materials WHERE id_product_material = :id_product_material");
-        $stmt->execute(['id_product_material' => $dataProductMaterial['idProductMaterial']]);
+        $stmt->execute(['id_product_material' => $id_product_material]);
         $rows = $stmt->rowCount();
 
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_materials WHERE id_product_material = :id_product_material");
-            $stmt->execute(['id_product_material' => $dataProductMaterial['idProductMaterial']]);
+            $stmt->execute(['id_product_material' => $id_product_material]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }

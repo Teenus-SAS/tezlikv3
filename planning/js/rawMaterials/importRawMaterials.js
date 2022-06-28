@@ -28,13 +28,14 @@ $(document).ready(function () {
       .then((data) => {
         let materialsToImport = data.map((item) => {
           return {
-            refRawMaterial: item.referencia,
+            refRawMaterial: item.referencia_material,
             nameRawMaterial: item.material,
             unityRawMaterial: item.unidad,
+            quantityRawMaterial: item.cantidad,
           };
         });
 
-        checkProduct(materialsToImport);
+        checkRawMaterial(materialsToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -42,7 +43,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProduct = (data) => {
+  checkRawMaterial = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/planMaterialsDataValidation',

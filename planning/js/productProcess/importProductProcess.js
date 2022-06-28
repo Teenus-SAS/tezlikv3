@@ -1,24 +1,23 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportProducts').hide();
+  $('.cardImportProductsProcess').hide();
 
-  $('#btnImportNewProducts').click(function (e) {
+  $('#btnImportNewProductProcess').click(function (e) {
     e.preventDefault();
-    $('.cardCreateProduct').hide(800);
-    $('.cardImportProducts').toggle(800);
+    $('.cardAddProcess').hide(800);
+    $('.cardImportProductsProcess').toggle(800);
   });
 
-  $('#fileProducts').change(function (e) {
+  $('#fileProductsProcess').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportProducts').click(function (e) {
+  $('#btnImportProductsProcess').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProducts').val();
-
+    file = $('#fileProductsProcess').val();
     if (!file) {
       toastr.error('Seleccione un archivo');
       return false;
@@ -26,14 +25,17 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let productsToImport = data.map((item) => {
+        let productProcessToImport = data.map((item) => {
           return {
             referenceProduct: item.referencia_producto,
             product: item.producto,
-            quantity_product: item.cantidad,
+            process: item.proceso,
+            machine: item.maquina,
+            enlistmentTime: item.tiempo_enlistamiento,
+            operationTime: item.tiempo_operacion,
           };
         });
-        checkProduct(productsToImport);
+        checkProductProcess(productProcessToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -41,20 +43,20 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProduct = (data) => {
+  checkProductProcess = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/planProductsDataValidation',
-      data: { importProducts: data },
+      url: '/api/planProductsProcessDataValidation',
+      data: { importProductsProcess: data },
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
-          $('#formImportProduct')[0].reset();
           return false;
         }
+
         bootbox.confirm({
           title: '¿Desea continuar con la importación?',
-          message: `Se encontraron los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
+          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
           buttons: {
             confirm: {
               label: 'Si',
@@ -67,26 +69,24 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveProductTable(data);
-            } else $('#fileProducts').val('');
+              saveProductProcessTable(data);
+            } else $('#fileProductsProcess').val('');
           },
         });
       },
     });
   };
 
-  /* Guardar Importacion */
-  saveProductTable = (data) => {
+  saveProductProcessTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addPlanProduct',
-      //data: data,
-      data: { importProducts: data },
+      url: '/api/addPlanProductsProcess',
+      data: { importProductsProcess: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportProducts').hide(800);
-          $('#formImportProduct')[0].reset();
+          $('.cardImportProductsProcess').hide(800);
+          $('#formImportProductProcess')[0].reset();
           updateTable();
           toastr.success(r.message);
           return false;
@@ -95,18 +95,18 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblProducts').DataTable().clear();
-          $('#tblProducts').DataTable().ajax.reload();
+          $('#tblConfigProcess').DataTable().clear();
+          $('#tblConfigProcess').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsProducts').click(function (e) {
+  $('#btnDownloadImportsProductsProcess').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos.xlsx';
+    url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
 
     link = document.createElement('a');
     link.target = '_blank';
@@ -118,13 +118,4 @@ $(document).ready(function () {
     document.body.removeChild(link);
     delete link;
   });
-
-  /* Mensaje de exito */
-
-  message = (data) => {
-    if (data.success == true) {
-      toastr.success(data.message);
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
-  };
 });

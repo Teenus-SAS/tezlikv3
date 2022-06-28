@@ -56,6 +56,10 @@ $userinactivetimeDao->findSession();
                         <div class="card-body pt-3 pb-0">
                             <!-- <form id="formCreateProduct"> -->
                             <div class="gridx4rp">
+                                <div class="form-group floating-label enable-floating-label show-label " style="margin-bottom:0px">
+                                    <input type="text" class="form-control text-center number" id="quantity" name="quantityProduct">
+                                    <label for="">Cantidad</label>
+                                </div>
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
                                     <!-- <input class="form-control form-control-sm" id="formFile" type="file" style="padding:10px;width:40%"> -->
                                     <input class="form-control" type="file" id="formFile">
@@ -126,6 +130,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
+<script src="/global/js/global/number.js"></script>
 <script src="../planning/js/products/tblProducts.js"></script>
 <script src="../planning/js/products/products.js"></script>
 <script src="../global/js/import/import.js"></script>

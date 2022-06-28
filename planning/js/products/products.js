@@ -26,8 +26,16 @@ $(document).ready(function () {
     if (idProduct == '' || idProduct == null) {
       ref = $('#referenceProduct').val();
       prod = $('#product').val();
+      quantity = $('#quantity').val();
 
-      if (ref == '' || ref == 0 || prod == '' || prod == 0) {
+      if (
+        ref == '' ||
+        ref == 0 ||
+        prod == '' ||
+        prod == 0 ||
+        quantity == '' ||
+        quantity == 0
+      ) {
         toastr.error('Ingrese todos los campos');
         return false;
       }

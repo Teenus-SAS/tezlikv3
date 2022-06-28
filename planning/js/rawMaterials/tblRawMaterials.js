@@ -27,11 +27,16 @@ $(document).ready(function () {
       {
         title: 'Materia Prima',
         data: 'material',
-        className: 'uniqueClassName',
+        className: 'classCenter',
       },
       {
         title: 'Unidad',
         data: 'unit',
+        className: 'classCenter',
+      },
+      {
+        title: 'Cantidad',
+        data: 'quantity',
         className: 'classCenter',
       },
       {

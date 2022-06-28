@@ -26,6 +26,7 @@ $(document).ready(function () {
       ref = $('#refRawMaterial').val();
       material = $('#nameRawMaterial').val();
       unity = $('#unityRawMaterial').val();
+      quantity = $('#quantity').val();
 
       if (
         ref == '' ||
@@ -69,6 +70,7 @@ $(document).ready(function () {
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
     $('#unityRawMaterial').val(data.unit);
+    $('#quantity').val(data.quantity);
 
     $('html, body').animate(
       {

@@ -19,7 +19,7 @@ class PlanMaterialsDao
   public function findAllMaterialsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company");
+    $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company AND cost is NULL");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -51,17 +51,17 @@ class PlanMaterialsDao
   public function insertMaterialsByCompany($dataMaterial, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
+    $quantity = str_replace('.', '', $dataMaterial['quantityRawMaterial']);
 
     try {
-      $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, cost) 
-                                      VALUES(:id_company ,:reference, :material, :unit, :cost)");
+      $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, quantity) 
+                                      VALUES(:id_company ,:reference, :material, :unit, :quantity)");
       $stmt->execute([
         'id_company' => $id_company,
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
         'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'cost' => $costRawMaterial
+        'quantity' => $quantity
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -80,17 +80,17 @@ class PlanMaterialsDao
   public function updateMaterialsByCompany($dataMaterial)
   {
     $connection = Connection::getInstance()->getConnection();
-    $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
+    $quantity = str_replace('.', '', $dataMaterial['quantityRawMaterial']);
 
     try {
-      $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, cost = :cost 
+      $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, quantity = :quantity 
                                     WHERE id_material = :id_material");
       $stmt->execute([
         'id_material' => $dataMaterial['idMaterial'],
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
         'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'cost' => $costRawMaterial
+        'quantity' => $quantity
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

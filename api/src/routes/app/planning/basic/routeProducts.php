@@ -34,8 +34,9 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
 
             $reference = $products[$i]['referenceProduct'];
             $product = $products[$i]['product'];
+            $quantity = $products[$i]['quantityProduct'];
 
-            if (empty($reference) || empty($product))
+            if (empty($reference) || empty($product) || empty($quantity))
                 $dataImportProduct = array('error' => true, 'message' => 'Ingrese todos los datos');
             else {
                 $findProduct = $productsDao->findProduct($products[$i], $id_company);
@@ -52,7 +53,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao) {
+$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
@@ -88,7 +89,6 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
             } else {
                 $products[$i]['idProduct'] = $product['id_product'];
                 $resolution = $productsDao->updateProductByCompany($products[$i], $id_company);
-                // $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
             }
         }
         if ($resolution == null)
@@ -100,14 +100,14 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao, $priceProductDao) {
+$app->post('/updatePlanProduct', function (Request $request, Response $response, $args) use ($productsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataProduct = $request->getParsedBody();
     //$imgProduct = $request->getUploadedFiles();
 
-    if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']))
+    if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) || empty($dataProduct['quantityProduct']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         // Actualizar Datos, Imagen y Calcular Precio del producto

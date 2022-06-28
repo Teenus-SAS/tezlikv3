@@ -19,8 +19,7 @@ class PlanProductsDao
   public function findAllProductsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM products 
-                                  WHERE id_company = :id_company");
+    $stmt = $connection->prepare("SELECT * FROM products WHERE id_company = :id_company AND quantity is NOT NULL;");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -53,15 +52,17 @@ class PlanProductsDao
   public function insertProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
+    $quantity = str_replace('.', '', $dataProduct['quantityProduct']);
 
     /* if (!empty($dataProduct['img'])) { */
     try {
-      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product) 
-                                      VALUES(:id_company, :reference, :product)");
+      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, quantity) 
+                                      VALUES(:id_company, :reference, :product, quantity)");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
         'id_company' => $id_company,
+        'quantity' => $quantity
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -78,15 +79,17 @@ class PlanProductsDao
   public function updateProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
+    $quantity = str_replace('.', '', $dataProduct['quantityProduct']);
 
     try {
-      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product 
+      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, quantity = :quantity 
                                     WHERE id_product = :id_product AND id_company = :id_company");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
         'id_product' => $dataProduct['idProduct'],
-        'id_company' => $id_company
+        'id_company' => $id_company,
+        'quantity' => $quantity
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

@@ -5,6 +5,17 @@ $(document).ready(function () {
 
   /* Meses */
   let date = new Date();
+
+  //General
+  $('.month').on('blur', function (e) {
+    id = this.id;
+    day = this.value;
+
+    if (day == 0) {
+      $(`#${id}`).val('');
+    }
+  });
+
   // Enero
   $('#january').on('keyup', function (e) {
     day = this.value;

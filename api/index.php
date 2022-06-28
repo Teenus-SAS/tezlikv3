@@ -91,9 +91,14 @@ require_once('../api/src/routes/app/users/routeUserAccess.php');
 require_once('../api/src/routes/app/planning/basic/routeMachines.php');
 require_once('../api/src/routes/app/planning/basic/routeMaterials.php');
 require_once('../api/src/routes/app/planning/basic/routeProducts.php');
+require_once('../api/src/routes/app/planning/basic/routeProcess.php');
 // Config
 require_once('../api/src/routes/app/planning/config/routeProductsMaterials.php');
+require_once('../api/src/routes/app/planning/config/routeProductsProcess.php');
 require_once('../api/src/routes/app/planning/config/routePlanning_machines.php');
 require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php');
+
+// Inventario
+require_once('../api/src/routes/app/planning/inventory/routeInventory.php');
 
 $app->run();
