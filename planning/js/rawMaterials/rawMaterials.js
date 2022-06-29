@@ -27,6 +27,9 @@ $(document).ready(function () {
       material = $('#nameRawMaterial').val();
       unity = $('#unityRawMaterial').val();
       quantity = $('#quantity').val();
+      category = $('#category').val();
+
+      data = quantity * category;
 
       if (
         ref == '' ||
@@ -34,7 +37,9 @@ $(document).ready(function () {
         material == '' ||
         material == 0 ||
         unity == '' ||
-        unity == 0
+        unity == 0 ||
+        data == 0 ||
+        !data
       ) {
         toastr.error('Ingrese todos los campos');
         return false;
@@ -71,6 +76,7 @@ $(document).ready(function () {
     $('#nameRawMaterial').val(data.material);
     $('#unityRawMaterial').val(data.unit);
     $('#quantity').val(data.quantity);
+    $(`#category option[value=${data.category}]`).prop('selected', true);
 
     $('html, body').animate(
       {

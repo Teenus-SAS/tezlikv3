@@ -57,7 +57,7 @@ $userinactivetimeDao->findSession();
                             <!-- <form id="formCreateProduct"> -->
                             <div class="gridx4rp">
                                 <div class="form-group floating-label enable-floating-label show-label " style="margin-bottom:0px">
-                                    <input type="text" class="form-control text-center number" id="quantity" name="quantityProduct">
+                                    <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                     <label for="">Cantidad</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">

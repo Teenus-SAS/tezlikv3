@@ -34,7 +34,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
 
             $reference = $products[$i]['referenceProduct'];
             $product = $products[$i]['product'];
-            $quantity = $products[$i]['quantityProduct'];
+            $quantity = $products[$i]['quantity'];
 
             if (empty($reference) || empty($product) || empty($quantity))
                 $dataImportProduct = array('error' => true, 'message' => 'Ingrese todos los datos');
@@ -107,7 +107,7 @@ $app->post('/updatePlanProduct', function (Request $request, Response $response,
     $dataProduct = $request->getParsedBody();
     //$imgProduct = $request->getUploadedFiles();
 
-    if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) || empty($dataProduct['quantityProduct']))
+    if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) || empty($dataProduct['quantity']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         // Actualizar Datos, Imagen y Calcular Precio del producto

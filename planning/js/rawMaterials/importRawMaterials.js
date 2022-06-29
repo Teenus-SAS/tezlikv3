@@ -28,10 +28,11 @@ $(document).ready(function () {
       .then((data) => {
         let materialsToImport = data.map((item) => {
           return {
-            refRawMaterial: item.referencia_material,
+            refRawMaterial: item.referencia,
             nameRawMaterial: item.material,
             unityRawMaterial: item.unidad,
-            quantityRawMaterial: item.cantidad,
+            quantity: item.cantidad,
+            category: item.categoria,
           };
         });
 

@@ -11,13 +11,15 @@ $materialsDao = new PlanMaterialsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-/*$app->get('/inventory', function (Request $request, Response $response, $args) use ($inventoryDao) {
+/* Materias prima y Insumos */
+
+$app->get('/inventory/{category}', function (Request $request, Response $response, $args) use ($inventoryDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $inventory = $inventoryDao->findAllInventory($id_company);
-    $response->getBody()->write(json_encode($inventory, JSON_NUMERIC_CHECK));
+    $supplies = $inventoryDao->findAllInventoryMaterialsAndSupplies($id_company, $args['category']);
+    $response->getBody()->write(json_encode($supplies, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});*/
+});
 
 $app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao) {
     $dataInventory = $request->getParsedBody();
@@ -32,28 +34,41 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
         $inventory = $dataInventory['importInventory'];
 
         for ($i = 0; $i < sizeof($inventory); $i++) {
-            $referenceProduct = $inventory[$i]['referenceProduct'];
-            $product = $inventory[$i]['product'];
-            $quantityProduct = $inventory[$i]['quantityProduct'];
-            $refRawMaterial = $inventory[$i]['refRawMaterial'];
-            $nameRawMaterial = $inventory[$i]['nameRawMaterial'];
-            $unityRawMaterial = $inventory[$i]['unityRawMaterial'];
-            $quantityRawMaterial = $inventory[$i]['quantityRawMaterial'];
-            if (
-                empty($referenceProduct) || empty($product) || empty($quantityProduct) || empty($refRawMaterial) ||
-                empty($nameRawMaterial) || empty($unityRawMaterial) || empty($quantityRawMaterial)
-            ) {
+            $reference = $inventory[$i]['reference'];
+            $name = $inventory[$i]['nameInventory'];
+            $quantity = $inventory[$i]['quantity'];
+            $category = $inventory[$i]['category'];
+            if (empty($reference) || empty($name) || empty($quantity) || empty($category)) {
                 $i = $i + 1;
                 $dataImportinventory = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
-            } else {
-                $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
-                $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
-                !$findProduct ? $insert = $insert + 1 : $update = $update + 1;
-                !$findMaterial ? $insert = $insert + 1 : $update = $update + 1;
-                $dataImportinventory['insert'] = $insert;
-                $dataImportinventory['update'] = $update;
             }
+            if ($category == 'Material' || $category == 'Insumo') {
+                $unityRawMaterial = $inventory[$i]['unityRawMaterial'];
+                if (empty($unityRawMaterial)) {
+                    $i = $i + 1;
+                    $dataImportinventory = array('error' => true, 'message' => "Unidad vacia en la fila: {$i}");
+                    break;
+                }
+            }
+
+            if ($category == 'Productos') {
+                $inventory[$i]['referenceProduct'] = $inventory[$i]['reference'];
+                $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
+
+                $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
+                !$findProduct ? $insert = $insert + 1 : $update = $update + 1;
+            }
+            if ($category == 'Materiales' || $category == 'Insumos') {
+                $inventory[$i]['refRawMaterial'] = $inventory[$i]['reference'];
+                $inventory[$i]['nameRawMaterial'] = $inventory[$i]['nameInventory'];
+
+                $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
+                !$findMaterial ? $insert = $insert + 1 : $update = $update + 1;
+            }
+
+            $dataImportinventory['insert'] = $insert;
+            $dataImportinventory['update'] = $update;
         }
     } else
         $dataImportinventory = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -70,21 +85,33 @@ $app->post('/addInventory', function (Request $request, Response $response, $arg
     $inventory = $dataInventory['importInventory'];
 
     for ($i = 0; $i < sizeof($inventory); $i++) {
+        $category = $inventory[$i]['category'];
         // Producto
-        $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
-        if (!$findProduct)
-            $product = $productsDao->insertProductByCompany($inventory[$i], $id_company);
-        else {
-            $inventory[$i]['idProduct'] = $findProduct['id_product'];
-            $product = $productsDao->updateProductByCompany($inventory[$i], $id_company);
+        if ($category == 'Productos') {
+            $inventory[$i]['referenceProduct'] = $inventory[$i]['reference'];
+            $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
+            $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
+
+            $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
+            if (!$findProduct)
+                $product = $productsDao->insertProductByCompany($inventory[$i], $id_company);
+            else {
+                $inventory[$i]['idProduct'] = $findProduct['id_product'];
+                $product = $productsDao->updateProductByCompany($inventory[$i], $id_company);
+            }
         }
 
-        // Materia prima
-        $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
-        if (!$findMaterial) $material = $materialsDao->insertMaterialsByCompany($inventory[$i], $id_company);
-        else {
-            $inventory[$i]['idMaterial'] = $findMaterial['id_material'];
-            $material = $materialsDao->updateMaterialsByCompany($inventory[$i]);
+        // Materia prima y Insumos
+        if ($category == 'Materiales' || $category == 'Insumos') {
+            $inventory[$i]['refRawMaterial'] = $inventory[$i]['reference'];
+            $inventory[$i]['nameRawMaterial'] = $inventory[$i]['nameInventory'];
+
+            $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
+            if (!$findMaterial) $material = $materialsDao->insertMaterialsByCompany($inventory[$i], $id_company);
+            else {
+                $inventory[$i]['idMaterial'] = $findMaterial['id_material'];
+                $material = $materialsDao->updateMaterialsByCompany($inventory[$i]);
+            }
         }
     }
     if ($product == null && $material == null)

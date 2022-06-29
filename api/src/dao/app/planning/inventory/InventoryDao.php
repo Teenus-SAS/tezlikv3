@@ -16,14 +16,19 @@ class InventoryDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllInventory($id_company)
+    public function findAllInventoryMaterialsAndSupplies($id_company, $category)
     {
         $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company AND category = :category");
+        $stmt->execute([
+            'id_company' => $id_company,
+            'category' => $category
+        ]);
 
-        $stmt = $connection->prepare("");
-        $stmt->execute(['id_company' => $id_company]);
-        $inventory = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-        return $inventory;
+        $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("materials", array('materials' => $materials));
+        return $materials;
     }
 }

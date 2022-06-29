@@ -30,7 +30,7 @@ $(document).ready(function () {
           return {
             referenceProduct: item.referencia_producto,
             product: item.producto,
-            quantity_product: item.cantidad,
+            quantity: item.cantidad,
           };
         });
         checkProduct(productsToImport);

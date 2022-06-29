@@ -27,13 +27,11 @@ $(document).ready(function () {
       .then((data) => {
         let InventoryToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            quantityProduct: item.cantidad_producto,
-            refRawMaterial: item.referencia_material,
-            nameRawMaterial: item.material,
+            reference: item.referencia,
+            nameInventory: item.nombre,
             unityRawMaterial: item.unidad,
-            quantityRawMaterial: item.cantidad_material,
+            quantity: item.cantidad,
+            category: item.categoria,
           };
         });
         checkInventory(InventoryToImport);

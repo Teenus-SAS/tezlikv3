@@ -35,11 +35,13 @@ $app->post('/planMaterialsDataValidation', function (Request $request, Response 
             $reference = $materials[$i]['refRawMaterial'];
             $material = $materials[$i]['nameRawMaterial'];
             $unity = $materials[$i]['unityRawMaterial'];
-            $quantity = $material[$i]['quantityRawMaterial'];
+            $quantity = $materials[$i]['quantity'];
+            $category = $materials[$i]['category'];
 
-            if (empty($reference) || empty($material) || empty($unity) || empty($quantity))
+            if (empty($reference) || empty($material) || empty($unity) || empty($quantity) || empty($category)) {
                 $dataImportMaterial = array('error' => true, 'message' => 'Ingrese todos los datos');
-            else {
+                break;
+            } else {
                 $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);
                 if (!$findMaterial) $insert = $insert + 1;
                 else $update = $update + 1;
@@ -72,7 +74,6 @@ $app->post('/addPlanMaterials', function (Request $request, Response $response, 
         $materials = $dataMaterial['importMaterials'];
 
         for ($i = 0; $i < sizeof($materials); $i++) {
-
             $material = $materialsDao->findMaterial($materials[$i], $id_company);
 
             if (!$material)

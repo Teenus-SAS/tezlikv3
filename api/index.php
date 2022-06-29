@@ -100,5 +100,8 @@ require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php')
 
 // Inventario
 require_once('../api/src/routes/app/planning/inventory/routeInventory.php');
+// Pedidos
+require_once('../api/src/routes/app/planning/order/routeOrders.php');
+
 
 $app->run();

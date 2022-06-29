@@ -33,27 +33,24 @@ $userinactivetimeDao->findSession();
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form name="formCreateMaterial" id="formCreateMaterial">
-                            <div class="gridx5">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
-                                    <label for="">Referencia</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
-                                    <label for="">Nombre Materia Prima</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control text-center" id="unityRawMaterial" name="unityRawMaterial">
-                                    <label for="">Unidad</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label " style="margin-bottom:0px">
-                                    <input type="text" class="form-control text-center number" id="quantity" name="quantityRawMaterial">
-                                    <label for="">Cantidad</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:5px">
-                                    <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
-                                </div>
+                        <form id="formCreateMaterial">
+                            <div class="gridx6pp">
+                                <label for="">Referencia</label>
+                                <label for="">Nombre Materia Prima</label>
+                                <label for="">Unidad</label>
+                                <label for="">Cantidad</label>
+                                <label for="">Categorias</label>
+                                <label for=""></label>
+                                <input type="text" class="form-control" id="refRawMaterial" name="refRawMaterial">
+                                <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
+                                <input type="text" class="form-control text-center" id="unityRawMaterial" name="unityRawMaterial">
+                                <input type="text" class="form-control text-center number" id="quantity" name="quantity">
+                                <select class="form-control" id="category" name="category">
+                                    <option value="" selected disabled>Seleccionar</option>
+                                    <option value="1">Insumos</option>
+                                    <option value="2">Materiales</option>
+                                </select>
+                                <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
                             </div>
                         </form>
                     </div>

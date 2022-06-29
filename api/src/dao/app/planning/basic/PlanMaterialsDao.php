@@ -19,7 +19,7 @@ class PlanMaterialsDao
   public function findAllMaterialsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company AND cost is NULL");
+    $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -51,17 +51,21 @@ class PlanMaterialsDao
   public function insertMaterialsByCompany($dataMaterial, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = str_replace('.', '', $dataMaterial['quantityRawMaterial']);
+    $quantity = str_replace('.', '', $dataMaterial['quantity']);
+
+    $dataMaterial['category'] == 'Insumos' ? $dataMaterial['category'] = 1 : $dataMaterial['category'];
+    $dataMaterial['category'] == 'Materiales' ? $dataMaterial['category'] = 2 : $dataMaterial['category'];
 
     try {
-      $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, quantity) 
-                                      VALUES(:id_company ,:reference, :material, :unit, :quantity)");
+      $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, quantity, category) 
+                                      VALUES(:id_company ,:reference, :material, :unit, :quantity, :category)");
       $stmt->execute([
         'id_company' => $id_company,
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
         'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'quantity' => $quantity
+        'quantity' => $quantity,
+        'category' => $dataMaterial['category']
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -80,17 +84,21 @@ class PlanMaterialsDao
   public function updateMaterialsByCompany($dataMaterial)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = str_replace('.', '', $dataMaterial['quantityRawMaterial']);
+    $quantity = str_replace('.', '', $dataMaterial['quantity']);
+
+    $dataMaterial['category'] == 'Insumos' ? $dataMaterial['category'] = 1 : $dataMaterial['category'];
+    $dataMaterial['category'] == 'Materiales' ? $dataMaterial['category'] = 2 : $dataMaterial['category'];
 
     try {
-      $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, quantity = :quantity 
+      $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, quantity = :quantity, category = :category
                                     WHERE id_material = :id_material");
       $stmt->execute([
         'id_material' => $dataMaterial['idMaterial'],
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
         'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'quantity' => $quantity
+        'quantity' => $quantity,
+        'category' => $dataMaterial['category']
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -100,17 +108,17 @@ class PlanMaterialsDao
     }
   }
 
-  public function deleteMaterial($dataMaterial)
+  public function deleteMaterial($id_material)
   {
     $connection = Connection::getInstance()->getConnection();
 
     $stmt = $connection->prepare("SELECT * FROM materials WHERE id_material = :id_material");
-    $stmt->execute(['id_material' => $dataMaterial['idMaterial']]);
+    $stmt->execute(['id_material' => $id_material]);
     $rows = $stmt->rowCount();
 
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM materials WHERE id_material = :id_material");
-      $stmt->execute(['id_material' => $dataMaterial['idMaterial']]);
+      $stmt->execute(['id_material' => $id_material]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }

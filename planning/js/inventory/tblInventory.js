@@ -1,7 +1,7 @@
 $(document).ready(function () {
   /* Cargar Inventario productos */
   tblInvProducts = $('#tblInvProducts').dataTable({
-    pageLength: 50,
+    pageLength: 10,
     ajax: {
       url: '../../api/planProducts',
       dataSrc: '',
@@ -47,9 +47,9 @@ $(document).ready(function () {
 
   /* Cargar inventario materia prima */
   tblInvMaterials = $('#tblInvMaterials').dataTable({
-    pageLength: 50,
+    pageLength: 10,
     ajax: {
-      url: '../../api/planMaterials',
+      url: '../../api/inventory/2',
       dataSrc: '',
     },
     language: {
@@ -75,6 +75,14 @@ $(document).ready(function () {
         className: 'classCenter',
       },
       {
+        title: 'Categoria',
+        data: null,
+        className: 'classCenter',
+        render: function () {
+          return 'Material';
+        },
+      },
+      {
         title: 'Unidad',
         data: 'unit',
         className: 'classCenter',
@@ -84,16 +92,56 @@ $(document).ready(function () {
         data: 'quantity',
         className: 'classCenter',
       },
-      // {
-      //   title: 'Acciones',
-      //   data: 'id_material',
-      //   className: 'uniqueClassName',
-      //   render: function (data) {
-      //     return `
-      //           <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateRawMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
-      //           <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever deleteRawMaterials" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red"></i></a>`;
-      //   },
-      // },
+    ],
+  });
+
+  /* Cargar inventario insumos */
+  tblInvSupplies = $('#tblInvSupplies').dataTable({
+    pageLength: 10,
+    ajax: {
+      url: '../../api/inventory/1',
+      dataSrc: '',
+    },
+    language: {
+      url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+    },
+    columns: [
+      {
+        title: 'No.',
+        data: null,
+        className: 'uniqueClassName',
+        render: function (data, type, full, meta) {
+          return meta.row + 1;
+        },
+      },
+      {
+        title: 'Referencia',
+        data: 'reference',
+        className: 'uniqueClassName',
+      },
+      {
+        title: 'Materia Prima',
+        data: 'material',
+        className: 'classCenter',
+      },
+      {
+        title: 'Categoria',
+        data: null,
+        className: 'classCenter',
+        render: function () {
+          return 'Insumo';
+        },
+      },
+      {
+        title: 'Unidad',
+        data: 'unit',
+        className: 'classCenter',
+      },
+      {
+        title: 'Cantidad',
+        data: 'quantity',
+        className: 'classCenter',
+      },
     ],
   });
 });

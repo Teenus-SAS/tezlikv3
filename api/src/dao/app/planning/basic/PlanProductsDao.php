@@ -19,7 +19,7 @@ class PlanProductsDao
   public function findAllProductsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM products WHERE id_company = :id_company AND quantity is NOT NULL;");
+    $stmt = $connection->prepare("SELECT * FROM products WHERE id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -52,7 +52,7 @@ class PlanProductsDao
   public function insertProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = str_replace('.', '', $dataProduct['quantityProduct']);
+    $quantity = str_replace('.', '', $dataProduct['quantity']);
 
     /* if (!empty($dataProduct['img'])) { */
     try {
@@ -79,7 +79,7 @@ class PlanProductsDao
   public function updateProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = str_replace('.', '', $dataProduct['quantityProduct']);
+    $quantity = str_replace('.', '', $dataProduct['quantity']);
 
     try {
       $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, quantity = :quantity 
