@@ -1,23 +1,23 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportProducts').hide();
+  $('.cardImportInvMold').hide();
 
-  $('#btnImportNewProducts').click(function (e) {
+  $('#btnImportNewInvMold').click(function (e) {
     e.preventDefault();
-    $('.cardCreateProduct').hide(800);
-    $('.cardImportProducts').toggle(800);
+    $('.cardCreateInvMold').hide(800);
+    $('.cardImportInvMold').toggle(800);
   });
 
-  $('#fileProducts').change(function (e) {
+  $('#fileInvMold').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportProducts').click(function (e) {
+  $('#btnImportInvMold').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProducts').val();
+    file = $('#fileInvMold').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -26,15 +26,13 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let productsToImport = data.map((item) => {
+        let MoldsToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia,
-            product: item.producto,
-            quantity: item.cantidad,
             mold: item.molde,
+            assemblyTime: item.tiempo_ensamblaje,
           };
         });
-        checkProduct(productsToImport);
+        checkMolds(MoldsToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -42,20 +40,20 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProduct = (data) => {
+  checkMolds = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/planProductsDataValidation',
-      data: { importProducts: data },
+      url: '/api/invMoldDataValidation',
+      data: { importInvMold: data },
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
-          $('#formImportProduct')[0].reset();
           return false;
         }
+
         bootbox.confirm({
           title: '¿Desea continuar con la importación?',
-          message: `Se encontraron los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
+          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
           buttons: {
             confirm: {
               label: 'Si',
@@ -68,26 +66,24 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveProductTable(data);
-            } else $('#fileProducts').val('');
+              saveMoldTable(data);
+            } else $('#fileInvMold').val('');
           },
         });
       },
     });
   };
 
-  /* Guardar Importacion */
-  saveProductTable = (data) => {
+  saveMoldTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/addPlanProduct',
-      //data: data,
-      data: { importProducts: data },
+      url: '../../api/addMold',
+      data: { importInvMold: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportProducts').hide(800);
-          $('#formImportProduct')[0].reset();
+          $('.cardImportInvMold').hide(800);
+          $('#formImportInvMold')[0].reset();
           updateTable();
           toastr.success(r.message);
           return false;
@@ -96,20 +92,21 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblProducts').DataTable().clear();
-          $('#tblProducts').DataTable().ajax.reload();
+          $('#tblInvMold').DataTable().clear();
+          $('#tblInvMold').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsProducts').click(function (e) {
+  $('#btnDownloadImportsInvMold').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos.xlsx';
+    url = 'assets/formatsXlsx/Moldes.xlsx';
 
     link = document.createElement('a');
+
     link.target = '_blank';
 
     link.href = url;
@@ -119,13 +116,4 @@ $(document).ready(function () {
     document.body.removeChild(link);
     delete link;
   });
-
-  /* Mensaje de exito */
-
-  message = (data) => {
-    if (data.success == true) {
-      toastr.success(data.message);
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
-  };
 });

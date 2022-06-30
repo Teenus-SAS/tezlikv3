@@ -14,6 +14,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product');
 
+    $('#idMold').css('border-color', '');
     $('#formCreateProduct').trigger('reset');
   });
 
@@ -27,16 +28,23 @@ $(document).ready(function () {
       ref = $('#referenceProduct').val();
       prod = $('#product').val();
       quantity = $('#quantity').val();
+      mold = $('#idMold').val();
 
       if (
         ref == '' ||
         ref == 0 ||
         prod == '' ||
         prod == 0 ||
-        quantity == '' ||
+        !quantity ||
         quantity == 0
       ) {
         toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (!mold) {
+        toastr.error('Seleccione molde para crear el producto');
+        $('#idMold').css('border-color', 'red');
         return false;
       }
 
@@ -57,6 +65,7 @@ $(document).ready(function () {
           $('.cardCreateProduct').hide(800);
           $('.cardImportProducts').hide(800);
           $('#formFile').val('');
+          $('#idMold').css('border-color', '');
           message(resp);
           updateTable();
         },
@@ -81,6 +90,8 @@ $(document).ready(function () {
 
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);
+    $('#quantity').val(data.quantity);
+    $(`#idMold option:contains(${data.mold})`).prop('selected', true);
 
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });

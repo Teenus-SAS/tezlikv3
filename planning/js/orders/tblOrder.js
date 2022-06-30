@@ -25,12 +25,12 @@ $(document).ready(function () {
       },
       {
         title: 'No Pedido',
-        data: 'order',
+        data: 'num_order',
         className: 'uniqueClassName',
       },
       {
         title: 'Producto',
-        data: 'reference',
+        data: 'product',
         className: 'uniqueClassName',
       },
       {
@@ -46,12 +46,12 @@ $(document).ready(function () {
       {
         title: 'Cantidad Original',
         data: 'original_quantity',
-        className: 'uniqueClassName',
+        className: 'classCenter',
       },
       {
         title: 'Saldo Acumulado',
         data: 'accumulated_quantity',
-        className: 'uniqueClassName',
+        className: 'classCenter',
       },
     ],
   });

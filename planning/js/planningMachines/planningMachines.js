@@ -30,49 +30,36 @@ $(document).ready(function () {
       hoursDay = parseInt($('#hoursDay').val());
       hourStart = $('#hourStart').val();
       hourEnd = $('#hourEnd').val();
-      // january = $('#january').val();
-      // february = $('#february').val();
-      // march = $('#march').val();
-      // april = $('#april').val();
-      // may = $('#may').val();
-      // june = $('#june').val();
-      // july = $('#july').val();
-      // august = $('#august').val();
-      // september = $('#september').val();
-      // october = $('#october').val();
-      // november = $('#november').val();
-      // december = $('#december').val();
-      data = idMachine * numberWorkers * hoursDay;
+      january = $('#january').val();
+      february = $('#february').val();
+      march = $('#march').val();
+      april = $('#april').val();
+      may = $('#may').val();
+      june = $('#june').val();
+      july = $('#july').val();
+      august = $('#august').val();
+      september = $('#september').val();
+      october = $('#october').val();
+      november = $('#november').val();
+      december = $('#december').val();
+      data =
+        idMachine *
+        numberWorkers *
+        hoursDay *
+        january *
+        february *
+        march *
+        april *
+        may *
+        june *
+        july *
+        august *
+        september *
+        october *
+        november *
+        december;
 
-      if (
-        !data ||
-        data == null ||
-        data == 0 /*||
-        january == '' ||
-        january == null ||
-        february == '' ||
-        february == null ||
-        march == '' ||
-        march == null ||
-        april == '' ||
-        april == null ||
-        may == '' ||
-        may == null ||
-        june == '' ||
-        june == null ||
-        july == '' ||
-        july == null ||
-        august == '' ||
-        august == null ||
-        september == '' ||
-        september == null ||
-        october == '' ||
-        october == null ||
-        november == '' ||
-        november == null ||
-        december == '' ||
-        december == null*/
-      ) {
+      if (!data || data == null || data == 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }

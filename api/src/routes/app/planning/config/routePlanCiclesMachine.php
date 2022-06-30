@@ -113,7 +113,7 @@ $app->post('/updatePlanCiclesMachine', function (Request $request, Response $res
     $dataPlanCiclesMachine = $request->getParsedBody();
 
     if (empty($dataPlanCiclesMachine['idCiclesMachine']) || empty($dataPlanCiclesMachine['idProduct']) || empty($dataPlanCiclesMachine['idMachine']) || empty($dataPlanCiclesMachine['ciclesHour'])) {
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     } else {
         $planCiclesMachine = $planCiclesMachineDao->updatePlanCiclesMachine($dataPlanCiclesMachine);
 

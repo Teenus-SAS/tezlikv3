@@ -56,6 +56,10 @@ $userinactivetimeDao->findSession();
                         <div class="card-body pt-3 pb-0">
                             <!-- <form id="formCreateProduct"> -->
                             <div class="gridx4rp">
+                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                    <select class="form-control" name="idMold" id="idMold"></select>
+                                    <label for="">Molde</label>
+                                </div>
                                 <div class="form-group floating-label enable-floating-label show-label " style="margin-bottom:0px">
                                     <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                     <label for="">Cantidad</label>
@@ -132,6 +136,7 @@ $userinactivetimeDao->findSession();
 
 <script src="/global/js/global/number.js"></script>
 <script src="../planning/js/products/tblProducts.js"></script>
+<script src="/planning/js/invMold/configInvMold.js"></script>
 <script src="../planning/js/products/products.js"></script>
 <script src="../global/js/import/import.js"></script>
 <script src="../planning/js/products/importProducts.js"></script>

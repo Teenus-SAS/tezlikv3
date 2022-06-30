@@ -37,7 +37,7 @@ $app->post('/updatePuc', function (Request $request, Response $response, $args) 
     $dataPuc = $request->getParsedBody();
 
     if (empty($dataPuc['numberCount']) || empty($dataPuc['count']))
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         $puc = $pucDao->updatePuc($dataPuc);
         if ($puc == null)

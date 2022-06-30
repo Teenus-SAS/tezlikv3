@@ -30,6 +30,11 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
+        title: 'Molde',
+        data: 'mold',
+        className: 'uniqueClassName',
+      },
+      {
         title: 'Img',
         data: 'img',
         className: 'uniqueClassName',

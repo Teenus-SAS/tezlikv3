@@ -33,7 +33,7 @@ $app->post('/updateLicenseCompany', function (Request $request, Response $respon
     $dataLicenseCompany = $request->getParsedBody();
 
     if (empty($dataLicenseCompany['licenseStart']) || empty($dataLicenseCompany['quantityUser']))
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         $licenseCompany = $licenseCompanyDao->updateLicenseCompany($dataLicenseCompany);
         if ($licenseCompany == null)

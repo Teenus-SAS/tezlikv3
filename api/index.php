@@ -88,6 +88,7 @@ require_once('../api/src/routes/app/users/routeUserAccess.php');
 
 /* App Planning */
 // Basic
+require_once('../api/src/routes/app/planning/basic/routeInvMolds.php');
 require_once('../api/src/routes/app/planning/basic/routeMachines.php');
 require_once('../api/src/routes/app/planning/basic/routeMaterials.php');
 require_once('../api/src/routes/app/planning/basic/routeProducts.php');

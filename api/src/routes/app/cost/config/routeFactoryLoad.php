@@ -134,7 +134,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     if (
         empty($dataFactoryLoad['idMachine']) || empty($dataFactoryLoad['descriptionFactoryLoad']) || empty($dataFactoryLoad['costFactory'])
     )
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         $factoryLoad = $factoryloadDao->updateFactoryLoad($dataFactoryLoad);
 

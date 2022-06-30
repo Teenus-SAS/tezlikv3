@@ -52,7 +52,7 @@ $app->post('/updateCompany', function (Request $request, Response $response, $ar
         empty($dataCompany['city']) && empty($dataCompany['country']) && empty($dataCompany['address']) &&
         empty($dataCompany['telephone']) && empty($dataCompany['nit']) && empty($dataCompany['creador'])
     )
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         $company = $companyDao->updateCompany($dataCompany);
         if ($company == null)

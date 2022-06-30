@@ -19,7 +19,10 @@ class PlanProductsDao
   public function findAllProductsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM products WHERE id_company = :id_company");
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.img, p.quantity, m.mold
+                                  FROM products p
+                                    INNER JOIN inv_molds m ON m.id_mold = p.id_mold
+                                  WHERE p.id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -56,11 +59,12 @@ class PlanProductsDao
 
     /* if (!empty($dataProduct['img'])) { */
     try {
-      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, quantity) 
-                                      VALUES(:id_company, :reference, :product, quantity)");
+      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, id_mold, quantity) 
+                                      VALUES(:id_company, :reference, :product, :id_mold, :quantity)");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
+        'id_mold' => $dataProduct['idMold'],
         'id_company' => $id_company,
         'quantity' => $quantity
       ]);
@@ -82,14 +86,15 @@ class PlanProductsDao
     $quantity = str_replace('.', '', $dataProduct['quantity']);
 
     try {
-      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, quantity = :quantity 
+      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, id_mold = :id_mold, quantity = :quantity 
                                     WHERE id_product = :id_product AND id_company = :id_company");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
-        'id_product' => $dataProduct['idProduct'],
+        'id_mold' => $dataProduct['idMold'],
         'id_company' => $id_company,
-        'quantity' => $quantity
+        'quantity' => $quantity,
+        'id_product' => $dataProduct['idProduct'],
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

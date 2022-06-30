@@ -1,8 +1,10 @@
 <?php
 
+use tezlikv3\dao\InvMoldsDao;
 use tezlikv3\dao\PlanProductsDao;
 
 $productsDao = new PlanProductsDao();
+$invMoldsDao = new InvMoldsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,7 +20,7 @@ $app->get('/planProducts', function (Request $request, Response $response, $args
 });
 
 /* Consultar productos importados */
-$app->post('/planProductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao) {
+$app->post('/planProductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao) {
     $dataProduct = $request->getParsedBody();
 
     if (isset($dataProduct)) {
@@ -31,6 +33,13 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
         $products = $dataProduct['importProducts'];
 
         for ($i = 0; $i < sizeof($products); $i++) {
+            // Obtener id Molde
+            $findMold = $invMoldsDao->findInvMold($products[$i], $id_company);
+            if (!$findMold) {
+                $i = $i + 1;
+                $dataImportProduct = array('error' => true, 'message' => "Molde no existe en la base de datos<br>Fila: {$i}");
+                break;
+            }
 
             $reference = $products[$i]['referenceProduct'];
             $product = $products[$i]['product'];
@@ -53,7 +62,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao) {
+$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
@@ -78,6 +87,10 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
         $products = $dataProduct['importProducts'];
 
         for ($i = 0; $i < sizeof($products); $i++) {
+
+            // Obtener id Molde
+            $findMold = $invMoldsDao->findInvMold($products[$i], $id_company);
+            $products[$i]['idMold'] = $findMold['id_mold'];
 
             $product = $productsDao->findProduct($products[$i], $id_company);
 
@@ -107,7 +120,7 @@ $app->post('/updatePlanProduct', function (Request $request, Response $response,
     $dataProduct = $request->getParsedBody();
     //$imgProduct = $request->getUploadedFiles();
 
-    if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) || empty($dataProduct['quantity']))
+    if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) || empty($dataProduct['idMold']) || empty($dataProduct['quantity']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         // Actualizar Datos, Imagen y Calcular Precio del producto

@@ -90,7 +90,7 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
     $dataProcess = $request->getParsedBody();
 
     if (empty($dataProcess['process']))
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         $process = $processDao->updateProcess($dataProcess);
 

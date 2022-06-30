@@ -127,7 +127,7 @@ $app->post('/addInventory', function (Request $request, Response $response, $arg
     $dataInventory = $request->getParsedBody();
 
     if (empty($dataInventory['inventory']))
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         $inventory = $inventoryDao->updateinventory($dataInventory);
 
