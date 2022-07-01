@@ -29,15 +29,6 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
-        title: 'Img',
-        data: 'img',
-        className: 'uniqueClassName',
-        render: (data, type, row) => {
-          'use strict';
-          return `<img src="${data}" alt="" style="width:50%;border-radius:100px">`;
-        },
-      },
-      {
         title: 'Cantidad',
         data: 'quantity',
         className: 'uniqueClassName',

@@ -20,6 +20,11 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Referencia',
+        data: 'reference',
+        className: 'uniqueClassName',
+      },
+      {
         title: 'Molde',
         data: 'mold',
         className: 'uniqueClassName',

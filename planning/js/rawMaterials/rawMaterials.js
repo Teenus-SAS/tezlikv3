@@ -75,7 +75,7 @@ $(document).ready(function () {
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
     $('#unityRawMaterial').val(data.unit);
-    $('#quantity').val(data.quantity);
+    $('#quantity').val(data.quantity.toLocaleString());
     $(`#category option[value=${data.category}]`).prop('selected', true);
 
     $('html, body').animate(

@@ -34,23 +34,35 @@ $userinactivetimeDao->findSession();
                 <div class="card">
                     <div class="card-body">
                         <form id="formCreateMaterial">
-                            <div class="gridx6pp">
-                                <label for="">Referencia</label>
-                                <label for="">Nombre Materia Prima</label>
-                                <label for="">Unidad</label>
-                                <label for="">Cantidad</label>
-                                <label for="">Categorias</label>
-                                <label for=""></label>
-                                <input type="text" class="form-control" id="refRawMaterial" name="refRawMaterial">
-                                <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
-                                <input type="text" class="form-control text-center" id="unityRawMaterial" name="unityRawMaterial">
-                                <input type="text" class="form-control text-center number" id="quantity" name="quantity">
-                                <select class="form-control" id="category" name="category">
-                                    <option value="" selected disabled>Seleccionar</option>
-                                    <option value="1">Insumos</option>
-                                    <option value="2">Materiales</option>
-                                </select>
-                                <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
+                            <div class="form-row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="refRawMaterial">Referencia</label>
+                                    <input type="text" class="form-control" id="refRawMaterial" name="refRawMaterial">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="nameRawMaterial">Nombre Materia Prima</label>
+                                    <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="validationCustom02">Categorias</label>
+                                    <select class="form-control" id="category" name="category">
+                                        <option value="" selected disabled>Seleccionar</option>
+                                        <option value="1">Insumos</option>
+                                        <option value="2">Materiales</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-3 mb-3">
+                                    <label for="unityRawMaterial">Unidad</label>
+                                    <input type="text" class="form-control text-center" id="unityRawMaterial" name="unityRawMaterial">
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="validationCustom05">Cantidad En Inventario</label>
+                                    <input type="number" class="form-control text-center" id="quantity" name="quantity">
+                                </div>
+
+                                <button class="btn btn-info" type="submit" id="btnCreateMaterial" name="btnCreateMaterial" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
                             </div>
                         </form>
                     </div>
@@ -111,7 +123,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="/global/js/global/number.js"></script>
+<!-- <script src="/global/js/global/number.js"></script> -->
 <script src="../planning/js/rawMaterials/tblRawMaterials.js"></script>
 <script src="../planning/js/rawMaterials/rawMaterials.js"></script>
 <script src="../global/js/import/import.js"></script>

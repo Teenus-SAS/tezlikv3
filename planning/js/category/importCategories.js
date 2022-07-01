@@ -1,23 +1,23 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportOrder').hide();
+  $('.cardImportCategories').hide();
 
-  $('#btnImportNewOrder').click(function (e) {
+  $('#btnImportNewCategories').click(function (e) {
     e.preventDefault();
-
-    $('.cardImportOrder').toggle(800);
+    $('.cardCreateCategory').hide(800);
+    $('.cardImportCategories').toggle(800);
   });
 
-  $('#fileOrder').change(function (e) {
+  $('#fileCategory').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportOrder').click(function (e) {
+  $('#btnImportCategories').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileOrder').val();
+    file = $('#fileCategory').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -26,18 +26,12 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let OrderToImport = data.map((item) => {
+        let CategoriesToImport = data.map((item) => {
           return {
-            order: item.pedido,
-            dateOrder: item.fecha_pedido,
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            client: item.cliente,
-            originalQuantity: item.cantidad_original,
-            quantity: item.cantidad_pendiente,
+            category: item.categoria,
           };
         });
-        checkOrder(OrderToImport);
+        checkCategory(CategoriesToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -45,11 +39,11 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkOrder = (data) => {
+  checkCategory = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/orderDataValidation',
-      data: { importOrder: data },
+      url: '/api/categoriesDataValidation',
+      data: { importCategories: data },
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
@@ -71,24 +65,24 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveOrderTable(data);
-            } else $('#fileOrder').val('');
+              saveCategoryTable(data);
+            } else $('#fileCategory').val('');
           },
         });
       },
     });
   };
 
-  saveOrderTable = (data) => {
+  saveCategoryTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addOrder',
-      data: { importOrder: data },
+      url: '../../api/addCategory',
+      data: { importCategories: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportOrder').hide(800);
-          $('#formImportOrder')[0].reset();
+          $('.cardImportCategories').hide(800);
+          $('#formImportCategories').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;
@@ -97,18 +91,18 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblOrder').DataTable().clear();
-          $('#tblOrder').DataTable().ajax.reload();
+          $('#tblCategories').DataTable().clear();
+          $('#tblCategories').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsOrder').click(function (e) {
+  $('#btnDownloadImportsCategories').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Pedidos.xlsx';
+    url = 'assets/formatsXlsx/Categorias.xlsx';
 
     link = document.createElement('a');
 

@@ -40,7 +40,7 @@ class PlanMachinesDao
     $stmt = $connection->prepare("SELECT id_machine FROM machines
                                  WHERE machine = :machine AND id_company = :id_company");
     $stmt->execute([
-      'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
+      'machine' => strtoupper($dataMachine['machine']),
       'id_company' => $id_company
     ]);
     $findMachine = $stmt->fetch($connection::FETCH_ASSOC);
@@ -57,7 +57,7 @@ class PlanMachinesDao
                                     VALUES (:id_company ,:machine)");
       $stmt->execute([
         'id_company' => $id_company,
-        'machine' => ucfirst(strtolower(trim($dataMachine['machine'])))
+        'machine' => strtoupper($dataMachine['machine'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -80,7 +80,7 @@ class PlanMachinesDao
       $stmt = $connection->prepare("UPDATE machines SET machine = :machine WHERE id_machine = :id_machine");
       $stmt->execute([
         'id_machine' => $dataMachine['idMachine'],
-        'machine' => ucfirst(strtolower(trim($dataMachine['machine'])))
+        'machine' => strtoupper($dataMachine['machine'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

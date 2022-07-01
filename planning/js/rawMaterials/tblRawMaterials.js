@@ -22,7 +22,7 @@ $(document).ready(function () {
       {
         title: 'Referencia',
         data: 'reference',
-        className: 'uniqueClassName',
+        className: 'classCenter',
       },
       {
         title: 'Materia Prima',
@@ -47,9 +47,10 @@ $(document).ready(function () {
         className: 'classCenter',
       },
       {
-        title: 'Cantidad',
+        title: 'Cantidad Inventario',
         data: 'quantity',
         className: 'classCenter',
+        render: $.fn.dataTable.render.number('.', ',', 2, ''),
       },
       {
         title: 'Acciones',

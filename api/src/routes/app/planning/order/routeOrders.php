@@ -51,8 +51,8 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
             $dateOrder = $order[$i]['dateOrder'];
             $originalQuantity = $order[$i]['originalQuantity'];
             $quantity = $order[$i]['quantity'];
-            $accumulatedQuantity = $order[$i]['accumulatedQuantity'];
-            if (empty($numOrder) || empty($dateOrder) || empty($originalQuantity) || empty($quantity) || empty($accumulatedQuantity)) {
+            // $accumulatedQuantity = $order[$i]['accumulatedQuantity'];
+            if (empty($numOrder) || empty($dateOrder) || empty($originalQuantity) || empty($quantity)) {
                 $i = $i + 1;
                 $dataImportOrder = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
@@ -91,8 +91,15 @@ $app->post('/addOrder', function (Request $request, Response $response, $args) u
             $order[$i]['idOrder'] = $findOrder['id_order'];
             $resolution = $ordersDao->updateOrder($order[$i]);
         }
+
+        //Obtener todos los pedidos
+        $data[$i] = $order[$i]['order'];
     }
-    if ($resolution == null) $resp = array('success' => true, 'message' => 'Pedido importado correctamente');
+
+    // Cambiar estado pedidos
+    $changeStatus = $ordersDao->changeStatus($data);
+
+    if ($resolution == null && $changeStatus == null) $resp = array('success' => true, 'message' => 'Pedido importado correctamente');
     else $resp = array('error' => true, 'message' => 'Ocurrio un error al importar el pedido. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));

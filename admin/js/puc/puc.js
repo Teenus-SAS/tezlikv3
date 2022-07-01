@@ -1,13 +1,12 @@
 $(document).ready(function () {
-
   /* Abrir modal crear cuenta */
-  
+
   let id;
-  $(".createPUC").hide();
+  $('.createPUC').hide();
 
   $('#btnNewPUC').click(function (e) {
     e.preventDefault();
-    $(".createPUC").toggle(800);
+    $('.createPUC').toggle(800);
     $('#btnCreatePuc').removeClass('updPUC');
     $('#btnCreatePuc').addClass('crtPUC');
     $('#btnCreatePuc').html('Crear');
@@ -24,7 +23,7 @@ $(document).ready(function () {
 
     dataPuc = new FormData(document.getElementById('formCreatePuc'));
 
-    if ( accountNumber === '' || account === '') {
+    if (accountNumber === '' || account === '') {
       toastr.error('Ingrese todos los campos');
       return false;
     } else {
@@ -47,7 +46,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.updatePuc', function (e) {
     e.preventDefault();
-    $(".createPUC").toggle(800);
+    $('.createPUC').toggle(800);
     $('#btnCreatePuc').removeClass('crtPUC');
     $('#btnCreatePuc').addClass('updPUC');
     $('#staticBackdropLabel').html('Actualizar cuenta');
@@ -91,7 +90,7 @@ $(document).ready(function () {
 
   const message = (data) => {
     if (data.success == true) {
-      $(".createPUC").toggle(800);
+      $('.createPUC').toggle(800);
       $('#formCreatePuc')[0].reset();
       updateTable();
       toastr.success(data.message);

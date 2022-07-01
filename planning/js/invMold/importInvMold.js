@@ -28,6 +28,7 @@ $(document).ready(function () {
       .then((data) => {
         let MoldsToImport = data.map((item) => {
           return {
+            referenceMold: item.referencia,
             mold: item.molde,
             assemblyTime: item.tiempo_ensamblaje,
           };

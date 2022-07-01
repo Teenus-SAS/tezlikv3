@@ -28,9 +28,10 @@ $app->post('/invMoldDataValidation', function (Request $request, Response $respo
         $molds = $dataMold['importInvMold'];
 
         for ($i = 0; $i < sizeof($molds); $i++) {
+            $reference = $molds[$i]['referenceMold'];
             $nameMold = $molds[$i]['mold'];
             $assemblyTime = $molds[$i]['assemblyTime'];
-            if (empty($nameMold) || empty($assemblyTime)) {
+            if (empty($reference) || empty($nameMold) || empty($assemblyTime)) {
                 $i = $i + 1;
                 $dataImportInvMold = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
@@ -84,7 +85,7 @@ $app->post('/addMold', function (Request $request, Response $response, $args) us
 $app->post('/updateMold', function (Request $request, Response $response, $args) use ($invMoldsDao) {
     $dataMold = $request->getParsedBody();
 
-    if (empty($dataMold['mold']) || empty($dataMold['assemblyTime']) || empty($dataMold['idMold'])) {
+    if (empty($dataMold['referenceMold']) || empty($dataMold['mold']) || empty($dataMold['assemblyTime']) || empty($dataMold['idMold'])) {
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     } else {
         $invMolds = $invMoldsDao->updateInvMold($dataMold);

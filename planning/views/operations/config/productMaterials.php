@@ -59,7 +59,7 @@ $userinactivetimeDao->findSession();
                                 <label for="">Unidad</label>
                                 <label for=""></label>
                                 <select class="form-control" name="material" id="material"></select>
-                                <input class="form-control text-center" type="number" name="quantity" id="quantity">
+                                <input class="form-control text-center number" type="text" name="quantity" id="quantity">
                                 <input class="form-control text-center" type="text" name="unity" id="unity" disabled>
                                 <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
                             </div>
@@ -118,6 +118,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
+<script src="/global/js/global/number.js"></script>
 <script src="../planning/js/productMaterials/tblConfigMaterials.js"></script>
 <script src="../planning/js/products/configProducts.js"></script>
 <script src="../planning/js/productMaterials/productMaterials.js"></script>

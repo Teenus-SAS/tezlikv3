@@ -40,13 +40,14 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: (data, type, row) => {
           'use strict';
-          return `<img src="${data}" alt="" style="width:50%;border-radius:100px">`;
+          return `<img src="${data}" alt="" style="width:80px;border-radius:100px">`;
         },
       },
       {
-        title: 'Cantidad',
+        title: 'Cantidad Inventario',
         data: 'quantity',
         className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 2, ''),
       },
       {
         title: 'Acciones',

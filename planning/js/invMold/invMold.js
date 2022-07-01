@@ -25,10 +25,18 @@ $(document).ready(function () {
     let idMold = sessionStorage.getItem('id_mold');
 
     if (idMold == '' || idMold == null) {
+      reference = $('#referenceMold').val();
       mold = $('#mold').val();
       assemblyTime = $('#assemblyTime').val();
 
-      if (mold == '' || mold == 0 || assemblyTime == '' || assemblyTime == 0) {
+      if (
+        reference == '' ||
+        reference == 0 ||
+        mold == '' ||
+        mold == 0 ||
+        assemblyTime == '' ||
+        assemblyTime == 0
+      ) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
@@ -54,6 +62,7 @@ $(document).ready(function () {
     let data = tblInvMold.fnGetData(row);
 
     sessionStorage.setItem('id_mold', data.id_mold);
+    $('#referenceMold').val(data.reference);
     $('#mold').val(data.mold);
     $('#assemblyTime').val(data.assembly_time);
 
@@ -77,10 +86,10 @@ $(document).ready(function () {
 
   /* Eliminar molde */
 
-  $(document).on('click', '.deleteMold', function (e) {
+  $(document).on('click', '.deleteMold', function () {
     let id_mold = this.id;
 
-    bootbox.confirm({
+    messageMold = bootbox.confirm({
       title: 'Eliminar',
       message:
         'Está seguro de eliminar este molde? Esta acción no se puede reversar.',

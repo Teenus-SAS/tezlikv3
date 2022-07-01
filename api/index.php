@@ -98,6 +98,8 @@ require_once('../api/src/routes/app/planning/config/routeProductsMaterials.php')
 require_once('../api/src/routes/app/planning/config/routeProductsProcess.php');
 require_once('../api/src/routes/app/planning/config/routePlanning_machines.php');
 require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php');
+// General
+require_once('../api/src/routes/app/planning/general/routeCategories.php');
 
 // Inventario
 require_once('../api/src/routes/app/planning/inventory/routeInventory.php');

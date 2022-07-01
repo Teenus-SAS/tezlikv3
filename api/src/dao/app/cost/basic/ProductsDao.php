@@ -111,7 +111,7 @@ class ProductsDao
   public function imageProduct($id_product, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/app/assets/images/products/' . $id_company;
+    $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/products/' . $id_company;
     $allowTypes = array('jpg', 'jpeg', 'png');
 
     $image_name = $_FILES['img']['name'];
@@ -125,7 +125,7 @@ class ProductsDao
     if (!is_dir($targetDir))
       mkdir($targetDir, 0777, true);
 
-    $targetDir = '/app/assets/images/products/' . $id_company;
+    $targetDir = '/api/src/app/assets/images/products/' . $id_company;
     $targetFilePath = $targetDir . '/' . $image_name;
 
     $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -139,7 +139,7 @@ class ProductsDao
         'id_company' => $id_company
       ]);
 
-      $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/app/assets/images/products/' . $id_company;
+      $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/products/' . $id_company;
       $targetFilePath = $targetDir . '/' . $image_name;
 
       move_uploaded_file($tmp_name, $targetFilePath);

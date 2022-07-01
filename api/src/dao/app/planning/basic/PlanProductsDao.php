@@ -55,7 +55,7 @@ class PlanProductsDao
   public function insertProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = str_replace('.', '', $dataProduct['quantity']);
+    // $quantity = str_replace('.', '', $dataProduct['quantity']);
 
     /* if (!empty($dataProduct['img'])) { */
     try {
@@ -66,7 +66,7 @@ class PlanProductsDao
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
         'id_mold' => $dataProduct['idMold'],
         'id_company' => $id_company,
-        'quantity' => $quantity
+        'quantity' => $dataProduct['quantity']
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -83,7 +83,7 @@ class PlanProductsDao
   public function updateProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = str_replace('.', '', $dataProduct['quantity']);
+    // $quantity = str_replace('.', '', $dataProduct['quantity']);
 
     try {
       $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, id_mold = :id_mold, quantity = :quantity 
@@ -93,7 +93,7 @@ class PlanProductsDao
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
         'id_mold' => $dataProduct['idMold'],
         'id_company' => $id_company,
-        'quantity' => $quantity,
+        'quantity' => $dataProduct['quantity'],
         'id_product' => $dataProduct['idProduct'],
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -118,7 +118,7 @@ class PlanProductsDao
   public function imageProduct($id_product, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/app/assets/images/products/' . $id_company;
+    $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/products/' . $id_company;
     $allowTypes = array('jpg', 'jpeg', 'png');
 
     $image_name = $_FILES['img']['name'];
@@ -132,7 +132,7 @@ class PlanProductsDao
     if (!is_dir($targetDir))
       mkdir($targetDir, 0777, true);
 
-    $targetDir = '/app/assets/images/products/' . $id_company;
+    $targetDir = '/api/src/assets/images/products/' . $id_company;
     $targetFilePath = $targetDir . '/' . $image_name;
 
     $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -146,7 +146,7 @@ class PlanProductsDao
         'id_company' => $id_company
       ]);
 
-      $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/app/assets/images/products/' . $id_company;
+      $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/products/' . $id_company;
       $targetFilePath = $targetDir . '/' . $image_name;
 
       move_uploaded_file($tmp_name, $targetFilePath);

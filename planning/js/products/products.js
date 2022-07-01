@@ -16,6 +16,7 @@ $(document).ready(function () {
 
     $('#idMold').css('border-color', '');
     $('#formCreateProduct').trigger('reset');
+    $('#img').remove();
   });
 
   /* Crear producto */
@@ -87,11 +88,13 @@ $(document).ready(function () {
 
     let row = $(this).parent().parent()[0];
     let data = tblProducts.fnGetData(row);
-
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);
     $('#quantity').val(data.quantity);
     $(`#idMold option:contains(${data.mold})`).prop('selected', true);
+    $('#preview').html(
+      `<img id="img" src="${data.img}" style="width:20%;padding-bottom:15px"/>`
+    );
 
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });

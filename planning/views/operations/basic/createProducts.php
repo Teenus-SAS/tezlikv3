@@ -62,7 +62,7 @@ $userinactivetimeDao->findSession();
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label " style="margin-bottom:0px">
                                     <input type="text" class="form-control text-center number" id="quantity" name="quantity">
-                                    <label for="">Cantidad</label>
+                                    <label for="">Cantidad en inventario</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
                                     <!-- <input class="form-control form-control-sm" id="formFile" type="file" style="padding:10px;width:40%"> -->
@@ -75,7 +75,7 @@ $userinactivetimeDao->findSession();
                                 </div>
                             </div>
 
-                            <div id="preview"></div>
+                            <div id="preview" class="col-md-6 offset-md-8"></div>
                         </div>
                     </div>
                 </div>

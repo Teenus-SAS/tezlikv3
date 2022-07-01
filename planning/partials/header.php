@@ -53,14 +53,14 @@
                                         <li class="planCiclesMachine"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planCiclesMachine.php')">Plan Ciclos Maquina</a></li>
                                     </ul>
                                 </div>
-                                <!-- <div class="col-md-3" id="navGeneral">
-                                            <h5 class="font-size-14 font-weight-600">General</h5>
-                                            <ul class="list-unstyled megamenu-list">
-                                                <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/createPayroll.php')">Carga Nómina</a></li>
-                                                <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
-                                                <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li>
-                                            </ul>
-                                        </div>-->
+                                <div class="col-md-3" id="navGeneral">
+                                    <h5 class="font-size-14 font-weight-600">General</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/general/categories.php')">Categorias</a></li>
+                                        <!-- <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
+                                        <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li> -->
+                                    </ul>
+                                </div>
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">

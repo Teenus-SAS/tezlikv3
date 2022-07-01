@@ -34,15 +34,16 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
-        title: 'Cantidad',
-        data: 'quantity',
-        className: 'uniqueClassName',
-      },
-      {
         title: 'Cliente',
         data: 'client',
         className: 'uniqueClassName',
       },
+      {
+        title: 'Cantidad Pendiente',
+        data: 'quantity',
+        className: 'uniqueClassName',
+      },
+
       {
         title: 'Cantidad Original',
         data: 'original_quantity',

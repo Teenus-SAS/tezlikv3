@@ -58,12 +58,7 @@ class PlanProductsMaterialsDao
                 'id_material' => $dataProductMaterial['material'],
                 'id_company' => $id_company,
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => trim($dataProductMaterial['quantity']),
-
-                // 'id_material' => $dataProductMaterial['material'],
-                // 'id_company' => $id_company,
-                // 'id_product' => $dataProductMaterial['idProduct'],
-                // 'quantity' => $dataProductMaterial['quantity']
+                'quantity' => $dataProductMaterial['quantity'],
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -78,7 +73,7 @@ class PlanProductsMaterialsDao
     public function updateProductsMaterials($dataProductMaterial)
     {
         $connection = Connection::getInstance()->getConnection();
-        //$quantity = $this->decimalsQuantity($dataProductMaterial);
+        // $quantity = $this->decimalsQuantity($dataProductMaterial);
 
         try {
             $stmt = $connection->prepare("UPDATE products_materials SET id_material = :id_material, id_product = :id_product, quantity = :quantity
@@ -87,12 +82,7 @@ class PlanProductsMaterialsDao
                 'id_product_material' => $dataProductMaterial['idProductMaterial'],
                 'id_material' => $dataProductMaterial['material'],
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => trim($dataProductMaterial['quantity']),
-
-                // 'id_product_material' => $dataProductMaterial['idProductMaterial'],
-                // 'id_material' => $dataProductMaterial['material'],
-                // 'id_product' => $dataProductMaterial['idProduct'],
-                // 'quantity' => $dataProductMaterial['quantity']
+                'quantity' => $dataProductMaterial['quantity'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -119,10 +109,9 @@ class PlanProductsMaterialsDao
         }
     }
 
-    /* public function decimalsQuantity($dataProductMaterial)
+    /*public function decimalsQuantity($dataProductMaterial)
     {
-        if (ctype_digit($dataProductMaterial['quantity'])) $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
-        else $quantity = $dataProductMaterial['quantity'];
+        $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
 
         return $quantity;
     }*/

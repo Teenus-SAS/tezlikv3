@@ -50,9 +50,10 @@ class InvMoldsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO inv_molds (mold, id_company, assembly_time)
-                                          VALUES (:mold, :id_company, :assembly_time)");
+            $stmt = $connection->prepare("INSERT INTO inv_molds (reference, mold, id_company, assembly_time)
+                                          VALUES (:reference, :mold, :id_company, :assembly_time)");
             $stmt->execute([
+                'reference' => $dataMold['referenceMold'],
                 'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
                 'id_company' => $id_company,
                 'assembly_time' => $dataMold['assemblyTime']
@@ -72,9 +73,10 @@ class InvMoldsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE inv_molds SET mold = :mold, assembly_time = :assembly_time
+            $stmt = $connection->prepare("UPDATE inv_molds SET reference = :reference, mold = :mold, assembly_time = :assembly_time
                                           WHERE id_mold = :id_mold");
             $stmt->execute([
+                'reference' => $dataMold['referenceMold'],
                 'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
                 'assembly_time' => $dataMold['assemblyTime'],
                 'id_mold' => $dataMold['idMold'],
