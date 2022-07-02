@@ -32,14 +32,12 @@ $app->post('/planMaterialsDataValidation', function (Request $request, Response 
 
         for ($i = 0; $i < sizeof($materials); $i++) {
 
-            $reference = $materials[$i]['refRawMaterial'];
-            $material = $materials[$i]['nameRawMaterial'];
-            $unity = $materials[$i]['unityRawMaterial'];
-            $quantity = $materials[$i]['quantity'];
-            $category = $materials[$i]['category'];
-
-            if (empty($reference) || empty($material) || empty($unity) || empty($quantity) || empty($category)) {
-                $dataImportMaterial = array('error' => true, 'message' => 'Ingrese todos los datos');
+            if (
+                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || empty($materials[$i]['unityRawMaterial']) ||
+                empty($materials[$i]['quantity']) || empty($materials[$i]['category'])
+            ) {
+                $i = $i + 1;
+                $dataImportMaterial = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
             } else {
                 $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);

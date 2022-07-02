@@ -61,6 +61,7 @@ $(document).ready(function () {
       data: { importPlanMachines: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportPlanMachines').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

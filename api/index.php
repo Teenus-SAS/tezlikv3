@@ -100,6 +100,7 @@ require_once('../api/src/routes/app/planning/config/routePlanning_machines.php')
 require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php');
 // General
 require_once('../api/src/routes/app/planning/general/routeCategories.php');
+require_once('../api/src/routes/app/planning/general/routeUnitsSales.php');
 
 // Inventario
 require_once('../api/src/routes/app/planning/inventory/routeInventory.php');

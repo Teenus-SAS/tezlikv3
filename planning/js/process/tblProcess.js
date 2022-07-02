@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  /* Cargue tabla de Máquinas */
+  /* Cargue tabla de procesos */
 
   tblProcess = $('#tblProcess').dataTable({
     pageLength: 50,

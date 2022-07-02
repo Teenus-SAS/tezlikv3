@@ -85,11 +85,13 @@ $(document).ready(function () {
   };
 
   /* Eliminar molde */
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblInvMold.fnGetData(row);
 
-  $(document).on('click', '.deleteMold', function () {
-    let id_mold = this.id;
+    let id_mold = data.id_mold;
 
-    messageMold = bootbox.confirm({
+    bootbox.confirm({
       title: 'Eliminar',
       message:
         'Está seguro de eliminar este molde? Esta acción no se puede reversar.',
@@ -114,7 +116,40 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
+
+  /* Eliminar molde 
+
+  $(document).on('click', '.deleteMold', function () {
+    debugger;
+    let id_mold = this.id;
+
+    bootbox.confirm({
+      title: 'Eliminar',
+      message:
+        'Está seguro de eliminar este molde? Esta acción no se puede reversar.',
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `../../api/deleteMold/${id_mold}`,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  }); */
 
   /* Mensaje de exito */
 

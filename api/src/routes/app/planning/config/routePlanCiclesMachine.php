@@ -49,8 +49,7 @@ $app->post('/planCiclesMachineDataValidation', function (Request $request, Respo
                 break;
             } else $planCiclesMachine[$i]['idMachine'] = $findMachine['id_machine'];
 
-            $ciclesHour = $planCiclesMachine[$i]['ciclesHour'];
-            if (empty($ciclesHour)) {
+            if (empty($planCiclesMachine[$i]['ciclesHour'])) {
                 $i = $i + 1;
                 $dataImportPlanCiclesMachine = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
                 break;

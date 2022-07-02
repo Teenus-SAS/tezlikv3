@@ -51,6 +51,7 @@ $(document).ready(function () {
       data: { importMaterials: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportMaterials').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

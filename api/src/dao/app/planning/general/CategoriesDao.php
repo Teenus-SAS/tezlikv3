@@ -91,6 +91,8 @@ class CategoriesDao
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
+            if ($e->getCode() == 23000)
+                $message = 'Categoria asociada a un material. Imposible Eliminar';
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

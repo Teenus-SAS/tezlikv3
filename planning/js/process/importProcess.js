@@ -46,6 +46,7 @@ $(document).ready(function () {
       data: { importProcess: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportProcess').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

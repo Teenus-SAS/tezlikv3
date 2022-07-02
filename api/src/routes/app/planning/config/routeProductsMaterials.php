@@ -50,8 +50,7 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
                 break;
             } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            $quantity = $productMaterials[$i]['quantity'];
-            if (empty($quantity)) {
+            if (empty($productMaterials[$i]['quantity'])) {
                 $i = $i + 1;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
                 break;

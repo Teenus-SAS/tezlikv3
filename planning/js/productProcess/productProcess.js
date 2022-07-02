@@ -71,7 +71,7 @@ $(document).ready(function () {
       data = idProduct * refP;
       //data = idProduct * refP * refM;
 
-      if (!data || totalTime == 0 || totalTime == '') {
+      if (!data || totalTime == 0 || !totalTime) {
         toastr.error('Ingrese todos los campos');
         return false;
       }

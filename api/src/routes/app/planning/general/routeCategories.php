@@ -26,8 +26,8 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
         $categories = $dataCategories['importCategories'];
 
         for ($i = 0; $i < sizeof($categories); $i++) {
-            $nameCategory = $categories[$i]['category'];
-            if (empty($nameCategory)) {
+
+            if (empty($categories[$i]['category'])) {
                 $i = $i + 1;
                 $dataimportCategories = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;

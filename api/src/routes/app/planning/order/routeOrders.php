@@ -47,12 +47,10 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
                 $order[$i]['idClient'] = $client['id_client'];
             } else $order[$i]['idClient'] = $findClient['id_client'];
 
-            $numOrder = $order[$i]['order'];
-            $dateOrder = $order[$i]['dateOrder'];
-            $originalQuantity = $order[$i]['originalQuantity'];
-            $quantity = $order[$i]['quantity'];
-            // $accumulatedQuantity = $order[$i]['accumulatedQuantity'];
-            if (empty($numOrder) || empty($dateOrder) || empty($originalQuantity) || empty($quantity)) {
+            if (
+                empty($order[$i]['numOrder'])  || empty($order[$i]['dateOrder']) ||
+                empty($order[$i]['originalQuantity']) ||  empty($order[$i]['quantity'])
+            ) {
                 $i = $i + 1;
                 $dataImportOrder = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;

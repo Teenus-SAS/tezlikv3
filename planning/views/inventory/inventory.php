@@ -89,24 +89,24 @@ $userinactivetimeDao->findSession();
 <!-- page content -->
 <div class=" page-content-wrapper mt--45">
     <div class="container-fluid">
-        <!-- <div class="row">
+        <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title"></h5>
+                        <h5 class="card-title">Inventarios</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped">
+                            <table class="table table-striped" id="tblInventories">
 
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
         <!-- Row 5 -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-12 cardTableInvProducts">
                 <div class="card">
                     <div class="card-header">
@@ -148,13 +148,13 @@ $userinactivetimeDao->findSession();
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </div> -->
     </div>
+</div>
 </div>
 
 <script src="../planning/js/inventory/tblInventory.js"></script>
-<script src="../planning/js/inventory/inventory.js"></script>
+<!-- <script src="../planning/js/inventory/inventory.js"></script> -->
 <script src="../global/js/import/import.js"></script>
 <script src="../planning/js/inventory/importInventory.js"></script>
 <script src="../global/js/import/file.js"></script>

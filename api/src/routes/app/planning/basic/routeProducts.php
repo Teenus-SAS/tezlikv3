@@ -41,13 +41,11 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
                 break;
             }
 
-            $reference = $products[$i]['referenceProduct'];
-            $product = $products[$i]['product'];
-            $quantity = $products[$i]['quantity'];
-
-            if (empty($reference) || empty($product) || empty($quantity))
-                $dataImportProduct = array('error' => true, 'message' => 'Ingrese todos los datos');
-            else {
+            if (empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) || empty($products[$i]['quantity'])) {
+                $i = $i + 1;
+                $dataImportProduct = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
+                break;
+            } else {
                 $findProduct = $productsDao->findProduct($products[$i], $id_company);
                 if (!$findProduct) $insert = $insert + 1;
                 else $update = $update + 1;

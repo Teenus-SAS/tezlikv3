@@ -30,7 +30,7 @@ $(document).ready(function () {
       hoursDay = parseInt($('#hoursDay').val());
       hourStart = $('#hourStart').val();
       hourEnd = $('#hourEnd').val();
-      january = $('#january').val();
+      /*january = $('#january').val();
       february = $('#february').val();
       march = $('#march').val();
       april = $('#april').val();
@@ -41,11 +41,8 @@ $(document).ready(function () {
       september = $('#september').val();
       october = $('#october').val();
       november = $('#november').val();
-      december = $('#december').val();
-      data =
-        idMachine *
-        numberWorkers *
-        hoursDay *
+      december = $('#december').val();*/
+      data = idMachine * numberWorkers * hoursDay /**
         january *
         february *
         march *
@@ -57,7 +54,7 @@ $(document).ready(function () {
         september *
         october *
         november *
-        december;
+        december*/;
 
       if (!data || data == null || data == 0) {
         toastr.error('Ingrese todos los campos');

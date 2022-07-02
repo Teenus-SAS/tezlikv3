@@ -1,23 +1,22 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportInvMold').hide();
+  $('.cardImportSales').hide();
 
-  $('#btnImportNewInvMold').click(function (e) {
+  $('#btnImportNewSales').click(function (e) {
     e.preventDefault();
-    $('.cardCreateInvMold').hide(800);
-    $('.cardImportInvMold').toggle(800);
+    $('.cardImportSales').toggle(800);
   });
 
-  $('#fileInvMold').change(function (e) {
+  $('#fileSales').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportInvMold').click(function (e) {
+  $('#btnImportSales').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileInvMold').val();
+    file = $('#fileSales').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -26,14 +25,25 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let MoldsToImport = data.map((item) => {
+        let SalesToImport = data.map((item) => {
           return {
-            referenceMold: item.referencia,
-            mold: item.molde,
-            assemblyTime: item.tiempo_ensamblaje,
+            referenceProduct: item.referencia,
+            product: item.producto,
+            january: item.enero,
+            february: item.febrero,
+            march: item.marzo,
+            april: item.abril,
+            may: item.mayo,
+            june: item.junio,
+            july: item.julio,
+            august: item.agosto,
+            september: item.septiembre,
+            october: item.octubre,
+            november: item.noviembre,
+            december: item.diciembre,
           };
         });
-        checkMolds(MoldsToImport);
+        checkSales(SalesToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -41,14 +51,14 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkMolds = (data) => {
+  checkSales = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/invMoldDataValidation',
-      data: { importInvMold: data },
+      url: '/api/unitSalesDataValidation',
+      data: { importUnitSales: data },
       success: function (resp) {
         if (resp.error == true) {
-          $('#formImportInvMold').trigger('reset');
+          $('#formImportSales').trigger('reset');
           toastr.error(resp.message);
           return false;
         }
@@ -68,24 +78,24 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveMoldTable(data);
-            } else $('#fileInvMold').val('');
+              saveSalesTable(data);
+            } else $('#fileSales').val('');
           },
         });
       },
     });
   };
 
-  saveMoldTable = (data) => {
+  saveSalesTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addMold',
-      data: { importInvMold: data },
+      url: '../../api/addUnitSales',
+      data: { importUnitSales: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportInvMold').hide(800);
-          $('#formImportInvMold')[0].reset();
+          $('.cardImportSales').hide(800);
+          $('#formImportSales').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;
@@ -94,18 +104,18 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblInvMold').DataTable().clear();
-          $('#tblInvMold').DataTable().ajax.reload();
+          $('#tblSales').DataTable().clear();
+          $('#tblSales').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsInvMold').click(function (e) {
+  $('#btnDownloadImportsSales').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Moldes.xlsx';
+    url = 'assets/formatsXlsx/Unidades_Ventas.xlsx';
 
     link = document.createElement('a');
 

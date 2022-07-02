@@ -30,8 +30,8 @@ $app->post('/planProcessDataValidation', function (Request $request, Response $r
         $process = $dataProcess['importProcess'];
 
         for ($i = 0; $i < sizeof($process); $i++) {
-            $nameProcess = $process[$i]['process'];
-            if (empty($nameProcess)) {
+
+            if (empty($process[$i]['process'])) {
                 $i = $i + 1;
                 $dataImportProcess = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;

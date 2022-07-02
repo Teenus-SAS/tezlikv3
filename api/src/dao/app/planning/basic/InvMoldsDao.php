@@ -34,8 +34,9 @@ class InvMoldsDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM inv_molds 
-                                      WHERE mold = :mold AND id_company = :id_company");
+                                      WHERE reference = :reference AND mold = :mold AND id_company = :id_company");
         $stmt->execute([
+            'reference' => $dataMold['referenceMold'],
             'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
             'id_company' => $id_company
         ]);
@@ -104,6 +105,8 @@ class InvMoldsDao
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
+            if ($e->getCode() == 23000)
+                $message = 'Molde asociado a un producto. Imposible Eliminar';
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

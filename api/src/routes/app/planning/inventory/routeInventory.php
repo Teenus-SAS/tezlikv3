@@ -34,15 +34,15 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
         $inventory = $dataInventory['importInventory'];
 
         for ($i = 0; $i < sizeof($inventory); $i++) {
-            $reference = $inventory[$i]['reference'];
-            $name = $inventory[$i]['nameInventory'];
-            $quantity = $inventory[$i]['quantity'];
-            $category = $inventory[$i]['category'];
-            if (empty($reference) || empty($name) || empty($quantity) || empty($category)) {
+            if (
+                empty($inventory[$i]['reference']) || empty($inventory[$i]['nameInventory']) ||
+                empty($inventory[$i]['quantity']) || empty($inventory[$i]['category'])
+            ) {
                 $i = $i + 1;
                 $dataImportinventory = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
             }
+            $category = $inventory[$i]['category'];
             if ($category == 'Material' || $category == 'Insumo') {
                 $unityRawMaterial = $inventory[$i]['unityRawMaterial'];
                 if (empty($unityRawMaterial)) {

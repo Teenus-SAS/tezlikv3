@@ -46,6 +46,7 @@ $(document).ready(function () {
       data: { importMachines: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportMachines').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

@@ -98,10 +98,6 @@ class PlanProcessDao
       }
     } catch (\Exception $e) {
       $message = $e->getMessage();
-
-      if ($e->getCode() == 23000)
-        $message = 'Proceso asociado a un producto/nomina. Imposible Eliminar';
-
       $error = array('info' => true, 'message' => $message);
       return $error;
     }

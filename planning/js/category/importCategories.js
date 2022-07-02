@@ -46,6 +46,7 @@ $(document).ready(function () {
       data: { importCategories: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportCategory').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

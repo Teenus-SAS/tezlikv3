@@ -48,6 +48,7 @@ $(document).ready(function () {
       data: { importPlanCiclesMachine: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportPlanCiclesMachine').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

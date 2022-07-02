@@ -49,7 +49,7 @@ $(document).ready(function () {
       data: { importProductsMaterials: data },
       success: function (resp) {
         if (resp.error == true) {
-          $('#fileProductsMaterials').val('');
+          $('#formImportProductMaterial').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

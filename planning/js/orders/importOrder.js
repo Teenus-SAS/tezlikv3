@@ -52,6 +52,7 @@ $(document).ready(function () {
       data: { importOrder: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportOrder').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

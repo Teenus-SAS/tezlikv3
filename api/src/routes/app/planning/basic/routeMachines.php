@@ -31,10 +31,10 @@ $app->post('/planMachinesDataValidation', function (Request $request, Response $
         $machines = $dataMachine['importMachines'];
 
         for ($i = 0; $i < sizeof($machines); $i++) {
-            $machine = $machines[$i]['machine'];
 
-            if (empty($machine)) {
-                $dataImportMachine = array('error' => true, 'message' => 'Ingrese todos los datos');
+            if (empty($machines[$i]['machine'])) {
+                $i = $i + 1;
+                $dataImportMachine = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
             } else {
                 $findMachine = $machinesDao->findMachine($machines[$i], $id_company);

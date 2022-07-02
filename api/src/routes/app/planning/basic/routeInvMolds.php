@@ -28,10 +28,7 @@ $app->post('/invMoldDataValidation', function (Request $request, Response $respo
         $molds = $dataMold['importInvMold'];
 
         for ($i = 0; $i < sizeof($molds); $i++) {
-            $reference = $molds[$i]['referenceMold'];
-            $nameMold = $molds[$i]['mold'];
-            $assemblyTime = $molds[$i]['assemblyTime'];
-            if (empty($reference) || empty($nameMold) || empty($assemblyTime)) {
+            if (empty($molds[$i]['referenceMold']) || empty($molds[$i]['mold']) || empty($molds[$i]['assemblyTime'])) {
                 $i = $i + 1;
                 $dataImportInvMold = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;

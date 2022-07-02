@@ -50,6 +50,7 @@ $(document).ready(function () {
       data: { importProductsProcess: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportProductProcess').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

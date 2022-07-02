@@ -49,6 +49,7 @@ $(document).ready(function () {
       data: { importInventory: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#formImportInventory').trigger('reset');
           toastr.error(resp.message);
           return false;
         }

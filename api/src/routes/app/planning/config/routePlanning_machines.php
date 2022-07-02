@@ -38,13 +38,22 @@ $app->post('/planningMachinesDataValidation', function (Request $request, Respon
                 break;
             } else $planningMachines[$i]['idMachine'] = $findMachine['id_machine'];
 
-            $numberWorkers = $planningMachines[$i]['numberWorkers'];
-            $hoursDay = $planningMachines[$i]['hoursDay'];
-            $hourStart = $planningMachines[$i]['hourStart'];
-            $hourEnd = $planningMachines[$i]['hourEnd'];
-            if (empty($numberWorkers) || empty($hoursDay) || empty($hourStart) || empty($hourEnd)) {
+            if (
+                empty($planningMachines[$i]['numberWorkers']) || empty($planningMachines[$i]['hoursDay']) || empty($planningMachines[$i]['hourStart']) || empty($planningMachines[$i]['hourEnd']) || empty($planningMachines[$i]['january']) || empty($planningMachines[$i]['february']) ||
+                empty($planningMachines[$i]['march']) || empty($planningMachines[$i]['april']) || empty($planningMachines[$i]['may']) || empty($planningMachines[$i]['june']) || empty($planningMachines[$i]['july']) ||
+                empty($planningMachines[$i]['august']) || empty($planningMachines[$i]['september']) ||  empty($planningMachines[$i]['october']) ||  empty($planningMachines[$i]['november']) ||  empty($planningMachines[$i]['december'])
+            ) {
                 $i = $i + 1;
                 $dataImportPlanMachines = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
+
+            if (
+                $planningMachines[$i]['january'] > 31 || $planningMachines[$i]['february'] > 28 || $planningMachines[$i]['march'] > 31 || $planningMachines[$i]['april'] > 30 || $planningMachines[$i]['may'] > 31 || $planningMachines[$i]['june'] > 30 ||
+                $planningMachines[$i]['july'] > 31 || $planningMachines[$i]['august'] > 31 || $planningMachines[$i]['september'] > 30 ||  $planningMachines[$i]['october'] > 31 ||  $planningMachines[$i]['november'] > 30 ||  $planningMachines[$i]['december'] > 31
+            ) {
+                $i = $i + 1;
+                $dataImportPlanMachines = array('error' => true, 'message' => "El valor es mayor al ultimo dia del mes<br>Fila: {$i}");
                 break;
             } else {
                 $findPlanMachines = $planningMachinesDao->findPlanMachines($planningMachines[$i], $id_company);
