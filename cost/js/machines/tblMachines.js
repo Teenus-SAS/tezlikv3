@@ -48,7 +48,7 @@ $(document).ready(function () {
         render: function (data) {
           return `
                 <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateMachines" data-toggle='tooltip' title='Actualizar Maquina' style="font-size: 30px;"></i></a>
-                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever deleteMachines" data-toggle='tooltip' title='Eliminar Maquina' style="font-size: 30px;color:red"></i></a>`;
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Maquina' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
         },
       },
     ],

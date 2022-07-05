@@ -130,8 +130,11 @@ $(document).ready(function () {
 
   /* Eliminar venta */
 
-  $(document).on('click', '.deleteSale', function (e) {
-    let id_unit_sales = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblSales.fnGetData(row);
+
+    let id_unit_sales = data.id_unit_sales;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -158,7 +161,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

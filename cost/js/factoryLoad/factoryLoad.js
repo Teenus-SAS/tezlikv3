@@ -93,10 +93,11 @@ $(document).ready(function () {
 
   /* Eliminar carga fabril */
 
-  $(document).on('click', '.deleteFactoryLoad', function (e) {
-    let id_manufacturing_load = this.id;
-    let row = $(this).parent().parent()[0];
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
     let data = tblFactoryLoad.fnGetData(row);
+
+    let id_manufacturing_load = data.id_manufacturing_load;
 
     idMachine = data.id_machine;
 
@@ -130,7 +131,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

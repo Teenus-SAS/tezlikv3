@@ -1,27 +1,39 @@
 <?php
 
 use tezlikv3\dao\InventoryDao;
+use tezlikv3\dao\InvMoldsDao;
 use tezlikv3\dao\PlanMaterialsDao;
 use tezlikv3\dao\PlanProductsDao;
 
+
 $inventoryDao = new InventoryDao();
+$moldsDao = new InvMoldsDao();
 $productsDao = new PlanProductsDao();
 $materialsDao = new PlanMaterialsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-/* Materias prima y Insumos */
-
-$app->get('/inventory/{category}', function (Request $request, Response $response, $args) use ($inventoryDao) {
+$app->get('/inventory', function (Request $request, Response $response, $args) use ($inventoryDao, $productsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $supplies = $inventoryDao->findAllInventoryMaterialsAndSupplies($id_company, $args['category']);
-    $response->getBody()->write(json_encode($supplies, JSON_NUMERIC_CHECK));
+
+    // Insumos
+    $supplies = $inventoryDao->findAllInventoryMaterialsAndSupplies($id_company, 1);
+    // Materias Prima
+    $rawMaterials = $inventoryDao->findAllInventoryMaterialsAndSupplies($id_company, 2);
+    // Productos
+    $products = $productsDao->findAllProductsByCompany($id_company);
+
+    $inventory['supplies'] = $supplies;
+    $inventory['rawMaterials'] = $rawMaterials;
+    $inventory['products'] = $products;
+
+    $response->getBody()->write(json_encode($inventory, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao) {
+$app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao, $moldsDao) {
     $dataInventory = $request->getParsedBody();
 
     if (isset($dataInventory)) {
@@ -43,9 +55,25 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
                 break;
             }
             $category = $inventory[$i]['category'];
+
+            if ($category == 'Productos') {
+                if (empty($inventory[$i]['referenceMold']) || empty($inventory[$i]['mold'])) {
+                    $i = $i + 1;
+                    $dataImportinventory = array('error' => true, 'message' => "Moldes vacios en la fila: {$i}");
+                    break;
+                }
+
+                // Obtener id Molde
+                $findMold = $moldsDao->findInvMold($inventory[$i], $id_company);
+                if (!$findMold) {
+                    $i = $i + 1;
+                    $dataImportinventory = array('error' => true, 'message' => "Molde no existe en la base de datos.<br>Fila: {$i}");
+                    break;
+                }
+            }
+
             if ($category == 'Material' || $category == 'Insumo') {
-                $unityRawMaterial = $inventory[$i]['unityRawMaterial'];
-                if (empty($unityRawMaterial)) {
+                if ($inventory[$i]['unityRawMaterial']) {
                     $i = $i + 1;
                     $dataImportinventory = array('error' => true, 'message' => "Unidad vacia en la fila: {$i}");
                     break;
@@ -77,7 +105,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addInventory', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao) {
+$app->post('/addInventory', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao, $moldsDao) {
     session_start();
     $dataInventory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -88,8 +116,11 @@ $app->post('/addInventory', function (Request $request, Response $response, $arg
         $category = $inventory[$i]['category'];
         // Producto
         if ($category == 'Productos') {
+            // Obtener id molde
+            $findMold = $moldsDao->findInvMold($inventory[$i], $id_company);
+            $inventory[$i]['idMold'] = $findMold['id_mold'];
+
             $inventory[$i]['referenceProduct'] = $inventory[$i]['reference'];
-            $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
             $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
 
             $findProduct = $productsDao->findProduct($inventory[$i], $id_company);

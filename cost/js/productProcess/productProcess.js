@@ -143,8 +143,11 @@ $(document).ready(function () {
 
   /* Eliminar proceso */
 
-  $(document).on('click', '.deleteProcess', function (e) {
-    let idProductProcess = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblConfigProcess.fnGetData(row);
+
+    let idProductProcess = data.id_product_process;
     idProduct = $('#selectNameProduct').val();
     dataProductProcess = {};
     dataProductProcess['idProductProcess'] = idProductProcess;
@@ -176,7 +179,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

@@ -29,6 +29,8 @@ $(document).ready(function () {
           return {
             reference: item.referencia,
             nameInventory: item.nombre,
+            referenceMold: item.referencia_molde,
+            mold: item.molde,
             unityRawMaterial: item.unidad,
             quantity: item.cantidad,
             category: item.categoria,
@@ -94,8 +96,9 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('.table').DataTable().clear();
-          $('.table').DataTable().ajax.reload();
+          // $('.table').DataTable().clear();
+          // $('.table').DataTable().ajax.reload();
+          $('#category').change();
         }
       },
     });

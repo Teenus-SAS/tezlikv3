@@ -101,8 +101,11 @@ $(document).ready(function () {
 
   /* Eliminar productos */
 
-  $(document).on('click', '.deleteRawMaterials', function (e) {
-    let idMaterial = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblRawMaterials.fnGetData(row);
+
+    let idMaterial = data.id_material;
     dataMaterial = {};
     dataMaterial['idMaterial'] = idMaterial;
 
@@ -132,7 +135,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

@@ -75,7 +75,7 @@ $userinactivetimeDao->findSession();
                                 </div>
 
                                 <div class="mb-1">
-                                    <label><b>Configuración Productos</b></label>
+                                    <label><b>Configuración</b></label>
                                 </div>
 
                                 <div class="mb-1">
@@ -87,16 +87,16 @@ $userinactivetimeDao->findSession();
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-1" name="createProduct" type="checkbox">
-                                    <label for="checkbox-1">Crear Productos</label>
+                                    <input id="checkbox-1" name="molds" type="checkbox">
+                                    <label for="checkbox-1">Moldes</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                     <input id="checkbox-5" name="productMaterials" type="checkbox">
                                     <label for="checkbox-5">Ficha Técnica Materias Primas</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-10" name="factoryLoad" type="checkbox">
-                                    <label for="checkbox-10">Cargar Nómina</label>
+                                    <input id="checkbox-10" name="categories" type="checkbox">
+                                    <label for="checkbox-10">Categorias</label>
                                 </div>
 
 
@@ -106,32 +106,47 @@ $userinactivetimeDao->findSession();
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-2" name="createMaterials" type="checkbox">
-                                    <label for="checkbox-2">Crear Materiales</label>
+                                    <input id="checkbox-1" name="createProduct" type="checkbox">
+                                    <label for="checkbox-1">Productos</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                     <input id="checkbox-6" name="productProcess" type="checkbox">
                                     <label for="checkbox-6">Ficha Técnica Procesos</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-11" name="expense" type="checkbox">
-                                    <label for="checkbox-11">Asignar Gastos</label>
+                                    <input id="checkbox-11" name="sales" type="checkbox">
+                                    <label for="checkbox-11">Ventas</label>
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                 </div>
+
+
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                    <input id="checkbox-2" name="createMaterials" type="checkbox">
+                                    <label for="checkbox-2">Materiales</label>
+                                </div>
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                    <input id="checkbox-7" name="planningMachine" type="checkbox">
+                                    <label for="checkbox-7">Datos Programación Maquina</label>
+                                </div>
+
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                </div>
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                </div>
+
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                     <input id="checkbox-3" name="createMachines" type="checkbox">
-                                    <label for="checkbox-3">Crear Máquinas</label>
+                                    <label for="checkbox-3">Máquinas</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-7" name="payrollLoad" type="checkbox">
-                                    <label for="checkbox-7">Carga Fabril</label>
+                                    <input id="checkbox-8" name="planCiclesMachine" type="checkbox">
+                                    <label for="checkbox-8">Plan Ciclos Maquina</label>
                                 </div>
+
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-12" name="expenseDistribution" type="checkbox">
-                                    <label for="checkbox-12">Distribuir Gastos</label>
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
@@ -139,20 +154,7 @@ $userinactivetimeDao->findSession();
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                     <input id="checkbox-4" name="createProcess" type="checkbox">
-                                    <label for="checkbox-4">Crear Procesos</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-8" name="externalService" type="checkbox">
-                                    <label for="checkbox-8">Servicios Externos</label>
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                    <label for="checkbox-4">Procesos</label>
                                 </div>
 
                                 <!-- <div class="checkbox checkbox-success checkbox-circle mb-1">

@@ -90,8 +90,12 @@ $(document).ready(function () {
   };
 
   // Eliminar plan ciclo maquina
-  $(document).on('click', '.deletePCMachine', function (e) {
-    let id_cicles_machine = this.id;
+
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblPlanCiclesMachine.fnGetData(row);
+
+    let id_cicles_machine = data.id_cicles_machine;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -118,7 +122,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

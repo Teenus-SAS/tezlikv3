@@ -4,7 +4,7 @@ $(document).ready(function () {
   tblUsers = $('#tblUsers').dataTable({
     pageLength: 50,
     ajax: {
-      url: '/api/usersAccess',
+      url: '/api/costUsersAccess',
       dataSrc: '',
     },
     language: {
@@ -167,7 +167,7 @@ $(document).ready(function () {
         render: function (data) {
           return `
                 <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateUser" data-toggle='tooltip' title='Actualizar Usuario' style="font-size: 30px;"></i></a>
-                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever deleteUser" data-toggle='tooltip' title='Eliminar Usuario' style="font-size: 30px;color:red"></i></a>`;
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Usuario' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
         },
       },
     ],

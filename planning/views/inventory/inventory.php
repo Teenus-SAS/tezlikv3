@@ -154,7 +154,7 @@ $userinactivetimeDao->findSession();
 </div>
 
 <script src="../planning/js/inventory/tblInventory.js"></script>
-<!-- <script src="../planning/js/inventory/inventory.js"></script> -->
+<script src="../planning/js/inventory/inventory.js"></script>
 <script src="../global/js/import/import.js"></script>
 <script src="../planning/js/inventory/importInventory.js"></script>
 <script src="../global/js/import/file.js"></script>

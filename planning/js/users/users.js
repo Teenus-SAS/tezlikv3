@@ -188,7 +188,7 @@ $(document).ready(function () {
     }
 
     $.post(
-      '/api/updateUserAccess',
+      '/api/updatePlanningUserAccess',
       dataUser,
       function (data, textStatus, jqXHR) {
         message(data);
@@ -199,11 +199,11 @@ $(document).ready(function () {
 
   /* Eliminar usuario */
 
-  $(document).on('click', '.deleteUser', function (e) {
-    let row = $(this).parent().parent()[0];
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUserAccess = this.id;
+    let idUserAccess = data.id_user_access;
     let idUser = data.id_user;
     dataUser = {};
     dataUser['idUserAccess'] = idUserAccess;
@@ -235,7 +235,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

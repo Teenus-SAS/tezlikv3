@@ -148,8 +148,12 @@ $(document).ready(function () {
   };
 
   // Eliminar Plan maquina
-  $(document).on('click', '.deletePMachines', function (e) {
-    let id_program_machine = this.id;
+
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblPlanMachines.fnGetData(row);
+
+    let id_program_machine = data.id_program_machine;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -176,7 +180,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

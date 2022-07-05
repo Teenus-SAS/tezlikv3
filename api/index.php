@@ -80,10 +80,10 @@ require_once('../api/src/routes/app/cost/prices/routePrices.php');
 require_once('../api/src/routes/app/cost/tools/routeSupport.php');
 
 /* User */
+require_once('../api/src/routes/app/cost/userAccess/routeUserAccess.php');
 require_once('../api/src/routes/app/users/routeUsers.php');
 require_once('../api/src/routes/app/users/routeQuantityUsers.php');
 require_once('../api/src/routes/app/users/routeUsersStatus.php');
-require_once('../api/src/routes/app/users/routeUserAccess.php');
 
 
 /* App Planning */
@@ -106,6 +106,8 @@ require_once('../api/src/routes/app/planning/general/routeUnitsSales.php');
 require_once('../api/src/routes/app/planning/inventory/routeInventory.php');
 // Pedidos
 require_once('../api/src/routes/app/planning/order/routeOrders.php');
+// Acceso usuarios
+require_once('../api/src/routes/app/planning/userAccess/routeUserAccess.php');
 
 
 $app->run();

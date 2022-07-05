@@ -123,8 +123,11 @@ $(document).ready(function () {
 
   /* Eliminar materia prima */
 
-  $(document).on('click', '.deleteMaterials', function (e) {
-    let idProductMaterial = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblConfigMaterials.fnGetData(row);
+
+    let idProductMaterial = data.id_product_material;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -151,7 +154,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

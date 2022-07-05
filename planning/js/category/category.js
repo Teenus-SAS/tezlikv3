@@ -83,8 +83,11 @@ $(document).ready(function () {
 
   /* Eliminar categoria */
 
-  $(document).on('click', '.deleteCategory', function (e) {
-    let id_category = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblCategories.fnGetData(row);
+
+    let id_category = data.id_category;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -111,7 +114,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

@@ -103,8 +103,11 @@ $(document).ready(function () {
 
   /* Eliminar servicio */
 
-  $(document).on('click', '.deleteExternalService', function (e) {
-    let idService = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblExternalServices.fnGetData(row);
+
+    let idService = data.id_service;
 
     dataExternalService = {};
     dataExternalService['idService'] = idService;
@@ -136,7 +139,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

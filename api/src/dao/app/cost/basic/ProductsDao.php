@@ -125,7 +125,7 @@ class ProductsDao
     if (!is_dir($targetDir))
       mkdir($targetDir, 0777, true);
 
-    $targetDir = '/api/src/app/assets/images/products/' . $id_company;
+    $targetDir = '/api/src/assets/images/products/' . $id_company;
     $targetFilePath = $targetDir . '/' . $image_name;
 
     $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);

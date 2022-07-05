@@ -1,8 +1,7 @@
-$(document).ready(function() {
-
-    /* $.ajax({
+$(document).ready(function () {
+  /* $.ajax({
         type: "POST",
-        url: "../../../api/userAccess",
+        url: "../../../api/costUserAccess",
         success: function(r) {
             if (r[0].create_product == 0)
                 $('.createProducts').remove();

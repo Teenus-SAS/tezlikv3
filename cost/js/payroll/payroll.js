@@ -133,8 +133,11 @@ $(document).ready(function () {
 
   /* Eliminar carga nomina */
 
-  $(document).on('click', '.deletePayroll', function (e) {
-    let id_payroll = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblPayroll.fnGetData(row);
+
+    let id_payroll = data.id_payroll;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -161,7 +164,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

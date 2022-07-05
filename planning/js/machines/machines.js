@@ -75,8 +75,11 @@ $(document).ready(function () {
 
   /* Eliminar productos */
 
-  $(document).on('click', '.deleteMachines', function (e) {
-    let id_machine = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblMachines.fnGetData(row);
+
+    let id_machine = data.id_machine;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -103,7 +106,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

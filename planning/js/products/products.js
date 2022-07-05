@@ -127,7 +127,40 @@ $(document).ready(function () {
 
   /* Eliminar productos */
 
-  $(document).on('click', '.deleteProducts', function (e) {
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblProducts.fnGetData(row);
+
+    let idProduct = data.id_product;
+
+    bootbox.confirm({
+      title: 'Eliminar',
+      message:
+        'Está seguro de eliminar este producto? Esta acción no se puede reversar.',
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `/api/deletePlanProduct/${idProduct}`,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  };
+
+  /* $(document).on('click', '.deleteProducts', function (e) {
     let idProduct = this.id;
 
     bootbox.confirm({
@@ -155,7 +188,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  }); */
 
   /* Mensaje de exito */
 

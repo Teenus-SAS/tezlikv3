@@ -108,11 +108,12 @@ $(document).ready(function () {
 
   /* Eliminar gasto */
 
-  $(document).on('click', '.deleteExpenseDistribution', function (e) {
-    let row = $(this).parent().parent()[0];
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
     let data = tblExpensesDistribution.fnGetData(row);
 
-    let id_expenses_distribution = this.id;
+    let id_expenses_distribution = data.id_expenses_distribution;
+
     let idProduct = data.id_product;
 
     dataExpensesDistribution = {};
@@ -146,7 +147,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

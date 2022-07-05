@@ -122,8 +122,11 @@ $(document).ready(function () {
 
   /* Eliminar productos */
 
-  $(document).on('click', '.deleteProducts', function (e) {
-    let idProduct = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblProducts.fnGetData(row);
+
+    let idProduct = data.id_product;
     dataProduct = {};
     dataProduct['idProduct'] = idProduct;
 
@@ -153,7 +156,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

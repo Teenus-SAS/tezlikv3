@@ -2,7 +2,7 @@ $(document).ready(function () {
   /* ACCESOS DE USUARIO */
   $.ajax({
     type: 'POST',
-    url: `/api/userAccess`,
+    url: `/api/costUserAccess`,
     success: function (resp) {
       let acces = {
         createProducts: resp.create_product,

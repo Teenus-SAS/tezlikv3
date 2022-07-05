@@ -31,7 +31,7 @@ $(document).ready(function () {
         render: function (data) {
           return `
                   <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateCategory" data-toggle='tooltip' title='Actualizar Categoría' style="font-size: 30px;"></i></a>
-                  <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever deleteCategory" data-toggle='tooltip' title='Eliminar Categoría' style="font-size: 30px;color:red"></i></a>`;
+                  <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Categoría' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
         },
       },
     ],

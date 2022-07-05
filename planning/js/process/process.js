@@ -83,8 +83,11 @@ $(document).ready(function () {
 
   /* Eliminar proceso */
 
-  $(document).on('click', '.deleteProcess', function (e) {
-    let id_process = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblProcess.fnGetData(row);
+
+    let id_process = data.id_process;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -111,7 +114,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 

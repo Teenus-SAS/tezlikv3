@@ -78,8 +78,11 @@ $(document).ready(function () {
     );
   };
 
-  $(document).on('click', '.deleteExpenses', function (e) {
-    let id_expense = this.id;
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblExpenses.fnGetData(row);
+
+    let id_expense = data.id_expense;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -106,7 +109,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  };
 
   /* Mensaje de exito */
 
