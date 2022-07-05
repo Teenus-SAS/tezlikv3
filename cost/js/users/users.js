@@ -203,7 +203,7 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUserAccess = data.id_user_access;
+    let idUserAccess = data.id_planning_user_access;
     let idUser = data.id_user;
     dataUser = {};
     dataUser['idUserAccess'] = idUserAccess;
