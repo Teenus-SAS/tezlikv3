@@ -91,8 +91,8 @@ $userinactivetimeDao->findSession();
                                     <label for="checkbox-1">Moldes</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-5" name="productMaterials" type="checkbox">
-                                    <label for="checkbox-5">Ficha Técnica Materias Primas</label>
+                                    <input id="checkbox-6" name="productMaterials" type="checkbox">
+                                    <label for="checkbox-6">Ficha Técnica Materias Primas</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                     <input id="checkbox-10" name="categories" type="checkbox">
@@ -101,17 +101,17 @@ $userinactivetimeDao->findSession();
 
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-13" name="user" type="checkbox">
-                                    <label for="checkbox-13">Usuarios</label>
+                                    <input id="checkbox-12" name="user" type="checkbox">
+                                    <label for="checkbox-12">Usuarios</label>
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-1" name="createProduct" type="checkbox">
-                                    <label for="checkbox-1">Productos</label>
+                                    <input id="checkbox-2" name="createProduct" type="checkbox">
+                                    <label for="checkbox-2">Productos</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-6" name="productProcess" type="checkbox">
-                                    <label for="checkbox-6">Ficha Técnica Procesos</label>
+                                    <input id="checkbox-7" name="productProcess" type="checkbox">
+                                    <label for="checkbox-7">Ficha Técnica Procesos</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                     <input id="checkbox-11" name="sales" type="checkbox">
@@ -123,38 +123,38 @@ $userinactivetimeDao->findSession();
 
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-2" name="createMaterials" type="checkbox">
-                                    <label for="checkbox-2">Materiales</label>
+                                    <input id="checkbox-3" name="createMaterials" type="checkbox">
+                                    <label for="checkbox-3">Materiales</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-7" name="planningMachine" type="checkbox">
-                                    <label for="checkbox-7">Datos Programación Maquina</label>
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-3" name="createMachines" type="checkbox">
-                                    <label for="checkbox-3">Máquinas</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-8" name="planCiclesMachine" type="checkbox">
-                                    <label for="checkbox-8">Plan Ciclos Maquina</label>
+                                    <input id="checkbox-8" name="planningMachine" type="checkbox">
+                                    <label for="checkbox-8">Datos Programación Maquina</label>
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                 </div>
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                </div>
+
+
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                    <input id="checkbox-4" name="createMachines" type="checkbox">
+                                    <label for="checkbox-4">Máquinas</label>
+                                </div>
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                    <input id="checkbox-9" name="planCiclesMachine" type="checkbox">
+                                    <label for="checkbox-9">Plan Ciclos Maquina</label>
+                                </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-4" name="createProcess" type="checkbox">
-                                    <label for="checkbox-4">Procesos</label>
+                                </div>
+
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                    <input id="checkbox-5" name="createProcess" type="checkbox">
+                                    <label for="checkbox-5">Procesos</label>
                                 </div>
 
                                 <!-- <div class="checkbox checkbox-success checkbox-circle mb-1">

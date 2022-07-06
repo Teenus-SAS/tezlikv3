@@ -30,6 +30,16 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
+        title: 'Crear Moldes',
+        data: 'create_mold',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
         title: 'Crear Productos',
         data: 'create_product',
         className: 'uniqueClassName',
@@ -41,7 +51,7 @@ $(document).ready(function () {
       },
       {
         title: 'Crear Materiales',
-        data: 'create_materials',
+        data: 'create_material',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -51,7 +61,7 @@ $(document).ready(function () {
       },
       {
         title: 'Crear Máquinas',
-        data: 'create_machines',
+        data: 'create_machine',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -71,7 +81,7 @@ $(document).ready(function () {
       },
       {
         title: 'Ficha Técnica Materiales',
-        data: 'product_materials',
+        data: 'products_material',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -81,7 +91,7 @@ $(document).ready(function () {
       },
       {
         title: 'Ficha Técnica Procesos',
-        data: 'product_process',
+        data: 'products_process',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -91,8 +101,8 @@ $(document).ready(function () {
       },
 
       {
-        title: 'Carga fabril',
-        data: 'factory_load',
+        title: 'Programación Maquinas',
+        data: 'programs_machine',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -101,28 +111,8 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Servicios Externos',
-        data: 'external_service',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      // {
-      //   title: 'Lineas Producto',
-      //   data: 'product_line',
-      //   className: 'uniqueClassName',
-      //   render: function (data, type, row) {
-      //     return data == 1
-      //       ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-      //       : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-      //   },
-      // },
-      {
-        title: 'Carga Nómina',
-        data: 'payroll_load',
+        title: 'Ciclos Maquinas',
+        data: 'cicles_machine',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -131,8 +121,8 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Asignación Gastos',
-        data: 'expense',
+        title: 'Categorias',
+        data: 'category',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -141,8 +131,8 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Distribución Gastos',
-        data: 'expense_distribution',
+        title: 'Ventas',
+        data: 'sale',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -160,6 +150,36 @@ $(document).ready(function () {
             : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
         },
       },
+      {
+        title: 'Inventarios',
+        data: 'inventory',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Pedidos',
+        data: 'plan_order',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      // {
+      //   title: 'Programación',
+      //   data: 'product_line',
+      //   className: 'uniqueClassName',
+      //   render: function (data, type, row) {
+      //     return data == 1
+      //       ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+      //       : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+      //   },
+      // },
       {
         title: 'Acciones',
         data: 'id_planning_user_access',
