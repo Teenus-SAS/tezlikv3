@@ -56,7 +56,7 @@
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="categories"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/general/categories.php')">Categorias</a></li>
+                                        <li class="categories"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/general/categories.php')">Inventario Categorías</a></li>
                                         <li class="sales"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/general/sales.php')">Ventas</a></li>
                                         <!-- <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
                                         <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li> -->

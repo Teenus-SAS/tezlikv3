@@ -1,15 +1,22 @@
 $(document).ready(function () {
-  /* Ocultar panel Nuevo usuario */
+  /* Ocultar panel Nuevo usuario 
 
   $('.cardCreateUsers').hide();
-  $('.cardCreateAccessUser').hide();
+  $('.cardCreateAccessUser').hide(); */
+
+  // Ocultar Modal Nuevo usuario
+  $('#btnCloseUser').click(function (e) {
+    e.preventDefault();
+    $('#createUserAccess').modal('hide');
+  });
 
   /* Abrir panel Nuevo usuario */
 
   $('#btnNewUser').click(function (e) {
     e.preventDefault();
-    $('.cardCreateUsers').toggle(800);
-    $('.cardCreateAccessUser').toggle(800);
+    // $('.cardCreateUsers').toggle(800);
+    // $('.cardCreateAccessUser').toggle(800);
+    $('#createUserAccess').modal('show');
     $('#btnCreateUserAndAccess').html('Crear Usuario y Accesos');
 
     sessionStorage.removeItem('id_user_access');
@@ -19,7 +26,7 @@ $(document).ready(function () {
     $('#emailUser').prop('disabled', false);
 
     $('#formCreateUser').trigger('reset');
-    $('#formCreateAccessUser').trigger('reset');
+    // $('#formCreateAccessUser').trigger('reset');
   });
 
   /* Agregar nuevo usuario */
@@ -57,37 +64,7 @@ $(document).ready(function () {
       dataUser['lastnameUser'] = lastnameUser;
       dataUser['emailUser'] = emailUser;
 
-      for (let i = 1; i <= 13; i++) {
-        if ($(`#checkbox-${i}`).is(':checked')) {
-          if (i == 1) dataUser['createProducts'] = '1';
-          if (i == 2) dataUser['createMaterials'] = '1';
-          if (i == 3) dataUser['createMachines'] = '1';
-          if (i == 4) dataUser['createProcess'] = '1';
-          if (i == 5) dataUser['productMaterials'] = '1';
-          if (i == 6) dataUser['productProcess'] = '1';
-          if (i == 7) dataUser['factoryLoad'] = '1';
-          if (i == 8) dataUser['externalService'] = '1';
-          if (i == 9) dataUser['productLine'] = '1';
-          if (i == 10) dataUser['payrollLoad'] = '1';
-          if (i == 11) dataUser['expense'] = '1';
-          if (i == 12) dataUser['expenseDistribution'] = '1';
-          if (i == 13) dataUser['user'] = '1';
-        } else {
-          if (i == 1) dataUser['createProducts'] = '0';
-          if (i == 2) dataUser['createMaterials'] = '0';
-          if (i == 3) dataUser['createMachines'] = '0';
-          if (i == 4) dataUser['createProcess'] = '0';
-          if (i == 5) dataUser['productMaterials'] = '0';
-          if (i == 6) dataUser['productProcess'] = '0';
-          if (i == 7) dataUser['factoryLoad'] = '0';
-          if (i == 8) dataUser['externalService'] = '0';
-          if (i == 9) dataUser['productLine'] = '0';
-          if (i == 10) dataUser['payrollLoad'] = '0';
-          if (i == 11) dataUser['expense'] = '0';
-          if (i == 12) dataUser['expenseDistribution'] = '0';
-          if (i == 13) dataUser['user'] = '0';
-        }
-      }
+      dataUser = setCheckBoxes(dataUser);
 
       $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
         message(data);
@@ -100,8 +77,7 @@ $(document).ready(function () {
   /* Actualizar User */
 
   $(document).on('click', '.updateUser', function (e) {
-    $('.cardCreateUsers').show(800);
-    $('.cardCreateAccessUser').show(800);
+    $('#createUserAccess').modal('show');
     $('#btnCreateUserAndAccess').html('Actualizar Accesos');
 
     $('#nameUser').prop('disabled', true);
@@ -134,16 +110,20 @@ $(document).ready(function () {
     else $('#checkbox-7').prop('checked', false);
     if (data.external_service == 1) $('#checkbox-8').prop('checked', true);
     else $('#checkbox-8').prop('checked', false);
-    if (data.product_line == 1) $('#checkbox-9').prop('checked', true);
+    if (data.payroll_load == 1) $('#checkbox-9').prop('checked', true);
     else $('#checkbox-9').prop('checked', false);
-    if (data.payroll_load == 1) $('#checkbox-10').prop('checked', true);
+    if (data.expense == 1) $('#checkbox-10').prop('checked', true);
     else $('#checkbox-10').prop('checked', false);
-    if (data.expense == 1) $('#checkbox-11').prop('checked', true);
+    if (data.expense_distribution == 1) $('#checkbox-11').prop('checked', true);
     else $('#checkbox-11').prop('checked', false);
-    if (data.expense_distribution == 1) $('#checkbox-12').prop('checked', true);
+    if (data.user == 1) $('#checkbox-12').prop('checked', true);
     else $('#checkbox-12').prop('checked', false);
-    if (data.user == 1) $('#checkbox-13').prop('checked', true);
+    if (data.price == 1) $('#checkbox-13').prop('checked', true);
     else $('#checkbox-13').prop('checked', false);
+    if (data.analysis_material == 1) $('#checkbox-14').prop('checked', true);
+    else $('#checkbox-14').prop('checked', false);
+    if (data.tool == 1) $('#checkbox-15').prop('checked', true);
+    else $('#checkbox-15').prop('checked', false);
   });
 
   updateUserAccess = () => {
@@ -155,7 +135,21 @@ $(document).ready(function () {
     dataUser['lastnameUser'] = $('#lastnameUser').val();
     dataUser['emailUser'] = $('#emailUser').val();
 
-    for (let i = 1; i <= 13; i++) {
+    dataUser = setCheckBoxes(dataUser);
+
+    $.post(
+      '/api/updateCostUserAccess',
+      dataUser,
+      function (data, textStatus, jqXHR) {
+        message(data);
+        updateTable();
+      }
+    );
+  };
+
+  /* Seleccionar checkboxes */
+  setCheckBoxes = (dataUser) => {
+    for (let i = 1; i <= 16; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataUser['createProducts'] = '1';
         if (i == 2) dataUser['createMaterials'] = '1';
@@ -170,6 +164,9 @@ $(document).ready(function () {
         if (i == 11) dataUser['expense'] = '1';
         if (i == 12) dataUser['expenseDistribution'] = '1';
         if (i == 13) dataUser['user'] = '1';
+        if (i == 14) dataUser['price'] = '1';
+        if (i == 15) dataUser['analysisMaterial'] = '1';
+        if (i == 16) dataUser['tool'] = '1';
       } else {
         if (i == 1) dataUser['createProducts'] = '0';
         if (i == 2) dataUser['createMaterials'] = '0';
@@ -184,17 +181,12 @@ $(document).ready(function () {
         if (i == 11) dataUser['expense'] = '0';
         if (i == 12) dataUser['expenseDistribution'] = '0';
         if (i == 13) dataUser['user'] = '0';
+        if (i == 14) dataUser['price'] = '0';
+        if (i == 15) dataUser['analysisMaterial'] = '0';
+        if (i == 16) dataUser['tool'] = '0';
       }
     }
-
-    $.post(
-      '/api/updateCostUserAccess',
-      dataUser,
-      function (data, textStatus, jqXHR) {
-        message(data);
-        updateTable();
-      }
-    );
+    return dataUser;
   };
 
   /* Eliminar usuario */
@@ -205,9 +197,11 @@ $(document).ready(function () {
 
     let idUserAccess = data.id_planning_user_access;
     let idUser = data.id_user;
+    let factoryLoad = data.factory_load;
     dataUser = {};
     dataUser['idUserAccess'] = idUserAccess;
     dataUser['idUser'] = idUser;
+    dataUser['factoryLoad'] = factoryLoad;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -241,10 +235,9 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
-      $('.cardCreateUsers').hide(800);
-      $('.cardCreateAccessUser').hide(800);
-      $('#formCreateUser')[0].reset();
-      $('#formCreateAccessUser')[0].reset();
+      $('#createUserAccess').modal('hide');
+      $('#formCreateUser').trigger('reset');
+      // $('#formCreateAccessUser')[0].reset();
       updateTable();
       toastr.success(data.message);
       return false;

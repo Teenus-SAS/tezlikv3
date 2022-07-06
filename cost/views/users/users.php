@@ -6,6 +6,9 @@ require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/log
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
+
+<?php require_once dirname(dirname(dirname(__DIR__))) . '/cost/modals/createUserAccess.php'; ?>
+
 <div class="page-title-box">
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -26,7 +29,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardCreateUsers">
+<!-- <div class="page-content-wrapper mt--45 mb-5 cardCreateUsers">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -46,9 +49,6 @@ $userinactivetimeDao->findSession();
                                     <label for="">Email </label>
                                     <input type="text" class="form-control" id="emailUser" name="email">
                                 </div>
-                                <!-- <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                    <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>
-                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -66,10 +66,10 @@ $userinactivetimeDao->findSession();
                     <div class="card-body">
                         <form id="formCreateAccessUser">
                             <div class="gridx13">
-                                <!-- <div class="form-group floating-label enable-floating-label show-label namesUserAccess">
+                                 <div class="form-group floating-label enable-floating-label show-label namesUserAccess">
                                     <label for="">Nombres </label>
                                     <input class="form-control" id="nameUser" name="nameUser">
-                                </div> -->
+                                </div> 
                                 <div class="mb-1">
                                     <label><b>Configuración Básica</b></label>
                                 </div>
@@ -155,10 +155,10 @@ $userinactivetimeDao->findSession();
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
                                 </div>
 
-                                <!-- <div class="checkbox checkbox-success checkbox-circle mb-1">
+                                <div class="checkbox checkbox-success checkbox-circle mb-1">
                                     <input id="checkbox-9" name="productLine" type="checkbox">
                                     <label for="checkbox-9">Lineas de Producto</label>
-                                </div> -->
+                                </div> 
 
 
                                 <div class="form-group floating-label enable-floating-label show-label btnCreateAccessUser">
@@ -171,7 +171,7 @@ $userinactivetimeDao->findSession();
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- page content -->
 <div class="page-content-wrapper mt--45">

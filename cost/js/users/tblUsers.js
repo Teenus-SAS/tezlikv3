@@ -161,8 +161,38 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Precios',
+        data: 'price',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Analisis Materia Prima',
+        data: 'analysis_material',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Herramientas',
+        data: 'tool',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
         title: 'Acciones',
-        data: 'id_planning_user_access',
+        data: 'id_cost_user_access',
         className: 'uniqueClassName',
         render: function (data) {
           return `

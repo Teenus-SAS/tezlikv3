@@ -4,11 +4,13 @@ use tezlikv3\dao\UsersDao;
 // Cantidad de usuarios
 use tezlikv3\dao\QuantityUsersDao;
 //Acceso de usuario
-use tezlikv3\dao\AccessUserDao;
+use tezlikv3\dao\CostUserAccessDao;
+use tezlikv3\dao\PlanningUserAccessDao;
 
 $userDao = new UsersDao();
 $quantityUsersDao = new QuantityUsersDao();
-$accessUserDao = new AccessUserDao();
+$costAccessUserDao = new CostUserAccessDao();
+$planningAccessUserDao = new PlanningUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -31,7 +33,7 @@ $app->get('/user', function (Request $request, Response $response, $args) use ($
 
 /* Insertar usuario */
 
-$app->post('/addUser', function (Request $request, Response $response, $args) use ($userDao, $quantityUsersDao, $accessUserDao) {
+$app->post('/addUser', function (Request $request, Response $response, $args) use ($userDao, $quantityUsersDao, $costAccessUserDao, $planningAccessUserDao) {
     session_start();
     //variable de session id_company
     $id_company = $_SESSION['id_company'];
@@ -58,7 +60,8 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
         $users = $userDao->saveUser($dataUser, $id_company);
 
         /* Almacena los accesos */
-        $usersAccess = $accessUserDao->insertUserAccessByUser($dataUser);
+        if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+        if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
 
 
         if ($users == 1) {
@@ -75,7 +78,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao, $accessUserDao) {
+$app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao, $costAccessUserDao, $planningAccessUserDao) {
     $dataUser = $request->getParsedBody();
     $files = $request->getUploadedFiles();
 
@@ -85,7 +88,8 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
         if (empty($dataUser['avatar'])) {
             $users = $userDao->updateUser($dataUser, null);
             /* Actualizar los accesos */
-            $usersAccess = $accessUserDao->updateUserAccessByUsers($dataUser);
+            if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+            if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
         } else {
             foreach ($files as $file) {
                 $name = $file->getClientFilename();
@@ -104,7 +108,8 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
                         $path = "../../../app/assets/images/avatars/" . $name[0] . '.' . $ext;
                         $users = $userDao->updateUser($dataUser, $path);
                         /* Actualizar los accesos */
-                        $usersAccess = $accessUserDao->updateUserAccessByUsers($dataUser);
+                        if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->updateUserAccessByUsers($dataUser);
+                        if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->updateUserAccessByUsers($dataUser);
                         // Creacion carpeta de la img
                         $path = "../../../app/assets/images/avatars/44";
                         if (!file_exists($path)) {
@@ -124,7 +129,7 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteUser', function (Request $request, Response $response, $args) use ($userDao, $accessUserDao) {
+$app->post('/deleteUser', function (Request $request, Response $response, $args) use ($userDao, $costAccessUserDao, $planningAccessUserDao) {
     $dataUser = $request->getParsedBody();
     session_start();
     $idUser = $_SESSION['idUser'];
@@ -132,7 +137,8 @@ $app->post('/deleteUser', function (Request $request, Response $response, $args)
     if ($dataUser['idUser'] != $idUser) {
 
         $users = $userDao->deleteUser($dataUser);
-        $usersAccess = $accessUserDao->deleteUserAccess($dataUser);
+        if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->deleteUserAccess($dataUser);
+        if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->deleteUserAccess($dataUser);
 
         if ($users == null && $usersAccess == null)
             $resp = array('success' => true, 'message' => 'Usuario eliminado correctamente');

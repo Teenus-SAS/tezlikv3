@@ -24,10 +24,10 @@ class PlanningUserAccessDao
 
         if ($rol == 2) {
             $stmt = $connection->prepare("SELECT usa.id_planning_user_access, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
-                                                 usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, 
-                                                 usa.category, usa.sale, usa.inventory, usa.plan_order, usa.user 
-                                          FROM planning_user_access usa
-                                            INNER JOIN users us ON us.id_user = usa.id_user
+                                                 usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, usa.inv_category, 
+                                                 usa.sale, usa.user, usa.inventory, usa.plan_order, usa.programming, usa.plan_load, usa.explosion_of_material, usa.office
+                                          FROM planning_user_access usa 
+                                          INNER JOIN users us ON us.id_user = usa.id_user 
                                           WHERE us.id_company = :id_company;");
             $stmt->execute(['id_company' => $id_company]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -59,9 +59,9 @@ class PlanningUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare(
-            "SELECT usa.create_mold, usa.create_product, usa.create_material, usa.create_machine, usa.create_process, usa.products_material,
-                    usa.products_process, usa.programs_machine, usa.cicles_machine, usa.category, usa.sale, usa.user,
-                    usa.inventory, usa.plan_order
+            "SELECT usa.id_planning_user_access, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
+                    usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, usa.inv_category, 
+                    usa.sale, usa.user, usa.inventory, usa.plan_order, usa.programming, usa.plan_load, usa.explosion_of_material, usa.office
              FROM planning_user_access usa 
              INNER JOIN users us ON us.id_user = usa.id_user
              WHERE us.id_company = :id_company AND us.id_user = :id_user;"
@@ -86,19 +86,21 @@ class PlanningUserAccessDao
         $idUser = $stmt->fetch($connection::FETCH_ASSOC);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO planning_user_access (id_user, create_mold, create_product, create_material, create_machine, create_process, products_material, 
-                                                                            products_process, programs_machine, cicles_machine, category, sale, user, inventory, plan_order) 
+            $stmt = $connection->prepare("INSERT INTO planning_user_access (id_user, create_mold, create_product, create_material, create_machine, create_process, products_material, products_process, programs_machine, 
+                                                                            cicles_machine, inv_category, sale, user, inventory, plan_order, programming, plan_load, explosion_of_material, office) 
                                           VALUES (:id_user, :create_mold, :create_product, :create_material, :create_machine, :create_process, :products_material, :products_process, 
-                                                    :programs_machine, :cicles_machine, :category, :sale, :user, :inventory, :plan_order)");
+                                                    :programs_machine, :cicles_machine, :inv_category, :sale, :user, :inventory, :plan_order, :programming, :plan_load, :explosion_of_material, :office)");
             $stmt->execute([
-                'id_user' => $idUser['idUser'],                             'programs_machine' => $dataUser['programsMachine'],
-                'create_mold' => $dataUser['createMold'],                   'cicles_machine' => $dataUser['ciclesMachine'],
-                'create_product' => $dataUser['createProduct'],             'category' => $dataUser['category'],
-                'create_material' => $dataUser['createMaterial'],           'sale' => $dataUser['sale'],
-                'create_machine' => $dataUser['createMachine'],             'user' => $dataUser['user'],
-                'create_process' => $dataUser['createProcess'],             'inventory' => $dataUser['inventory'],
-                'products_material' => $dataUser['productsMaterial'],       'plan_order' => $dataUser['order'],
-                'products_process' => $dataUser['productsProcess']
+                'id_user' => $idUser['idUser'],                                 'inv_category' => $dataUser['invCategory'],
+                'create_mold' => $dataUser['createMold'],                       'sale' => $dataUser['sale'],
+                'create_product' => $dataUser['createProduct'],                 'user' => $dataUser['user'],
+                'create_material' => $dataUser['createMaterial'],               'inventory' => $dataUser['inventory'],
+                'create_machine' => $dataUser['createMachine'],                 'plan_order' => $dataUser['order'],
+                'create_process' => $dataUser['createProcess'],                 'programming' => $dataUser['programming'],
+                'products_material' => $dataUser['productsMaterial'],           'plan_load' => $dataUser['load'],
+                'products_process' => $dataUser['productsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                'programs_machine' => $dataUser['programsMachine'],             'office' => $dataUser['office'],
+                'cicles_machine' => $dataUser['ciclesMachine']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -122,19 +124,21 @@ class PlanningUserAccessDao
 
         if ($rows > 1) {
             try {
-                $stmt = $connection->prepare("UPDATE planning_user_access SET create_mold = :create_mold, create_product = :create_product, create_material = :create_material, create_machine = :create_machine, create_process = :create_process, 
-                                                                              products_material = :products_material, products_process = :products_process, programs_machine = :programs_machine, cicles_machine = :cicles_machine,
-                                                                              category = :category, sale = :sale, user = :user, inventory = :inventory, plan_order = :plan_order 
+                $stmt = $connection->prepare("UPDATE planning_user_access SET create_mold = :create_mold, create_product = :create_product, create_material = :create_material, create_machine = :create_machine, create_process = :create_process, products_material = :products_material, 
+                                                                            products_process = :products_process, programs_machine = :programs_machine, cicles_machine = :cicles_machine, inv_category = :inv_category, sale = :sale, 
+                                                                            user = :user, inventory = :inventory, plan_order = :plan_order, programming = :programming, plan_load = :plan_load, explosion_of_material = :explosion_of_material, office = :office
                                               WHERE id_planning_user_access = :id_planning_user_access");
                 $stmt->execute([
-                    'id_planning_user_access' => $dataUser['idUserAccess'],             'programs_machine' => $dataUser['programsMachine'],
-                    'create_mold' => $dataUser['createMold'],                           'cicles_machine' => $dataUser['ciclesMachine'],
-                    'create_product' => $dataUser['createProduct'],                     'category' => $dataUser['category'],
-                    'create_material' => $dataUser['createMaterial'],                   'sale' => $dataUser['sale'],
-                    'create_machine' => $dataUser['createMachine'],                     'user' => $dataUser['user'],
-                    'create_process' => $dataUser['createProcess'],                     'inventory' => $dataUser['inventory'],
-                    'products_material' => $dataUser['productsMaterial'],               'plan_order' => $dataUser['order'],
-                    'products_process' => $dataUser['productsProcess']
+                    'id_planning_user_access' => $dataUser['idUserAccess'],         'inv_category' => $dataUser['invCategory'],
+                    'create_mold' => $dataUser['createMold'],                       'sale' => $dataUser['sale'],
+                    'create_product' => $dataUser['createProduct'],                 'user' => $dataUser['user'],
+                    'create_material' => $dataUser['createMaterial'],               'inventory' => $dataUser['inventory'],
+                    'create_machine' => $dataUser['createMachine'],                 'plan_order' => $dataUser['order'],
+                    'create_process' => $dataUser['createProcess'],                 'programming' => $dataUser['programming'],
+                    'products_material' => $dataUser['productsMaterial'],           'plan_load' => $dataUser['load'],
+                    'products_process' => $dataUser['productsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                    'programs_machine' => $dataUser['programsMachine'],             'office' => $dataUser['office'],
+                    'cicles_machine' => $dataUser['ciclesMachine']
                 ]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             } catch (\Exception $e) {

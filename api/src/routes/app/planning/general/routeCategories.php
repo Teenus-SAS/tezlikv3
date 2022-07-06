@@ -1,21 +1,21 @@
 <?php
 
-use tezlikv3\dao\CategoriesDao;
+use tezlikv3\dao\invCategoriesDao;
 
-$categoriesDao = new CategoriesDao();
+$invCategoriesDao = new invCategoriesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/categories', function (Request $request, Response $response, $args) use ($categoriesDao) {
-    $categories = $categoriesDao->findAllCategories();
+$app->get('/categories', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
+    $categories = $invCategoriesDao->findAllCategories();
     $response->getBody()->write(json_encode($categories, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use ($categoriesDao) {
+$app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
     $dataCategories = $request->getParsedBody();
 
     if (isset($dataCategories)) {
@@ -32,7 +32,7 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
                 $dataimportCategories = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
             } else {
-                $findCategory = $categoriesDao->findCategory($categories[$i]);
+                $findCategory = $invCategoriesDao->findCategory($categories[$i]);
                 if (!$findCategory) $insert = $insert + 1;
                 else $update = $update + 1;
                 $dataimportCategories['insert'] = $insert;
@@ -46,11 +46,11 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addCategory', function (Request $request, Response $response, $args) use ($categoriesDao) {
+$app->post('/addCategory', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
     $dataCategories = $request->getParsedBody();
 
     if (empty($dataCategories['importCategories'])) {
-        $category = $categoriesDao->insertCategory($dataCategories);
+        $category = $invCategoriesDao->insertCategory($dataCategories);
 
         if ($category == null)
             $resp = array('success' => true, 'message' => 'Categoria creada correctamente');
@@ -60,12 +60,12 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
         $categories = $dataCategories['importCategories'];
 
         for ($i = 0; $i < sizeof($categories); $i++) {
-            $findCategory = $categoriesDao->findCategory($categories[$i]);
+            $findCategory = $invCategoriesDao->findCategory($categories[$i]);
             if (!$findCategory)
-                $resolution = $categoriesDao->insertCategory($categories[$i]);
+                $resolution = $invCategoriesDao->insertCategory($categories[$i]);
             else {
                 $categories[$i]['idCategory'] = $findCategory['id_category'];
-                $resolution = $categoriesDao->updateCategory($categories[$i]);
+                $resolution = $invCategoriesDao->updateCategory($categories[$i]);
             }
         }
         if ($resolution == null)
@@ -78,13 +78,13 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateCategory', function (Request $request, Response $response, $args) use ($categoriesDao) {
+$app->post('/updateCategory', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
     $dataCategories = $request->getParsedBody();
 
     if (empty($dataCategories['category']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
-        $category = $categoriesDao->updateCategory($dataCategories);
+        $category = $invCategoriesDao->updateCategory($dataCategories);
 
         if ($category == null)
             $resp = array('success' => true, 'message' => 'Categoria actualizada correctamente');
@@ -96,8 +96,8 @@ $app->post('/updateCategory', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use ($categoriesDao) {
-    $category = $categoriesDao->deleteCategory($args['id_category']);
+$app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
+    $category = $invCategoriesDao->deleteCategory($args['id_category']);
 
     if ($category == null)
         $resp = array('success' => true, 'message' => 'Categoria eliminada correctamente');

@@ -6,6 +6,9 @@ require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/log
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
+
+<?php require_once dirname(dirname(dirname(__DIR__))) . '/planning/modals/createUserAccess.php'; ?>
+
 <div class="page-title-box">
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -20,155 +23,6 @@ $userinactivetimeDao->findSession();
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
                     <button class="btn btn-warning" id="btnNewUser">Nuevo Usuario y Accesos</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="page-content-wrapper mt--45 mb-5 cardCreateUsers">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form id="formCreateUser">
-                            <div class="gridx3estandar">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <label for="">Nombres </label>
-                                    <input type="text" class="form-control" id="nameUser" name="names">
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <label for="">Apellidos </label>
-                                    <input type="text" class="form-control" id="lastnameUser" name="lastnames">
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <label for="">Email </label>
-                                    <input type="text" class="form-control" id="emailUser" name="email">
-                                </div>
-                                <!-- <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                    <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>
-                                </div> -->
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="page-content-wrapper mt--45 mb-5 cardCreateAccessUser">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form id="formCreateAccessUser">
-                            <div class="gridx13">
-                                <!-- <div class="form-group floating-label enable-floating-label show-label namesUserAccess">
-                                    <label for="">Nombres </label>
-                                    <input class="form-control" id="nameUser" name="nameUser">
-                                </div> -->
-                                <div class="mb-1">
-                                    <label><b>Configuración Básica</b></label>
-                                </div>
-
-                                <div class="mb-1">
-                                    <label><b>Configuración</b></label>
-                                </div>
-
-                                <div class="mb-1">
-                                    <label><b>Configuración General</b></labellass=>
-                                </div>
-
-                                <div class="mb-1">
-                                    <label><b>Creación Usuarios</b></labels=>
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-1" name="molds" type="checkbox">
-                                    <label for="checkbox-1">Moldes</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-6" name="productMaterials" type="checkbox">
-                                    <label for="checkbox-6">Ficha Técnica Materias Primas</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-10" name="categories" type="checkbox">
-                                    <label for="checkbox-10">Categorias</label>
-                                </div>
-
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-12" name="user" type="checkbox">
-                                    <label for="checkbox-12">Usuarios</label>
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-2" name="createProduct" type="checkbox">
-                                    <label for="checkbox-2">Productos</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-7" name="productProcess" type="checkbox">
-                                    <label for="checkbox-7">Ficha Técnica Procesos</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-11" name="sales" type="checkbox">
-                                    <label for="checkbox-11">Ventas</label>
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-3" name="createMaterials" type="checkbox">
-                                    <label for="checkbox-3">Materiales</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-8" name="planningMachine" type="checkbox">
-                                    <label for="checkbox-8">Datos Programación Maquina</label>
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-4" name="createMachines" type="checkbox">
-                                    <label for="checkbox-4">Máquinas</label>
-                                </div>
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-9" name="planCiclesMachine" type="checkbox">
-                                    <label for="checkbox-9">Plan Ciclos Maquina</label>
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                </div>
-
-                                <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-5" name="createProcess" type="checkbox">
-                                    <label for="checkbox-5">Procesos</label>
-                                </div>
-
-                                <!-- <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-9" name="productLine" type="checkbox">
-                                    <label for="checkbox-9">Lineas de Producto</label>
-                                </div> -->
-
-
-                                <div class="form-group floating-label enable-floating-label show-label btnCreateAccessUser">
-                                    <button class="btn btn-success" id="btnCreateUserAndAccess">Crear Accesos Usuario</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </div>

@@ -50,7 +50,7 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
 });
 
 $app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
-    session_start();
+
     $dataUserAccess = $request->getParsedBody();
 
     $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);

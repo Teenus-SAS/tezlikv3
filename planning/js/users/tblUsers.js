@@ -170,16 +170,46 @@ $(document).ready(function () {
             : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
         },
       },
-      // {
-      //   title: 'Programación',
-      //   data: 'product_line',
-      //   className: 'uniqueClassName',
-      //   render: function (data, type, row) {
-      //     return data == 1
-      //       ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-      //       : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-      //   },
-      // },
+      {
+        title: 'Programación',
+        data: 'programming',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Cargues',
+        data: 'plan_load',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Explosión de Materiales',
+        data: 'explosion_of_material',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Despachos',
+        data: 'office',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
       {
         title: 'Acciones',
         data: 'id_planning_user_access',
