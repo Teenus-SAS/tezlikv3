@@ -5,12 +5,12 @@ $(document).ready(function () {
     url: `/api/planningUserAccess`,
     success: function (resp) {
       let acces = {
-        planningCreateProducts: resp.create_product,
-        planningCreateMaterials: resp.create_materials,
-        planningCreateMachines: resp.create_machines,
-        planningCreateProcess: resp.create_process,
-        planningProductsMaterials: resp.product_materials,
-        planningProductsProcess: resp.product_process,
+        costCreateProducts: resp.create_product,
+        costCreateMaterials: resp.create_materials,
+        costCreateMachines: resp.create_machines,
+        costCreateProcess: resp.create_process,
+        productsMaterials: resp.product_materials,
+        productsProcess: resp.product_process,
         factoryLoad: resp.factory_load,
         servicesExternal: resp.external_service,
         payroll: resp.payroll_load,
@@ -25,17 +25,17 @@ $(document).ready(function () {
         }
 
         if (
-          acces.planningCreateProducts === 0 &&
-          acces.planningCreateMaterials === 0 &&
-          acces.planningCreateMachines === 0 &&
-          acces.planningCreateProcess === 0
+          acces.costCreateProducts === 0 &&
+          acces.costCreateMaterials === 0 &&
+          acces.costCreateMachines === 0 &&
+          acces.costCreateProcess === 0
         ) {
           $('#navBasics').remove();
         }
 
         if (
-          acces.planningProductsMaterials === 0 &&
-          acces.planningProductsProcess === 0 &&
+          acces.productsMaterials === 0 &&
+          acces.productsProcess === 0 &&
           acces.factoryLoad === 0 &&
           acces.servicesExternal === 0
         ) {

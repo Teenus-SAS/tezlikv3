@@ -33,8 +33,8 @@ $app->post('/addPlanningUserAccess', function (Request $request, Response $respo
     $id_user = $_SESSION['idUser'];
 
     if (
-        empty($dataUserAccess['createProduct']) && empty($dataUserAccess['createMaterials']) &&
-        empty($dataUserAccess['createMachines']) && empty($dataUserAccess['createProcess'])
+        empty($dataUserAccess['planningCreateProduct']) && empty($dataUserAccess['planningCreateMaterials']) &&
+        empty($dataUserAccess['planningCreateMachines']) && empty($dataUserAccess['planningCreateProcess'])
     )
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {

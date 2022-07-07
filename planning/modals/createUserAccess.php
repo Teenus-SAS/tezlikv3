@@ -44,7 +44,7 @@
                                             <label for=""><b>Menú Configuración:</b></label>
                                         </div>
 
-                                        <div class="row mb-4">
+                                        <div class="row mb-4" style="margin:auto;">
                                             <div class="col-lg-3 mb-3">Básico</div>
                                             <div class="col col-lg-3">
                                                 Configuración
@@ -84,7 +84,7 @@
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-2" name="createProduct" type="checkbox">
+                                                    <input id="checkbox-2" name="planningCreateProduct" type="checkbox">
                                                     <label for="checkbox-2">Productos</label>
                                                 </div>
                                             </div>
@@ -104,7 +104,7 @@
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-3" name="createMaterials" type="checkbox">
+                                                    <input id="checkbox-3" name="planningCreateMaterials" type="checkbox">
                                                     <label for="checkbox-3">Materiales</label>
                                                 </div>
                                             </div>
@@ -119,7 +119,7 @@
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-4" name="createMachines" type="checkbox">
+                                                    <input id="checkbox-4" name="planningCreateMachines" type="checkbox">
                                                     <label for="checkbox-4">Máquinas</label>
                                                 </div>
                                             </div>
@@ -134,7 +134,7 @@
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-5" name="createProcess" type="checkbox">
+                                                    <input id="checkbox-5" name="planningCreateProcess" type="checkbox">
                                                     <label for="checkbox-5">Procesos</label>
                                                 </div>
                                             </div>
@@ -143,7 +143,7 @@
                                         <div class="col-12 col-lg-12">
                                             <label for=""><b>Menú Navegación:</b></label>
                                         </div>
-                                        <div class="row">
+                                        <div class="row" style="margin:auto;">
                                             <!-- <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-1" name="molds" type="checkbox">

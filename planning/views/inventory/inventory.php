@@ -35,30 +35,6 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<!-- <div class=" page-content-wrapper mt--45 mb-5 cardCreateInventory">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <form id="formCreateInventory">
-                        <div class=" card-body">
-                            <div class="gridx2p">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <label for="">Proceso</label>
-                                    <input type="text" class="form-control" id="Inventory" name=" Inventory">
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                    <button class="btn btn-success" id="btnCreateInventory">Crear Proceso</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
 <div class=" page-content-wrapper mt--45 mb-5 cardImportInventory">
     <div class="container-fluid">
         <div class="row">
@@ -105,50 +81,6 @@ $userinactivetimeDao->findSession();
                 </div>
             </div>
         </div>
-        <!-- Row 5 -->
-        <!-- <div class="row">
-            <div class="col-12 cardTableInvProducts">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Inventario Productos</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="tblInvProducts">
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 cardTableInvMaterials">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Inventario Materiales</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="tblInvMaterials">
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 cardTableInvSupplies">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Inventario Insumos</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped" id="tblInvSupplies">
-
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
     </div>
 </div>
 </div>

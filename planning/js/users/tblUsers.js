@@ -122,7 +122,7 @@ $(document).ready(function () {
       },
       {
         title: 'Categorias',
-        data: 'category',
+        data: 'inv_category',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1
@@ -212,7 +212,7 @@ $(document).ready(function () {
       },
       {
         title: 'Acciones',
-        data: 'id_planning_user_access',
+        data: 'id_user',
         className: 'uniqueClassName',
         render: function (data) {
           return `

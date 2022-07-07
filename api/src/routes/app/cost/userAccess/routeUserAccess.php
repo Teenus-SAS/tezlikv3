@@ -33,8 +33,8 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
     $id_user = $_SESSION['idUser'];
 
     if (
-        empty($dataUserAccess['createProduct']) && empty($dataUserAccess['createMaterials']) &&
-        empty($dataUserAccess['createMachines']) && empty($dataUserAccess['createProcess'])
+        empty($dataUserAccess['createProduct']) && empty($dataUserAccess['costCreateMaterials']) &&
+        empty($dataUserAccess['costCreateMachines']) && empty($dataUserAccess['costCreateProcess'])
     )
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {

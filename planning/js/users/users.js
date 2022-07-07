@@ -19,7 +19,7 @@ $(document).ready(function () {
     $('#createUserAccess').modal('show');
     $('#btnCreateUserAndAccess').html('Crear Usuario y Accesos');
 
-    sessionStorage.removeItem('id_user_access');
+    sessionStorage.removeItem('id_user');
 
     $('#nameUser').prop('disabled', false);
     $('#lastnameUser').prop('disabled', false);
@@ -33,9 +33,9 @@ $(document).ready(function () {
 
   $('#btnCreateUserAndAccess').click(function (e) {
     e.preventDefault();
-    let idUserAccess = sessionStorage.getItem('id_user_access');
+    let idUser = sessionStorage.getItem('id_user');
 
-    if (idUserAccess == '' || idUserAccess == null) {
+    if (idUser == '' || idUser == null) {
       nameUser = $('#nameUser').val();
       lastnameUser = $('#lastnameUser').val();
       emailUser = $('#emailUser').val();
@@ -87,8 +87,8 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUserAccess = this.id;
-    sessionStorage.setItem('id_user_access', idUserAccess);
+    let idUser = this.id;
+    sessionStorage.setItem('id_user', idUser);
 
     $('#nameUser').val(data.firstname);
     $('#lastnameUser').val(data.lastname);
@@ -134,10 +134,10 @@ $(document).ready(function () {
   });
 
   updateUserAccess = () => {
-    idUserAccess = sessionStorage.getItem('id_user_access');
+    idUser = sessionStorage.getItem('id_user');
 
     dataUser = {};
-    dataUser['idUser'] = idUserAccess;
+    dataUser['idUser'] = idUser;
     dataUser['nameUser'] = $('#nameUser').val();
     dataUser['lastnameUser'] = $('#lastnameUser').val();
     dataUser['emailUser'] = $('#emailUser').val();
@@ -156,20 +156,20 @@ $(document).ready(function () {
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 19; i++) {
+    for (let i = 1; i <= 18; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataUser['createMold'] = '1';
-        if (i == 2) dataUser['createProduct'] = '1';
-        if (i == 3) dataUser['createMaterial'] = '1';
-        if (i == 4) dataUser['createMachine'] = '1';
-        if (i == 5) dataUser['createProcess'] = '1';
-        if (i == 6) dataUser['productsMaterial'] = '1';
-        if (i == 7) dataUser['productsProcess'] = '1';
+        if (i == 2) dataUser['planningCreateProduct'] = '1';
+        if (i == 3) dataUser['planningCreateMaterial'] = '1';
+        if (i == 4) dataUser['planningCreateMachine'] = '1';
+        if (i == 5) dataUser['planningCreateProcess'] = '1';
+        if (i == 6) dataUser['planningProductsMaterial'] = '1';
+        if (i == 7) dataUser['planningProductsProcess'] = '1';
         if (i == 8) dataUser['programsMachine'] = '1';
         if (i == 9) dataUser['ciclesMachine'] = '1';
         if (i == 10) dataUser['invCategory'] = '1';
         if (i == 11) dataUser['sale'] = '1';
-        if (i == 12) dataUser['user'] = '1';
+        if (i == 12) dataUser['plannigUser'] = '1';
         if (i == 13) dataUser['inventory'] = '1';
         if (i == 14) dataUser['order'] = '1';
         if (i == 15) dataUser['programming'] = '1';
@@ -178,17 +178,17 @@ $(document).ready(function () {
         if (i == 18) dataUser['office'] = '1';
       } else {
         if (i == 1) dataUser['createMold'] = '0';
-        if (i == 2) dataUser['createProduct'] = '0';
-        if (i == 3) dataUser['createMaterial'] = '0';
-        if (i == 4) dataUser['createMachine'] = '0';
-        if (i == 5) dataUser['createProcess'] = '0';
-        if (i == 6) dataUser['productsMaterial'] = '0';
-        if (i == 7) dataUser['productsProcess'] = '0';
+        if (i == 2) dataUser['planningCreateProduct'] = '0';
+        if (i == 3) dataUser['planningCreateMaterial'] = '0';
+        if (i == 4) dataUser['planningCreateMachine'] = '0';
+        if (i == 5) dataUser['planningCreateProcess'] = '0';
+        if (i == 6) dataUser['planningProductsMaterial'] = '0';
+        if (i == 7) dataUser['planningProductsProcess'] = '0';
         if (i == 8) dataUser['programsMachine'] = '0';
         if (i == 9) dataUser['ciclesMachine'] = '0';
         if (i == 10) dataUser['invCategory'] = '0';
         if (i == 11) dataUser['sale'] = '0';
-        if (i == 12) dataUser['user'] = '0';
+        if (i == 12) dataUser['plannigUser'] = '0';
         if (i == 13) dataUser['inventory'] = '0';
         if (i == 14) dataUser['order'] = '0';
         if (i == 15) dataUser['programming'] = '0';
@@ -207,11 +207,11 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUserAccess = data.id_planning_user_access;
+    // let idUser = data.id_user;
     let idUser = data.id_user;
     let programsMachine = data.programs_machine;
     dataUser = {};
-    dataUser['idUserAccess'] = idUserAccess;
+    // dataUser['idUser'] = idUser;
     dataUser['idUser'] = idUser;
     dataUser['programsMachine'] = programsMachine;
 

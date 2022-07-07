@@ -91,7 +91,7 @@ $userinactivetimeDao->findSession();
                                     <label for="checkbox-1">Crear Productos</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-5" name="productMaterials" type="checkbox">
+                                    <input id="checkbox-5" name="costProductMaterials" type="checkbox">
                                     <label for="checkbox-5">Ficha Técnica Materias Primas</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
@@ -101,16 +101,16 @@ $userinactivetimeDao->findSession();
 
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-13" name="user" type="checkbox">
+                                    <input id="checkbox-13" name="costUser" type="checkbox">
                                     <label for="checkbox-13">Usuarios</label>
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-2" name="createMaterials" type="checkbox">
+                                    <input id="checkbox-2" name="costCreateMaterials" type="checkbox">
                                     <label for="checkbox-2">Crear Materiales</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-6" name="productProcess" type="checkbox">
+                                    <input id="checkbox-6" name="costProductProcess" type="checkbox">
                                     <label for="checkbox-6">Ficha Técnica Procesos</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
@@ -122,7 +122,7 @@ $userinactivetimeDao->findSession();
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-3" name="createMachines" type="checkbox">
+                                    <input id="checkbox-3" name="costCreateMachines" type="checkbox">
                                     <label for="checkbox-3">Crear Máquinas</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
@@ -138,7 +138,7 @@ $userinactivetimeDao->findSession();
                                 </div>
 
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">
-                                    <input id="checkbox-4" name="createProcess" type="checkbox">
+                                    <input id="checkbox-4" name="costCreateProcess" type="checkbox">
                                     <label for="checkbox-4">Crear Procesos</label>
                                 </div>
                                 <div class="checkbox checkbox-success checkbox-circle mb-1">

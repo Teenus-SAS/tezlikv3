@@ -23,7 +23,7 @@ class PlanningUserAccessDao
         $rol = $_SESSION['rol'];
 
         if ($rol == 2) {
-            $stmt = $connection->prepare("SELECT usa.id_planning_user_access, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
+            $stmt = $connection->prepare("SELECT usa.id_user, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
                                                  usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, usa.inv_category, 
                                                  usa.sale, usa.user, usa.inventory, usa.plan_order, usa.programming, usa.plan_load, usa.explosion_of_material, usa.office
                                           FROM planning_user_access usa 
@@ -59,7 +59,7 @@ class PlanningUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare(
-            "SELECT usa.id_planning_user_access, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
+            "SELECT usa.id_user, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
                     usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, usa.inv_category, 
                     usa.sale, usa.user, usa.inventory, usa.plan_order, usa.programming, usa.plan_load, usa.explosion_of_material, usa.office
              FROM planning_user_access usa 
@@ -93,12 +93,12 @@ class PlanningUserAccessDao
             $stmt->execute([
                 'id_user' => $idUser['idUser'],                                 'inv_category' => $dataUser['invCategory'],
                 'create_mold' => $dataUser['createMold'],                       'sale' => $dataUser['sale'],
-                'create_product' => $dataUser['createProduct'],                 'user' => $dataUser['user'],
-                'create_material' => $dataUser['createMaterial'],               'inventory' => $dataUser['inventory'],
-                'create_machine' => $dataUser['createMachine'],                 'plan_order' => $dataUser['order'],
-                'create_process' => $dataUser['createProcess'],                 'programming' => $dataUser['programming'],
-                'products_material' => $dataUser['productsMaterial'],           'plan_load' => $dataUser['load'],
-                'products_process' => $dataUser['productsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                'create_product' => $dataUser['planningCreateProduct'],                 'user' => $dataUser['plannigUser'],
+                'create_material' => $dataUser['planningCreateMaterial'],               'inventory' => $dataUser['inventory'],
+                'create_machine' => $dataUser['planningCreateMachine'],                 'plan_order' => $dataUser['order'],
+                'create_process' => $dataUser['planningCreateProcess'],                 'programming' => $dataUser['programming'],
+                'products_material' => $dataUser['planningProductsMaterial'],           'plan_load' => $dataUser['load'],
+                'products_process' => $dataUser['planningProductsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
                 'programs_machine' => $dataUser['programsMachine'],             'office' => $dataUser['office'],
                 'cicles_machine' => $dataUser['ciclesMachine']
             ]);
@@ -118,7 +118,7 @@ class PlanningUserAccessDao
             si el usuario es > 1 no hacer nada
             de lo contrario realizar la actualizacion
          */
-        $stmt = $connection->prepare("SELECT * FROM cost_users_access");
+        $stmt = $connection->prepare("SELECT * FROM planning_user_access");
         $stmt->execute();
         $rows = $stmt->rowCount();
 
@@ -127,17 +127,17 @@ class PlanningUserAccessDao
                 $stmt = $connection->prepare("UPDATE planning_user_access SET create_mold = :create_mold, create_product = :create_product, create_material = :create_material, create_machine = :create_machine, create_process = :create_process, products_material = :products_material, 
                                                                             products_process = :products_process, programs_machine = :programs_machine, cicles_machine = :cicles_machine, inv_category = :inv_category, sale = :sale, 
                                                                             user = :user, inventory = :inventory, plan_order = :plan_order, programming = :programming, plan_load = :plan_load, explosion_of_material = :explosion_of_material, office = :office
-                                              WHERE id_planning_user_access = :id_planning_user_access");
+                                              WHERE id_user = :id_user");
                 $stmt->execute([
-                    'id_planning_user_access' => $dataUser['idUserAccess'],         'inv_category' => $dataUser['invCategory'],
-                    'create_mold' => $dataUser['createMold'],                       'sale' => $dataUser['sale'],
-                    'create_product' => $dataUser['createProduct'],                 'user' => $dataUser['user'],
-                    'create_material' => $dataUser['createMaterial'],               'inventory' => $dataUser['inventory'],
-                    'create_machine' => $dataUser['createMachine'],                 'plan_order' => $dataUser['order'],
-                    'create_process' => $dataUser['createProcess'],                 'programming' => $dataUser['programming'],
-                    'products_material' => $dataUser['productsMaterial'],           'plan_load' => $dataUser['load'],
-                    'products_process' => $dataUser['productsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
-                    'programs_machine' => $dataUser['programsMachine'],             'office' => $dataUser['office'],
+                    'id_user' => $dataUser['idUser'],                                       'inv_category' => $dataUser['invCategory'],
+                    'create_mold' => $dataUser['createMold'],                               'sale' => $dataUser['sale'],
+                    'create_product' => $dataUser['planningCreateProduct'],                 'user' => $dataUser['plannigUser'],
+                    'create_material' => $dataUser['planningCreateMaterial'],               'inventory' => $dataUser['inventory'],
+                    'create_machine' => $dataUser['planningCreateMachine'],                 'plan_order' => $dataUser['order'],
+                    'create_process' => $dataUser['planningCreateProcess'],                 'programming' => $dataUser['programming'],
+                    'products_material' => $dataUser['planningProductsMaterial'],           'plan_load' => $dataUser['load'],
+                    'products_process' => $dataUser['planningProductsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                    'programs_machine' => $dataUser['programsMachine'],                     'office' => $dataUser['office'],
                     'cicles_machine' => $dataUser['ciclesMachine']
                 ]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -154,30 +154,8 @@ class PlanningUserAccessDao
     public function deleteUserAccess($dataUser)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("DELETE FROM planning_user_access WHERE id_planning_user_access = :id_planning_user_access");
-        $stmt->execute(['id_planning_user_access' => $dataUser['idUserAccess']]);
+        $stmt = $connection->prepare("DELETE FROM planning_user_access WHERE id_user = :id_user");
+        $stmt->execute(['id_user' => $dataUser['idUser']]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-
-
-        // session_start();
-        // $idUser = $_SESSION['idUser'];
-
-        // $connection = Connection::getInstance()->getConnection();
-
-        // if ($dataUser['idUser'] != $idUser) {
-
-        //     $stmt = $connection->prepare("SELECT * FROM cost_users_access WHERE id_cost_user_access = :id_cost_user_access");
-        //     $stmt->execute(['id_cost_user_access' => $dataUser['idUserAccess']]);
-        //     $rows = $stmt->rowCount();
-
-        //     if ($rows > 0) {
-        //         $stmt = $connection->prepare("DELETE FROM cost_users_access WHERE id_cost_user_access = :id_cost_user_access");
-        //         $stmt->execute(['id_cost_user_access' => $dataUser['idUserAccess']]);
-        //         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        //     }
-        // } else {
-        //     return 1;
-        // }
     }
 }

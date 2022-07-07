@@ -2,13 +2,13 @@ $(document).ready(function () {
   /* ACCESOS DE USUARIO */
   $.ajax({
     type: 'POST',
-    url: `/api/costUserAccess`,
+    url: `/api/costcostUserAccess`,
     success: function (resp) {
       let acces = {
-        createProducts: resp.create_product,
-        createMaterials: resp.create_materials,
-        createMachines: resp.create_machines,
-        createProcess: resp.create_process,
+        costCreateProducts: resp.create_product,
+        costCreateMaterials: resp.create_materials,
+        costCreateMachines: resp.create_machines,
+        costCreateProcess: resp.create_process,
         productsMaterials: resp.product_materials,
         productsProcess: resp.product_process,
         factoryLoad: resp.factory_load,
@@ -16,7 +16,7 @@ $(document).ready(function () {
         payroll: resp.payroll_load,
         generalExpenses: resp.expense,
         distributionExpenses: resp.expense_distribution,
-        users: resp.user,
+        users: resp.costUser,
       };
 
       $.each(acces, (index, value) => {
@@ -25,10 +25,10 @@ $(document).ready(function () {
         }
 
         if (
-          acces.createProducts === 0 &&
-          acces.createMaterials === 0 &&
-          acces.createMachines === 0 &&
-          acces.createProcess === 0
+          acces.costCreateProducts === 0 &&
+          acces.costCreateMaterials === 0 &&
+          acces.costCreateMachines === 0 &&
+          acces.costCreateProcess === 0
         ) {
           $('#navBasics').remove();
         }

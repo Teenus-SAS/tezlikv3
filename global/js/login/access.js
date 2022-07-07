@@ -4,13 +4,13 @@ $(document).ready(function () {
         url: "../../../api/costUserAccess",
         success: function(r) {
             if (r[0].create_product == 0)
-                $('.createProducts').remove();
+                $('.costCreateProducts').remove();
             if (r[0].create_materials == 0)
-                $('.createMaterials').remove();
+                $('.costCreateMaterials').remove();
             if (r[0].create_machines == 0)
-                $('.createMachines').remove();
+                $('.costCreateMachines').remove();
             if (r[0].create_process == 0)
-                $('.createProcess').remove();
+                $('.costCreateProcess').remove();
     
             if (r[0].product_materials == 0)
                 $('.productsMaterials').remove();

@@ -44,7 +44,7 @@
                                             <label for=""><b>Menú Configuración:</b></label>
                                         </div>
 
-                                        <div class="row mb-4">
+                                        <div class="row mb-4" style="margin:auto;">
                                             <div class="col-lg-3 mb-3">Básico</div>
                                             <div class="col col-lg-3">
                                                 Configuración
@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="col-lg-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-5" name="productMaterials" type="checkbox">
+                                                    <input id="checkbox-5" name="costProductMaterials" type="checkbox">
                                                     <label for="checkbox-5">Ficha Técnica Materiales</label>
                                                 </div>
                                             </div>
@@ -84,13 +84,13 @@
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-2" name="createMaterials" type="checkbox">
+                                                    <input id="checkbox-2" name="costCreateMaterials" type="checkbox">
                                                     <label for="checkbox-2">Crear Materiales</label>
                                                 </div>
                                             </div>
                                             <div class="col col-lg-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-6" name="productProcess" type="checkbox">
+                                                    <input id="checkbox-6" name="costProductProcess" type="checkbox">
                                                     <label for="checkbox-6">Ficha Técnica Procesos</label>
                                                 </div>
                                             </div>
@@ -104,7 +104,7 @@
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-3" name="createMachines" type="checkbox">
+                                                    <input id="checkbox-3" name="costCreateMachines" type="checkbox">
                                                     <label for="checkbox-3">Crear Máquinas</label>
                                                 </div>
                                             </div>
@@ -124,7 +124,7 @@
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-4" name="createProcess" type="checkbox">
+                                                    <input id="checkbox-4" name="costCreateProcess" type="checkbox">
                                                     <label for="checkbox-4">Crear Procesos</label>
                                                 </div>
                                             </div>
@@ -142,8 +142,7 @@
                                             <label for=""><b>Menú Navegación:</b></label>
                                         </div>
                                         <div class="container">
-
-                                            <div class="row">
+                                            <div class="row" style="margin:auto;">
                                                 <!-- <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-1" name="molds" type="checkbox">

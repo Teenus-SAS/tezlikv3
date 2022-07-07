@@ -79,8 +79,11 @@ require_once('../api/src/routes/app/cost/prices/routePrices.php');
 // Tools
 require_once('../api/src/routes/app/cost/tools/routeSupport.php');
 
-/* User */
+// User Access
 require_once('../api/src/routes/app/cost/userAccess/routeUserAccess.php');
+
+/* User */
+require_once('../api/src/routes/app/users/routeGeneralUserAccess.php');
 require_once('../api/src/routes/app/users/routeUsers.php');
 require_once('../api/src/routes/app/users/routeQuantityUsers.php');
 require_once('../api/src/routes/app/users/routeUsersStatus.php');

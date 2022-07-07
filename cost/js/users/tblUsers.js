@@ -192,7 +192,7 @@ $(document).ready(function () {
       },
       {
         title: 'Acciones',
-        data: 'id_cost_user_access',
+        data: 'id_user',
         className: 'uniqueClassName',
         render: function (data) {
           return `
