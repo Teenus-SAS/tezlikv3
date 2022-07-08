@@ -41,6 +41,15 @@ $(document).ready(function () {
           data: 'quantity',
           className: 'uniqueClassName',
         },
+        {
+          title: 'Clasificación',
+          data: null,
+          className: 'uniqueClassName',
+          visible: data['visible'],
+          render: function (data) {
+            return `<p>${data.classification}</p>`;
+          },
+        },
       ],
     });
   };

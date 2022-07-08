@@ -26,6 +26,19 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let SalesToImport = data.map((item) => {
+          !item.enero ? (item.enero = '') : item.enero;
+          !item.febrero ? (item.febrero = '') : item.febrero;
+          !item.marzo ? (item.marzo = '') : item.marzo;
+          !item.abril ? (item.abril = '') : item.abril;
+          !item.mayo ? (item.mayo = '') : item.mayo;
+          !item.junio ? (item.junio = '') : item.junio;
+          !item.julio ? (item.julio = '') : item.julio;
+          !item.agosto ? (item.agosto = '') : item.agosto;
+          !item.septiembre ? (item.septiembre = '') : item.septiembre;
+          !item.octubre ? (item.octubre = '') : item.octubre;
+          !item.noviembre ? (item.noviembre = '') : item.noviembre;
+          !item.diciembre ? (item.diciembre = '') : item.diciembre;
+
           return {
             referenceProduct: item.referencia,
             product: item.producto,

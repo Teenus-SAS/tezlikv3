@@ -32,14 +32,17 @@ $(document).ready(function () {
       // Productos
       if (value == 1) {
         data = getProducts(products);
+        data['visible'] = true;
       }
       // Materias Prima
       if (value == 2) {
         data = getMaterials(materials);
+        data['visible'] = false;
       }
       // Insumos
       if (value == 3) {
         data = getSupplies(supplies);
+        data['visible'] = false;
       }
       // Todos
       if (value == 4) {
@@ -48,6 +51,7 @@ $(document).ready(function () {
         dataSupplies = getSupplies(supplies);
 
         data = dataProducts.concat(dataMaterials, dataSupplies);
+        data['visible'] = false;
       }
 
       loadTable(data);
@@ -63,6 +67,7 @@ $(document).ready(function () {
         category: 'Producto',
         unit: 'Unidad',
         quantity: products[i].quantity,
+        classification: products[i].classification,
       });
     }
 

@@ -2,9 +2,11 @@
 
 use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\UnitSalesDao;
+use tezlikv3\dao\ClassificationDao;
 
 $unitSalesDao = new UnitSalesDao();
 $productsDao = new PlanProductsDao();
+$classificationDao = new ClassificationDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -42,8 +44,8 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
             } else $unitSales[$i]['idProduct'] = $findProduct['id_product'];
 
             if (
-                empty($unitSales[$i]['january']) || empty($unitSales[$i]['february']) || empty($unitSales[$i]['march']) || empty($unitSales[$i]['april']) || empty($unitSales[$i]['may']) || empty($unitSales[$i]['june']) ||
-                empty($unitSales[$i]['july']) || empty($unitSales[$i]['august']) || empty($unitSales[$i]['september']) || empty($unitSales[$i]['october']) ||  empty($unitSales[$i]['november']) ||  empty($unitSales[$i]['december'])
+                empty($unitSales[$i]['january']) && empty($unitSales[$i]['february']) && empty($unitSales[$i]['march']) && empty($unitSales[$i]['april']) && empty($unitSales[$i]['may']) && empty($unitSales[$i]['june']) &&
+                empty($unitSales[$i]['july']) && empty($unitSales[$i]['august']) && empty($unitSales[$i]['september']) && empty($unitSales[$i]['october']) &&  empty($unitSales[$i]['november']) && empty($unitSales[$i]['december'])
             ) {
                 $i = $i + 1;
                 $dataImportUnitSales = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
@@ -63,7 +65,7 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addUnitSales', function (Request $request, Response $response, $args) use ($unitSalesDao, $productsDao) {
+$app->post('/addUnitSales', function (Request $request, Response $response, $args) use ($unitSalesDao, $productsDao, $classificationDao) {
     session_start();
     $dataSale = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -93,8 +95,12 @@ $app->post('/addUnitSales', function (Request $request, Response $response, $arg
                 $unitSales[$i]['idSale'] = $findUnitSales['id_unit_sales'];
                 $resolution = $unitSalesDao->updateSales($unitSales[$i]);
             }
+
+            // Calcular Clasificación producto
+            $unitSales[$i]['cantMonths'] = 3;
+            $classification = $classificationDao->calcClassificationByProduct($unitSales[$i], $id_company);
         }
-        if ($resolution == null)
+        if ($resolution == null && $classification == null)
             $resp = array('success' => true, 'message' => 'Venta importada correctamente');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');

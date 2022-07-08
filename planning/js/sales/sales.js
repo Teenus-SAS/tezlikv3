@@ -43,21 +43,20 @@ $(document).ready(function () {
       december = $('#december').val();
 
       data =
-        idProduct *
-        january *
-        february *
-        march *
-        april *
-        may *
-        june *
-        july *
-        august *
-        september *
-        october *
-        november *
+        january +
+        february +
+        march +
+        april +
+        may +
+        june +
+        july +
+        august +
+        september +
+        october +
+        november +
         december;
 
-      if (!data || data == 0 || isNaN(data)) {
+      if (!idProduct || !data || data == 0 || isNaN(data)) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
