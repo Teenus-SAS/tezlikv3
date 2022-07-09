@@ -4,12 +4,15 @@ use tezlikv3\dao\InventoryDao;
 use tezlikv3\dao\InvMoldsDao;
 use tezlikv3\dao\PlanMaterialsDao;
 use tezlikv3\dao\PlanProductsDao;
-
+use tezlikv3\dao\ClassificationDao;
+use tezlikv3\dao\UnitSalesDao;
 
 $inventoryDao = new InventoryDao();
 $moldsDao = new InvMoldsDao();
 $productsDao = new PlanProductsDao();
+$unitSalesDao = new UnitSalesDao();
 $materialsDao = new PlanMaterialsDao();
+$classificationDao = new ClassificationDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -33,14 +36,13 @@ $app->get('/inventory', function (Request $request, Response $response, $args) u
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao, $moldsDao) {
+$app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao, $moldsDao, $unitSalesDao) {
     $dataInventory = $request->getParsedBody();
 
     if (isset($dataInventory)) {
         session_start();
         $id_company = $_SESSION['id_company'];
 
-        $insert = 0;
         $update = 0;
 
         $inventory = $dataInventory['importInventory'];
@@ -72,8 +74,8 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
                 }
             }
 
-            if ($category == 'Material' || $category == 'Insumo') {
-                if ($inventory[$i]['unityRawMaterial']) {
+            if ($category == 'Materiales' || $category == 'Insumos') {
+                if (empty($inventory[$i]['unityRawMaterial'])) {
                     $i = $i + 1;
                     $dataImportinventory = array('error' => true, 'message' => "Unidad vacia en la fila: {$i}");
                     break;
@@ -84,20 +86,42 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
                 $inventory[$i]['referenceProduct'] = $inventory[$i]['reference'];
                 $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
 
+                // Consultar si existe producto
                 $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
-                !$findProduct ? $insert = $insert + 1 : $update = $update + 1;
+                // Consultar si existe en tabla unit_sales
+                $inventory[$i]['idProduct'] = $findProduct['id_product'];
+                $unitSales = $unitSalesDao->findSales($inventory[$i], $id_company);
+                if (!$findProduct || $unitSales) {
+                    // Almacenar inventarios no existentes
+                    $dataImportinventory['reference'][$i] = $inventory[$i]['reference'];
+                    $dataImportinventory['nameInventory'][$i] = $inventory[$i]['nameInventory'];
+                    unset($inventory[$i]);
+                } else {
+                    $update = $update + 1;
+                }
             }
             if ($category == 'Materiales' || $category == 'Insumos') {
                 $inventory[$i]['refRawMaterial'] = $inventory[$i]['reference'];
                 $inventory[$i]['nameRawMaterial'] = $inventory[$i]['nameInventory'];
 
                 $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
-                !$findMaterial ? $insert = $insert + 1 : $update = $update + 1;
+                if (!$findMaterial) {
+                    // Almacenar inventarios no existentes
+                    $dataImportinventory['reference'][$i] = $inventory[$i]['reference'];
+                    $dataImportinventory['nameInventory'][$i] = $inventory[$i]['nameInventory'];
+                    unset($inventory[$i]);
+                } else $update = $update + 1;
             }
-
-            $dataImportinventory['insert'] = $insert;
-            $dataImportinventory['update'] = $update;
+            // Resetear llaves
+            $inventory = array_values($inventory);
+            if (isset($dataImportinventory)) {
+                $dataImportinventory['reference'] = array_values($dataImportinventory['reference']);
+                $dataImportinventory['nameInventory'] = array_values($dataImportinventory['nameInventory']);
+            }
         }
+        $dataImportinventory['update'] = $update;
+        // Almacenar inventarios existentes
+        $_SESSION['dataImportInventory'] = $inventory;
     } else
         $dataImportinventory = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 
@@ -105,12 +129,11 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addInventory', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao, $moldsDao) {
+$app->post('/addInventory', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao, $moldsDao, $classificationDao) {
     session_start();
-    $dataInventory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
-    $inventory = $dataInventory['importInventory'];
+    $inventory = $_SESSION['dataImportInventory'];
 
     for ($i = 0; $i < sizeof($inventory); $i++) {
         $category = $inventory[$i]['category'];
@@ -120,38 +143,48 @@ $app->post('/addInventory', function (Request $request, Response $response, $arg
             $findMold = $moldsDao->findInvMold($inventory[$i], $id_company);
             $inventory[$i]['idMold'] = $findMold['id_mold'];
 
-            $inventory[$i]['referenceProduct'] = $inventory[$i]['reference'];
-            $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
+            //$inventory[$i]['referenceProduct'] = $inventory[$i]['reference'];
+            //$inventory[$i]['product'] = $inventory[$i]['nameInventory'];
 
             $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
-            if (!$findProduct)
-                $product = $productsDao->insertProductByCompany($inventory[$i], $id_company);
-            else {
-                $inventory[$i]['idProduct'] = $findProduct['id_product'];
-                $product = $productsDao->updateProductByCompany($inventory[$i], $id_company);
-            }
+            /*if (!$findProduct)
+                $resolution = $productsDao->insertProductByCompany($inventory[$i], $id_company);
+            else {}*/
+            // $inventory[$i]['idProduct'] = $findProduct['id_product'];
+            $resolution = $productsDao->updateProductByCompany($inventory[$i], $id_company);
+
+            // Calcular clasificación
+            $inventory[$i]['cantMonths'] = 3;
+            $classification = $classificationDao->calcClassificationByProduct($inventory[$i], $id_company);
         }
 
         // Materia prima y Insumos
         if ($category == 'Materiales' || $category == 'Insumos') {
-            $inventory[$i]['refRawMaterial'] = $inventory[$i]['reference'];
-            $inventory[$i]['nameRawMaterial'] = $inventory[$i]['nameInventory'];
+            //$inventory[$i]['refRawMaterial'] = $inventory[$i]['reference'];
+            //$inventory[$i]['nameRawMaterial'] = $inventory[$i]['nameInventory'];
 
             $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
-            if (!$findMaterial) $material = $materialsDao->insertMaterialsByCompany($inventory[$i], $id_company);
-            else {
-                $inventory[$i]['idMaterial'] = $findMaterial['id_material'];
-                $material = $materialsDao->updateMaterialsByCompany($inventory[$i]);
-            }
+            // if (!$findMaterial) $resolution = $materialsDao->insertMaterialsByCompany($inventory[$i], $id_company);
+            // else {}
+            $inventory[$i]['idMaterial'] = $findMaterial['id_material'];
+            $resolution = $materialsDao->updateMaterialsByCompany($inventory[$i]);
         }
     }
-    if ($product == null && $material == null)
+    if ($resolution == null)
         $resp = array('success' => true, 'message' => 'Inventario importado correctamente');
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/deleteInventorySession', function (Request $request, Response $response, $args) {
+    //Eliminar variable session
+    session_start();
+    unset($_SESSION['dataImportInventory']);
+    $response->getBody()->write(json_encode(JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 /*$app->post('/updateinventory', function (Request $request, Response $response, $args) use ($inventoryDao) {

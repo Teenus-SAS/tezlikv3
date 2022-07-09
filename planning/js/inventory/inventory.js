@@ -1,102 +1,29 @@
 $(document).ready(function () {
-  // Cargar inventarios
-  fetch(`/api/inventory`)
-    .then((response) => response.text())
-    .then((data) => {
-      data = JSON.parse(data);
-      products = data.products;
-      materials = data.rawMaterials;
-      supplies = data.supplies;
-    });
-  /*$.ajax({
-    type: 'GET',
-    url: '/api/inventory',
-    success: function (r) {
-      products = r.products;
-      materials = r.rawMaterials;
-      supplies = r.supplies;
-    },
-  });*/
+  // Ocultar card formulario Analisis Inventario ABC
+  $('.cardAddMonths').hide();
 
-  // Seleccionar categoria
-  $('#category').change(function (e) {
+  // Ocultar botón analisar Inventario ABC
+  $('.cardBtnAddMonths').hide();
+
+  $('#btnInvetoryABC').click(function (e) {
     e.preventDefault();
-    if ($.fn.dataTable.isDataTable('#tblInventories')) {
-      $('#tblInventories').DataTable().destroy();
-      $('#tblInventories').empty();
-    }
+    $('.cardImportInventory').hide(800);
+    $('.cardAddMonths').toggle(800);
 
-    value = this.value;
-
-    if (value > 0) {
-      // Productos
-      if (value == 1) {
-        data = getProducts(products);
-        data['visible'] = true;
-      }
-      // Materias Prima
-      if (value == 2) {
-        data = getMaterials(materials);
-        data['visible'] = false;
-      }
-      // Insumos
-      if (value == 3) {
-        data = getSupplies(supplies);
-        data['visible'] = false;
-      }
-      // Todos
-      if (value == 4) {
-        dataProducts = getProducts(products);
-        dataMaterials = getMaterials(materials);
-        dataSupplies = getSupplies(supplies);
-
-        data = dataProducts.concat(dataMaterials, dataSupplies);
-        data['visible'] = false;
-      }
-
-      loadTable(data);
-    }
+    $('#formAddMonths').trigger('reset');
   });
 
-  getProducts = (products) => {
-    data = [];
-    for (i = 0; i < products.length; i++) {
-      data.push({
-        reference: products[i].reference,
-        description: products[i].product,
-        category: 'Producto',
-        unit: 'Unidad',
-        quantity: products[i].quantity,
-        classification: products[i].classification,
-      });
-    }
+  $('#btnAddMonths').click(function (e) {
+    e.preventDefault();
 
-    return data;
-  };
-  getMaterials = (materials) => {
-    data = [];
-    for (i = 0; i < materials.length; i++) {
-      data.push({
-        reference: materials[i].reference,
-        description: materials[i].material,
-        category: 'Materia Prima',
-        unit: materials[i].unit,
-        quantity: materials[i].quantity,
-      });
+    cantMonths = $('#cantMonths').val();
+
+    if (!cantMonths || cantMonths == '') {
+      toastr.error('Ingrese cantidad a calcular');
+      return false;
     }
-    return data;
-  };
-  getSupplies = (supplies) => {
-    data = [];
-    for (i = 0; i < supplies.length; i++) {
-      data.push({
-        reference: supplies[i].reference,
-        description: supplies[i].material,
-        category: 'Insumo',
-        unit: supplies[i].unit,
-        quantity: supplies[i].quantity,
-      });
-    }
-    return data;
-  };
+    debugger;
+    products = sessionStorage.getItem('products');
+    // aLmacenar data para calcular clasificacion
+  });
 });

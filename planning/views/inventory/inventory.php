@@ -21,14 +21,37 @@ $userinactivetimeDao->findSession();
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
                     <select class="form-control" name="category" id="category">
-                        <option value="" selected disabled>Categorias</option>
+                        <option value="" selected="" disabled="">Categorias</option>
                         <option value="1">Productos</option>
                         <option value="2">Materiales</option>
                         <option value="3">Insumos</option>
                         <option value="4">Todos</option>
                     </select>
-                    <!-- <button class="btn btn-warning" id="btnNewInventory" name="btnNewInventory">Nuevo Proceso</button> -->
                     <button class="btn btn-info ml-3" id="btnImportNewInventory">Importar Inventarios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-content-wrapper mt--45 mb-5 cardAddMonths">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <form id="formAddMonths">
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="col-md-3" style="margin-bottom:0px">
+                                    <label for="">Ingrese numero de meses a analisar:</label>
+                                    <input type="number" class="form-control text-center" id="cantMonths" name="cantMonths" style="width:200px">
+                                </div>
+                                <div class="col" style="margin-bottom:0px;margin-top:33px">
+                                    <button class="btn btn-success" id="btnAddMonths">Calcular</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -63,13 +86,21 @@ $userinactivetimeDao->findSession();
 </div>
 
 <!-- page content -->
-<div class=" page-content-wrapper mt--45">
+<div class="page-content-wrapper mt--45">
     <div class="container-fluid">
+        <!-- Row 5 -->
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Inventarios</h5>
+                        <div class="row justify-content-around">
+                            <div class="col">
+                                <h5 class="card-title">Inventarios</h5>
+                            </div>
+                            <div class="col-lg-2 cardBtnAddMonths">
+                                <button class="btn btn-warning" id="btnInvetoryABC" name="btnInvetoryABC">Analisar Inventario ABC</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -82,7 +113,6 @@ $userinactivetimeDao->findSession();
             </div>
         </div>
     </div>
-</div>
 </div>
 
 <script src="../planning/js/inventory/tblInventory.js"></script>
