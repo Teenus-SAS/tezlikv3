@@ -186,34 +186,3 @@ $app->get('/deleteInventorySession', function (Request $request, Response $respo
     $response->getBody()->write(json_encode(JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
-
-/*$app->post('/updateinventory', function (Request $request, Response $response, $args) use ($inventoryDao) {
-    $dataInventory = $request->getParsedBody();
-
-    if (empty($dataInventory['inventory']))
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
-    else {
-        $inventory = $inventoryDao->updateinventory($dataInventory);
-
-        if ($inventory == null)
-            $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
-
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
-$app->get('/deleteinventory/{id_inventory}', function (Request $request, Response $response, $args) use ($inventoryDao) {
-    $inventory = $inventoryDao->deleteinventory($args['id_inventory']);
-
-    if ($inventory == null)
-        $resp = array('success' => true, 'message' => 'Proceso eliminado correctamente');
-
-    if ($inventory != null)
-        $resp = array('error' => true, 'message' => 'No es posible eliminar el proceso, existe información asociada a él');
-
-    $response->getBody()->write(json_encode($resp));
-    return $response->withHeader('Content-Type', 'application/json');
-});*/

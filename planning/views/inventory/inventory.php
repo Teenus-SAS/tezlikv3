@@ -98,7 +98,7 @@ $userinactivetimeDao->findSession();
                                 <h5 class="card-title">Inventarios</h5>
                             </div>
                             <div class="col-lg-2 cardBtnAddMonths">
-                                <button class="btn btn-warning" id="btnInvetoryABC" name="btnInvetoryABC">Analisar Inventario ABC</button>
+                                <button class="btn btn-warning" id="btnInvetoryABC" name="btnInvetoryABC">Reclasificación Inventarios</button>
                             </div>
                         </div>
                     </div>

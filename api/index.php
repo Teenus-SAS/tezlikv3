@@ -96,6 +96,8 @@ require_once('../api/src/routes/app/planning/basic/routeMachines.php');
 require_once('../api/src/routes/app/planning/basic/routeMaterials.php');
 require_once('../api/src/routes/app/planning/basic/routeProducts.php');
 require_once('../api/src/routes/app/planning/basic/routeProcess.php');
+// Classification
+require_once('../api/src/routes/app/planning/classification/routeClassification.php');
 // Config
 require_once('../api/src/routes/app/planning/config/routeProductsMaterials.php');
 require_once('../api/src/routes/app/planning/config/routeProductsProcess.php');
