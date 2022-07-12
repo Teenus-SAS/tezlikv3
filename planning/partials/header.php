@@ -47,7 +47,7 @@
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
+                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/productMaterials.php')">Ficha Técnica Productos</a></li>
                                         <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/productProcess.php')">Ficha Técnica Procesos</a></li>
                                         <li class="planningMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planningMachines.php')">Datos Programación Máquinas</a></li>
                                         <li class="planCiclesMachine"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planCiclesMachine.php')">Plan Ciclos Maquina</a></li>

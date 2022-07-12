@@ -26,7 +26,7 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../planning/views/programming/programming.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-customize mr-1"></i> Programación
                             <i class="bx bx-chevron-down"></i>
                         </a>

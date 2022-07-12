@@ -45,7 +45,7 @@ $userinactivetimeDao->findSession();
                                     <input type="text" class="form-control" id="mold" name="mold">
                                 </div>
                                 <div class="col">
-                                    <label for="">Tiempo Ensamblaje</label>
+                                    <label for="">Tiempo Montaje</label>
                                     <input type="number" class="form-control text-center" id="assemblyTime" name="assemblyTime">
                                 </div>
                                 <div class="col">
