@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -111,10 +111,10 @@ $userinactivetimeDao->findSession();
 </div>
 
 <script src="/global/js/global/number.js"></script>
-<script src="/planning/js/products/configProducts.js"></script>
-<script src="/planning/js/machines/configMachines.js"></script>
-<script src="/planning/js/planCiclesMachine/tblPlanCiclesMachine.js"></script>
-<script src="/planning/js/planCiclesMachine/planCiclesMachine.js"></script>
+<script src="/planning/js/basic/products/configProducts.js"></script>
+<script src="/planning/js/basic/machines/configMachines.js"></script>
+<script src="/planning/js/config/planCiclesMachine/tblPlanCiclesMachine.js"></script>
+<script src="/planning/js/config/planCiclesMachine/planCiclesMachine.js"></script>
 <script src="/global/js/import/file.js"></script>
 <script src="/global/js/import/import.js"></script>
-<script src="/planning/js/planCiclesMachine/importPlanCiclesMachine.js"></script>
+<script src="/planning/js/config/planCiclesMachine/importPlanCiclesMachine.js"></script>

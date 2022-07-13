@@ -134,9 +134,9 @@ $userinactivetimeDao->findSession();
 </div>
 
 <script src="../global/js/global/number.js"></script>
-<script src="../cost/js/machines/tblMachines.js"></script>
-<script src="../cost/js/machines/machines.js"></script>
+<script src="/cost/js/basic/machines/tblMachines.js"></script>
+<script src="/cost/js/basic/machines/machines.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../cost/js/machines/importMachines.js"></script>
+<script src="/cost/js/basic/machines/importMachines.js"></script>
 <script src="../global/js/import/file.js"></script>
 <script src="../global/js/global/validateExt.js"></script>

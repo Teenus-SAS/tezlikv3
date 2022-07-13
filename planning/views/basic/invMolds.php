@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -12,36 +12,44 @@ $userinactivetimeDao->findSession();
         <div class="row align-items-center">
             <div class="col-sm-5 col-xl-6">
                 <div class="page-title">
-                    <h3 class="mb-1 font-weight-bold text-dark">Categorías</h3>
+                    <h3 class="mb-1 font-weight-bold text-dark">Moldes</h3>
                     <ol class="breadcrumb mb-3 mb-md-0">
-                        <li class="breadcrumb-item active">Creación de categorías</li>
+                        <li class="breadcrumb-item active">Inventario de Moldes</li>
                     </ol>
                 </div>
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnNewCategory" name="btnNewCategory">Nueva Categoría</button>
-                    <button class="btn btn-info ml-3" id="btnImportNewCategories">Importar Categoría</button>
+                    <button class="btn btn-warning" id="btnNewInvMold" name="btnNewInvMold">Nuevo Molde</button>
+                    <button class="btn btn-info ml-3" id="btnImportNewInvMold">Importar Moldes</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardCreateCategory">
+<div class="page-content-wrapper mt--45 mb-5 cardCreateInvMold">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form id="formCreateCategory">
+                    <form id="formCreateInvMold">
                         <div class="card-body">
-                            <div class="gridx2p">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <label for="">Categoría</label>
-                                    <input type="text" class="form-control" id="category" name="category">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label for="">Referencia</label>
+                                    <input type="text" class="form-control" id="referenceMold" name="referenceMold">
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                    <button class="btn btn-success" id="btnCreateCategory">Crear Categoría</button>
+                                <div class="col-7">
+                                    <label for="">Nombre Molde</label>
+                                    <input type="text" class="form-control" id="mold" name="mold">
+                                </div>
+                                <div class="col">
+                                    <label for="">Tiempo Montaje</label>
+                                    <input type="number" class="form-control text-center" id="assemblyTime" name="assemblyTime">
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-success" id="btnCreateInvMold" style="width: 100px;height:50%; margin-top: 32px; margin-left: 9px; margin-right: 9px">Crear</button>
                                 </div>
                             </div>
                         </div>
@@ -52,23 +60,23 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardImportCategories">
+<div class="page-content-wrapper mt--45 mb-5 cardImportInvMold">
     <div class="container-fluid">
         <div class="row">
-            <form id="formImportCategory" enctype="multipart/form-data">
+            <form id="formImportInvMold" enctype="multipart/form-data">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body pt-3 pb-0">
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <input class="form-control" type="file" id="fileCategorie" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label"> Importar Categoría</label>
+                                    <input class="form-control" type="file" id="fileInvMold" accept=".xls,.xlsx">
+                                    <label for="formFile" class="form-label"> Importar Molde</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-success" id="btnImportCategories">Importar</button>
+                                    <button type="text" class="btn btn-success" id="btnImportInvMold">Importar</button>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-info" id="btnDownloadImportsCategories">Descarga Formato</button>
+                                    <button type="text" class="btn btn-info" id="btnDownloadImportsInvMold">Descarga Formato</button>
                                 </div>
                             </div>
                         </div>
@@ -87,11 +95,11 @@ $userinactivetimeDao->findSession();
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Categorías</h5>
+                        <h5 class="card-title">Moldes</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="tblCategories">
+                            <table class="table table-striped" id="tblInvMold">
 
                             </table>
                         </div>
@@ -102,8 +110,8 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../planning/js/category/tblCategories.js"></script>
-<script src="../planning/js/category/category.js"></script>
+<script src="/planning/js/basic/invMold/tblInvMold.js"></script>
+<script src="/planning/js/basic/invMold/invMold.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../planning/js/category/importCategories.js"></script>
+<script src="/planning/js/basic/invMold/importInvMold.js"></script>
 <script src="../global/js/import/file.js"></script>

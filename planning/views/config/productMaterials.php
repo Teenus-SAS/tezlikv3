@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -119,10 +119,10 @@ $userinactivetimeDao->findSession();
 </div>
 
 <script src="/global/js/global/number.js"></script>
-<script src="../planning/js/productMaterials/tblConfigMaterials.js"></script>
-<script src="../planning/js/products/configProducts.js"></script>
-<script src="../planning/js/productMaterials/productMaterials.js"></script>
-<script src="../planning/js/rawMaterials/configRawMaterials.js"></script>
+<script src="/planning/js/config/productMaterials/tblConfigMaterials.js"></script>
+<script src="/planning/js/basic/products/configProducts.js"></script>
+<script src="/planning/js/config/productMaterials/productMaterials.js"></script>
+<script src="/planning/js/basic/rawMaterials/configRawMaterials.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../planning/js/productMaterials/importProductMaterials.js"></script>
+<script src="/planning/js/config/productMaterials/importProductMaterials.js"></script>
 <script src="../global/js/import/file.js"></script>

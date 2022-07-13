@@ -37,27 +37,27 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/invMolds.php')">Moldes</a></li>
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createProducts.php')">Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createRawMaterials.php')">Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createMachines.php')">Máquinas</a></li>
-                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/basic/createProcess.php')">Procesos</a></li>
+                                        <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li>
+                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProducts.php')">Productos</a></li>
+                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createRawMaterials.php')">Materia Prima</a></li>
+                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createMachines.php')">Máquinas</a></li>
+                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProcess.php')">Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/productMaterials.php')">Ficha Técnica Productos</a></li>
-                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/productProcess.php')">Ficha Técnica Procesos</a></li>
-                                        <li class="planningMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planningMachines.php')">Datos Programación Máquinas</a></li>
-                                        <li class="planCiclesMachine"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/config/planCiclesMachine.php')">Plan Ciclos Maquina</a></li>
+                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productMaterials.php')">Ficha Técnica Productos</a></li>
+                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productProcess.php')">Ficha Técnica Procesos</a></li>
+                                        <li class="planningMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/planningMachines.php')">Datos Programación Máquinas</a></li>
+                                        <li class="planCiclesMachine"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/planCiclesMachine.php')">Plan Ciclos Maquina</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="categories"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/general/categories.php')">Inventario Categorías</a></li>
-                                        <li class="sales"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/operations/general/sales.php')">Ventas</a></li>
+                                        <li class="categories"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/general/categories.php')">Inventario Categorías</a></li>
+                                        <li class="sales"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/general/sales.php')">Ventas</a></li>
                                         <!-- <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
                                         <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li> -->
                                     </ul>

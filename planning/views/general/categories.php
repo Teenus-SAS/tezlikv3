@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -12,67 +12,63 @@ $userinactivetimeDao->findSession();
         <div class="row align-items-center">
             <div class="col-sm-5 col-xl-6">
                 <div class="page-title">
-                    <h3 class="mb-1 font-weight-bold text-dark">Máquinas</h3>
+                    <h3 class="mb-1 font-weight-bold text-dark">Categorías</h3>
                     <ol class="breadcrumb mb-3 mb-md-0">
-                        <li class="breadcrumb-item active">Creación de Máquinas</li>
+                        <li class="breadcrumb-item active">Creación de categorías</li>
                     </ol>
                 </div>
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnNewMachine" name="btnNewMachine">Nueva Máquina</button>
-                    <button class="btn btn-info ml-3" id="btnImportNewMachines" name="btnNewImportMachines">Importar Máquinas</button>
+                    <button class="btn btn-warning" id="btnNewCategory" name="btnNewCategory">Nueva Categoría</button>
+                    <button class="btn btn-info ml-3" id="btnImportNewCategories">Importar Categoría</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardCreateMachines">
+<div class="page-content-wrapper mt--45 mb-5 cardCreateCategory">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <!--  <div class="card-header">
-                        <h5 class="card-title">Crear Máquina</h5>
-                    </div> -->
-                    <div class="card-body">
-                        <form id="formCreateMachine">
+                    <form id="formCreateCategory">
+                        <div class="card-body">
                             <div class="gridx2p">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control" name="machine" id="machine">
-                                    <label for="">Nombre</label>
+                                    <label for="">Categoría</label>
+                                    <input type="text" class="form-control" id="category" name="category">
                                 </div>
-
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:5px">
-                                    <button class="btn btn-success" id="btnCreateMachine">Crear</button>
+                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
+                                    <button class="btn btn-success" id="btnCreateCategory">Crear Categoría</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardImportMachines">
+<div class="page-content-wrapper mt--45 mb-5 cardImportCategories">
     <div class="container-fluid">
         <div class="row">
-            <form id="formImportMachines" enctype="multipart/form-data">
+            <form id="formImportCategory" enctype="multipart/form-data">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body pt-3 pb-0">
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <input class="form-control" type="file" id="fileMachines" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label"> Importar Máquinas</label>
+                                    <input class="form-control" type="file" id="fileCategorie" accept=".xls,.xlsx">
+                                    <label for="formFile" class="form-label"> Importar Categoría</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-success" id="btnImportMachines">Importar</button>
+                                    <button type="text" class="btn btn-success" id="btnImportCategories">Importar</button>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-info" id="btnDownloadImportsMachines">Descarga Formato</button>
+                                    <button type="text" class="btn btn-info" id="btnDownloadImportsCategories">Descarga Formato</button>
                                 </div>
                             </div>
                         </div>
@@ -91,11 +87,11 @@ $userinactivetimeDao->findSession();
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Máquinas</h5>
+                        <h5 class="card-title">Categorías</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="tblMachines">
+                            <table class="table table-striped" id="tblCategories">
 
                             </table>
                         </div>
@@ -106,10 +102,8 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../global/js/global/number.js"></script>
-<script src="../planning/js/machines/tblMachines.js"></script>
-<script src="../planning/js/machines/machines.js"></script>
+<script src="/planning/js/general/category/tblCategories.js"></script>
+<script src="/planning/js/general/category/category.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../planning/js/machines/importMachines.js"></script>
+<script src="/planning/js/general/category/importCategories.js"></script>
 <script src="../global/js/import/file.js"></script>
-<script src="../global/js/global/validateExt.js"></script>

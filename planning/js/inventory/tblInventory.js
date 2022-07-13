@@ -12,6 +12,8 @@ $(document).ready(function () {
       products = data.products;
       materials = data.rawMaterials;
       supplies = data.supplies;
+
+      $('#category').prop('disabled', false);
     });
 
   // Seleccionar Categoria

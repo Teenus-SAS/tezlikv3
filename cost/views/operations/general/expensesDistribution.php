@@ -118,10 +118,10 @@ $userinactivetimeDao->findSession();
 </div>
 
 <script src="../global/js/global/number.js"></script>
-<script src="../cost/js/expensesDistribution/tblExpensesDistribution.js"></script>
-<script src="../cost/js/products/configProducts.js"></script>
-<script src="../cost/js/expensesDistribution/configExpensesDistribution.js"></script>
-<script src="../cost/js/expensesDistribution/expensesDistribution.js"></script>
+<script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
+<script src="/cost/js/basic/products/configProducts.js"></script>
+<script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
+<script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../cost/js/expensesDistribution/importExpensesDistribution.js"></script>
+<script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
 <script src="../global/js/import/file.js"></script>

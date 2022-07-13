@@ -120,9 +120,9 @@ $userinactivetimeDao->findSession();
     </div> -->
 
 <script src="../global/js/global/number.js"></script>
-<script src="../cost/js/products/configProducts.js"></script>
-<script src="../cost/js/services/tblExternalServices.js"></script>
-<script src="../cost/js/services/externalServices.js"></script>
+<script src="/cost/js/basic/products/configProducts.js"></script>
+<script src="/cost/js/config/services/tblExternalServices.js"></script>
+<script src="/cost/js/config/services/externalServices.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../cost/js/services/importExternalServices.js"></script>
+<script src="/cost/js/config/services/importExternalServices.js"></script>
 <script src="../global/js/import/file.js"></script>

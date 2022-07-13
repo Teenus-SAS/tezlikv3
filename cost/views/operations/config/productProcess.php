@@ -138,11 +138,11 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../cost/js/productProcess/tblConfigProcess.js"></script>
-<script src="../cost/js/products/configProducts.js"></script>
-<script src="../cost/js/payroll/configProcessPayroll.js"></script>
-<script src="../cost/js/machines/configMachines.js"></script>
-<script src="../cost/js/productProcess/productProcess.js"></script>
+<script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
+<script src="/cost/js/basic/products/configProducts.js"></script>
+<script src="/cost/js/general/payroll/configProcessPayroll.js"></script>
+<script src="/cost/js/basic/machines/configMachines.js"></script>
+<script src="/cost/js/config/productProcess/productProcess.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../cost/js/productProcess/importProductProcess.js"></script>
+<script src="/cost/js/config/productProcess/importProductProcess.js"></script>
 <script src="../global/js/import/file.js"></script>

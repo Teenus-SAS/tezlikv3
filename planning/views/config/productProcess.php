@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -138,11 +138,11 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="../planning/js/productProcess/tblConfigProcess.js"></script>
-<script src="../planning/js/products/configProducts.js"></script>
-<script src="../planning/js/process/configProcess.js"></script>
-<script src="../planning/js/machines/configMachines.js"></script>
-<script src="../planning/js/productProcess/productProcess.js"></script>
+<script src="/planning/js/config/productProcess/tblConfigProcess.js"></script>
+<script src="/planning/js/basic/products/configProducts.js"></script>
+<script src="/planning/js/basic/process/configProcess.js"></script>
+<script src="/planning/js/basic/machines/configMachines.js"></script>
+<script src="/planning/js/config/productProcess/productProcess.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../planning/js/productProcess/importProductProcess.js"></script>
+<script src="/planning/js/config/productProcess/importProductProcess.js"></script>
 <script src="../global/js/import/file.js"></script>

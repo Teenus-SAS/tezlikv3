@@ -19,63 +19,63 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Programar</button>
-                    <!-- <button class="btn btn-info ml-3" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button> -->
+                    <button class="btn btn-warning" id="btnNewProgramming" name="btnNewProgramming">Programar</button>
+                    <button class="btn btn-info ml-3" id="btnImportNewProgramming" name="btnNewImportProgramming">Importar Materias Primas</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardRawMaterials">
+<div class="page-content-wrapper mt--45 mb-5 cardCreateProgramming">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="formCreateMaterial">
+                        <form id="formCreateProgramming">
                             <div class="form-row">
                                 <!-- <div class="col-md-3 mb-3">
-                                    <label for="refRawMaterial">Maquina</label>
-                                    <input type="text" class="form-control" id="refRawMaterial" name="refRawMaterial">
+                                    <label for="refRawProgramming">Maquina</label>
+                                    <input type="text" class="form-control" id="refRawProgramming" name="refRawProgramming">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="nameRawMaterial">Nombre Materia Prima</label>
-                                    <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
+                                    <label for="nameRawProgramming">Nombre Materia Prima</label>
+                                    <input type="text" class="form-control" id="nameRawProgramming" name="nameRawProgramming">
                                 </div> -->
                                 <div class="col-md-3 mb-3">
-                                    <label for="validationCustom02">Maquina</label>
-                                    <select class="form-control" id="category" name="category">
-                                        <option value="" selected disabled>Seleccionar</option>
+                                    <label for="">Maquina</label>
+                                    <select class="form-control" id="idMachine" name="idMachine">
+                                        <!-- <option value="" selected disabled>Seleccionar</option>
                                         <option value="1">Iny 90f02</option>
-                                        <option value="2">SKINPACK</option>
+                                        <option value="2">SKINPACK</option> -->
                                     </select>
                                 </div>
                                 <!-- </div>
                             <div class="form-row"> -->
                                 <div class="col-md-2 mb-3">
-                                    <label for="validationCustom02">Pedido</label>
-                                    <select class="form-control" id="category" name="category">
-                                        <option value="" selected disabled>Seleccionar</option>
+                                    <label for="">Pedido</label>
+                                    <select class="form-control" id="order" name="order">
+                                        <!-- <option value="" selected disabled>Seleccionar</option>
                                         <option value="1">100014</option>
-                                        <option value="2">100015</option>
+                                        <option value="2">100015</option> -->
                                     </select>
                                 </div>
 
                                 <div class="col-md-3 mb-3">
-                                    <label for="validationCustom02">Producto</label>
-                                    <select class="form-control" id="category" name="category">
-                                        <option value="" selected disabled>Seleccionar</option>
+                                    <label for="">Producto</label>
+                                    <select class="form-control" id="selectNameProduct" name="selectNameProduct">
+                                        <!-- <option value="" selected disabled>Seleccionar</option>
                                         <option value="1">Porta papel cocina con rollo</option>
-                                        <option value="2">Porta papel cocina 2</option>
+                                        <option value="2">Porta papel cocina 2</option> -->
                                     </select>
                                 </div>
                                 <div class="col-md-2 mb-3">
-                                    <label for="validationCustom02">Cantidad</label>
-                                    <input class="form-control" id="category" name="category">
+                                    <label for="">Cantidad</label>
+                                    <input class="form-control" id="quantity" name="quantity">
                                 </div>
 
-                                <button class="btn btn-info" type="submit" id="btnCreateMaterial" name="btnCreateMaterial" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
+                                <button class="btn btn-info" type="submit" id="btnCreateProgramming" name="btnCreateProgramming" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
                             </div>
                         </form>
                     </div>
@@ -85,23 +85,23 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardImportMaterials">
+<div class="page-content-wrapper mt--45 mb-5 cardImportProgramming">
     <div class="container-fluid">
         <div class="row">
-            <form id="formImportMaterials" enctype="multipart/form-data">
+            <form id="formImportProgramming" enctype="multipart/form-data">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body pt-3 pb-0">
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <input class="form-control" type="file" id="fileMaterials" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label">Importar Materia Prima</label>
+                                    <input class="form-control" type="file" id="fileProgramming" accept=".xls,.xlsx">
+                                    <label for="formFile" class="form-label">Importar Programa</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-success" id="btnImportMaterials">Importar</button>
+                                    <button type="text" class="btn btn-success" id="btnImportProgramming">Importar</button>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-info" id="btnDownloadImportsMaterials">Descarga Formato</button>
+                                    <button type="text" class="btn btn-info" id="btnDownloadImportsProgramming">Descarga Formato</button>
                                 </div>
                             </div>
                         </div>
@@ -120,11 +120,11 @@ $userinactivetimeDao->findSession();
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="card-title">Materias Primas</h5>
+                        <h5 class="card-title">Programación</h5>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped" id="tblRawMaterials">
+                            <table class="table table-striped" id="tblProgramming">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -142,7 +142,7 @@ $userinactivetimeDao->findSession();
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">1</th>
+                                        <td scope="row">1</td>
                                         <td>100014</td>
                                         <td>PPCR</td>
                                         <td>Porta papel cocina con rollo</td>
@@ -155,7 +155,7 @@ $userinactivetimeDao->findSession();
                                         <td>12/07/2020</td>
                                     </tr>
                                     <tr>
-                                        <th scope="row">2</th>
+                                        <td scope="row">2</td>
                                         <td>100015</td>
                                         <td>PPC2</td>
                                         <td>Porta papel cocina 2</td>
@@ -177,11 +177,19 @@ $userinactivetimeDao->findSession();
         </div>
     </div>
 </div>
+<style>
+    td {
+        cursor: move;
+    }
+</style>
 
 <!-- <script src="/global/js/global/number.js"></script> -->
 <script src="../planning/js/programming/tblProgramming.js"></script>
-<script src="../planning/js/rawMaterials/rawMaterials.js"></script>
+<script src="/planning/js/basic/machines/configMachines.js"></script>
+<script src="/planning/js/orders/configOrders.js"></script>
+<script src="/planning/js/basic/products/configProducts.js"></script>
+<script src="/planning/js/programming/programming.js"></script>
 <script src="../global/js/import/import.js"></script>
-<script src="../planning/js/rawMaterials/importRawMaterials.js"></script>
+<script src="../planning/js/programming/importProgramming.js"></script>
 <script src="../global/js/import/file.js"></script>
 <script src="../global/js/global/validateExt.js"></script>

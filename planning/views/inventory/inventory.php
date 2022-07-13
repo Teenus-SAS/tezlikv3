@@ -20,7 +20,7 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <select class="form-control" name="category" id="category">
+                    <select class="form-control" name="category" id="category" disabled>
                         <option value="" selected="" disabled="">Categorias</option>
                         <option value="1">Productos</option>
                         <option value="2">Materiales</option>
