@@ -1,11 +1,11 @@
-<?php
+ <!-- <?php
 
-use tezlikv3\dao\UserInactiveTimeDao;
+        /* use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
-$userinactivetimeDao = new UserInactiveTimeDao();
-$userinactivetimeDao->findSession();
-?>
+        require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "/api/src/dao/app/login/UserInactiveTimeDao.php");
+        $userinactivetimeDao = new UserInactiveTimeDao();
+        $userinactivetimeDao->findSession();*/
+        ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -21,10 +21,10 @@ $userinactivetimeDao->findSession();
 </head>
 
 <body class="horizontal-navbar">
-    <!-- Begin Page -->
+     Begin Page 
     <div class="page-wrapper">
-        <!-- Begin Header -->
-        <!-- Begin Header -->
+         Begin Header 
+         Begin Header 
         <header id="page-topbar" class="topbar-header">
             <div class="navbar-header">
                 <div class="left-bar">
@@ -338,9 +338,9 @@ $userinactivetimeDao->findSession();
                 </div>
             </div>
         </header>
-        <!-- Header End -->
-        <!-- Header End -->
-        <!-- Begin Left Navigation -->
+         Header End 
+         Header End 
+         Begin Left Navigation 
         <div class="horizontal-topnav shadow-sm">
             <div class="container-fluid">
                 <nav class="navbar navbar-expand-lg topnav-menu">
@@ -691,12 +691,12 @@ $userinactivetimeDao->findSession();
                 </nav>
             </div>
         </div>
-        <!-- Left Navigation End -->
-        <!-- Begin main content -->
+         Left Navigation End 
+         Begin main content 
         <div class="main-content">
-            <!-- content -->
+             content 
             <div class="page-content">
-                <!-- page header -->
+                 page header 
                 <div class="page-title-box">
                     <div class="container-fluid">
                         <div class="row align-items-center">
@@ -737,10 +737,10 @@ $userinactivetimeDao->findSession();
                         </div>
                     </div>
                 </div>
-                <!-- page content -->
+                 page content 
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
-                        <!-- Widget  -->
+                         Widget  
                         <div class="row">
                             <div class="col-md-6 col-xl-3">
                                 <div class="card">
@@ -819,7 +819,7 @@ $userinactivetimeDao->findSession();
                                 </div>
                             </div>
                         </div>
-                        <!-- Row 2-->
+                         Row 2
                         <div class="row align-items-stretch">
                             <div class="col-md-4 col-lg-3">
                                 <div class="card">
@@ -865,7 +865,7 @@ $userinactivetimeDao->findSession();
                                     </div>
                                 </div>
                             </div>
-                            <!-- Begin total revenue chart -->
+                             Begin total revenue chart 
                             <div class="col-md-8 col-lg-9">
                                 <div class="card">
                                     <div class="card-header">
@@ -876,11 +876,11 @@ $userinactivetimeDao->findSession();
                                     </div>
                                 </div>
                             </div>
-                            <!-- End total revenue chart -->
+                             End total revenue chart 
                         </div>
-                        <!-- Row 3-->
+                         Row 3
                         <div class="row">
-                            <!-- Begin recent orders -->
+                             Begin recent orders 
                             <div class="col-12 col-lg-8">
                                 <div class="card">
                                     <div class="card-header dflex-between-center">
@@ -944,8 +944,8 @@ $userinactivetimeDao->findSession();
                                     </div>
                                 </div>
                             </div>
-                            <!-- End recent orders -->
-                            <!-- Begin quarter sale -->
+                             End recent orders 
+                             Begin quarter sale 
                             <div class="col-12 col-lg-4">
                                 <div class="card">
                                     <div class="card-header">
@@ -956,11 +956,11 @@ $userinactivetimeDao->findSession();
                                     </div>
                                 </div>
                             </div>
-                            <!-- End quarter sale -->
+                             End quarter sale 
                         </div>
-                        <!-- Row 4-->
+                         Row 4
                         <div class="row">
-                            <!-- Begin total sales chart -->
+                             Begin total sales chart 
                             <div class="col-lg-3">
                                 <div class="card">
                                     <div class="card-header">
@@ -979,8 +979,8 @@ $userinactivetimeDao->findSession();
                                     </div>
                                 </div>
                             </div>
-                            <!-- End total sales chart -->
-                            <!-- Begin earning chart -->
+                             End total sales chart 
+                             Begin earning chart 
                             <div class="col-lg-6">
                                 <div class="card">
                                     <div class="card-header dflex-between-center">
@@ -999,8 +999,8 @@ $userinactivetimeDao->findSession();
                                     </div>
                                 </div>
                             </div>
-                            <!-- End earning chart -->
-                            <!-- Begin today sale -->
+                             End earning chart 
+                             Begin today sale 
                             <div class="col-lg-3">
                                 <div class="card revenue-card">
                                     <div class="card-header bg-info">
@@ -1029,9 +1029,9 @@ $userinactivetimeDao->findSession();
                                     </div>
                                 </div>
                             </div>
-                            <!-- End today sale -->
+                             End today sale 
                         </div>
-                        <!-- Row 5 -->
+                         Row 5 
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
@@ -1163,9 +1163,9 @@ $userinactivetimeDao->findSession();
             </div>
         </div>
 
-        <!-- main content End -->
-        <!-- footer -->
-        <!-- footer -->
+         main content End 
+         footer 
+         footer 
         <footer class="footer">
             <div class="container-fluid">
                 <div class="row">
@@ -1210,22 +1210,22 @@ $userinactivetimeDao->findSession();
             </div>
         </div>
     </div>
-    <!-- Page End -->
-    <!-- ================== BEGIN BASE JS ================== -->
+     Page End 
+     ================== BEGIN BASE JS ================== 
     <script src="/assets/js/vendor.min.js"></script>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-    <!-- ================== END BASE JS ================== -->
+     ================== END BASE JS ================== 
 
-    <!-- ================== BEGIN PAGE LEVEL JS ================== -->
+     ================== BEGIN PAGE LEVEL JS ================== 
     <script src="/assets/libs/flatpicker/js/flatpickr.js"></script>
     <script src="/assets/libs/apexcharts/apexcharts.min.js"></script>
     <script src="/assets/libs/chartjs/js/Chart.bundle.min.js"></script>
     <script src="/assets/js/utils/colors.js"></script>
     <script src="/assets/js/pages/dashboard.init.js"></script>
-    <!-- ================== END PAGE LEVEL JS ================== -->
-    <!-- ================== BEGIN PAGE JS ================== -->
+     ================== END PAGE LEVEL JS ================== 
+     ================== BEGIN PAGE JS ================== 
     <script src="/assets/js/app.js"></script>
-    <!-- ================== END PAGE JS ================== -->
+     ================== END PAGE JS ================== 
 </body>
 
-</html>
+</html>  -->

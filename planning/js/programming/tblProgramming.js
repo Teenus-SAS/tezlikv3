@@ -1,7 +1,6 @@
 $(document).ready(function () {
-  debugger;
-  // Cargar tabla programacion
-  tblProgramming = $('#tblProgramming').dataTable({
+  tblProgramming = $('#tblProgramming').DataTable({
+    rowReorder: true,
     // pageLength: 50,
     // ajax: {
     //   url: '../../api/orders',
@@ -59,9 +58,8 @@ $(document).ready(function () {
     //     render: $.fn.dataTable.render.number('.', ',', 0, ''),
     //   },
     // ],
-    rowReorder: {
-      selector: 'td',
-      snapX: 10,
-    },
+  });
+  tblProgramming.on('row-reorder', function (e, diff, edit) {
+    debugger;
   });
 });

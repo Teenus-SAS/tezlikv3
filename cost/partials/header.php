@@ -31,28 +31,28 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProducts.php')">Creación Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createMachines.php')">Creación Máquinas</a></li>
-                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/basic/createProcess.php')">Creación Procesos</a></li>
+                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProducts.php')">Creación Productos</a></li>
+                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
+                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createMachines.php')">Creación Máquinas</a></li>
+                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProcess.php')">Creación Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
-                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/productProcess.php')">Ficha Técnica Procesos</a></li>
-                                        <li class="factoryLoad"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/factoryLoad.php')">Carga Fabril</a></li>
-                                        <li class="servicesExternal"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/externalServices.php')">Servicios Externos</a></li>
-                                        <!-- <li class="linesProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/lines.php')">Lineas de Producto</a></li> -->
+                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
+                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/productProcess.php')">Ficha Técnica Procesos</a></li>
+                                        <li class="factoryLoad"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/factoryLoad.php')">Carga Fabril</a></li>
+                                        <li class="servicesExternal"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/externalServices.php')">Servicios Externos</a></li>
+                                        <!-- <li class="linesProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/lines.php')">Lineas de Producto</a></li> -->
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/createPayroll.php')">Carga Nómina</a></li>
-                                        <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
-                                        <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li>
+                                        <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/createPayroll.php')">Carga Nómina</a></li>
+                                        <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
+                                        <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/expensesDistribution.php')">Distribución de Gastos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navAdmin">

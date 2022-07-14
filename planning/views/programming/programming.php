@@ -20,7 +20,7 @@ $userinactivetimeDao->findSession();
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
                     <button class="btn btn-warning" id="btnNewProgramming" name="btnNewProgramming">Programar</button>
-                    <button class="btn btn-info ml-3" id="btnImportNewProgramming" name="btnNewImportProgramming">Importar Materias Primas</button>
+                    <button class="btn btn-info ml-3" id="btnImportNewProgramming" name="btnNewImportProgramming">Importar Programación</button>
                 </div>
             </div>
         </div>
@@ -95,7 +95,7 @@ $userinactivetimeDao->findSession();
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
                                     <input class="form-control" type="file" id="fileProgramming" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label">Importar Programa</label>
+                                    <label for="formFile" class="form-label">Importar Programación</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                     <button type="text" class="btn btn-success" id="btnImportProgramming">Importar</button>
@@ -177,11 +177,11 @@ $userinactivetimeDao->findSession();
         </div>
     </div>
 </div>
-<style>
+<!-- <style>
     td {
         cursor: move;
     }
-</style>
+</style> -->
 
 <!-- <script src="/global/js/global/number.js"></script> -->
 <script src="../planning/js/programming/tblProgramming.js"></script>
