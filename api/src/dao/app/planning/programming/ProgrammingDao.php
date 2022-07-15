@@ -20,7 +20,7 @@ class ProgrammingDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT o.id_order, o.num_order, p.reference, p.product, o.original_quantity, o.quantity, o.accumulated_quantity, c.client, pcm.cicles_hour
+        $stmt = $connection->prepare("SELECT pcm.id_machine, o.id_order, o.num_order, p.reference, p.product, o.original_quantity, o.quantity, o.accumulated_quantity, c.client, pcm.cicles_hour
                                       FROM orders o
                                         INNER JOIN products p ON p.id_product = o.id_product
                                         INNER JOIN clients c ON c.id_client = o.id_client

@@ -64,7 +64,7 @@ $userinactivetimeDao->findSession();
 
                                 <div class="col-md-3 mb-3">
                                     <label for="">Producto</label>
-                                    <select class="form-control" id="selectNameProduct" name="selectNameProduct">
+                                    <select class="form-control" id="selectNameProduct" name="idProduct">
                                         <!-- <option value="" selected disabled>Seleccionar</option>
                                         <option value="1">Porta papel cocina con rollo</option>
                                         <option value="2">Porta papel cocina 2</option> -->
@@ -72,7 +72,7 @@ $userinactivetimeDao->findSession();
                                 </div>
                                 <div class="col-md-2 mb-3">
                                     <label for="">Cantidad</label>
-                                    <input class="form-control" id="quantity" name="quantity">
+                                    <input type="text" class="form-control number" id="quantity" name="quantity">
                                 </div>
 
                                 <button class="btn btn-info" type="submit" id="btnCreateProgramming" name="btnCreateProgramming" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
@@ -183,7 +183,7 @@ $userinactivetimeDao->findSession();
     }
 </style> -->
 
-<!-- <script src="/global/js/global/number.js"></script> -->
+<script src="/global/js/global/number.js"></script>
 <script src="../planning/js/programming/tblProgramming.js"></script>
 <script src="/planning/js/basic/machines/configMachines.js"></script>
 <script src="/planning/js/orders/configOrders.js"></script>

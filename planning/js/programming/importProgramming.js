@@ -26,12 +26,17 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let ProgrammingToImport = data.map((item) => {
+        let programmingToImport = data.map((item) => {
           return {
-            Programming: item.proceso,
+            referenceMachine: item.referencia_maquina,
+            machine: item.maquina,
+            order: item.pedido,
+            referenceProduct: item.referencia_producto,
+            product: item.producto,
+            quantity: item.cantidad,
           };
         });
-        checkProgramming(ProgrammingToImport);
+        checkProgramming(programmingToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -42,7 +47,7 @@ $(document).ready(function () {
   checkProgramming = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/planProgrammingDataValidation',
+      url: '/api/programmingDataValidation',
       data: { importProgramming: data },
       success: function (resp) {
         if (resp.error == true) {
@@ -77,13 +82,13 @@ $(document).ready(function () {
   saveProgrammingTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addPlanProgramming',
+      url: '../../api/addProgramming',
       data: { importProgramming: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportProgramming').hide(800);
-          $('#formImportProgramming')[0].reset();
+          $('#formImportProgramming').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;
@@ -103,7 +108,7 @@ $(document).ready(function () {
   $('#btnDownloadImportsProgramming').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Procesos.xlsx';
+    url = 'assets/formatsXlsx/Programming.xlsx';
 
     link = document.createElement('a');
 
