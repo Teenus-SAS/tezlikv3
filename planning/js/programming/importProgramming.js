@@ -28,7 +28,6 @@ $(document).ready(function () {
       .then((data) => {
         let programmingToImport = data.map((item) => {
           return {
-            referenceMachine: item.referencia_maquina,
             machine: item.maquina,
             order: item.pedido,
             referenceProduct: item.referencia_producto,

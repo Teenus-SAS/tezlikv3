@@ -1,9 +1,15 @@
 $(document).ready(function () {
-  /* Ocultar panel crear producto */
+  // Obtener referencia producto
+  $('#selectNameProduct').change(function (e) {
+    e.preventDefault();
+    id = this.value;
+    $(`#refProduct option[value=${id}]`).prop('selected', true);
+  });
 
+  /* Ocultar panel crear programa de producción */
   $('.cardCreateProgramming').hide();
 
-  /* Abrir panel crear producto */
+  /* Abrir panel crear programa de producción */
 
   $('#btnNewProgramming').click(function (e) {
     e.preventDefault();
@@ -17,8 +23,7 @@ $(document).ready(function () {
     $('#formCreateProgramming').trigger('reset');
   });
 
-  /* Crear nuevo proceso */
-
+  /* Crear nueva programa de producción */
   $('#btnCreateProgramming').click(function (e) {
     e.preventDefault();
     idMachine = parseInt($('#idMachine').val());
@@ -32,23 +37,62 @@ $(document).ready(function () {
       toastr.error('Ingrese todos los campos');
       return false;
     }
+    programming = $('#formCreateProgramming').serializeArray();
 
+    // Validar si existe tabla de programacion maquinas
+    $.post('/api/findDateMachine', programming, function (data) {
+      if (data.success) {
+        programming.push({ startDate: data.datesMachines.start_dat });
+        saveProgramming(programming, data);
+        return false;
+      }
+      if (data.error) setStartDate(programming, data);
+    });
+  });
+
+  // Ingresar fecha de inicio
+  setStartDate = (programming, data) => {
     bootbox.prompt({
-      title: 'Producción',
+      title: 'Programación',
       message: '<p>Ingrese fecha de inicio:</p>',
       inputType: 'date',
       callback: function (result) {
-        if (!result || result == '') {
-          toastr.error('Ingrese fecha de inicio');
-          return false;
+        if (result != null) {
+          if (!result || result == '') {
+            toastr.error('Ingrese fecha de inicio');
+            return false;
+          }
+          programming.push({ startDate: result });
+          // Calcular fecha final
+          saveProgramming(programming, data);
         }
-        console.log(result);
       },
     });
+  };
 
-    programming = $('#formCreateProgramming').serialize();
-  });
+  // Guardar programa de producción a la tabla
+  saveProgramming = (programming, data) => {
+    debugger;
+    machine = $('#idMachine').find('option:selected').text();
+    numOrder = $('#order').find('option:selected').text();
+    refProduct = $('#refProduct').find('option:selected').text();
+    product = $('#selectNameProduct').find('option:selected').text();
 
+    $('.colMaterials').empty();
+    $('.colProgramming').append(`
+      <td>${numOrder}</td>
+      <td>${refProduct}</td>
+      <td>${product}</td>
+      <td>${data.order.original_quantity}</td>
+      <td>${data.order.quantity}</td>
+      <td>${programming[3].value}</td>
+      <td>${data.order.client}</td>
+      <td></td>
+      <td>${programming[4].startDate}</td>
+      <td>${data.datesMachines.final_date}</td>`);
+
+    message();
+  };
   /* Actualizar procesos */
 
   // $(document).on('click', '.updateProgramming', function (e) {
@@ -125,7 +169,7 @@ $(document).ready(function () {
   //   });
   // };
 
-  /* Mensaje de exito */
+  /* Mensaje de exito 
 
   message = (data) => {
     if (data.success == true) {
@@ -136,12 +180,21 @@ $(document).ready(function () {
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  };
+  }; */
 
-  /* Actualizar tabla */
+  /* Mensaje de exito */
+
+  message = () => {
+    $('.cardCreateProgramming').hide(800);
+    $('#formCreateProgramming').trigger('reset');
+    //updateTable();
+    toastr.success('Programación creada correctamente');
+    return false;
+  };
+  /* Actualizar tabla
 
   function updateTable() {
     $('#tblProgramming').DataTable().clear();
     $('#tblProgramming').DataTable().ajax.reload();
-  }
+  }*/
 });

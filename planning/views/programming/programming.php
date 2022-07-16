@@ -64,15 +64,12 @@ $userinactivetimeDao->findSession();
 
                                 <div class="col-md-3 mb-3">
                                     <label for="">Producto</label>
-                                    <select class="form-control" id="selectNameProduct" name="idProduct">
-                                        <!-- <option value="" selected disabled>Seleccionar</option>
-                                        <option value="1">Porta papel cocina con rollo</option>
-                                        <option value="2">Porta papel cocina 2</option> -->
-                                    </select>
+                                    <select class="form-control" id="selectNameProduct" name="idProduct"></select>
+                                    <select class="form-control" id="refProduct" style="display:none"></select>
                                 </div>
                                 <div class="col-md-2 mb-3">
                                     <label for="">Cantidad</label>
-                                    <input type="text" class="form-control number" id="quantity" name="quantity">
+                                    <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                 </div>
 
                                 <button class="btn btn-info" type="submit" id="btnCreateProgramming" name="btnCreateProgramming" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
@@ -127,7 +124,7 @@ $userinactivetimeDao->findSession();
                             <table class="table table-striped" id="tblProgramming">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
+                                        <!-- <th scope="col">#</th> -->
                                         <th scope="col">Pedido</th>
                                         <th scope="col">Referencia</th>
                                         <th scope="col">Producto</th>
@@ -140,8 +137,8 @@ $userinactivetimeDao->findSession();
                                         <th scope="col">F.Final</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
+                                <tbody class="colProgramming">
+                                    <!-- <tr>
                                         <td scope="row">1</td>
                                         <td>100014</td>
                                         <td>PPCR</td>
@@ -166,7 +163,7 @@ $userinactivetimeDao->findSession();
                                         <td>1.000</td>
                                         <td>12/07/2020</td>
                                         <td>13/07/2020</td>
-                                    </tr>
+                                    </tr> -->
                                 </tbody>
                             </table>
                         </div>
