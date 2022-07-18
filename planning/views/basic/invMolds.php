@@ -40,15 +40,19 @@ $userinactivetimeDao->findSession();
                                     <label for="">Referencia</label>
                                     <input type="text" class="form-control" id="referenceMold" name="referenceMold">
                                 </div>
-                                <div class="col-7">
+                                <div class="col-5">
                                     <label for="">Nombre Molde</label>
                                     <input type="text" class="form-control" id="mold" name="mold">
                                 </div>
-                                <div class="col">
-                                    <label for="">Tiempo Montaje</label>
-                                    <input type="number" class="form-control text-center" id="assemblyTime" name="assemblyTime">
+                                <div class="col-2">
+                                    <label for="">T. Montaje Producción (min)</label>
+                                    <input type="number" class="form-control text-center" id="assemblyProduction" name="assemblyProduction">
                                 </div>
                                 <div class="col">
+                                    <label for="">T. Montaje (hrs)</label>
+                                    <input type="number" class="form-control text-center" id="assemblyTime" name="assemblyTime">
+                                </div>
+                                <div class="col.lg-2">
                                     <button class="btn btn-success" id="btnCreateInvMold" style="width: 100px;height:50%; margin-top: 32px; margin-left: 9px; margin-right: 9px">Crear</button>
                                 </div>
                             </div>

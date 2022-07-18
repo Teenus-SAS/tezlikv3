@@ -31,13 +31,13 @@ class DatesMachinesDao
         return $machines;
     }
 
-    public function findDatesMachine($dataMachine, $id_company)
+    public function findDatesMachine($id_machine, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM dates_machines WHERE id_machine = :id_machine AND id_company = :id_company");
         $stmt->execute([
-            'id_machine' => $dataMachine['idMachine'],
+            'id_machine' => $id_machine,
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -52,13 +52,13 @@ class DatesMachinesDao
 
         $today_date = date("Y-m-d");
         try {
-            $stmt = $connection->prepare("INSERT INTO dates_machines (id_machine, id_company, start_dat, final_date, creation_date)
-                                          VALUES (:id_machine, :id_company, :start_dat, :final_date, :creation_date)");
+            $stmt = $connection->prepare("INSERT INTO dates_machines (id_product, id_machine, id_company, start_dat, creation_date)
+                                          VALUES (:id_product, :id_machine, :id_company, :start_dat, :creation_date)");
             $stmt->execute([
+                'id_product' => $dataMachine['idProduct'],
                 'id_machine' => $dataMachine['idMachine'],
                 'id_company' => $id_company,
                 'start_dat' => $dataMachine['startDate'],
-                'final_date' => $dataMachine['finalDate'],
                 'creation_date' => $today_date
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

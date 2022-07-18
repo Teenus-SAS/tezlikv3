@@ -124,7 +124,6 @@ $userinactivetimeDao->findSession();
                             <table class="table table-striped" id="tblProgramming">
                                 <thead>
                                     <tr>
-                                        <!-- <th scope="col">#</th> -->
                                         <th scope="col">Pedido</th>
                                         <th scope="col">Referencia</th>
                                         <th scope="col">Producto</th>
@@ -138,8 +137,7 @@ $userinactivetimeDao->findSession();
                                     </tr>
                                 </thead>
                                 <tbody class="colProgramming">
-                                    <!-- <tr>
-                                        <td scope="row">1</td>
+                                    <!-- <tr draggable="true" ondragstart="dragit(event)" ondragover="dragover(event)">
                                         <td>100014</td>
                                         <td>PPCR</td>
                                         <td>Porta papel cocina con rollo</td>
@@ -151,8 +149,7 @@ $userinactivetimeDao->findSession();
                                         <td>11/07/2020</td>
                                         <td>12/07/2020</td>
                                     </tr>
-                                    <tr>
-                                        <td scope="row">2</td>
+                                    <tr draggable="true" ondragstart="dragit(event)" ondragover="dragover(event)">
                                         <td>100015</td>
                                         <td>PPC2</td>
                                         <td>Porta papel cocina 2</td>

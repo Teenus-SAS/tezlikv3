@@ -31,4 +31,19 @@ class InventoryDao
         $this->logger->notice("materials", array('materials' => $materials));
         return $materials;
     }
+
+    public function findQuantityByProduct($dataInventory, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT quantity FROM products WHERE reference = :reference AND id_company = :id_company");
+        $stmt->execute([
+            'reference' => $dataInventory['refProduct'],
+            'id_company' => $id_company
+        ]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $product = $stmt->fetch($connection::FETCH_ASSOC);
+        return $product;
+    }
 }

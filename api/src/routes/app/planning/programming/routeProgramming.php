@@ -1,11 +1,15 @@
 <?php
 
 use tezlikv3\dao\DatesMachinesDao;
+use tezlikv3\dao\EconomicLotDao;
+use tezlikv3\dao\FinalDateDao;
 use tezlikv3\dao\OrdersDao;
 use tezlikv3\dao\PlanCiclesMachineDao;
 use tezlikv3\dao\PlanMachinesDao;
 use tezlikv3\dao\PlanProductsDao;
 
+$economicLotDao = new EconomicLotDao();
+$finalDateDao = new FinalDateDao();
 $datesMachinesDao = new DatesMachinesDao();
 $ordersDao = new OrdersDao();
 $planCiclesMachineDao = new PlanCiclesMachineDao();
@@ -15,22 +19,53 @@ $productsDao = new PlanProductsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->post('/findDateMachine', function (Request $request, Response $response, $args) use ($datesMachinesDao, $ordersDao) {
+// Consultar fecha inicio maquina
+$app->get('/dateMachine/{id_machine}', function (Request $request, Response $response, $args) use ($datesMachinesDao, $ordersDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $datesMachines = $datesMachinesDao->findDatesMachine($args['id_machine'], $id_company);
+    if (!$datesMachines)
+        $resp = array('error' => true/*, 'order' => $orders*/);
+    else
+        $resp = array('success' => true/*, 'order' => $orders, 'datesMachines' => $datesMachines*/);
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+// Obtener información
+$app->post('/getProgrammingInfo', function (Request $request, Response $response, $args) use ($finalDateDao, $economicLotDao, $datesMachinesDao, $ordersDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProgramming = $request->getParsedBody();
 
-    $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming, $id_company);
+    if (isset($dataProgramming['startDate'])) {
+        // Insertar fechas maquina
+        $datesMachinesDao->insertDatesMachine($dataProgramming, $id_company);
+
+        // Calcular fecha final
+        $finalDate = $finalDateDao->calcFinalDate($dataProgramming, $id_company);
+        $dataProgramming['finalDate'] = $finalDate['final_date'];
+
+        // Actualizar fecha final
+        $finalDateDao->updateFinalDate($dataProgramming, $id_company);
+    }
+
+    // Calcular Lote economico
+    $economicLot = $economicLotDao->calcEconomicLot($dataProgramming, $id_company);
+
+    // Obtener fechas maquina
+    $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming['idMachine'], $id_company);
 
     // Obtener información producto, pedido y cliente
     $orders = $ordersDao->findOrdersByCompany($dataProgramming, $id_company);
 
-    if (!$datesMachines)
-        $resp = array('error' => true, 'order' => $orders);
-    else
-        $resp = array('success' => true, 'order' => $orders, 'datesMachines' => $datesMachines);
+    $data['economicLot'] = $economicLot['economic_lot'];
+    $data['datesMachines'] = $datesMachines;
+    $data['order'] = $orders;
 
-    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

@@ -28,6 +28,7 @@ $(document).ready(function () {
       reference = $('#referenceMold').val();
       mold = $('#mold').val();
       assemblyTime = $('#assemblyTime').val();
+      assemblyProduction = $('#assemblyProduction').val();
 
       if (
         reference == '' ||
@@ -65,6 +66,7 @@ $(document).ready(function () {
     $('#referenceMold').val(data.reference);
     $('#mold').val(data.mold);
     $('#assemblyTime').val(data.assembly_time);
+    $('#assemblyProduction').val(data.assembly_production);
 
     $('html, body').animate(
       {

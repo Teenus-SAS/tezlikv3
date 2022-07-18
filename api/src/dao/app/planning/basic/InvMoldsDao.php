@@ -51,13 +51,14 @@ class InvMoldsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO inv_molds (reference, mold, id_company, assembly_time)
-                                          VALUES (:reference, :mold, :id_company, :assembly_time)");
+            $stmt = $connection->prepare("INSERT INTO inv_molds (reference, mold, id_company, assembly_time, assembly_production)
+                                          VALUES (:reference, :mold, :id_company, :assembly_time, :assembly_production)");
             $stmt->execute([
                 'reference' => $dataMold['referenceMold'],
                 'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
                 'id_company' => $id_company,
-                'assembly_time' => $dataMold['assemblyTime']
+                'assembly_time' => $dataMold['assemblyTime'],
+                'assembly_production' => $dataMold['assemblyProduction']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -74,12 +75,13 @@ class InvMoldsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE inv_molds SET reference = :reference, mold = :mold, assembly_time = :assembly_time
+            $stmt = $connection->prepare("UPDATE inv_molds SET reference = :reference, mold = :mold, assembly_time = :assembly_time, assembly_production = :assembly_production
                                           WHERE id_mold = :id_mold");
             $stmt->execute([
                 'reference' => $dataMold['referenceMold'],
                 'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
                 'assembly_time' => $dataMold['assemblyTime'],
+                'assembly_production' => $dataMold['assemblyProduction'],
                 'id_mold' => $dataMold['idMold'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

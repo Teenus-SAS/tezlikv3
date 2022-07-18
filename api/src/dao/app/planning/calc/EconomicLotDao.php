@@ -20,12 +20,12 @@ class EconomicLotDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT ((:assembly_production - (:assembly_time / 60)) * cicles_hour) AS economic_lot
-                                      FROM plan_cicles_machine 
-                                      WHERE id_product = :id_product AND id_company = :id_company");
+        $stmt = $connection->prepare("SELECT ((m.assembly_production - (m.assembly_time / 60)) * pcm.cicles_hour) AS economic_lot 
+                                      FROM products p 
+                                        INNER JOIN plan_cicles_machine pcm ON pcm.id_product = p.id_product 
+                                        INNER JOIN inv_molds m ON m.id_mold = p.id_mold 
+                                      WHERE p.id_product = :id_product AND p.id_company = :id_company;");
         $stmt->execute([
-            'assembly_production' => $dataProduct['assemblyProduction'],
-            'assembly_time' => $dataProduct['assemblyTime'],
             'id_product' => $dataProduct['idProduct'],
             'id_company' => $id_company
         ]);

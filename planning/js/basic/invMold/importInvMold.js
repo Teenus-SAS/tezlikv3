@@ -30,7 +30,8 @@ $(document).ready(function () {
           return {
             referenceMold: item.referencia,
             mold: item.molde,
-            assemblyTime: item.tiempo_ensamblaje,
+            assemblyTime: item.tiempo_montaje,
+            assemblyProduction: item.tiempo_montaje_produccion,
           };
         });
         checkMolds(MoldsToImport);
