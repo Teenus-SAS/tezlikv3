@@ -31,13 +31,13 @@ class DatesMachinesDao
         return $machines;
     }
 
-    public function findDatesMachine($id_machine, $id_company)
+    public function findDatesMachine($dataMachine, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM dates_machines WHERE id_machine = :id_machine AND id_company = :id_company");
         $stmt->execute([
-            'id_machine' => $id_machine,
+            'id_machine' => $dataMachine['idMachine'],
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

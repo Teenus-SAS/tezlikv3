@@ -1,34 +1,44 @@
 <?php
 
+use tezlikv3\dao\ProgrammingDao;
 use tezlikv3\dao\DatesMachinesDao;
-use tezlikv3\dao\EconomicLotDao;
 use tezlikv3\dao\FinalDateDao;
+use tezlikv3\dao\EconomicLotDao;
 use tezlikv3\dao\OrdersDao;
-use tezlikv3\dao\PlanCiclesMachineDao;
-use tezlikv3\dao\PlanMachinesDao;
-use tezlikv3\dao\PlanProductsDao;
+// use tezlikv3\dao\PlanCiclesMachineDao;
+// use tezlikv3\dao\PlanMachinesDao;
+// use tezlikv3\dao\PlanProductsDao;
 
-$economicLotDao = new EconomicLotDao();
-$finalDateDao = new FinalDateDao();
+$programmingDao = new ProgrammingDao();
 $datesMachinesDao = new DatesMachinesDao();
+$finalDateDao = new FinalDateDao();
+$economicLotDao = new EconomicLotDao();
 $ordersDao = new OrdersDao();
-$planCiclesMachineDao = new PlanCiclesMachineDao();
-$machinesDao = new PlanMachinesDao();
-$productsDao = new PlanProductsDao();
+// $planCiclesMachineDao = new PlanCiclesMachineDao();
+// $machinesDao = new PlanMachinesDao();
+// $productsDao = new PlanProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 // Consultar fecha inicio maquina
-$app->get('/dateMachine/{id_machine}', function (Request $request, Response $response, $args) use ($datesMachinesDao, $ordersDao) {
+$app->post('/dateMachine', function (Request $request, Response $response, $args) use ($datesMachinesDao, $programmingDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $dataProgramming = $request->getParsedBody();
 
-    $datesMachines = $datesMachinesDao->findDatesMachine($args['id_machine'], $id_company);
-    if (!$datesMachines)
-        $resp = array('error' => true/*, 'order' => $orders*/);
-    else
-        $resp = array('success' => true/*, 'order' => $orders, 'datesMachines' => $datesMachines*/);
+    // Validar que exista producto y maquina en la BD
+    $resolution = $programmingDao->findAExistingProductAndMachine($dataProgramming, $id_company);
+
+    if (!$resolution) {
+        $resp = array('error' => true, 'message' => 'El producto y la maquina no tiene relación o no estan agregadas a la base de datos');
+    } else {
+        $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming, $id_company);
+        if (!$datesMachines)
+            $resp = array('nonExisting' => true);
+        else
+            $resp = array('existing' => true);
+    }
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -56,7 +66,7 @@ $app->post('/getProgrammingInfo', function (Request $request, Response $response
     $economicLot = $economicLotDao->calcEconomicLot($dataProgramming, $id_company);
 
     // Obtener fechas maquina
-    $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming['idMachine'], $id_company);
+    $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming, $id_company);
 
     // Obtener información producto, pedido y cliente
     $orders = $ordersDao->findOrdersByCompany($dataProgramming, $id_company);

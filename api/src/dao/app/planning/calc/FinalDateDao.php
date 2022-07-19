@@ -20,12 +20,14 @@ class FinalDateDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT DATE_ADD(dm.start_dat, INTERVAL((p.quantity * (pp.enlistment_time + pp.operation_time))/60) HOUR) AS final_date 
+        $stmt = $connection->prepare("SELECT DATE_ADD(dm.start_dat, INTERVAL((:quantity * (pp.enlistment_time + pp.operation_time))/60) HOUR) AS final_date 
                                       FROM products p 
-                                      INNER JOIN products_process pp ON pp.id_product = pp.id_product 
-                                      INNER JOIN dates_machines dm ON dm.id_machine = pp.id_machine
-                                      WHERE pp.id_product = :id_product AND pp.id_machine = :id_machine AND p.id_company = :id_company;");
+                                       INNER JOIN products_process pp ON pp.id_product = pp.id_product 
+                                       INNER JOIN dates_machines dm ON dm.id_machine = pp.id_machine 
+                                      WHERE dm.id_product = :id_product AND dm.id_machine = :id_machine AND dm.id_company = :id_company 
+                                       AND p.id_product IN (SELECT id_product FROM products WHERE id_product = :id_product);");
         $stmt->execute([
+            'quantity' => $dataMachine['quantity'],
             'id_product' => $dataMachine['idProduct'],
             'id_machine' => $dataMachine['idMachine'],
             'id_company' => $id_company

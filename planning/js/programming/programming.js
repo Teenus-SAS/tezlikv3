@@ -40,14 +40,17 @@ $(document).ready(function () {
     programming = $('#formCreateProgramming').serialize();
 
     // Validar si existe tabla de programacion maquinas
-    $.get(`/api/dateMachine/${idMachine}`, function (data) {
-      if (data.success) {
-        // programming =
-        // programming + `&startDate= ${data.datesMachines.start_dat}`;
-        saveProgramming(programming);
+    $.post('/api/dateMachine', programming, function (data) {
+      if (data.error) {
+        toastr.error(data.message);
         return false;
+      } else {
+        if (data.existing) {
+          saveProgramming(programming);
+          return false;
+        }
+        if (data.nonExisting) setStartDate(programming);
       }
-      if (data.error) setStartDate(programming);
     });
   });
 
@@ -72,7 +75,6 @@ $(document).ready(function () {
 
   // Guardar programa de producción a la tabla
   saveProgramming = (programming) => {
-    debugger;
     machine = $('#idMachine').find('option:selected').text();
     numOrder = $('#order').find('option:selected').text();
     refProduct = $('#refProduct').find('option:selected').text();
@@ -83,9 +85,8 @@ $(document).ready(function () {
       '/api/getProgrammingInfo',
       programming,
       function (data, textStatus, jqXHR) {
-        debugger;
         $('.colProgramming').append(`
-        <tr draggable="true" ondragstart="dragit(event)" ondragover="dragover(event)">
+          <tr draggable="true" ondragstart="dragit(event)" ondragover="dragover(event)">
           <td>${numOrder}</td>
           <td>${refProduct}</td>
           <td>${product}</td>
@@ -96,7 +97,7 @@ $(document).ready(function () {
           <td>${data.economicLot.toFixed(2)}</td>
           <td>${data.datesMachines.start_dat}</td>
           <td>${data.datesMachines.final_date}</td>
-        </tr>`);
+          </tr>`);
 
         message();
       }

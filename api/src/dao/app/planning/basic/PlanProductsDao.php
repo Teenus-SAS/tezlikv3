@@ -38,7 +38,7 @@ class PlanProductsDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT id_product FROM products
+    $stmt = $connection->prepare("SELECT * FROM products
                                   WHERE reference = :reference
                                   AND product = :product 
                                   AND id_company = :id_company");
