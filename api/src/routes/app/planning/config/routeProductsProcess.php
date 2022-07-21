@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\MinimumStockDao;
 use tezlikv3\dao\PlanProductsProcessDao;
 use tezlikv3\dao\PlanProductsDao;
 // use tezlikv3\dao\ProcessPayrollDao;
@@ -11,6 +12,7 @@ $productsDao = new PlanProductsDao();
 // $processPayrollDao = new ProcessPayrollDao();
 $processDao = new PlanProcessDao();
 $machinesDao = new PlanMachinesDao();
+$minimumStockDao = new MinimumStockDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -93,7 +95,7 @@ $app->post('/planProductsProcessDataValidation', function (Request $request, Res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $productsDao, $processDao, $machinesDao) {
+$app->post('/addPlanProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $productsDao, $processDao, $machinesDao, $minimumStockDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
@@ -150,9 +152,12 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
                 $productProcess[$i]['idProductProcess'] = $findProductProcess['id_product_process'];
                 $resolution = $productsProcessDao->updateProductsProcess($productProcess[$i]);
             }
+
+            // Calcular lote economico
+            $minimumStock = $minimumStockDao->calcMinimumStock($productProcess[$i], $id_company);
         }
 
-        if ($resolution == null)
+        if ($resolution == null && $minimumStock == null)
             $resp = array('success' => true, 'message' => 'Proceso importado correctamente');
         else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');

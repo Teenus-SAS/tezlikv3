@@ -16,19 +16,21 @@ class MinimumStockDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function calcMinimumStock($dataStock)
+    public function calcMinimumStock($dataStock, $id_company)
     {
         $connection = Connection::getInstance()->getconnection();
         $stmt = $connection->prepare("SELECT 
-                                        (((us.jan + us.feb + us.mar + us.apr + us.may + us.jun + us.jul + us.aug + us.sept + us.oct + us.nov + us.dece) / 
-                                        (pm.january + pm.february + pm.march + pm.april + pm.may + pm.june + pm.july + pm.august + pm.september + pm.october + pm.november + pm.december))*:lead_time) AS minimum_stock 
+                                            (((us.jan + us.feb + us.mar + us.apr + us.may + us.jun + us.jul + us.aug + us.sept + us.oct + us.nov + us.dece) / 
+                                            (ppm.january + ppm.february + ppm.march + ppm.april + ppm.may + ppm.june + ppm.july + ppm.august + ppm.september + ppm.october + ppm.november + ppm.december)) * pp.lead_time) AS minimum_stock 
                                       FROM unit_sales us 
                                         INNER JOIN plan_cicles_machine cm ON cm.id_product = us.id_product 
-                                        INNER JOIN plan_program_machines pm ON pm.id_machine = cm.id_machine 
-                                      WHERE us.id_product = :id_product;");
+                                        INNER JOIN plan_program_machines ppm ON ppm.id_machine = cm.id_machine 
+                                        INNER JOIN products_materials pm ON pm.id_product = us.id_product
+                                        INNER JOIN products_providers pp ON pp.id_material = pm.id_material
+                                      WHERE us.id_product = :id_product AND us.id_company = :id_company");
         $stmt->execute([
             'id_product' => $dataStock['idProduct'],
-            'lead_time' => $dataStock['leadTime']
+            'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

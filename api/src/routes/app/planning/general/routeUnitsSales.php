@@ -3,10 +3,12 @@
 use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\UnitSalesDao;
 use tezlikv3\dao\ClassificationDao;
+use tezlikv3\dao\MinimumStockDao;
 
 $unitSalesDao = new UnitSalesDao();
 $productsDao = new PlanProductsDao();
 $classificationDao = new ClassificationDao();
+$minimumStockDao = new MinimumStockDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -65,7 +67,7 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addUnitSales', function (Request $request, Response $response, $args) use ($unitSalesDao, $productsDao, $classificationDao) {
+$app->post('/addUnitSales', function (Request $request, Response $response, $args) use ($unitSalesDao, $productsDao, $classificationDao, $minimumStockDao) {
     session_start();
     $dataSale = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -99,8 +101,11 @@ $app->post('/addUnitSales', function (Request $request, Response $response, $arg
             // Calcular Clasificación producto
             $unitSales[$i]['cantMonths'] = 3;
             $classification = $classificationDao->calcClassificationByProduct($unitSales[$i], $id_company);
+
+            // Calcular Stock minimo
+            $minimumStock = $minimumStockDao->calcMinimumStock($unitSales[$i], $id_company);
         }
-        if ($resolution == null && $classification == null)
+        if ($resolution == null && $classification == null && $minimumStock == null)
             $resp = array('success' => true, 'message' => 'Venta importada correctamente');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
