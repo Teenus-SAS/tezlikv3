@@ -2,10 +2,9 @@ $(document).ready(function () {
   // Enviar email
   $('#btnSend').click(function (e) {
     e.preventDefault();
-
     cc = $('#ccHeader').val();
     subject = $('#subject').val();
-    msg = $('.message').html();
+    msg = $('.ck-editor__editable').html();
 
     if (
       cc == '' ||
@@ -13,7 +12,7 @@ $(document).ready(function () {
       subject == '' ||
       subject == null ||
       msg == '' ||
-      msg == null
+      msg == '<p><br data-cke-filler="true"></p>'
     ) {
       toastr.error('Ingrese todos los campos');
       return false;
