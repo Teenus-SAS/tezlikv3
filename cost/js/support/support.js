@@ -4,7 +4,7 @@ $(document).ready(function () {
     e.preventDefault();
     cc = $('#ccHeader').val();
     subject = $('#subject').val();
-    msg = $('.ck-editor__editable').html();
+    msg = getContent();
 
     if (
       cc == '' ||
@@ -12,7 +12,7 @@ $(document).ready(function () {
       subject == '' ||
       subject == null ||
       msg == '' ||
-      msg == '<p><br data-cke-filler="true"></p>'
+      !msg
     ) {
       toastr.error('Ingrese todos los campos');
       return false;
