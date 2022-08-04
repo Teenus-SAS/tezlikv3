@@ -25,11 +25,25 @@
                     </li>
 
 
-                    <li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../planning/views/programming/programming.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bxs-customize mr-1"></i> Programación
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-layer mr-1"></i> Programa
                             <i class="bx bx-chevron-down"></i>
                         </a>
+                        <div class="dropdown-menu" aria-labelledby="topnav-components">
+                            <div class="dropdown">
+                                <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/consolidated/consolidated.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                    <i class="bx bxs-customize mr-1"></i>
+                                    <span> Consolidado</span>
+                                    <i class="bx bx-chevron-right"></i>
+                                </a>
+                                <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/programming/programming.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                    <i class="bx bxs-customize mr-1"></i>
+                                    <span> Programación</span>
+                                    <i class="bx bx-chevron-right"></i>
+                                </a>
+                            </div>
+                        </div>
                     </li>
 
                     <li class="nav-item">
