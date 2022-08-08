@@ -1,12 +1,16 @@
 <?php
 
 use tezlikv3\dao\ClientsDao;
+use tezlikv3\dao\DeliveryDateDao;
+use tezlikv3\dao\MallasDao;
 use tezlikv3\dao\OrdersDao;
 use tezlikv3\dao\PlanProductsDao;
 
 $ordersDao = new OrdersDao();
 $productsDao = new PlanProductsDao();
 $clientsDao = new ClientsDao();
+$mallasDao = new MallasDao();
+$deliveryDateDao = new DeliveryDateDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -48,8 +52,8 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
             } else $order[$i]['idClient'] = $findClient['id_client'];
 
             if (
-                empty($order[$i]['numOrder'])  || empty($order[$i]['dateOrder']) ||
-                empty($order[$i]['originalQuantity']) ||  empty($order[$i]['quantity'])
+                empty($order[$i]['order'])  || empty($order[$i]['dateOrder']) || empty($order[$i]['minDate']) ||
+                empty($order[$i]['maxDate']) || empty($order[$i]['originalQuantity']) ||  empty($order[$i]['quantity'])
             ) {
                 $i = $i + 1;
                 $dataImportOrder = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
@@ -67,7 +71,7 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addOrder', function (Request $request, Response $response, $args) use ($ordersDao, $productsDao, $clientsDao) {
+$app->post('/addOrder', function (Request $request, Response $response, $args) use ($ordersDao, $productsDao, $clientsDao, $deliveryDateDao, $mallasDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataOrder = $request->getParsedBody();
@@ -83,12 +87,23 @@ $app->post('/addOrder', function (Request $request, Response $response, $args) u
         $findClient = $clientsDao->findClient($order[$i], $id_company);
         $order[$i]['idClient'] = $findClient['id_client'];
 
+        // Consultar pedido
         $findOrder = $ordersDao->findOrder($order[$i], $id_company);
         if (!$findOrder) $resolution = $ordersDao->insertOrderByCompany($order[$i], $id_company);
         else {
             $order[$i]['idOrder'] = $findOrder['id_order'];
             $resolution = $ordersDao->updateOrder($order[$i]);
         }
+
+        // Consultar malla cliente
+        $findMalla = $mallasDao->findMalla($order[$i]);
+        if (!$findMalla) $resolution = $mallasDao->insertMallaCliente($order[$i]);
+        else {
+            $order[$i]['idMalla']  = $findMalla['id'];
+            $resolution = $mallasDao->updateMallaCliente($order[$i]);
+        }
+        // Calcular fecha entrega
+        $deliveryDateDao->calcDeliveryDate($order[$i]);
 
         //Obtener todos los pedidos
         $data[$i] = $order[$i]['order'];

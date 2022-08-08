@@ -20,7 +20,8 @@ class OrdersDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT o.id_order, o.num_order, o.date_order, o.original_quantity, o.quantity, o.accumulated_quantity, p.product, c.client
+        $stmt = $connection->prepare("SELECT o.id_order, o.num_order, o.date_order, o.original_quantity, o.quantity, 
+                                             o.accumulated_quantity, p.product, c.client, o.delivery_date
                                       FROM orders o
                                         INNER JOIN products p ON p.id_product = o.id_product
                                         INNER JOIN clients c ON c.id_client = o.id_client
@@ -77,20 +78,21 @@ class OrdersDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $date = str_replace('/', '-', $dataOrder['dateOrder']);
-        $dateOrder = date('Y-m-d', strtotime($date));
+        $dateOrder = $this->changeDate($dataOrder);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO orders (num_order, date_order, id_company, id_product, id_client, original_quantity, quantity) 
-                                          VALUES (:num_order, :date_order, :id_company, :id_product, :id_client, :original_quantity, :quantity)");
+            $stmt = $connection->prepare("INSERT INTO orders (num_order, date_order, min_date, max_date, id_company, id_product, id_client, original_quantity, quantity) 
+                                          VALUES (:num_order, :date_order, :min_date, :max_date, :id_company, :id_product, :id_client, :original_quantity, :quantity)");
             $stmt->execute([
                 'num_order' => $dataOrder['order'],
-                'date_order' => $dateOrder,
+                'date_order' => $dateOrder['dateOrder'],
+                'min_date' => $dateOrder['minDate'],
+                'max_date' => $dateOrder['maxDate'],
                 'id_company' => $id_company,
                 'id_product' => $dataOrder['idProduct'],
                 'id_client' => $dataOrder['idClient'],
                 'original_quantity' => $dataOrder['originalQuantity'],
-                'quantity' => $dataOrder['quantity'],
+                'quantity' => $dataOrder['quantity']
                 // 'accumulated_quantity' => $dataOrder['accumulatedQuantity']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -107,16 +109,17 @@ class OrdersDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $date = str_replace('/', '-', $dataOrder['dateOrder']);
-        $dateOrder = date('Y-m-d', strtotime($date));
+        $dateOrder = $this->changeDate($dataOrder);
 
         try {
-            $stmt = $connection->prepare("UPDATE orders SET num_order = :num_order, date_order = :date_order, id_product = :id_product, id_client = :id_client, 
-                                          original_quantity = :original_quantity, quantity = :quantity
+            $stmt = $connection->prepare("UPDATE orders SET num_order = :num_order, date_order = :date_order, min_date = :min_date, max_date = :max_date, id_product = :id_product,
+                                                 id_client = :id_client, original_quantity = :original_quantity, quantity = :quantity
                                           WHERE id_order = :id_order");
             $stmt->execute([
                 'num_order' => $dataOrder['order'],
-                'date_order' => $dateOrder,
+                'date_order' => $dateOrder['dateOrder'],
+                'min_date' => $dateOrder['minDate'],
+                'max_date' => $dateOrder['maxDate'],
                 'id_product' => $dataOrder['idProduct'],
                 'id_client' => $dataOrder['idClient'],
                 'original_quantity' => $dataOrder['originalQuantity'],
@@ -143,5 +146,18 @@ class OrdersDao
         $stmt = $connection->prepare("UPDATE orders SET status_order = 1
                                       WHERE id_order IN(SELECT id_order FROM orders WHERE num_order NOT IN({$data}))");
         $stmt->execute();
+    }
+
+    public function changeDate($dataOrder)
+    {
+        $dateOrder = array();
+        $date = str_replace('/', '-', $dataOrder['dateOrder']);
+        $minDate = str_replace('/', '-', $dataOrder['minDate']);
+        $maxDate = str_replace('/', '-', $dataOrder['maxDate']);
+        $dateOrder['dateOrder'] = date('Y-m-d', strtotime($date));
+        $dateOrder['minDate'] = date('Y-m-d', strtotime($minDate));
+        $dateOrder['maxDate'] = date('Y-m-d', strtotime($maxDate));
+
+        return $dateOrder;
     }
 }

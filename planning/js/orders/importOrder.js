@@ -30,11 +30,14 @@ $(document).ready(function () {
           return {
             order: item.pedido,
             dateOrder: item.fecha_pedido,
+            minDate: item.fecha_minima,
+            maxDate: item.fecha_maxima,
             referenceProduct: item.referencia_producto,
             product: item.producto,
             client: item.cliente,
             originalQuantity: item.cantidad_original,
             quantity: item.cantidad_pendiente,
+            deliveryDay: item.dia_entrega,
           };
         });
         checkOrder(OrderToImport);
