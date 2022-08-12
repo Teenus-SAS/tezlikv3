@@ -33,4 +33,21 @@ class ProgrammingDao
         $programming = $stmt->fetch($connection::FETCH_ASSOC);
         return $programming;
     }
+
+    public function findProductsByMachine($id_machine)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product 
+                                      FROM products p 
+                                      INNER JOIN plan_cicles_machine pcm ON pcm.id_product = p.id_product 
+                                      WHERE pcm.id_machine = :id_machine");
+        $stmt->execute([
+            'id_machine' => $id_machine,
+        ]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
 }

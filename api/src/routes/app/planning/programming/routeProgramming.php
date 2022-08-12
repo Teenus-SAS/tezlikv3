@@ -21,6 +21,12 @@ $ordersDao = new OrdersDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+$app->get('/productsByMachine/{id_machine}', function (Request $request, Response $response, $args) use ($programmingDao) {
+    $products = $programmingDao->findProductsByMachine($args['id_machine']);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 // Consultar fecha inicio maquina
 $app->post('/dateMachine', function (Request $request, Response $response, $args) use ($datesMachinesDao, $programmingDao) {
     session_start();

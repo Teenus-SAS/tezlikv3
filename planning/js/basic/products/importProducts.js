@@ -31,8 +31,8 @@ $(document).ready(function () {
             referenceProduct: item.referencia_producto,
             product: item.producto,
             referenceMold: item.referencia_molde,
+            quantity: item.cantidad_producto,
             mold: item.molde,
-            quantity: item.cantidad,
           };
         });
         checkProduct(productsToImport);
