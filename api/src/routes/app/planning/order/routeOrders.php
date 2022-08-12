@@ -96,14 +96,14 @@ $app->post('/addOrder', function (Request $request, Response $response, $args) u
         }
 
         // Consultar malla cliente
-        $findMalla = $mallasDao->findMalla($order[$i]);
-        if (!$findMalla) $resolution = $mallasDao->insertMallaCliente($order[$i]);
-        else {
-            $order[$i]['idMalla']  = $findMalla['id'];
-            $resolution = $mallasDao->updateMallaCliente($order[$i]);
-        }
+        // $findMalla = $mallasDao->findMalla($order[$i]);
+        // if (!$findMalla) $resolution = $mallasDao->insertMallaCliente($order[$i]);
+        // else {
+        //     $order[$i]['idMalla']  = $findMalla['id'];
+        //     $resolution = $mallasDao->updateMallaCliente($order[$i]);
+        // }
         // Calcular fecha entrega
-        $deliveryDateDao->calcDeliveryDate($order[$i]);
+        // $deliveryDateDao->calcDeliveryDate($order[$i]);
 
         //Obtener todos los pedidos
         $data[$i] = $order[$i]['order'];

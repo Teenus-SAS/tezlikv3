@@ -4,27 +4,23 @@
             <div id="topnav-menu-content" class="collapse navbar-collapse">
                 <ul id="side-menu" class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="index.php" id="topnav-dashboard" role="button">
+                        <a class="nav-link dropdown-toggle" href="javascript:history.go(0);" id="topnav-dashboard" role="button">
                             <i class="bx bxs-dashboard mr-1"></i> Dashboards
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../planning/views/inventory/inventory.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-tone mr-1"></i> Inventarios
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../planning/views/orders/orders.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-tone mr-1"></i> Pedidos
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-layer mr-1"></i> Programa
@@ -45,30 +41,25 @@
                             </div>
                         </div>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-customize mr-1"></i> Cargues
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-customize mr-1"></i> Explosión de Materiales
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-customize mr-1"></i> Despachos
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <!--
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-cube-alt mr-1"></i> Reportes
@@ -123,7 +114,6 @@
                             </div>
                         </div>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-layer mr-1"></i> Herramientas
@@ -166,7 +156,6 @@
                             </div>
                         </div>
                     </li> -->
-
                 </ul>
             </div>
         </nav>

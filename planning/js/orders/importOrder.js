@@ -37,7 +37,7 @@ $(document).ready(function () {
             client: item.cliente,
             originalQuantity: item.cantidad_original,
             quantity: item.cantidad_pendiente,
-            deliveryDay: item.dia_entrega,
+            // deliveryDay: item.dia_entrega,
           };
         });
         checkOrder(OrderToImport);

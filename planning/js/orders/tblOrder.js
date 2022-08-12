@@ -22,6 +22,7 @@ $(document).ready(function () {
         title: 'Fecha Pedido',
         data: 'date_order',
         className: 'uniqueClassName',
+        // render: $.fn.dataTable.render.moment('YYYY/MM/DD'),
       },
       {
         title: 'No Pedido',

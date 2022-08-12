@@ -205,7 +205,6 @@ $userinactivetimeDao->findSession();
 									</div>
 								</div>
 							</div>
-
 							<div class="col-md-4 col-lg-3">
 								<div class="card">
 									<div class="card-header">
@@ -252,7 +251,6 @@ $userinactivetimeDao->findSession();
 							</div>
 							<!-- End total revenue chart -->
 						</div>
-
 						<div class="row">
 							<div class="col-lg-4">
 								<div class="card">
@@ -270,7 +268,6 @@ $userinactivetimeDao->findSession();
 									</div>
 								</div>
 							</div>
-
 							<div class="col-lg-4">
 								<div class="card">
 									<div class="card-header">
@@ -287,11 +284,8 @@ $userinactivetimeDao->findSession();
 									</div>
 								</div>
 							</div>
-
 							<!-- </div> -->
-
 							<!-- <div class="row"> -->
-
 							<div class="col-lg-4">
 								<div class="card">
 									<div class="card-header">
@@ -308,7 +302,6 @@ $userinactivetimeDao->findSession();
 									</div>
 								</div>
 							</div>
-
 							<div class="col-lg-12" style="height: fit-content;">
 								<div class=" card">
 									<div class="card-header">
@@ -331,10 +324,8 @@ $userinactivetimeDao->findSession();
 			</div>
 		</div>
 		<!-- main content End -->
-
 		<!-- footer -->
 		<?php include_once  dirname(__DIR__) . '../../global/partials/footer.php'; ?>
-
 		<!-- <div class="setting-sidebar">
 			<div class="card mb-0">
 				<div class="card-header">
@@ -367,7 +358,6 @@ $userinactivetimeDao->findSession();
 		</div> -->
 	</div>
 	<!-- Page End -->
-
 	<script src="../global/js/global/loadContent.js"></script>
 	<script src="../global/js/global/logout.js"></script>
 	<!-- <script src="../global/js/login/access.js"></script> -->

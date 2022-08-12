@@ -4,26 +4,23 @@
             <div id="topnav-menu-content" class="collapse navbar-collapse">
                 <ul id="side-menu" class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="index.php" id="topnav-dashboard" role="button">
+                        <a class="nav-link dropdown-toggle" href="javascript:history.go(0);" id="topnav-dashboard" role="button">
                             <i class="bx bxs-dashboard mr-1"></i> Dashboards
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../cost/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-customize mr-1"></i> Generar Precios
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../cost/views/analysis/materials.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-tone mr-1"></i> Análisis Materia Prima
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-layer mr-1"></i> Herramientas
@@ -68,7 +65,6 @@
 
                         </div>
                     </li>
-
                 </ul>
             </div>
         </nav>
