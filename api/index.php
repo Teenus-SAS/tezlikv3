@@ -113,8 +113,9 @@ require_once('../api/src/routes/app/planning/userAccess/routeUserAccess.php');
 require_once('../api/src/routes/app/planning/inventory/routeInventory.php');
 // Pedidos
 require_once('../api/src/routes/app/planning/order/routeOrders.php');
-// Programación
-require_once('../api/src/routes/app/planning/programming/routeProgramming.php');
+// Programa
+require_once('../api/src/routes/app/planning/program/programming/routeProgramming.php');
+// require_once('../api/src/routes/app/planning/program/conssolidated/')
 
 
 $app->run();

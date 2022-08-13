@@ -5,18 +5,12 @@ use tezlikv3\dao\DatesMachinesDao;
 use tezlikv3\dao\FinalDateDao;
 use tezlikv3\dao\EconomicLotDao;
 use tezlikv3\dao\OrdersDao;
-// use tezlikv3\dao\PlanCiclesMachineDao;
-// use tezlikv3\dao\PlanMachinesDao;
-// use tezlikv3\dao\PlanProductsDao;
 
 $programmingDao = new ProgrammingDao();
 $datesMachinesDao = new DatesMachinesDao();
 $finalDateDao = new FinalDateDao();
 $economicLotDao = new EconomicLotDao();
 $ordersDao = new OrdersDao();
-// $planCiclesMachineDao = new PlanCiclesMachineDao();
-// $machinesDao = new PlanMachinesDao();
-// $productsDao = new PlanProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -33,18 +27,11 @@ $app->post('/dateMachine', function (Request $request, Response $response, $args
     $id_company = $_SESSION['id_company'];
     $dataProgramming = $request->getParsedBody();
 
-    // Validar que exista producto y maquina en la BD
-    $resolution = $programmingDao->findAExistingProductAndMachine($dataProgramming, $id_company);
-
-    if (!$resolution) {
-        $resp = array('error' => true, 'message' => 'El producto y la maquina no tiene relación o no estan agregadas a la base de datos');
-    } else {
-        $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming, $id_company);
-        if (!$datesMachines)
-            $resp = array('nonExisting' => true);
-        else
-            $resp = array('existing' => true);
-    }
+    $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming, $id_company);
+    if (!$datesMachines)
+        $resp = array('nonExisting' => true);
+    else
+        $resp = array('existing' => true);
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

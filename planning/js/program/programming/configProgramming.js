@@ -1,12 +1,12 @@
 $(document).ready(function () {
   $('#idMachine').change(function (e) {
     e.preventDefault();
-    debugger;
     id_machine = this.value;
 
-    loadProducts(id_machine);
+    loadProductsAndOrders(id_machine);
   });
 
+  /* Cargar Maquinas */
   $.ajax({
     type: 'GET',
     url: '/api/machines',
@@ -22,10 +22,8 @@ $(document).ready(function () {
     },
   });
 
-  /* Cargar Productos */
-  loadProducts = (id_machine) => {
-    debugger;
-
+  /* Cargar Pedidos y Productos */
+  loadProductsAndOrders = (id_machine) => {
     $.ajax({
       url: `/api/productsByMachine/${id_machine}`,
       success: function (r) {
@@ -36,6 +34,16 @@ $(document).ready(function () {
         $.each(r, function (i, value) {
           $select.append(
             `<option value = ${value.id_product}> ${value.product} </option>`
+          );
+        });
+
+        let $select1 = $(`#order`);
+        $select1.empty();
+
+        $select1.append(`<option disabled selected>Seleccionar</option>`);
+        $.each(r, function (i, value) {
+          $select1.append(
+            `<option value = ${value.id_order}> ${value.num_order} </option>`
           );
         });
       },

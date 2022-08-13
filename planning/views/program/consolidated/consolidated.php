@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\UserInactiveTimeDao;
 
-require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
+require_once(dirname(dirname(dirname(dirname(__DIR__)))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
@@ -19,15 +19,15 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnNewConsolidated" name="btnNewConsolidated">Programar</button>
-                    <button class="btn btn-info ml-3" id="btnImportNewConsolidated" name="btnNewImportConsolidated">Importar Consolidado</button>
+                    <!-- <button class="btn btn-warning" id="btnNewConsolidated" name="btnNewConsolidated">Programar</button> -->
+                    <!-- <button class="btn btn-info ml-3" id="btnImportNewConsolidated" name="btnNewImportConsolidated">Importar Consolidado</button> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardCreateConsolidated">
+<!-- <div class="page-content-wrapper mt--45 mb-5 cardCreateConsolidated">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -35,33 +35,16 @@ $userinactivetimeDao->findSession();
                     <div class="card-body">
                         <form id="formCreateConsolidated">
                             <div class="form-row">
-                                <!-- <div class="col-md-3 mb-3">
-                                    <label for="refRawConsolidated">Maquina</label>
-                                    <input type="text" class="form-control" id="refRawConsolidated" name="refRawConsolidated">
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="nameRawConsolidated">Nombre Materia Prima</label>
-                                    <input type="text" class="form-control" id="nameRawConsolidated" name="nameRawConsolidated">
-                                </div> -->
                                 <div class="col-md-3 mb-3">
                                     <label for="">Maquina</label>
                                     <select class="form-control" id="idMachine" name="idMachine">
-                                        <!-- <option value="" selected disabled>Seleccionar</option>
-                                        <option value="1">Iny 90f02</option>
-                                        <option value="2">SKINPACK</option> -->
                                     </select>
                                 </div>
-                                <!-- </div>
-                            <div class="form-row"> -->
                                 <div class="col-md-2 mb-3">
                                     <label for="">Pedido</label>
                                     <select class="form-control" id="order" name="order">
-                                        <!-- <option value="" selected disabled>Seleccionar</option>
-                                        <option value="1">100014</option>
-                                        <option value="2">100015</option> -->
                                     </select>
                                 </div>
-
                                 <div class="col-md-3 mb-3">
                                     <label for="">Producto</label>
                                     <select class="form-control" id="selectNameProduct" name="idProduct"></select>
@@ -71,7 +54,6 @@ $userinactivetimeDao->findSession();
                                     <label for="">Cantidad</label>
                                     <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                 </div>
-
                                 <button class="btn btn-info" type="submit" id="btnCreateConsolidated" name="btnCreateConsolidated" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
                             </div>
                         </form>
@@ -80,9 +62,9 @@ $userinactivetimeDao->findSession();
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="page-content-wrapper mt--45 mb-5 cardImportConsolidated">
+<!-- <div class="page-content-wrapper mt--45 mb-5 cardImportConsolidated">
     <div class="container-fluid">
         <div class="row">
             <form id="formImportConsolidated" enctype="multipart/form-data">
@@ -107,7 +89,7 @@ $userinactivetimeDao->findSession();
             </form>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- page content -->
 <div class="page-content-wrapper mt--45">
@@ -134,12 +116,12 @@ $userinactivetimeDao->findSession();
 </div>
 
 <script src="/global/js/global/number.js"></script>
-<script src="../planning/js/consolidated/tblConsolidated.js"></script>
+<script src="../planning/js/program/consolidated/tblConsolidated.js"></script>
 <script src="/planning/js/basic/machines/configMachines.js"></script>
 <script src="/planning/js/orders/configOrders.js"></script>
 <script src="/planning/js/basic/products/configProducts.js"></script>
-<script src="/planning/js/consolidatedcConsolidated.js"></script>
-<script src="../global/js/import/import.js"></script>
+<!-- <script src="/planning/js/program/consolidated/consolidated.js"></script> -->
+<!-- <script src="../global/js/import/import.js"></script>
 <script src="../planning/js/consolidated/importConsolidated.js"></script>
-<script src="../global/js/import/file.js"></script>
+<script src="../global/js/import/file.js"></script> -->
 <script src="../global/js/global/validateExt.js"></script>

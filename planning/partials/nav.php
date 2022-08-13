@@ -28,12 +28,12 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <div class="dropdown">
-                                <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/consolidated/consolidated.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/program/consolidated/consolidated.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bxs-customize mr-1"></i>
                                     <span> Consolidado</span>
                                     <i class="bx bx-chevron-right"></i>
                                 </a>
-                                <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/programming/programming.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/program/programming/programming.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bxs-customize mr-1"></i>
                                     <span> Programación</span>
                                     <i class="bx bx-chevron-right"></i>
