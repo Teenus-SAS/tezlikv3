@@ -107,7 +107,7 @@ require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php')
 require_once('../api/src/routes/app/planning/general/routeCategories.php');
 require_once('../api/src/routes/app/planning/general/routeUnitsSales.php');
 // Acceso usuarios
-require_once('../api/src/routes/app/planning/userAccess/routeUserAccess.php');
+require_once('../api/src/routes/app/planning/admin/userAccess/routeUserAccess.php');
 
 // Inventario
 require_once('../api/src/routes/app/planning/inventory/routeInventory.php');

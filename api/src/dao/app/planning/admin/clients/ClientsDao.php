@@ -37,8 +37,10 @@ class ClientsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO clients (client, id_company) VALUES (:client, :id_company)");
+            $stmt = $connection->prepare("INSERT INTO clients (ean, nit, client, id_company) VALUES (:ean, :nit, :client, :id_company)");
             $stmt->execute([
+                'ean' => $dataClient['ean'],
+                'nit' => $dataClient['nit'],
                 'client' => ucfirst(strtolower(trim($dataClient['client']))),
                 'id_company' => $id_company
             ]);
@@ -58,8 +60,10 @@ class ClientsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE clients SET client = :client WHERE id_client = :id_client");
+            $stmt = $connection->prepare("UPDATE clients SET ean = :ean, nit = :nit, client = :client WHERE id_client = :id_client");
             $stmt->execute([
+                'ean' => $dataClient['ean'],
+                'nit' => $dataClient['nit'],
                 'client' => ucfirst(strtolower(trim($dataClient['client']))),
                 'id_client' => $dataClient['idClient']
             ]);

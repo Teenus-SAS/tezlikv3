@@ -64,7 +64,9 @@
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/users/users.php')">Usuarios</a></li>
+                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/admin/users/users.php')">Usuarios</a></li>
+                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/admin/clients/clients.php')">Clientes</a></li>
+                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/admin/orderTypes/orderTypes.php')">Tipo Pedidos</a></li>
                                     </ul>
                                 </div>
                             </div>
