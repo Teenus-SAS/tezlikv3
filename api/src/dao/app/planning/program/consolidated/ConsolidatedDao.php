@@ -20,15 +20,14 @@ class ConsolidatedDao
     {
         $connection = Connection::getInstance()->getconnection();
 
-        $stmt = $connection->prepare("SELECT o.num_order, p.reference, o.accumulated_quantity
-                                            (pph.january + pph.february + pph.march + pph.april + pph.may + pph.june + pph.july + pph.august + pph.september + pph.october + pph.november + pph.december) AS inventory_day
+        $stmt = $connection->prepare("SELECT o.id_order, o.num_order, p.reference, o.accumulated_quantity, o.date_order, o.min_date, o.max_date, o.original_quantity, pph.inventory_day
+                                             (pph.january + pph.february + pph.march + pph.april + pph.may + pph.june + pph.july + pph.august + pph.september + pph.october + pph.november + pph.december)/12 AS average_month
                                       FROM orders o
                                       INNER JOIN products p ON p.id_product = o.id_product
                                       INNER JOIN products_price_history pph ON pph.id_product = o.id_product
                                       WHERE o.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $consolidated = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $consolidated;
     }

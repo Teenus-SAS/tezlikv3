@@ -30,7 +30,6 @@ class EconomicLotDao
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $economicLot = $stmt->fetch($connection::FETCH_ASSOC);
         return $economicLot;
     }

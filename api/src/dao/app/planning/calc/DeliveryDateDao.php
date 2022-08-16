@@ -31,10 +31,8 @@ class DeliveryDateDao
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             $deliveryDate = $stmt->fetch($connection::FETCH_ASSOC);
-
             if ($deliveryDate['delivery_date'] != 0) break;
         }
-
         $this->updateDeliveryDate($dataOrder, $deliveryDate['delivery_date']);
     }
 

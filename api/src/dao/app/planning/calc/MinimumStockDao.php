@@ -33,7 +33,6 @@ class MinimumStockDao
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $minimumStock = $stmt->fetch($connection::FETCH_ASSOC);
         return $minimumStock;
     }

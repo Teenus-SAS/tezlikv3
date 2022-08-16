@@ -58,12 +58,12 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: $.fn.dataTable.render.number('.', ',', 0, ''),
       },
-      // {
-      //   title: 'Promedio Mes',
-      //   data: 'average_month',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
+      {
+        title: 'Promedio Mes',
+        data: 'average_month',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
       {
         title: 'Dias Inventario',
         data: 'inventory_day',
