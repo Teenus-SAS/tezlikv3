@@ -106,16 +106,18 @@ require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php')
 // General
 require_once('../api/src/routes/app/planning/general/routeCategories.php');
 require_once('../api/src/routes/app/planning/general/routeUnitsSales.php');
-// Acceso usuarios
-require_once('../api/src/routes/app/planning/admin/userAccess/routeUserAccess.php');
+// Administrador
+require_once('../api/src/routes/app/planning/admin/routeUserAccess.php');
+require_once('../api/src/routes/app/planning/admin/routeClients.php');
+require_once('../api/src/routes/app/planning/admin/routeOrderTypes.php');
 
 // Inventario
 require_once('../api/src/routes/app/planning/inventory/routeInventory.php');
 // Pedidos
 require_once('../api/src/routes/app/planning/order/routeOrders.php');
 // Programa
-require_once('../api/src/routes/app/planning/program/programming/routeProgramming.php');
-require_once('../api/src/routes/app/planning/program/consolidated/routeConsolidated.php');
+require_once('../api/src/routes/app/planning/program/routeProgramming.php');
+require_once('../api/src/routes/app/planning/program/routeConsolidated.php');
 
 
 $app->run();

@@ -16,6 +16,19 @@ class ClientsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllClientByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM clients WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $clients = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("clientes", array('clientes' => $clients));
+        return $clients;
+    }
+
     public function findClient($dataClient, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -36,34 +49,37 @@ class ClientsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        $ean = str_replace('.', '', $dataClient['ean']);
+        $nit = str_replace('.', '', $dataClient['nit']);
+
         try {
             $stmt = $connection->prepare("INSERT INTO clients (ean, nit, client, id_company) VALUES (:ean, :nit, :client, :id_company)");
             $stmt->execute([
-                'ean' => $dataClient['ean'],
-                'nit' => $dataClient['nit'],
+                'ean' => $ean,
+                'nit' => $nit,
                 'client' => ucfirst(strtolower(trim($dataClient['client']))),
                 'id_company' => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-            // Obtener id cliente
-            $client = $this->findClient($dataClient, $id_company);
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            $client = array('info' => true, 'message' => $message);
+            $error = array('info' => true, 'message' => $message);
+            return $error;
         }
-        return $client;
     }
 
     public function updateClient($dataClient)
     {
         $connection = Connection::getInstance()->getConnection();
 
+        $ean = str_replace('.', '', $dataClient['ean']);
+        $nit = str_replace('.', '', $dataClient['nit']);
+
         try {
             $stmt = $connection->prepare("UPDATE clients SET ean = :ean, nit = :nit, client = :client WHERE id_client = :id_client");
             $stmt->execute([
-                'ean' => $dataClient['ean'],
-                'nit' => $dataClient['nit'],
+                'ean' => $ean,
+                'nit' => $nit,
                 'client' => ucfirst(strtolower(trim($dataClient['client']))),
                 'id_client' => $dataClient['idClient']
             ]);

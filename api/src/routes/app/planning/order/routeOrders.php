@@ -47,7 +47,8 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
             $findClient = $clientsDao->findClient($order[$i], $id_company);
             if (!$findClient) {
                 // Crear cliente
-                $client = $clientsDao->insertClient($order[$i], $id_company);
+                $clientsDao->insertClient($order[$i], $id_company);
+                $client = $clientsDao->findClient($order[$i], $id_company);
                 $order[$i]['idClient'] = $client['id_client'];
             } else $order[$i]['idClient'] = $findClient['id_client'];
 

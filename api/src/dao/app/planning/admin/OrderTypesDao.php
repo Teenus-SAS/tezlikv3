@@ -16,28 +16,27 @@ class OrderTypesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findOrderTypes($id_company)
+    public function findAllOrderTypes()
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM order_types WHERE id_company = :id_company");
-        $stmt->execute(['id_company' => $id_company]);
+        $stmt = $connection->prepare("SELECT * FROM order_types");
+        $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $orderTypes = $stmt->fetch($connection::FETCH_ASSOC);
         return $orderTypes;
     }
 
-    public function insertOrderTypes($dataOrderTypes, $id_company)
+    public function insertOrderTypes($dataOrderTypes)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
             $stmt = $connection->prepare("INSERT INTO order_types (id_order, order_type) VALUES (:id_order, :order_type)");
             $stmt->execute([
-                'ean' => $dataOrderTypes['ean'],
                 'id_order' => $dataOrderTypes['id_order'],
-                'order_type' => ucfirst(strtolower(trim($dataOrderTypes['OrderTypes'])))
+                'order_type' => ucfirst(strtolower(trim($dataOrderTypes['orderType'])))
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -55,7 +54,7 @@ class OrderTypesDao
             $stmt = $connection->prepare("UPDATE order_types SET id_order = :id_order, order_type = :order_type WHERE id_order_type = :id_order_type");
             $stmt->execute([
                 'id_order' => $dataOrderTypes['id_order'],
-                'order_type' => ucfirst(strtolower(trim($dataOrderTypes['order_type']))),
+                'order_type' => ucfirst(strtolower(trim($dataOrderTypes['orderType']))),
                 'id_order_type' => $dataOrderTypes['idOrderType']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

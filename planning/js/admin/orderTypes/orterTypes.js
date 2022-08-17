@@ -1,0 +1,148 @@
+$(document).ready(function () {
+  /* Ocultar panel crear Tipo Pedido */
+
+  $('.cardCreateOrderType').hide();
+
+  /* Abrir panel crear Tipo Pedido */
+
+  $('#btnNewOrderType').click(function (e) {
+    e.preventDefault();
+
+    $('.cardImportOrderType').hide(800);
+    $('.cardCreateOrderType').toggle(800);
+    $('#btnCreateOrderType').html('Crear');
+
+    sessionStorage.removeItem('id_order_type');
+
+    $('#formCreateOrderType').trigger('reset');
+  });
+
+  /* Crear nuevo Tipo Pedido */
+
+  $('#btnCreateOrderType').click(function (e) {
+    e.preventDefault();
+
+    let idOrderType = sessionStorage.getItem('id_order_type');
+
+    if (idOrderType == '' || idOrderType == null) {
+      ean = $('#ean').val();
+      nit = $('#nit').val();
+      OrderType = $('#OrderType').val();
+
+      if (
+        ean == '' ||
+        ean == null ||
+        nit == '' ||
+        nit == null ||
+        OrderType == '' ||
+        OrderType == null
+      ) {
+        toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      OrderType = $('#formCreateOrderType').serialize();
+
+      $.post(
+        '../../api/addOrderType',
+        OrderType,
+        function (data, textStatus, jqXHR) {
+          message(data);
+        }
+      );
+    } else {
+      updateOrderType();
+    }
+  });
+
+  /* Actualizar Tipo Pedidos */
+
+  $(document).on('click', '.updateOrderType', function (e) {
+    $('.cardImportOrderType').hide(800);
+    $('.cardCreateOrderType').show(800);
+    $('#btnCreateOrderType').html('Actualizar');
+
+    let row = $(this).parent().parent()[0];
+    let data = tblOrderTypes.fnGetData(row);
+
+    sessionStorage.setItem('id_order_type', data.id_order_type);
+    $('#ean').val(data.ean);
+    $('#nit').val(data.nit);
+    $('#OrderType').val(data.OrderType);
+
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
+  });
+
+  updateOrderType = () => {
+    let data = $('#formCreateOrderType').serialize();
+    idOrderType = sessionStorage.getItem('id_order_type');
+    data = data + '&idOrderType=' + idOrderType;
+
+    $.post(
+      '../../api/updateOrderType',
+      data,
+      function (data, textStatus, jqXHR) {
+        message(data);
+      }
+    );
+  };
+
+  /* Eliminar Tipo Pedido */
+  deleteFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblOrderTypes.fnGetData(row);
+
+    let id_order_type = data.id_order_type;
+
+    bootbox.confirm({
+      title: 'Eliminar',
+      message:
+        'Está seguro de eliminar este Tipo de Pedido? Esta acción no se puede reversar.',
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `../../api/deleteOrderType/${id_order_type}`,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  };
+
+  /* Mensaje de exito */
+
+  message = (data) => {
+    if (data.success == true) {
+      $('.cardCreateOrderType').hide(800);
+      $('#formCreateOrderType')[0].reset();
+      updateTable();
+      toastr.success(data.message);
+      return false;
+    } else if (data.error == true) toastr.error(data.message);
+    else if (data.info == true) toastr.info(data.message);
+  };
+
+  /* Actualizar tabla */
+
+  function updateTable() {
+    $('#tblOrderTypes').DataTable().clear();
+    $('#tblOrderTypes').DataTable().ajax.reload();
+  }
+});

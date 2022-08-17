@@ -20,40 +20,40 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnNewClients" name="btnNewClients">Nuevo Cliente</button>
-                    <button class="btn btn-info ml-3" id="btnImportNewClients">Importar Clientes</button>
+                    <button class="btn btn-warning" id="btnNewClient" name="btnNewClient">Nuevo Cliente</button>
+                    <button class="btn btn-info ml-3" id="btnImportNewClient">Importar Clientes</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardCreateClients">
+<div class="page-content-wrapper mt--45 mb-5 cardCreateClient">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <form id="formCreateClients">
-                        <div class="card-body">
-                            <div class="gridx2p">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                    <div class="card-body">
+                        <form id="formCreateOrderTypes">
+                            <div class="row">
+                                <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
                                     <label for="">Ean Cliente</label>
-                                    <input type="text" class="form-control" id="eanClient" name="eanClient">
+                                    <input type="text" class="form-control text-center number" id="ean" name="ean">
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
                                     <label for="">Nit Cliente</label>
-                                    <input type="text" class="form-control" id="nitClient" name="nitClient">
+                                    <input type="text" class="form-control text-center number" id="nit" name="nit">
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                <div class="form-group floating-label enable-floating-label show-label col-lg-6" style="margin-bottom:0px">
                                     <label for="">Nombre Cliente</label>
-                                    <input type="text" class="form-control" id="client" name="client">
+                                    <input type="text" class="form-control text-center" id="client" name="client">
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                    <button class="btn btn-success" id="btnCreateClients">Crear Cliente</button>
+                                <div style="margin-bottom:0px;margin-top:5px;" class="col">
+                                    <button class="btn btn-success" id="btnCreateClient">Crear</button>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -70,7 +70,7 @@ $userinactivetimeDao->findSession();
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
                                     <input class="form-control" type="file" id="fileClients" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label"> Importar Clientes</label>
+                                    <label for="formFile" class="form-label">Importar Clientes</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                     <button type="text" class="btn btn-success" id="btnImportClients">Importar</button>
@@ -110,8 +110,9 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
+<script src="/global/js/global/number.js"></script>
 <script src="/planning/js/admin/clients/tblClients.js"></script>
-<script src="/planning/js/admin/clients/Clients.js"></script>
+<script src="/planning/js/admin/clients/clients.js"></script>
 <script src="../global/js/import/import.js"></script>
 <script src="/planning/js/admin/clients/importClients.js"></script>
 <script src="../global/js/import/file.js"></script>
