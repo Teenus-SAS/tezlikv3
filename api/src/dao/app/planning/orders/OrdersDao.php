@@ -20,8 +20,9 @@ class OrdersDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT o.id_order, o.num_order, o.date_order, o.original_quantity, p.product, c.client, o.max_date, o.delivery_date
+        $stmt = $connection->prepare("SELECT o.id_order, o.num_order, o.date_order, o.original_quantity, p.product, c.client, ot.order_type, o.max_date, o.delivery_date
                                       FROM orders o
+                                        INNER JOIN order_types ot ON ot.id_order_type = o.id_order_type
                                         INNER JOIN products p ON p.id_product = o.id_product
                                         INNER JOIN clients c ON c.id_client = o.id_client
                                       WHERE o.status_order = 0 AND o.id_company = :id_company");
@@ -80,8 +81,8 @@ class OrdersDao
         $dateOrder = $this->changeDate($dataOrder);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO orders (num_order, date_order, min_date, max_date, id_company, id_product, id_client, original_quantity, quantity) 
-                                          VALUES (:num_order, :date_order, :min_date, :max_date, :id_company, :id_product, :id_client, :original_quantity, :quantity)");
+            $stmt = $connection->prepare("INSERT INTO orders (num_order, date_order, min_date, max_date, id_company, id_product, id_client, id_order_type, original_quantity, quantity) 
+                                          VALUES (:num_order, :date_order, :min_date, :max_date, :id_company, :id_product, :id_client, :id_order_type, :original_quantity, :quantity)");
             $stmt->execute([
                 'num_order' => $dataOrder['order'],
                 'date_order' => $dateOrder['dateOrder'],
@@ -90,6 +91,7 @@ class OrdersDao
                 'id_company' => $id_company,
                 'id_product' => $dataOrder['idProduct'],
                 'id_client' => $dataOrder['idClient'],
+                'id_order_type' => $dataOrder['idOrderType'],
                 'original_quantity' => $dataOrder['originalQuantity'],
                 'quantity' => $dataOrder['quantity']
                 // 'accumulated_quantity' => $dataOrder['accumulatedQuantity']
@@ -112,7 +114,7 @@ class OrdersDao
 
         try {
             $stmt = $connection->prepare("UPDATE orders SET num_order = :num_order, date_order = :date_order, min_date = :min_date, max_date = :max_date, id_product = :id_product,
-                                                 id_client = :id_client, original_quantity = :original_quantity, quantity = :quantity
+                                                 id_client = :id_client, id_order_type = :id_order_type, original_quantity = :original_quantity, quantity = :quantity
                                           WHERE id_order = :id_order");
             $stmt->execute([
                 'num_order' => $dataOrder['order'],
@@ -121,6 +123,7 @@ class OrdersDao
                 'max_date' => $dateOrder['maxDate'],
                 'id_product' => $dataOrder['idProduct'],
                 'id_client' => $dataOrder['idClient'],
+                'id_order_type' => $dataOrder['idOrderType'],
                 'original_quantity' => $dataOrder['originalQuantity'],
                 'quantity' => $dataOrder['quantity'],
                 // 'accumulated_quantity' => $dataOrder['accumulatedQuantity'],

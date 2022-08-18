@@ -7,8 +7,7 @@ $(document).ready(function () {
 
   $('#btnNewOrderType').click(function (e) {
     e.preventDefault();
-
-    $('.cardImportOrderType').hide(800);
+    $('.cardImportOrderTypes').hide(800);
     $('.cardCreateOrderType').toggle(800);
     $('#btnCreateOrderType').html('Crear');
 
@@ -21,31 +20,21 @@ $(document).ready(function () {
 
   $('#btnCreateOrderType').click(function (e) {
     e.preventDefault();
-
     let idOrderType = sessionStorage.getItem('id_order_type');
 
     if (idOrderType == '' || idOrderType == null) {
-      ean = $('#ean').val();
-      nit = $('#nit').val();
-      OrderType = $('#OrderType').val();
+      orderType = $('#orderType').val();
 
-      if (
-        ean == '' ||
-        ean == null ||
-        nit == '' ||
-        nit == null ||
-        OrderType == '' ||
-        OrderType == null
-      ) {
+      if (orderType == '' || orderType == null) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      OrderType = $('#formCreateOrderType').serialize();
+      orderType = $('#formCreateOrderType').serialize();
 
       $.post(
-        '../../api/addOrderType',
-        OrderType,
+        '../../api/addOrderTypes',
+        orderType,
         function (data, textStatus, jqXHR) {
           message(data);
         }
@@ -66,9 +55,7 @@ $(document).ready(function () {
     let data = tblOrderTypes.fnGetData(row);
 
     sessionStorage.setItem('id_order_type', data.id_order_type);
-    $('#ean').val(data.ean);
-    $('#nit').val(data.nit);
-    $('#OrderType').val(data.OrderType);
+    $('#orderType').val(data.order_type);
 
     $('html, body').animate(
       {
@@ -102,7 +89,7 @@ $(document).ready(function () {
     bootbox.confirm({
       title: 'Eliminar',
       message:
-        'Está seguro de eliminar este Tipo de Pedido? Esta acción no se puede reversar.',
+        'Está seguro de eliminar este tipo de pedido? Esta acción no se puede reversar.',
       buttons: {
         confirm: {
           label: 'Si',
@@ -131,7 +118,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateOrderType').hide(800);
-      $('#formCreateOrderType')[0].reset();
+      $('#formCreateOrderType').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

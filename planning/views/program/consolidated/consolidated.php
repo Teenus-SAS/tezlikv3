@@ -98,8 +98,14 @@ $userinactivetimeDao->findSession();
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h5 class="card-title">Consolidado</h5>
+                    <div class="row card-header">
+                        <div class="col">
+                            <h5 class="card-title">Consolidado</h5>
+                        </div>
+                        <div class="col-lg-2 form-group floating-label enable-floating-label show-label">
+                            <label for="">Numero De Semanas</label>
+                            <input type="text" class="form-control text-center number" id="numWeek" name="numWeek">
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
@@ -107,7 +113,6 @@ $userinactivetimeDao->findSession();
 
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -124,4 +129,4 @@ $userinactivetimeDao->findSession();
 <!-- <script src="../global/js/import/import.js"></script>
 <script src="../planning/js/consolidated/importConsolidated.js"></script>
 <script src="../global/js/import/file.js"></script> -->
-<script src="../global/js/global/validateExt.js"></script>
+<!-- <script src="../global/js/global/validateExt.js"></script> -->

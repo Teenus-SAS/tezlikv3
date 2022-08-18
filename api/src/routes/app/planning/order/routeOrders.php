@@ -4,11 +4,13 @@ use tezlikv3\dao\ClientsDao;
 use tezlikv3\dao\DeliveryDateDao;
 use tezlikv3\dao\MallasDao;
 use tezlikv3\dao\OrdersDao;
+use tezlikv3\dao\OrderTypesDao;
 use tezlikv3\dao\PlanProductsDao;
 
 $ordersDao = new OrdersDao();
 $productsDao = new PlanProductsDao();
 $clientsDao = new ClientsDao();
+$orderTypesDao = new OrderTypesDao();
 $mallasDao = new MallasDao();
 $deliveryDateDao = new DeliveryDateDao();
 
@@ -23,7 +25,7 @@ $app->get('/orders', function (Request $request, Response $response, $args) use 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/orderDataValidation', function (Request $request, Response $response, $args) use ($ordersDao, $productsDao, $clientsDao) {
+$app->post('/orderDataValidation', function (Request $request, Response $response, $args) use ($ordersDao, $productsDao, $clientsDao, $orderTypesDao) {
     $dataOrder = $request->getParsedBody();
 
     if (isset($dataOrder)) {
@@ -52,6 +54,14 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
                 $order[$i]['idClient'] = $client['id_client'];
             } else $order[$i]['idClient'] = $findClient['id_client'];
 
+            // Obtener id Tipo pedido
+            $findOrderType = $orderTypesDao->findOrderType($order[$i]);
+            if (!$findOrderType) {
+                $i = $i + 1;
+                $dataImportOrder = array('error' => true, 'message' => "Tipo de pedido no existe en la base de datos.<br>Fila: {$i}");
+                break;
+            } else $order[$i]['idOrderType'] = $findOrderType['id_order_type'];
+
             if (
                 empty($order[$i]['order'])  || empty($order[$i]['dateOrder']) || empty($order[$i]['minDate']) ||
                 empty($order[$i]['maxDate']) || empty($order[$i]['originalQuantity']) ||  empty($order[$i]['quantity'])
@@ -72,7 +82,7 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addOrder', function (Request $request, Response $response, $args) use ($ordersDao, $productsDao, $clientsDao, $deliveryDateDao, $mallasDao) {
+$app->post('/addOrder', function (Request $request, Response $response, $args) use ($ordersDao, $productsDao, $clientsDao, $orderTypesDao, $deliveryDateDao, $mallasDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataOrder = $request->getParsedBody();
@@ -87,6 +97,10 @@ $app->post('/addOrder', function (Request $request, Response $response, $args) u
         // Obtener id cliente
         $findClient = $clientsDao->findClient($order[$i], $id_company);
         $order[$i]['idClient'] = $findClient['id_client'];
+
+        // Obtener id tipo pedido
+        $findOrderType = $orderTypesDao->findOrderType($order[$i]);
+        $order[$i]['idOrderType'] = $findOrderType['id_order_type'];
 
         // Consultar pedido
         $findOrder = $ordersDao->findOrder($order[$i], $id_company);

@@ -41,9 +41,9 @@ $(document).ready(function () {
         return false;
       }
 
-      Client = $('#formCreateClient').serialize();
+      client = $('#formCreateClient').serialize();
 
-      $.post('../../api/addClient', Client, function (data, textStatus, jqXHR) {
+      $.post('../../api/addClient', client, function (data, textStatus, jqXHR) {
         message(data);
       });
     } else {

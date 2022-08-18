@@ -18,11 +18,6 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Pedido',
-        data: 'order',
-        className: 'uniqueClassName',
-      },
-      {
         title: 'Tipo de pedido',
         data: 'order_type',
         className: 'uniqueClassName',

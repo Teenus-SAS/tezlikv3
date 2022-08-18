@@ -24,8 +24,22 @@ class OrderTypesDao
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-        $orderTypes = $stmt->fetch($connection::FETCH_ASSOC);
+        $orderTypes = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $orderTypes;
+    }
+
+    public function findOrderType($dataOrderTypes)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM order_types WHERE order_type = :order_type");
+        $stmt->execute([
+            'order_type' => ucfirst(strtolower(trim($dataOrderTypes['orderType'])))
+        ]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $orderType = $stmt->fetch($connection::FETCH_ASSOC);
+        return $orderType;
     }
 
     public function insertOrderTypes($dataOrderTypes)
@@ -33,9 +47,8 @@ class OrderTypesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO order_types (id_order, order_type) VALUES (:id_order, :order_type)");
+            $stmt = $connection->prepare("INSERT INTO order_types (order_type) VALUES (:order_type)");
             $stmt->execute([
-                'id_order' => $dataOrderTypes['id_order'],
                 'order_type' => ucfirst(strtolower(trim($dataOrderTypes['orderType'])))
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -51,9 +64,8 @@ class OrderTypesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE order_types SET id_order = :id_order, order_type = :order_type WHERE id_order_type = :id_order_type");
+            $stmt = $connection->prepare("UPDATE order_types SET order_type = :order_type WHERE id_order_type = :id_order_type");
             $stmt->execute([
-                'id_order' => $dataOrderTypes['id_order'],
                 'order_type' => ucfirst(strtolower(trim($dataOrderTypes['orderType']))),
                 'id_order_type' => $dataOrderTypes['idOrderType']
             ]);

@@ -20,32 +20,28 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <button class="btn btn-warning" id="btnNewOrderTypes" name="btnNewOrderTypes">Nuevo Tipo Pedido</button>
-                    <!-- <button class="btn btn-info ml-3" id="btnImportNewOrderTypes" name="btnImportNewOrderTypes">Importar Tipos de Pedidos</button> -->
+                    <button class="btn btn-warning" id="btnNewOrderType" name="btnNewOrderType">Nuevo Tipo Pedido</button>
+                    <button class="btn btn-info ml-3" id="btnImportNewOrderTypes" name="btnImportNewOrderTypes">Importar Tipos de Pedidos</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardCreateOrderTypes">
+<div class="page-content-wrapper mt--45 mb-5 cardCreateOrderType">
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="formCreateOrderTypes">
-                            <div class="row">
-                                <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
-                                    <select class="form-control" name="idOrder" id="order"></select>
-                                    <label for="">Pedido</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
-                                    <input type="text" class="form-control" name="orderType" id="orderType">
+                        <form id="formCreateOrderType">
+                            <div class="gridx2p">
+                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                     <label for="">Tipo de Pedido</label>
+                                    <input type="text" class="form-control" name="orderType" id="orderType">
                                 </div>
-                                <div style="margin-bottom:0px;margin-top:5px;">
-                                    <button class="btn btn-success" id="btnCreateOrderTypes">Crear Ciclo Máquina</button>
+                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
+                                    <button class="btn btn-success" id="btnCreateOrderType">Crear Tipo Pedido</button>
                                 </div>
                             </div>
                         </form>
@@ -56,7 +52,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<!-- <div class="page-content-wrapper mt--45 mb-5 cardImportOrderTypes">
+<div class="page-content-wrapper mt--45 mb-5 cardImportOrderTypes">
     <div class="container-fluid">
         <div class="row">
             <form id="formImportOrderTypes" enctype="multipart/form-data">
@@ -81,7 +77,7 @@ $userinactivetimeDao->findSession();
             </form>
         </div>
     </div>
-</div> -->
+</div>
 
 <!-- page content -->
 <div class="page-content-wrapper mt--45">
@@ -106,8 +102,6 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="/global/js/global/number.js"></script>
-<script src="/planning/js/orders/configOrders.js"></script>
 <script src="/planning/js/admin/orderTypes/tblOrderTypes.js"></script>
 <script src="/planning/js/admin/orderTypes/orderTypes.js"></script>
 <script src="/global/js/import/file.js"></script>

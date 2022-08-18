@@ -1,23 +1,23 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportOrder').hide();
+  $('.cardImportOrderTypes').hide();
 
-  $('#btnImportNewOrder').click(function (e) {
+  $('#btnImportNewOrderTypes').click(function (e) {
     e.preventDefault();
-
-    $('.cardImportOrder').toggle(800);
+    $('.cardCreateOrderType').hide(800);
+    $('.cardImportOrderTypes').toggle(800);
   });
 
-  $('#fileOrder').change(function (e) {
+  $('#fileOrderTypes').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportOrder').click(function (e) {
+  $('#btnImportOrderTypes').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileOrder').val();
+    file = $('#fileOrderTypes').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -26,22 +26,12 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let OrderToImport = data.map((item) => {
+        let orderTypesToImport = data.map((item) => {
           return {
-            order: item.pedido,
-            dateOrder: item.fecha_pedido,
-            minDate: item.fecha_minima,
-            maxDate: item.fecha_maxima,
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            client: item.cliente,
             orderType: item.tipo_pedido,
-            originalQuantity: item.cantidad_original,
-            quantity: item.cantidad_pendiente,
-            // deliveryDay: item.dia_entrega,
           };
         });
-        checkOrder(OrderToImport);
+        checkOrderTypes(orderTypesToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -49,14 +39,14 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkOrder = (data) => {
+  checkOrderTypes = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/orderDataValidation',
-      data: { importOrder: data },
+      url: '/api/orderTypesDataValidation',
+      data: { importOrderTypes: data },
       success: function (resp) {
         if (resp.error == true) {
-          $('#formImportOrder').trigger('reset');
+          $('#formImportOrderTypes').trigger('reset');
           toastr.error(resp.message);
           return false;
         }
@@ -76,24 +66,24 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveOrderTable(data);
-            } else $('#fileOrder').val('');
+              saveClientTable(data);
+            } else $('#fileOrderTypes').val('');
           },
         });
       },
     });
   };
 
-  saveOrderTable = (data) => {
+  saveClientTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addOrder',
-      data: { importOrder: data },
+      url: '../../api/addOrderTypes',
+      data: { importOrderTypes: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportOrder').hide(800);
-          $('#formImportOrder')[0].reset();
+          $('.cardImportOrderTypes').hide(800);
+          $('#formImportOrderTypes').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;
@@ -102,18 +92,18 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblOrder').DataTable().clear();
-          $('#tblOrder').DataTable().ajax.reload();
+          $('#tblOrderTypes').DataTable().clear();
+          $('#tblOrderTypes').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsOrder').click(function (e) {
+  $('#btnDownloadImportsOrderTypes').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Pedidos.xlsx';
+    url = 'assets/formatsXlsx/Tipo_Pedidos.xlsx';
 
     link = document.createElement('a');
 

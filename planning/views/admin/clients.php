@@ -34,7 +34,7 @@ $userinactivetimeDao->findSession();
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="formCreateOrderTypes">
+                        <form id="formCreateClient">
                             <div class="row">
                                 <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
                                     <label for="">Ean Cliente</label>
