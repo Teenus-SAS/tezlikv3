@@ -13,15 +13,63 @@ $(document).ready(function () {
 
   $('#btnNewProgramming').click(function (e) {
     e.preventDefault();
-
-    $('.cardImportProgramming').hide(800);
-    $('.cardCreateProgramming').toggle(800);
-    $('#btnCreateProgramming').html('Crear');
-
-    // sessionStorage.removeItem('id_order');
-
-    $('#formCreateProgramming').trigger('reset');
+    fetchindata = async () => {
+      await generalData();
+      $('.cardImportProgramming').hide(800);
+      $('.cardCreateProgramming').toggle(800);
+      $('#btnCreateProgramming').html('Crear');
+      $('#formCreateProgramming').trigger('reset');
+    };
+    fetchindata();
   });
+
+  /* Cargar datos generales */
+  generalData = async () => {
+    await $.ajax({
+      url: '/api/generalData',
+      success: function (r) {
+        let $select = $(`#idMachine`);
+        $select.empty();
+
+        $select.append(`<option disabled selected>Seleccionar</option>`);
+        $.each(r.machines, function (i, value) {
+          $select.append(
+            `<option value = ${value.id_machine}> ${value.machine} </option>`
+          );
+        });
+
+        let $select1 = $(`#order`);
+        $select1.empty();
+
+        $select1.append(`<option disabled selected>Seleccionar</option>`);
+        $.each(r.orders, function (i, value) {
+          $select1.append(
+            `<option value = ${value.id_order}> ${value.num_order} </option>`
+          );
+        });
+
+        let $select2 = $(`#refProduct`);
+        $select2.empty();
+
+        $select2.append(`<option disabled selected>Seleccionar</option>`);
+        $.each(r.products, function (i, value) {
+          $select2.append(
+            `<option value = ${value.id_product}> ${value.reference} </option>`
+          );
+        });
+
+        let $select3 = $(`#selectNameProduct`);
+        $select3.empty();
+
+        $select3.append(`<option disabled selected>Seleccionar</option>`);
+        $.each(r.products, function (i, value) {
+          $select3.append(
+            `<option value = ${value.id_product}> ${value.product} </option>`
+          );
+        });
+      },
+    });
+  };
 
   /* Crear nueva programa de producción */
   $('#btnCreateProgramming').click(function (e) {
@@ -35,6 +83,7 @@ $(document).ready(function () {
 
     if (!data || data == 0 || quantity == '') {
       toastr.error('Ingrese todos los campos');
+      // generalData();
       return false;
     }
     programming = $('#formCreateProgramming').serialize();

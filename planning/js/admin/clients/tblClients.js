@@ -21,11 +21,13 @@ $(document).ready(function () {
         title: 'Ean',
         data: 'ean',
         className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ' '),
       },
       {
         title: 'Nit',
         data: 'nit',
         className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ' '),
       },
       {
         title: 'Cliente',

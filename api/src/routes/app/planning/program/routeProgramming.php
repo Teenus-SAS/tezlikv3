@@ -1,23 +1,51 @@
 <?php
 
+use tezlikv3\dao\PlanMachinesDao;
+use tezlikv3\dao\OrdersDao;
+use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\ProgrammingDao;
 use tezlikv3\dao\DatesMachinesDao;
 use tezlikv3\dao\FinalDateDao;
 use tezlikv3\dao\EconomicLotDao;
-use tezlikv3\dao\OrdersDao;
 
+$machinesDao = new PlanMachinesDao();
+$ordersDao = new OrdersDao();
+$productsDao = new PlanProductsDao();
 $programmingDao = new ProgrammingDao();
 $datesMachinesDao = new DatesMachinesDao();
 $finalDateDao = new FinalDateDao();
 $economicLotDao = new EconomicLotDao();
-$ordersDao = new OrdersDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/productsByMachine/{id_machine}', function (Request $request, Response $response, $args) use ($programmingDao) {
-    $products = $programmingDao->findProductsByMachine($args['id_machine']);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+$app->get('/generalData', function (Request $request, Response $response, $args) use ($machinesDao, $ordersDao, $productsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $machines = $machinesDao->findAllMachinesByCompany($id_company);
+    $orders = $ordersDao->findAllOrdersByCompany($id_company);
+    $products = $productsDao->findAllProductsByCompany($id_company);
+
+    $data['machines'] = $machines;
+    $data['orders'] = $orders;
+    $data['products'] = $products;
+
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/programming', function (Request $request, Response $response, $args) use ($programmingDao) {
+    $dataProgramming = $request->getParsedBody();
+
+    if (isset($dataProgramming['idMachine']))
+        $programming = $programmingDao->findProductsAndOrdersByMachine($dataProgramming);
+    if (isset($dataProgramming['idProduct']))
+        $programming = $programmingDao->findMachinesAndOrdersByProducts($dataProgramming);
+    if (isset($dataProgramming['idOrder']))
+        $programming = $programmingDao->findProductsByOrders($dataProgramming);
+
+    $response->getBody()->write(json_encode($programming, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -72,17 +100,17 @@ $app->post('/getProgrammingInfo', function (Request $request, Response $response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/programmingDataValidation', function (Request $request, Response $response, $args) use ($ordersDao, $planCiclesMachineDao, $machinesDao, $productsDao) {
-    $dataProgramming = $request->getParsedBody();
+// $app->post('/programmingDataValidation', function (Request $request, Response $response, $args) use ($ordersDao, $planCiclesMachineDao, $machinesDao, $productsDao) {
+//     $dataProgramming = $request->getParsedBody();
 
-    if (isset($dataProgramming['importProgramming'])) {
-        session_start();
-        $id_company = $_SESSION['id_company'];
+//     if (isset($dataProgramming['importProgramming'])) {
+//         session_start();
+//         $id_company = $_SESSION['id_company'];
 
-        $programming = $dataProgramming['importProgramming'];
-    } else
-        $dataImportProgramming = array('error' => true, 'message' => 'El archivo se encuentra vacio');
+//         $programming = $dataProgramming['importProgramming'];
+//     } else
+//         $dataImportProgramming = array('error' => true, 'message' => 'El archivo se encuentra vacio');
 
-    $response->getBody()->write(json_encode($dataImportProgramming, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+//     $response->getBody()->write(json_encode($dataImportProgramming, JSON_NUMERIC_CHECK));
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
