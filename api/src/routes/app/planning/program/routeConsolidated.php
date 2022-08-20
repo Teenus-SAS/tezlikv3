@@ -15,8 +15,16 @@ $app->get('/consolidated', function (Request $request, Response $response, $args
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* $app->post('/addConsolidated', function (Request $request, Response $response, $args) use ($consolidatedDao) {
+$app->get('/calcConsolidated/{week}', function (Request $request, Response $response, $args) use ($consolidatedDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $dataConsolidated = $request->getParsedBody();
-}); */
+    $consolidated = $consolidatedDao->calcConsolidated($args['week'], $id_company);
+
+    if (!$consolidated)
+        $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
+    else
+        $resp = array('success' => true, 'message' => 'Semana agregada correctamente');
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});

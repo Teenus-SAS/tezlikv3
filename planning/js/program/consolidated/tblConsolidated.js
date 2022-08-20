@@ -28,33 +28,33 @@ $(document).ready(function () {
         data: 'reference',
         className: 'uniqueClassName',
       },
-      // {
-      //   title: 'Kardex',
-      //   data: 'kardex',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
-      // {
-      //   title: 'Cadenas',
-      //   data: '',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
-      // {
-      //   title: 'Venta Directa',
-      //   data: 'direct_sale',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
-      // {
-      //   title: 'Exportadas',
-      //   data: 'export',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
+      {
+        title: 'Kardex',
+        data: 'quantity',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
+      {
+        title: 'Cadenas',
+        data: 'cadenas',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
+      {
+        title: 'Venta Directa',
+        data: 'venta_directa',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
+      {
+        title: 'Exportadas',
+        data: 'exportadas',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
       {
         title: 'Total Pedidos',
-        data: 'total_order',
+        data: 'total_orders',
         className: 'uniqueClassName',
         render: $.fn.dataTable.render.number('.', ',', 0, ''),
       },
@@ -66,38 +66,28 @@ $(document).ready(function () {
       },
       {
         title: 'Dias Inventario',
-        data: 'inventory_day',
+        data: 'inventory_days',
         className: 'uniqueClassName',
         render: $.fn.dataTable.render.number('.', ',', 0, ''),
       },
-      // {
-      //   title: 'Stock Minimo 2 Semanas',
-      //   data: 'week_minimum_stock',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
+      {
+        title: 'Stock Minimo x Semanas',
+        data: 'week_minimum_stock',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
       // {
       //   title: 'A Producir Con Stock Minimo',
       //   data: 'produce_minimum_stock',
       //   className: 'uniqueClassName',
       //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
       // },
-      // {
-      //   title: 'A Producir Ajustado',
-      //   data: 'produce_ajusted',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
-      // {
-      //   title: 'Acciones',
-      //   data: 'id_order',
-      //   className: 'uniqueClassName',
-      //   render: function (data) {
-      //     return `
-      //           <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt" data-toggle='tooltip' title='Actualizar Consolidado' style="font-size: 30px;"></i></a>
-      //           <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Consolidado' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
-      //   },
-      // },
+      {
+        title: 'A Producir Ajustado',
+        data: 'produce_ajusted',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
     ],
   });
 });

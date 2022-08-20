@@ -21,6 +21,7 @@ $(document).ready(function () {
       $('#formCreateProgramming').trigger('reset');
     };
     fetchindata();
+    data = {};
   });
 
   /* Cargar datos generales */

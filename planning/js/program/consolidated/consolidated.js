@@ -1,12 +1,36 @@
 $(document).ready(function () {
-  $('#cardCreateConsolidated').hide();
-
-  $('#btnNewConsolidated').click(function (e) {
+  $('#btnCalcConsolidated').click(function (e) {
     e.preventDefault();
+    week = $('#numWeek').val();
 
-    sessionStorage.removeItem('id_order');
-    $('#formCreateConsolidated').trigger('reset');
-    $('#cardCreateConsolidated').toggle(800);
-    $('#btnCreateConsolidated').html('Programar');
+    if (!week || week == '') {
+      toastr.error('Ingrese numero de semana');
+      return false;
+    }
+
+    $.ajax({
+      url: `/api/calcConsolidated/${week}`,
+      success: function (r) {
+        message(r);
+      },
+    });
   });
+
+  /* Mensaje de exito */
+
+  message = (data) => {
+    if (data.success == true) {
+      updateTable();
+      toastr.success(data.message);
+      return false;
+    } else if (data.error == true) toastr.error(data.message);
+    else if (data.info == true) toastr.info(data.message);
+  };
+
+  /* Actualizar tabla */
+
+  function updateTable() {
+    $('#tblConsolidated').DataTable().clear();
+    $('#tblConsolidated').DataTable().ajax.reload();
+  }
 });

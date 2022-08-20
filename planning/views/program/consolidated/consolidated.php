@@ -104,7 +104,10 @@ $userinactivetimeDao->findSession();
                         </div>
                         <div class="col-lg-2 form-group floating-label enable-floating-label show-label">
                             <label for="">Numero De Semanas</label>
-                            <input type="text" class="form-control text-center number" id="numWeek" name="numWeek">
+                            <input type="number" class="form-control text-center" id="numWeek" name="numWeek">
+                        </div>
+                        <div class="col-lg-2 form-group floating-label enable-floating-label show-label">
+                            <button class="btn btn-info" type="submit" id="btnCalcConsolidated" name="btnCalcConsolidated" style="margin-top: 6px;">Calcular</button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -120,13 +123,5 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<script src="/global/js/global/number.js"></script>
 <script src="../planning/js/program/consolidated/tblConsolidated.js"></script>
-<script src="/planning/js/basic/machines/configMachines.js"></script>
-<script src="/planning/js/orders/configOrders.js"></script>
-<script src="/planning/js/basic/products/configProducts.js"></script>
-<!-- <script src="/planning/js/program/consolidated/consolidated.js"></script> -->
-<!-- <script src="../global/js/import/import.js"></script>
-<script src="../planning/js/consolidated/importConsolidated.js"></script>
-<script src="../global/js/import/file.js"></script> -->
-<!-- <script src="../global/js/global/validateExt.js"></script> -->
+<script src="/planning/js/program/consolidated/consolidated.js"></script>
