@@ -23,7 +23,6 @@ class OrderTypesDao
         $stmt = $connection->prepare("SELECT * FROM order_types");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $orderTypes = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $orderTypes;
     }
@@ -37,7 +36,6 @@ class OrderTypesDao
             'order_type' => ucfirst(strtolower(trim($dataOrderTypes['orderType'])))
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $orderType = $stmt->fetch($connection::FETCH_ASSOC);
         return $orderType;
     }

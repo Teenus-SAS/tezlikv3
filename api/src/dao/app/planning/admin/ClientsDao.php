@@ -41,7 +41,6 @@ class ClientsDao
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $client = $stmt->fetch($connection::FETCH_ASSOC);
-        // $this->logger->notice("Cliente", array('Clientes' => $client));
         return $client;
     }
 

@@ -23,7 +23,6 @@ class PlanProcessDao
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
     $process = $stmt->fetchAll($connection::FETCH_ASSOC);
     $this->logger->notice("process", array('process' => $process));
     return $process;
@@ -59,7 +58,6 @@ class PlanProcessDao
 
       if ($e->getCode() == 23000)
         $message = 'Proceso duplicado. Ingrese una nuevo proceso';
-
       $error = array('info' => true, 'message' => $message);
       return $error;
     }

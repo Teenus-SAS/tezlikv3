@@ -26,7 +26,6 @@ class DatesMachinesDao
                                       WHERE dm.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $machines = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $machines;
     }

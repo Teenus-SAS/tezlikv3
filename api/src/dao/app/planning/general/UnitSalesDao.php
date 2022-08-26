@@ -26,7 +26,6 @@ class UnitSalesDao
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $sales = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("Ventas", array('Ventas' => $sales));
         return $sales;

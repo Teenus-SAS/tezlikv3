@@ -65,7 +65,6 @@ class PlanMachinesDao
 
       if ($e->getCode() == 23000)
         $message = 'Maquina duplicada. Ingrese una nueva maquina';
-
       $error = array('info' => true, 'message' => $message);
       return $error;
     }

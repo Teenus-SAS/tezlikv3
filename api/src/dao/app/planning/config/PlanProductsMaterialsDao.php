@@ -60,7 +60,6 @@ class PlanProductsMaterialsDao
                 'id_product' => $dataProductMaterial['idProduct'],
                 'quantity' => $dataProductMaterial['quantity'],
             ]);
-
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -87,7 +86,6 @@ class PlanProductsMaterialsDao
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
-
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
@@ -108,11 +106,4 @@ class PlanProductsMaterialsDao
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
-
-    /*public function decimalsQuantity($dataProductMaterial)
-    {
-        $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
-
-        return $quantity;
-    }*/
 }

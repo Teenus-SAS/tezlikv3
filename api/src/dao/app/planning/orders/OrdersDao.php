@@ -68,7 +68,6 @@ class OrdersDao
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
         $orders = $stmt->fetch($connection::FETCH_ASSOC);
         $this->logger->notice("Pedidos", array('Pedidos' => $orders));
         return $orders;

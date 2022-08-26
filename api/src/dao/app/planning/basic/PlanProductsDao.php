@@ -26,7 +26,6 @@ class PlanProductsDao
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
     $products = $stmt->fetchAll($connection::FETCH_ASSOC);
     $this->logger->notice("products", array('products' => $products));
     return $products;
@@ -56,7 +55,6 @@ class PlanProductsDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    /* if (!empty($dataProduct['img'])) { */
     try {
       $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, id_mold, quantity) 
                                       VALUES(:id_company, :reference, :product, :id_mold, :quantity)");
@@ -67,10 +65,10 @@ class PlanProductsDao
         'id_company' => $id_company,
         'quantity' => $dataProduct['quantity']
       ]);
-
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
+
       if ($e->getCode() == 23000)
         $message = 'Referencia duplicada. Ingrese una nueva referencia';
       $error = array('info' => true, 'message' => $message);
@@ -124,7 +122,6 @@ class PlanProductsDao
     $size       = $_FILES['img']['size'];
     $type       = $_FILES['img']['type'];
     $error      = $_FILES['img']['error'];
-
 
     /* Verifica si directorio esta creado y lo crea */
     if (!is_dir($targetDir))

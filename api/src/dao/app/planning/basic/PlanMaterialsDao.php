@@ -21,9 +21,7 @@ class PlanMaterialsDao
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
-
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
     $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
     $this->logger->notice("materials", array('materials' => $materials));
     return $materials;
@@ -67,14 +65,12 @@ class PlanMaterialsDao
         'quantity' => $dataMaterial['quantity'],
         'category' => $dataMaterial['category']
       ]);
-
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
 
       if ($e->getCode() == 23000)
         $message = 'Referencia duplicada. Ingrese una nueva referencia';
-
       $error = array('info' => true, 'message' => $message);
       return $error;
     }
