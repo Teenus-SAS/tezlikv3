@@ -35,22 +35,32 @@ $userinactivetimeDao->findSession();
                 <div class="card">
                     <form id="formCreateInvMold">
                         <div class="card-body">
-                            <div class="form-row">
+                            <div class="row mb-4">
                                 <div class="col">
                                     <label for="">Referencia</label>
                                     <input type="text" class="form-control" id="referenceMold" name="referenceMold">
                                 </div>
-                                <div class="col-5">
+                                <div class="col-6">
                                     <label for="">Nombre Molde</label>
                                     <input type="text" class="form-control" id="mold" name="mold">
                                 </div>
-                                <div class="col-2">
+                                <div class="col">
                                     <label for="">T. Montaje Producción (min)</label>
-                                    <input type="number" class="form-control text-center" id="assemblyProduction" name="assemblyProduction">
+                                    <input type="text" class="form-control number text-center" id="assemblyProduction" name="assemblyProduction">
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col">
                                     <label for="">T. Montaje (hrs)</label>
-                                    <input type="number" class="form-control text-center" id="assemblyTime" name="assemblyTime">
+                                    <input type="text" class="form-control number text-center" id="assemblyTime" name="assemblyTime">
+                                </div>
+                                <div class="col">
+                                    <label for="">Numero de cavidades</label>
+                                    <input type="text" class="form-control number text-center" id="cavity" name="cavity">
+                                </div>
+                                <div class="col">
+                                    <label for="">Numero de cavidades disponibles</label>
+                                    <input type="text" class="form-control number text-center" id="cavityAvailable" name="cavityAvailable">
                                 </div>
                                 <div class="col.lg-2">
                                     <button class="btn btn-success" id="btnCreateInvMold" style="width: 100px;height:50%; margin-top: 32px; margin-left: 9px; margin-right: 9px">Crear</button>
@@ -114,6 +124,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
+<script src="/global/js/global/number.js"></script>
 <script src="/planning/js/basic/invMold/tblInvMold.js"></script>
 <script src="/planning/js/basic/invMold/invMold.js"></script>
 <script src="../global/js/import/import.js"></script>

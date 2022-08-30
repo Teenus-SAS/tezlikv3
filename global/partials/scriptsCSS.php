@@ -13,6 +13,7 @@
 <!-- ================== END APP CSS ================== -->
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
+<!-- <link rel="stylesheet" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css"> -->
 <!-- ================== BEGIN POLYFILLS  ================== -->
 <!--[if lt IE 9]>
       <script src="assets/libs/html5shiv/js/html5shiv.js"></script>

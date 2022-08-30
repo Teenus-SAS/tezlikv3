@@ -25,6 +25,7 @@
 <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script> -->
 <script src="https://unpkg.com/xlsx@latest/dist/xlsx.full.min.js"></script>
+<!-- <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script> -->
 
 <!-- Notifications -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>

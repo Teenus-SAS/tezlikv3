@@ -32,6 +32,8 @@ $(document).ready(function () {
             mold: item.molde,
             assemblyTime: item.tiempo_montaje,
             assemblyProduction: item.tiempo_montaje_produccion,
+            cavity: item.numero_cavidades,
+            cavity_available: item.cavidades_disponibles,
           };
         });
         checkMolds(MoldsToImport);

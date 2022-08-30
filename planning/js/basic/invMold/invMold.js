@@ -29,14 +29,18 @@ $(document).ready(function () {
       mold = $('#mold').val();
       assemblyTime = $('#assemblyTime').val();
       assemblyProduction = $('#assemblyProduction').val();
+      cavity = $('#cavity').val();
+      cavityAvailable = $('#cavityAvailable').val();
+
+      data = assemblyTime * assemblyProduction * cavity * cavityAvailable;
 
       if (
         reference == '' ||
         reference == 0 ||
         mold == '' ||
         mold == 0 ||
-        assemblyTime == '' ||
-        assemblyTime == 0
+        !data ||
+        data == 0
       ) {
         toastr.error('Ingrese todos los campos');
         return false;
@@ -65,8 +69,10 @@ $(document).ready(function () {
     sessionStorage.setItem('id_mold', data.id_mold);
     $('#referenceMold').val(data.reference);
     $('#mold').val(data.mold);
-    $('#assemblyTime').val(data.assembly_time);
-    $('#assemblyProduction').val(data.assembly_production);
+    $('#assemblyTime').val(data.assembly_time.toLocaleString());
+    $('#assemblyProduction').val(data.assembly_production.toLocaleString());
+    $('#cavity').val(data.cavity.toLocaleString());
+    $('#cavityAvailable').val(data.cavity_available.toLocaleString());
 
     $('html, body').animate(
       {
@@ -120,38 +126,63 @@ $(document).ready(function () {
     });
   };
 
-  /* Eliminar molde 
+  /* Activar o Desactivar Molde */
+  activeMold = (id_mold) => {
+    dataMold = {};
+    dataMold['idMold'] = id_mold;
 
-  $(document).on('click', '.deleteMold', function () {
-    debugger;
-    let id_mold = this.id;
-
-    bootbox.confirm({
-      title: 'Eliminar',
-      message:
-        'Está seguro de eliminar este molde? Esta acción no se puede reversar.',
-      buttons: {
-        confirm: {
-          label: 'Si',
-          className: 'btn-success',
+    if ($(`#check-${id_mold}`).is(':checked')) {
+      bootbox.confirm({
+        title: 'Activación',
+        message: 'Está seguro de activar este molde?',
+        buttons: {
+          confirm: {
+            label: 'Si',
+            className: 'btn-success',
+          },
+          cancel: {
+            label: 'No',
+            className: 'btn-danger',
+          },
         },
-        cancel: {
-          label: 'No',
-          className: 'btn-danger',
+        callback: function (result) {
+          if (result == true) {
+            saveMold(dataMold);
+          } else {
+            $(`#check-${id_mold}`).prop('checked', false);
+          }
         },
-      },
-      callback: function (result) {
-        if (result == true) {
-          $.get(
-            `../../api/deleteMold/${id_mold}`,
-            function (data, textStatus, jqXHR) {
-              message(data);
+      });
+    } else {
+      bootbox.prompt({
+        title: 'Desactivación',
+        message: '<p>Ingrese motivo de desactivación:</p>',
+        inputType: 'textarea',
+        callback: function (result) {
+          if (result == true) {
+            if (!result || result == '') {
+              toastr.error('Ingrese observación');
+              return false;
             }
-          );
-        }
-      },
-    });
-  }); */
+            dataMold['observationMold'] = result;
+            saveMold(dataMold);
+          } else {
+            $(`#check-${id_mold}`).prop('checked', true);
+          }
+        },
+      });
+    }
+  };
+
+  saveMold = (data) => {
+    $.post(
+      '../../api/activeOrInactiveMold',
+      data,
+      function (data, textStatus, jqXHR) {
+        message(data);
+      }
+    );
+  };
 
   /* Mensaje de exito */
 

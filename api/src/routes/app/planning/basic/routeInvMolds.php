@@ -15,6 +15,31 @@ $app->get('/invMolds', function (Request $request, Response $response, $args) us
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->post('/activeOrInactiveMold', function (Request $request, Response $response, $args) use ($invMoldsDao) {
+    $dataMold = $request->getParsedBody();
+
+    if (isset($dataMold['observationMold'])) {
+        // Desactivar molde
+        $mold = $invMoldsDao->inactiveMold($dataMold);
+
+        if ($mold == null)
+            $resp = array('success' => true, 'message' => 'Molde desactivado correctamente');
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras desactivaba el molde. Intente nuevamente');
+    } else {
+        // Activar molde
+        $mold = $invMoldsDao->activeMold($dataMold);
+
+        if ($mold == null)
+            $resp = array('success' => true, 'message' => 'Molde activado correctamente');
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras activaba el molde. Intente nuevamente');
+    }
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/invMoldDataValidation', function (Request $request, Response $response, $args) use ($invMoldsDao) {
     $dataMold = $request->getParsedBody();
 
@@ -29,8 +54,8 @@ $app->post('/invMoldDataValidation', function (Request $request, Response $respo
 
         for ($i = 0; $i < sizeof($molds); $i++) {
             if (
-                empty($molds[$i]['referenceMold']) || empty($molds[$i]['mold']) ||
-                empty($molds[$i]['assemblyTime']) || empty($molds[$i]['assemblyProduction'])
+                empty($molds[$i]['referenceMold']) || empty($molds[$i]['mold']) || empty($molds[$i]['assemblyTime']) ||
+                empty($molds[$i]['assemblyProduction']) || empty($molds[$i]['cavity']) || empty($molds[$i]['cavityAvailable'])
             ) {
                 $i = $i + 1;
                 $dataImportInvMold = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
@@ -86,8 +111,8 @@ $app->post('/updateMold', function (Request $request, Response $response, $args)
     $dataMold = $request->getParsedBody();
 
     if (
-        empty($dataMold['referenceMold']) || empty($dataMold['mold']) || empty($dataMold['assemblyTime'])
-        || empty($dataMold['idMold']) || empty($dataMold['assemblyProduction'])
+        empty($dataMold['referenceMold']) || empty($dataMold['mold']) || empty($dataMold['assemblyTime']) || empty($dataMold['idMold']) ||
+        empty($dataMold['assemblyProduction']) || empty($dataMold['cavity'] || empty($dataMold['cavityAvailable']))
     ) {
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     } else {

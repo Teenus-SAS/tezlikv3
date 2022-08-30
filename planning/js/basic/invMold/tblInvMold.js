@@ -1,6 +1,7 @@
+var editor;
+
 $(document).ready(function () {
   /* Cargue tabla de Máquinas */
-
   tblInvMold = $('#tblInvMold').dataTable({
     pageLength: 50,
     ajax: {
@@ -11,12 +12,23 @@ $(document).ready(function () {
       url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
     },
     columns: [
+      // {
+      //   title: 'No.',
+      //   data: null,
+      //   className: 'uniqueClassName',
+      //   render: function (data, type, full, meta) {
+      //     return meta.row + 1;
+      //   },
+      // },
       {
-        title: 'No.',
+        title: 'Activo',
         data: null,
-        className: 'uniqueClassName',
-        render: function (data, type, full, meta) {
-          return meta.row + 1;
+        className: 'dt-body-center',
+        render: function (data) {
+          if (data.active == 1) checked = 'checked';
+          else checked = '';
+
+          return `<input type="checkbox" id="check-${data.id_mold}" onclick="activeMold(${data.id_mold})" ${checked}>`;
         },
       },
       {
@@ -33,13 +45,31 @@ $(document).ready(function () {
         title: 'Tiempo Montaje en Produccion (Horas)',
         data: 'assembly_production',
         className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
       },
       {
         title: 'Tiempo Montaje (Minutos)',
         data: 'assembly_time',
         className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
       },
-
+      {
+        title: 'N° Cavidades',
+        data: 'cavity',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
+      {
+        title: 'N° Cavidades Disponibles',
+        data: 'cavity_available',
+        className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+      },
+      // {
+      //   title: 'Tiempo Montaje (Minutos)',
+      //   data: 'assembly_time',
+      //   className: 'uniqueClassName',
+      // },
       {
         title: 'Acciones',
         data: 'id_mold',
