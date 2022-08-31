@@ -1,39 +1,92 @@
-<div class="container rounded bg-white mt-5 mb-5">
+<div class="container">
     <div class="row">
-        <div class="col-md-4 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold" id="name">Edogaru</span><span class="text-black-50" id="mail">edogaru@mail.com.my</span><span> </span></div>
-        </div>
-        <div class="col-md-8 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Configuración Usuario</h4>
+        <div class="col-12">
+            <!-- Page title -->
+            <div class="my-5">
+                <h3>My Profile</h3>
+                <hr>
+            </div>
+            <!-- Form START -->
+            <form class="file-upload">
+                <div class="row mb-5 gx-5">
+                    <!-- Contact detail -->
+                    <div class="col-xxl-8 mb-5 mb-xxl-0">
+                        <div class="bg-secondary-soft px-4 py-5 rounded">
+                            <div class="row g-3">
+                                <h4 class="mb-4 mt-0">Contact detail</h4>
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombres *</label>
+                                    <input type="text" class="form-control" placeholder="" aria-label="First name" value="Scaralet">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Apellidos *</label>
+                                    <input type="text" class="form-control" placeholder="" aria-label="Last name" value="Doe">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Cargo *</label>
+                                    <input type="text" class="form-control" placeholder="" aria-label="Phone number" value="(333) 000 555">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputEmail4" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="inputEmail4" value="example@homerealty.com">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Numero Celular *</label>
+                                    <input type="text" class="form-control" placeholder="" aria-label="Phone number" value="+91 9852 8855 252">
+                                </div>
+                            </div> <!-- Row END -->
+                        </div>
+                    </div>
+                    <!-- Upload profile -->
+                    <div class="col-xxl-4">
+                        <div class="bg-secondary-soft px-4 py-5 rounded">
+                            <div class="row g-3">
+                                <h4 class="mb-4 mt-0">Upload your profile photo</h4>
+                                <div class="text-center">
+                                    <!-- Image upload -->
+                                    <div class="square position-relative display-2 mb-3">
+                                        <i class="fas fa-fw fa-user position-absolute top-50 start-50 translate-middle text-secondary"></i>
+                                    </div>
+                                    <!-- Button -->
+                                    <input type="file" id="customFile" name="file" hidden="">
+                                    <label class="btn btn-success-soft btn-block" for="customFile">Upload</label>
+                                    <button type="button" class="btn btn-danger-soft">Remove</button>
+                                    <!-- Content -->
+                                    <p class="text-muted mt-3 mb-0"><span class="me-1">Note:</span>Minimum size 300px x 300px</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- Row END -->
+
+                <!-- Social media detail
+                <div class="row mb-5 gx-5">
+                    <div class="col-xxl-6">
+                        <div class="bg-secondary-soft px-4 py-5 rounded">
+                            <div class="row g-3">
+                                <h4 class="my-4">Change Password</h4>
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword1" class="form-label">Old password *</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword1">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputPassword2" class="form-label">New password *</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword2">
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="exampleInputPassword3" class="form-label">Confirm Password *</label>
+                                    <input type="password" class="form-control" id="exampleInputPassword3">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> Row END -->
+                <!-- button -->
+                <div class="gap-3 d-md-flex justify-content-md-end text-center">
+                    <button type="button" class="btn btn-primary btn-lg">Update profile</button>
                 </div>
-                <form id="formModifyProfileUser">
-                    <div class="row mt-2">
-                        <div class="col-md-6"><label class="labels">Nombre</label><input type="text" class="form-control" placeholder="first name" name="nameUser" id="firstname"></div>
-                        <div class="col-md-6"><label class="labels">Apellido</label><input type="text" class="form-control" placeholder="lastname" name="lastnameUser" id="lastname"></div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-md-12"><label class="labels">Correo Electronico</label><input type="email" class="form-control" placeholder="email" name="email" id="email"></div>
-                        <div class="col-md-6 mt-3"><label class="labels">Nombre De Usuario</label><input type="text" class="form-control" placeholder="username" name="username" id="username"></div>
-                        <div class="col-md-6 mt-3"><label class="labels">Contraseña</label><input type="password" class="form-control" placeholder="password" name="pass" id="pass"></div>
-                        <!-- <div class="col-md-12"><label class="labels">Address Line 2</label><input type="text" class="form-control" placeholder="enter address line 2"></div> -->
-                    </div>
-                    <!-- <div class="row mt-3">
-                        <div class="col-md-6"><label class="labels">Country</label><input type="text" class="form-control" placeholder="country"></div>
-                        <div class="col-md-6"><label class="labels">State/Region</label><input type="text" class="form-control" placeholder="state"></div>
-                    </div> -->
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button" id="btnSaveProfile">Guardar Perfil</button></div>
-                </form>
-            </div>
+            </form> <!-- Form END -->
         </div>
-        <!-- <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience"></div> <br>
-                <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details"></div>
-            </div>
-        </div> -->
     </div>
 </div>
 

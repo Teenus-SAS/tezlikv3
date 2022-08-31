@@ -1,9 +1,9 @@
 $(document).ready(function () {
-  fetch(`/api/profile`)
-    .then((response) => response.text())
-    .then((data) => {
-      loadProfile(data);
-    });
+  //   fetch(`/api/profile`)
+  //     .then((response) => response.text())
+  //     .then((data) => {
+  //       loadProfile(data);
+  //     });
 
   /* Cargar Perfil de usuario */
   loadProfile = (data) => {
