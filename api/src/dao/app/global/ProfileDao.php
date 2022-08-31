@@ -18,5 +18,26 @@ class ProfileDao
 
     public function updateProfile($dataUser)
     {
+        $connection = Connection::getInstance()->getConnection();
+
+        $pass = password_hash($dataUser['pass'], PASSWORD_DEFAULT);
+
+        try {
+            $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, username = :username, email = :email, password = :password
+                                          WHERE id_user = :id_user");
+            $stmt->execute([
+                'firstname' => $dataUser['nameUser'],
+                'lastname' => $dataUser['lastnameUser'],
+                'username' => $dataUser['username'],
+                'email' => $dataUser['emailUser'],
+                'password' => $pass,
+                'id_user' => $dataUser['idUser']
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
     }
 }
