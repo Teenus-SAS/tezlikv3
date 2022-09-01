@@ -23,16 +23,8 @@ class ProfileDao
         $pass = password_hash($dataUser['pass'], PASSWORD_DEFAULT);
 
         try {
-            $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, username = :username, email = :email, password = :password
-                                          WHERE id_user = :id_user");
-            $stmt->execute([
-                'firstname' => $dataUser['nameUser'],
-                'lastname' => $dataUser['lastnameUser'],
-                'username' => $dataUser['username'],
-                'email' => $dataUser['emailUser'],
-                'password' => $pass,
-                'id_user' => $dataUser['idUser']
-            ]);
+            $stmt = $connection->prepare("");
+            $stmt->execute([]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
