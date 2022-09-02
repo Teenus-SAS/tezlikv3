@@ -33,7 +33,6 @@ require_once('../api/src/routes/admin/users/routeCloseSessionUsers.php');
 // Dashboard
 require_once('../api/src/routes/admin/dashboard/routeDashboardGeneral.php');
 
-
 /* App Cost */
 
 // Analysis
@@ -67,6 +66,8 @@ require_once('../api/src/routes/app/cost/general/routeProcessPayroll.php');
 require_once('../api/src/routes/app/global/routeCompany.php');
 require_once('../api/src/routes/app/global/routeDoubleFactor.php');
 require_once('../api/src/routes/app/global/routePuc.php');
+// Profile
+require_once('../api/src/routes/app/global/routeProfile.php');
 
 /* Login */
 require_once('../api/src/routes/app/login/routeLicenseCompany.php');

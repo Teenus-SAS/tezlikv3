@@ -1,24 +1,21 @@
 <?php
 
-use tezlikv3\dao\UsersDao;
 use tezlikv3\dao\ProfileDao;
 
-$usersDao = new UsersDao();
 $profileDao = new ProfileDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/profile', function (Request $request, Response $response, $args) use ($usersDao) {
-    $profile = $usersDao->findUser();
-    $response->getBody()->write(json_encode($profile, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
 $app->post('/updateProfile', function (Request $request, Response $response, $args) use ($profileDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataUser = $request->getParsedBody();
 
     $profile = $profileDao->updateProfile($dataUser);
+
+    if (sizeof($_FILES) > 0) $profileDao->avatarUser($dataUser['idUser'], $id_company);
+
 
     if ($profile == null)
         $resp = array('success' => true, 'message' => 'Perfil actualizado correctamente');
