@@ -35,7 +35,7 @@
 
 <body>
   <!-- Begin Page -->
-  <div class="auth-pages full-auth-screen">
+  <div class="page-content full-auth-screen">
     <div class="container-fluid">
       <div class="backhome">
         <a href="https://teenus.com.co" target="_blank" class="avatar avatar-sm bg-primary text-white"><i class="bx bx-home-alt fs-sm"></i></a>
@@ -101,7 +101,7 @@
                   </button>
                 </div>
                 <div class="clearfix text-center">
-                  <a href="#" class="text-primary">¿Olvido su password?</a>
+                  <a href="javascript:;" onclick="loadContent('page-content','/global/views/login/forgot-password.php')" class="text-primary">¿Olvido su password?</a>
                 </div>
               </form>
             </div>
@@ -125,6 +125,7 @@
   <script src="assets/libs/jquery-validation/js/additional-methods.min.js"></script>
 
   <!-- ================== BEGIN PAGE JS ================== -->
+  <script src="/global/js/global/loadContent.js"></script>
   <script src="assets/js/app.js"></script>
   <!-- <script src="app/js/login/autentication.js"></script> -->
   <script src="global/js/login/autentication.js"></script>
