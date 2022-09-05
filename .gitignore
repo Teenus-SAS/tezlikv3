@@ -6,3 +6,4 @@ api/*.env
 app/assets/images/avatars/
 app/assets/images/signatures/
 app/assets/images/products/
+app/assets/
