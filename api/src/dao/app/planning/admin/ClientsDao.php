@@ -20,7 +20,7 @@ class ClientsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM clients WHERE id_company = :id_company");
+        $stmt = $connection->prepare("SELECT * FROM plan_clients WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -33,7 +33,7 @@ class ClientsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM clients WHERE client = :client AND id_company = :id_company");
+        $stmt = $connection->prepare("SELECT * FROM plan_clients WHERE client = :client AND id_company = :id_company");
         $stmt->execute([
             'client' => ucfirst(strtolower(trim($dataClient['client']))),
             'id_company' => $id_company
@@ -52,7 +52,7 @@ class ClientsDao
         $nit = str_replace('.', '', $dataClient['nit']);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO clients (ean, nit, client, id_company) VALUES (:ean, :nit, :client, :id_company)");
+            $stmt = $connection->prepare("INSERT INTO plan_clients (ean, nit, client, id_company) VALUES (:ean, :nit, :client, :id_company)");
             $stmt->execute([
                 'ean' => $ean,
                 'nit' => $nit,
@@ -75,7 +75,7 @@ class ClientsDao
         $nit = str_replace('.', '', $dataClient['nit']);
 
         try {
-            $stmt = $connection->prepare("UPDATE clients SET ean = :ean, nit = :nit, client = :client WHERE id_client = :id_client");
+            $stmt = $connection->prepare("UPDATE plan_clients SET ean = :ean, nit = :nit, client = :client WHERE id_client = :id_client");
             $stmt->execute([
                 'ean' => $ean,
                 'nit' => $nit,
@@ -95,12 +95,12 @@ class ClientsDao
         $connection = Connection::getInstance()->getconnection();
 
         try {
-            $stmt = $connection->prepare("SELECT * FROM clients WHERE id_client = :id_client");
+            $stmt = $connection->prepare("SELECT * FROM plan_clients WHERE id_client = :id_client");
             $stmt->execute(['id_client' => $id_client]);
             $row = $stmt->rowCount();
 
             if ($row > 0) {
-                $stmt = $connection->prepare("DELETE FROM clients WHERE id_client = :id_client");
+                $stmt = $connection->prepare("DELETE FROM plan_clients WHERE id_client = :id_client");
                 $stmt->execute(['id_client' => $id_client]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }

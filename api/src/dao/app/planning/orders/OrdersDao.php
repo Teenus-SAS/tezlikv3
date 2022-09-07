@@ -21,10 +21,10 @@ class OrdersDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT o.id_order, o.num_order, o.date_order, o.original_quantity, p.product, c.client, ot.order_type, o.max_date, o.delivery_date
-                                      FROM orders o
-                                        INNER JOIN order_types ot ON ot.id_order_type = o.id_order_type
+                                      FROM plan_orders o
+                                        INNER JOIN plan_order_types ot ON ot.id_order_type = o.id_order_type
                                         INNER JOIN products p ON p.id_product = o.id_product
-                                        INNER JOIN clients c ON c.id_client = o.id_client
+                                        INNER JOIN plan_clients c ON c.id_client = o.id_client
                                       WHERE o.status_order = 0 AND o.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
@@ -41,9 +41,9 @@ class OrdersDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT o.id_order, o.num_order, o.date_order, o.original_quantity, o.quantity, o.accumulated_quantity, p.product, c.client
-                                      FROM orders o
+                                      FROM plan_orders o
                                         INNER JOIN products p ON p.id_product = o.id_product
-                                        INNER JOIN clients c ON c.id_client = o.id_client
+                                        INNER JOIN plan_clients c ON c.id_client = o.id_client
                                       WHERE o.id_order = :id_order AND o.id_company = :id_company");
         $stmt->execute([
             'id_order' => $dataOrder['order'],
@@ -61,7 +61,7 @@ class OrdersDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM orders 
+        $stmt = $connection->prepare("SELECT * FROM plan_orders 
                                       WHERE num_order = :num_order AND id_company = :id_company");
         $stmt->execute([
             'num_order' => $dataOrder['order'],
@@ -80,7 +80,7 @@ class OrdersDao
         $dateOrder = $this->changeDate($dataOrder);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO orders (num_order, date_order, min_date, max_date, id_company, id_product, id_client, id_order_type, original_quantity, quantity) 
+            $stmt = $connection->prepare("INSERT INTO plan_orders (num_order, date_order, min_date, max_date, id_company, id_product, id_client, id_order_type, original_quantity, quantity) 
                                           VALUES (:num_order, :date_order, :min_date, :max_date, :id_company, :id_product, :id_client, :id_order_type, :original_quantity, :quantity)");
             $stmt->execute([
                 'num_order' => $dataOrder['order'],
@@ -112,7 +112,7 @@ class OrdersDao
         $dateOrder = $this->changeDate($dataOrder);
 
         try {
-            $stmt = $connection->prepare("UPDATE orders SET num_order = :num_order, date_order = :date_order, min_date = :min_date, max_date = :max_date, id_product = :id_product,
+            $stmt = $connection->prepare("UPDATE plan_orders SET num_order = :num_order, date_order = :date_order, min_date = :min_date, max_date = :max_date, id_product = :id_product,
                                                  id_client = :id_client, id_order_type = :id_order_type, original_quantity = :original_quantity, quantity = :quantity
                                           WHERE id_order = :id_order");
             $stmt->execute([
@@ -144,8 +144,8 @@ class OrdersDao
         $data = str_replace('"', '', $orders);
         $data = substr($data, 1, -1);
 
-        $stmt = $connection->prepare("UPDATE orders SET status_order = 1
-                                      WHERE id_order IN(SELECT id_order FROM orders WHERE num_order NOT IN({$data}))");
+        $stmt = $connection->prepare("UPDATE plan_orders SET status_order = 1
+                                      WHERE id_order IN(SELECT id_order FROM plan_orders WHERE num_order NOT IN({$data}))");
         $stmt->execute();
     }
 

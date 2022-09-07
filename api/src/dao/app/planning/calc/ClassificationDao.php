@@ -25,7 +25,7 @@ class ClassificationDao
                                                IF(may > 0, 1, 0) + IF(jun > 0, 1, 0) + IF(jul > 0, 1, 0) + IF(aug > 0, 1, 0) + 
                                                IF(sept > 0, 1, 0) + IF(oct > 0, 1, 0) + IF(nov > 0, 1, 0) + IF(dece > 0, 1, 0)) / :cant_months) AS year_sales,
                                              ((jan + feb + mar + apr + may + jun + jul + aug + sept + oct + nov + dece)/:cant_months) AS average_units
-                                      FROM unit_sales 
+                                      FROM plan_unit_sales 
                                       WHERE id_product = :id_product AND id_company = :id_company;");
         $stmt->execute([
             'cant_months' => $dataInventory['cantMonths'],

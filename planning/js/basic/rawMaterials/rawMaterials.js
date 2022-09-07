@@ -29,8 +29,6 @@ $(document).ready(function () {
       quantity = $('#quantity').val();
       category = $('#category').val();
 
-      data = quantity * category;
-
       if (
         ref == '' ||
         ref == 0 ||
@@ -38,8 +36,8 @@ $(document).ready(function () {
         material == 0 ||
         unity == '' ||
         unity == 0 ||
-        data == 0 ||
-        !data
+        quantity == '' ||
+        quantity == 0
       ) {
         toastr.error('Ingrese todos los campos');
         return false;

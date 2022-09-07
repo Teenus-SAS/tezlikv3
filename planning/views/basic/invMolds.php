@@ -50,19 +50,19 @@ $userinactivetimeDao->findSession();
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
+                                <div class="col-sm-2">
                                     <label for="">T. Montaje (hrs)</label>
                                     <input type="text" class="form-control number text-center" id="assemblyTime" name="assemblyTime">
                                 </div>
-                                <div class="col">
-                                    <label for="">Numero de cavidades</label>
+                                <div class="col-sm-2">
+                                    <label for="">N° Cavidades</label>
                                     <input type="text" class="form-control number text-center" id="cavity" name="cavity">
                                 </div>
-                                <div class="col">
-                                    <label for="">Numero de cavidades disponibles</label>
+                                <div class="col-sm-2">
+                                    <label for="">N° Cavidades Disponibles</label>
                                     <input type="text" class="form-control number text-center" id="cavityAvailable" name="cavityAvailable">
                                 </div>
-                                <div class="col.lg-2">
+                                <div class="col">
                                     <button class="btn btn-success" id="btnCreateInvMold" style="width: 100px;height:50%; margin-top: 32px; margin-left: 9px; margin-right: 9px">Crear</button>
                                 </div>
                             </div>

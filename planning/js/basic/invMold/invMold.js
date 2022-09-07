@@ -21,7 +21,6 @@ $(document).ready(function () {
 
   $('#btnCreateInvMold').click(function (e) {
     e.preventDefault();
-
     let idMold = sessionStorage.getItem('id_mold');
 
     if (idMold == '' || idMold == null) {

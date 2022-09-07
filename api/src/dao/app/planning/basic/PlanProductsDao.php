@@ -21,7 +21,7 @@ class PlanProductsDao
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.img, p.quantity, m.mold, p.classification
                                   FROM products p
-                                    INNER JOIN inv_molds m ON m.id_mold = p.id_mold
+                                    INNER JOIN plan_inv_molds m ON m.id_mold = p.id_mold
                                   WHERE p.id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
 

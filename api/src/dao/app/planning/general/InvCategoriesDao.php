@@ -19,7 +19,7 @@ class invCategoriesDao
     public function findAllCategories()
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM categories");
+        $stmt = $connection->prepare("SELECT * FROM plan_categories");
         $stmt->execute();
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -33,7 +33,7 @@ class invCategoriesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT id_category FROM categories WHERE category = :category");
+        $stmt = $connection->prepare("SELECT id_category FROM plan_categories WHERE category = :category");
         $stmt->execute(['category' => ucfirst(strtolower(trim($dataCategory['category'])))]);
         $findCategory = $stmt->fetch($connection::FETCH_ASSOC);
         return $findCategory;
@@ -44,7 +44,7 @@ class invCategoriesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO categories (category) VALUES (:category)");
+            $stmt = $connection->prepare("INSERT INTO plan_categories (category) VALUES (:category)");
             $stmt->execute(['category' => ucfirst(strtolower(trim($dataCategory['category'])))]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -62,7 +62,7 @@ class invCategoriesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE categories SET category = :category WHERE id_category = :id_category");
+            $stmt = $connection->prepare("UPDATE plan_categories SET category = :category WHERE id_category = :id_category");
             $stmt->execute([
                 'category' => ucfirst(strtolower(trim($dataCategory['category']))),
                 'id_category' => $dataCategory['idCategory'],
@@ -79,12 +79,12 @@ class invCategoriesDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT * FROM categories WHERE id_category = :id_category");
+            $stmt = $connection->prepare("SELECT * FROM plan_categories WHERE id_category = :id_category");
             $stmt->execute(['id_category' => $id_category]);
             $rows = $stmt->rowCount();
 
             if ($rows > 0) {
-                $stmt = $connection->prepare("DELETE FROM categories WHERE id_category = :id_category");
+                $stmt = $connection->prepare("DELETE FROM plan_categories WHERE id_category = :id_category");
                 $stmt->execute(['id_category' => $id_category]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }

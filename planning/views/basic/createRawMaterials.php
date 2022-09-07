@@ -59,7 +59,7 @@ $userinactivetimeDao->findSession();
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="validationCustom05">Cantidad En Inventario</label>
-                                    <input type="number" class="form-control text-center" id="quantity" name="quantity">
+                                    <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                 </div>
 
                                 <button class="btn btn-info" type="submit" id="btnCreateMaterial" name="btnCreateMaterial" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
@@ -123,7 +123,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<!-- <script src="/global/js/global/number.js"></script> -->
+<script src="/global/js/global/number.js"></script>
 <script src="/planning/js/basic/rawMaterials/tblRawMaterials.js"></script>
 <script src="/planning/js/basic/rawMaterials/rawMaterials.js"></script>
 <script src="../global/js/import/import.js"></script>

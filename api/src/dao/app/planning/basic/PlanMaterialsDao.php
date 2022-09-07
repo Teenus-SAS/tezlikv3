@@ -49,7 +49,7 @@ class PlanMaterialsDao
   public function insertMaterialsByCompany($dataMaterial, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    // $quantity = str_replace('.', '', $dataMaterial['quantity']);
+    $quantity = str_replace('.', '', $dataMaterial['quantity']);
 
     $dataMaterial['category'] == 'Insumos' ? $dataMaterial['category'] = 1 : $dataMaterial['category'];
     $dataMaterial['category'] == 'Materiales' ? $dataMaterial['category'] = 2 : $dataMaterial['category'];
@@ -62,7 +62,7 @@ class PlanMaterialsDao
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
         'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'quantity' => $dataMaterial['quantity'],
+        'quantity' => $quantity,
         'category' => $dataMaterial['category']
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -80,7 +80,7 @@ class PlanMaterialsDao
   public function updateMaterialsByCompany($dataMaterial)
   {
     $connection = Connection::getInstance()->getConnection();
-    // $quantity = str_replace('.', '', $dataMaterial['quantity']);
+    $quantity = str_replace('.', '', $dataMaterial['quantity']);
 
     $dataMaterial['category'] == 'Insumos' ? $dataMaterial['category'] = 1 : $dataMaterial['category'];
     $dataMaterial['category'] == 'Materiales' ? $dataMaterial['category'] = 2 : $dataMaterial['category'];
@@ -93,7 +93,7 @@ class PlanMaterialsDao
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
         'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'quantity' => $dataMaterial['quantity'],
+        'quantity' => $quantity,
         'category' => $dataMaterial['category']
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

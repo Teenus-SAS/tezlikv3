@@ -1,7 +1,7 @@
 var editor;
 
 $(document).ready(function () {
-  /* Cargue tabla de Máquinas */
+  /* Cargue tabla de Moldes */
   tblInvMold = $('#tblInvMold').dataTable({
     pageLength: 50,
     ajax: {
@@ -12,14 +12,6 @@ $(document).ready(function () {
       url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
     },
     columns: [
-      // {
-      //   title: 'No.',
-      //   data: null,
-      //   className: 'uniqueClassName',
-      //   render: function (data, type, full, meta) {
-      //     return meta.row + 1;
-      //   },
-      // },
       {
         title: 'Activo',
         data: null,
@@ -27,7 +19,6 @@ $(document).ready(function () {
         render: function (data) {
           if (data.active == 1) checked = 'checked';
           else checked = '';
-
           return `<input type="checkbox" id="check-${data.id_mold}" onclick="activeMold(${data.id_mold})" ${checked}>`;
         },
       },
