@@ -31,15 +31,21 @@ $(document).ready(function () {
       cavity = $('#cavity').val();
       cavityAvailable = $('#cavityAvailable').val();
 
-      data = assemblyTime * assemblyProduction * cavity * cavityAvailable;
+      // data = assemblyTime * assemblyProduction * cavity * cavityAvailable;
 
       if (
         reference == '' ||
         reference == 0 ||
         mold == '' ||
         mold == 0 ||
-        !data ||
-        data == 0
+        assemblyTime == '' ||
+        assemblyTime == 0 ||
+        assemblyProduction == '' ||
+        assemblyProduction == 0 ||
+        cavity == '' ||
+        cavity == 0 ||
+        cavityAvailable == '' ||
+        cavityAvailable == 0
       ) {
         toastr.error('Ingrese todos los campos');
         return false;
