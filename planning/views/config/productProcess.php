@@ -63,9 +63,9 @@ $userinactivetimeDao->findSession();
                                 <label for=""></label>
                                 <select class="form-control" name="idProcess" id="idProcess"></select>
                                 <select class="form-control" name="idMachine" id="idMachine"></select>
-                                <input class="form-control text-center" type="text" name="enlistmentTime" id="enlistmentTime">
-                                <input class="form-control text-center" type="text" name="operationTime" id="operationTime">
-                                <input class="form-control text-center" type="text" name="totalTime" id="totalTime" disabled>
+                                <input class="form-control text-center" type="number" name="enlistmentTime" id="enlistmentTime">
+                                <input class="form-control text-center" type="number" name="operationTime" id="operationTime">
+                                <input class="form-control text-center" type="number" name="totalTime" id="totalTime" disabled>
                                 <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
                             </div>
                         </form>

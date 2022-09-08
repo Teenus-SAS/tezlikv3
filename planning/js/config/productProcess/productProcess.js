@@ -40,10 +40,12 @@ $(document).ready(function () {
     this.value == '' ? (this.value = 0) : this.value;
 
     let val = parseFloat(this.value) + parseFloat(tOperation);
+    val = val.toString();
     $('#totalTime').val(val);
   });
 
   $(document).on('click keyup', '#operationTime', function (e) {
+    debugger;
     tEnlistment = $('#enlistmentTime').val();
 
     tEnlistment == '' ? (tEnlistment = 0) : tEnlistment;
@@ -60,6 +62,7 @@ $(document).ready(function () {
     let idProductProcess = sessionStorage.getItem('id_product_process');
 
     if (idProductProcess == '' || idProductProcess == null) {
+      debugger;
       idProduct = parseInt($('#selectNameProduct').val());
       refP = parseInt($('#idProcess').val());
       refM = parseInt($('#idMachine').val());

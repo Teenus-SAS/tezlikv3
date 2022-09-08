@@ -110,7 +110,6 @@ class PlanProductsDao
     return $id_product;
   }
 
-
   public function imageProduct($id_product, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();

@@ -15,14 +15,29 @@ $(document).ready(function () {
       $(`#${id}`).val('');
     }
   });
+  $('#january').on('blur', function () {
+    januaryDay = new Date(date.getFullYear(), january.getMonth(), day);
+
+    let options = {
+      weekday: 'long',
+    };
+    nameDay = januaryDay.toLocaleDateString('es-CO', options);
+
+    lastDay = january.getDate();
+
+    if (nameDay == 'sábado' || nameDay == 'domingo') {
+      toastr.error(`${nameDay}(${day}) de enero no es un dia habil`);
+      $('#january').css('border-color', 'red');
+      $('#january').val('');
+      return false;
+    }
+  });
 
   // Enero
   $('#january').on('keyup', function (e) {
     day = this.value;
 
     january = new Date(date.getFullYear(), 1, 0);
-
-    lastDay = january.getDate();
 
     if (day > lastDay) {
       toastr.error('El valor es mayor al ultimo dia');
