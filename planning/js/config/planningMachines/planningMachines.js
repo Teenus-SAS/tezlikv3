@@ -30,31 +30,7 @@ $(document).ready(function () {
       hoursDay = parseInt($('#hoursDay').val());
       hourStart = $('#hourStart').val();
       hourEnd = $('#hourEnd').val();
-      /*january = $('#january').val();
-      february = $('#february').val();
-      march = $('#march').val();
-      april = $('#april').val();
-      may = $('#may').val();
-      june = $('#june').val();
-      july = $('#july').val();
-      august = $('#august').val();
-      september = $('#september').val();
-      october = $('#october').val();
-      november = $('#november').val();
-      december = $('#december').val();*/
-      data = idMachine * numberWorkers * hoursDay /**
-        january *
-        february *
-        march *
-        april *
-        may *
-        june *
-        july *
-        august *
-        september *
-        october *
-        november *
-        december*/;
+      data = idMachine * numberWorkers * hoursDay;
 
       if (!data || data == null || data == 0) {
         toastr.error('Ingrese todos los campos');
@@ -75,7 +51,6 @@ $(document).ready(function () {
         '/api/addPlanningMachines',
         planningMachines,
         function (data, textStatus, jqXHR) {
-          $('.month').css('border-color', '');
           $('#createPlanMachine').modal('hide');
           message(data);
         }
@@ -184,7 +159,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  const message = (data) => {
     if (data.success == true) {
       $('#formCreatePlanMachine')[0].reset();
       updateTable();

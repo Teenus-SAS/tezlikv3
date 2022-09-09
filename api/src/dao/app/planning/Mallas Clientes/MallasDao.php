@@ -20,7 +20,7 @@ class MallasDao
     public function findMalla($dataMalla)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM plan_inv_molds WHERE id_cliente = :id_cliente");
+        $stmt = $connection->prepare("SELECT * FROM plan_malla_clientes WHERE id_cliente = :id_cliente");
         $stmt->execute([
             'id_cliente' => $dataMalla['idClient']
         ]);
@@ -34,7 +34,7 @@ class MallasDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO plan_inv_molds (id_cliente, dia_entrega) VALUES (:id_cliente, :dia_entrega)");
+            $stmt = $connection->prepare("INSERT INTO plan_malla_clientes (id_cliente, dia_entrega) VALUES (:id_cliente, :dia_entrega)");
             $stmt->execute([
                 'id_cliente' => $dataMalla['idClient'],
                 'dia_entrega' => $dataMalla['deliveryDay']
@@ -52,7 +52,7 @@ class MallasDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE plan_inv_molds SET dia_entrega = :dia_entrega
+            $stmt = $connection->prepare("UPDATE plan_malla_clientes SET dia_entrega = :dia_entrega
                                           WHERE id = :id");
             $stmt->execute([
                 'id' => $dataMalla['idMalla'],
@@ -70,12 +70,12 @@ class MallasDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM plan_inv_molds WHERE id = :id");
+        $stmt = $connection->prepare("SELECT * FROM plan_malla_clientes WHERE id_mold = :id_mold");
         $stmt->execute(['id' => $id]);
         $row = $stmt->rowCount();
 
         if ($row > 0) {
-            $stmt = $connection->prepare("DELETE FROM plan_inv_molds WHERE id = :id");
+            $stmt = $connection->prepare("DELETE FROM plan_malla_clientes WHERE id_mold = :id_mold");
             $stmt->execute(['id' => $id]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }

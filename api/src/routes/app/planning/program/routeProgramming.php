@@ -6,7 +6,7 @@ use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\ProgrammingDao;
 use tezlikv3\dao\DatesMachinesDao;
 use tezlikv3\dao\FinalDateDao;
-use tezlikv3\dao\EconomicLotDao;
+use tezlikv3\dao\LotsProductsDao;
 
 $machinesDao = new PlanMachinesDao();
 $ordersDao = new OrdersDao();
@@ -14,7 +14,7 @@ $productsDao = new PlanProductsDao();
 $programmingDao = new ProgrammingDao();
 $datesMachinesDao = new DatesMachinesDao();
 $finalDateDao = new FinalDateDao();
-$economicLotDao = new EconomicLotDao();
+$economicLotDao = new LotsProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

@@ -1,6 +1,6 @@
 <?php
 
-use tezlikv3\dao\EconomicLotDao;
+use tezlikv3\dao\LotsProductsDao;
 use tezlikv3\dao\PlanCiclesMachineDao;
 use tezlikv3\dao\PlanMachinesDao;
 use tezlikv3\dao\PlanProductsDao;
@@ -8,7 +8,7 @@ use tezlikv3\dao\PlanProductsDao;
 $planCiclesMachineDao = new PlanCiclesMachineDao();
 $machinesDao = new PlanMachinesDao();
 $productsDao = new PlanProductsDao();
-$economicLotDao = new EconomicLotDao();
+$economicLotDao = new LotsProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
