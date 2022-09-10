@@ -58,7 +58,16 @@ $(document).ready(function () {
     $('#costMachine').val(data.cost.toLocaleString());
     $('#residualValue').val(data.residual_value.toLocaleString());
     $('#depreciationYears').val(data.years_depreciation);
-    $('#hoursMachine').val(data.hours_machine);
+
+    hours_machine = data.hours_machine;
+
+    if (hours_machine.isInteger) hours_machine = hours_machine.toLocaleString();
+    else
+      hours_machine = hours_machine.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    $('#hoursMachine').val(hours_machine);
     $('#daysMachine').val(data.days_machine);
 
     $('html, body').animate(

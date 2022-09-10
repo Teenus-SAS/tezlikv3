@@ -73,7 +73,16 @@ $(document).ready(function () {
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
     $('#unityRawMaterial').val(data.unit);
-    $('#quantity').val(data.quantity.toLocaleString());
+
+    quantity = data.quantity;
+
+    if (quantity.isInteger) quantity = quantity.toLocaleString();
+    else
+      quantity = quantity.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    $('#quantity').val(quantity);
     $(`#category option[value=${data.category}]`).prop('selected', true);
 
     $('html, body').animate(
@@ -132,12 +141,6 @@ $(document).ready(function () {
       },
     });
   };
-
-  /* $(document).on('click', '.deleteRawMaterials', function (e) {
-    let idMaterial = this.id;
-
-    
-  }); */
 
   /* Mensaje de exito */
 

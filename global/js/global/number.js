@@ -7,12 +7,13 @@ $('.number').on({
       //   num = value.replace(/\./g, '');
       //   num = num.replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
       //   return num;
-      return (
-        value
+      debugger;
+      if (!value.includes(','))
+        number = value
           .replace(/\./g, '')
-          // .replace(/([0-9])([0-9]{2})$/, '$1,$2')
-          .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.')
-      );
+          .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
+      else number = value;
+      return number;
     });
   },
 });

@@ -48,8 +48,7 @@ class MachinesDao
   public function insertMachinesByCompany($dataMachine, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $costMachine = str_replace('.', '', $dataMachine['cost']);
-    $residualValue = str_replace('.', '', $dataMachine['residualValue']);
+    $dataMachine = $this->convertData($dataMachine);
 
     try {
       $stmt = $connection->prepare("INSERT INTO machines (id_company ,machine, cost, years_depreciation, 
@@ -59,9 +58,9 @@ class MachinesDao
       $stmt->execute([
         'id_company' => $id_company,
         'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
-        'cost' => $costMachine,
+        'cost' => $dataMachine['costMachine'],
         'years_depreciation' => $dataMachine['depreciationYears'],
-        'residual_value' => $residualValue,
+        'residual_value' => $dataMachine['residualValue'],
         'hours_machine' => $dataMachine['hoursMachine'],
         'days_machine' => $dataMachine['daysMachine']
       ]);
@@ -82,8 +81,8 @@ class MachinesDao
   public function updateMachine($dataMachine)
   {
     $connection = Connection::getInstance()->getConnection();
-    $costMachine = str_replace('.', '', $dataMachine['cost']);
-    $residualValue = str_replace('.', '', $dataMachine['residualValue']);
+
+    $dataMachine = $this->convertData($dataMachine);
 
     try {
       $stmt = $connection->prepare("UPDATE machines SET machine = :machine, cost = :cost, years_depreciation = :years_depreciation,
@@ -92,9 +91,9 @@ class MachinesDao
       $stmt->execute([
         'id_machine' => $dataMachine['idMachine'],
         'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
-        'cost' => $costMachine,
+        'cost' => $dataMachine['costMachine'],
         'years_depreciation' => $dataMachine['depreciationYears'],
-        'residual_value' => $residualValue,
+        'residual_value' => $dataMachine['residualValue'],
         'hours_machine' => $dataMachine['hoursMachine'],
         'days_machine' => $dataMachine['daysMachine']
       ]);
@@ -104,6 +103,16 @@ class MachinesDao
       $error = array('info' => true, 'message' => $message);
       return $error;
     }
+  }
+
+  public function convertData($dataMachine)
+  {
+    $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
+    $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
+    $dataMachine['hoursMachine'] = str_replace('.', '', $dataMachine['quantity']);
+    $dataMachine['hoursMachine'] = str_replace(',', '.', $dataMachine['hoursMachine']);
+
+    return $dataMachine;
   }
 
   public function deleteMachine($id_machine)

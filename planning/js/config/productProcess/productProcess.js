@@ -45,7 +45,6 @@ $(document).ready(function () {
   });
 
   $(document).on('click keyup', '#operationTime', function (e) {
-    debugger;
     tEnlistment = $('#enlistmentTime').val();
 
     tEnlistment == '' ? (tEnlistment = 0) : tEnlistment;
@@ -62,7 +61,6 @@ $(document).ready(function () {
     let idProductProcess = sessionStorage.getItem('id_product_process');
 
     if (idProductProcess == '' || idProductProcess == null) {
-      debugger;
       idProduct = parseInt($('#selectNameProduct').val());
       refP = parseInt($('#idProcess').val());
       refM = parseInt($('#idMachine').val());
@@ -111,8 +109,11 @@ $(document).ready(function () {
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
 
-    $('#enlistmentTime').val(data.enlistment_time);
-    $('#operationTime').val(data.operation_time);
+    enlistment_time = validateNumber(data.enlistment_time);
+    $('#enlistmentTime').val(enlistment_time);
+
+    operation_time = validateNumber(data.operation_time);
+    $('#operationTime').val(operation_time);
 
     $('#enlistmentTime').click();
 
@@ -123,6 +124,17 @@ $(document).ready(function () {
       1000
     );
   });
+
+  validateNumber = (number) => {
+    if (number.isInteger) number = number.toLocaleString();
+    else
+      number = number.toLocaleString('es-ES', {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4,
+      });
+
+    return number;
+  };
 
   updateProcess = () => {
     let data = $('#formAddProcess').serialize();

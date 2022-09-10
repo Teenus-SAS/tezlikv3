@@ -55,9 +55,9 @@ $(document).ready(function () {
       quan = $('#quantity').val();
       idProduct = $('#selectNameProduct').val();
 
-      data = ref * quan * idProduct;
+      data = ref * idProduct;
 
-      if (!data) {
+      if (!data || quan == '') {
         toastr.error('Ingrese todos los campos');
         return false;
       }
@@ -90,7 +90,16 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product_material', data.id_product_material);
 
     $(`#material option[value=${data.id_material}]`).prop('selected', true);
-    $('#quantity').val(data.quantity);
+
+    quantity = data.quantity;
+
+    if (quantity.isInteger) quantity = quantity.toLocaleString();
+    else
+      quantity = quantity.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    $('#quantity').val(quantity);
     $('#unity').val(data.unit);
 
     $('html, body').animate(

@@ -75,7 +75,16 @@ $(document).ready(function () {
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
     $('#unityRawMaterial').val(data.unit);
-    $('#costRawMaterial').val(data.cost.toLocaleString());
+
+    cost = data.cost;
+
+    if (cost.isInteger) cost = cost.toLocaleString();
+    else
+      cost = cost.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    $('#costRawMaterial').val(cost);
 
     $('html, body').animate(
       {
