@@ -49,6 +49,8 @@ $app->post('/addOrderTypes', function (Request $request, Response $response, $ar
 
         if ($orderTypes == null)
             $resp = array('success' => true, 'message' => 'Tipo de pedido ingresado correctamente');
+        else if (isset($orderTypes['info']))
+            $resp = array('info' => true, 'message' => $orderTypes['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -83,6 +85,8 @@ $app->post('/updateOrderType', function (Request $request, Response $response, $
 
         if ($orderTypes == null)
             $resp = array('success' => true, 'message' => 'Tipo de pedido actualizado correctamente');
+        else if (isset($orderTypes['info']))
+            $resp = array('info' => true, 'message' => $orderTypes['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

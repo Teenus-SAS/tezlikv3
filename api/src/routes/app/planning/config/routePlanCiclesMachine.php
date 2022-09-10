@@ -80,8 +80,12 @@ $app->post('/addPlanCiclesMachine', function (Request $request, Response $respon
     if ($dataPlanCiclesMachines > 1) {
         $planCiclesMachine = $planCiclesMachineDao->addPlanCiclesMachines($dataPlanCiclesMachine, $id_company);
 
-        if ($planCiclesMachine == null) $resp = array('success' => true, 'message' => 'Ciclo de maquina agregado correctamente');
-        else $resp = array('error' => true, 'message' => 'Ocurrio un error al agregar el ciclo de maquina. Intente nuevamente');
+        if ($planCiclesMachine == null)
+            $resp = array('success' => true, 'message' => 'Ciclo de maquina agregado correctamente');
+        else if (isset($planCiclesMachine['info']))
+            $resp = array('info' => true, 'message' => $planCiclesMachine['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error al agregar el ciclo de maquina. Intente nuevamente');
     } else {
         $planCiclesMachine = $dataPlanCiclesMachine['importPlanCiclesMachine'];
 

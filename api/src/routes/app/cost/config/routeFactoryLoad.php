@@ -92,6 +92,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
             $indirectCost == null && $priceProduct == null
         )
             $resp = array('success' => true, 'message' => 'Carga fabril creada correctamente');
+        else if (isset($factoryLoad['info']))
+            $resp = array('info' => true, 'message' => $factoryLoad['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -152,6 +154,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
             $indirectCost == null && $priceProduct == null
         )
             $resp = array('success' => true, 'message' => 'Carga fabril actualizada correctamente');
+        else if (isset($factoryLoad['info']))
+            $resp = array('info' => true, 'message' => $factoryLoad['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

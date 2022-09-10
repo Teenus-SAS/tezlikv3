@@ -127,8 +127,12 @@ $app->post('/addOrder', function (Request $request, Response $response, $args) u
     // Cambiar estado pedidos
     $changeStatus = $ordersDao->changeStatus($data);
 
-    if ($resolution == null && $changeStatus == null) $resp = array('success' => true, 'message' => 'Pedido importado correctamente');
-    else $resp = array('error' => true, 'message' => 'Ocurrio un error al importar el pedido. Intente nuevamente');
+    if ($resolution == null && $changeStatus == null)
+        $resp = array('success' => true, 'message' => 'Pedido importado correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al importar el pedido. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

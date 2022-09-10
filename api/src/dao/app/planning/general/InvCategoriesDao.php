@@ -51,7 +51,7 @@ class invCategoriesDao
             $message = $e->getMessage();
 
             if ($e->getCode() == 23000)
-                $message = 'Categoría duplicado. Ingrese una nuevo categoría';
+                $message = 'Categoría duplicada. Ingrese una nueva categoría';
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

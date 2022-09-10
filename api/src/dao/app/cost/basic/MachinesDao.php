@@ -68,7 +68,6 @@ class MachinesDao
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
-
       $message = $e->getMessage();
 
       if ($e->getCode() == 23000)

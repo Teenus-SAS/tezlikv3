@@ -57,6 +57,8 @@ $app->post('/addClient', function (Request $request, Response $response, $args) 
 
         if ($client == null)
             $resp = array('success' => true, 'message' => 'Cliente ingresado correctamente');
+        else if (isset($client['info']))
+            $resp = array('info' => true, 'message' => $client['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -90,6 +92,8 @@ $app->post('/updateClient', function (Request $request, Response $response, $arg
 
         if ($client == null)
             $resp = array('success' => true, 'message' => 'Cliente actualizado correctamente');
+        else if (isset($client['info']))
+            $resp = array('info' => true, 'message' => $client['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

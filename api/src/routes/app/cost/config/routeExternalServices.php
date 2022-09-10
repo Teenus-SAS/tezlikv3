@@ -74,6 +74,8 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
         if ($externalServices == null && $priceProduct == null)
             $resp = array('success' => true, 'message' => 'Servicio externo ingresado correctamente');
+        else if (isset($externalServices['info']))
+            $resp = array('info' => true, 'message' => $externalServices['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -119,6 +121,8 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
         if ($externalServices == null && $priceProduct == null)
             $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
+        else if (isset($externalServices['info']))
+            $resp = array('info' => true, 'message' => $externalServices['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

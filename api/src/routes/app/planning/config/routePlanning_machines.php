@@ -78,8 +78,12 @@ $app->post('/addPlanningMachines', function (Request $request, Response $respons
     if ($dataPMachine > 1) {
         $planningMachines = $planningMachinesDao->insertPlanMachinesByCompany($dataPMachines, $id_company);
 
-        if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina creada correctamente');
-        else $resp = array('error' => true, 'message' => 'Ocurrio un problema al crear la planeación, intente nuevamente');
+        if ($planningMachines == null)
+            $resp = array('success' => true, 'message' => 'Planeación de maquina creada correctamente');
+        else if (isset($planningMachines['info']))
+            $resp = array('info' => true, 'message' => $planningMachines['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un problema al crear la planeación, intente nuevamente');
     } else {
         $planningMachines = $dataPMachines['importPlanMachines'];
 
@@ -115,8 +119,12 @@ $app->post('/updatePlanningMachines', function (Request $request, Response $resp
     else {
         $planningMachines = $planningMachinesDao->updatePlanMachines($dataPMachines);
 
-        if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina actualizada correctamente');
-        else $resp = array('error' => true, 'message' => 'Ocurrio un problema al actualizar la planeación, intente nuevamente');
+        if ($planningMachines == null)
+            $resp = array('success' => true, 'message' => 'Planeación de maquina actualizada correctamente');
+        else if (isset($planningMachines['info']))
+            $resp = array('info' => true, 'message' => $planningMachines['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un problema al actualizar la planeación, intente nuevamente');
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

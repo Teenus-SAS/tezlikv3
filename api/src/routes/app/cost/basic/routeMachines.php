@@ -80,6 +80,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
         if ($machines == null && $minuteDepreciation == null)
             $resp = array('success' => true, 'message' => 'Maquina creada correctamente');
+        else if (isset($machines['info']))
+            $resp = array('info' => true, 'message' => $machines['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -142,6 +144,8 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
             $indirectCost == null && $priceProduct == null
         )
             $resp = array('success' => true, 'message' => 'Maquina actualizada correctamente');
+        else if (isset($machines['info']))
+            $resp = array('info' => true, 'message' => $machines['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

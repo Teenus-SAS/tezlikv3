@@ -79,6 +79,8 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto creado correctamente');
+        else if (isset($products['info']))
+            $resp = array('info' => true, 'message' => $products['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrió un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -129,6 +131,8 @@ $app->post('/updatePlanProduct', function (Request $request, Response $response,
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
+        else if (isset($products['info']))
+            $resp = array('info' => true, 'message' => $products['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

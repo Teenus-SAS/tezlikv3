@@ -66,6 +66,8 @@ $app->post('/addPlanMaterials', function (Request $request, Response $response, 
 
         if ($materials == null)
             $resp = array('success' => true, 'message' => 'Materia Prima creada correctamente');
+        else if (isset($materials['info']))
+            $resp = array('info' => true, 'message' => $materials['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -98,6 +100,8 @@ $app->post('/updatePlanMaterials', function (Request $request, Response $respons
 
     if ($materials == null)
         $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
+    else if (isset($materials['info']))
+        $resp = array('info' => true, 'message' => $materials['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 

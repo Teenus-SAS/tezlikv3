@@ -19,6 +19,8 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
 
     if ($profile == null)
         $resp = array('success' => true, 'message' => 'Perfil actualizado correctamente');
+    else if (isset($profile['info']))
+        $resp = array('info' => true, 'message' => $profile['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 

@@ -138,6 +138,8 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $resp = array('success' => true, 'message' => 'Proceso asignado correctamente');
         elseif ($productProcess == 1)
             $resp = array('error' => true, 'message' => 'El Proceso ya se encuentra en la Base de Datos');
+        else if (isset($productProcess['info']))
+            $resp = array('info' => true, 'message' => $productProcess['message']);
         else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras asignaba la información. Intente nuevamente');
         }
@@ -229,6 +231,8 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
             $indirectCost == null && $priceProduct == null
         )
             $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+        else if (isset($productProcess['info']))
+            $resp = array('info' => true, 'message' => $productProcess['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

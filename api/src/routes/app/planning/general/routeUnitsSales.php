@@ -79,6 +79,8 @@ $app->post('/addUnitSales', function (Request $request, Response $response, $arg
 
         if ($unitSales == null)
             $resp = array('success' => true, 'message' => 'Venta asociada correctamente');
+        else if (isset($unitSales['info']))
+            $resp = array('info' => true, 'message' => $unitSales['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -125,6 +127,8 @@ $app->post('/updateUnitSale', function (Request $request, Response $response, $a
 
         if ($unitSales == null)
             $resp = array('success' => true, 'message' => 'Venta actualizada correctamente');
+        else if (isset($unitSales['info']))
+            $resp = array('info' => true, 'message' => $unitSales['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

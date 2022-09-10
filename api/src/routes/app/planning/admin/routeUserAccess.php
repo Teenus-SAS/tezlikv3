@@ -42,6 +42,8 @@ $app->post('/addPlanningUserAccess', function (Request $request, Response $respo
 
         if ($userAccess == null)
             $resp = array('success' => true, 'message' => 'Acceso de usuario creado correctamente');
+        else if (isset($userAccess['info']))
+            $resp = array('info' => true, 'message' => $userAccess['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
     }
@@ -59,6 +61,8 @@ $app->post('/updatePlanningUserAccess', function (Request $request, Response $re
         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');
     elseif ($userAccess == 1)
         $resp = array('error' => true, 'message' => 'No puede actualizar este usuario');
+    else if (isset($userAccess['info']))
+        $resp = array('info' => true, 'message' => $userAccess['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 

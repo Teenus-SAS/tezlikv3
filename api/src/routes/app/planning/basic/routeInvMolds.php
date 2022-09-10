@@ -84,8 +84,12 @@ $app->post('/addMold', function (Request $request, Response $response, $args) us
     if ($dataMolds > 1) {
         $invMolds = $invMoldsDao->insertInvMoldByCompany($dataMold, $id_company);
 
-        if ($invMolds == null) $resp = array('success' => true, 'message' => 'Molde creado correctamente');
-        else $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+        if ($invMolds == null)
+            $resp = array('success' => true, 'message' => 'Molde creado correctamente');
+        else if (isset($invMolds['info']))
+            $resp = array('info' => true, 'message' => $invMolds['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
         $molds = $dataMold['importInvMold'];
 
@@ -120,6 +124,8 @@ $app->post('/updateMold', function (Request $request, Response $response, $args)
 
         if ($invMolds == null)
             $resp = array('success' => true, 'message' => 'Molde modificado correctamente');
+        else if (isset($invMolds['info']))
+            $resp = array('info' => true, 'message' => $invMolds['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
     }

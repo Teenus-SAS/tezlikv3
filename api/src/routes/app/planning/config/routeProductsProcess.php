@@ -109,6 +109,8 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
             $resp = array('success' => true, 'message' => 'Proceso asignado correctamente');
         elseif ($productProcess == 1)
             $resp = array('error' => true, 'message' => 'El Proceso ya se encuentra en la Base de Datos');
+        else if (isset($productProcess['info']))
+            $resp = array('info' => true, 'message' => $productProcess['message']);
         else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras asignaba la información. Intente nuevamente');
         }
@@ -177,6 +179,8 @@ $app->post('/updatePlanProductsProcess', function (Request $request, Response $r
 
         if ($productProcess == null)
             $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+        else if (isset($productProcess['info']))
+            $resp = array('info' => true, 'message' => $productProcess['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

@@ -62,6 +62,8 @@ $app->post('/addPlanProcess', function (Request $request, Response $response, $a
 
         if ($process == null)
             $resp = array('success' => true, 'message' => 'Proceso creado correctamente');
+        else if (isset($process['info']))
+            $resp = array('info' => true, 'message' => $process['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -96,6 +98,8 @@ $app->post('/updatePlanProcess', function (Request $request, Response $response,
 
         if ($process == null)
             $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+        else if (isset($process['info']))
+            $resp = array('info' => true, 'message' => $process['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

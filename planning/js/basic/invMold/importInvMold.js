@@ -108,7 +108,7 @@ $(document).ready(function () {
   $('#btnDownloadImportsInvMold').click(function (e) {
     e.preventDefault();
 
-    // url = 'assets/formatsXlsx/Moldes.xlsx';
+    url = 'assets/formatsXlsx/Moldes.xlsx';
 
     link = document.createElement('a');
 
