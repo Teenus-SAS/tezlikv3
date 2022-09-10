@@ -87,6 +87,8 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
         if ($expensesDistribution == null && $priceProduct == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
+        else if (isset($expensesDistribution['info']))
+            $resp = array('info' => true, 'message' => $expensesDistribution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
     } else {
@@ -140,6 +142,8 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
         if ($expensesDistribution == null && $assignableExpense == null && $priceProduct == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto actualizada correctamente');
+        else if (isset($expensesDistribution['info']))
+            $resp = array('info' => true, 'message' => $expensesDistribution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

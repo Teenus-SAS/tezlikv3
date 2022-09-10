@@ -98,6 +98,8 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
 
             if ($payroll == null)
                 $resp = array('success' => true, 'message' => 'Nomina creada correctamente');
+            else if (isset($payroll['info']))
+                $resp = array('info' => true, 'message' => $payroll['message']);
             else
                 $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
         }
@@ -156,6 +158,8 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
             if ($payroll == null && $costWorkforce == null && $priceProduct == null)
                 $resp = array('success' => true, 'message' => 'Nomina actualizada correctamente');
+            else if (isset($payroll['info']))
+                $resp = array('info' => true, 'message' => $payroll['message']);
             else
                 $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
         }

@@ -80,6 +80,8 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 
         if ($expenses == null)
             $resp = array('success' => true, 'message' => 'Gasto creado correctamente');
+        else if (isset($expenses['info']))
+            $resp = array('info' => true, 'message' => $expenses['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
     } else {
@@ -127,6 +129,8 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
 
         if ($expenses == null && $totalExpense == null)
             $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');
+        else if (isset($expenses['info']))
+            $resp = array('info' => true, 'message' => $expenses['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }
