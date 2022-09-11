@@ -202,7 +202,7 @@
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-profile-dropdown" aria-expanded="false" class="btn header-item">
                     <img src="/assets/images/users/avatar-1.jpg" alt="Header Avatar" class="avatar avatar-xs mr-0">
-                    <span class="d-none d-xl-inline-block ml-1 userName">Martha Lucia Olmos</span>
+                    <span class="d-none d-xl-inline-block ml-1 userName"><?php echo $_SESSION['name'] . $_SESSION['lastname'] ?></span>
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
