@@ -44,9 +44,6 @@ $(document).ready(function () {
         {
           title: 'Máquina',
           data: 'machine',
-          // render: {
-          //   null: 'Proceso Manual',
-          // },
           render: function (data, type, row) {
             if (data === null) {
               return 'Proceso Manual';
@@ -54,7 +51,6 @@ $(document).ready(function () {
               return data;
             }
           },
-          //class: 'classRight',
         },
         {
           title: 'Tiempo Alistamiento (min)',
@@ -74,8 +70,8 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: function (data) {
             return `
-                        <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Proceso' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Proceso' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
           },
         },
       ],
@@ -84,7 +80,7 @@ $(document).ready(function () {
           .column(3)
           .data()
           .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
+            return parseFloat(a) + parseFloat(b);
           }, 0);
 
         $(this.api().column(3).footer()).html(
@@ -94,7 +90,7 @@ $(document).ready(function () {
           .column(4)
           .data()
           .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
+            return parseFloat(a) + parseFloat(b);
           }, 0);
 
         $(this.api().column(4).footer()).html(

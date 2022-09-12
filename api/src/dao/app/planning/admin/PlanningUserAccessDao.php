@@ -50,7 +50,7 @@ class PlanningUserAccessDao
         );
         $stmt->execute(['id_company' => $id_company, 'id_user' => $id_user]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $users = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $users = $stmt->fetch($connection::FETCH_ASSOC);
         $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
         return $users;
     }

@@ -35,22 +35,36 @@ $(document).ready(function () {
   $(document).on('click keyup', '#enlistmentTime', function (e) {
     tOperation = $('#operationTime').val();
 
-    tOperation == '' ? (tOperation = 0) : tOperation;
-    this.value == '' ? (this.value = 0) : this.value;
+    tOperation == '' ? (tOperation = '0') : tOperation;
+    tOperation = replaceNumber(tOperation);
 
-    let val = parseFloat(this.value) + parseFloat(tOperation);
+    this.value == '' ? (this.value = '0') : this.value;
+    tEnlistment = replaceNumber(this.value);
+
+    let val = parseFloat(tEnlistment) + parseFloat(tOperation);
+    val = validateNumber(val);
     $('#totalTime').val(val);
   });
 
   $(document).on('click keyup', '#operationTime', function (e) {
     tEnlistment = $('#enlistmentTime').val();
 
-    tEnlistment == '' ? (tEnlistment = 0) : tEnlistment;
-    this.value == '' ? (this.value = 0) : this.value;
+    tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
+    tEnlistment = replaceNumber(tEnlistment);
 
-    let val = parseFloat(this.value) + parseFloat(tEnlistment);
+    this.value == '' ? (this.value = '0') : this.value;
+    operationTime = replaceNumber(this.value);
+
+    let val = parseFloat(operationTime) + parseFloat(tEnlistment);
+    val = validateNumber(val);
     $('#totalTime').val(val);
   });
+
+  replaceNumber = (number) => {
+    if (number.includes('.')) number = number.replace('.', '');
+    if (number.includes(',')) number = number.replace(',', '.');
+    return number;
+  };
 
   /* Adicionar nuevo proceso */
 
@@ -68,9 +82,8 @@ $(document).ready(function () {
       totalTime = parseInt($('#totalTime').val());
 
       data = idProduct * refP;
-      //data = idProduct * refP * refM;
 
-      if (!data || totalTime == 0 || totalTime == '') {
+      if (!data || isNaN(refM) || totalTime == 0 || totalTime == '') {
         toastr.error('Ingrese todos los campos');
         return false;
       }
@@ -107,8 +120,11 @@ $(document).ready(function () {
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
 
-    $('#enlistmentTime').val(data.enlistment_time);
-    $('#operationTime').val(data.operation_time);
+    enlistment_time = validateNumber(data.enlistment_time);
+    $('#enlistmentTime').val(enlistment_time);
+
+    operation_time = validateNumber(data.operation_time);
+    $('#operationTime').val(operation_time);
 
     $('#enlistmentTime').click();
 
@@ -119,6 +135,17 @@ $(document).ready(function () {
       1000
     );
   });
+
+  validateNumber = (number) => {
+    if (number.isInteger) number = number.toLocaleString();
+    else
+      number = number.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+
+    return number;
+  };
 
   updateProcess = () => {
     let data = $('#formAddProcess').serialize();

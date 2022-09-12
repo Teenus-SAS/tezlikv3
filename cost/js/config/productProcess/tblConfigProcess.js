@@ -84,7 +84,7 @@ $(document).ready(function () {
           .column(3)
           .data()
           .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
+            return parseFloat(a) + parseFloat(b);
           }, 0);
 
         $(this.api().column(3).footer()).html(
@@ -94,7 +94,7 @@ $(document).ready(function () {
           .column(4)
           .data()
           .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
+            return parseFloat(a) + parseFloat(b);
           }, 0);
 
         $(this.api().column(4).footer()).html(

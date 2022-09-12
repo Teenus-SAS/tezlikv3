@@ -29,6 +29,19 @@ class invCategoriesDao
         return $categories;
     }
 
+    public function findAllCategoriesByTypeCategories($typeCategory)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM `plan_categories` WHERE type_category = :type_category");
+        $stmt->execute(['type_category' => $typeCategory]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $categories = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("categories", array('categories' => $categories));
+        return $categories;
+    }
+
     public function findCategory($dataCategory)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -43,9 +56,15 @@ class invCategoriesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        if ($dataCategory['typeCategory'] == 1) $dataCategory['typeCategory'] = 'Inventario';
+        if ($dataCategory['typeCategory'] == 2) $dataCategory['typeCategory'] = 'Producto';
+
         try {
-            $stmt = $connection->prepare("INSERT INTO plan_categories (category) VALUES (:category)");
-            $stmt->execute(['category' => ucfirst(strtolower(trim($dataCategory['category'])))]);
+            $stmt = $connection->prepare("INSERT INTO plan_categories (category, type_category) VALUES (:category, :type_category)");
+            $stmt->execute([
+                'category' => ucfirst(strtolower(trim($dataCategory['category']))),
+                'type_category' => $dataCategory['typeCategory']
+            ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -62,9 +81,11 @@ class invCategoriesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE plan_categories SET category = :category WHERE id_category = :id_category");
+            $stmt = $connection->prepare("UPDATE plan_categories SET category = :category, type_category = :type_category 
+                                          WHERE id_category = :id_category");
             $stmt->execute([
                 'category' => ucfirst(strtolower(trim($dataCategory['category']))),
+                'type_category' => $dataCategory['typeCategory'],
                 'id_category' => $dataCategory['idCategory'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

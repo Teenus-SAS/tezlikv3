@@ -1,5 +1,8 @@
 $(document).ready(function () {
   let idProduct;
+  let dataMaterials = sessionStorage.getItem('dataMaterials');
+  dataMaterials = JSON.parse(dataMaterials);
+  sessionStorage.removeItem('dataMaterials');
 
   /* Ocultar panel crear producto */
 
@@ -33,9 +36,6 @@ $(document).ready(function () {
   $('#material').change(function (e) {
     e.preventDefault();
     id = this.value;
-
-    dataMaterials = sessionStorage.getItem('dataMaterials');
-    dataMaterials = JSON.parse(dataMaterials);
 
     for (i = 0; i < dataMaterials.length; i++) {
       if (id == dataMaterials[i]['id_material']) {
@@ -90,9 +90,18 @@ $(document).ready(function () {
     let data = tblConfigMaterials.fnGetData(row);
 
     sessionStorage.setItem('id_product_material', data.id_product_material);
-    debugger;
     $(`#material option[value=${data.id_material}]`).prop('selected', true);
-    $('#quantity').val(data.quantity);
+
+    quantity = data.quantity;
+
+    if (quantity.isInteger) quantity = quantity.toLocaleString();
+    else
+      quantity = quantity.toLocaleString(undefined, {
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4,
+      });
+    $('#quantity').val(quantity);
+
     $('#unity').val(data.unit);
 
     $('html, body').animate(

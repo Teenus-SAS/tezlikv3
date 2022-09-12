@@ -35,13 +35,21 @@ $userinactivetimeDao->findSession();
                 <div class="card">
                     <form id="formCreateCategory">
                         <div class="card-body">
-                            <div class="gridx2p">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                            <div class="form-row">
+                                <div class="col-6">
                                     <label for="">Categoría</label>
                                     <input type="text" class="form-control" id="category" name="category">
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                    <button class="btn btn-success" id="btnCreateCategory">Crear Categoría</button>
+                                <div class="col-4">
+                                    <label for="typeCategory">Tipo Categoría</label>
+                                    <select id="typeCategory" name="typeCategory" type="number" class="form-control">
+                                        <option selected disabled value="0">Seleccionar</option>
+                                        <option value="1">Inventario</option>
+                                        <option value="2">Productos</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-success" id="btnCreateCategory" style="width: 150px;height:50%; margin-top: 33px; margin-left: 20px">Crear Categoría</button>
                                 </div>
                             </div>
                         </div>

@@ -22,7 +22,7 @@ $app->post('/planningUserAccess', function (Request $request, Response $response
     $company = $_SESSION['id_company'];
     $id_user = $_SESSION['idUser'];
     $userAccess = $userAccessDao->findUserAccess($company, $id_user);
-    $userAccess = $userAccess[0];
+    // $userAccess = $userAccess[0];
     $response->getBody()->write(json_encode($userAccess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

@@ -49,7 +49,7 @@ class ProductsMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        // $quantity = $this->decimalsQuantity($dataProductMaterial);
+        $quantity = $this->decimalsQuantity($dataProductMaterial);
 
         try {
             $stmt = $connection->prepare("INSERT INTO products_materials (id_material, id_company, id_product, quantity)
@@ -58,12 +58,7 @@ class ProductsMaterialsDao
                 'id_material' => $dataProductMaterial['material'],
                 'id_company' => $id_company,
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => trim($dataProductMaterial['quantity']),
-
-                // 'id_material' => $dataProductMaterial['material'],
-                // 'id_company' => $id_company,
-                // 'id_product' => $dataProductMaterial['idProduct'],
-                // 'quantity' => $dataProductMaterial['quantity']
+                'quantity' => trim($quantity),
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -78,7 +73,8 @@ class ProductsMaterialsDao
     public function updateProductsMaterials($dataProductMaterial)
     {
         $connection = Connection::getInstance()->getConnection();
-        //$quantity = $this->decimalsQuantity($dataProductMaterial);
+
+        $quantity = $this->decimalsQuantity($dataProductMaterial);
 
         try {
             $stmt = $connection->prepare("UPDATE products_materials SET id_material = :id_material, id_product = :id_product, quantity = :quantity
@@ -87,12 +83,7 @@ class ProductsMaterialsDao
                 'id_product_material' => $dataProductMaterial['idProductMaterial'],
                 'id_material' => $dataProductMaterial['material'],
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => trim($dataProductMaterial['quantity']),
-
-                // 'id_product_material' => $dataProductMaterial['idProductMaterial'],
-                // 'id_material' => $dataProductMaterial['material'],
-                // 'id_product' => $dataProductMaterial['idProduct'],
-                // 'quantity' => $dataProductMaterial['quantity']
+                'quantity' => trim($quantity),
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -101,6 +92,14 @@ class ProductsMaterialsDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
+    }
+
+    public function decimalsQuantity($dataProductMaterial)
+    {
+        $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
+        $quantity = str_replace(',', '.', $quantity);
+
+        return $quantity;
     }
 
     // Borrar productos materia prima general

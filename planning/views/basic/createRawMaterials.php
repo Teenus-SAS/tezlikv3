@@ -53,11 +53,11 @@ $userinactivetimeDao->findSession();
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-3 mb-3">
+                                <div class="col-sm-2">
                                     <label for="unityRawMaterial">Unidad</label>
                                     <input type="text" class="form-control text-center" id="unityRawMaterial" name="unityRawMaterial">
                                 </div>
-                                <div class="col-md-3 mb-3">
+                                <div class="col-sm-2">
                                     <label for="validationCustom05">Cantidad En Inventario</label>
                                     <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                 </div>

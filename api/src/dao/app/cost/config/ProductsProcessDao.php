@@ -56,6 +56,8 @@ class ProductsProcessDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        $dataProductProcess = $this->convertData($dataProductProcess);
+
         try {
             $stmt = $connection->prepare("SELECT id_product_process FROM products_process WHERE id_product = :id_product AND id_company = :id_company
                                           AND id_process = :id_process AND id_machine = :id_machine");
@@ -94,6 +96,8 @@ class ProductsProcessDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        $dataProductProcess = $this->convertData($dataProductProcess);
+
         try {
             $stmt = $connection->prepare("UPDATE products_process SET id_product = :id_product, id_process = :id_process, id_machine = :id_machine, enlistment_time = :enlistment_time, operation_time = :operation_time
                                           WHERE id_product_process = :id_product_process");
@@ -113,6 +117,16 @@ class ProductsProcessDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
+    }
+
+    public function convertData($dataProductProcess)
+    {
+        $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
+        $dataProductProcess['enlistmentTime'] = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
+        $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
+        $dataProductProcess['operationTime'] = str_replace(',', '.', $dataProductProcess['operationTime']);
+
+        return $dataProductProcess;
     }
 
     public function deleteProductProcess($dataProductProcess)

@@ -60,6 +60,11 @@ $app->post('/invMoldDataValidation', function (Request $request, Response $respo
                 $i = $i + 1;
                 $dataImportInvMold = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
+            }
+            if ($molds[$i]['cavity'] < $molds[$i]['cavityAvailable']) {
+                $i = $i + 1;
+                $dataImportInvMold = array('error' => true, 'message' => "N° de cavidades disponibles mayor a N° de cavidades. Fila: {$i}");
+                break;
             } else {
                 $findMold = $invMoldsDao->findInvMold($molds[$i], $id_company);
                 !$findMold ? $insert = $insert + 1 : $update = $update + 1;

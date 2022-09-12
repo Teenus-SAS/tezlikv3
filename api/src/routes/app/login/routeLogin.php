@@ -80,6 +80,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $_SESSION['email'] = $user['email'];
     $_SESSION['rol'] = $user["id_rols"];
     $_SESSION['id_company'] = $user['id_company'];
+    $_SESSION['avatar'] = $user['avatar'];
     $_SESSION["time"] = time();
 
     /* Actualizar metodo ultimo logueo */

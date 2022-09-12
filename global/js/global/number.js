@@ -7,7 +7,6 @@ $('.number').on({
       //   num = value.replace(/\./g, '');
       //   num = num.replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
       //   return num;
-      debugger;
       if (!value.includes(','))
         number = value
           .replace(/\./g, '')

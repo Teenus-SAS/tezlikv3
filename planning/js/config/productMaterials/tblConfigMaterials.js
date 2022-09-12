@@ -56,7 +56,7 @@ $(document).ready(function () {
           title: 'Cantidad',
           data: 'quantity',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 2, ''),
+          render: $.fn.dataTable.render.number('.', ',', 4, ''),
         },
         {
           title: 'Acciones',

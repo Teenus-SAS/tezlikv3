@@ -31,55 +31,55 @@ $userinactivetimeDao->findSession();
 <div class="page-content-wrapper mt--45 mb-5 cardCreateProduct">
     <div class="container-fluid">
         <div class="row">
-            <form id="formCreateProduct">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="gridx2">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <!-- <input type="text" class="form-control" name="idProduct" id="idProduct" hidden> -->
-                                    <input type="text" class="form-control" name="referenceProduct" id="referenceProduct">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="formCreateProduct">
+                            <div class="form-row">
+                                <div class="col-md-3">
                                     <label for="">Referencia</label>
+                                    <input type="text" class="form-control" name="referenceProduct" id="referenceProduct">
                                 </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="text" class="form-control" name="product" id="product">
+                                <div class="col-md-6">
                                     <label for="">Nombre Producto</label>
+                                    <input type="text" class="form-control" name="product" id="product">
                                 </div>
-                            </div>
-                            <!-- </form> -->
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body pt-3 pb-0">
-                            <!-- <form id="formCreateProduct"> -->
-                            <div class="gridx4rp">
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <select class="form-control" name="idMold" id="idMold"></select>
+                                <div class="col-md-3">
                                     <label for="">Molde</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label " style="margin-bottom:0px">
-                                    <input type="text" class="form-control text-center number" id="quantity" name="quantity">
-                                    <label for="">Cantidad en inventario</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <!-- <input class="form-control form-control-sm" id="formFile" type="file" style="padding:10px;width:40%"> -->
-                                    <input class="form-control" type="file" id="formFile">
-                                    <!-- <button class="btn btn-warning" disabled>Seleccionar Imagen</button> -->
-                                    <label for="formFile" class="form-label"> Cargar imagen producto</label>
-                                </div>
-                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-success" id="btnCreateProduct">Crear Producto</button>
+                                    <select class="form-control" name="idMold" id="idMold">
+                                        <option disabled="" selected="">Seleccionar</option>
+                                        <option value="1"> Porta papel cocina con rollo </option>
+                                        <option value="2"> Porta papel cocina </option>
+                                        <option value="3"> Porta papel cocina 2 </option>
+                                        <option value="4"> Vd-porta papel cocina 2 </option>
+                                        <option value="5"> Organizador multiple </option>
+                                        <option value="6"> Vd organizador multiple blanco </option>
+                                    </select>
                                 </div>
                             </div>
-
-                            <div id="preview" class="col-md-6 offset-md-8"></div>
-                        </div>
+                            <div class="form-row py-4">
+                                <div class="col-sm-2">
+                                    <label for="">Cantidad en inventario</label>
+                                    <input type="text" class="form-control text-center number" id="quantity" name="quantity">
+                                </div>
+                                <div class="col-sm-2">
+                                    <label for="category">Categoría</label>
+                                    <select id="category" name="category" type="number" class="form-control"></select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-4">
+                                    <label for="formFile" class="form-label"> Cargar imagen producto</label>
+                                    <input class="form-control" type="file" id="formFile">
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="text" class="btn btn-success" id="btnCreateProduct" style="width: 150px;height:50%; margin-top: 32px; margin-left: 20px">Crear Producto</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -137,6 +137,7 @@ $userinactivetimeDao->findSession();
 <script src="/global/js/global/number.js"></script>
 <script src="/planning/js/basic/products/tblProducts.js"></script>
 <script src="/planning/js/basic/invMold/configInvMold.js"></script>
+<script src="/planning/js/general/category/configCategories.js"></script>
 <script src="/planning/js/basic/products/products.js"></script>
 <script src="../global/js/import/import.js"></script>
 <script src="/planning/js/basic/products/importProducts.js"></script>

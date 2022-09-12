@@ -14,6 +14,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_mold');
 
+    $('.form-control').css('border-color', '');
     $('#formCreateInvMold').trigger('reset');
   });
 
@@ -48,6 +49,12 @@ $(document).ready(function () {
         cavityAvailable == 0
       ) {
         toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (cavityAvailable > cavity) {
+        toastr.error('N° de cavidades disponibles mayor a N° de cavidades');
+        $('#cavityAvailable').css('border-color', 'red');
         return false;
       }
 
@@ -88,6 +95,15 @@ $(document).ready(function () {
   });
 
   updateMold = () => {
+    cavity = $('#cavity').val();
+    cavityAvailable = $('#cavityAvailable').val();
+
+    if (cavityAvailable > cavity) {
+      toastr.error('N° de cavidades disponibles mayor a N° de cavidades');
+      $('#cavityAvailable').css('border-color', 'red');
+      return false;
+    }
+
     let data = $('#formCreateInvMold').serialize();
     idMold = sessionStorage.getItem('id_mold');
     data = data + '&idMold=' + idMold;

@@ -1,5 +1,8 @@
 $(document).ready(function () {
   let idProduct;
+  let dataMaterials = sessionStorage.getItem('dataMaterials');
+  dataMaterials = JSON.parse(dataMaterials);
+  sessionStorage.removeItem('dataMaterials');
 
   /* Ocultar panel crear producto */
 
@@ -31,9 +34,6 @@ $(document).ready(function () {
   $('#material').change(function (e) {
     e.preventDefault();
     id = this.value;
-
-    dataMaterials = sessionStorage.getItem('dataMaterials');
-    dataMaterials = JSON.parse(dataMaterials);
 
     for (i = 0; i < dataMaterials.length; i++) {
       if (id == dataMaterials[i]['id_material']) {
@@ -96,8 +96,8 @@ $(document).ready(function () {
     if (quantity.isInteger) quantity = quantity.toLocaleString();
     else
       quantity = quantity.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: 4,
+        maximumFractionDigits: 4,
       });
     $('#quantity').val(quantity);
     $('#unity').val(data.unit);

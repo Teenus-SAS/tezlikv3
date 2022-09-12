@@ -10,7 +10,7 @@ $(document).ready(function () {
 
   $.ajax({
     type: 'GET',
-    url: '/api/machines',
+    url: '/api/planMachines',
     success: function (r) {
       machinesData = JSON.stringify(r);
       sessionStorage.setItem('machinesData', machinesData);
@@ -18,7 +18,7 @@ $(document).ready(function () {
       let $select = $(`#idMachine`);
       $select.empty();
       $select.append(`<option disabled selected>Seleccionar</option>`);
-      // $select.append(`<option value = "0" selected>Maquinas</option>`);
+      $select.append(`<option value="0">Proceso Manual</option>`);
       $.each(r, function (i, value) {
         $select.append(
           `<option value = ${value.id_machine}> ${value.machine} </option>`

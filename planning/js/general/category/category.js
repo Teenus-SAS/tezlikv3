@@ -26,8 +26,9 @@ $(document).ready(function () {
 
     if (idCategory == '' || idCategory == null) {
       category = $('#category').val();
+      type = $('#typeCategory').val();
 
-      if (category == '' || category == 0) {
+      if (category == '' || type == 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
@@ -58,6 +59,10 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_category', data.id_category);
     $('#category').val(data.category);
+    $(`#typeCategory option:contains(${data.type_Category})`).prop(
+      'selected',
+      true
+    );
 
     $('html, body').animate(
       {
