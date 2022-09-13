@@ -69,7 +69,7 @@ $userinactivetimeDao->findSession();
                         <div class="card-body pt-3 pb-0">
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <input class="form-control" type="file" id="fileCategorie" accept=".xls,.xlsx">
+                                    <input class="form-control" type="file" id="fileCategory" accept=".xls,.xlsx">
                                     <label for="formFile" class="form-label"> Importar Categoría</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">

@@ -29,6 +29,7 @@ $(document).ready(function () {
         let CategoriesToImport = data.map((item) => {
           return {
             category: item.categoria,
+            typeCategory: item.tipo_categoria,
           };
         });
         checkCategory(CategoriesToImport);

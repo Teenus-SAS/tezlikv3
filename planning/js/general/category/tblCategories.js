@@ -25,6 +25,11 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
+        title: 'Tipo Categoría',
+        data: 'type_category',
+        className: 'uniqueClassName',
+      },
+      {
         title: 'Acciones',
         data: 'id_category',
         className: 'uniqueClassName',

@@ -91,7 +91,7 @@ $(document).ready(function () {
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);
     $('#quantity').val(data.quantity);
-    $(`#category option[value=${data.category}]`).prop('selected', true);
+    $(`#category option[value=${data.id_category}]`).prop('selected', true);
     $(`#idMold option:contains(${data.mold})`).prop('selected', true);
     $('#preview').html(
       `<img id="img" src="${data.img}" style="width:20%;padding-bottom:15px"/>`

@@ -1,10 +1,12 @@
 <?php
 
+use tezlikv3\dao\invCategoriesDao;
 use tezlikv3\dao\InvMoldsDao;
 use tezlikv3\dao\PlanProductsDao;
 
 $productsDao = new PlanProductsDao();
 $invMoldsDao = new InvMoldsDao();
+$invCategoriesDao = new invCategoriesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,7 +22,7 @@ $app->get('/planProducts', function (Request $request, Response $response, $args
 });
 
 /* Consultar productos importados */
-$app->post('/planProductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao) {
+$app->post('/planProductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao, $invCategoriesDao) {
     $dataProduct = $request->getParsedBody();
 
     if (isset($dataProduct)) {
@@ -38,6 +40,14 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
             if (!$findMold) {
                 $i = $i + 1;
                 $dataImportProduct = array('error' => true, 'message' => "Molde no existe en la base de datos<br>Fila: {$i}");
+                break;
+            }
+
+            // Obtener id Categoria
+            $findCategory = $invCategoriesDao->findCategory($products[$i]);
+            if (!$findCategory) {
+                $i = $i + 1;
+                $dataImportProduct = array('error' => true, 'message' => "Categoria no existe en la base de datos<br>Fila: {$i}");
                 break;
             }
 
@@ -60,7 +70,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao) {
+$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao, $invCategoriesDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
@@ -91,6 +101,10 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
             // Obtener id Molde
             $findMold = $invMoldsDao->findInvMold($products[$i], $id_company);
             $products[$i]['idMold'] = $findMold['id_mold'];
+
+            // Obtener id Categoria
+            $findCategory = $invCategoriesDao->findCategory($products[$i]);
+            $products[$i]['category'] = $findCategory['id_category'];
 
             $product = $productsDao->findProduct($products[$i], $id_company);
 

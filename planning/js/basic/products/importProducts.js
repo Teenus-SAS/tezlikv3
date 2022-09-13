@@ -33,6 +33,7 @@ $(document).ready(function () {
             referenceMold: item.referencia_molde,
             quantity: item.cantidad_producto,
             mold: item.molde,
+            category: item.categoria,
           };
         });
         checkProduct(productsToImport);

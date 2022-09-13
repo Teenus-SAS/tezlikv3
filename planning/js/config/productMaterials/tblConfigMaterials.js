@@ -15,7 +15,7 @@ $(document).ready(function () {
     loadtableMaterials(id);
   });
 
-  /* Cargue tabla de Proyectos */
+  /* Cargue tabla de Productos Materiales */
 
   const loadtableMaterials = (idProduct) => {
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
@@ -71,4 +71,7 @@ $(document).ready(function () {
       ],
     });
   };
+  /* Cargue tabla de Productos en proceso */
+
+  const loadtableProcess = (idProduct) => {};
 });

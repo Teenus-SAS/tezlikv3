@@ -32,8 +32,8 @@ class invCategoriesDao
     public function findAllCategoriesByTypeCategories($typeCategory)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM `plan_categories` WHERE type_category = :type_category");
-        $stmt->execute(['type_category' => $typeCategory]);
+        $stmt = $connection->prepare("SELECT * FROM plan_categories WHERE type_category = :type_category");
+        $stmt->execute(['type_category' => ucfirst(strtolower(trim($typeCategory)))]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -79,6 +79,9 @@ class invCategoriesDao
     public function updateCategory($dataCategory)
     {
         $connection = Connection::getInstance()->getConnection();
+
+        if ($dataCategory['typeCategory'] == 1) $dataCategory['typeCategory'] = 'Inventario';
+        if ($dataCategory['typeCategory'] == 2) $dataCategory['typeCategory'] = 'Producto';
 
         try {
             $stmt = $connection->prepare("UPDATE plan_categories SET category = :category, type_category = :type_category 

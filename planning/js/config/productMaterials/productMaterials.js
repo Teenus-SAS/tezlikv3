@@ -14,6 +14,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('.cardImportProductsMaterials').hide(800);
+    $('.cardAddProductInProccess').hide(800);
     $('.cardAddMaterials').toggle(800);
     $('#btnAddMaterials').html('Asignar');
 
