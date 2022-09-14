@@ -140,7 +140,7 @@ $app->get('/deletePlanProductMaterial/{id_product_material}', function (Request 
         $resp = array('success' => true, 'message' => 'Materia prima eliminada correctamente');
 
     else
-        $resp = array('error' => true, 'message' => 'No es posible eliminar la materia prima asignada, existe información asociada a él');
+        $resp = array('error' => true, 'message' => 'No es posible eliminar la materia prima asignada, existe información asociada a ella');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

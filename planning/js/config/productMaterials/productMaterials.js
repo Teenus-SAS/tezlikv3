@@ -13,8 +13,14 @@ $(document).ready(function () {
   $('#btnCreateProduct').click(function (e) {
     e.preventDefault();
 
+    if ($.fn.dataTable.isDataTable('#tblConfigMaterials')) {
+      $('#tblConfigMaterials').DataTable().destroy();
+      $('#tblConfigMaterials').empty();
+    }
+
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddProductInProccess').hide(800);
+    $('.cardCreateRawMaterials').show(800);
     $('.cardAddMaterials').toggle(800);
     $('#btnAddMaterials').html('Asignar');
 
@@ -135,9 +141,10 @@ $(document).ready(function () {
 
   deleteFunction = () => {
     let row = $(this.activeElement).parent().parent()[0];
+
     let data = tblConfigMaterials.fnGetData(row);
 
-    let idProductMaterial = data.id_product_material;
+    idProductMaterial = data.id_product_material;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -168,7 +175,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  const message = (data) => {
     if (data.success == true) {
       $('.cardAddMaterials').hide(800);
       $('#formAddMaterials')[0].reset();

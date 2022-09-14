@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  sessionStorage.removeItem('dataTable');
+
   // Ocultar card productos en proceso
   $('.cardAddProductInProccess').hide();
 
@@ -26,9 +28,12 @@ $(document).ready(function () {
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').hide(800);
     $('.cardAddProductInProccess').toggle(800);
+
+    $('#comment').html('Asignación de productos en proceso');
     $('#btnAddProductInProccess').html('Asignar');
 
     sessionStorage.removeItem('id_product_in_process');
+    loadTableProcess();
 
     $('#formAddProductInProccess').trigger('reset');
   });
@@ -37,30 +42,106 @@ $(document).ready(function () {
   $('#btnAddProductInProccess').click(function (e) {
     e.preventDefault();
 
-    idProduct = $('#product').val();
+    let idProductInProcess = sessionStorage.getItem('id_product_in_process');
 
-    if (!idProduct || idProduct == 0) {
-      toastr.error('Seleccione producto');
-      return false;
-    }
+    if (idProductInProcess == '' || idProductInProcess == null) {
+      idProduct = $('#product').val();
 
-    productInProcess = $('#formAddProductInProccess').serialize();
+      if (!idProduct || idProduct == 0) {
+        toastr.error('Seleccione producto');
+        return false;
+      }
+
+      productInProcess = $('#formAddProductInProccess').serialize();
+
+      $.post(
+        '/api/addProductInProcess',
+        productInProcess,
+        function (data, textStatus, jqXHR) {
+          message(data);
+        }
+      );
+    } else updateProductInProcess();
+  });
+
+  /* Actualizar producto en proceso */
+
+  $(document).on('click', '.updateProduct', function (e) {
+    $('.cardImportProductsMaterials').hide(800);
+    $('.cardAddProductInProccess').show(800);
+    $('#btnAddProductInProccess').html('Actualizar');
+
+    let row = $(this).parent().parent()[0];
+    let data = tblProductsInProcess.fnGetData(row);
+
+    sessionStorage.setItem('id_product_in_process', data.id_product_in_process);
+
+    $(`#product option[value=${data.id_product}]`).prop('selected', true);
+
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
+  });
+
+  updateProductInProcess = () => {
+    let data = $('#formAddProductInProccess').serialize();
+    idProductInProcess = sessionStorage.getItem('id_product_in_process');
+
+    data = `${data}&idProductInProcess=${idProductInProcess}`;
 
     $.post(
-      '/api/addPlanProductInProcess',
-      productInProcess,
+      '/api/updateProductInProcess',
+      data,
       function (data, textStatus, jqXHR) {
         message(data);
       }
     );
-  });
+  };
+
+  // Eliminar producto
+  deleteProduct = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+
+    let data = tblProductsInProcess.fnGetData(row);
+
+    idProductInProcess = data.id_product_in_process;
+
+    bootbox.confirm({
+      title: 'Eliminar',
+      message:
+        'Está seguro de eliminar este Producto? Esta acción no se puede reversar.',
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `/api/deleteProductInProcess/${idProductInProcess}`,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  };
 
   /* Mensaje de exito */
-  message = (data) => {
+  const message = (data) => {
     if (data.success == true) {
       $('.cardAddProductInProccess').hide(800);
       $('#formAddProductInProccess').trigger('reset');
-      // updateTable();
+      loadTableProcess();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);

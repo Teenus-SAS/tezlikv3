@@ -13,7 +13,7 @@ $userinactivetimeDao->findSession();
                 <div class="page-title">
                     <h3 class="mb-1 font-weight-bold text-dark">Ficha Técnica Productos</h3>
                     <ol class="breadcrumb mb-3 mb-md-0">
-                        <li class="breadcrumb-item active">Asignación de materias primas al producto</li>
+                        <li class="breadcrumb-item active" id="comment">Asignación de materias primas al producto</li>
                     </ol>
                 </div>
             </div>
@@ -52,17 +52,19 @@ $userinactivetimeDao->findSession();
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="gridx2p">
-                        <form id="formAddProductInProccess">
-                            <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                <select class="form-control" name="product" id="product"></select>
-                                <label for="product"></label>
+                    <form id="formAddProductInProccess">
+                        <div class="card-body">
+                            <div class="gridx2p">
+                                <div class="form-group" style="margin-bottom:0px">
+                                    <label for="">Producto</label>
+                                    <select class="form-control" name="idProduct" id="product"></select>
+                                </div>
+                                <div class="form-group" style="margin-bottom:0px;margin-top:33px">
+                                    <button class="btn btn-success" id="btnAddProductInProccess">Guardar</button>
+                                </div>
                             </div>
-                            <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                <button class="btn btn-success" id="btnAddProductInProccess">Adicionar Producto</button>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -122,7 +124,7 @@ $userinactivetimeDao->findSession();
 </div>
 
 <!-- page content -->
-<div class="page-content-wrapper mt--45">
+<div class="page-content-wrapper mt--45 cardTableConfigMaterials">
     <div class="container-fluid">
         <!-- Row 5 -->
         <div class="row">
@@ -142,9 +144,9 @@ $userinactivetimeDao->findSession();
 </div>
 
 <script src="/global/js/global/number.js"></script>
-<script src="/planning/js/config/productMaterials/productsInProcess.js"></script>
 <script src="/planning/js/config/productMaterials/tblConfigMaterials.js"></script>
 <script src="/planning/js/basic/products/configProducts.js"></script>
+<script src="/planning/js/config/productMaterials/productsInProcess.js"></script>
 <script src="/planning/js/config/productMaterials/productMaterials.js"></script>
 <script src="/planning/js/basic/rawMaterials/configRawMaterials.js"></script>
 <script src="../global/js/import/import.js"></script>
