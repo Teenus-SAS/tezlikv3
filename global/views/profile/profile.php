@@ -24,16 +24,20 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label class="form-label">Cargo *</label>
-                                            <input type="text" class="form-control" placeholder="" aria-label="Phone number" id="position" name="position" disabled>
+                                            <input type="text" class="form-control" placeholder="" aria-label="Position" id="position" name="position" disabled>
                                         </div>
                                         <div class="col-md-4 mt-4">
                                             <label for="email" class="form-label">Email *</label>
                                             <input type="email" class="form-control" id="email" name="emailUser">
                                         </div>
                                         <!-- <div class="col-md-4 mt-4">
-                                    <label class="form-label">Numero Celular *</label>
-                                    <input type="text" class="form-control" placeholder="" aria-label="Phone number" id="cel" name="cel">
-                                </div> -->
+                                            <label class="form-label">Contraseña</label>
+                                            <input type="password" class="form-control" placeholder="" aria-label="Password" id="password" name="password">
+                                        </div>
+                                        <div class="col-md-4 mt-4">
+                                            <label class="form-label">Confirmar Contraseña</label>
+                                            <input type="password" class="form-control" placeholder="" aria-label="Confirm Password" id="conPassword" name="conPassword">
+                                        </div> -->
                                     </div> <!-- Row END -->
                                 </div>
                             </div>
