@@ -48,27 +48,27 @@ $app->post('/addProductInProcess', function (Request $request, Response $respons
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateProductInProcess', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
-    $dataProduct = $request->getParsedBody();
+// $app->post('/updateProductInProcess', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
+//     $dataProduct = $request->getParsedBody();
 
-    if (empty($dataProduct['idProduct']))
-        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
-    else {
-        $productsInProcess = $productsInProcessDao->updateProductInProcess($dataProduct);
+//     if (empty($dataProduct['idProduct']))
+//         $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+//     else {
+//         $productsInProcess = $productsInProcessDao->updateProductInProcess($dataProduct);
 
-        if ($productsInProcess == null)
-            $resp = array('success' => true, 'message' => 'Producto en proceso actualizado correctamente');
-        else if (isset($productsInProcess['info']))
-            $resp = array('info' => true, 'message' => $productsInProcess['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+//         if ($productsInProcess == null)
+//             $resp = array('success' => true, 'message' => 'Producto en proceso actualizado correctamente');
+//         else if (isset($productsInProcess['info']))
+//             $resp = array('info' => true, 'message' => $productsInProcess['message']);
+//         else
+//             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+//     }
+//     $response->getBody()->write(json_encode($resp));
+//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+// });
 
-$app->get('/deleteProductInProcess/{id_product_in_process}', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
-    $productsInProcess = $productsInProcessDao->deleteProductInProcess($args['id_product_in_process']);
+$app->get('/deleteProductInProcess/{id_product_category}', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
+    $productsInProcess = $productsInProcessDao->deleteProductInProcess($args['id_product_category']);
 
     if ($productsInProcess == null)
         $resp = array('success' => true, 'message' => 'Producto en proceso eliminado correctamente');

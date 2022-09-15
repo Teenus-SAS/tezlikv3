@@ -102,10 +102,8 @@ $(document).ready(function () {
       m = december.getMonth();
     }
 
-    value = getBusinessDays(lastDay, m);
-    toastr.info(
-      `Total de dias hábiles ${value.nameMonth}: ${value.businessDays}`
-    );
+    businessDays = getBusinessDays(lastDay, m);
+    $(`#${id}`).val(businessDays);
 
     if (day > businessDays) {
       message = 'El valor es mayor al ultimo dia';
@@ -130,10 +128,8 @@ $(document).ready(function () {
         }
       }
     }
-    nameMonth = businessDate.toLocaleDateString('es-CO', { month: 'long' });
-    value = { businessDays: businessDays, nameMonth: nameMonth };
 
-    return value;
+    return businessDays;
   };
 
   showError = (message, id) => {

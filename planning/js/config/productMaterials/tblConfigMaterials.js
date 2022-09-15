@@ -117,12 +117,11 @@ $(document).ready(function () {
         },
         {
           title: 'Acciones',
-          data: 'id_product_in_process',
+          data: 'id_product_category',
           className: 'uniqueClassName',
           render: function (data) {
             return `
-                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>
-                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteProduct()"></i></a>`;
+              <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteProduct()"></i></a>`;
           },
         },
       ],

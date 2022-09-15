@@ -31,7 +31,7 @@ $(document).ready(function () {
     $('#comment').html('Asignación de productos en proceso');
     $('#btnAddProductInProccess').html('Asignar');
 
-    sessionStorage.removeItem('id_product_in_process');
+    sessionStorage.removeItem('id_product_category');
     loadTableProcess();
 
     $('#formAddProductInProccess').trigger('reset');
@@ -41,9 +41,9 @@ $(document).ready(function () {
   $('#btnAddProductInProccess').click(function (e) {
     e.preventDefault();
 
-    let idProductInProcess = sessionStorage.getItem('id_product_in_process');
+    let idProductCategory = sessionStorage.getItem('id_product_category');
 
-    if (idProductInProcess == '' || idProductInProcess == null) {
+    if (idProductCategory == '' || idProductCategory == null) {
       idProduct = $('#product').val();
 
       if (!idProduct || idProduct == 0) {
@@ -63,8 +63,7 @@ $(document).ready(function () {
     } else updateProductInProcess();
   });
 
-  /* Actualizar producto en proceso */
-
+  /* Actualizar producto en proceso 
   $(document).on('click', '.updateProduct', function (e) {
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddProductInProccess').show(800);
@@ -73,7 +72,7 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblProductsInProcess.fnGetData(row);
 
-    sessionStorage.setItem('id_product_in_process', data.id_product_in_process);
+    sessionStorage.setItem('id_product_category', data.id_product_category);
 
     $(`#product option[value=${data.id_product}]`).prop('selected', true);
 
@@ -87,9 +86,9 @@ $(document).ready(function () {
 
   updateProductInProcess = () => {
     let data = $('#formAddProductInProccess').serialize();
-    idProductInProcess = sessionStorage.getItem('id_product_in_process');
+    idProductCategory = sessionStorage.getItem('id_product_category');
 
-    data = `${data}&idProductInProcess=${idProductInProcess}`;
+    data = `${data}&idProductCategory=${idProductCategory}`;
 
     $.post(
       '/api/updateProductInProcess',
@@ -98,7 +97,7 @@ $(document).ready(function () {
         message(data);
       }
     );
-  };
+  }; */
 
   // Eliminar producto
   deleteProduct = () => {
@@ -106,7 +105,7 @@ $(document).ready(function () {
 
     let data = tblProductsInProcess.fnGetData(row);
 
-    idProductInProcess = data.id_product_in_process;
+    idProductCategory = data.id_product_category;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -125,7 +124,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `/api/deleteProductInProcess/${idProductInProcess}`,
+            `/api/deleteProductInProcess/${idProductCategory}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }
