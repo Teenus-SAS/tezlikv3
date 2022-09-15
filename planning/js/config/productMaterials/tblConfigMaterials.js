@@ -72,8 +72,8 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: function (data) {
             return `
-                        <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
           },
         },
       ],
@@ -121,8 +121,8 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: function (data) {
             return `
-                        <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteProduct()"></i></a>`;
+                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteProduct()"></i></a>`;
           },
         },
       ],

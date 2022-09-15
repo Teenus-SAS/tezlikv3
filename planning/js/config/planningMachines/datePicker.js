@@ -5,9 +5,6 @@ $(document).ready(function () {
 
   /* Meses */
   let date = new Date();
-  let options = {
-    weekday: 'long',
-  };
   const festivos = [
     [10], // Enero (Sabado 1)
     [], // Febrero
@@ -105,8 +102,10 @@ $(document).ready(function () {
       m = december.getMonth();
     }
 
-    businessDays = getBusinessDays(lastDay, m);
-    toastr.info(`Total de dias hábiles: ${businessDays}`);
+    value = getBusinessDays(lastDay, m);
+    toastr.info(
+      `Total de dias hábiles ${value.nameMonth}: ${value.businessDays}`
+    );
 
     if (day > businessDays) {
       message = 'El valor es mayor al ultimo dia';
@@ -120,7 +119,7 @@ $(document).ready(function () {
 
     for (i = 1; i < days; i++) {
       businessDate = new Date(date.getFullYear(), month, i);
-      nameDay = businessDate.toLocaleDateString('es-CO', options);
+      nameDay = businessDate.toLocaleDateString('es-CO', { weekday: 'long' });
 
       if (nameDay == 'sábado' || nameDay == 'domingo')
         businessDays = businessDays - 1;
@@ -131,8 +130,10 @@ $(document).ready(function () {
         }
       }
     }
+    nameMonth = businessDate.toLocaleDateString('es-CO', { month: 'long' });
+    value = { businessDays: businessDays, nameMonth: nameMonth };
 
-    return businessDays;
+    return value;
   };
 
   showError = (message, id) => {
