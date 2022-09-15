@@ -3,6 +3,17 @@ $(document).ready(function () {
 
   $('.cardCreateProduct').hide();
 
+  /* Cargar imagen de producto */
+  $('#formFile').change(function (e) {
+    e.preventDefault();
+
+    $('#preview').html(
+      `<img id="img" src="${URL.createObjectURL(
+        event.target.files[0]
+      )}" style="width:50%;padding-bottom:15px"/>`
+    );
+  });
+
   /* Abrir panel crear producto */
 
   $('#btnNewProduct').click(function (e) {
@@ -94,7 +105,7 @@ $(document).ready(function () {
     $(`#category option[value=${data.id_category}]`).prop('selected', true);
     $(`#idMold option:contains(${data.mold})`).prop('selected', true);
     $('#preview').html(
-      `<img id="img" src="${data.img}" style="width:20%;padding-bottom:15px"/>`
+      `<img id="img" src="${data.img}" style="width:50%;padding-bottom:15px"/>`
     );
 
     $('html, body').animate({ scrollTop: 0 }, 1000);

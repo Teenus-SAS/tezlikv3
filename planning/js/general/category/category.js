@@ -59,11 +59,10 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_category', data.id_category);
     $('#category').val(data.category);
-    $(`#typeCategory option:contains(${data.type_Category})`).prop(
+    $(`#typeCategory option:contains(${data.type_category})`).prop(
       'selected',
       true
     );
-
     $('html, body').animate(
       {
         scrollTop: 0,

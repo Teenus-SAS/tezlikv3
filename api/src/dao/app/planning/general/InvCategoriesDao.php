@@ -110,12 +110,12 @@ class invCategoriesDao
             if ($rows > 0) {
                 $stmt = $connection->prepare("DELETE FROM plan_categories WHERE id_category = :id_category");
                 $stmt->execute(['id_category' => $id_category]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
-                $message = 'Categoria asociada a un material. Imposible Eliminar';
+                $message = 'Categoria asociada a un material o producto. Imposible Eliminar';
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

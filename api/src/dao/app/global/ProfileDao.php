@@ -21,13 +21,25 @@ class ProfileDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname
+            if (empty($dataUser['password'])) {
+                $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname
                                           WHERE id_user = :id_user");
-            $stmt->execute([
-                'id_user' => $dataUser['idUser'],
-                'firstname' => $dataUser['nameUser'],
-                'lastname' => $dataUser['lastnameUser']
-            ]);
+                $stmt->execute([
+                    'id_user' => $dataUser['idUser'],
+                    'firstname' => $dataUser['nameUser'],
+                    'lastname' => $dataUser['lastnameUser']
+                ]);
+            } else {
+                $pass = hash("sha256", $dataUser['password']);
+                $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, password = :pass
+                                          WHERE id_user = :id_user");
+                $stmt->execute([
+                    'id_user' => $dataUser['idUser'],
+                    'firstname' => $dataUser['nameUser'],
+                    'lastname' => $dataUser['lastnameUser'],
+                    'pass' => $pass
+                ]);
+            }
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();

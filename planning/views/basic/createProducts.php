@@ -57,24 +57,29 @@ $userinactivetimeDao->findSession();
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-row py-4">
-                                <div class="col-sm-2">
-                                    <label for="">Cantidad en inventario</label>
-                                    <input type="text" class="form-control text-center number" id="quantity" name="quantity">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-row py-4">
+                                        <div class="col-xs">
+                                            <label for="">Cantidad en inventario</label>
+                                            <input type="text" class="form-control text-center number" id="quantity" name="quantity">
+                                        </div>
+                                        <div class="col-4">
+                                            <label for="category">Categoría</label>
+                                            <select id="category" name="category" type="number" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-6">
+                                            <label for="formFile" class="form-label"> Cargar imagen producto</label>
+                                            <input class="form-control" type="file" id="formFile">
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="text" class="btn btn-success" id="btnCreateProduct" style="width: 150px;height:50%; margin-top: 32px; margin-left: 20px">Crear Producto</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-sm-2">
-                                    <label for="category">Categoría</label>
-                                    <select id="category" name="category" type="number" class="form-control"></select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-4">
-                                    <label for="formFile" class="form-label"> Cargar imagen producto</label>
-                                    <input class="form-control" type="file" id="formFile">
-                                </div>
-                                <div class="col-sm-2">
-                                    <button type="text" class="btn btn-success" id="btnCreateProduct" style="width: 150px;height:50%; margin-top: 32px; margin-left: 20px">Crear Producto</button>
-                                </div>
+                                <div class="col-md-4 mt-5" id="preview"></div>
                             </div>
                         </form>
                     </div>

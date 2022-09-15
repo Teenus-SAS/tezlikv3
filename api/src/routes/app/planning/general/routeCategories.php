@@ -111,9 +111,10 @@ $app->get('/deleteCategory/{id_category}', function (Request $request, Response 
 
     if ($category == null)
         $resp = array('success' => true, 'message' => 'Categoria eliminada correctamente');
-
-    if ($category != null)
-        $resp = array('error' => true, 'message' => 'No es posible eliminar la Categoria, existe información asociada a ella');
+    else if (isset($category['info']))
+        $resp = array('info' => true, 'message' => $category['message']);
+    else if ($category != null)
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

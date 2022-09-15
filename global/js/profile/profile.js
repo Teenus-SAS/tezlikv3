@@ -43,11 +43,16 @@ $(document).ready(function () {
     lastname = $('#lastname').val();
     sessionStorage.setItem('name', firstname);
     sessionStorage.setItem('lastname', lastname);
-    // position = $('#position').val();
-    // email = $('#email').val();
+    password = $('#password').val();
+    conPassword = $('#conPassword').val();
 
     if (!firstname || firstname == '' || !lastname || lastname == '') {
       toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    if (password != conPassword) {
+      toastr.error('Las contraseñas no coinciden');
       return false;
     }
 
@@ -75,12 +80,15 @@ $(document).ready(function () {
       avatar = sessionStorage.getItem('avatar');
       firstname = sessionStorage.getItem('name');
       lastname = sessionStorage.getItem('lastname');
+
       sessionStorage.removeItem('avatar');
       sessionStorage.removeItem('name');
       sessionStorage.removeItem('lastname');
-      hAvatar.src = avatar;
+
+      if (avatar) hAvatar.src = avatar;
       $('.userName').html(`${firstname} ${lastname}`);
       $('#email').prop('disabled', true);
+
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
