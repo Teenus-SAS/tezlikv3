@@ -124,6 +124,13 @@ $(document).ready(function () {
     else $('#checkbox-14').prop('checked', false);
     if (data.tool == 1) $('#checkbox-15').prop('checked', true);
     else $('#checkbox-15').prop('checked', false);
+
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
   });
 
   updateUserAccess = () => {

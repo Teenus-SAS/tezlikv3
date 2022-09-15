@@ -24,7 +24,6 @@ $(document).ready(function () {
   $('#btnCreateProductInProcess').click(function (e) {
     e.preventDefault();
 
-    $('.cardCreateRawMaterials').hide(800);
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').hide(800);
     $('.cardAddProductInProccess').toggle(800);

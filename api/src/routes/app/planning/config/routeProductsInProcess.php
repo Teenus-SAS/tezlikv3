@@ -7,11 +7,7 @@ $productsInProcessDao = new ProductsInProcessDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/productsInProcess', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
-    $productsInProcess = $productsInProcessDao->findAllProductsInProcess();
-    $response->getBody()->write(json_encode($productsInProcess, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+/* Todos los productos asociados a la tabla `plan_products_in_process` */
 
 $app->get('/productsInProcessByCompany', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
     session_start();
@@ -19,6 +15,13 @@ $app->get('/productsInProcessByCompany', function (Request $request, Response $r
 
     $productsInProcess = $productsInProcessDao->findAllProductsInProcessByCompany($id_company);
 
+    $response->getBody()->write(json_encode($productsInProcess, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+/* Todos los productos en proceso */
+$app->get('/productsInProcess', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
+    $productsInProcess = $productsInProcessDao->findAllProductsInProcess();
     $response->getBody()->write(json_encode($productsInProcess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

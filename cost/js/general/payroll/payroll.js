@@ -93,7 +93,6 @@ $(document).ready(function () {
 
     let row = $(this).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
-    debugger;
     $('#employee').val(data.employee);
     $(`#idProcess option:contains(${data.process})`).prop('selected', true);
 

@@ -56,7 +56,7 @@ $userinactivetimeDao->findSession();
                         <div class="card-body">
                             <div class="gridx2p">
                                 <div class="form-group" style="margin-bottom:0px">
-                                    <label for="">Producto</label>
+                                    <label for="">Producto En Proceso</label>
                                     <select class="form-control" name="idProduct" id="product"></select>
                                 </div>
                                 <div class="form-group" style="margin-bottom:0px;margin-top:33px">

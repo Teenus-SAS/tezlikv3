@@ -16,6 +16,7 @@ class ProductsInProcessDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    /* Todos los productos asociados a la tabla `plan_products_in_process` */
     public function findAllProductsInProcessByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -33,6 +34,7 @@ class ProductsInProcessDao
         return $productsInProcess;
     }
 
+    /* Todos los productos en proceso */
     public function findAllProductsInProcess()
     {
         $connection = Connection::getInstance()->getConnection();

@@ -46,15 +46,7 @@ $userinactivetimeDao->findSession();
                                 </div>
                                 <div class="col-md-3">
                                     <label for="">Molde</label>
-                                    <select class="form-control" name="idMold" id="idMold">
-                                        <option disabled="" selected="">Seleccionar</option>
-                                        <option value="1"> Porta papel cocina con rollo </option>
-                                        <option value="2"> Porta papel cocina </option>
-                                        <option value="3"> Porta papel cocina 2 </option>
-                                        <option value="4"> Vd-porta papel cocina 2 </option>
-                                        <option value="5"> Organizador multiple </option>
-                                        <option value="6"> Vd organizador multiple blanco </option>
-                                    </select>
+                                    <select class="form-control" name="idMold" id="idMold"></select>
                                 </div>
                             </div>
                             <div class="row">

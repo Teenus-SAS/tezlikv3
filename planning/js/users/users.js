@@ -131,6 +131,13 @@ $(document).ready(function () {
     else $('#checkbox-17').prop('checked', false);
     if (data.office == 1) $('#checkbox-18').prop('checked', true);
     else $('#checkbox-18').prop('checked', false);
+
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
   });
 
   updateUserAccess = () => {

@@ -196,12 +196,18 @@
             </div>
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-profile-dropdown" aria-expanded="false" class="btn header-item">
-                    <img src="/assets/images/users/avatar-1.jpg" alt="Header Avatar" class="avatar avatar-xs mr-0">
-                    <span class="d-none d-xl-inline-block ml-1 userName">Martha Lucia Olmos</span>
+                    <?php
+                    if (empty($_SESSION['avatar']))
+                        $avatar = "/assets/images/users/empty_user.png";
+                    else
+                        $avatar = $_SESSION['avatar'];
+                    ?>
+                    <img id="hAvatar" src=<?php echo $avatar ?> alt="Header Avatar" class="avatar avatar-xs mr-0">
+                    <span class="d-none d-xl-inline-block ml-1 userName"><?php echo "{$_SESSION['name']} {$_SESSION['lastname']}" ?></span>
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
-                    <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/perfil.php')" class="dropdown-item">
+                    <a href="javascript: void(0);" onclick="loadContent('page-content','../../global/views/profile/profile.php')" class="dropdown-item">
                         <i class="bx bx-user mr-1"></i> Perfil
                     </a>
                     <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">

@@ -13,11 +13,6 @@ $(document).ready(function () {
   $('#btnCreateProduct').click(function (e) {
     e.preventDefault();
 
-    // if ($.fn.dataTable.isDataTable('#tblConfigMaterials')) {
-    //   $('#tblConfigMaterials').DataTable().destroy();
-    //   $('#tblConfigMaterials').empty();
-    // }
-
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddProductInProccess').hide(800);
     $('.cardCreateRawMaterials').show(800);
