@@ -50,6 +50,22 @@ class ProductsInProcessDao
         return $productsInProcess;
     }
 
+    public function findProductInProcess($dataProduct, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM plan_products_categories 
+                                      WHERE id_product = :id_product AND id_company = :id_company");
+        $stmt->execute([
+            'id_product' => $dataProduct['idProduct'],
+            'id_company' => $id_company
+        ]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $productInProcess = $stmt->fetch($connection::FETCH_ASSOC);
+        return $productInProcess;
+    }
+
     public function insertProductInProcessByCompany($dataProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();

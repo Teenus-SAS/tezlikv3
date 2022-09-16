@@ -1,5 +1,6 @@
 $(document).ready(function () {
   let selectedFile;
+  let id;
 
   $('.cardImport').hide();
 
@@ -49,13 +50,27 @@ $(document).ready(function () {
               quantity: item.cantidad,
             };
 
-          if (id == 2) arr = { product: item.producto };
+          if (id == 2)
+            arr = {
+              referenceProduct: item.referencia,
+              product: item.producto,
+            };
 
           return arr;
         });
-        debugger;
-        id;
-        checkData(dataToImport);
+
+        if (id == 1)
+          url = {
+            validation: '/api/planProductsMaterialsDataValidation',
+            save: '/api/addPlanProductsMaterials',
+          };
+        if (id == 2)
+          url = {
+            validation: '/api/productsInProcessDataValidation',
+            save: '/api/addProductInProcess',
+          };
+
+        checkData(dataToImport, url);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -63,11 +78,11 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkData = (data) => {
+  checkData = (data, url) => {
     $.ajax({
       type: 'POST',
-      url: '/api/planProductsMaterialsDataValidation',
-      data: { importProductsMaterials: data },
+      url: url.validation,
+      data: { importProducts: data },
       success: function (resp) {
         if (resp.error == true) {
           $('#formImport').trigger('reset');
@@ -90,7 +105,7 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveProductMaterialTable(data);
+              saveProduct(data, url);
             } else $('#file').val('');
           },
         });
@@ -98,19 +113,24 @@ $(document).ready(function () {
     });
   };
 
-  saveProductMaterialTable = (data) => {
-    console.log(data);
+  saveProduct = (data, url) => {
+    // console.log(data);
     $.ajax({
       type: 'POST',
-      url: '/api/addPlanProductsMaterials',
-      data: { importProductsMaterials: data },
+      url: url.save,
+      data: { importProducts: data },
       success: function (r) {
         console.log(r);
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImport').hide(800);
-          $('#formImport')[0].reset();
-          updateTable();
+          $('#formImport').trigger('reset');
+
+          id = sessionStorage.getItem('id');
+
+          if (id == 1) updateTable();
+          if (id == 2) loadTableProcess();
+
           toastr.success(r.message);
           return false;
         } else if (r.error == true) {

@@ -31,7 +31,7 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
         $insert = 0;
         $update = 0;
 
-        $productMaterials = $dataProductMaterial['importProductsMaterials'];
+        $productMaterials = $dataProductMaterial['importProducts'];
 
         for ($i = 0; $i < sizeof($productMaterials); $i++) {
             // Obtener id producto
@@ -86,7 +86,7 @@ $app->post('/addPlanProductsMaterials', function (Request $request, Response $re
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras asignaba la información. Intente nuevamente');
     } else {
-        $productMaterials = $dataProductMaterial['importProductsMaterials'];
+        $productMaterials = $dataProductMaterial['importProducts'];
 
         for ($i = 0; $i < sizeof($productMaterials); $i++) {
             // Obtener id producto

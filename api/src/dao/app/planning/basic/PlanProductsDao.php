@@ -33,7 +33,6 @@ class PlanProductsDao
   }
 
   /* Consultar si existe producto en BD por compañia */
-
   public function findProduct($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
@@ -42,6 +41,21 @@ class PlanProductsDao
                                   WHERE reference = :reference
                                   AND product = :product 
                                   AND id_company = :id_company");
+    $stmt->execute([
+      'reference' => trim($dataProduct['referenceProduct']),
+      'product' => ucfirst(strtolower(trim($dataProduct['product']))),
+      'id_company' => $id_company
+    ]);
+    $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
+    return $findProduct;
+  }
+
+  public function findProductByCategoryInProcess($dataProduct, $id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+
+    $stmt = $connection->prepare("SELECT * FROM products WHERE reference = :reference
+                                  AND product = :product AND category LIKE '%en proceso' AND id_company = :id_company");
     $stmt->execute([
       'reference' => trim($dataProduct['referenceProduct']),
       'product' => ucfirst(strtolower(trim($dataProduct['product']))),
