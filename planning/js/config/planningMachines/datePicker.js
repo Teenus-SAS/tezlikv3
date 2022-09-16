@@ -103,7 +103,8 @@ $(document).ready(function () {
     }
 
     businessDays = getBusinessDays(lastDay, m);
-    $(`#${id}`).val(businessDays);
+
+    $(`#${id}`).attr('placeholder', businessDays);
 
     if (day > businessDays) {
       message = 'El valor es mayor al ultimo dia';

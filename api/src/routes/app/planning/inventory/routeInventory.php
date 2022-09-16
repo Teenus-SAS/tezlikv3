@@ -5,9 +5,11 @@ use tezlikv3\dao\InvMoldsDao;
 use tezlikv3\dao\PlanMaterialsDao;
 use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\ClassificationDao;
+use tezlikv3\dao\invCategoriesDao;
 use tezlikv3\dao\UnitSalesDao;
 
 $inventoryDao = new InventoryDao();
+$categoriesDao = new invCategoriesDao();
 $moldsDao = new InvMoldsDao();
 $productsDao = new PlanProductsDao();
 $unitSalesDao = new UnitSalesDao();
@@ -36,7 +38,7 @@ $app->get('/inventory', function (Request $request, Response $response, $args) u
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $materialsDao, $moldsDao, $unitSalesDao) {
+$app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use ($categoriesDao, $productsDao, $materialsDao, $moldsDao, $unitSalesDao) {
     $dataInventory = $request->getParsedBody();
 
     if (isset($dataInventory)) {
@@ -48,6 +50,16 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
         $inventory = $dataInventory['importInventory'];
 
         for ($i = 0; $i < sizeof($inventory); $i++) {
+
+            // Obtener id categoria
+            $findCategory = $categoriesDao->findCategory($inventory[$i]);
+
+            if (!$findCategory) {
+                $i = $i + 1;
+                $dataImportinventory = array('error' => true, 'message' => "Categoria no existe en la base de datos. Fila: {$i}");
+                break;
+            }
+
             if (
                 empty($inventory[$i]['reference']) || empty($inventory[$i]['nameInventory']) ||
                 empty($inventory[$i]['quantity']) || empty($inventory[$i]['category'])

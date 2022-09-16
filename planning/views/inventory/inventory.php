@@ -20,12 +20,7 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
-                    <select class="form-control" name="category" id="category" disabled>
-                        <option value="" selected="" disabled="">Categorias</option>
-                        <option value="1">Productos</option>
-                        <option value="2">Materiales</option>
-                        <option value="3">Insumos</option>
-                        <option value="4">Todos</option>
+                    <select class="form-control" name="category" id="category">
                     </select>
                     <button class="btn btn-info ml-3" id="btnImportNewInventory">Importar Inventarios</button>
                 </div>
@@ -115,6 +110,7 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
+<script src="/planning/js/general/category/configCategories.js"></script>
 <script src="../planning/js/inventory/tblInventory.js"></script>
 <script src="../planning/js/inventory/inventory.js"></script>
 <script src="../global/js/import/import.js"></script>

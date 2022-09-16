@@ -28,28 +28,27 @@ $(document).ready(function () {
       $('#tblInventories').DataTable().destroy();
       $('#tblInventories').empty();
     }
-
     value = this.value;
 
-    if (value > 0) {
+    if (value != 0) {
       // Productos
-      if (value == 1) {
+      if (value.includes('Producto')) {
         $('.cardBtnAddMonths').show(800);
         data = getProducts(products);
         data['visible'] = true;
       }
       // Materias Prima
-      if (value == 2) {
+      else if (value.includes('Materiales')) {
         data = getMaterials(materials);
         data['visible'] = false;
       }
       // Insumos
-      if (value == 3) {
+      else if (value.includes('Insumos')) {
         data = getSupplies(supplies);
         data['visible'] = false;
       }
       // Todos
-      if (value == 4) {
+      else if (value.includes('Todos')) {
         dataProducts = getProducts(products);
         dataMaterials = getMaterials(materials);
         dataSupplies = getSupplies(supplies);

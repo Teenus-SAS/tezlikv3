@@ -1,23 +1,35 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportProductsMaterials').hide();
+  $('.cardImport').hide();
 
-  $('#btnImportNewProductsMaterials').click(function (e) {
-    e.preventDefault();
+  $('.import').on('click', function () {
+    sessionStorage.removeItem('id');
+    id = this.id;
+    sessionStorage.setItem('id', id);
+
+    if (id == 1) {
+      $('#txtFile').html('Importar Productos*Materia Prima');
+    }
+    if (id == 2) {
+      $('#txtFile').html('Importar Productos En Proceso');
+      $('#comment').html('Asignación de productos en proceso');
+    }
+
     $('.cardAddMaterials').hide(800);
-    $('.cardImportProductsMaterials').toggle(800);
+    $('.cardAddProductInProccess').hide(800);
+    $('.cardImport').show(800);
   });
 
-  $('#fileProductsMaterials').change(function (e) {
+  $('#file').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportProductsMaterials').click(function (e) {
+  $('#btnImport').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProductsMaterials').val();
+    file = $('#file').val();
     if (!file) {
       toastr.error('Seleccione un archivo');
       return false;
@@ -25,16 +37,25 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let productMaterialsToImport = data.map((item) => {
-          return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            refRawMaterial: item.referencia_material,
-            nameRawMaterial: item.material,
-            quantity: item.cantidad,
-          };
+        let dataToImport = data.map((item) => {
+          id = sessionStorage.getItem('id');
+
+          if (id == 1)
+            arr = {
+              referenceProduct: item.referencia_producto,
+              product: item.producto,
+              refRawMaterial: item.referencia_material,
+              nameRawMaterial: item.material,
+              quantity: item.cantidad,
+            };
+
+          if (id == 2) arr = { product: item.producto };
+
+          return arr;
         });
-        checkProductMaterial(productMaterialsToImport);
+        debugger;
+        id;
+        checkData(dataToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -42,14 +63,14 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProductMaterial = (data) => {
+  checkData = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/planProductsMaterialsDataValidation',
       data: { importProductsMaterials: data },
       success: function (resp) {
         if (resp.error == true) {
-          $('#formImportProductMaterial').trigger('reset');
+          $('#formImport').trigger('reset');
           toastr.error(resp.message);
           return false;
         }
@@ -70,7 +91,7 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveProductMaterialTable(data);
-            } else $('#fileProductsMaterials').val('');
+            } else $('#file').val('');
           },
         });
       },
@@ -87,16 +108,16 @@ $(document).ready(function () {
         console.log(r);
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportProductsMaterials').hide(800);
-          $('#formImportProductMaterial')[0].reset();
+          $('.cardImport').hide(800);
+          $('#formImport')[0].reset();
           updateTable();
           toastr.success(r.message);
           return false;
         } else if (r.error == true) {
-          $('#fileProductsMaterials').val('');
+          $('#file').val('');
           toastr.error(r.message);
         } else if (r.info == true) {
-          $('#fileProductsMaterials').val('');
+          $('#file').val('');
           toastr.info(r.message);
         }
 
@@ -113,7 +134,10 @@ $(document).ready(function () {
   $('#btnDownloadImportsProductsMaterials').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos_Materias.xlsx';
+    id = sessionStorage.getItem('id');
+
+    if (id == 1) url = 'assets/formatsXlsx/Productos_Materias.xlsx';
+    if (id == 2) url = 'assets/formatsXlsx/Productos_En_Proceso.xlsx';
 
     link = document.createElement('a');
     link.target = '_blank';

@@ -57,8 +57,8 @@ $userinactivetimeDao->findSession();
                                             <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                         </div>
                                         <div class="col-4">
-                                            <label for="category">Categoría</label>
-                                            <select id="category" name="category" type="number" class="form-control"></select>
+                                            <label for="productsCategories">Categoría</label>
+                                            <select id="productsCategories" name="productsCategories" type="number" class="form-control"></select>
                                         </div>
                                     </div>
                                     <div class="form-row">

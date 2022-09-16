@@ -21,7 +21,16 @@ $userinactivetimeDao->findSession();
                 <div class="form-inline justify-content-sm-end">
                     <button class="btn btn-warning" id="btnCreateProduct">Adicionar Nueva Materia Prima</button>
                     <button class="btn btn-secondary ml-3" id="btnCreateProductInProcess">Adicionar Producto En Proceso</button>
-                    <button class="btn btn-info ml-3" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
+                    <!-- <button class="btn btn-info ml-3" id="btnImportNewProductsMaterials">Importar</button> -->
+                    <div class="dropleft show ml-3">
+                        <a class="btn btn-info dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Importar
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="btnImport">
+                            <a class="dropdown-item import" id="1" href="javascript:void(0)">Materias Prima</a>
+                            <a class="dropdown-item import" id="2" href="javascript:void(0)">Productos en Proceso</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,23 +105,23 @@ $userinactivetimeDao->findSession();
     </div>
 </div>
 
-<div class="page-content-wrapper mt--45 mb-5 cardImportProductsMaterials">
+<div class="page-content-wrapper mt--45 mb-5 cardImport">
     <div class="container-fluid">
         <div class="row">
-            <form id="formImportProductMaterial" enctype="multipart/form-data">
+            <form id="formImport" enctype="multipart/form-data">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body pt-3 pb-0">
                             <div class="gridx4ip">
                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                    <input class="form-control" type="file" id="fileProductsMaterials" accept=".xls,.xlsx">
-                                    <label for="formFile" class="form-label"> Importar Productos*Materia Prima</label>
+                                    <input class="form-control" type="file" id="file" accept=".xls,.xlsx">
+                                    <label for="formFile" class="form-label" id="txtFile"></label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-success" id="btnImportProductsMaterials">Importar</button>
+                                    <button type="text" class="btn btn-success" id="btnImport">Importar</button>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                    <button type="text" class="btn btn-info" id="btnDownloadImportsProductsMaterials">Descarga Formato</button>
+                                    <button type="text" class="btn btn-info" id="btnDownloadImports">Descarga Formato</button>
                                 </div>
                             </div>
                         </div>
