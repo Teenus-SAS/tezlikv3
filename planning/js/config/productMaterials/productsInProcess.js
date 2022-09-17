@@ -26,13 +26,14 @@ $(document).ready(function () {
 
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').hide(800);
+    $('.cardTableConfigMaterials').hide(800);
+    $('.cardTableProductsInProcess').show(800);
     $('.cardAddProductInProccess').toggle(800);
 
     $('#comment').html('Asignación de productos en proceso');
     $('#btnAddProductInProccess').html('Asignar');
 
     sessionStorage.removeItem('id_product_category');
-    loadTableProcess();
 
     $('#formAddProductInProccess').trigger('reset');
   });
@@ -130,12 +131,6 @@ $(document).ready(function () {
             }
           );
         }
-        $('html, body').animate(
-          {
-            scrollTop: 0,
-          },
-          1000
-        );
       },
     });
   };
@@ -145,10 +140,16 @@ $(document).ready(function () {
     if (data.success == true) {
       $('.cardAddProductInProccess').hide(800);
       $('#formAddProductInProccess').trigger('reset');
-      loadTableProcess();
+      updateTable();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
+
+  /* Actualizar tabla */
+  function updateTable() {
+    $('#tblProductsInProcess').DataTable().clear();
+    $('#tblProductsInProcess').DataTable().ajax.reload();
+  }
 });

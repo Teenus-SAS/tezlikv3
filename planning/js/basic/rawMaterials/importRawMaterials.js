@@ -28,9 +28,9 @@ $(document).ready(function () {
       .then((data) => {
         let materialsToImport = data.map((item) => {
           return {
-            refRawMaterial: item.referencia,
-            nameRawMaterial: item.material,
-            unityRawMaterial: item.unidad,
+            refRawMaterial: item.referencia.trim(),
+            nameRawMaterial: item.material.trim(),
+            unityRawMaterial: item.unidad.trim(),
             quantity: item.cantidad,
             category: item.categoria,
           };

@@ -30,6 +30,20 @@ class InventoryDao
         return $materials;
     }
 
+    public function findAllInventoryProductsByCategory($id_company, $category)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM products WHERE id_company = :id_company AND category = :category");
+        $stmt->execute([
+            'id_company' => $id_company,
+            'category' => $category
+        ]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("materials", array('materials' => $materials));
+        return $materials;
+    }
+
     // Contar cantidad productos
     public function countProduct($dataInventory, $id_company)
     {

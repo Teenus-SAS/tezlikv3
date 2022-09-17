@@ -40,20 +40,19 @@ $(document).ready(function () {
       .then((data) => {
         let dataToImport = data.map((item) => {
           id = sessionStorage.getItem('id');
-
           if (id == 1)
             arr = {
-              referenceProduct: item.referencia_producto,
-              product: item.producto,
-              refRawMaterial: item.referencia_material,
-              nameRawMaterial: item.material,
+              referenceProduct: item.referencia_producto.trim(),
+              product: item.producto.trim(),
+              refRawMaterial: item.referencia_material.trim(),
+              nameRawMaterial: item.material.trim(),
               quantity: item.cantidad,
             };
 
           if (id == 2)
             arr = {
-              referenceProduct: item.referencia,
-              product: item.producto,
+              referenceProduct: item.referencia.trim(),
+              product: item.producto.trim(),
             };
 
           return arr;
@@ -126,10 +125,7 @@ $(document).ready(function () {
           $('.cardImport').hide(800);
           $('#formImport').trigger('reset');
 
-          id = sessionStorage.getItem('id');
-
-          if (id == 1) updateTable();
-          if (id == 2) loadTableProcess();
+          updateTable();
 
           toastr.success(r.message);
           return false;
@@ -145,13 +141,16 @@ $(document).ready(function () {
         function updateTable() {
           $('#tblConfigMaterials').DataTable().clear();
           $('#tblConfigMaterials').DataTable().ajax.reload();
+
+          $('#tblProductsInProcess').DataTable().clear();
+          $('#tblProductsInProcess').DataTable().ajax.reload();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsProductsMaterials').click(function (e) {
+  $('#btnDownloadImports').click(function (e) {
     e.preventDefault();
 
     id = sessionStorage.getItem('id');

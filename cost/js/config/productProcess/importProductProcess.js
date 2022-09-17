@@ -27,10 +27,10 @@ $(document).ready(function () {
       .then((data) => {
         let productProcessToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            process: item.proceso,
-            machine: item.maquina,
+            referenceProduct: item.referencia_producto.trim(),
+            product: item.producto.trim(),
+            process: item.proceso.trim(),
+            machine: item.maquina.trim(),
             enlistmentTime: item.tiempo_enlistamiento,
             operationTime: item.tiempo_operacion,
           };

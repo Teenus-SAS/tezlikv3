@@ -8,10 +8,10 @@ $(document).ready(function () {
 
       $select.append(`<option disabled selected>Categorias</option>`);
       $.each(r, function (i, value) {
-        if (value.type_category.includes('Inventario'))
-          $select.append(
-            `<option value=${value.id_category}-${value.category}> ${value.category} </option>`
-          );
+        // if (value.type_category.includes('Inventario'))
+        $select.append(
+          `<option value=${value.id_category}-${value.category}> ${value.category} </option>`
+        );
       });
       $select.append(`<option value=Todos>Todos</option>`);
 

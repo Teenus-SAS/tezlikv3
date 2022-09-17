@@ -28,7 +28,7 @@ $(document).ready(function () {
       .then((data) => {
         let ProcessToImport = data.map((item) => {
           return {
-            process: item.proceso,
+            process: item.proceso.trim(),
           };
         });
         checkProcess(ProcessToImport);

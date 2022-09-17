@@ -1,7 +1,25 @@
 $(document).ready(function () {
+  sessionStorage.removeItem('businessDays');
+
+  let date = new Date();
+  let arr = [];
+
   //Abrir modal crear plan de maquinas
   $('#btnNewPlanMachine').click(function (e) {
     e.preventDefault();
+
+    // Mostrar dias habiles x mes
+    for (i = 1; i <= 12; i++) {
+      month = new Date(date.getFullYear(), i, 0);
+      lastDay = month.getDate();
+
+      businessDays = getBusinessDays(lastDay, i - 1);
+      arr[i] = businessDays;
+
+      $(`#month-${i}`).attr('placeholder', `Días: ${businessDays}`);
+    }
+    businessDays = JSON.stringify(arr);
+    sessionStorage.setItem('businessDays', businessDays);
 
     $('#createPlanMachine').modal('show');
     $('#btnCreatePlanMachine').html('Crear');
@@ -86,18 +104,18 @@ $(document).ready(function () {
 
     $('#year').val(data.year);
 
-    $('#january').val(data.january);
-    $('#february').val(data.february);
-    $('#march').val(data.march);
-    $('#april').val(data.april);
-    $('#may').val(data.may);
-    $('#june').val(data.june);
-    $('#july').val(data.july);
-    $('#august').val(data.august);
-    $('#september').val(data.september);
-    $('#october').val(data.october);
-    $('#november').val(data.november);
-    $('#december').val(data.december);
+    $('#month-1').val(data.january);
+    $('#month-2').val(data.february);
+    $('#month-3').val(data.march);
+    $('#month-4').val(data.april);
+    $('#month-5').val(data.may);
+    $('#month-6').val(data.june);
+    $('#month-7').val(data.july);
+    $('#month-8').val(data.august);
+    $('#month-9').val(data.september);
+    $('#month-10').val(data.october);
+    $('#month-11').val(data.november);
+    $('#month-12').val(data.december);
 
     $('html, body').animate(
       {

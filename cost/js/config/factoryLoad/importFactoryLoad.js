@@ -28,8 +28,8 @@ $(document).ready(function () {
       .then((data) => {
         let factoryLoadToImport = data.map((item) => {
           return {
-            machine: item.maquina,
-            descriptionFactoryLoad: item.descripcion,
+            machine: item.maquina.trim(),
+            descriptionFactoryLoad: item.descripcion.trim(),
             costFactory: item.costo,
           };
         });

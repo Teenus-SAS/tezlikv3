@@ -1,6 +1,4 @@
 $(document).ready(function () {
-  $('.cardTableProductsInProcess').hide();
-
   /* Seleccion producto */
 
   $('#refProduct').change(function (e) {
@@ -8,6 +6,7 @@ $(document).ready(function () {
     id = this.value;
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     loadtableMaterials(id);
+    loadTableProcess();
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -15,16 +14,13 @@ $(document).ready(function () {
     id = this.value;
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     loadtableMaterials(id);
+    loadTableProcess();
   });
 
   /* Cargue tabla de Productos Materiales */
 
   const loadtableMaterials = (idProduct) => {
-    debugger;
-    if ($.fn.dataTable.isDataTable('#tblConfigMaterials')) {
-      $('#tblConfigMaterials').DataTable().destroy();
-      $('#tblConfigMaterials').empty();
-    }
+    $('.cardTableConfigMaterials').show(800);
 
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
       destroy: true,
@@ -81,18 +77,16 @@ $(document).ready(function () {
   };
   /* Cargue tabla de Productos en proceso */
 
-  loadTableProcess = async () => {
-    if ($.fn.dataTable.isDataTable('#tblConfigMaterials')) {
-      $('#tblConfigMaterials').DataTable().destroy();
-      $('#tblConfigMaterials').empty();
-    }
+  const loadTableProcess = () => {
+    $('.cardTableProductsInProcess').show(800);
 
-    data = await fetchinData();
-
-    tblProductsInProcess = $('#tblConfigMaterials').dataTable({
+    tblProductsInProcess = $('#tblProductsInProcess').dataTable({
       destroy: true,
       pageLength: 50,
-      data: data,
+      ajax: {
+        url: '/api/productsInProcessByCompany',
+        dataSrc: '',
+      },
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
       },
@@ -127,7 +121,7 @@ $(document).ready(function () {
       ],
     });
   };
-
+  /*
   fetchinData = async () => {
     try {
       result = await $.ajax({
@@ -137,5 +131,5 @@ $(document).ready(function () {
     } catch (error) {
       console.error(error);
     }
-  };
+  };*/
 });

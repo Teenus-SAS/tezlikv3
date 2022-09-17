@@ -28,7 +28,7 @@ $(document).ready(function () {
       .then((data) => {
         let machinesToImport = data.map((item) => {
           return {
-            machine: item.maquina,
+            machine: item.maquina.trim(),
             cost: item.costo,
             depreciationYears: item.años_depreciacion,
             residualValue: item.valor_residual,

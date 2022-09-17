@@ -30,7 +30,7 @@ $(document).ready(function () {
           return {
             ean: item.ean,
             nit: item.nit,
-            client: item.cliente,
+            client: item.cliente.trim(),
           };
         });
         checkClients(ClientsToImport);

@@ -133,16 +133,32 @@ $userinactivetimeDao->findSession();
 </div>
 
 <!-- page content -->
-<div class="page-content-wrapper mt--45 cardTableConfigMaterials">
+<div class="page-content-wrapper mt--45">
     <div class="container-fluid">
         <!-- Row 5 -->
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 cardTableConfigMaterials">
                 <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Materias Primas</h5>
+                    </div>
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped text-center" id="tblConfigMaterials" name="tblConfigMaterials">
 
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 cardTableProductsInProcess">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Productos En Proceso</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped text-center" id="tblProductsInProcess" name="tblProductsInProcess">
                             </table>
                         </div>
                     </div>

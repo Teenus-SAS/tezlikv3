@@ -29,7 +29,7 @@ $(document).ready(function () {
         let expenseToImport = data.map((item) => {
           return {
             numberCount: item.numero_cuenta,
-            count: item.cuenta,
+            count: item.cuenta.trim(),
             expenseValue: item.valor,
           };
         });

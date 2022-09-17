@@ -28,8 +28,8 @@ $(document).ready(function () {
       .then((data) => {
         let expenseDistributionToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
+            referenceProduct: item.referencia_producto.trim(),
+            product: item.producto.trim(),
             unitsSold: item.unidades_vendidas,
             turnover: item.volumen_ventas,
           };

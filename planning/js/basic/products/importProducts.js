@@ -28,12 +28,12 @@ $(document).ready(function () {
       .then((data) => {
         let productsToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            referenceMold: item.referencia_molde,
+            referenceProduct: item.referencia_producto.trim(),
+            product: item.producto.trim(),
+            referenceMold: item.referencia_molde.trim(),
             quantity: item.cantidad_producto,
-            mold: item.molde,
-            category: item.categoria,
+            mold: item.molde.trim(),
+            category: item.categoria.trim(),
           };
         });
         checkProduct(productsToImport);

@@ -28,8 +28,8 @@ $(document).ready(function () {
       .then((data) => {
         let MoldsToImport = data.map((item) => {
           return {
-            referenceMold: item.referencia,
-            mold: item.molde,
+            referenceMold: item.referencia.trim(),
+            mold: item.molde.trim(),
             assemblyTime: item.tiempo_montaje,
             assemblyProduction: item.tiempo_montaje_produccion,
             cavity: item.numero_cavidades,

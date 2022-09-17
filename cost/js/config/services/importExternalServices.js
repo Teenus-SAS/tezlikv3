@@ -28,9 +28,9 @@ $(document).ready(function () {
       .then((data) => {
         let externalServiceToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            service: item.servicio,
+            referenceProduct: item.referencia_producto.trim(),
+            product: item.producto.trim(),
+            service: item.servicio.trim(),
             costService: item.costo,
           };
         });
