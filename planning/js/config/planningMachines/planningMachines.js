@@ -8,6 +8,14 @@ $(document).ready(function () {
   $('#btnNewPlanMachine').click(function (e) {
     e.preventDefault();
 
+    $('#createPlanMachine').modal('show');
+    $('#btnCreatePlanMachine').html('Crear');
+
+    sessionStorage.removeItem('id_planning_machine');
+
+    $('.month').css('border-color', '');
+    $('#formCreatePlanMachine').trigger('reset');
+
     // Mostrar dias habiles x mes
     for (i = 1; i <= 12; i++) {
       month = new Date(date.getFullYear(), i, 0);
@@ -16,18 +24,10 @@ $(document).ready(function () {
       businessDays = getBusinessDays(lastDay, i - 1);
       arr[i] = businessDays;
 
-      $(`#month-${i}`).attr('placeholder', `Días: ${businessDays}`);
+      $(`#month-${i}`).val(businessDays);
     }
     businessDays = JSON.stringify(arr);
     sessionStorage.setItem('businessDays', businessDays);
-
-    $('#createPlanMachine').modal('show');
-    $('#btnCreatePlanMachine').html('Crear');
-
-    sessionStorage.removeItem('id_planning_machine');
-
-    $('.month').css('border-color', '');
-    $('#formCreatePlanMachine').trigger('reset');
   });
 
   //Ocultar modal Plan maquinas

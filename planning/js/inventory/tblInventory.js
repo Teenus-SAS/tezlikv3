@@ -1,22 +1,37 @@
 $(document).ready(function () {
   sessionStorage.removeItem('products');
   // Obtener Inventarios
-  fetch(`/api/inventory`)
-    .then((response) => response.text())
-    .then((data) => {
-      data = JSON.parse(data);
-      // Guardar productos
-      dataProductsInProcess = JSON.stringify(data.productsInProcess);
-      dataFinishProducts = JSON.stringify(data.finishProducts);
-      sessionStorage.setItem('dataProductsInProcess', dataProductsInProcess);
-      sessionStorage.setItem('dataFinishProducts', dataFinishProducts);
+  loadInventory = () => {
+    fetch(`/api/inventory`)
+      .then((response) => response.text())
+      .then((data) => {
+        data = JSON.parse(data);
+        // Guardar productos
+        dataProductsInProcess = JSON.stringify(data.productsInProcess);
+        dataFinishProducts = JSON.stringify(data.finishProducts);
+        sessionStorage.setItem('dataProductsInProcess', dataProductsInProcess);
+        sessionStorage.setItem('dataFinishProducts', dataFinishProducts);
 
-      // products = data.products;
-      productsInProcess = data.productsInProcess;
-      finishProducts = data.finishProducts;
-      materials = data.rawMaterials;
-      supplies = data.supplies;
-    });
+        // products = data.products;
+        productsInProcess = data.productsInProcess;
+        finishProducts = data.finishProducts;
+        materials = data.rawMaterials;
+        supplies = data.supplies;
+      });
+  };
+
+  // fetchinData = async () => {
+  //   try {
+  //     result = await $.ajax({
+  //       url: '/api/productsInProcessByCompany',
+  //     });
+  //     return result;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  loadInventory();
 
   // Seleccionar Categoria
   $('#category').change(function (e) {
