@@ -1,5 +1,5 @@
 <?php
-include_once dirname(__DIR__) . '/sessions/session.php';
+include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 ?>
 
 <!DOCTYPE html>
