@@ -101,7 +101,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1) $location = '../../selector/';
         else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0) $location = '../../cost/';
-        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) $location = '../../planning/';
+        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) $location = 'planning';
     }
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
