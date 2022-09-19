@@ -1,10 +1,5 @@
 <?php
-
-use tezlikv3\dao\UserInactiveTimeDao;
-
-require_once(dirname(dirname(__DIR__)) . "/api/src/dao/app/global/login/UserInactiveTimeDao.php");
-$userinactivetimeDao = new UserInactiveTimeDao();
-$userinactivetimeDao->findSession();
+include_once dirname(__DIR__) . '/sessions/session.php';
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +15,7 @@ $userinactivetimeDao->findSession();
 	<title>Tezlik - Planning | Dashboard</title>
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-	<?php include_once dirname(__DIR__) . '../../global/partials/scriptsCSS.php'; ?>
+	<?php include_once dirname(__DIR__) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -325,7 +320,7 @@ $userinactivetimeDao->findSession();
 		</div>
 		<!-- main content End -->
 		<!-- footer -->
-		<?php include_once  dirname(__DIR__) . '../../global/partials/footer.php'; ?>
+		<?php include_once  dirname(__DIR__) . '/global/partials/footer.php'; ?>
 		<!-- <div class="setting-sidebar">
 			<div class="card mb-0">
 				<div class="card-header">
@@ -358,8 +353,8 @@ $userinactivetimeDao->findSession();
 		</div> -->
 	</div>
 	<!-- Page End -->
-	<script src="../global/js/global/loadContent.js"></script>
-	<script src="../global/js/global/logout.js"></script>
+	<script src="/global/js/global/loadContent.js"></script>
+	<script src="/global/js/global/logout.js"></script>
 	<!-- <script src="../global/js/login/access.js"></script> -->
 </body>
 
