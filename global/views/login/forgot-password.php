@@ -3,7 +3,8 @@
         <div class="clearfix" style="text-align: center;">
             <img src="/assets/images/logo/logo_tezlik1.png" height="55" class="" alt="logo tezlik">
         </div>
-        <h5 class="mt-4 font-weight-600">Olvido Contraseña</h5>
+        <h5 class="mt-4">¿Olvido Contraseña?</h5>
+        <p class="text-muted mb-4">Ingrese su dirección de email y le enviaremos un correo electrónico con instrucciones para restablecer su contraseña.</p>
         <form id="frmChangePasword" name="frmChangePasword" novalidate>
             <div class="form-group floating-label">
                 <input type="email" class="form-control" name="email" id="email" />
