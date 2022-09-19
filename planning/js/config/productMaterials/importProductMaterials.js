@@ -51,6 +51,8 @@ $(document).ready(function () {
 
           if (id == 2)
             arr = {
+              referenceFinalProduct: item.referencia_producto_final.trim(),
+              finalProduct: item.producto_final.trim(),
               referenceProduct: item.referencia.trim(),
               product: item.producto.trim(),
             };

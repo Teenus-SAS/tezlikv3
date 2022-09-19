@@ -42,13 +42,17 @@ class ClassificationDao
         // Calcular Ventas al año
         $inventoryABC = $this->calcInventoryABC($dataInventory, $id_company);
 
-        /* Crear Clasificación */
-        if ($inventoryABC['year_sales'] > 0.83) $dataInventory['classification'] = 'A';
-        else if ($inventoryABC['year_sales'] >= 0.50) $dataInventory['classification'] = 'B';
-        else $dataInventory['classification'] = 'C';
+        if ($inventoryABC) {
+            /* Crear Clasificación */
+            if ($inventoryABC['year_sales'] > 0.83) $dataInventory['classification'] = 'A';
+            else if ($inventoryABC['year_sales'] >= 0.50) $dataInventory['classification'] = 'B';
+            else $dataInventory['classification'] = 'C';
 
-        // Modificar clasificación en tabla products
-        $this->updateProductClassification($dataInventory);
+            // Modificar clasificación en tabla products
+            $this->updateProductClassification($dataInventory);
+        } else {
+            return 1;
+        }
     }
 
     public function updateProductClassification($dataInventory)

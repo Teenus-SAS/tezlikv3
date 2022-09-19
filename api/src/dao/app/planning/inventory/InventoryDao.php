@@ -19,7 +19,10 @@ class InventoryDao
     public function findAllInventoryMaterialsAndSupplies($id_company, $category)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company AND category = :category");
+        $stmt = $connection->prepare("SELECT m.reference, m.material AS descprit, m.unit, c.category, m.quantity
+                                      FROM materials m
+                                      INNER JOIN plan_categories c ON c.id_category = m.category
+                                      WHERE m.id_company = :id_company AND m.category = :category");
         $stmt->execute([
             'id_company' => $id_company,
             'category' => $category
@@ -33,7 +36,10 @@ class InventoryDao
     public function findAllInventoryProductsByCategory($id_company, $category)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM products WHERE id_company = :id_company AND category = :category");
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product AS descprit, 'Unidad' AS unit, c.category, p.quantity
+                                      FROM products p
+                                      INNER JOIN plan_categories c ON c.id_category = p.category
+                                      WHERE p.id_company = :id_company AND p.category = :category");
         $stmt->execute([
             'id_company' => $id_company,
             'category' => $category

@@ -11,11 +11,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Todos los productos asociados a la tabla `plan_products_in_process` */
 
-$app->get('/productsInProcessByCompany', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
+$app->get('/productsInProcessByCompany/{id_product}', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productsInProcess = $productsInProcessDao->findAllProductsInProcessByCompany($id_company);
+    $productsInProcess = $productsInProcessDao->findAllProductsInProcessByCompany($args['id_product'], $id_company);
 
     $response->getBody()->write(json_encode($productsInProcess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -41,14 +41,25 @@ $app->post('/productsInProcessDataValidation', function (Request $request, Respo
         $productsInProcess = $dataProduct['importProducts'];
 
         for ($i = 0; $i < sizeof($productsInProcess); $i++) {
-            // Obtener Id Producto
+            // Obtener Id Producto Final
             $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
 
             if (!$findProduct) {
                 $i = $i + 1;
-                $dataImportProductsInProcess = array('error' => true, 'message' => "Producto no existe en la Base de datos. Fila: {$i}");
+                $dataImportProductsInProcess = array('error' => true, 'message' => "Producto final no existe en la Base de datos. Fila: {$i}");
                 break;
             }
+
+            /* Obtener Id Producto en proceso
+            $productsInProcess[$i][''] = $productsInProcess[$i][''];
+            $productsInProcess[$i][''] = $productsInProcess[$i][''];
+            $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
+
+            if (!$findProduct) {
+                $i = $i + 1;
+                $dataImportProductsInProcess = array('error' => true, 'message' => "Producto en proceso no existe en la Base de datos. Fila: {$i}");
+                break;
+            } */
 
             // Saber si existe con categoria en proceso
             $findProductInProcess = $productsDao->findProductByCategoryInProcess($productsInProcess[$i], $id_company);
@@ -83,7 +94,9 @@ $app->post('/addProductInProcess', function (Request $request, Response $respons
 
     $dataProduct = $request->getParsedBody();
 
-    if (empty($dataProduct['importProducts'])) {
+    $dataProducts = sizeof($dataProduct);
+
+    if ($dataProducts > 1) {
         $productsInProcess = $productsInProcessDao->insertProductInProcessByCompany($dataProduct, $id_company);
 
         if ($productsInProcess == null)

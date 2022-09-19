@@ -10,7 +10,7 @@ $(document).ready(function () {
       $.each(r, function (i, value) {
         // if (value.type_category.includes('Inventario'))
         $select.append(
-          `<option value=${value.id_category}-${value.category}> ${value.category} </option>`
+          `<option value="${value.id_category}-${value.category}"> ${value.category} </option>`
         );
       });
       $select.append(`<option value=Todos>Todos</option>`);

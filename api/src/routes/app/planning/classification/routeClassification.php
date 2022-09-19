@@ -16,11 +16,18 @@ $app->post('/calcClassification', function (Request $request, Response $response
 
     for ($i = 0; $i < sizeof($inventory); $i++) {
         $classification = $classificationDao->calcClassificationByProduct($inventory[$i], $id_company);
+
+        if ($classification == 1) {
+            $i = $i + 1;
+            break;
+        }
     }
 
-    if ($classification == null) {
+    if ($classification == null)
         $resp = array('success' => true, 'message' => 'Se calculó la clasificación correctamente');
-    } else
+    else if ($classification == 1)
+        $resp = array('error' => true, 'message' => "Producto no tiene unidades vendidas en la base de datos. Fila: {$i}");
+    else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras calculaba. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));

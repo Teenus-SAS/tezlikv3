@@ -6,14 +6,16 @@ $(document).ready(function () {
     .then((data) => {
       data = JSON.parse(data);
       // Guardar productos
-      data_products = JSON.stringify(data.products);
-      sessionStorage.setItem('products', data_products);
+      dataProductsInProcess = JSON.stringify(data.productsInProcess);
+      dataFinishProducts = JSON.stringify(data.finishProducts);
+      sessionStorage.setItem('dataProductsInProcess', dataProductsInProcess);
+      sessionStorage.setItem('dataFinishProducts', dataFinishProducts);
 
-      products = data.products;
+      // products = data.products;
+      productsInProcess = data.productsInProcess;
+      finishProducts = data.finishProducts;
       materials = data.rawMaterials;
       supplies = data.supplies;
-
-      $('#category').prop('disabled', false);
     });
 
   // Seleccionar Categoria
@@ -24,65 +26,68 @@ $(document).ready(function () {
     $('.cardAddMonths').hide(800);
     $('.cardBtnAddMonths').hide(800);
 
-    if ($.fn.dataTable.isDataTable('#tblInventories')) {
-      $('#tblInventories').DataTable().destroy();
-      $('#tblInventories').empty();
-    }
     value = this.value;
-
     if (value != 0) {
       // Productos
-      if (value.includes('Producto')) {
+      if (value.includes('Producto terminado')) {
         $('.cardBtnAddMonths').show(800);
-        data = getProducts(products);
+        data = getInventory(finishProducts);
+        data['visible'] = true;
+      } else if (value.includes('Producto en proceso')) {
+        $('.cardBtnAddMonths').show(800);
+        data = getInventory(productsInProcess);
         data['visible'] = true;
       }
       // Materias Prima
       else if (value.includes('Materiales')) {
-        data = getMaterials(materials);
+        data = getInventory(materials);
         data['visible'] = false;
       }
       // Insumos
       else if (value.includes('Insumos')) {
-        data = getSupplies(supplies);
+        data = getInventory(supplies);
         data['visible'] = false;
       }
       // Todos
       else if (value.includes('Todos')) {
-        dataProducts = getProducts(products);
-        dataMaterials = getMaterials(materials);
-        dataSupplies = getSupplies(supplies);
+        dataProducts = getInventory(products);
+        dataMaterials = getInventory(materials);
+        dataSupplies = getInventory(supplies);
 
         data = dataProducts.concat(dataMaterials, dataSupplies);
         data['visible'] = false;
       }
-
       loadTable(data);
     }
   });
 
-  getProducts = (products) => {
-    data = [];
-    for (i = 0; i < products.length; i++) {
-      data.push({
-        reference: products[i].reference,
-        description: products[i].product,
-        category: 'Producto',
-        unit: 'Unidad',
-        quantity: products[i].quantity,
-        classification: products[i].classification,
+  getInventory = (data) => {
+    let dataInventory = [];
+    for (i = 0; i < data.length; i++) {
+      data[i].classification
+        ? (classification = data[i].classification)
+        : (classification = '');
+
+      dataInventory.push({
+        reference: data[i].reference,
+        description: data[i].descprit,
+        category: data[i].category,
+        unit: data[i].unit,
+        quantity: data[i].quantity,
+        classification,
       });
     }
 
-    return data;
+    return dataInventory;
   };
-  getMaterials = (materials) => {
-    data = [];
+  /*
+  getMaterialsOrSupplies = (materials) => {
+    debugger;
     for (i = 0; i < materials.length; i++) {
       data.push({
         reference: materials[i].reference,
         description: materials[i].material,
-        category: 'Materia Prima',
+        category: materials[i].category,
         unit: materials[i].unit,
         quantity: materials[i].quantity,
       });
@@ -90,7 +95,7 @@ $(document).ready(function () {
     return data;
   };
   getSupplies = (supplies) => {
-    data = [];
+    debugger;
     for (i = 0; i < supplies.length; i++) {
       data.push({
         reference: supplies[i].reference,
@@ -101,10 +106,15 @@ $(document).ready(function () {
       });
     }
     return data;
-  };
+  }; */
 
   /* Cargar Tabla Inventarios */
   loadTable = (data) => {
+    if ($.fn.dataTable.isDataTable('#tblInventories')) {
+      $('#tblInventories').DataTable().destroy();
+      $('#tblInventories').empty();
+    }
+
     tblInventories = $('#tblInventories').dataTable({
       pageLength: 50,
       data: data,

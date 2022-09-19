@@ -22,7 +22,14 @@ $(document).ready(function () {
       toastr.error('Ingrese cantidad a calcular');
       return false;
     }
-    products = sessionStorage.getItem('products');
+
+    category = $('#category').val();
+
+    if (category.includes('en proceso'))
+      products = sessionStorage.getItem('dataProductsInProcess');
+    else if (category.includes('terminado'))
+      products = sessionStorage.getItem('dataFinishProducts');
+
     products = JSON.parse(products);
     dataInventory = [];
     // Almacenar data para calcular clasificacion
@@ -50,6 +57,8 @@ $(document).ready(function () {
       $('#formAddMonths')[0].reset();
       $('#category').change();
       toastr.success(data.message);
+      sessionStorage.removeItem('dataProductsInProcess');
+      sessionStorage.removeItem('dataFinishProducts');
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);

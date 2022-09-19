@@ -28,11 +28,16 @@ $app->get('/inventory', function (Request $request, Response $response, $args) u
     // Materias Prima
     $rawMaterials = $inventoryDao->findAllInventoryMaterialsAndSupplies($id_company, 2);
     // Productos
-    $products = $productsDao->findAllProductsByCompany($id_company);
+    // $products = $productsDao->findAllProductsByCompany($id_company);
+    // Productos en proceso
+    $productsInProcess = $inventoryDao->findAllInventoryProductsByCategory($id_company, 12);
+    // Productos terminados
+    $finishProducts = $inventoryDao->findAllInventoryProductsByCategory($id_company, 11);
 
     $inventory['supplies'] = $supplies;
     $inventory['rawMaterials'] = $rawMaterials;
-    $inventory['products'] = $products;
+    $inventory['productsInProcess'] = $productsInProcess;
+    $inventory['finishProducts'] = $finishProducts;
 
     $response->getBody()->write(json_encode($inventory, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  let finalProduct;
   sessionStorage.removeItem('dataTable');
 
   // Ocultar card productos en proceso
@@ -38,6 +39,12 @@ $(document).ready(function () {
     $('#formAddProductInProccess').trigger('reset');
   });
 
+  // Seleccionar producto final
+  $('#selectNameProduct').change(function (e) {
+    e.preventDefault();
+    finalProduct = $('#selectNameProduct').val();
+  });
+
   // Guardar Productos en proceso
   $('#btnAddProductInProccess').click(function (e) {
     e.preventDefault();
@@ -46,13 +53,17 @@ $(document).ready(function () {
 
     if (idProductCategory == '' || idProductCategory == null) {
       idProduct = $('#product').val();
+      finalProduct = $('#selectNameProduct').val();
 
-      if (!idProduct || idProduct == 0) {
+      data = idProduct * finalProduct;
+
+      if (!data || data == 0) {
         toastr.error('Seleccione producto');
         return false;
       }
 
       productInProcess = $('#formAddProductInProccess').serialize();
+      productInProcess = `${productInProcess}&finalProduct=${finalProduct}`;
 
       $.post(
         '/api/addProductInProcess',

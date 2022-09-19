@@ -17,15 +17,16 @@ class ProductsInProcessDao
     }
 
     /* Todos los productos asociados a la tabla `plan_products_categories` */
-    public function findAllProductsInProcessByCompany($id_company)
+    public function findAllProductsInProcessByCompany($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT pp.id_product_category, p.id_product, p.reference, p.product
                                       FROM products p
                                       INNER JOIN plan_products_categories pp ON p.id_product = pp.id_product
-                                      WHERE p.id_company = :id_company;");
+                                      WHERE pp.final_product = :id_product AND p.id_company = :id_company;");
         $stmt->execute([
+            'id_product' => $idProduct,
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -55,8 +56,9 @@ class ProductsInProcessDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM plan_products_categories 
-                                      WHERE id_product = :id_product AND id_company = :id_company");
+                                      WHERE final_product = :final_product, id_product = :id_product AND id_company = :id_company");
         $stmt->execute([
+            'final_product' => $dataProduct['finalProduct'],
             'id_product' => $dataProduct['idProduct'],
             'id_company' => $id_company
         ]);
@@ -71,15 +73,19 @@ class ProductsInProcessDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO plan_products_categories (id_product, id_company)
-                                          VALUES (:id_product, :id_company)");
+            $stmt = $connection->prepare("INSERT INTO plan_products_categories (final_product, id_product, id_company)
+                                          VALUES (:final_product, :id_product, :id_company)");
             $stmt->execute([
+                'final_product' => $dataProduct['finalProduct'],
                 'id_product' => $dataProduct['idProduct'],
                 'id_company' => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
+
+            if ($e->getCode() == 23000)
+                $message = 'Producto duplicado. Ingrese una nuevo producto';
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

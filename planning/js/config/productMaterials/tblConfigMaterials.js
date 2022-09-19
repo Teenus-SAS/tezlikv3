@@ -6,7 +6,7 @@ $(document).ready(function () {
     id = this.value;
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     loadtableMaterials(id);
-    loadTableProcess();
+    loadTableProcess(id);
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -14,7 +14,7 @@ $(document).ready(function () {
     id = this.value;
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     loadtableMaterials(id);
-    loadTableProcess();
+    loadTableProcess(id);
   });
 
   /* Cargue tabla de Productos Materiales */
@@ -77,14 +77,14 @@ $(document).ready(function () {
   };
   /* Cargue tabla de Productos en proceso */
 
-  const loadTableProcess = () => {
+  const loadTableProcess = (idProduct) => {
     $('.cardTableProductsInProcess').show(800);
 
     tblProductsInProcess = $('#tblProductsInProcess').dataTable({
       destroy: true,
       pageLength: 50,
       ajax: {
-        url: '/api/productsInProcessByCompany',
+        url: `/api/productsInProcessByCompany/${idProduct}`,
         dataSrc: '',
       },
       language: {
