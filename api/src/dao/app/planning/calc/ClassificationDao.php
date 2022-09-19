@@ -20,7 +20,7 @@ class ClassificationDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        /* Calcular rotación, ventas al año y promedio unidades */
+        // Calcular rotación, ventas al año y promedio unidades 
         $stmt = $connection->prepare("SELECT ((IF(jan > 0, 1, 0) + IF(feb > 0, 1, 0) + IF(mar > 0, 1, 0) + IF(apr > 0, 1, 0) + 
                                                IF(may > 0, 1, 0) + IF(jun > 0, 1, 0) + IF(jul > 0, 1, 0) + IF(aug > 0, 1, 0) + 
                                                IF(sept > 0, 1, 0) + IF(oct > 0, 1, 0) + IF(nov > 0, 1, 0) + IF(dece > 0, 1, 0)) / :cant_months) AS year_sales,

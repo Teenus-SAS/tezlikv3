@@ -41,40 +41,41 @@ $app->post('/productsInProcessDataValidation', function (Request $request, Respo
         $productsInProcess = $dataProduct['importProducts'];
 
         for ($i = 0; $i < sizeof($productsInProcess); $i++) {
-            // Obtener Id Producto Final
-            $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
-
-            if (!$findProduct) {
-                $i = $i + 1;
-                $dataImportProductsInProcess = array('error' => true, 'message' => "Producto final no existe en la Base de datos. Fila: {$i}");
-                break;
-            }
-
-            /* Obtener Id Producto en proceso
-            $productsInProcess[$i][''] = $productsInProcess[$i][''];
-            $productsInProcess[$i][''] = $productsInProcess[$i][''];
+            /* Obtener Id Producto en proceso */
             $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
 
             if (!$findProduct) {
                 $i = $i + 1;
                 $dataImportProductsInProcess = array('error' => true, 'message' => "Producto en proceso no existe en la Base de datos. Fila: {$i}");
                 break;
-            } */
-
-            // Saber si existe con categoria en proceso
-            $findProductInProcess = $productsDao->findProductByCategoryInProcess($productsInProcess[$i], $id_company);
-            if (!$findProduct) {
-                $i = $i + 1;
-                $dataImportProductsInProcess = array('error' => true, 'message' => "Producto no esta en la categoria en proceso. Fila: {$i}");
-                break;
             }
 
+            // Saber si ya esta ingresado el producto en proceso al final
             $productsInProcess[$i]['idProduct'] = $findProduct['id_product'];
 
             $findProductInProcess = $productsInProcessDao->findProductInProcess($productsInProcess[$i], $id_company);
             if ($findProductInProcess) {
                 $i = $i + 1;
                 $dataImportProductsInProcess = array('error' => true, 'message' => "Producto ya asignado en proceso. Fila: {$i}");
+                break;
+            }
+
+            // Saber si existe con categoria en proceso
+            $findProductInProcess = $productsDao->findProductByCategoryInProcess($productsInProcess[$i], $id_company);
+            if (!$findProductInProcess) {
+                $i = $i + 1;
+                $dataImportProductsInProcess = array('error' => true, 'message' => "Producto no esta en la categoria en proceso. Fila: {$i}");
+                break;
+            }
+
+            // Obtener Id Producto Final
+            $productsInProcess[$i]['referenceProduct'] = $productsInProcess[$i]['referenceFinalProduct'];
+            $productsInProcess[$i]['product'] = $productsInProcess[$i]['finalProduct'];
+            $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
+
+            if (!$findProduct) {
+                $i = $i + 1;
+                $dataImportProductsInProcess = array('error' => true, 'message' => "Producto final no existe en la Base de datos. Fila: {$i}");
                 break;
             } else
                 $insert = $insert + 1;
@@ -110,9 +111,16 @@ $app->post('/addProductInProcess', function (Request $request, Response $respons
 
         for ($i = 0; $i < sizeof($productsInProcess); $i++) {
 
-            // Obtener id producto
-            $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
-            $productsInProcess[$i]['idProduct'] = $findProduct['id_product'];
+            // Obtener id producto en proceso
+            $findProductInProcess = $productsDao->findProduct($productsInProcess[$i], $id_company);
+            $productsInProcess[$i]['idProduct'] = $findProductInProcess['id_product'];
+
+            // Obtener id producto final
+            $productsInProcess[$i]['referenceProduct'] = $productsInProcess[$i]['referenceFinalProduct'];
+            $productsInProcess[$i]['product'] = $productsInProcess[$i]['finalProduct'];
+
+            $findFinalProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
+            $productsInProcess[$i]['finalProduct'] = $findFinalProduct['id_product'];
 
             // Insertar producto en proceso
             $resolution = $productsInProcessDao->insertProductInProcessByCompany($productsInProcess[$i], $id_company);

@@ -36,7 +36,7 @@ class InventoryDao
     public function findAllInventoryProductsByCategory($id_company, $category)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product AS descprit, 'Unidad' AS unit, c.category, p.quantity
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product AS descprit, 'Unidad' AS unit, c.category, p.quantity, p.classification
                                       FROM products p
                                       INNER JOIN plan_categories c ON c.id_category = p.category
                                       WHERE p.id_company = :id_company AND p.category = :category");

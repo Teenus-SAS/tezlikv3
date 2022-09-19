@@ -121,15 +121,4 @@ $(document).ready(function () {
       ],
     });
   };
-  /*
-  fetchinData = async () => {
-    try {
-      result = await $.ajax({
-        url: '/api/productsInProcessByCompany',
-      });
-      return result;
-    } catch (error) {
-      console.error(error);
-    }
-  };*/
 });

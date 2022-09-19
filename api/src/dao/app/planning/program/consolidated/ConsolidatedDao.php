@@ -19,7 +19,7 @@ class ConsolidatedDao
     public function findConsolidated($id_company)
     {
         $connection = Connection::getInstance()->getconnection();
-
+        /*
         $stmt = $connection->prepare("SELECT o.num_order, p.reference, p.quantity, IF(o.id_order_type = 1, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) AS cadenas, 
                                             IF(o.id_order_type = 2, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) AS venta_directa, IF(o.id_order_type = 3, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) AS exportadas,
                                             (IF(o.id_order_type = 1, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) + 
@@ -35,7 +35,7 @@ class ConsolidatedDao
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $consolidated = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $consolidated;
+        return $consolidated;*/
     }
 
     public function calcConsolidated($week, $id_company)
