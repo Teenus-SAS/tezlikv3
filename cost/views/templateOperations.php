@@ -11,7 +11,7 @@
 	<title>Tezlik | Dashboard</title>
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-	<?php include_once dirname(__DIR__) . '/global/partials/scriptsCSS.php'; ?>
+	<?php include_once dirname(dirname(__DIR__)) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -325,7 +325,7 @@
 		<!-- main content End -->
 
 		<!-- footer -->
-		<?php include_once  dirname(__DIR__) . '/global/partials/footer.php'; ?>
+		<?php include_once  dirname(dirname(__DIR__)) . '/global/partials/footer.php'; ?>
 
 		<!-- <div class="setting-sidebar">
 			<div class="card mb-0">
