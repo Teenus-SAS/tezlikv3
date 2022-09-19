@@ -1,7 +1,3 @@
-<?php
-include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -15,7 +11,7 @@ include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 	<title>Tezlik - Planning | Dashboard</title>
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-	<?php include_once dirname(__DIR__) . '/global/partials/scriptsCSS.php'; ?>
+	<?php include_once dirname(dirname(__DIR__)) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
@@ -320,7 +316,7 @@ include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 		</div>
 		<!-- main content End -->
 		<!-- footer -->
-		<?php include_once  dirname(__DIR__) . '/global/partials/footer.php'; ?>
+		<?php include_once  dirname(dirname(__DIR__)) . '/global/partials/footer.php'; ?>
 		<!-- <div class="setting-sidebar">
 			<div class="card mb-0">
 				<div class="card-header">
@@ -352,7 +348,10 @@ include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 			</div>
 		</div> -->
 	</div>
+
 	<!-- Page End -->
+	
+	<script src="/global/js/global/sessionUser.js"></script>
 	<script src="/global/js/global/loadContent.js"></script>
 	<script src="/global/js/global/logout.js"></script>
 	<!-- <script src="../global/js/login/access.js"></script> -->

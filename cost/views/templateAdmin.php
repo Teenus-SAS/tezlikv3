@@ -1,8 +1,4 @@
-<?php
-include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
-?>
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -76,11 +72,13 @@ include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 	<script>
 		tipo = "<?= $_SESSION['rol'] ?>"
 	</script>
+
+	<script src="/global/js/global/sessionUser.js"></script>
 	<script src="js/global/validation.js"></script>
-	<script src="../app/global/js/users/users.js"></script>
+	<script src="/app/global/js/users/users.js"></script>
 	<!-- <script src="../app/js/users/rols.js"></script> -->
-	<script src="../app/js/global/logout.js"></script>
-	<script src="../app/js/global/profile.js"></script>
+	<script src="/app/js/global/logout.js"></script>
+	<script src="/app/js/global/profile.js"></script>
 
 
 </body>

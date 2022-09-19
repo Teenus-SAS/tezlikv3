@@ -1,7 +1,3 @@
-<?php
-include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -15,17 +11,17 @@ include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 	<title>Tezlik | Dashboard</title>
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-	<?php include_once dirname(__DIR__) . '../../global/partials/scriptsCSS.php'; ?>
+	<?php include_once dirname(__DIR__) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
 	<!-- Begin Page -->
 	<div class="page-wrapper">
 		<!-- Begin Header -->
-		<?php include_once dirname(__DIR__) . '../partials/header.php'; ?>
+		<?php include_once dirname(__DIR__) . '/partials/header.php'; ?>
 
 		<!-- Begin Left Navigation -->
-		<?php include_once dirname(__DIR__) . '../partials/nav.php'; ?>
+		<?php include_once dirname(__DIR__) . '/partials/nav.php'; ?>
 
 		<!-- Begin main content -->
 		<div class="main-content">
@@ -329,7 +325,7 @@ include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 		<!-- main content End -->
 
 		<!-- footer -->
-		<?php include_once  dirname(__DIR__) . '../../global/partials/footer.php'; ?>
+		<?php include_once  dirname(__DIR__) . '/global/partials/footer.php'; ?>
 
 		<!-- <div class="setting-sidebar">
 			<div class="card mb-0">
@@ -364,8 +360,9 @@ include_once dirname(dirname(__DIR__)) . '/global/sessions/session.php';
 	</div>
 	<!-- Page End -->
 
-	<?php include_once dirname(__DIR__) . '../../global/partials/scriptsJS.php'; ?>
-	<!-- <script src=""></script> -->
+	<?php include_once dirname(dirname(__DIR__)) . '/global/partials/scriptsJS.php'; ?>
+	
+	<script src="/global/js/global/sessionUser.js"></script>
 	<script src="/global/js/global/loadContent.js"></script>
 	<script src="/global/js/global/logout.js"></script>
 	<script src="/global/js/login/access.js"></script>

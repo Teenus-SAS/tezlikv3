@@ -26,7 +26,7 @@ class UserInactiveTimeDao extends StatusActiveUserDao
       //$this->changeStatusUserLogin();
 
       session_destroy();
-      echo "<script> window.location='http://tezlikv3/'; </script>";
+      echo "<script> window.location='/index.php'; </script>";
       exit();
     } else
       @session_start();
