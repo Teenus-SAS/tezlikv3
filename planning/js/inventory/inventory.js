@@ -54,21 +54,16 @@ $(document).ready(function () {
   message = async (data) => {
     if (data.success == true) {
       $('.cardAddMonths').hide(800);
-      $('#formAddMonths')[0].reset();
-      $('#category').change();
-      toastr.success(data.message);
+      $('#formAddMonths').trigger('reset');
+
       await loadInventory();
-      updateTable();
+      $('#category').change();
+
+      toastr.success(data.message);
       sessionStorage.removeItem('dataProductsInProcess');
       sessionStorage.removeItem('dataFinishProducts');
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-  function updateTable() {
-    $('#tblInventories').DataTable().clear();
-    $('#tblInventories').DataTable().ajax.reload();
-  }
 });

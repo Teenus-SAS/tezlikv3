@@ -1,8 +1,8 @@
 $(document).ready(function () {
   sessionStorage.removeItem('products');
   // Obtener Inventarios
-  loadInventory = () => {
-    fetch(`/api/inventory`)
+  loadInventory = async () => {
+    await fetch(`/api/inventory`)
       .then((response) => response.text())
       .then((data) => {
         data = JSON.parse(data);
@@ -19,17 +19,6 @@ $(document).ready(function () {
         supplies = data.supplies;
       });
   };
-
-  // fetchinData = async () => {
-  //   try {
-  //     result = await $.ajax({
-  //       url: '/api/productsInProcessByCompany',
-  //     });
-  //     return result;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   loadInventory();
 
@@ -65,11 +54,16 @@ $(document).ready(function () {
       }
       // Todos
       else if (value.includes('Todos')) {
-        dataProducts = getInventory(products);
+        dataProductsInProcess = getInventory(productsInProcess);
+        dataFinishProducts = getInventory(finishProducts);
         dataMaterials = getInventory(materials);
         dataSupplies = getInventory(supplies);
 
-        data = dataProducts.concat(dataMaterials, dataSupplies);
+        data = dataProductsInProcess.concat(
+          dataFinishProducts,
+          dataMaterials,
+          dataSupplies
+        );
         data['visible'] = false;
       }
       loadTable(data);
@@ -95,33 +89,6 @@ $(document).ready(function () {
 
     return dataInventory;
   };
-  /*
-  getMaterialsOrSupplies = (materials) => {
-    debugger;
-    for (i = 0; i < materials.length; i++) {
-      data.push({
-        reference: materials[i].reference,
-        description: materials[i].material,
-        category: materials[i].category,
-        unit: materials[i].unit,
-        quantity: materials[i].quantity,
-      });
-    }
-    return data;
-  };
-  getSupplies = (supplies) => {
-    debugger;
-    for (i = 0; i < supplies.length; i++) {
-      data.push({
-        reference: supplies[i].reference,
-        description: supplies[i].material,
-        category: 'Insumo',
-        unit: supplies[i].unit,
-        quantity: supplies[i].quantity,
-      });
-    }
-    return data;
-  }; */
 
   /* Cargar Tabla Inventarios */
   loadTable = (data) => {

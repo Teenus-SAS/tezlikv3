@@ -59,9 +59,11 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
         /* Almacena el usuario */
         $users = $userDao->saveUser($dataUser, $id_company);
 
-        /* Almacena los accesos */
-        if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
-        if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
+        if ($users == null) {
+            /* Almacena los accesos */
+            if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+            if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
+        }
 
 
         if ($users == 1) {
@@ -135,13 +137,16 @@ $app->post('/deleteUser', function (Request $request, Response $response, $args)
     $idUser = $_SESSION['idUser'];
 
     if ($dataUser['idUser'] != $idUser) {
-
-        $users = $userDao->deleteUser($dataUser);
         if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->deleteUserAccess($dataUser);
         if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->deleteUserAccess($dataUser);
 
+        if ($usersAccess == null)
+            $users = $userDao->deleteUser($dataUser);
+
         if ($users == null && $usersAccess == null)
             $resp = array('success' => true, 'message' => 'Usuario eliminado correctamente');
+        else if (isset($users['info']))
+            $resp = array('info' => true, 'message' => $users['message']);
         else
             $resp = array('error' => true, 'message' => 'No fue posible eliminar el usuario, Intente nuevamente');
     } else {

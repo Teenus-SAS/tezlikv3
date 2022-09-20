@@ -23,7 +23,7 @@ class PlanningUserAccessDao
         $rol = $_SESSION['rol'];
 
         if ($rol == 2) {
-            $stmt = $connection->prepare("SELECT usa.id_user, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
+            $stmt = $connection->prepare("SELECT usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
                                                  usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, usa.inv_category, 
                                                  usa.sale, usa.user, usa.inventory, usa.plan_order, usa.programming, usa.plan_load, usa.explosion_of_material, usa.office
                                           FROM planning_user_access usa 

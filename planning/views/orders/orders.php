@@ -7,6 +7,8 @@ $userinactivetimeDao = new UserInactiveTimeDao();
 $userinactivetimeDao->findSession();
 ?>
 
+<?php require_once dirname(dirname(__DIR__)) . '/modals/createOrders.php'; ?>
+
 <div class="page-title-box">
     <div class="container-fluid">
         <div class="row align-items-center">
@@ -20,6 +22,7 @@ $userinactivetimeDao->findSession();
             </div>
             <div class="col-sm-7 col-xl-6">
                 <div class="form-inline justify-content-sm-end">
+                    <button class="btn btn-warning" id="btnNewOrder" name="btnNewOrder">Nuevo Pedido</button>
                     <button class="btn btn-info ml-3" id="btnImportNewOrder">Importar Pedidos</button>
                 </div>
             </div>
@@ -79,5 +82,6 @@ $userinactivetimeDao->findSession();
 
 <script src="../planning/js/orders/tblOrder.js"></script>
 <script src="../global/js/import/import.js"></script>
+<script src="../planning/js/orders/orders.js"></script>
 <script src="../planning/js/orders/importOrder.js"></script>
 <script src="../global/js/import/file.js"></script>
