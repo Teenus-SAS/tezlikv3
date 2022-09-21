@@ -55,6 +55,16 @@ $(document).ready(function () {
         data: 'delivery_date',
         className: 'classCenter',
       },
+      {
+        title: 'Acciones',
+        data: 'id_order',
+        className: 'classCenter',
+        render: function (data) {
+          return `
+                <a href="javascript:;" <i class="bx bx-edit-alt updateOrder" id="${data}" data-toggle='tooltip' title='Actualizar Pedido' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i class="mdi mdi-delete-forever" id="${data}" data-toggle='tooltip' title='Eliminar Pedido' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+        },
+      },
     ],
   });
 });

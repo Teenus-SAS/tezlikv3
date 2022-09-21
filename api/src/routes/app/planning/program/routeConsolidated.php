@@ -10,13 +10,13 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/consolidated', function (Request $request, Response $response, $args) use ($orderTypesDao, $consolidatedDao) {
-    // session_start();
-    // $id_company = $_SESSION['id_company'];
-    $id_company = 44;
+    session_start();
+    $id_company = $_SESSION['id_company'];
 
     $orderTypes = $orderTypesDao->findAllOrderTypes();
 
     $consolidated = $consolidatedDao->findConsolidated($orderTypes, $id_company);
+
     $response->getBody()->write(json_encode($consolidated, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

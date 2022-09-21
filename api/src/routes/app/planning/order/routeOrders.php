@@ -87,28 +87,80 @@ $app->post('/addOrder', function (Request $request, Response $response, $args) u
     $id_company = $_SESSION['id_company'];
     $dataOrder = $request->getParsedBody();
 
-    $order = $dataOrder['importOrder'];
+    $dataOrders = sizeof($dataOrder);
 
-    for ($i = 0; $i < sizeof($order); $i++) {
-        // Obtener id producto
-        $findProduct = $productsDao->findProduct($order[$i], $id_company);
-        $order[$i]['idProduct'] = $findProduct['id_product'];
+    if ($dataOrders > 1) {
+        $order = $ordersDao->insertOrderByCompany($dataOrder, $id_company);
 
-        // Obtener id cliente
-        $findClient = $clientsDao->findClient($order[$i], $id_company);
-        $order[$i]['idClient'] = $findClient['id_client'];
+        // Cambiar estado pedido
+        if ($order == null)
+            $changeStatus = $ordersDao->changeStatus($dataOrder['order']);
 
-        // Obtener id tipo pedido
-        $findOrderType = $orderTypesDao->findOrderType($order[$i]);
-        $order[$i]['idOrderType'] = $findOrderType['id_order_type'];
+        if ($order == null && $changeStatus == null)
+            $resp = array('success' => true, 'message' => 'Pedido ingresado correctamente');
+        else if (isset($order['info']))
+            $resp = array('info' => true, 'message' => $order['info']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+    } else {
+        $order = $dataOrder['importOrder'];
 
-        // Consultar pedido
-        $findOrder = $ordersDao->findOrder($order[$i], $id_company);
-        if (!$findOrder) $resolution = $ordersDao->insertOrderByCompany($order[$i], $id_company);
-        else {
-            $order[$i]['idOrder'] = $findOrder['id_order'];
-            $resolution = $ordersDao->updateOrder($order[$i]);
+        for ($i = 0; $i < sizeof($order); $i++) {
+            // Obtener id producto
+            $findProduct = $productsDao->findProduct($order[$i], $id_company);
+            $order[$i]['idProduct'] = $findProduct['id_product'];
+
+            // Obtener id cliente
+            $findClient = $clientsDao->findClient($order[$i], $id_company);
+            $order[$i]['idClient'] = $findClient['id_client'];
+
+            // Obtener id tipo pedido
+            $findOrderType = $orderTypesDao->findOrderType($order[$i]);
+            $order[$i]['idOrderType'] = $findOrderType['id_order_type'];
+
+            // Consultar pedido
+            $findOrder = $ordersDao->findOrder($order[$i], $id_company);
+            if (!$findOrder) $resolution = $ordersDao->insertOrderByCompany($order[$i], $id_company);
+            else {
+                $order[$i]['idOrder'] = $findOrder['id_order'];
+                $resolution = $ordersDao->updateOrder($order[$i]);
+            }
+
+            // Consultar malla cliente
+            // $findMalla = $mallasDao->findMalla($order[$i]);
+            // if (!$findMalla) $resolution = $mallasDao->insertMallaCliente($order[$i]);
+            // else {
+            //     $order[$i]['idMalla']  = $findMalla['id'];
+            //     $resolution = $mallasDao->updateMallaCliente($order[$i]);
+            // }
+            // Calcular fecha entrega
+            // $deliveryDateDao->calcDeliveryDate($order[$i]);
+
+            // Obtener todos los pedidos
+            $data[$i] = $order[$i]['order'];
         }
+
+        // Cambiar estado pedidos
+        $changeStatus = $ordersDao->changeStatus($data);
+
+        if ($resolution == null && $changeStatus == null)
+            $resp = array('success' => true, 'message' => 'Pedido importado correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error al importar el pedido. Intente nuevamente');
+    }
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/updateOrder', function (Request $request, Response $response, $args) use ($ordersDao) {
+    $dataOrder = $request->getParsedBody();
+
+    if (empty($dataOrder['order']) || empty($dataOrder['idProduct']) || empty($dataOrder['idClient']))
+        $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
+    else {
+        $order = $ordersDao->updateOrder($dataOrder);
 
         // Consultar malla cliente
         // $findMalla = $mallasDao->findMalla($order[$i]);
@@ -120,20 +172,27 @@ $app->post('/addOrder', function (Request $request, Response $response, $args) u
         // Calcular fecha entrega
         // $deliveryDateDao->calcDeliveryDate($order[$i]);
 
-        //Obtener todos los pedidos
-        $data[$i] = $order[$i]['order'];
+        if ($order == null)
+            $resp = array('success' => true, 'message' => 'Pedido modificado correctamente');
+        else if ($order['info'])
+            $resp = array('info' => true, 'message' => $order['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
     }
-
-    // Cambiar estado pedidos
-    $changeStatus = $ordersDao->changeStatus($data);
-
-    if ($resolution == null && $changeStatus == null)
-        $resp = array('success' => true, 'message' => 'Pedido importado correctamente');
-    else if (isset($resolution['info']))
-        $resp = array('info' => true, 'message' => $resolution['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error al importar el pedido. Intente nuevamente');
-
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/deleteOrder/{id_order}', function (Request $request, Response $response, $args) use ($ordersDao) {
+    $order = $ordersDao->deleteOrder($args['id_order']);
+
+    if ($order == null)
+        $resp = array('success' => true, 'message' => 'Pedido eliminado correctamente');
+    else if ($order['info'])
+        $resp = array('info' => true, 'message' => $order['info']);
+    else
+        $resp = array('error' => true, 'message' => 'No se pudo eliminar el pedido. Existe información asociada a el');
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
 });

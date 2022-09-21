@@ -46,47 +46,21 @@ class ConsolidatedDao
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-            $orderTypes[$i] = $stmt->fetchAll($connection::FETCH_ASSOC);
-        }
+            $orderTypes = $stmt->fetchAll($connection::FETCH_ASSOC);
 
-        // Guardar datos en programa consolidado
-        for ($i = 0; $i < sizeof($consolidated); $i++) {
             for ($j = 0; $j < sizeof($orderTypes); $j++) {
-                if ($consolidated[$i]['num_order'] == $orderTypes[$i][$j]['num_order'] && $consolidated[$i]['reference'] == $orderTypes[$i][$j]['reference']) {
-
-                    $consolidated[$i] = array('name_order_type' => $consolidated[$i]['order_type'], 'order_type' => $orderTypes[$i][$j]);
-                }
+                $consolidated[$j][$dataOrderTypes[$i]['order_type']] = $orderTypes[$j]['order_type'];
             }
         }
 
+        for ($i = 0; $i < sizeof($consolidated); $i++) {
+            $consolidated[$i]['total_orders'] = 0;
+            for ($j = 0; $j < sizeof($dataOrderTypes); $j++) {
+                $consolidated[$i]['total_orders'] =  $consolidated[$i]['total_orders'] + $consolidated[$i][$dataOrderTypes[$j]['order_type']];
+            }
+        }
 
-
-
-        /* SELECT o.num_order, p.reference, ROUND(IFNULL((pph.january + pph.february + pph.march + pph.april + pph.may + pph.june + pph.july + pph.august + pph.september + pph.october + pph.november + pph.december)/12, 0)) AS average_month, 
-                                            ROUND(IFNULL(p.quantity/(((pph.january + pph.february + pph.march + pph.april + pph.may + pph.june + pph.july + pph.august + pph.september + pph.october + pph.november + pph.december)/12)/4/7), 0)) AS inventory_days,
-                                            0 AS week_minimum_stock, 0 AS produce_ajusted
-                                      FROM products p
-                                      INNER JOIN plan_orders o ON o.id_product = p.id_product
-                                      LEFT JOIN products_price_history pph ON pph.id_product = p.id_product        
-                                      WHERE o.id_company = */
-
-        /*
-        $stmt = $connection->prepare("SELECT o.num_order, p.reference, p.quantity, IF(o.id_order_type = 1, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) AS cadenas, 
-                                            IF(o.id_order_type = 2, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) AS venta_directa, IF(o.id_order_type = 3, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) AS exportadas,
-                                            (IF(o.id_order_type = 1, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) + 
-                                            IF(o.id_order_type = 2, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) + 
-                                            IF(o.id_order_type = 3, (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0)) AS total_orders, 
-                                            ROUND(IFNULL((pph.january + pph.february + pph.march + pph.april + pph.may + pph.june + pph.july + pph.august + pph.september + pph.october + pph.november + pph.december)/12, 0)) AS average_month, 
-                                            ROUND(IFNULL(p.quantity/(((pph.january + pph.february + pph.march + pph.april + pph.may + pph.june + pph.july + pph.august + pph.september + pph.october + pph.november + pph.december)/12)/4/7), 0)) AS inventory_days,
-                                            0 AS week_minimum_stock, 0 AS produce_ajusted
-                                      FROM products p
-                                      INNER JOIN plan_orders o ON o.id_product = p.id_product
-                                      LEFT JOIN products_price_history pph ON pph.id_product = p.id_product        
-                                      WHERE o.id_company = :id_company;");
-        $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $consolidated = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $consolidated;*/
+        return $consolidated;
     }
 
     public function calcConsolidated($week, $id_company)

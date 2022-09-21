@@ -34,11 +34,17 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: $.fn.dataTable.render.number('.', ',', 0, ''),
       },
-      {
+      /*{
         title: 'Cadenas',
-        data: 'cadenas',
+        data: null,
         className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        // render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        render: function (data, type, full, meta) {
+          debugger
+
+
+
+        },
       },
       {
         title: 'Venta Directa',
@@ -51,7 +57,7 @@ $(document).ready(function () {
         data: 'exportadas',
         className: 'uniqueClassName',
         render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
+      },*/
       {
         title: 'Total Pedidos',
         data: 'total_orders',
