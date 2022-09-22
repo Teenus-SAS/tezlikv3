@@ -34,8 +34,9 @@ $(document).ready(function () {
         data: 'img',
         className: 'uniqueClassName',
         render: (data, type, row) => {
-          'use strict';
-          return `<img src="${data}" alt="" style="width:50%;border-radius:100px">`;
+          data ? data : (data = '');
+          ('use strict');
+          return `<img src="${data}" alt="" style="width:80px;border-radius:100px">`;
         },
       },
       {

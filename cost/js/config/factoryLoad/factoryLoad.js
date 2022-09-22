@@ -63,7 +63,7 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_manufacturing_load', data.id_manufacturing_load);
 
-    $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
+    $(`#machine option[value=${data.id_machine}]`).prop('selected', true);
     $('#descriptionFactoryLoad').val(data.input);
     $('#costFactory').val(data.cost.toLocaleString());
 
