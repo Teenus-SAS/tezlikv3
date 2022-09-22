@@ -36,8 +36,10 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li>
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProducts.php')">Productos</a></li>
+                                        <!-- <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li> -->
+                                        <li class="invMolds"><a href="molds">Moldes</a></li>
+                                        <!-- <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProducts.php')">Productos</a></li> -->
+                                        <li class="createProducts"><a href="products">Productos</a></li>
                                         <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createRawMaterials.php')">Materia Prima</a></li>
                                         <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createMachines.php')">Máquinas</a></li>
                                         <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProcess.php')">Procesos</a></li>

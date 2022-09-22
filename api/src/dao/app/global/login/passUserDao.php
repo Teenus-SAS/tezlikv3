@@ -43,18 +43,17 @@ class PassUserDao
         if ($rows > 0) {
 
             $generateCodeDao = new GenerateCodeDao();
-
             $new_pass = $generateCodeDao->GenerateCode();
 
             /* actualizar $pass en la DB */
             $pass = password_hash($new_pass, PASSWORD_DEFAULT);
             $stmt = $connection->prepare("UPDATE users SET password = :pass WHERE email = :email");
-            $stmt->execute(['pass' => $pass, 'email' => $email]);
-
+            $result = $stmt->execute(['pass' => $pass, 'email' => $email]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
             /* Enviar $new_pass por email */
-            return $new_pass;
+            if ($result)
+                return $new_pass;
         }
     }
 }

@@ -21,7 +21,7 @@ class GenerateCodeDao
         $string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz!”#$%&/()=?¡*¨][_:;,.><";
         $longString = strlen($string);
         $code = "";
-        $longCode = 5;
+        $longCode = 8;
 
         for ($i = 1; $i <= $longCode; $i++) {
             $pos = rand(0, $longString - 1);

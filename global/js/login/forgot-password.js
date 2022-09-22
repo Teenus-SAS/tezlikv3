@@ -1,5 +1,6 @@
 $(document).ready(function() {
-    $('#btnForgotPass').on('click', function(e) {
+    forgotPass = () => {
+        debugger
         email = $('#email').val();
 
         if (!email || email == '') {
@@ -16,9 +17,9 @@ $(document).ready(function() {
                     toastr.success(data.message);
                     setTimeout(() => {
                         location.href = '../../../';
-                    }, 10000);
+                    }, 4000);
                 } else if (data.error == true) toastr.error(data.message);
             },
         });
-    });
+    };
 });
