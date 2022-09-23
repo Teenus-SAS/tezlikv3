@@ -34,9 +34,6 @@ class ConsolidatedDao
 
         // Obtener tipos de pedidos en la base de datos
         for ($i = 0; $i < sizeof($dataOrderTypes); $i++) {
-
-
-
             $stmt = $connection->prepare("SELECT o.num_order, p.reference, p.quantity, IF(o.id_order_type = :id_order_type, 
                                                  (SELECT COUNT(id_order) FROM plan_orders WHERE id_product = o.id_product), 0) AS order_type    
                                           FROM products p
@@ -53,14 +50,13 @@ class ConsolidatedDao
 
             for ($j = 0; $j < sizeof($orderTypes); $j++) {
                 $consolidated[$j]["name_order_type-{$i}"] = $dataOrderTypes[$i]['order_type'];
-                $consolidated[$j]["order-type-{$i}"] = $orderTypes[$j]['order_type'];
+                $consolidated[$j]["order_type-{$i}"] = $orderTypes[$j]['order_type'];
             }
         }
-
         for ($i = 0; $i < sizeof($consolidated); $i++) {
             $consolidated[$i]['total_orders'] = 0;
             for ($j = 0; $j < sizeof($dataOrderTypes); $j++) {
-                $consolidated[$i]['total_orders'] =  $consolidated[$i]['total_orders'] + $consolidated[$i]["order-type-{$i}"];
+                $consolidated[$i]['total_orders'] =  $consolidated[$i]['total_orders'] + $consolidated[$i]["order_type-{$j}"];
             }
         }
 

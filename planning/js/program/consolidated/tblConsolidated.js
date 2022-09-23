@@ -1,19 +1,24 @@
 $(document).ready(function () {
-  let title = [];
+  let dataOrderType = [];
 
   fetch(`/api/consolidated`)
     .then((response) => response.text())
     .then((data) => {
+      debugger;
       data = JSON.parse(data);
 
-      getOrderTypes(data.orderTypes);
-      loadTblConsolidated(data.consolidated);
+      dataOrderTypes = data.orderTypes;
+      dataConsolidated = data.consolidated;
+      for (i = 0; i < dataConsolidated.length; i++) {
+        /* dataOrderType.push({
+        });*/
+      }
+
+      loadTblConsolidated(dataConsolidated);
     });
 
-  getOrderTypes = (data) => {};
-
   /* Cargar tabla consolidados */
-  loadTblConsolidated = (data, title) => {
+  loadTblConsolidated = (data) => {
     tblConsolidated = $('#tblConsolidated').dataTable({
       pageLength: 50,
       data: data,
@@ -45,24 +50,24 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: $.fn.dataTable.render.number('.', ',', 0, ''),
         },
-        {
-          title: title,
+        /* {
+          title: ,
           data: null,
           className: 'uniqueClassName',
           render: $.fn.dataTable.render.number('.', ',', 0, ''),
         },
         {
-          title: title,
-          data: 'venta_directa',
+          title: ,
+          data: '',
           className: 'uniqueClassName',
           render: $.fn.dataTable.render.number('.', ',', 0, ''),
         },
         {
-          title: title,
-          data: 'exportadas',
+          title: ,
+          data: '',
           className: 'uniqueClassName',
           render: $.fn.dataTable.render.number('.', ',', 0, ''),
-        },
+        }, */
         {
           title: 'Total Pedidos',
           data: 'total_orders',

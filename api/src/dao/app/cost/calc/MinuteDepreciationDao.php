@@ -23,7 +23,7 @@ class MinuteDepreciationDao
         $stmt = $connection->prepare("SELECT ((cost - residual_value) / (years_depreciation * 12)) / hours_machine / days_machine / 60 AS minute_depreciation 
                                       FROM `machines` 
                                       WHERE machine = :machine");
-        $stmt->execute(['machine' => $nameMachine]);
+        $stmt->execute(['machine' => strtoupper($nameMachine)]);
         $dataMachine = $stmt->fetch($connection::FETCH_ASSOC);
 
         // Modificar depreciacion por minuto

@@ -94,7 +94,8 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblMachines.fnGetData(row);
 
-    let id_machine = data.id_machine;
+    dataMachine = [];
+    dataMachine['idMachine'] = data.id_machine;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -112,8 +113,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `../../api/deleteMachine/${id_machine}`,
+          $.post(
+            '../../api/deleteMachine',
+            dataMachine,
             function (data, textStatus, jqXHR) {
               message(data);
             }
