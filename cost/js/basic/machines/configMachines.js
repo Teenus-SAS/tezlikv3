@@ -25,12 +25,15 @@ $(document).ready(function () {
         );
       });
 
-      // $select1.append(`<option disabled selected>Seleccionar</option>`)
-      // $.each(r, function(i, value) {
-      //     $select1.append(
-      //         `<option value = ${value.id_material}> ${value.product} </option>`,
-      //     )
-      // })
+      let $select1 = $('#machine');
+      $select1.empty();
+      $select1.append('<option>Seleccionar</option>');
+
+      $.each(r, function (i, value) {
+        $select1.append(
+          `<option value=${value.id_machine}>${value.machine}</option>`
+        );
+      });
     },
   });
 });

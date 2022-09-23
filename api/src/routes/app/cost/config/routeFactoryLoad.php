@@ -94,6 +94,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
             $resp = array('success' => true, 'message' => 'Carga fabril creada correctamente');
         else if (isset($factoryLoad['info']))
             $resp = array('info' => true, 'message' => $factoryLoad['message']);
+        else if ($costMinute == 1)
+            $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     } else {
@@ -121,6 +123,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
             $indirectCost == null && $priceProduct == null
         )
             $resp = array('success' => true, 'message' => 'Carga fabril importada correctamente');
+        else if ($costMinute == 1)
+            $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
@@ -156,6 +160,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
             $resp = array('success' => true, 'message' => 'Carga fabril actualizada correctamente');
         else if (isset($factoryLoad['info']))
             $resp = array('info' => true, 'message' => $factoryLoad['message']);
+        else if ($costMinute == 1)
+            $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     }

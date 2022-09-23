@@ -3,7 +3,7 @@
         <div class="clearfix" style="text-align: center;">
             <img src="/assets/images/logo/logo_tezlik1.png" height="55" class="" alt="logo tezlik">
         </div>
-        <h5 class="mt-4 font-weight-600">Cambio De Contraseña</h5>
+        <h5 class="mt-4">Cambio de Contraseña</h5>
         <!-- <p class="text-muted mb-4">Login</p> -->
         <form id="frmChangePasword" name="frmChangePasword" novalidate>
             <div class="form-group floating-label">

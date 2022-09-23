@@ -118,9 +118,9 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
                 $payroll[$i]['idPayroll'] = $findPayroll['id_payroll'];
                 $resolution = $payrollDao->updatePayroll($payroll[$i]);
                 // Calcular costo nomina
-                //$costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($payroll[$i], $id_company);
+                $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($payroll[$i], $id_company);
                 // Calcular precio products_costs
-                //$priceProduct = $priceProductDao->calcPriceByPayroll($payroll[$i]['idProcess'], $id_company);
+                $priceProduct = $priceProductDao->calcPriceByPayroll($payroll[$i]['idProcess'], $id_company);
             }
         }
         if ($resolution == null)
@@ -169,13 +169,24 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePayroll/{id_payroll}', function (Request $request, Response $response, $args) use ($payrollDao) {
-    $payroll = $payrollDao->deletePayroll($args['id_payroll']);
+$app->post('/deletePayroll', function (Request $request, Response $response, $args) use ($payrollDao, $costWorkforceDao, $priceProductDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataPayroll = $request->getParsedBody();
 
-    if ($payroll == null)
-        $resp = array('success' => true, 'message' => 'Nomina eliminada correctamente');
-    else
+    $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);
+
+    if ($payroll == null) {
+        // Calcular costo nomina
+        $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($dataPayroll, $id_company);
+
+        // Calcular precio products_costs
+        $priceProduct = $priceProductDao->calcPriceByPayroll($dataPayroll['idProcess'], $id_company);
+        if ($costWorkforce == null && $priceProduct == null)
+            $resp = array('success' => true, 'message' => 'Nomina eliminada correctamente');
+    } else
         $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, existe información asociada a ella');
+
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

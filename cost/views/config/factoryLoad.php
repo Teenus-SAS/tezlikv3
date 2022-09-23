@@ -40,7 +40,7 @@ $userinactivetimeDao->findSession();
                                 <label for="">Costo</label>
                                 <!-- <label for="">Valor Minuto</label> -->
                                 <label for=""></label>
-                                <select class="form-control" name="idMachine" id="idMachine"></select>
+                                <select class="form-control" name="idMachine" id="machine"></select>
                                 <input class="form-control" name="descriptionFactoryLoad" id="descriptionFactoryLoad" />
                                 <input class="form-control text-center number" type="text" name="costFactory" id="costFactory" />
                                 <!-- <input class="form-control text-center number" type="text" name="costMinute" id="costMinute" /> -->

@@ -83,9 +83,6 @@ class ProductsInProcessDao
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
-
-            if ($e->getCode() == 23000)
-                $message = 'Producto duplicado. Ingrese una nuevo producto';
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

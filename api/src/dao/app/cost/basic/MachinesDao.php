@@ -57,7 +57,7 @@ class MachinesDao
                                         :residual_value, :hours_machine, :days_machine)");
       $stmt->execute([
         'id_company' => $id_company,
-        'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
+        'machine' => strtoupper($dataMachine['machine']),
         'cost' => $dataMachine['costMachine'],
         'years_depreciation' => $dataMachine['depreciationYears'],
         'residual_value' => $dataMachine['residualValue'],
@@ -90,7 +90,7 @@ class MachinesDao
                                     WHERE id_machine = :id_machine");
       $stmt->execute([
         'id_machine' => $dataMachine['idMachine'],
-        'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
+        'machine' => strtoupper($dataMachine['machine']),
         'cost' => $dataMachine['costMachine'],
         'years_depreciation' => $dataMachine['depreciationYears'],
         'residual_value' => $dataMachine['residualValue'],
@@ -109,7 +109,7 @@ class MachinesDao
   {
     $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
     $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
-    $dataMachine['hoursMachine'] = str_replace('.', '', $dataMachine['quantity']);
+    $dataMachine['hoursMachine'] = str_replace('.', '', $dataMachine['hoursMachine']);
     $dataMachine['hoursMachine'] = str_replace(',', '.', $dataMachine['hoursMachine']);
 
     return $dataMachine;

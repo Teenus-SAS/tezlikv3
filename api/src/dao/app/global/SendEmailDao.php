@@ -41,7 +41,7 @@ class SendEmailDao
     {
         // the message
         $msg = "Hola,<br><br>
-            Recientemente solicitó recordar su contraseña por lo que para mayor seguridad creamos una nueva. Para ingresar al CRM puede hacerlo con:
+            Recientemente solicitó recordar su contraseña por lo que para mayor seguridad creamos una nueva. Para ingresar a Tezlik puede hacerlo con:
             <ul>
             <li>Nombre de usuario: $email</li>
             <li>Contraseña: $password</li>
@@ -53,7 +53,7 @@ class SendEmailDao
         
             Saludos,<br><br>
         
-            El Equipo de Soporte CRM";
+            Equipo de Soporte Tezlik";
 
         // use wordwrap() if lines are longer than 70 characters
         $msg = wordwrap($msg, 70);
@@ -61,7 +61,7 @@ class SendEmailDao
         //headers
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= 'From: SoporteCRM <soporteCRM@proyecformas.com>' . "\r\n";
+        $headers .= 'From: SoporteTezlik <soporteTezlik@tezliksoftware.com.co>' . "\r\n";
         // send email
         mail($email, "Nuevo password", $msg, $headers);
     }

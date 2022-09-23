@@ -87,7 +87,15 @@ $userinactivetimeDao->findSession();
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-striped" id="tblExpenses">
-
+                                <tfoot>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th class="classRight">Total:</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

@@ -89,21 +89,6 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             else $update = $update + 1;
             $dataImportProductProcess['insert'] = $insert;
             $dataImportProductProcess['update'] = $update;
-
-            // $enlistmentTime = $productProcess[$i]['enlistmentTime'];
-            // $operationTime = $productProcess[$i]['operationTime'];
-            // if (!isset($enlistmentTime) || !isset($operationTime)) {
-            //     $i = $i + 1;
-            //     $dataImportProductProcess = array('error' => true, 'message' => "Campos vacios en fila {$i}");
-            //     break;
-            // } else {
-            //     $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
-
-            //     if (!$findProductProcess) $insert = $insert + 1;
-            //     else $update = $update + 1;
-            //     $dataImportProductProcess['insert'] = $insert;
-            //     $dataImportProductProcess['update'] = $update;
-            // }
         }
     } else
         $dataImportProductProcess = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');

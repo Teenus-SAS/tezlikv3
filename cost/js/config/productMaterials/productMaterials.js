@@ -2,7 +2,6 @@ $(document).ready(function () {
   let idProduct;
   let dataMaterials = sessionStorage.getItem('dataMaterials');
   dataMaterials = JSON.parse(dataMaterials);
-  sessionStorage.removeItem('dataMaterials');
 
   /* Ocultar panel crear producto */
 

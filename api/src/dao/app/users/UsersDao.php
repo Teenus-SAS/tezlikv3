@@ -130,9 +130,16 @@ class UsersDao
   public function deleteUser($dataUser)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("DELETE FROM users WHERE id_user = :id");
-    $stmt->execute(['id' => $dataUser['idUser']]);
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    try {
+      $stmt = $connection->prepare("DELETE FROM users WHERE id_user = :id");
+      $stmt->execute(['id' => $dataUser['idUser']]);
+      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+      $error = array('info' => true, 'message' => $message);
+      return $error;
+    }
 
     // $connection = Connection::getInstance()->getConnection();
 

@@ -20,7 +20,7 @@ class OrdersDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT o.id_order, o.num_order, o.date_order, o.original_quantity, p.product, c.client, ot.order_type, o.max_date, o.delivery_date
+        $stmt = $connection->prepare("SELECT o.id_order, o.id_client, o.id_product, o.id_order_type, o.num_order, o.date_order, o.original_quantity, o.quantity, p.product, c.client, ot.order_type, o.min_date, o.max_date, o.delivery_date
                                       FROM plan_orders o
                                         INNER JOIN plan_orders_types ot ON ot.id_order_type = o.id_order_type
                                         INNER JOIN products p ON p.id_product = o.id_product
@@ -31,7 +31,7 @@ class OrdersDao
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $orders = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("Pedidos", array('Pedidos' => $orders));
+        $this->logger->notice("pedidos", array('pedidos' => $orders));
         return $orders;
     }
 
@@ -52,7 +52,7 @@ class OrdersDao
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $order = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("Pedido", array('Pedido' => $order));
+        $this->logger->notice("pedido", array('pedido' => $order));
         return $order;
     }
 
@@ -69,7 +69,7 @@ class OrdersDao
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $orders = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("Pedidos", array('Pedidos' => $orders));
+        $this->logger->notice("pedidos", array('pedidos' => $orders));
         return $orders;
     }
 
@@ -140,13 +140,36 @@ class OrdersDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $orders = json_encode($orders);
-        $data = str_replace('"', '', $orders);
-        $data = substr($data, 1, -1);
+        if (is_array($orders)) {
+            $orders = json_encode($orders);
+            $data = str_replace('"', '', $orders);
+            $data = substr($data, 1, -1);
+        } else $data = $orders;
 
         $stmt = $connection->prepare("UPDATE plan_orders SET status_order = 1
                                       WHERE id_order IN(SELECT id_order FROM plan_orders WHERE num_order NOT IN({$data}))");
         $stmt->execute();
+    }
+
+    public function deleteOrder($id_order)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT * FROM plan_orders WHERE id_order = :id_order");
+            $stmt->execute(['id_order' => $id_order]);
+            $row = $stmt->rowCount();
+
+            if ($row > 0) {
+                $stmt = $connection->prepare("DELETE FROM plan_orders WHERE id_order = :id_order");
+                $stmt->execute(['id_order' => $id_order]);
+                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
     }
 
     public function changeDate($dataOrder)

@@ -59,11 +59,11 @@ $userinactivetimeDao->findSession();
                             </div>
                             <div class="gridx4m mt-3">
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
+                                    <input type="text" class="form-control number text-center" name="hoursMachine" id="hoursMachine">
                                     <label for="">Horas de Trabajo</label>
                                 </div>
                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                    <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
+                                    <input type="text" class="form-control number text-center" name="daysMachine" id="daysMachine">
                                     <label for="">Dias de Trabajo</label>
                                 </div>
                                 <!--<div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">

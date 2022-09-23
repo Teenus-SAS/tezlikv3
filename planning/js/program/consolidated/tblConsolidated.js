@@ -1,93 +1,110 @@
 $(document).ready(function () {
+  let dataOrderType = [];
+
+  fetch(`/api/consolidated`)
+    .then((response) => response.text())
+    .then((data) => {
+      debugger;
+      data = JSON.parse(data);
+
+      dataOrderTypes = data.orderTypes;
+      dataConsolidated = data.consolidated;
+      for (i = 0; i < dataConsolidated.length; i++) {
+        /* dataOrderType.push({
+        });*/
+      }
+
+      loadTblConsolidated(dataConsolidated);
+    });
+
   /* Cargar tabla consolidados */
-  tblConsolidated = $('#tblConsolidated').dataTable({
-    pageLength: 50,
-    ajax: {
-      url: '../../api/consolidated',
-      dataSrc: '',
-    },
-    language: {
-      url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-    },
-    columns: [
-      {
-        title: 'No.',
-        data: null,
-        className: 'uniqueClassName',
-        render: function (data, type, full, meta) {
-          return meta.row + 1;
+  loadTblConsolidated = (data) => {
+    tblConsolidated = $('#tblConsolidated').dataTable({
+      pageLength: 50,
+      data: data,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      columns: [
+        {
+          title: 'No.',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) {
+            return meta.row + 1;
+          },
         },
-      },
-      {
-        title: 'Item',
-        data: 'num_order',
-        className: 'uniqueClassName',
-      },
-      {
-        title: 'Referencia',
-        data: 'reference',
-        className: 'uniqueClassName',
-      },
-      {
-        title: 'Kardex',
-        data: 'quantity',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Cadenas',
-        data: 'cadenas',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Venta Directa',
-        data: 'venta_directa',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Exportadas',
-        data: 'exportadas',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Total Pedidos',
-        data: 'total_orders',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Promedio Mes',
-        data: 'average_month',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Dias Inventario',
-        data: 'inventory_days',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Stock Minimo x Semanas',
-        data: 'week_minimum_stock',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      // {
-      //   title: 'A Producir Con Stock Minimo',
-      //   data: 'produce_minimum_stock',
-      //   className: 'uniqueClassName',
-      //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      // },
-      {
-        title: 'A Producir Ajustado',
-        data: 'produce_ajusted',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-    ],
-  });
+        {
+          title: 'Item',
+          data: 'num_order',
+          className: 'uniqueClassName',
+        },
+        {
+          title: 'Referencia',
+          data: 'reference',
+          className: 'uniqueClassName',
+        },
+        {
+          title: 'Kardex',
+          data: 'quantity',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+        /* {
+          title: ,
+          data: null,
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+        {
+          title: ,
+          data: '',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+        {
+          title: ,
+          data: '',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        }, */
+        {
+          title: 'Total Pedidos',
+          data: 'total_orders',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+        {
+          title: 'Promedio Mes',
+          data: 'average_month',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+        {
+          title: 'Dias Inventario',
+          data: 'inventory_days',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+        {
+          title: 'Stock Minimo x Semanas',
+          data: 'week_minimum_stock',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+        // {
+        //   title: 'A Producir Con Stock Minimo',
+        //   data: 'produce_minimum_stock',
+        //   className: 'uniqueClassName',
+        //   render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        // },
+        {
+          title: 'A Producir Ajustado',
+          data: 'produce_ajusted',
+          className: 'uniqueClassName',
+          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+        },
+      ],
+    });
+  };
 });
