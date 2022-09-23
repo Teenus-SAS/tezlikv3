@@ -13,7 +13,7 @@ $(document).ready(function () {
       let $select = $(`#idProcess`);
       $select.empty();
 
-      $select.append(`<option disabled selected>Selcionar</option>`);
+      $select.append(`<option disabled selected>Seleccionar</option>`);
       $.each(r, function (i, value) {
         $select.append(
           `<option value = ${value.id_process}> ${value.process} </option>`

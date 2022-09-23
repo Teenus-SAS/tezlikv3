@@ -109,7 +109,7 @@ class MachinesDao
   {
     $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
     $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
-    $dataMachine['hoursMachine'] = str_replace('.', '', $dataMachine['quantity']);
+    $dataMachine['hoursMachine'] = str_replace('.', '', $dataMachine['hoursMachine']);
     $dataMachine['hoursMachine'] = str_replace(',', '.', $dataMachine['hoursMachine']);
 
     return $dataMachine;

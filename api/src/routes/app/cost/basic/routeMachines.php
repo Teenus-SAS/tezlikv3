@@ -65,7 +65,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
 
 
 /* Agregar Maquinas */
-$app->post('/addMachines', function (Request $request, Response $response, $args) use ($machinesDao, $minuteDepreciationDao) {
+$app->post('/addMachines', function (Request $request, Response $response, $args) use ($machinesDao, $minuteDepreciationDao, $indirectCostDao, $priceProductDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
@@ -98,11 +98,18 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
             } else {
                 $machines[$i]['idMachine'] = $machine['id_machine'];
                 $resolution = $machinesDao->updateMachine($machines[$i]);
+                // Calcular costo indirecto
+                $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine[$i], $id_company);
+
+                // Calcular precio products_costs
+                $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine[$i]['idMachine'], $id_company);
             }
             // Calcular depreciacion por minuto
             $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationImportedByMachine($machines[$i], $id_company);
         }
-        if ($resolution == null && $minuteDepreciation == null)
+        if (
+            $resolution == null && $minuteDepreciation == null
+        )
             $resp = array('success' => true, 'message' => 'Maquina Importada correctamente');
         else if ($resolution['info'] == 'true')
             $resp = $resp = array('info' => true, 'message' => 'No pueden existir máquinas con el mismo nombre. Modifiquelas y vuelva a intentarlo');
@@ -156,8 +163,15 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
 
 /* Eliminar Maquina */
-$app->get('/deleteMachine/{id_machine}', function (Request $request, Response $response, $args) use ($machinesDao) {
+$app->get('/deleteMachine/{id_machine}', function (Request $request, Response $response, $args) use ($machinesDao, $priceProductDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataMachine = $request->getParsedBody();
+
     $machines = $machinesDao->deleteMachine($args['id_machine']);
+
+    // Calcular precio products_costs
+    $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine['idMachine'], $id_company);
 
     if ($machines == null)
         $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');

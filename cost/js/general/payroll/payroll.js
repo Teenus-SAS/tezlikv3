@@ -104,10 +104,17 @@ $(document).ready(function () {
 
     $('#workingHoursDay').val(data.hours_day);
     $('#workingDaysMonth').val(data.working_days_month);
-    $(`#typeFactor`).val(`${data.type_contract}`);
 
-    if (data.type_contract != 3) $('#typeFactor').change();
-    else $('#factor').val(data.factor_benefit);
+    if (data.type_contract == 'Nomina') {
+      $(`#typeFactor option[value=1]`).prop('selected', true);
+      $('#factor').val(data.factor_benefit);
+    } else if (data.type_contract == 'Servicios') {
+      $(`#typeFactor option[value=2]`).prop('selected', true);
+      $('#factor').val(data.factor_benefit);
+    } else if (data.type_contract == 'Calculo Manual') {
+      $(`#typeFactor option[value=3]`).prop('selected', true);
+      $('#factor').val(data.factor_benefit);
+    }
 
     $('html, body').animate(
       {

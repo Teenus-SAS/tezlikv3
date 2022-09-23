@@ -45,5 +45,21 @@ $(document).ready(function () {
         },
       },
     ],
+
+    footerCallback: function (row, data, start, end, display) {
+      total = this.api()
+        .column(3)
+        .data()
+        .reduce(function (a, b) {
+          return parseInt(a) + parseInt(b);
+        }, 0);
+
+      $(this.api().column(3).footer()).html(
+        new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        }).format(total)
+      );
+    },
   });
 });

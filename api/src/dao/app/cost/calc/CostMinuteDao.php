@@ -34,16 +34,20 @@ class CostMinuteDao
         ]);
         $dataCostMinute = $stmt->fetch($connection::FETCH_ASSOC);
 
-        // Actualizar cost_minute
-        $stmt = $connection->prepare("UPDATE manufacturing_load SET cost_minute = :cost_minute 
+        if ($dataCostMinute['costMinute'] == null)
+            return 1;
+        else {
+            // Actualizar cost_minute
+            $stmt = $connection->prepare("UPDATE manufacturing_load SET cost_minute = :cost_minute 
                                       WHERE id_machine = :id_machine AND input = :input AND 
                                       cost = :cost AND id_company = :id_company");
-        $stmt->execute([
-            'cost_minute' => $dataCostMinute['costMinute'],
-            'id_machine' => $dataFactoryLoad['idMachine'],
-            'input' => $dataFactoryLoad['descriptionFactoryLoad'],
-            'cost' => $costFactory,
-            'id_company' => $id_company
-        ]);
+            $stmt->execute([
+                'cost_minute' => $dataCostMinute['costMinute'],
+                'id_machine' => $dataFactoryLoad['idMachine'],
+                'input' => $dataFactoryLoad['descriptionFactoryLoad'],
+                'cost' => $costFactory,
+                'id_company' => $id_company
+            ]);
+        }
     }
 }

@@ -17,7 +17,10 @@ $app->get('/consolidated', function (Request $request, Response $response, $args
 
     $consolidated = $consolidatedDao->findConsolidated($orderTypes, $id_company);
 
-    $response->getBody()->write(json_encode($consolidated, JSON_NUMERIC_CHECK));
+    $data['orderTypes'] = $orderTypes;
+    $data['consolidated'] = $consolidated;
+
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

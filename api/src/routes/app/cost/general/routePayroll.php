@@ -118,9 +118,9 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
                 $payroll[$i]['idPayroll'] = $findPayroll['id_payroll'];
                 $resolution = $payrollDao->updatePayroll($payroll[$i]);
                 // Calcular costo nomina
-                //$costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($payroll[$i], $id_company);
+                $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($payroll[$i], $id_company);
                 // Calcular precio products_costs
-                //$priceProduct = $priceProductDao->calcPriceByPayroll($payroll[$i]['idProcess'], $id_company);
+                $priceProduct = $priceProductDao->calcPriceByPayroll($payroll[$i]['idProcess'], $id_company);
             }
         }
         if ($resolution == null)

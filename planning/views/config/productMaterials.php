@@ -171,9 +171,9 @@ $userinactivetimeDao->findSession();
 <script src="/global/js/global/number.js"></script>
 <script src="/planning/js/config/productMaterials/tblConfigMaterials.js"></script>
 <script src="/planning/js/basic/products/configProducts.js"></script>
-<script src="/planning/js/config/productMaterials/productsInProcess.js"></script>
 <script src="/planning/js/config/productMaterials/productMaterials.js"></script>
 <script src="/planning/js/basic/rawMaterials/configRawMaterials.js"></script>
+<script src="/planning/js/config/productMaterials/productsInProcess.js"></script>
 <script src="../global/js/import/import.js"></script>
 <script src="/planning/js/config/productMaterials/importProductMaterials.js"></script>
 <script src="../global/js/import/file.js"></script>
