@@ -163,19 +163,22 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
 
 /* Eliminar Maquina */
-$app->get('/deleteMachine/{id_machine}', function (Request $request, Response $response, $args) use ($machinesDao, $priceProductDao) {
+$app->post('/deleteMachine', function (Request $request, Response $response, $args) use ($machinesDao, $indirectCostDao, $priceProductDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
 
-    $machines = $machinesDao->deleteMachine($args['id_machine']);
+    $machines = $machinesDao->deleteMachine($dataMachine['idMachine']);
 
-    // Calcular precio products_costs
-    $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine['idMachine'], $id_company);
+    if ($machines == null) {
+        // Calcular costo indirecto
+        $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);
+        // Calcular precio products_costs
+        $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine['idMachine'], $id_company);
 
-    if ($machines == null)
-        $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');
-    if ($machines != null)
+        if ($indirectCost == null && $priceProduct == null)
+            $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');
+    } else
         $resp = array('error' => true, 'message' => 'No es posible eliminar la maquina, existe información asociada a él');
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

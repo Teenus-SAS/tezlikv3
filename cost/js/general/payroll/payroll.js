@@ -143,7 +143,9 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
 
-    let id_payroll = data.id_payroll;
+    dataPayroll = [];
+    dataPayroll['idPayroll'] = data.id_payroll;
+    dataPayroll['idProcess'] = data.id_process;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -161,8 +163,9 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.get(
-            `/api/deletePayroll/${id_payroll}`,
+          $.post(
+            '/api/deletePayroll',
+            dataPayroll,
             function (data, textStatus, jqXHR) {
               message(data);
             }
