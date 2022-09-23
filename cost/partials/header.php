@@ -31,10 +31,10 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProducts.php')">Creación Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createMachines.php')">Creación Máquinas</a></li>
-                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProcess.php')">Creación Procesos</a></li>
+                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProducts.php')">Productos</a></li>
+                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createRawMaterials.php')">Materia Prima</a></li>
+                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createMachines.php')">Máquinas</a></li>
+                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProcess.php')">Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
