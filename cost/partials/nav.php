@@ -27,7 +27,7 @@
                             <i class="bx bx-chevron-down"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <div class="dropdown">
+                            <!-- <div class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bxs-layer-plus mr-1"></i>
                                     <span> Calculadora Horas Extras</span>
@@ -53,7 +53,7 @@
                                     <span> Tutoriales </span>
                                     <i class="bx bx-chevron-right"></i>
                                 </a>
-                            </div>
+                            </div> -->
                             <div class="dropdown">
                                 <a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/support/emailSupport.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bxs-bar-chart-alt-2 mr-1"></i>
