@@ -12,11 +12,26 @@ get('/reset-pass', '/global/views/login/reset-password.php');
 
 //COST
 //basic
+get('/cost/products', '/cost/views/basic/createProducts.php');
+get('/cost/materials', '/cost/views/basic/createRawMaterials.php');
+get('/cost/machines', '/cost/views/basic/createMachines.php');
+get('/cost/process', '/cost/views/basic/createProcess.php');
+//Config
+get('/cost/productMaterials', '/cost/views/config/productMaterials.php');
+get('/cost/productProcess', '/cost/views/config/productProcess.php');
+get('/cost/factoryLoad', '/cost/views/config/factoryLoad.php');
+get('/cost/externalServices', '/cost/views/config/externalServices.php');
+//General
+get('/cost/payroll', '/cost/views/general/createPayroll.php');
+get('/cost/general-expenses', '/cost/views/general/expensesAssignation.php');
+get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php');
+//Admin
+get('/cost/users', '/cost/views/users.php');
 
-get('/products', '/cost/views/basic/createProducts.php');
-get('/materials', '/cost/views/basic/createRawMaterials.php');
-get('/machines', '/cost/views/basic/createMachines.php');
-get('/process', '/cost/views/basic/createProcess.php');
+
+
+
+
 
 //Planning
 get('/planning', '/planning/views/templatePlanning.php');
