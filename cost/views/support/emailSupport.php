@@ -47,10 +47,10 @@ $userinactivetimeDao->findSession();
 
                             <div class="form-group pt-2">
                                 <div class="text-right">
-                                    <button class="btn btn-success mr-2" data-effect="wave" id="btnDraft">
+                                    <!-- <button class="btn btn-success mr-2" data-effect="wave" id="btnDraft">
                                         <i class="bx bxs-edit-alt fs-sm align-middle"></i>
                                         <span class="d-none d-sm-inline-block mr-2 align-middle">Borrador</span>
-                                    </button>
+                                    </button> -->
                                     <button class="btn btn-primary chat-send-btn" data-effect="wave" id="btnSend">
                                         <span class="d-none d-sm-inline-block mr-2 align-middle">Enviar</span>
                                         <i class="bx bxs-send fs-sm align-middle"></i>

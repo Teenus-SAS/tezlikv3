@@ -12,7 +12,7 @@ $app->post('/sendEmailSupport', function (Request $request, Response $response, 
     session_start();
     $email = $_SESSION['email'];
 
-    if (empty($dataSupport['ccHeader']) || empty($dataSupport['subject']) || empty($dataSupport['message'])) {
+    if (empty($dataSupport['subject']) || empty($dataSupport['message'])) {
         $resp = array('error' => true, 'message' => 'Porfavor ingrese todos los campos');
     } else
         $support = $sendEmailDao->sendEmailSupport($dataSupport, $email);

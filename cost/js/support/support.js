@@ -2,18 +2,11 @@ $(document).ready(function () {
   // Enviar email
   $('#btnSend').click(function (e) {
     e.preventDefault();
-    cc = $('#ccHeader').val();
+    // cc = $('#ccHeader').val();
     subject = $('#subject').val();
     msg = getContent();
 
-    if (
-      cc == '' ||
-      cc == null ||
-      subject == '' ||
-      subject == null ||
-      msg == '' ||
-      !msg
-    ) {
+    if (subject == '' || subject == null || msg == '' || !msg) {
       toastr.error('Ingrese todos los campos');
       return false;
     }

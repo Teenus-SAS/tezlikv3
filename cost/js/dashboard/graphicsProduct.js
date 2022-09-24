@@ -111,12 +111,13 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              return percentage;
             },
-            color: 'black',
+            color: 'white',
             font: {
-              size: '11',
-              weight: 'normal',
+              size: '14',
+              weight: 'bold',
             },
           },
         },
@@ -178,12 +179,13 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              return percentage;
             },
-            color: 'black',
+            color: 'white',
             font: {
-              size: '11',
-              weight: 'normal',
+              size: '14',
+              weight: 'bold',
             },
           },
         },
@@ -246,12 +248,13 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              return percentage;
             },
-            color: 'black',
+            color: 'white',
             font: {
-              size: '11',
-              weight: 'normal',
+              size: '14',
+              weight: 'bold',
             },
           },
         },
@@ -312,12 +315,13 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
+              return percentage;
             },
             color: 'black',
             font: {
-              size: '11',
-              weight: 'normal',
+              size: '14',
+              weight: 'bold',
             },
           },
         },

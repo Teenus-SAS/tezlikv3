@@ -84,7 +84,7 @@ $(document).ready(function () {
       parseFloat(data[0].cost_indirect_cost);
     costTotal = cost + parseFloat(data[0].assignable_expense);
 
-    $('#salesPrice').html(`$ ${data[0].price.toLocaleString('es-ES')}`);
+    // $('#salesPrice').html(`$ ${data[0].price.toLocaleString('es-ES')}`);
     $('#costTotal').html(`$ ${costTotal.toLocaleString('es-ES')}`);
     $('#cost').html(`$ ${cost.toLocaleString('es-ES')}`);
     $('#payRawMaterial').html(
@@ -111,5 +111,9 @@ $(document).ready(function () {
     $('#profitability').html(
       `$ ${Math.round(costProfitability).toLocaleString('es-ES')}`
     );
+
+    price = costTotal + costCommissionSale + costProfitability;
+
+    $('#salesPrice').html(`$ ${price.toLocaleString('es-ES')}`);
   };
 });

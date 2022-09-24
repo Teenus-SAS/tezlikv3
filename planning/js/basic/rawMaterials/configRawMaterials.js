@@ -1,26 +1,37 @@
-$(document).ready(function() {
-    sessionStorage.removeItem('dataMaterials');
-    $('.cardRawMaterials').hide();
+$(document).ready(function () {
+  sessionStorage.removeItem('dataMaterials');
+  $('.cardRawMaterials').hide();
 
-    $('#btnNewMaterial').click(function(e) {
-        e.preventDefault();
-        $('.cardRawMaterials').toggle(800);
-    });
+  $('#btnNewMaterial').click(function (e) {
+    e.preventDefault();
+    $('.cardRawMaterials').toggle(800);
+  });
 
-    $.ajax({
-        url: '/api/materials',
-        success: function(r) {
-            dataMaterials = JSON.stringify(r);
-            sessionStorage.setItem('dataMaterials', dataMaterials);
+  $.ajax({
+    url: '/api/materials',
+    success: function (r) {
+      dataMaterials = JSON.stringify(r);
+      sessionStorage.setItem('dataMaterials', dataMaterials);
 
-            let $select = $(`#material`);
-            $select.empty();
-            $select.append(`<option disabled selected>Seleccionar</option>`);
-            $.each(r, function(i, value) {
-                $select.append(
-                    `<option value = ${value.id_material}> ${value.material} </option>`
-                );
-            });
-        },
-    });
+      let $select = $(`#material`);
+      $select.empty();
+      $select.append(`<option disabled selected>Seleccionar</option>`);
+      $.each(r, function (i, value) {
+        $select.append(
+          `<option value = ${value.id_material}> ${value.material} </option>`
+        );
+      });
+    },
+  });
+  /*
+  getData = async (params) => {
+    try {
+      result = await $.ajax({
+        url: '/api/observacionesInactivos',
+      });
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  };*/
 });

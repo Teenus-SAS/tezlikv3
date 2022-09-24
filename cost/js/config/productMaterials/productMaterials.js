@@ -1,7 +1,5 @@
 $(document).ready(function () {
   let idProduct;
-  let dataMaterials = sessionStorage.getItem('dataMaterials');
-  dataMaterials = JSON.parse(dataMaterials);
 
   /* Ocultar panel crear producto */
 
@@ -35,6 +33,9 @@ $(document).ready(function () {
   $('#material').change(function (e) {
     e.preventDefault();
     id = this.value;
+    let dataMaterials = sessionStorage.getItem('dataMaterials');
+    dataMaterials = JSON.parse(dataMaterials);
+    sessionStorage.removeItem('dataMaterials');
 
     for (i = 0; i < dataMaterials.length; i++) {
       if (id == dataMaterials[i]['id_material']) {
