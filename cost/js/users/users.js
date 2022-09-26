@@ -169,7 +169,7 @@ $(document).ready(function () {
         if (i == 9) dataUser['payrollLoad'] = '1';
         if (i == 10) dataUser['expense'] = '1';
         if (i == 11) dataUser['expenseDistribution'] = '1';
-        if (i == 12) dataUser['user'] = '1';
+        if (i == 12) dataUser['costUser'] = '1';
         if (i == 13) dataUser['price'] = '1';
         if (i == 14) dataUser['analysisMaterial'] = '1';
         if (i == 15) dataUser['tool'] = '1';
@@ -185,7 +185,7 @@ $(document).ready(function () {
         if (i == 9) dataUser['payrollLoad'] = '0';
         if (i == 10) dataUser['expense'] = '0';
         if (i == 11) dataUser['expenseDistribution'] = '0';
-        if (i == 12) dataUser['user'] = '0';
+        if (i == 12) dataUser['costUser'] = '0';
         if (i == 13) dataUser['price'] = '0';
         if (i == 14) dataUser['analysisMaterial'] = '0';
         if (i == 15) dataUser['tool'] = '0';

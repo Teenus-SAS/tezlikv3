@@ -77,7 +77,7 @@
                                             </div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-12" name="user" type="checkbox">
+                                                    <input id="checkbox-12" name="costUser" type="checkbox">
                                                     <label for="checkbox-12">Usuarios</label>
                                                 </div>
                                             </div>

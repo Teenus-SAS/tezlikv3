@@ -11,6 +11,11 @@ get('/forgot-pass', '/global/views/login/forgot-password.php');
 get('/reset-pass', '/global/views/login/reset-password.php');
 
 //COST
+//Navbar
+get('/cost/', '/cost/views/basic/createRawMaterials.php');
+get('/cost/', '/cost/views/basic/createMachines.php');
+get('/cost/', '/cost/views/basic/createProcess.php');
+//Header
 //basic
 get('/cost/products', '/cost/views/basic/createProducts.php');
 get('/cost/materials', '/cost/views/basic/createRawMaterials.php');

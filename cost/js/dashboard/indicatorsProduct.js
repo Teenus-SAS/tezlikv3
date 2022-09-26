@@ -46,12 +46,24 @@ $(document).ready(function () {
     $('#rawMaterial').html(
       `$ ${data[0].cost_materials.toLocaleString('es-ES')}`
     );
-    $('#workforce').html(`$ ${data[0].cost_workforce.toLocaleString('es-ES')}`);
+    // $('#workforce').html(`$ ${data[0].cost_workforce.toLocaleString('es-ES')}`);
+    $('#workforce').html(
+      `$ ${data[0].cost_workforce.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
+    );
     $('#indirectCost').html(
-      `$ ${data[0].cost_indirect_cost.toLocaleString('es-ES')}`
+      `$ ${data[0].cost_indirect_cost.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
     );
     $('#assignableExpenses').html(
-      `$ ${data[0].assignable_expense.toLocaleString('es-ES')}`
+      `$ ${data[0].assignable_expense.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
     );
 
     percentRawMaterial = (data[0].cost_materials / costTotal) * 100;
@@ -72,7 +84,12 @@ $(document).ready(function () {
   UnitsVolSold = (data) => {
     $('#unitsSold').html(data[0].units_sold.toLocaleString('es-ES'));
     $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-ES')}`);
-    $('#recomendedPrice').html(`$ ${data[0].price.toLocaleString('es-ES')}`);
+    $('#recomendedPrice').html(
+      `$ ${data[0].price.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
+    );
   };
 
   /* Costeo Total */
@@ -85,35 +102,59 @@ $(document).ready(function () {
     costTotal = cost + parseFloat(data[0].assignable_expense);
 
     // $('#salesPrice').html(`$ ${data[0].price.toLocaleString('es-ES')}`);
-    $('#costTotal').html(`$ ${costTotal.toLocaleString('es-ES')}`);
-    $('#cost').html(`$ ${cost.toLocaleString('es-ES')}`);
+    $('#costTotal').html(
+      `$ ${costTotal.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
+    );
+    $('#cost').html(
+      `$ ${cost.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
+    );
     $('#payRawMaterial').html(
       `$ ${data[0].cost_materials.toLocaleString('es-ES')}`
     );
     $('#payWorkforce').html(
-      `$ ${data[0].cost_workforce.toLocaleString('es-ES')}`
+      `$ ${data[0].cost_workforce.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
     );
     $('#payIndirectCost').html(
-      `$ ${data[0].cost_indirect_cost.toLocaleString('es-ES')}`
+      `$ ${data[0].cost_indirect_cost.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
     );
     $('#payAssignableExpenses').html(
-      `$ ${data[0].assignable_expense.toFixed(2)}`
+      `$ ${data[0].assignable_expense.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
     );
 
     costCommissionSale = data[0].price * (data[0].commission_sale / 100);
     $('#commission').html(`Comisión Vts (${data[0].commission_sale}%)`);
     $('#commisionSale').html(
-      `$${Math.round(costCommissionSale).toLocaleString('es-ES')}`
+      `$ ${Math.round(costCommissionSale).toLocaleString()}`
     );
 
     costProfitability = data[0].price * (data[0].profitability / 100);
     $('#profit').html(`Rentabilidad (${data[0].profitability}%)`);
     $('#profitability').html(
-      `$ ${Math.round(costProfitability).toLocaleString('es-ES')}`
+      `$ ${Math.round(costProfitability).toLocaleString()}`
     );
 
     price = costTotal + costCommissionSale + costProfitability;
 
-    $('#salesPrice').html(`$ ${price.toLocaleString('es-ES')}`);
+    $('#salesPrice').html(
+      `$ ${price.toLocaleString(undefined, {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
+    );
   };
 });

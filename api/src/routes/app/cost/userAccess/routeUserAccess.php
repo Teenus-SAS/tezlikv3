@@ -30,7 +30,8 @@ $app->post('/costUserAccess', function (Request $request, Response $response, $a
 $app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
     session_start();
     $dataUserAccess = $request->getParsedBody();
-    $id_user = $_SESSION['idUser'];
+    // $id_user = $_SESSION['idUser'];
+    $id_company = $_SESSION['id_company'];
 
     if (
         empty($dataUserAccess['createProduct']) && empty($dataUserAccess['costCreateMaterials']) &&
@@ -38,7 +39,7 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
     )
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
-        $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_user);
+        $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_company);
 
         if ($userAccess == null)
             $resp = array('success' => true, 'message' => 'Acceso de usuario creado correctamente');
@@ -52,10 +53,16 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
 });
 
 $app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
-
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataUserAccess = $request->getParsedBody();
 
-    $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
+    $findUserAccess = $userAccessDao->findUserAccess($id_company, $dataUserAccess['idUser']);
+
+    if ($findUserAccess)
+        $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
+    else
+        $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_company);
 
     if ($userAccess == null)
         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');

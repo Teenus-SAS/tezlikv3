@@ -61,7 +61,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
         if ($users == null) {
             /* Almacena los accesos */
-            if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+            if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
             if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
         }
 
@@ -81,6 +81,8 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 });
 
 $app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao, $costAccessUserDao, $planningAccessUserDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataUser = $request->getParsedBody();
     $files = $request->getUploadedFiles();
 
@@ -90,7 +92,7 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
         if (empty($dataUser['avatar'])) {
             $users = $userDao->updateUser($dataUser, null);
             /* Actualizar los accesos */
-            if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+            if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
             if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
         } else {
             foreach ($files as $file) {

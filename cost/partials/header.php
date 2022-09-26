@@ -31,10 +31,10 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProducts.php')">Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createRawMaterials.php')">Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createMachines.php')">Máquinas</a></li>
-                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/basic/createProcess.php')">Procesos</a></li>
+                                        <li class="createProducts"><a href="/cost/products">Productos</a></li>
+                                        <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
+                                        <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
+                                        <li class="createProcess"><a href="/cost/process">Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
@@ -55,12 +55,14 @@
                                         <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/expensesDistribution.php')">Distribución de Gastos</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-md-3" id="navAdmin">
-                                    <h5 class="font-size-14 font-weight-600">Administrador</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','views/users/users.php')">Usuarios</a></li>
-                                    </ul>
-                                </div>
+                                <?php if ($_SESSION['rol'] == 2) { ?>
+                                    <div class="col-md-3" id="navAdmin">
+                                        <h5 class="font-size-14 font-weight-600">Administrador</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','views/users/users.php')">Usuarios</a></li>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>

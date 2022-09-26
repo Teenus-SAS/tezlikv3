@@ -21,15 +21,21 @@ class CostUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $rol = $_SESSION['rol'];
+        // $id_user = $_SESSION['idUser'];
 
         if ($rol == 2) {
-            $stmt = $connection->prepare("SELECT usa.id_user, usa.id_user, us.firstname, us.lastname, us.email, usa.create_product, usa.create_materials, usa.create_machines, usa.create_process, 
-                                             usa.product_materials, usa.product_process, usa.factory_load, usa.external_service, usa.product_line, usa.payroll_load, usa.expense, 
-                                             usa.expense_distribution, usa.user, usa.price, usa.analysis_material, usa.tool
-                                      FROM cost_users_access usa 
-                                      INNER JOIN users us ON us.id_user = usa.id_user
-                                      WHERE us.id_company = :id_company;");
-            $stmt->execute(['id_company' => $id_company]);
+            $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_materials, 0) AS create_materials, 
+                                                IFNULL(usa.create_machines, 0) AS create_machines, IFNULL(usa.create_process, 0) AS create_process, IFNULL(usa.product_materials, 0) AS product_materials, 
+                                                IFNULL(usa.product_process, 0) AS product_process, IFNULL(usa.factory_load, 0) AS factory_load, IFNULL(usa.external_service, 0) AS external_service,
+                                                IFNULL(usa.payroll_load, 0) AS payroll_load, IFNULL(usa.expense, 0) AS expense, IFNULL(usa.expense_distribution, 0) AS expense_distribution, IFNULL(usa.user, 0) AS user, 
+                                                IFNULL(usa.price, 0) AS price, IFNULL(usa.analysis_material, 0) AS analysis_material, IFNULL(usa.tool, 0) AS tool
+                                          FROM users us
+                                          LEFT JOIN cost_users_access usa ON usa.id_user = us.id_user
+                                          WHERE us.id_company = :id_company-- AND us.id_user != :id_user");
+            $stmt->execute([
+                'id_company' => $id_company
+                // 'id_user' => $id_user
+            ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             $users = $stmt->fetchAll($connection::FETCH_ASSOC);
             $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
@@ -73,17 +79,18 @@ class CostUserAccessDao
         return $users;
     }
 
-    public function insertUserAccessByUser($dataUser)
+    public function insertUserAccessByUser($dataUser, $id_company)
     {
-        //session_start();
-        $id_company = $_SESSION['id_company'];
         $connection = Connection::getInstance()->getConnection();
 
-        /* Obtener id usuario creado */
-
-        $stmt = $connection->prepare("SELECT MAX(id_user) AS idUser FROM users WHERE id_company = :id_company");
-        $stmt->execute(['id_company' => $id_company]);
-        $idUser = $stmt->fetch($connection::FETCH_ASSOC);
+        if (!$dataUser['idUser']) {
+            /* Obtener id usuario creado */
+            $stmt = $connection->prepare("SELECT MAX(id_user) AS idUser FROM users WHERE id_company = :id_company");
+            $stmt->execute(['id_company' => $id_company]);
+            $idUser = $stmt->fetch($connection::FETCH_ASSOC);
+            $id_user = $idUser['idUser'];
+        } else
+            $id_user = $dataUser['idUser'];
 
         try {
             $stmt = $connection->prepare("INSERT INTO cost_users_access (id_user, create_product, create_materials, create_machines, create_process, product_materials, 
@@ -93,7 +100,7 @@ class CostUserAccessDao
                                                 :product_process, :factory_load, :external_service, :payroll_load,
                                                 :expense, :expense_distribution, :user, :price, :analysis_material, :tool)");
             $stmt->execute([
-                'id_user' => $idUser['idUser'],                             'external_service' => $dataUser['externalService'],
+                'id_user' => $id_user,                                           'external_service' => $dataUser['externalService'],
                 'create_product' => $dataUser['costCreateProducts'],            'payroll_load' => $dataUser['payrollLoad'],
                 'create_materials' => $dataUser['costCreateMaterials'],         'expense' => $dataUser['expense'],
                 'create_machines' => $dataUser['costCreateMachines'],           'expense_distribution' => $dataUser['expenseDistribution'],
@@ -130,14 +137,14 @@ class CostUserAccessDao
                                                             price = :price, analysis_material = :analysis_material, tool = :tool
                                               WHERE id_user = :id_user");
                 $stmt->execute([
-                    'id_user' => $dataUser['idUser'],               'external_service' => $dataUser['externalService'],
+                    'id_user' => $dataUser['idUser'],                               'external_service' => $dataUser['externalService'],
                     'create_product' => $dataUser['costCreateProducts'],            'payroll_load' => $dataUser['payrollLoad'],
                     'create_materials' => $dataUser['costCreateMaterials'],         'expense' => $dataUser['expense'],
                     'create_machines' => $dataUser['costCreateMachines'],           'expense_distribution' => $dataUser['expenseDistribution'],
                     'create_process' => $dataUser['costCreateProcess'],             'user' => $dataUser['costUser'],
                     'product_materials' => $dataUser['costProductMaterials'],       'price' => $dataUser['price'],
                     'product_process' => $dataUser['costProductProcess'],           'analysis_material' => $dataUser['analysisMaterial'],
-                    'factory_load' => $dataUser['factoryLoad'],                 'tool' => $dataUser['tool']
+                    'factory_load' => $dataUser['factoryLoad'],                     'tool' => $dataUser['tool']
                 ]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             } catch (\Exception $e) {
