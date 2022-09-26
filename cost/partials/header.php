@@ -210,9 +210,9 @@
                     <a href="javascript: void(0);" onclick="loadContent('page-content','../../global/views/profile/profile.php')" class="dropdown-item">
                         <i class="bx bx-user mr-1"></i> Perfil
                     </a>
-                    <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">
+                    <!-- <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">
                         <i class="bx bx-wrench mr-1"></i> Configuración
-                    </a>
+                    </a> -->
                     <div class="dropdown-divider"></div>
                     <a href="javascript: void(0);" class="text-danger dropdown-item logout">
                         <i class="bx bx-log-in mr-1 text-danger"></i> Salir
