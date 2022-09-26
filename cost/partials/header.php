@@ -31,35 +31,57 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="/cost/products">Productos</a></li>
-                                        <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
-                                        <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
-                                        <li class="createProcess"><a href="/cost/process">Procesos</a></li>
+                                        <?php if ($_SESSION['aProducts'] == 1) { ?>
+                                            <li class="createProducts"><a href="/cost/products">Productos</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aMaterials'] == 1) { ?>
+                                            <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aMachines'] == 1) { ?>
+                                            <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aProcess'] == 1) { ?>
+                                            <li class="createProcess"><a href="/cost/process">Procesos</a></li>
+                                        <?php  } ?>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
-                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/productProcess.php')">Ficha Técnica Procesos</a></li>
-                                        <li class="factoryLoad"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/factoryLoad.php')">Carga Fabril</a></li>
-                                        <li class="servicesExternal"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/externalServices.php')">Servicios Externos</a></li>
-                                        <!-- <li class="linesProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/config/lines.php')">Lineas de Producto</a></li> -->
+                                        <?php if ($_SESSION['aProductsMaterials'] == 1) { ?>
+                                            <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aProductProcess'] == 1) { ?>
+                                            <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aFactoryLoad'] == 1) { ?>
+                                            <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aExternalService'] == 1) { ?>
+                                            <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
+                                        <?php  } ?>
+                                        <!-- <li class="linesProducts"><a href="">Lineas de Producto</a></li> -->
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/createPayroll.php')">Carga Nómina</a></li>
-                                        <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
-                                        <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/expensesDistribution.php')">Distribución de Gastos</a></li>
+                                        <?php if ($_SESSION['aPayroll'] == 1) { ?>
+                                            <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aExpense'] == 1) { ?>
+                                            <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
+                                        <?php  } ?>
+                                        <?php if ($_SESSION['aExpenseDistribution'] == 1) { ?>
+                                            <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+                                        <?php  } ?>
                                     </ul>
                                 </div>
                                 <?php if ($_SESSION['rol'] == 2) { ?>
                                     <div class="col-md-3" id="navAdmin">
                                         <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                         <ul class="list-unstyled megamenu-list">
-                                            <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','views/users/users.php')">Usuarios</a></li>
+                                            <li class="users"><a href="/cost/users">Usuarios</a></li>
                                         </ul>
                                     </div>
                                 <?php } ?>
@@ -209,10 +231,10 @@
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
-                    <a href="javascript: void(0);" onclick="loadContent('page-content','../../global/views/profile/profile.php')" class="dropdown-item">
+                    <a href="/profile" class="dropdown-item">
                         <i class="bx bx-user mr-1"></i> Perfil
                     </a>
-                    <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">
+                    <a href="" class="dropdown-item">
                         <i class="bx bx-wrench mr-1"></i> Configuración
                     </a>
                     <div class="dropdown-divider"></div>

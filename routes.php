@@ -6,15 +6,15 @@ require_once("{$_SERVER['DOCUMENT_ROOT']}/router.php");
 get('/', '/index.php');
 
 //Global
-get('/profile', '/global/views/profile/profile.php');
 get('/forgot-pass', '/global/views/login/forgot-password.php');
 get('/reset-pass', '/global/views/login/reset-password.php');
 
 //COST
 //Navbar
-get('/cost/', '/cost/views/basic/createRawMaterials.php');
-get('/cost/', '/cost/views/basic/createMachines.php');
-get('/cost/', '/cost/views/basic/createProcess.php');
+get('/cost/prices', '/cost/views/analysis/prices.php');
+get('/cost/details-prices', '/cost/views/analysis/detailsPrices.php');
+get('/cost/analysis-materials', '/cost/views/analysis/materials.php');
+get('/cost/support', '/cost/views/support/emailSupport.php');
 //Header
 //basic
 get('/cost/products', '/cost/views/basic/createProducts.php');
@@ -22,17 +22,18 @@ get('/cost/materials', '/cost/views/basic/createRawMaterials.php');
 get('/cost/machines', '/cost/views/basic/createMachines.php');
 get('/cost/process', '/cost/views/basic/createProcess.php');
 //Config
-get('/cost/productMaterials', '/cost/views/config/productMaterials.php');
-get('/cost/productProcess', '/cost/views/config/productProcess.php');
-get('/cost/factoryLoad', '/cost/views/config/factoryLoad.php');
-get('/cost/externalServices', '/cost/views/config/externalServices.php');
+get('/cost/product-materials', '/cost/views/config/productMaterials.php');
+get('/cost/product-process', '/cost/views/config/productProcess.php');
+get('/cost/factory-load', '/cost/views/config/factoryLoad.php');
+get('/cost/external-services', '/cost/views/config/externalServices.php');
 //General
 get('/cost/payroll', '/cost/views/general/createPayroll.php');
 get('/cost/general-expenses', '/cost/views/general/expensesAssignation.php');
 get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php');
 //Admin
-get('/cost/users', '/cost/views/users.php');
-
+get('/cost/users', '/cost/views/users/users.php');
+//Config
+get('/profile', '/cost/views/perfil/perfil.php');
 
 
 

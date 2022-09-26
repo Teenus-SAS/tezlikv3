@@ -51,7 +51,7 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: function (data) {
           return `
-                <a href="javascript:;" onclick="loadContent('page-content','views/analysis/detailsPrices.php')" <i id="${data}" class="mdi mdi-playlist-check seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>`;
+                <a href="/cost/details-prices" <i id="${data}" class="mdi mdi-playlist-check seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>`;
         },
       },
     ],

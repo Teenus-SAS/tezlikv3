@@ -318,7 +318,7 @@ $(document).ready(function () {
               // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
-            color: 'black',
+            color: 'white',
             font: {
               size: '14',
               weight: 'bold',

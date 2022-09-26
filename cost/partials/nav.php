@@ -9,25 +9,30 @@
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../cost/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bxs-customize mr-1"></i> Generar Precios
-                            <i class="bx bx-chevron-down"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../cost/views/analysis/materials.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-tone mr-1"></i> Análisis Materia Prima
-                            <i class="bx bx-chevron-down"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-layer mr-1"></i> Herramientas
-                            <i class="bx bx-chevron-down"></i>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="topnav-components">
-                            <!-- <div class="dropdown">
+                    <?php if ($_SESSION['aPrice'] == 1) { ?>
+                        <li class="nav-item">
+                            <a class="nav-link dropdown-toggle" href="/cost/prices" id="topnav-dashboard" role="button">
+                                <i class="bx bxs-customize mr-1"></i> Generar Precios
+                                <i class="bx bx-chevron-down"></i>
+                            </a>
+                        </li>
+                    <?php  } ?>
+                    <?php if ($_SESSION['aAnalysisMaterials'] == 1) { ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="/cost/analysis-materials" id="topnav-ui" role="button">
+                                <i class="bx bx-tone mr-1"></i> Análisis Materia Prima
+                                <i class="bx bx-chevron-down"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
+                    <?php if ($_SESSION['aTool'] == 1) { ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bx bx-layer mr-1"></i> Herramientas
+                                <i class="bx bx-chevron-down"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="topnav-components">
+                                <!-- <div class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bxs-layer-plus mr-1"></i>
                                     <span> Calculadora Horas Extras</span>
@@ -54,17 +59,18 @@
                                     <i class="bx bx-chevron-right"></i>
                                 </a>
                             </div> -->
-                            <div class="dropdown">
-                                <a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/support/emailSupport.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
-                                    <i class="bx bxs-bar-chart-alt-2 mr-1"></i>
-                                    <span> Soporte</span>
-                                    <i class="bx bx-chevron-right"></i>
-                                </a>
+                                <div class="dropdown">
+                                    <a href="/cost/support" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                        <i class="bx bxs-bar-chart-alt-2 mr-1"></i>
+                                        <span> Soporte</span>
+                                        <i class="bx bx-chevron-right"></i>
+                                    </a>
+
+                                </div>
 
                             </div>
-
-                        </div>
-                    </li>
+                        </li>
+                    <?php } ?>
                 </ul>
             </div>
         </nav>

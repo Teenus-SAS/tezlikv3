@@ -1,11 +1,13 @@
 <?php
 
 use tezlikv3\dao\AutenticationUserDao;
+use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\StatusActiveUserDao;
 use tezlikv3\dao\GenerateCodeDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\LastLoginDao;
+use tezlikv3\dao\PlanningUserAccessDao;
 
 $licenseDao = new LicenseCompanyDao();
 $autenticationDao = new AutenticationUserDao();
@@ -13,13 +15,24 @@ $statusActiveUserDao = new StatusActiveUserDao();
 $generateCodeDao = new GenerateCodeDao();
 $sendEmailDao = new SendEmailDao();
 $lastLoginDao = new LastLoginDao();
+$costUserAccessDao = new CostUserAccessDao();
+$planningUserAccessDao = new PlanningUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Autenticación */
 
-$app->post('/userAutentication', function (Request $request, Response $response, $args) use ($autenticationDao, $licenseDao, $statusActiveUserDao, $generateCodeDao, $sendEmailDao, $lastLoginDao) {
+$app->post('/userAutentication', function (Request $request, Response $response, $args) use (
+    $autenticationDao,
+    $licenseDao,
+    $statusActiveUserDao,
+    $generateCodeDao,
+    $sendEmailDao,
+    $lastLoginDao,
+    $costUserAccessDao,
+    $planningUserAccessDao
+) {
     $parsedBody = $request->getParsedBody();
 
     $user = $parsedBody["validation-email"];
@@ -98,10 +111,33 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 
     if ($user["id_rols"] == 1) $location = '../../admin/';
     else {
+        /* Validar licencia y accesos de usuario */
         $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1) $location = '../../selector/';
-        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0) $location = '../../cost/';
-        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) $location = 'planning';
+        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0) {
+            $userAccess = $costUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+            // Guardar accesos usuario
+            $_SESSION['aProducts'] = $userAccess['create_product'];
+            $_SESSION['aMaterials'] = $userAccess['create_materials'];
+            $_SESSION['aMachines'] = $userAccess['create_machines'];
+            $_SESSION['aProcess'] = $userAccess['create_process'];
+            $_SESSION['aProductsMaterials'] = $userAccess['product_materials'];
+            $_SESSION['aProductProcess'] = $userAccess['product_process'];
+            $_SESSION['aFactoryLoad'] = $userAccess['factory_load'];
+            $_SESSION['aExternalService'] = $userAccess['external_service'];
+            $_SESSION['aPayroll'] = $userAccess['payroll_load'];
+            $_SESSION['aExpense'] = $userAccess['expense'];
+            $_SESSION['aExpenseDistribution'] = $userAccess['expense_distribution'];
+            $_SESSION['aUser'] = $userAccess['user'];
+            $_SESSION['aPrice'] = $userAccess['price'];
+            $_SESSION['aAnalysisMaterials'] = $userAccess['analysis_material'];
+            $_SESSION['aTool'] = $userAccess['tool'];
+
+            $location = '../../cost/';
+        } else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) {
+            $userAccess = $planningUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+            $location = 'planning';
+        }
     }
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
