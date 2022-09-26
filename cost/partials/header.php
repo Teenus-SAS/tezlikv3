@@ -55,7 +55,7 @@
                                         <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/general/expensesDistribution.php')">Distribución de Gastos</a></li>
                                     </ul>
                                 </div>
-                                <?php if ($_SESSION['rol'] == 2 || $_SESSION['aUser'] == 1) { ?>
+                                <?php if ($_SESSION['rol'] == 2) { ?>
                                     <div class="col-md-3" id="navAdmin">
                                         <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                         <ul class="list-unstyled megamenu-list">
