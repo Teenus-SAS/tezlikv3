@@ -231,7 +231,7 @@
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
-                    <a href="/profile" class="dropdown-item">
+                    <a href="/cost/profile" class="dropdown-item">
                         <i class="bx bx-user mr-1"></i> Perfil
                     </a>
                     <!-- <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">

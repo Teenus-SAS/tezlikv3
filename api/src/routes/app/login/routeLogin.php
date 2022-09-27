@@ -136,6 +136,26 @@ $app->post('/userAutentication', function (Request $request, Response $response,
             $location = '../../cost/';
         } else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) {
             $userAccess = $planningUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+            // Guardar accesos usuario
+            $_SESSION['aMold'] = $userAccess['create_mold'];
+            $_SESSION['aProducts'] = $userAccess['create_product'];
+            $_SESSION['aMaterials'] = $userAccess['create_material'];
+            $_SESSION['aMachines'] = $userAccess['create_machine'];
+            $_SESSION['aProcess'] = $userAccess['create_process'];
+            $_SESSION['aProductsMaterials'] = $userAccess['products_material'];
+            $_SESSION['aProductProcess'] = $userAccess['products_process'];
+            $_SESSION['aProgramsMachine'] = $userAccess['programs_machine'];
+            $_SESSION['aCiclesMachine'] = $userAccess['cicles_machine'];
+            $_SESSION['aInvCategory'] = $userAccess['inv_category'];
+            $_SESSION['aSale'] = $userAccess['sale'];
+            $_SESSION['aUser'] = $userAccess['user'];
+            $_SESSION['aInventory'] = $userAccess['inventory'];
+            $_SESSION['aOrder'] = $userAccess['plan_order'];
+            $_SESSION['aProgramming'] = $userAccess['programming'];
+            $_SESSION['aPlanLoad'] = $userAccess['plan_load'];
+            $_SESSION['aExplosionOfMaterial'] = $userAccess['explosion_of_material'];
+            $_SESSION['aOffice'] = $userAccess['office'];
+
             $location = 'planning';
         }
     }
@@ -143,14 +163,9 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-
-    /* $resp = array('success' => true, 'message' => 'access granted');
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json'); */
 });
 
 /* Logout */
-
 $app->get('/logout', function (Request $request, Response $response, $args) use ($statusActiveUserDao) {
     session_start();
     //$statusActiveUserDao->changeStatusUserLogin();

@@ -21,7 +21,6 @@ class CostUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $rol = $_SESSION['rol'];
-        // $id_user = $_SESSION['idUser'];
 
         if ($rol == 2) {
             $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_materials, 0) AS create_materials, 
@@ -31,10 +30,9 @@ class CostUserAccessDao
                                                 IFNULL(usa.price, 0) AS price, IFNULL(usa.analysis_material, 0) AS analysis_material, IFNULL(usa.tool, 0) AS tool
                                           FROM users us
                                           LEFT JOIN cost_users_access usa ON usa.id_user = us.id_user
-                                          WHERE us.id_company = :id_company-- AND us.id_user != :id_user");
+                                          WHERE us.id_company = :id_company");
             $stmt->execute([
                 'id_company' => $id_company
-                // 'id_user' => $id_user
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             $users = $stmt->fetchAll($connection::FETCH_ASSOC);

@@ -23,12 +23,15 @@ class PlanningUserAccessDao
         $rol = $_SESSION['rol'];
 
         if ($rol == 2) {
-            $stmt = $connection->prepare("SELECT usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
-                                                 usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, usa.inv_category, 
-                                                 usa.sale, usa.user, usa.inventory, usa.plan_order, usa.programming, usa.plan_load, usa.explosion_of_material, usa.office
-                                          FROM planning_user_access usa 
-                                          INNER JOIN users us ON us.id_user = usa.id_user 
-                                          WHERE us.id_company = :id_company;");
+            $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, 
+                                                 IFNULL(usa.create_material, 0) AS create_material, IFNULL(usa.create_machine, 0) AS create_machine, IFNULL(usa.create_process, 0) AS create_process, 
+                                                 IFNULL(usa.products_material, 0) AS products_material, IFNULL(usa.products_process, 0) AS products_process, IFNULL(usa.programs_machine, 0) AS programs_machine, 
+                                                 IFNULL(usa.cicles_machine, 0) AS cicles_machine, IFNULL(usa.inv_category, 0) AS inv_category, IFNULL(usa.sale, 0) AS sale, IFNULL(usa.user, 0) AS user, 
+                                                 IFNULL(usa.inventory, 0) AS inventory, IFNULL(usa.plan_order, 0) AS plan_order, IFNULL(usa.programming, 0) AS programming, IFNULL(usa.plan_load, 0) AS plan_load, 
+                                                 IFNULL(usa.explosion_of_material, 0) AS explosion_of_material, IFNULL(usa.office, 0) AS office
+                                          FROM users us
+                                            LEFT JOIN planning_user_access usa ON usa.id_user = us.id_user 
+                                          WHERE us.id_company = :id_company");
             $stmt->execute(['id_company' => $id_company]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             $users = $stmt->fetchAll($connection::FETCH_ASSOC);
@@ -41,11 +44,14 @@ class PlanningUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare(
-            "SELECT usa.id_user, usa.id_user, us.firstname, us.lastname, us.email, usa.create_mold, usa.create_product, usa.create_material, 
-                    usa.create_machine, usa.create_process, usa.products_material, usa.products_process, usa.programs_machine, usa.cicles_machine, usa.inv_category, 
-                    usa.sale, usa.user, usa.inventory, usa.plan_order, usa.programming, usa.plan_load, usa.explosion_of_material, usa.office
-             FROM planning_user_access usa 
-             INNER JOIN users us ON us.id_user = usa.id_user
+            "SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, 
+                    IFNULL(usa.create_material, 0) AS create_material, IFNULL(usa.create_machine, 0) AS create_machine, IFNULL(usa.create_process, 0) AS create_process, 
+                    IFNULL(usa.products_material, 0) AS products_material, IFNULL(usa.products_process, 0) AS products_process, IFNULL(usa.programs_machine, 0) AS programs_machine, 
+                    IFNULL(usa.cicles_machine, 0) AS cicles_machine, IFNULL(usa.inv_category, 0) AS inv_category, IFNULL(usa.sale, 0) AS sale, IFNULL(usa.user, 0) AS user, 
+                    IFNULL(usa.inventory, 0) AS inventory, IFNULL(usa.plan_order, 0) AS plan_order, IFNULL(usa.programming, 0) AS programming, IFNULL(usa.plan_load, 0) AS plan_load, 
+                    IFNULL(usa.explosion_of_material, 0) AS explosion_of_material, IFNULL(usa.office, 0) AS office
+             FROM users us
+                LEFT JOIN planning_user_access usa ON us.id_user = usa.id_user
              WHERE us.id_company = :id_company AND us.id_user = :id_user;"
         );
         $stmt->execute(['id_company' => $id_company, 'id_user' => $id_user]);

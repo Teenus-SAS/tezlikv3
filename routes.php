@@ -15,6 +15,7 @@ get('/cost/prices', '/cost/views/analysis/prices.php');
 get('/cost/details-prices', '/cost/views/analysis/detailsPrices.php');
 get('/cost/analysis-materials', '/cost/views/analysis/materials.php');
 get('/cost/support', '/cost/views/support/emailSupport.php');
+get('/cost/profile', '/cost/views/perfil/perfil.php');
 //Header
 //basic
 get('/cost/products', '/cost/views/basic/createProducts.php');
@@ -32,21 +33,32 @@ get('/cost/general-expenses', '/cost/views/general/expensesAssignation.php');
 get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php');
 //Admin
 get('/cost/users', '/cost/views/users/users.php');
-//Config
-get('/profile', '/cost/views/perfil/perfil.php');
-
-
-
-
 
 //Planning
 get('/planning', '/planning/views/templatePlanning.php');
+get('/planning/inventory', '/planning/views/inventory/inventory.php');
+get('/planning/orders', '/planning/views/orders/orders.php');
+get('/planning/programming', '/planning/views/program/programming/programming.php');
+get('/planning/consolidated', '/planning/views/program/consolidated/consolidated.php');
+//Basic
 get('/planning/molds', '/planning/views/basic/invMolds.php');
 get('/planning/products', '/planning/views/basic/createProducts.php');
-
-
-
-
+get('/planning/materials', '/planning/views/basic/createRawMaterials.php');
+get('/planning/machines', '/planning/views/basic/createMachines.php');
+get('/planning/process', '/planning/views/basic/createProcess.php');
+//Config
+get('/planning/product-materials', '/planning/views/config/productMaterials.php');
+get('/planning/product-process', '/planning/views/config/productProcess.php');
+get('/planning/cicles-machines', '/planning/views/config/planCiclesMachine.php');
+get('/planning/planning-machines', '/planning/views/config/planningMachines.php');
+//General
+get('/planning/categories', '/planning/views/general/categories.php');
+get('/planning/sales', '/planning/views/general/sales.php');
+//Admin
+get('/planning/clients', '/planning/views/admin/clients.php');
+get('/planning/order-types', '/planning/views/admin/order_types.php');
+get('/planning/users', '/planning/views/admin/users.php');
+get('/planning/profile', '/planning/views/perfil/perfil.php');
 
 // Dynamic GET. Example with 1 variable
 // The $id will be available in user.php

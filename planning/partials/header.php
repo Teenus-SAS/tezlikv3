@@ -36,39 +36,65 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <!-- <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li> -->
-                                        <li class="invMolds"><a href="molds">Moldes</a></li>
-                                        <!-- <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProducts.php')">Productos</a></li> -->
-                                        <li class="createProducts"><a href="products">Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createRawMaterials.php')">Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createMachines.php')">Máquinas</a></li>
-                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProcess.php')">Procesos</a></li>
+                                        <?php if ($_SESSION['aMold'] == 1) { ?>
+                                            <!-- <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li> -->
+                                            <li class="invMolds"><a href="/planning/molds">Moldes</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aProducts'] == 1) { ?>
+                                            <!-- <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProducts.php')">Productos</a></li> -->
+                                            <li class="createProducts"><a href="/planning/products">Productos</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aMaterials'] == 1) { ?>
+                                            <!-- <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createRawMaterials.php')">Materia Prima</a></li> -->
+                                            <li class="createMaterials"><a href="/planning/materials">Materia Prima</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aMachines'] == 1) { ?>
+                                            <!-- <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createMachines.php')">Máquinas</a></li> -->
+                                            <li class="createMachines"><a href="/planning/machines">Máquinas</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aProcess'] == 1) { ?>
+                                            <!-- <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProcess.php')">Procesos</a></li> -->
+                                            <li class="createProcess"><a href="/planning/process">Procesos</a></li>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productMaterials.php')">Ficha Técnica Productos</a></li>
-                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productProcess.php')">Ficha Técnica Procesos</a></li>
-                                        <li class="planningMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/planningMachines.php')">Datos Programación Máquinas</a></li>
-                                        <li class="planCiclesMachine"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/planCiclesMachine.php')">Plan Ciclos Maquina</a></li>
+                                        <?php if ($_SESSION['aProductsMaterials'] == 1) { ?>
+                                            <!-- <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productMaterials.php')">Ficha Técnica Productos</a></li> -->
+                                            <li class="productsMaterials"><a href="/planning/product-materials">Ficha Técnica Productos</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aProductProcess'] == 1) { ?>
+                                            <li class="productsProcess"><a href="/planning/product-process">Ficha Técnica Procesos</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aProgramsMachine'] == 1) { ?>
+                                            <li class="planningMachines"><a href="/planning/planning-machines">Datos Programación Máquinas</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aCiclesMachine'] == 1) { ?>
+                                            <li class="planCiclesMachine"><a href="/planning/cicles-machines">Plan Ciclos Maquina</a></li>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="categories"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/general/categories.php')">Categorías</a></li>
-                                        <li class="sales"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/general/sales.php')">Ventas</a></li>
-                                        <!-- <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
-                                        <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li> -->
+                                        <?php if ($_SESSION['aInvCategory'] == 1) { ?>
+                                            <li class="categories"><a href="/planning/categories">Categorías</a></li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['aSale'] == 1) { ?>
+                                            <li class="sales"><a href="/planning/sales">Ventas</a></li>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/admin/users.php')">Usuarios</a></li>
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/admin/clients.php')">Clientes</a></li>
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/admin/order_types.php')">Tipo Pedidos</a></li>
+                                        <?php if ($_SESSION['aUser'] == 1) { ?>
+                                            <li class="users"><a href="/planning/users">Usuarios</a></li>
+                                        <?php } ?>
+                                        <li class="clients"><a href="/planning/clients">Clientes</a></li>
+                                        <li class="type_order"><a href="/planning/order-types">Tipo Pedidos</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -214,12 +240,12 @@
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
-                    <a href="javascript: void(0);" onclick="loadContent('page-content','../../global/views/profile/profile.php')" class="dropdown-item">
+                    <a href="/planning/profile" class="dropdown-item">
                         <i class="bx bx-user mr-1"></i> Perfil
                     </a>
-                    <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">
+                    <!-- <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">
                         <i class="bx bx-wrench mr-1"></i> Configuración
-                    </a>
+                    </a> -->
                     <div class="dropdown-divider"></div>
                     <a href="javascript: void(0);" class="text-danger dropdown-item logout">
                         <i class="bx bx-log-in mr-1 text-danger"></i> Salir
