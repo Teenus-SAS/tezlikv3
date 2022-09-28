@@ -31,60 +31,47 @@
                                 <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <?php if ($_SESSION['aProducts'] == 1) { ?>
-                                            <li class="createProducts"><a href="/cost/products">Productos</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aMaterials'] == 1) { ?>
-                                            <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aMachines'] == 1) { ?>
-                                            <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aProcess'] == 1) { ?>
-                                            <li class="createProcess"><a href="/cost/process">Procesos</a></li>
-                                        <?php  } ?>
+                                        <li class="createProducts"><a href="/cost/products">Productos</a></li>
+
+                                        <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
+
+                                        <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
+
+                                        <li class="createProcess"><a href="/cost/process">Procesos</a></li>
+
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <?php if ($_SESSION['aProductsMaterials'] == 1) { ?>
-                                            <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aProductProcess'] == 1) { ?>
-                                            <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aFactoryLoad'] == 1) { ?>
-                                            <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aExternalService'] == 1) { ?>
-                                            <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
-                                        <?php  } ?>
+                                        <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
+
+                                        <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
+
+                                        <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
+
+                                        <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
+
                                         <!-- <li class="linesProducts"><a href="">Lineas de Producto</a></li> -->
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <?php if ($_SESSION['aPayroll'] == 1) { ?>
-                                            <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aExpense'] == 1) { ?>
-                                            <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
-                                        <?php  } ?>
-                                        <?php if ($_SESSION['aExpenseDistribution'] == 1) { ?>
-                                            <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
-                                        <?php  } ?>
+                                        <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
+
+                                        <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
+
+                                        <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+
                                     </ul>
                                 </div>
-                                <?php if ($_SESSION['rol'] == 2) { ?>
-                                    <div class="col-md-3" id="navAdmin">
-                                        <h5 class="font-size-14 font-weight-600">Administrador</h5>
-                                        <ul class="list-unstyled megamenu-list">
-                                            <li class="users"><a href="/cost/users">Usuarios</a></li>
-                                        </ul>
-                                    </div>
-                                <?php } ?>
+                                <div class="col-md-3" id="navAdmin">
+                                    <h5 class="font-size-14 font-weight-600">Administrador</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="users"><a href="/cost/users">Usuarios</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -221,13 +208,13 @@
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-profile-dropdown" aria-expanded="false" class="btn header-item">
                     <?php
-                    if (empty($_SESSION['avatar']))
+                    /* if (empty($_SESSION['avatar']))
                         $avatar = "/assets/images/users/empty_user.png";
                     else
-                        $avatar = $_SESSION['avatar'];
+                        $avatar = $_SESSION['avatar']; */
                     ?>
-                    <img id="hAvatar" src=<?php echo $avatar ?> alt="Header Avatar" class="avatar avatar-xs mr-0">
-                    <span class="d-none d-xl-inline-block ml-1 userName"><?php echo "{$_SESSION['name']} {$_SESSION['lastname']}" ?></span>
+                    <img id="hAvatar" src="/assets/images/users/empty_user.png" alt="Header Avatar" class="avatar avatar-xs mr-0">
+                    <span class="d-none d-xl-inline-block ml-1 userName"> </span>
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">

@@ -11,6 +11,7 @@ get('/reset-pass', '/global/views/login/reset-password.php');
 
 //COST
 //Navbar
+get('/cost', '/cost/index.php');
 get('/cost/prices', '/cost/views/analysis/prices.php');
 get('/cost/details-prices', '/cost/views/analysis/detailsPrices.php');
 get('/cost/analysis-materials', '/cost/views/analysis/materials.php');
@@ -35,7 +36,7 @@ get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php
 get('/cost/users', '/cost/views/users/users.php');
 
 //Planning
-get('/planning', '/planning/views/templatePlanning.php');
+get('/planning', '/planning/index.php');
 get('/planning/inventory', '/planning/views/inventory/inventory.php');
 get('/planning/orders', '/planning/views/orders/orders.php');
 get('/planning/programming', '/planning/views/program/programming/programming.php');

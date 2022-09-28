@@ -4,27 +4,23 @@
             <div id="topnav-menu-content" class="collapse navbar-collapse">
                 <ul id="side-menu" class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="javascript:history.go(0);" id="topnav-dashboard" role="button">
+                        <a class="nav-link dropdown-toggle" href="/planning" id="topnav-dashboard" role="button">
                             <i class="bx bxs-dashboard mr-1"></i> Dashboards
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <?php if ($_SESSION['aInventory'] == 1) { ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../planning/views/inventory/inventory.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bx-tone mr-1"></i> Inventarios
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
-                    <?php if ($_SESSION['aOrder'] == 1) { ?>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../planning/views/orders/orders.php')" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bx-tone mr-1"></i> Pedidos
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/planning/inventory" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-tone mr-1"></i> Inventarios
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="/planning/orders" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-tone mr-1"></i> Pedidos
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-layer mr-1"></i> Programa
@@ -32,45 +28,37 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-components">
                             <div class="dropdown">
-                                <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/program/consolidated/consolidated.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                <a href="/planning/consolidated" class="dropdown-item dropdown-toggle" aria-expanded="false">
                                     <i class="bx bxs-customize mr-1"></i>
                                     <span> Consolidado</span>
                                     <i class="bx bx-chevron-right"></i>
                                 </a>
-                                <?php if ($_SESSION['aProgramming'] == 1) { ?>
-                                    <a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/program/programming/programming.php')" class="dropdown-item dropdown-toggle" aria-expanded="false">
-                                        <i class="bx bxs-customize mr-1"></i>
-                                        <span> Programación</span>
-                                        <i class="bx bx-chevron-right"></i>
-                                    </a>
-                                <?php } ?>
+                                <a href="/planning/programming" class="dropdown-item dropdown-toggle" aria-expanded="false">
+                                    <i class="bx bxs-customize mr-1"></i>
+                                    <span> Programación</span>
+                                    <i class="bx bx-chevron-right"></i>
+                                </a>
                             </div>
                         </div>
                     </li>
-                    <?php if ($_SESSION['aPlanLoad'] == 1) { ?>
-                        <li class="nav-item">
-                            <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bxs-customize mr-1"></i> Cargues
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
-                    <?php if ($_SESSION['aExplosionOfMaterial'] == 1) { ?>
-                        <li class="nav-item">
-                            <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bxs-customize mr-1"></i> Explosión de Materiales
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
-                    <?php if ($_SESSION['aOffice'] == 1) { ?>
-                        <li class="nav-item">
-                            <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bxs-customize mr-1"></i> Despachos
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bxs-customize mr-1"></i> Cargues
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bxs-customize mr-1"></i> Explosión de Materiales
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" onclick="loadContent('page-content','../app/views/analysis/prices.php')" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bxs-customize mr-1"></i> Despachos
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
                     <!--
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
