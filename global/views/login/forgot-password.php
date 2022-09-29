@@ -1,12 +1,3 @@
-<?php
-
-/* use tezlikv3\dao\UserInactiveTimeDao;
-
-require_once(dirname(dirname(__DIR__)) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
-$userinactivetimeDao = new UserInactiveTimeDao();
-$userinactivetimeDao->findSession(); */
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -21,11 +12,12 @@ $userinactivetimeDao->findSession(); */
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="backhome">
-        <a href="index.html" class="avatar avatar-sm bg-primary text-white"><i class="bx bx-home-alt fs-sm"></i></a>
+        <a href="/" class="avatar avatar-sm bg-primary text-white"><i class="bx bx-home-alt fs-sm"></i></a>
     </div>
     <!-- Begin Page -->
     <div class="auth-pages">
@@ -77,6 +69,7 @@ $userinactivetimeDao->findSession(); */
     <!--BEGIN PAGE JS-->
     <script src="assets/js/app.js"></script>
     <script src="/global/js/login/forgot-password.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
 
     <script>
         //Initialize form

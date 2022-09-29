@@ -23,12 +23,12 @@ class UserInactiveTimeDao extends StatusActiveUserDao
     @session_start();
     if (empty($_SESSION['active']) || time() - $_SESSION['time'] > 5600) {
       //$connection = Connection::getInstance()->getConnection();
-      //$this->changeStatusUserLogin();
+      // $this->changeStatusUserLogin();
 
       session_destroy();
-      echo "<script> window.location='/index.php'; </script>";
+      // echo "<script> window.location='/'; </script>";
+      return 1;
       exit();
-    } else
-      @session_start();
+    }
   }
 }

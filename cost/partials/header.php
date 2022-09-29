@@ -1,13 +1,17 @@
 <!-- Begin Header -->
+<?php
+if (!isset($_SESSION))
+    session_start();
+?>
 <header id="page-topbar" class="topbar-header">
     <div class="navbar-header">
         <div class="left-bar">
             <div class="navbar-brand-box">
-                <a href="index.html" class="logo logo-dark">
+                <a href="/cost" class="logo logo-dark">
                     <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
                     <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
                 </a>
-                <a href="index.html" class="logo logo-light">
+                <a href="/cost" class="logo logo-light">
                     <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
                     <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Lettstart Admin"></span>
                 </a>
@@ -208,13 +212,13 @@
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-profile-dropdown" aria-expanded="false" class="btn header-item">
                     <?php
-                    /* if (empty($_SESSION['avatar']))
+                    if (empty($_SESSION['avatar']))
                         $avatar = "/assets/images/users/empty_user.png";
                     else
-                        $avatar = $_SESSION['avatar']; */
+                        $avatar = $_SESSION['avatar'];
                     ?>
-                    <img id="hAvatar" src="/assets/images/users/empty_user.png" alt="Header Avatar" class="avatar avatar-xs mr-0">
-                    <span class="d-none d-xl-inline-block ml-1 userName"> </span>
+                    <img id="hAvatar" src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
+                    <span class="d-none d-xl-inline-block ml-1 userName"><?php echo "{$_SESSION['name']} {$_SESSION['lastname']}"; ?> </span>
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">

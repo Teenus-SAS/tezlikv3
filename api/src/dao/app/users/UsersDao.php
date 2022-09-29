@@ -81,7 +81,9 @@ class UsersDao
       $newPass = $newPassDao->GenerateCode();
       // Se envia email con usuario(email) y contraseña
       // $email->SendEmailPassword($dataUser['emailUser'], $newPass);
-      $pass = password_hash($newPass, PASSWORD_DEFAULT);
+      // $pass = password_hash($newPass, PASSWORD_DEFAULT);
+      $pass = hash("sha256", $newPass);
+
 
       $stmt = $connection->prepare("INSERT INTO users (firstname, lastname, email, password, id_company, active) 
                                     VALUES(:firstname, :lastname, :email, :pass, :id_company, :active)");

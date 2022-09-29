@@ -61,6 +61,11 @@ get('/planning/order-types', '/planning/views/admin/order_types.php');
 get('/planning/users', '/planning/views/admin/users.php');
 get('/planning/profile', '/planning/views/perfil/perfil.php');
 
+
+//Selector
+get('/selector', '/selector/index.php');
+get('/selector/users', '/selector/views/users/users.php');
+
 // Dynamic GET. Example with 1 variable
 // The $id will be available in user.php
 //get('/user/$id', 'user.php');
