@@ -12,6 +12,7 @@ $(document).ready(function () {
       url: `/api/calcConsolidated/${week}`,
       success: function (r) {
         message(r);
+        loadTblConsolidated(r.dataConsolidated);
       },
     });
   });
@@ -20,17 +21,9 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
-      updateTable();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  function updateTable() {
-    $('#tblConsolidated').DataTable().clear();
-    $('#tblConsolidated').DataTable().ajax.reload();
-  }
 });

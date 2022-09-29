@@ -146,4 +146,26 @@ class PlanningUserAccessDao
         $stmt->execute(['id_user' => $dataUser['idUser']]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
+
+    public function setPlanningUserAccessSession($dataUser)
+    {
+        $_SESSION['pMold'] = $dataUser['create_mold'];
+        $_SESSION['pProducts'] = $dataUser['create_product'];
+        $_SESSION['pMaterials'] = $dataUser['create_material'];
+        $_SESSION['pMachines'] = $dataUser['create_machine'];
+        $_SESSION['pProcess'] = $dataUser['create_process'];
+        $_SESSION['pProductsMaterials'] = $dataUser['products_material'];
+        $_SESSION['pProductProcess'] = $dataUser['products_process'];
+        $_SESSION['pProgramsMachine'] = $dataUser['programs_machine'];
+        $_SESSION['pCiclesMachine'] = $dataUser['cicles_machine'];
+        $_SESSION['pInvCategory'] = $dataUser['inv_category'];
+        $_SESSION['pSale'] = $dataUser['sale'];
+        $_SESSION['pUser'] = $dataUser['user'];
+        $_SESSION['pInventory'] = $dataUser['inventory'];
+        $_SESSION['pOrder'] = $dataUser['plan_order'];
+        $_SESSION['pProgramming'] = $dataUser['programming'];
+        $_SESSION['pPlanLoad'] = $dataUser['plan_load'];
+        $_SESSION['pExplosionOfMaterial'] = $dataUser['explosion_of_material'];
+        $_SESSION['pOffice'] = $dataUser['office'];
+    }
 }

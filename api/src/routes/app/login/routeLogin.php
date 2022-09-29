@@ -113,48 +113,25 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     else {
         /* Validar licencia y accesos de usuario */
         $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
-        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1) $location = '../../selector/';
-        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0) {
-            $userAccess = $costUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1) {
+            //$costUserAccess = $costUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+            //$planningUserAccess = $planningUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+
             // Guardar accesos usuario
-            $_SESSION['aProducts'] = $userAccess['create_product'];
-            $_SESSION['aMaterials'] = $userAccess['create_materials'];
-            $_SESSION['aMachines'] = $userAccess['create_machines'];
-            $_SESSION['aProcess'] = $userAccess['create_process'];
-            $_SESSION['aProductsMaterials'] = $userAccess['product_materials'];
-            $_SESSION['aProductProcess'] = $userAccess['product_process'];
-            $_SESSION['aFactoryLoad'] = $userAccess['factory_load'];
-            $_SESSION['aExternalService'] = $userAccess['external_service'];
-            $_SESSION['aPayroll'] = $userAccess['payroll_load'];
-            $_SESSION['aExpense'] = $userAccess['expense'];
-            $_SESSION['aExpenseDistribution'] = $userAccess['expense_distribution'];
-            $_SESSION['aUser'] = $userAccess['user'];
-            $_SESSION['aPrice'] = $userAccess['price'];
-            $_SESSION['aAnalysisMaterials'] = $userAccess['analysis_material'];
-            $_SESSION['aTool'] = $userAccess['tool'];
+            //$costUserAccessDao->setCostUserAccessSession($costUserAccess);
+            //$planningUserAccessDao->setPlanningUserAccessSession($planningUserAccess);
+
+            $location = 'selector/';
+        } else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0) {
+            //$userAccess = $costUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+            // Guardar accesos usuario
+            //$costUserAccessDao->setCostUserAccessSession($userAccess);
 
             $location = '../../cost/';
         } else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) {
-            $userAccess = $planningUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
+            //$userAccess = $planningUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
             // Guardar accesos usuario
-            $_SESSION['aMold'] = $userAccess['create_mold'];
-            $_SESSION['aProducts'] = $userAccess['create_product'];
-            $_SESSION['aMaterials'] = $userAccess['create_material'];
-            $_SESSION['aMachines'] = $userAccess['create_machine'];
-            $_SESSION['aProcess'] = $userAccess['create_process'];
-            $_SESSION['aProductsMaterials'] = $userAccess['products_material'];
-            $_SESSION['aProductProcess'] = $userAccess['products_process'];
-            $_SESSION['aProgramsMachine'] = $userAccess['programs_machine'];
-            $_SESSION['aCiclesMachine'] = $userAccess['cicles_machine'];
-            $_SESSION['aInvCategory'] = $userAccess['inv_category'];
-            $_SESSION['aSale'] = $userAccess['sale'];
-            $_SESSION['aUser'] = $userAccess['user'];
-            $_SESSION['aInventory'] = $userAccess['inventory'];
-            $_SESSION['aOrder'] = $userAccess['plan_order'];
-            $_SESSION['aProgramming'] = $userAccess['programming'];
-            $_SESSION['aPlanLoad'] = $userAccess['plan_load'];
-            $_SESSION['aExplosionOfMaterial'] = $userAccess['explosion_of_material'];
-            $_SESSION['aOffice'] = $userAccess['office'];
+            //$planningUserAccessDao->setPlanningUserAccessSession($userAccess);
 
             $location = 'planning';
         }

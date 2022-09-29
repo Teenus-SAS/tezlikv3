@@ -186,4 +186,23 @@ class CostUserAccessDao
         //     return 1;
         // }
     }
+
+    public function setCostUserAccessSession($dataUser)
+    {
+        $_SESSION['cProducts'] = $dataUser['create_product'];
+        $_SESSION['cMaterials'] = $dataUser['create_materials'];
+        $_SESSION['cMachines'] = $dataUser['create_machines'];
+        $_SESSION['cProcess'] = $dataUser['create_process'];
+        $_SESSION['cProductsMaterials'] = $dataUser['product_materials'];
+        $_SESSION['cProductProcess'] = $dataUser['product_process'];
+        $_SESSION['cFactoryLoad'] = $dataUser['factory_load'];
+        $_SESSION['cExternalService'] = $dataUser['external_service'];
+        $_SESSION['cPayroll'] = $dataUser['payroll_load'];
+        $_SESSION['cExpense'] = $dataUser['expense'];
+        $_SESSION['cExpenseDistribution'] = $dataUser['expense_distribution'];
+        $_SESSION['cUser'] = $dataUser['user'];
+        $_SESSION['cPrice'] = $dataUser['price'];
+        $_SESSION['cAnalysisMaterials'] = $dataUser['analysis_material'];
+        $_SESSION['cTool'] = $dataUser['tool'];
+    }
 }
