@@ -48,19 +48,19 @@
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item prices">
                         <a class="nav-link" href="/cost/prices">
                             <i class="bx bxs-customize mr-1"></i> Generar Precios
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item analysisMaterials">
                         <a class="nav-link" href="/cost/analysis-materials">
                             <i class="bx bx-tone mr-1"></i> Análisis Materia Prima
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown tools">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-layer mr-1"></i> Herramientas
                             <i class="bx bx-chevron-down"></i>

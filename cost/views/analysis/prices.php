@@ -80,6 +80,7 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/cost/js/users/usersAccess.js"></script>
 
     <script src="/cost/js/analysis/prices/configPrices.js"></script>
     <script src="/cost/js/analysis/prices/tblprices.js"></script>

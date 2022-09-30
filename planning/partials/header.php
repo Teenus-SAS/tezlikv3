@@ -40,54 +40,39 @@
                                     <ul class="list-unstyled megamenu-list">
                                         <!-- <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li> -->
                                         <li class="invMolds"><a href="/planning/molds">Moldes</a></li>
-
-                                        <!-- <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProducts.php')">Productos</a></li> -->
-                                        <li class="createProducts"><a href="/planning/products">Productos</a></li>
-
-                                        <!-- <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createRawMaterials.php')">Materia Prima</a></li> -->
-                                        <li class="createMaterials"><a href="/planning/materials">Materia Prima</a></li>
-
-                                        <!-- <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createMachines.php')">Máquinas</a></li> -->
-                                        <li class="createMachines"><a href="/planning/machines">Máquinas</a></li>
-
-                                        <!-- <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/createProcess.php')">Procesos</a></li> -->
-                                        <li class="createProcess"><a href="/planning/process">Procesos</a></li>
-
+                                        <!-- <li class="planProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planProducts.php')">Productos</a></li> -->
+                                        <li class="planProducts"><a href="/planning/products">Productos</a></li>
+                                        <!-- <li class="planMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planRawMaterials.php')">Materia Prima</a></li> -->
+                                        <li class="planMaterials"><a href="/planning/materials">Materia Prima</a></li>
+                                        <!-- <li class="planMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planMachines.php')">Máquinas</a></li> -->
+                                        <li class="planMachines"><a href="/planning/machines">Máquinas</a></li>
+                                        <!-- <li class="planProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planProcess.php')">Procesos</a></li> -->
+                                        <li class="planProcess"><a href="/planning/process">Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-
                                         <!-- <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productMaterials.php')">Ficha Técnica Productos</a></li> -->
                                         <li class="productsMaterials"><a href="/planning/product-materials">Ficha Técnica Productos</a></li>
-
                                         <li class="productsProcess"><a href="/planning/product-process">Ficha Técnica Procesos</a></li>
-
                                         <li class="planningMachines"><a href="/planning/planning-machines">Datos Programación Máquinas</a></li>
-
                                         <li class="planCiclesMachine"><a href="/planning/cicles-machines">Plan Ciclos Maquina</a></li>
-
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-
                                         <li class="categories"><a href="/planning/categories">Categorías</a></li>
-
                                         <li class="sales"><a href="/planning/sales">Ventas</a></li>
-
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-
                                         <li class="users"><a href="/planning/users">Usuarios</a></li>
-
                                         <li class="clients"><a href="/planning/clients">Clientes</a></li>
-                                        <li class="type_order"><a href="/planning/order-types">Tipo Pedidos</a></li>
+                                        <li class="typeOrder"><a href="/planning/order-types">Tipo Pedidos</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -254,5 +239,3 @@
     </div>
 </header>
 <!-- Header End -->
-
-<?php include_once dirname(__DIR__) . '../../global/partials/scriptsJS.php'; ?>

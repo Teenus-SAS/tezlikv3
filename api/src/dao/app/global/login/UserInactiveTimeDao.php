@@ -21,7 +21,16 @@ class UserInactiveTimeDao extends StatusActiveUserDao
   public function findSession()
   {
     @session_start();
-    if (empty($_SESSION['active']) || time() - $_SESSION['time'] > 5600) {
+    $start_time = $_SESSION['time'];
+
+    $end_time = microtime(true);
+
+    $duration = $end_time - $start_time;
+    $hours = (int)($duration / 60 / 60);
+
+    $minutes = (int)($duration / 60) - $hours * 60;
+
+    if (empty($_SESSION['active']) || $minutes >= 7) {
       //$connection = Connection::getInstance()->getConnection();
       // $this->changeStatusUserLogin();
 

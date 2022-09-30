@@ -132,6 +132,7 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/cost/js/users/usersAccess.js"></script>
 
     <script src="/cost/js/basic/process/tblProcess.js"></script>
     <script src="/cost/js/basic/process/process.js"></script>

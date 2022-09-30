@@ -151,6 +151,7 @@
     </div>
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/planning/js/users/usersAccess.js"></script>
 
     <script src="../planning/js/program/consolidated/tblConsolidated.js"></script>
     <script src="/planning/js/program/consolidated/consolidated.js"></script>

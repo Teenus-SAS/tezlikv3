@@ -15,24 +15,13 @@ $statusActiveUserDao = new StatusActiveUserDao();
 $generateCodeDao = new GenerateCodeDao();
 $sendEmailDao = new SendEmailDao();
 $lastLoginDao = new LastLoginDao();
-$costUserAccessDao = new CostUserAccessDao();
-$planningUserAccessDao = new PlanningUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Autenticación */
 
-$app->post('/userAutentication', function (Request $request, Response $response, $args) use (
-    $autenticationDao,
-    $licenseDao,
-    $statusActiveUserDao,
-    $generateCodeDao,
-    $sendEmailDao,
-    $lastLoginDao,
-    $costUserAccessDao,
-    $planningUserAccessDao
-) {
+$app->post('/userAutentication', function (Request $request, Response $response, $args) use ($autenticationDao, $licenseDao, $statusActiveUserDao, $generateCodeDao, $sendEmailDao, $lastLoginDao) {
     $parsedBody = $request->getParsedBody();
 
     $user = $parsedBody["validation-email"];
@@ -75,7 +64,6 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 
-
     /* Valida la session del usuario */
 
     if ($user['session_active'] != 0) {
@@ -94,7 +82,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $_SESSION['rol'] = $user["id_rols"];
     $_SESSION['id_company'] = $user['id_company'];
     $_SESSION['avatar'] = $user['avatar'];
-    $_SESSION["time"] = time();
+    $_SESSION["time"] = microtime(true);
 
     /* Actualizar metodo ultimo logueo */
     $lastLoginDao->findLastLogin();
@@ -107,34 +95,18 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     //$sendEmailDao->SendEmailCode($code, $user);
 
     /* Modificar el estado de la sesion del usuario en BD */
-    //$statusActiveUserDao->changeStatusUserLogin();
+    $statusActiveUserDao->changeStatusUserLogin();
 
     if ($user["id_rols"] == 1) $location = '../../admin/';
     else {
         /* Validar licencia y accesos de usuario */
         $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
-        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1) {
-            //$costUserAccess = $costUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
-            //$planningUserAccess = $planningUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
-
-            // Guardar accesos usuario
-            //$costUserAccessDao->setCostUserAccessSession($costUserAccess);
-            //$planningUserAccessDao->setPlanningUserAccessSession($planningUserAccess);
-
-            $location = 'selector/';
-        } else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0) {
-            //$userAccess = $costUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
-            // Guardar accesos usuario
-            //$costUserAccessDao->setCostUserAccessSession($userAccess);
-
+        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
+            $location = 'selector';
+        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)
             $location = '../../cost/';
-        } else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1) {
-            //$userAccess = $planningUserAccessDao->findUserAccess($user['id_company'], $user['id_user']);
-            // Guardar accesos usuario
-            //$planningUserAccessDao->setPlanningUserAccessSession($userAccess);
-
+        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1)
             $location = 'planning';
-        }
     }
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
@@ -145,7 +117,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 /* Logout */
 $app->get('/logout', function (Request $request, Response $response, $args) use ($statusActiveUserDao) {
     session_start();
-    //$statusActiveUserDao->changeStatusUserLogin();
+    $statusActiveUserDao->changeStatusUserLogin();
     session_destroy();
     $response->getBody()->write(json_encode("1", JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

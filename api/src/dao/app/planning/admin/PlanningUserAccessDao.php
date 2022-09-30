@@ -23,12 +23,11 @@ class PlanningUserAccessDao
         $rol = $_SESSION['rol'];
 
         if ($rol == 2) {
-            $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, 
-                                                 IFNULL(usa.create_material, 0) AS create_material, IFNULL(usa.create_machine, 0) AS create_machine, IFNULL(usa.create_process, 0) AS create_process, 
-                                                 IFNULL(usa.products_material, 0) AS products_material, IFNULL(usa.products_process, 0) AS products_process, IFNULL(usa.programs_machine, 0) AS programs_machine, 
-                                                 IFNULL(usa.cicles_machine, 0) AS cicles_machine, IFNULL(usa.inv_category, 0) AS inv_category, IFNULL(usa.sale, 0) AS sale, IFNULL(usa.user, 0) AS user, 
-                                                 IFNULL(usa.inventory, 0) AS inventory, IFNULL(usa.plan_order, 0) AS plan_order, IFNULL(usa.programming, 0) AS programming, IFNULL(usa.plan_load, 0) AS plan_load, 
-                                                 IFNULL(usa.explosion_of_material, 0) AS explosion_of_material, IFNULL(usa.office, 0) AS office
+            $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_material, 0) AS create_material, 
+                                                 IFNULL(usa.create_machine, 0) AS create_machine, IFNULL(usa.create_process, 0) AS create_process, IFNULL(usa.products_material, 0) AS products_material, IFNULL(usa.products_process, 0) AS products_process, 
+                                                 IFNULL(usa.programs_machine, 0) AS programs_machine, IFNULL(usa.cicles_machine, 0) AS cicles_machine, IFNULL(usa.inv_category, 0) AS inv_category, IFNULL(usa.sale, 0) AS sale, 
+                                                 IFNULL(usa.user, 0) AS user, IFNULL(usa.client, 0) AS client, IFNULL(usa.orders_type, 0) AS orders_type, IFNULL(usa.inventory, 0) AS inventory, IFNULL(usa.plan_order, 0) AS plan_order, 
+                                                 IFNULL(usa.program, 0) AS program, IFNULL(usa.plan_load, 0) AS plan_load, IFNULL(usa.explosion_of_material, 0) AS explosion_of_material, IFNULL(usa.office, 0) AS office
                                           FROM users us
                                             LEFT JOIN planning_user_access usa ON usa.id_user = us.id_user 
                                           WHERE us.id_company = :id_company");
@@ -44,12 +43,11 @@ class PlanningUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare(
-            "SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, 
-                    IFNULL(usa.create_material, 0) AS create_material, IFNULL(usa.create_machine, 0) AS create_machine, IFNULL(usa.create_process, 0) AS create_process, 
-                    IFNULL(usa.products_material, 0) AS products_material, IFNULL(usa.products_process, 0) AS products_process, IFNULL(usa.programs_machine, 0) AS programs_machine, 
-                    IFNULL(usa.cicles_machine, 0) AS cicles_machine, IFNULL(usa.inv_category, 0) AS inv_category, IFNULL(usa.sale, 0) AS sale, IFNULL(usa.user, 0) AS user, 
-                    IFNULL(usa.inventory, 0) AS inventory, IFNULL(usa.plan_order, 0) AS plan_order, IFNULL(usa.programming, 0) AS programming, IFNULL(usa.plan_load, 0) AS plan_load, 
-                    IFNULL(usa.explosion_of_material, 0) AS explosion_of_material, IFNULL(usa.office, 0) AS office
+            "SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_material, 0) AS create_material, 
+                    IFNULL(usa.create_machine, 0) AS create_machine, IFNULL(usa.create_process, 0) AS create_process, IFNULL(usa.products_material, 0) AS products_material, IFNULL(usa.products_process, 0) AS products_process, 
+                    IFNULL(usa.programs_machine, 0) AS programs_machine, IFNULL(usa.cicles_machine, 0) AS cicles_machine, IFNULL(usa.inv_category, 0) AS inv_category, IFNULL(usa.sale, 0) AS sale, 
+                    IFNULL(usa.user, 0) AS user, IFNULL(usa.client, 0) AS client, IFNULL(usa.orders_type, 0) AS orders_type, IFNULL(usa.inventory, 0) AS inventory, IFNULL(usa.plan_order, 0) AS plan_order, 
+                    IFNULL(usa.program, 0) AS program, IFNULL(usa.plan_load, 0) AS plan_load, IFNULL(usa.explosion_of_material, 0) AS explosion_of_material, IFNULL(usa.office, 0) AS office
              FROM users us
                 LEFT JOIN planning_user_access usa ON us.id_user = usa.id_user
              WHERE us.id_company = :id_company AND us.id_user = :id_user;"
@@ -75,20 +73,21 @@ class PlanningUserAccessDao
 
         try {
             $stmt = $connection->prepare("INSERT INTO planning_user_access (id_user, create_mold, create_product, create_material, create_machine, create_process, products_material, products_process, programs_machine, 
-                                                                            cicles_machine, inv_category, sale, user, inventory, plan_order, programming, plan_load, explosion_of_material, office) 
+                                                                            cicles_machine, inv_category, sale, user, client, orders_type, inventory, plan_order, program, plan_load, explosion_of_material, office) 
                                           VALUES (:id_user, :create_mold, :create_product, :create_material, :create_machine, :create_process, :products_material, :products_process, 
-                                                    :programs_machine, :cicles_machine, :inv_category, :sale, :user, :inventory, :plan_order, :programming, :plan_load, :explosion_of_material, :office)");
+                                                    :programs_machine, :cicles_machine, :inv_category, :sale, :user, :client, :orders_type, :inventory, :plan_order, :program, :plan_load, :explosion_of_material, :office)");
             $stmt->execute([
-                'id_user' => $idUser['idUser'],                                 'inv_category' => $dataUser['invCategory'],
-                'create_mold' => $dataUser['createMold'],                       'sale' => $dataUser['sale'],
-                'create_product' => $dataUser['planningCreateProduct'],                 'user' => $dataUser['plannigUser'],
-                'create_material' => $dataUser['planningCreateMaterial'],               'inventory' => $dataUser['inventory'],
-                'create_machine' => $dataUser['planningCreateMachine'],                 'plan_order' => $dataUser['order'],
-                'create_process' => $dataUser['planningCreateProcess'],                 'programming' => $dataUser['programming'],
-                'products_material' => $dataUser['planningProductsMaterial'],           'plan_load' => $dataUser['load'],
-                'products_process' => $dataUser['planningProductsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
-                'programs_machine' => $dataUser['programsMachine'],             'office' => $dataUser['office'],
-                'cicles_machine' => $dataUser['ciclesMachine']
+                'id_user' => $dataUser['idUser'],                                       'sale' => $dataUser['sale'],
+                'create_mold' => $dataUser['createMold'],                               'user' => $dataUser['plannigUser'],
+                'create_product' => $dataUser['planningCreateProduct'],                 'client' => $dataUser['client'],
+                'create_material' => $dataUser['planningCreateMaterial'],               'orders_type' => $dataUser['ordersType'],
+                'create_machine' => $dataUser['planningCreateMachine'],                 'inventory' => $dataUser['inventory'],
+                'create_process' => $dataUser['planningCreateProcess'],                 'plan_order' => $dataUser['order'],
+                'products_material' => $dataUser['planningProductsMaterial'],           'program' => $dataUser['program'],
+                'products_process' => $dataUser['planningProductsProcess'],             'plan_load' => $dataUser['load'],
+                'programs_machine' => $dataUser['programsMachine'],                     'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                'cicles_machine' => $dataUser['ciclesMachine'],                         'office' => $dataUser['office'],
+                'inv_category' => $dataUser['invCategory']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -114,19 +113,20 @@ class PlanningUserAccessDao
             try {
                 $stmt = $connection->prepare("UPDATE planning_user_access SET create_mold = :create_mold, create_product = :create_product, create_material = :create_material, create_machine = :create_machine, create_process = :create_process, products_material = :products_material, 
                                                                             products_process = :products_process, programs_machine = :programs_machine, cicles_machine = :cicles_machine, inv_category = :inv_category, sale = :sale, 
-                                                                            user = :user, inventory = :inventory, plan_order = :plan_order, programming = :programming, plan_load = :plan_load, explosion_of_material = :explosion_of_material, office = :office
+                                                                            user = :user, client = :client, orders_type = :orders_type, inventory = :inventory, plan_order = :plan_order, program = :program, plan_load = :plan_load, explosion_of_material = :explosion_of_material, office = :office
                                               WHERE id_user = :id_user");
                 $stmt->execute([
-                    'id_user' => $dataUser['idUser'],                                       'inv_category' => $dataUser['invCategory'],
-                    'create_mold' => $dataUser['createMold'],                               'sale' => $dataUser['sale'],
-                    'create_product' => $dataUser['planningCreateProduct'],                 'user' => $dataUser['plannigUser'],
-                    'create_material' => $dataUser['planningCreateMaterial'],               'inventory' => $dataUser['inventory'],
-                    'create_machine' => $dataUser['planningCreateMachine'],                 'plan_order' => $dataUser['order'],
-                    'create_process' => $dataUser['planningCreateProcess'],                 'programming' => $dataUser['programming'],
-                    'products_material' => $dataUser['planningProductsMaterial'],           'plan_load' => $dataUser['load'],
-                    'products_process' => $dataUser['planningProductsProcess'],             'explosion_of_material' => $dataUser['explosionOfMaterial'],
-                    'programs_machine' => $dataUser['programsMachine'],                     'office' => $dataUser['office'],
-                    'cicles_machine' => $dataUser['ciclesMachine']
+                    'id_user' => $dataUser['idUser'],                                       'sale' => $dataUser['sale'],
+                    'create_mold' => $dataUser['createMold'],                               'user' => $dataUser['plannigUser'],
+                    'create_product' => $dataUser['planningCreateProduct'],                 'client' => $dataUser['client'],
+                    'create_material' => $dataUser['planningCreateMaterial'],               'orders_type' => $dataUser['ordersType'],
+                    'create_machine' => $dataUser['planningCreateMachine'],                 'inventory' => $dataUser['inventory'],
+                    'create_process' => $dataUser['planningCreateProcess'],                 'plan_order' => $dataUser['order'],
+                    'products_material' => $dataUser['planningProductsMaterial'],           'program' => $dataUser['program'],
+                    'products_process' => $dataUser['planningProductsProcess'],             'plan_load' => $dataUser['load'],
+                    'programs_machine' => $dataUser['programsMachine'],                     'explosion_of_material' => $dataUser['explosionOfMaterial'],
+                    'cicles_machine' => $dataUser['ciclesMachine'],                         'office' => $dataUser['office'],
+                    'inv_category' => $dataUser['invCategory']
                 ]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             } catch (\Exception $e) {
@@ -145,27 +145,5 @@ class PlanningUserAccessDao
         $stmt = $connection->prepare("DELETE FROM planning_user_access WHERE id_user = :id_user");
         $stmt->execute(['id_user' => $dataUser['idUser']]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    }
-
-    public function setPlanningUserAccessSession($dataUser)
-    {
-        $_SESSION['pMold'] = $dataUser['create_mold'];
-        $_SESSION['pProducts'] = $dataUser['create_product'];
-        $_SESSION['pMaterials'] = $dataUser['create_material'];
-        $_SESSION['pMachines'] = $dataUser['create_machine'];
-        $_SESSION['pProcess'] = $dataUser['create_process'];
-        $_SESSION['pProductsMaterials'] = $dataUser['products_material'];
-        $_SESSION['pProductProcess'] = $dataUser['products_process'];
-        $_SESSION['pProgramsMachine'] = $dataUser['programs_machine'];
-        $_SESSION['pCiclesMachine'] = $dataUser['cicles_machine'];
-        $_SESSION['pInvCategory'] = $dataUser['inv_category'];
-        $_SESSION['pSale'] = $dataUser['sale'];
-        $_SESSION['pUser'] = $dataUser['user'];
-        $_SESSION['pInventory'] = $dataUser['inventory'];
-        $_SESSION['pOrder'] = $dataUser['plan_order'];
-        $_SESSION['pProgramming'] = $dataUser['programming'];
-        $_SESSION['pPlanLoad'] = $dataUser['plan_load'];
-        $_SESSION['pExplosionOfMaterial'] = $dataUser['explosion_of_material'];
-        $_SESSION['pOffice'] = $dataUser['office'];
     }
 }

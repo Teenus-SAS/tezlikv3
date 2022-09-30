@@ -17,10 +17,8 @@ class StatusActiveUserDao
   }
 
   /* Actualizar estado de sesion de Usuario */
-
   public function changeStatusUserLogin()
   {
-    @session_start();
     $id_user = $_SESSION['idUser'];
 
     $connection = Connection::getInstance()->getConnection();

@@ -171,8 +171,8 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Programación',
-        data: 'programming',
+        title: 'Programa',
+        data: 'program',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1

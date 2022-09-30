@@ -71,19 +71,19 @@
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item inventories">
                         <a class="nav-link" href="/planning/inventory">
                             <i class="bx bx-tone mr-1"></i> Inventarios
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item orders">
                         <a class="nav-link" href="/planning/orders">
                             <i class="bx bx-tone mr-1"></i> Pedidos
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown programs">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-layer mr-1"></i> Programa
                             <i class="bx bx-chevron-down"></i>
@@ -99,19 +99,19 @@
                                 <i class="bx bx-chevron-right"></i></a>
                         </div>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item loads">
                         <a class="nav-link" href="/planning/">
                             <i class="bx bxs-customize mr-1"></i> Cargues
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item explosionMaterials">
                         <a class="nav-link" href="/planning/">
                             <i class="bx bxs-customize mr-1"></i> Explosión de Materiales
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item offices">
                         <a class="nav-link" href="/planning/">
                             <i class="bx bxs-customize mr-1"></i> Despachos
                             <i class="bx bx-chevron-down"></i>

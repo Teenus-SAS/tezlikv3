@@ -129,6 +129,7 @@
     </div>
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/planning/js/users/usersAccess.js"></script>
 
     <script src="/planning/js/admin/orderTypes/tblOrderTypes.js"></script>
     <script src="/planning/js/admin/orderTypes/orderTypes.js"></script>

@@ -126,79 +126,55 @@ $(document).ready(function () {
     $('#lastnameUser').val(data.lastname);
     $('#emailUser').val(data.email);
 
-    // Tabla costos
-    if (data.cost_product == 1) $('#checkbox-1').prop('checked', true);
-    else $('#checkbox-1').prop('checked', false);
-    if (data.cost_material == 1) $('#checkbox-2').prop('checked', true);
-    else $('#checkbox-2').prop('checked', false);
-    if (data.cost_machine == 1) $('#checkbox-3').prop('checked', true);
-    else $('#checkbox-3').prop('checked', false);
-    if (data.cost_process == 1) $('#checkbox-4').prop('checked', true);
-    else $('#checkbox-4').prop('checked', false);
-    if (data.cost_products_material == 1)
-      $('#checkbox-5').prop('checked', true);
-    else $('#checkbox-5').prop('checked', false);
-    if (data.cost_products_process == 1) $('#checkbox-6').prop('checked', true);
-    else $('#checkbox-6').prop('checked', false);
-    if (data.factory_load == 1) $('#checkbox-7').prop('checked', true);
-    else $('#checkbox-7').prop('checked', false);
-    if (data.external_service == 1) $('#checkbox-8').prop('checked', true);
-    else $('#checkbox-8').prop('checked', false);
-    if (data.payroll_load == 1) $('#checkbox-9').prop('checked', true);
-    else $('#checkbox-9').prop('checked', false);
-    if (data.expense == 1) $('#checkbox-10').prop('checked', true);
-    else $('#checkbox-10').prop('checked', false);
-    if (data.expense_distribution == 1) $('#checkbox-11').prop('checked', true);
-    else $('#checkbox-11').prop('checked', false);
-    if (data.cost_user == 1) $('#checkbox-12').prop('checked', true);
-    else $('#checkbox-12').prop('checked', false);
-    if (data.price == 1) $('#checkbox-13').prop('checked', true);
-    else $('#checkbox-13').prop('checked', false);
-    if (data.analysis_material == 1) $('#checkbox-14').prop('checked', true);
-    else $('#checkbox-14').prop('checked', false);
-    if (data.tool == 1) $('#checkbox-15').prop('checked', true);
-    else $('#checkbox-15').prop('checked', false);
+    let acces = {
+      //costos
+      costCreateProducts: data.create_product,
+      costCreateMaterials: data.create_materials,
+      costCreateMachines: data.create_machines,
+      costCreateProcess: data.create_process,
+      productsMaterials: data.product_materials,
+      productsProcess: data.product_process,
+      factoryLoad: data.factory_load,
+      servicesExternal: data.external_service,
+      payroll: data.payroll_load,
+      generalExpenses: data.expense,
+      distributionExpenses: data.expense_distribution,
+      users: data.cost_user,
+      analysisMaterials: data.analysis_material,
+      prices: data.price,
+      tools: data.tool,
 
-    // Tabla accesos
-    if (data.create_mold == 1) $('#checkbox-16').prop('checked', true);
-    else $('#checkbox-16').prop('checked', false);
-    if (data.planning_product == 1) $('#checkbox-17').prop('checked', true);
-    else $('#checkbox-17').prop('checked', false);
-    if (data.planning_material == 1) $('#checkbox-18').prop('checked', true);
-    else $('#checkbox-18').prop('checked', false);
-    if (data.planning_machine == 1) $('#checkbox-19').prop('checked', true);
-    else $('#checkbox-19').prop('checked', false);
-    if (data.planning_process == 1) $('#checkbox-20').prop('checked', true);
-    else $('#checkbox-20').prop('checked', false);
-    if (data.planning_products_material == 1)
-      $('#checkbox-21').prop('checked', true);
-    else $('#checkbox-21').prop('checked', false);
-    if (data.planning_products_process == 1)
-      $('#checkbox-22').prop('checked', true);
-    else $('#checkbox-22').prop('checked', false);
-    if (data.programs_machine == 1) $('#checkbox-23').prop('checked', true);
-    else $('#checkbox-23').prop('checked', false);
-    if (data.cicles_machine == 1) $('#checkbox-24').prop('checked', true);
-    else $('#checkbox-24').prop('checked', false);
-    if (data.inv_category == 1) $('#checkbox-25').prop('checked', true);
-    else $('#checkbox-25').prop('checked', false);
-    if (data.sale == 1) $('#checkbox-26').prop('checked', true);
-    else $('#checkbox-26').prop('checked', false);
-    if (data.planning_user == 1) $('#checkbox-27').prop('checked', true);
-    else $('#checkbox-27').prop('checked', false);
-    if (data.inventory == 1) $('#checkbox-28').prop('checked', true);
-    else $('#checkbox-28').prop('checked', false);
-    if (data.plan_order == 1) $('#checkbox-29').prop('checked', true);
-    else $('#checkbox-29').prop('checked', false);
-    if (data.programming == 1) $('#checkbox-30').prop('checked', true);
-    else $('#checkbox-30').prop('checked', false);
-    if (data.plan_load == 1) $('#checkbox-31').prop('checked', true);
-    else $('#checkbox-31').prop('checked', false);
-    if (data.explosion_of_material == 1)
-      $('#checkbox-32').prop('checked', true);
-    else $('#checkbox-32').prop('checked', false);
-    if (data.office == 1) $('#checkbox-33').prop('checked', true);
-    else $('#checkbox-33').prop('checked', false);
+      //Planeacion
+      explosionMaterials: data.explosion_of_material,
+      offices: data.office,
+      invMolds: data.create_mold,
+      planProducts: data.create_product,
+      planMaterials: data.create_material,
+      planMachines: data.create_machine,
+      planProcess: data.create_process,
+      productsMaterials: data.products_material,
+      productProcess: data.products_process,
+      planningMachines: data.programs_machine,
+      planCiclesMachine: data.cicles_machine,
+      categories: data.inv_category,
+      sales: data.sale,
+      users: data.user,
+      clients: data.client,
+      typeOrder: data.orders_type,
+      inventories: data.inventory,
+      orders: data.plan_order,
+      programs: data.program,
+      loads: data.plan_load,
+    };
+
+    let i = 1;
+
+    $.each(acces, (index, value) => {
+      if (value === 1) {
+        $(`#checkbox-${i}`).prop('checked', true);
+      } else $(`#checkbox-${i}`).prop('checked', false);
+      i++;
+    });
   };
 
   updateUserAccess = () => {
@@ -224,7 +200,7 @@ $(document).ready(function () {
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 33; i++) {
+    for (let i = 1; i <= 35; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataUser['costCreateProducts'] = '1';
         if (i == 2) dataUser['costCreateMaterials'] = '1';
@@ -253,12 +229,14 @@ $(document).ready(function () {
         if (i == 25) dataUser['invCategory'] = '1';
         if (i == 26) dataUser['sale'] = '1';
         if (i == 27) dataUser['plannigUser'] = '1';
-        if (i == 28) dataUser['inventory'] = '1';
-        if (i == 29) dataUser['order'] = '1';
-        if (i == 30) dataUser['programming'] = '1';
-        if (i == 31) dataUser['load'] = '1';
-        if (i == 32) dataUser['explosionOfMaterial'] = '1';
-        if (i == 33) dataUser['office'] = '1';
+        if (i == 28) dataUser['client'] = '1';
+        if (i == 29) dataUser['ordersType'] = '1';
+        if (i == 30) dataUser['inventory'] = '1';
+        if (i == 31) dataUser['order'] = '1';
+        if (i == 32) dataUser['programming'] = '1';
+        if (i == 33) dataUser['load'] = '1';
+        if (i == 34) dataUser['explosionOfMaterial'] = '1';
+        if (i == 35) dataUser['office'] = '1';
       } else {
         if (i == 1) dataUser['costCreateProducts'] = '0';
         if (i == 2) dataUser['costCreateMaterials'] = '0';
@@ -286,13 +264,14 @@ $(document).ready(function () {
         if (i == 24) dataUser['ciclesMachine'] = '0';
         if (i == 25) dataUser['invCategory'] = '0';
         if (i == 26) dataUser['sale'] = '0';
-        if (i == 27) dataUser['plannigUser'] = '0';
-        if (i == 28) dataUser['inventory'] = '0';
-        if (i == 29) dataUser['order'] = '0';
-        if (i == 30) dataUser['programming'] = '0';
-        if (i == 31) dataUser['load'] = '0';
-        if (i == 32) dataUser['explosionOfMaterial'] = '0';
-        if (i == 33) dataUser['office'] = '0';
+        if (i == 28) dataUser['client'] = '1';
+        if (i == 29) dataUser['ordersType'] = '1';
+        if (i == 30) dataUser['inventory'] = '1';
+        if (i == 31) dataUser['order'] = '1';
+        if (i == 32) dataUser['programming'] = '1';
+        if (i == 33) dataUser['load'] = '1';
+        if (i == 34) dataUser['explosionOfMaterial'] = '1';
+        if (i == 35) dataUser['office'] = '1';
       }
     }
 

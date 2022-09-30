@@ -554,6 +554,7 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/cost/js/users/usersAccess.js"></script>
 
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
     <script src="/cost/js/dashboard/graphicsProduct.js"></script>

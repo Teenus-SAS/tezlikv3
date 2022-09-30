@@ -94,6 +94,34 @@ $(document).ready(function () {
     $('#lastnameUser').val(data.lastname);
     $('#emailUser').val(data.email);
 
+    let acces = {
+      costCreateProducts: resp.create_product,
+      costCreateMaterials: resp.create_materials,
+      costCreateMachines: resp.create_machines,
+      costCreateProcess: resp.create_process,
+      productsMaterials: resp.product_materials,
+      productsProcess: resp.product_process,
+      factoryLoad: resp.factory_load,
+      servicesExternal: resp.external_service,
+      payroll: resp.payroll_load,
+      generalExpenses: resp.expense,
+      distributionExpenses: resp.expense_distribution,
+      users: resp.user,
+      analysisMaterials: resp.analysis_material,
+      prices: resp.price,
+      tools: resp.tool,
+    };
+
+    let i = 1;
+
+    $.each(access, (index, value) => {
+      if (value === 1) {
+        $(`#checkbox-${i}`).prop('checked', true);
+      } else $(`#checkbox-${i}`).prop('checked', false);
+      i++;
+    });
+
+    /*
     if (data.create_product == 1) $('#checkbox-1').prop('checked', true);
     else $('#checkbox-1').prop('checked', false);
     if (data.create_materials == 1) $('#checkbox-2').prop('checked', true);
@@ -123,7 +151,7 @@ $(document).ready(function () {
     if (data.analysis_material == 1) $('#checkbox-14').prop('checked', true);
     else $('#checkbox-14').prop('checked', false);
     if (data.tool == 1) $('#checkbox-15').prop('checked', true);
-    else $('#checkbox-15').prop('checked', false);
+    else $('#checkbox-15').prop('checked', false);*/
 
     $('html, body').animate(
       {

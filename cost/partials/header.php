@@ -97,7 +97,7 @@ if (!isset($_SESSION))
                 </div>
             </div>
 
-            <div class="d-none d-lg-inline-flex ml-2 dropdown">
+            <!-- <div class="d-none d-lg-inline-flex ml-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-app-dropdown" aria-expanded="false" class="btn header-item notify-icon">
                     <i class="bx bx-customize"></i>
                 </button>
@@ -119,7 +119,7 @@ if (!isset($_SESSION))
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="d-none d-lg-inline-flex ml-2">
                 <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">

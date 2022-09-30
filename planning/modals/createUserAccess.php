@@ -100,7 +100,12 @@
                                                     <label for="checkbox-11">Ventas</label>
                                                 </div>
                                             </div>
-                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-13" name="clients" type="checkbox">
+                                                    <label for="checkbox-13">Clientes</label>
+                                                </div>
+                                            </div>
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
@@ -115,7 +120,12 @@
                                                 </div>
                                             </div>
                                             <div class="col"></div>
-                                            <div class="col"></div>
+                                            <div class="col">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-14" name="orderTypes" type="checkbox">
+                                                    <label for="checkbox-14">Tipos Pedidos</label>
+                                                </div>
+                                            </div>
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
@@ -139,7 +149,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-12 col-lg-12">
                                             <label for=""><b>Menú Navegación:</b></label>
                                         </div>
@@ -152,39 +161,39 @@
                                             </div> -->
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-13" name="inventories" type="checkbox">
-                                                    <label for="checkbox-13">Inventarios</label>
+                                                    <input id="checkbox-15" name="inventories" type="checkbox">
+                                                    <label for="checkbox-15">Inventarios</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-14" name="orders" type="checkbox">
-                                                    <label for="checkbox-14">Pedidos</label>
+                                                    <input id="checkbox-16" name="orders" type="checkbox">
+                                                    <label for="checkbox-16">Pedidos</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-15" name="programming" type="checkbox">
-                                                    <label for="checkbox-15">Programación</label>
+                                                    <input id="checkbox-17" name="programming" type="checkbox">
+                                                    <label for="checkbox-17">Programa</label>
                                                 </div>
                                             </div>
                                             <div class="w-100"></div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-16" name="loads" type="checkbox">
-                                                    <label for="checkbox-16">Cargues</label>
+                                                    <input id="checkbox-18" name="loads" type="checkbox">
+                                                    <label for="checkbox-18">Cargues</label>
                                                 </div>
                                             </div>
                                             <div class="col col-lg-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-17" name="explosionOfMaterials" type="checkbox">
-                                                    <label for="checkbox-17">Explosión de Materiales</label>
+                                                    <input id="checkbox-19" name="explosionOfMaterials" type="checkbox">
+                                                    <label for="checkbox-19">Explosión de Materiales</label>
                                                 </div>
                                             </div>
                                             <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-18" name="offices" type="checkbox">
-                                                    <label for="checkbox-18">Despachos</label>
+                                                    <input id="checkbox-20" name="offices" type="checkbox">
+                                                    <label for="checkbox-20">Despachos</label>
                                                 </div>
                                             </div>
                                         </div>

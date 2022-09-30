@@ -162,6 +162,7 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/cost/js/users/usersAccess.js"></script>
 
     <script src="../../global/js/global/number.js"></script>
     <script src="../../cost/js/basic/products/configProducts.js"></script>

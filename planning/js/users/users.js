@@ -94,43 +94,37 @@ $(document).ready(function () {
     $('#lastnameUser').val(data.lastname);
     $('#emailUser').val(data.email);
 
-    if (data.create_mold == 1) $('#checkbox-1').prop('checked', true);
-    else $('#checkbox-1').prop('checked', false);
-    if (data.create_product == 1) $('#checkbox-2').prop('checked', true);
-    else $('#checkbox-2').prop('checked', false);
-    if (data.create_material == 1) $('#checkbox-3').prop('checked', true);
-    else $('#checkbox-3').prop('checked', false);
-    if (data.create_machine == 1) $('#checkbox-4').prop('checked', true);
-    else $('#checkbox-4').prop('checked', false);
-    if (data.create_process == 1) $('#checkbox-5').prop('checked', true);
-    else $('#checkbox-5').prop('checked', false);
-    if (data.products_material == 1) $('#checkbox-6').prop('checked', true);
-    else $('#checkbox-6').prop('checked', false);
-    if (data.products_process == 1) $('#checkbox-7').prop('checked', true);
-    else $('#checkbox-7').prop('checked', false);
-    if (data.programs_machine == 1) $('#checkbox-8').prop('checked', true);
-    else $('#checkbox-8').prop('checked', false);
-    if (data.cicles_machine == 1) $('#checkbox-9').prop('checked', true);
-    else $('#checkbox-9').prop('checked', false);
-    if (data.inv_category == 1) $('#checkbox-10').prop('checked', true);
-    else $('#checkbox-10').prop('checked', false);
-    if (data.sale == 1) $('#checkbox-11').prop('checked', true);
-    else $('#checkbox-11').prop('checked', false);
-    if (data.user == 1) $('#checkbox-12').prop('checked', true);
-    else $('#checkbox-12').prop('checked', false);
-    if (data.inventory == 1) $('#checkbox-13').prop('checked', true);
-    else $('#checkbox-13').prop('checked', false);
-    if (data.plan_order == 1) $('#checkbox-14').prop('checked', true);
-    else $('#checkbox-14').prop('checked', false);
-    if (data.programming == 1) $('#checkbox-15').prop('checked', true);
-    else $('#checkbox-15').prop('checked', false);
-    if (data.plan_load == 1) $('#checkbox-16').prop('checked', true);
-    else $('#checkbox-16').prop('checked', false);
-    if (data.explosion_of_material == 1)
-      $('#checkbox-17').prop('checked', true);
-    else $('#checkbox-17').prop('checked', false);
-    if (data.office == 1) $('#checkbox-18').prop('checked', true);
-    else $('#checkbox-18').prop('checked', false);
+    i = 1;
+
+    access = {
+      invMolds: data.create_mold,
+      planProducts: data.create_product,
+      planMaterials: data.create_material,
+      planMachines: data.create_machine,
+      planProcess: data.create_process,
+      productsMaterials: data.products_material,
+      productProcess: data.products_process,
+      planningMachines: data.programs_machine,
+      planCiclesMachine: data.cicles_machine,
+      categories: data.inv_category,
+      sales: data.sale,
+      users: data.user,
+      clients: data.client,
+      typeOrder: data.orders_type,
+      inventories: data.inventory,
+      orders: data.plan_order,
+      programs: data.program,
+      loads: data.plan_load,
+      explosionMaterials: data.explosion_of_material,
+      offices: data.office,
+    };
+
+    $.each(access, (index, value) => {
+      if (value === 1) {
+        $(`#checkbox-${i}`).prop('checked', true);
+      } else $(`#checkbox-${i}`).prop('checked', false);
+      i++;
+    });
 
     $('html, body').animate(
       {
@@ -163,7 +157,7 @@ $(document).ready(function () {
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 18; i++) {
+    for (let i = 1; i <= 20; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataUser['createMold'] = '1';
         if (i == 2) dataUser['planningCreateProduct'] = '1';
@@ -177,12 +171,14 @@ $(document).ready(function () {
         if (i == 10) dataUser['invCategory'] = '1';
         if (i == 11) dataUser['sale'] = '1';
         if (i == 12) dataUser['plannigUser'] = '1';
-        if (i == 13) dataUser['inventory'] = '1';
-        if (i == 14) dataUser['order'] = '1';
-        if (i == 15) dataUser['programming'] = '1';
-        if (i == 16) dataUser['load'] = '1';
-        if (i == 17) dataUser['explosionOfMaterial'] = '1';
-        if (i == 18) dataUser['office'] = '1';
+        if (i == 13) dataUser['client'] = '1';
+        if (i == 14) dataUser['ordersType'] = '1';
+        if (i == 15) dataUser['inventory'] = '1';
+        if (i == 16) dataUser['order'] = '1';
+        if (i == 17) dataUser['program'] = '1';
+        if (i == 18) dataUser['load'] = '1';
+        if (i == 19) dataUser['explosionOfMaterial'] = '1';
+        if (i == 20) dataUser['office'] = '1';
       } else {
         if (i == 1) dataUser['createMold'] = '0';
         if (i == 2) dataUser['planningCreateProduct'] = '0';
@@ -196,12 +192,14 @@ $(document).ready(function () {
         if (i == 10) dataUser['invCategory'] = '0';
         if (i == 11) dataUser['sale'] = '0';
         if (i == 12) dataUser['plannigUser'] = '0';
-        if (i == 13) dataUser['inventory'] = '0';
-        if (i == 14) dataUser['order'] = '0';
-        if (i == 15) dataUser['programming'] = '0';
-        if (i == 16) dataUser['load'] = '0';
-        if (i == 17) dataUser['explosionOfMaterial'] = '0';
-        if (i == 18) dataUser['office'] = '0';
+        if (i == 13) dataUser['client'] = '1';
+        if (i == 14) dataUser['ordersType'] = '1';
+        if (i == 15) dataUser['inventory'] = '1';
+        if (i == 16) dataUser['order'] = '1';
+        if (i == 17) dataUser['program'] = '1';
+        if (i == 18) dataUser['load'] = '1';
+        if (i == 19) dataUser['explosionOfMaterial'] = '1';
+        if (i == 20) dataUser['office'] = '1';
       }
     }
 
@@ -256,7 +254,6 @@ $(document).ready(function () {
     if (data.success == true) {
       $('#createUserAccess').modal('hide');
       $('#formCreateUser').trigger('reset');
-      // $('#formCreateAccessUser')[0].reset();
       updateTable();
       toastr.success(data.message);
       return false;

@@ -76,6 +76,7 @@
     </div>
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/planning/js/users/usersAccess.js"></script>
 
     <script src="../planning/js/users/tblUsers.js"></script>
     <script src="../planning/js/users/users.js"></script>
