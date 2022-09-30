@@ -155,7 +155,9 @@
                     ?>
 
                     <img src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
-                    <span class="d-none d-xl-inline-block ml-1 userName"><?php echo "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
+                    <span class="d-none d-xl-inline-block ml-1 userName"><?php if (!empty($_SESSION))
+                                                                                echo "{$_SESSION['name']} {$_SESSION['lastname']}"; ?>
+                    </span>
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
