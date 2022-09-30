@@ -1,10 +1,10 @@
 <?php
 
-use tezlikv3\dao\UserInactiveTimeDao;
+/* use tezlikv3\dao\UserInactiveTimeDao;
 
 require_once(dirname(dirname(dirname(__DIR__))) . "../api/src/dao/app/global/login/UserInactiveTimeDao.php");
 $userinactivetimeDao = new UserInactiveTimeDao();
-$userinactivetimeDao->findSession();
+$userinactivetimeDao->findSession(); */
 ?>
 <div class="page-title-box">
     <div class="container-fluid">
