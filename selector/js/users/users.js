@@ -233,7 +233,7 @@ $(document).ready(function () {
         if (i == 29) dataUser['ordersType'] = '1';
         if (i == 30) dataUser['inventory'] = '1';
         if (i == 31) dataUser['order'] = '1';
-        if (i == 32) dataUser['programming'] = '1';
+        if (i == 32) dataUser['program'] = '1';
         if (i == 33) dataUser['load'] = '1';
         if (i == 34) dataUser['explosionOfMaterial'] = '1';
         if (i == 35) dataUser['office'] = '1';
@@ -264,14 +264,14 @@ $(document).ready(function () {
         if (i == 24) dataUser['ciclesMachine'] = '0';
         if (i == 25) dataUser['invCategory'] = '0';
         if (i == 26) dataUser['sale'] = '0';
-        if (i == 28) dataUser['client'] = '1';
-        if (i == 29) dataUser['ordersType'] = '1';
-        if (i == 30) dataUser['inventory'] = '1';
-        if (i == 31) dataUser['order'] = '1';
-        if (i == 32) dataUser['programming'] = '1';
-        if (i == 33) dataUser['load'] = '1';
-        if (i == 34) dataUser['explosionOfMaterial'] = '1';
-        if (i == 35) dataUser['office'] = '1';
+        if (i == 28) dataUser['client'] = '0';
+        if (i == 29) dataUser['ordersType'] = '0';
+        if (i == 30) dataUser['inventory'] = '0';
+        if (i == 31) dataUser['order'] = '0';
+        if (i == 32) dataUser['program'] = '0';
+        if (i == 33) dataUser['load'] = '0';
+        if (i == 34) dataUser['explosionOfMaterial'] = '0';
+        if (i == 35) dataUser['office'] = '0';
       }
     }
 
