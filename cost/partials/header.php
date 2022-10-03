@@ -227,7 +227,7 @@ if (!isset($_SESSION))
                     <a href="/cost/profile" class="dropdown-item">
                         <i class="bx bx-user mr-1"></i> Perfil
                     </a>
-                    <!-- <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">
+                    <!-- <a href="/cost/configuration" class="dropdown-item">
                         <i class="bx bx-wrench mr-1"></i> Configuración
                     </a> -->
                     <div class="dropdown-divider"></div>

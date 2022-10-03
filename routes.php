@@ -9,7 +9,20 @@ get('/', '/index.php');
 get('/forgot-pass', '/global/views/login/forgot-password.php');
 get('/reset-pass', '/global/views/login/reset-password.php');
 
-//COST
+/* ADMIN */
+get('/admin', '/admin/index.php');
+get('/admin/companies', '/admin/views/companies/companies.php');
+get('/admin/companies-licences', '/admin/views/companies/companiesLicenses.php');
+get('/admin/companies-user', '/admin/views/companies/companyUsers.php');
+get('/admin/notification', '/admin/views/notification/notification.php');
+get('/admin/puc', '/admin/views/puc/puc.php');
+get('/admin/users', '/admin/views/users/users.php');
+get('/admin/users-log', '/admin/views/users/usersLog.php');
+get('/admin/profile', '/admin/views/perfil/perfil.php');
+
+
+
+/* COST */
 //Navbar
 get('/cost', '/cost/index.php');
 get('/cost/prices', '/cost/views/analysis/prices.php');
@@ -17,6 +30,7 @@ get('/cost/details-prices', '/cost/views/analysis/detailsPrices.php');
 get('/cost/analysis-materials', '/cost/views/analysis/materials.php');
 get('/cost/support', '/cost/views/support/emailSupport.php');
 get('/cost/profile', '/cost/views/perfil/perfil.php');
+get('/cost/configuration', '/cost/views/perfil/configuracion.php');
 //Header
 //basic
 get('/cost/products', '/cost/views/basic/createProducts.php');
@@ -35,7 +49,7 @@ get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php
 //Admin
 get('/cost/users', '/cost/views/users/users.php');
 
-//Planning
+/* PLANNING */
 get('/planning', '/planning/index.php');
 get('/planning/inventory', '/planning/views/inventory/inventory.php');
 get('/planning/orders', '/planning/views/orders/orders.php');
@@ -62,7 +76,7 @@ get('/planning/users', '/planning/views/admin/users.php');
 get('/planning/profile', '/planning/views/perfil/perfil.php');
 
 
-//Selector
+/* SELECTOR */
 get('/selector', '/selector/index.php');
 get('/selector/users', '/selector/views/users/users.php');
 

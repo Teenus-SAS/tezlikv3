@@ -1,13 +1,17 @@
+<?php
+if (!isset($_SESSION))
+    session_start();
+?>
 <!-- Begin Header -->
 <header id="page-topbar" class="topbar-header">
     <div class="navbar-header">
         <div class="left-bar">
             <div class="navbar-brand-box">
-                <a href="index.html" class="logo logo-dark">
+                <a href="/admin" class="logo logo-dark">
                     <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
                     <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
                 </a>
-                <a href="index.html" class="logo logo-light">
+                <a href="/admin" class="logo logo-light">
                     <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
                     <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Lettstart Admin"></span>
                 </a>
@@ -34,39 +38,38 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="row" id="nav">
-                                <div class="col-md-3" id="navBasics">
+                                <!-- <div class="col-md-3" id="navBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/basic/createProducts.php')">Creación Productos</a></li>
-                                        <li class="createMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/basic/createRawMaterials.php')">Creación Materia Prima</a></li>
-                                        <li class="createMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/basic/createMachines.php')">Creación Máquinas</a></li>
-                                        <li class="createProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/basic/createProcess.php')">Creación Procesos</a></li>
+                                        <li class="createProducts"><a href="">Creación Productos</a></li>
+                                        <li class="createMaterials"><a href="">Creación Materia Prima</a></li>
+                                        <li class="createMachines"><a href="">Creación Máquinas</a></li>
+                                        <li class="createProcess"><a href="">Creación Procesos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/config/productMaterials.php')">Ficha Técnica Materia Prima</a></li>
-                                        <li class="productsProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/config/productProcess.php')">Ficha Técnica Procesos</a></li>
-                                        <li class="factoryLoad"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/config/factoryLoad.php')">Carga Fabril</a></li>
-                                        <li class="servicesExternal"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/config/externalServices.php')">Servicios Externos</a></li>
-                                        <!-- <li class="linesProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','views/operations/config/lines.php')">Lineas de Producto</a></li> -->
+                                        <li class="productsMaterials"><a href="">Ficha Técnica Materia Prima</a></li>
+                                        <li class="productsProcess"><a href="">Ficha Técnica Procesos</a></li>
+                                        <li class="factoryLoad"><a href="">Carga Fabril</a></li>
+                                        <li class="servicesExternal"><a href="">Servicios Externos</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="payroll"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/general/createPayroll.php')">Carga Nómina</a></li>
-                                        <li class="generalExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/general/expensesAssignation.php')">Asignación Gastos Generales</a></li>
-                                        <li class="distributionExpenses"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/operations/general/expensesDistribution.php')">Distribución de Gastos</a></li>
+                                        <li class="payroll"><a href="">Carga Nómina</a></li>
+                                        <li class="generalExpenses"><a href="">Asignación Gastos Generales</a></li>
+                                        <li class="distributionExpenses"><a href="">Distribución de Gastos</a></li>
                                     </ul>
-                                </div>
+                                </div> -->
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../cost/views/users/users.php')">Usuarios</a></li>
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../admin/views/companies/companies.php')">pruebas empresas</a></li>
-                                        <li class="users"><a href="javascript:void(0);" onclick="loadContent('page-content','../admin/views/companies/companiesLicenses.php')">pruebas licencias</a></li>
+                                        <li class="users"><a href="/admin/users">Usuarios</a></li>
+                                        <li class="companies"><a href="/admin/companies">pruebas empresas</a></li>
+                                        <li class="licenses"><a href="/admin/companies-licences">pruebas licencias</a></li>
                                         <!-- <li><a href="javascript:void(0);">Compact Sidebar</a></li>
                                         <li><a href="javascript:void(0);">Horizontal layout</a></li>
                                         <li><a href="javascript:void(0);">Maintenance</a></li>
@@ -288,12 +291,19 @@
             </div>
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-profile-dropdown" aria-expanded="false" class="btn header-item">
-                    <img src="/assets/images/users/avatar-1.jpg" alt="Header Avatar" class="avatar avatar-xs mr-0">
-                    <span class="d-none d-xl-inline-block ml-1 userName">Martha Lucia Olmos</span>
+                    <?php
+                    if (empty($_SESSION['avatar']))
+                        $avatar = "/assets/images/users/empty_user.png";
+                    else
+                        $avatar = $_SESSION['avatar'];
+                    ?>
+
+                    <img src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
+                    <span class="d-none d-xl-inline-block ml-1 userName"><?php echo "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
                     <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
-                    <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/perfil.php')" class="dropdown-item">
+                    <a href="/admin/profile" class="dropdown-item">
                         <i class="bx bx-user mr-1"></i> Perfil
                     </a>
                     <a href="javascript: void(0);" onclick="loadContent('page-content','views/perfil/configuracion.php')" class="dropdown-item">

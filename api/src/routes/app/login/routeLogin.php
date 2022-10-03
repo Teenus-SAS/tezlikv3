@@ -97,16 +97,19 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     /* Modificar el estado de la sesion del usuario en BD */
     $statusActiveUserDao->changeStatusUserLogin();
 
-    if ($user["id_rols"] == 1) $location = '../../admin/';
+    /* Consultar si el usuario es administrador */
+    $userAdmin = $autenticationDao->checkUserAdmin($user['email']);
+
+    if ($user["id_rols"] == 1 || $userAdmin) $location = '../../admin/';
     else {
         /* Validar licencia y accesos de usuario */
         $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
-            $location = 'selector';
+            $location = '../../selector/';
         else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)
             $location = '../../cost/';
         else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1)
-            $location = 'planning';
+            $location = '../../planning/';
     }
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);

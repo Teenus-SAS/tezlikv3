@@ -1,9 +1,8 @@
 $(document).ready(function () {
-  /* Ocultar Accesos usuario */
+  /* Ocultar panel Nuevo usuario 
 
-  $('.cardAccessCost').hide();
-  $('.separator').hide();
-  $('.cardAccessPlanning').hide();
+  $('.cardCreateUsers').hide();
+  $('.cardCreateAccessUser').hide(); */
 
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
@@ -15,9 +14,8 @@ $(document).ready(function () {
 
   $('#btnNewUser').click(function (e) {
     e.preventDefault();
-    $('.cardAccessCost').hide();
-    $('.separator').hide();
-    $('.cardAccessPlanning').hide();
+    // $('.cardCreateUsers').toggle(800);
+    // $('.cardCreateAccessUser').toggle(800);
     $('#createUserAccess').modal('show');
     $('#btnCreateUserAndAccess').html('Crear Usuario y Accesos');
 
@@ -28,33 +26,7 @@ $(document).ready(function () {
     $('#emailUser').prop('disabled', false);
 
     $('#formCreateUser').trigger('reset');
-  });
-
-  /* Accesos de usuario*/
-  $('.switch').change(function (e) {
-    e.preventDefault();
-    if (
-      $('#switchCost').is(':checked') &&
-      $('#switchPlanning').is(':checked')
-    ) {
-      $('.cardAccessCost').show(800);
-      $('.separator').show(800);
-      $('.cardAccessPlanning').show(800);
-    } else if ($('#switchCost').is(':checked')) {
-      $('.cardAccessCost').show(800);
-    } else if ($('#switchPlanning').is(':checked')) {
-      $('.cardAccessPlanning').show(800);
-    }
-
-    if (!$('#switchCost').is(':checked')) {
-      $('.separator').hide();
-      $('.cardAccessCost').hide(800);
-    }
-
-    if (!$('#switchPlanning').is(':checked')) {
-      $('.separator').hide();
-      $('.cardAccessPlanning').hide(800);
-    }
+    // $('#formCreateAccessUser').trigger('reset');
   });
 
   /* Agregar nuevo usuario */
@@ -105,77 +77,89 @@ $(document).ready(function () {
   /* Actualizar User */
 
   $(document).on('click', '.updateUser', function (e) {
+    $('#createUserAccess').modal('show');
+    $('#btnCreateUserAndAccess').html('Actualizar Accesos');
+
+    $('#nameUser').prop('disabled', true);
+    $('#lastnameUser').prop('disabled', true);
+    $('#emailUser').prop('disabled', true);
+
+    let row = $(this).parent().parent()[0];
+    let data = tblUsers.fnGetData(row);
+
     let idUser = this.id;
     sessionStorage.setItem('id_user', idUser);
 
-    $.get(`/api/generalUserAccess/${idUser}`, function (data) {
-      getUserAccess(data);
-      $('#createUserAccess').modal('show');
-      $('#btnCreateUserAndAccess').html('Actualizar Accesos');
-
-      $('#nameUser').prop('disabled', true);
-      $('#lastnameUser').prop('disabled', true);
-      $('#emailUser').prop('disabled', true);
-    });
-  });
-
-  // Obtener datos accesos de usuario
-  getUserAccess = (data) => {
-    // Datos usuario
     $('#nameUser').val(data.firstname);
     $('#lastnameUser').val(data.lastname);
     $('#emailUser').val(data.email);
 
     let acces = {
-      //costos
-      costCreateProducts: data.cost_product,
-      costCreateMaterials: data.cost_material,
-      costCreateMachines: data.cost_machine,
-      costCreateProcess: data.cost_process,
-      costProductsMaterials: data.cost_products_material,
-      costProductsProcess: data.cost_products_process,
-      factoryLoad: data.factory_load,
-      servicesExternal: data.external_service,
-      payroll: data.payroll_load,
-      generalExpenses: data.expense,
-      distributionExpenses: data.expense_distribution,
-      costUsers: data.cost_user,
-      analysisMaterials: data.analysis_material,
-      prices: data.price,
-      tools: data.tool,
-
-      //Planeacion
-      invMolds: data.create_mold,
-      planProducts: data.planning_product,
-      planMaterials: data.planning_material,
-      planMachines: data.planning_machine,
-      planProcess: data.planning_process,
-      planProductsMaterials: data.planning_products_material,
-      planProductProcess: data.planning_products_process,
-      planningMachines: data.programs_machine,
-      planCiclesMachine: data.cicles_machine,
-      categories: data.inv_category,
-      sales: data.sale,
-      planUsers: data.planning_user,
-      clients: data.client,
-      typeOrder: data.orders_type,
-      inventories: data.inventory,
-      orders: data.plan_order,
-      programs: data.program,
-      loads: data.plan_load,
-      explosionMaterials: data.explosion_of_material,
-      offices: data.office,
+      costCreateProducts: resp.create_product,
+      costCreateMaterials: resp.create_materials,
+      costCreateMachines: resp.create_machines,
+      costCreateProcess: resp.create_process,
+      productsMaterials: resp.product_materials,
+      productsProcess: resp.product_process,
+      factoryLoad: resp.factory_load,
+      servicesExternal: resp.external_service,
+      payroll: resp.payroll_load,
+      generalExpenses: resp.expense,
+      distributionExpenses: resp.expense_distribution,
+      users: resp.user,
+      analysisMaterials: resp.analysis_material,
+      prices: resp.price,
+      tools: resp.tool,
     };
 
     let i = 1;
 
-    $.each(acces, (index, value) => {
+    $.each(access, (index, value) => {
       if (value === 1) {
         $(`#checkbox-${i}`).prop('checked', true);
       } else $(`#checkbox-${i}`).prop('checked', false);
       i++;
     });
-  };
+
+    /*
+    if (data.create_product == 1) $('#checkbox-1').prop('checked', true);
+    else $('#checkbox-1').prop('checked', false);
+    if (data.create_materials == 1) $('#checkbox-2').prop('checked', true);
+    else $('#checkbox-2').prop('checked', false);
+    if (data.create_machines == 1) $('#checkbox-3').prop('checked', true);
+    else $('#checkbox-3').prop('checked', false);
+    if (data.create_process == 1) $('#checkbox-4').prop('checked', true);
+    else $('#checkbox-4').prop('checked', false);
+    if (data.product_materials == 1) $('#checkbox-5').prop('checked', true);
+    else $('#checkbox-5').prop('checked', false);
+    if (data.product_process == 1) $('#checkbox-6').prop('checked', true);
+    else $('#checkbox-6').prop('checked', false);
+    if (data.factory_load == 1) $('#checkbox-7').prop('checked', true);
+    else $('#checkbox-7').prop('checked', false);
+    if (data.external_service == 1) $('#checkbox-8').prop('checked', true);
+    else $('#checkbox-8').prop('checked', false);
+    if (data.payroll_load == 1) $('#checkbox-9').prop('checked', true);
+    else $('#checkbox-9').prop('checked', false);
+    if (data.expense == 1) $('#checkbox-10').prop('checked', true);
+    else $('#checkbox-10').prop('checked', false);
+    if (data.expense_distribution == 1) $('#checkbox-11').prop('checked', true);
+    else $('#checkbox-11').prop('checked', false);
+    if (data.user == 1) $('#checkbox-12').prop('checked', true);
+    else $('#checkbox-12').prop('checked', false);
+    if (data.price == 1) $('#checkbox-13').prop('checked', true);
+    else $('#checkbox-13').prop('checked', false);
+    if (data.analysis_material == 1) $('#checkbox-14').prop('checked', true);
+    else $('#checkbox-14').prop('checked', false);
+    if (data.tool == 1) $('#checkbox-15').prop('checked', true);
+    else $('#checkbox-15').prop('checked', false);*/
+
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
+  });
 
   updateUserAccess = () => {
     idUser = sessionStorage.getItem('id_user');
@@ -189,7 +173,7 @@ $(document).ready(function () {
     dataUser = setCheckBoxes(dataUser);
 
     $.post(
-      '/api/updatePlanningUserAccess',
+      '/api/updateCostUserAccess',
       dataUser,
       function (data, textStatus, jqXHR) {
         message(data);
@@ -198,9 +182,9 @@ $(document).ready(function () {
     );
   };
 
-  /* Metodo para definir checkboxes */
+  /* Seleccionar checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 35; i++) {
+    for (let i = 1; i <= 16; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataUser['costCreateProducts'] = '1';
         if (i == 2) dataUser['costCreateMaterials'] = '1';
@@ -217,26 +201,6 @@ $(document).ready(function () {
         if (i == 13) dataUser['price'] = '1';
         if (i == 14) dataUser['analysisMaterial'] = '1';
         if (i == 15) dataUser['tool'] = '1';
-        if (i == 16) dataUser['createMold'] = '1';
-        if (i == 17) dataUser['planningCreateProduct'] = '1';
-        if (i == 18) dataUser['planningCreateMaterial'] = '1';
-        if (i == 19) dataUser['planningCreateMachine'] = '1';
-        if (i == 20) dataUser['planningCreateProcess'] = '1';
-        if (i == 21) dataUser['planningProductsMaterial'] = '1';
-        if (i == 22) dataUser['planningProductsProcess'] = '1';
-        if (i == 23) dataUser['programsMachine'] = '1';
-        if (i == 24) dataUser['ciclesMachine'] = '1';
-        if (i == 25) dataUser['invCategory'] = '1';
-        if (i == 26) dataUser['sale'] = '1';
-        if (i == 27) dataUser['plannigUser'] = '1';
-        if (i == 28) dataUser['client'] = '1';
-        if (i == 29) dataUser['ordersType'] = '1';
-        if (i == 30) dataUser['inventory'] = '1';
-        if (i == 31) dataUser['order'] = '1';
-        if (i == 32) dataUser['program'] = '1';
-        if (i == 33) dataUser['load'] = '1';
-        if (i == 34) dataUser['explosionOfMaterial'] = '1';
-        if (i == 35) dataUser['office'] = '1';
       } else {
         if (i == 1) dataUser['costCreateProducts'] = '0';
         if (i == 2) dataUser['costCreateMaterials'] = '0';
@@ -253,28 +217,8 @@ $(document).ready(function () {
         if (i == 13) dataUser['price'] = '0';
         if (i == 14) dataUser['analysisMaterial'] = '0';
         if (i == 15) dataUser['tool'] = '0';
-        if (i == 16) dataUser['createMold'] = '0';
-        if (i == 17) dataUser['planningCreateProduct'] = '0';
-        if (i == 18) dataUser['planningCreateMaterial'] = '0';
-        if (i == 19) dataUser['planningCreateMachine'] = '0';
-        if (i == 20) dataUser['planningCreateProcess'] = '0';
-        if (i == 21) dataUser['planningProductsMaterial'] = '0';
-        if (i == 22) dataUser['planningProductsProcess'] = '0';
-        if (i == 23) dataUser['programsMachine'] = '0';
-        if (i == 24) dataUser['ciclesMachine'] = '0';
-        if (i == 25) dataUser['invCategory'] = '0';
-        if (i == 26) dataUser['sale'] = '0';
-        if (i == 28) dataUser['client'] = '0';
-        if (i == 29) dataUser['ordersType'] = '0';
-        if (i == 30) dataUser['inventory'] = '0';
-        if (i == 31) dataUser['order'] = '0';
-        if (i == 32) dataUser['program'] = '0';
-        if (i == 33) dataUser['load'] = '0';
-        if (i == 34) dataUser['explosionOfMaterial'] = '0';
-        if (i == 35) dataUser['office'] = '0';
       }
     }
-
     return dataUser;
   };
 
@@ -284,11 +228,13 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
+    // let idUser = data.id_user;
     let idUser = data.id_user;
-    let programsMachine = data.programs_machine;
+    let factoryLoad = data.factory_load;
     dataUser = {};
+    // dataUser['idUser'] = idUser;
     dataUser['idUser'] = idUser;
-    dataUser['programsMachine'] = programsMachine;
+    dataUser['factoryLoad'] = factoryLoad;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -322,9 +268,6 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
-      $('.cardAccessCost').hide();
-      $('.separator').hide();
-      $('.cardAccessPlanning').hide();
       $('#createUserAccess').modal('hide');
       $('#formCreateUser').trigger('reset');
       // $('#formCreateAccessUser')[0].reset();

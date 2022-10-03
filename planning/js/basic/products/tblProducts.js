@@ -48,6 +48,7 @@ $(document).ready(function () {
         title: 'Categoria',
         data: 'category',
         className: 'uniqueClassName',
+        //render: function (data) {},
       },
       {
         title: 'Acciones',

@@ -23,15 +23,4 @@ $(document).ready(function () {
       });
     },
   });
-  /*
-  getData = async (params) => {
-    try {
-      result = await $.ajax({
-        url: '/api/observacionesInactivos',
-      });
-      return result;
-    } catch (error) {
-      console.error(error);
-    }
-  };*/
 });

@@ -34,7 +34,6 @@ $(document).ready(function () {
   $('#material').change(function (e) {
     e.preventDefault();
     id = this.value;
-    debugger;
     let dataMaterials = sessionStorage.getItem('dataMaterials');
     dataMaterials = JSON.parse(dataMaterials);
     sessionStorage.removeItem('dataMaterials');

@@ -16,7 +16,6 @@ $app->get('/companies/{stat}', function (Request $request, Response $response, $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-
 //Nueva Empresa
 $app->post('/addNewCompany', function (Request $request, Response $response, $args) use ($companiesDao, $companiesLicDao) {
     $dataCompany = $request->getParsedBody();
