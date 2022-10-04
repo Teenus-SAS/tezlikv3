@@ -46,7 +46,7 @@
                         </div>
                     </li>
                     <li class="nav-item notification">
-                        <a class="nav-link" href="/admin/notification">
+                        <a class="nav-link" href="/admin/notifications">
                             <i class="bx bx-bell mr-1"></i> Notificaciones
                             <i class="bx bx-chevron-down"></i>
                         </a>

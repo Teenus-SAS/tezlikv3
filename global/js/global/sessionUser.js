@@ -11,7 +11,7 @@ $(document).ready(function () {
   var timeout;
   var prevKey = '';
 
-  /* Cierre de pagina */
+  /* Cierre de pagina 
   $(window).on('mouseover', function () {
     window.onbeforeunload = null;
   });
@@ -20,7 +20,7 @@ $(document).ready(function () {
   });
   function ConfirmLeave() {
     logoutUser();
-  }
+  } */
 
   $(document).keydown(function (e) {
     if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {

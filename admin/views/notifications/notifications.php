@@ -40,7 +40,7 @@
                             </div>
                             <div class="col-sm-7 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-warning" id="btnNewNotification" name="btnNewNotification">Nuevo Notificacion</button>
+                                    <button class="btn btn-warning" id="btnNewNotification">Nuevo Notificacion</button>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                             <div class="form-row">
                                                 <div class="col">
                                                     <label for="">Descripción</label>
-                                                    <input type="text" class="form-control" name="description" id="description">
+                                                    <textarea class="form-control" name="description" id="description"></textarea>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <label>Empresa</label>
@@ -87,7 +87,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblNotification">
+                                            <table class="table table-striped" id="tblNotifications">
 
                                             </table>
                                         </div>
@@ -108,8 +108,8 @@
     <script src="/admin/js/users/usersAccess.js"></script>
 
     <script src="/admin/js/companies/configCompanies.js"></script>
-    <script src="/admin/js/notification/tblNotification.js"></script>
-    <script src="/admin/js/notification/notification.js"></script>
+    <script src="/admin/js/notifications/tblNotifications.js"></script>
+    <script src="/admin/js/notifications/notifications.js"></script>
 </body>
 
 </html>

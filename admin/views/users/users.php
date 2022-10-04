@@ -50,6 +50,34 @@
                     </div>
                 </div>
 
+                <div class="page-content-wrapper mt--45 mb-5 cardCreateUser">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formCreateUser">
+                                            <div class="gridx3cm">
+                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                    <input class="form-control" name="email" id="email">
+                                                    <label for="">Correo</label>
+                                                </div>
+                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                    <select class="form-control" name="password" id="password"></select>
+                                                    <label for="">Contraseña</label>
+                                                </div>
+                                                <div style="margin-bottom:0px;margin-top:5px;">
+                                                    <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">

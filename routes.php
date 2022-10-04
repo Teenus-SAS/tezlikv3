@@ -10,14 +10,16 @@ get('/forgot-pass', '/global/views/login/forgot-password.php');
 get('/reset-pass', '/global/views/login/reset-password.php');
 
 /* ADMIN */
+//Navbar
 get('/admin', '/admin/index.php');
 get('/admin/companies', '/admin/views/companies/companies.php');
 get('/admin/companies-licences', '/admin/views/companies/companiesLicenses.php');
-get('/admin/companies-user', '/admin/views/companies/companyUsers.php');
-get('/admin/notification', '/admin/views/notification/notification.php');
-get('/admin/puc', '/admin/views/puc/puc.php');
-get('/admin/users', '/admin/views/users/users.php');
 get('/admin/users-log', '/admin/views/users/usersLog.php');
+get('/admin/puc', '/admin/views/puc/puc.php');
+get('/admin/notifications', '/admin/views/notifications/notifications.php');
+get('/admin/companies-user', '/admin/views/companies/companyUsers.php');
+//Header
+get('/admin/users', '/admin/views/users/users.php');
 get('/admin/profile', '/admin/views/perfil/perfil.php');
 
 

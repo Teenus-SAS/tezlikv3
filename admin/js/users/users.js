@@ -121,38 +121,6 @@ $(document).ready(function () {
       i++;
     });
 
-    /*
-    if (data.create_product == 1) $('#checkbox-1').prop('checked', true);
-    else $('#checkbox-1').prop('checked', false);
-    if (data.create_materials == 1) $('#checkbox-2').prop('checked', true);
-    else $('#checkbox-2').prop('checked', false);
-    if (data.create_machines == 1) $('#checkbox-3').prop('checked', true);
-    else $('#checkbox-3').prop('checked', false);
-    if (data.create_process == 1) $('#checkbox-4').prop('checked', true);
-    else $('#checkbox-4').prop('checked', false);
-    if (data.product_materials == 1) $('#checkbox-5').prop('checked', true);
-    else $('#checkbox-5').prop('checked', false);
-    if (data.product_process == 1) $('#checkbox-6').prop('checked', true);
-    else $('#checkbox-6').prop('checked', false);
-    if (data.factory_load == 1) $('#checkbox-7').prop('checked', true);
-    else $('#checkbox-7').prop('checked', false);
-    if (data.external_service == 1) $('#checkbox-8').prop('checked', true);
-    else $('#checkbox-8').prop('checked', false);
-    if (data.payroll_load == 1) $('#checkbox-9').prop('checked', true);
-    else $('#checkbox-9').prop('checked', false);
-    if (data.expense == 1) $('#checkbox-10').prop('checked', true);
-    else $('#checkbox-10').prop('checked', false);
-    if (data.expense_distribution == 1) $('#checkbox-11').prop('checked', true);
-    else $('#checkbox-11').prop('checked', false);
-    if (data.user == 1) $('#checkbox-12').prop('checked', true);
-    else $('#checkbox-12').prop('checked', false);
-    if (data.price == 1) $('#checkbox-13').prop('checked', true);
-    else $('#checkbox-13').prop('checked', false);
-    if (data.analysis_material == 1) $('#checkbox-14').prop('checked', true);
-    else $('#checkbox-14').prop('checked', false);
-    if (data.tool == 1) $('#checkbox-15').prop('checked', true);
-    else $('#checkbox-15').prop('checked', false);*/
-
     $('html, body').animate(
       {
         scrollTop: 0,
