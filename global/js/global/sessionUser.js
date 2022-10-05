@@ -20,7 +20,7 @@ $(document).ready(function () {
   });
   function ConfirmLeave() {
     logoutUser();
-  } */
+  }*/
 
   $(document).keydown(function (e) {
     if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {

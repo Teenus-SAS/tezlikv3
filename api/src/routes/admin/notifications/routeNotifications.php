@@ -13,21 +13,30 @@ $app->get('/notifications', function (Request $request, Response $response, $arg
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/recentNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $notifications = $notificationsDao->findRecentNotification($id_company);
+    $response->getBody()->write(json_encode($notifications));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/addNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
     $dataNotifications = $request->getParsedBody();
 
-    if (empty($dataNotifications['description']) || empty($dataNotifications['company']))
+    /*    if (empty($dataNotifications['description']) || empty($dataNotifications['company']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
-    else {
-        $notifications = $notificationsDao->insertNotification($dataNotifications);
+    else {*/
+    $notifications = $notificationsDao->insertNotification($dataNotifications);
 
-        if ($notifications == null)
-            $resp = array('success' => true, 'message' => 'Notificacion ingresada correctamente');
-        else if (isset($dataNotifications['info']))
-            $resp = array('info' => true, 'message' => $notifications['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
-    }
+    if ($notifications == null)
+        $resp = array('success' => true, 'message' => 'Notificacion ingresada correctamente');
+    else if (isset($notifications['info']))
+        $resp = array('info' => true, 'message' => $notifications['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
@@ -42,11 +51,27 @@ $app->post('/updateNotification', function (Request $request, Response $response
 
         if ($notifications == null)
             $resp = array('success' => true, 'message' => 'Notificacion modificada correctamente');
-        else if (isset($dataNotifications['info']))
+        else if (isset($notifications['info']))
             $resp = array('info' => true, 'message' => $notifications['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
     }
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/updateCheckNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $notifications = $notificationsDao->updateCheckNotification($id_company);
+
+    if ($notifications == null)
+        $resp = array('success' => true, 'message' => 'Notificaciones limpiadas correctamente');
+    else if (isset($notifications['info']))
+        $resp = array('info' => true, 'message' => $notifications['message']);
+    else
+        $resp = array('success' => true, 'message' => 'No se pudo limpiar las notificaciones. Intente nuevamente');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

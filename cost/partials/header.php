@@ -130,21 +130,21 @@ if (!isset($_SESSION))
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-notification-dropdown" aria-expanded="false" class="btn header-item notify-icon position-relative">
                     <i class="bx bx-bell bx-tada"></i>
-                    <span class="badge badge-danger badge-pill notify-icon-badge">3</span>
+                    <span class="badge badge-danger badge-pill notify-icon-badge" id="count"></span>
                 </button>
                 <div aria-labelledby="page-header-notification-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu">
                     <div class="notify-title p-3">
                         <h5 class="font-size-14 font-weight-600 mb-0">
                             <span>Notificationes</span>
-                            <a class="text-primary" href="javascript: void(0);">
+                            <a class="text-primary" href="javascript: void(0);" id="clear">
                                 <small>Limpiar Todo</small>
                             </a>
                         </h5>
                     </div>
                     <div class="notify-scroll">
-                        <div class="scroll-content" id="notify-scrollbar">
-                            <div class="scroll-content">
-                                <a href="javascript:void(0);" class="dropdown-item notification-item">
+                        <div class="scroll-content">
+                            <div class="scroll-content" id="notify-scrollbar">
+                                <!-- <a href="javascript:void(0);" class="dropdown-item notification-item">
                                     <div class="media">
                                         <div class="avatar avatar-xs bg-primary">
                                             <i class="bx bx-user-plus"></i>
@@ -198,11 +198,11 @@ if (!isset($_SESSION))
                                             <small class="text-muted">2 hours ago</small>
                                         </p>
                                     </div>
-                                </a>
+                                </a> -->
                             </div>
                         </div>
                         <div class="notify-all">
-                            <a href="javascript: void(0);" class="text-primary text-center p-3">
+                            <a href="javascript: void(0);" class="text-primary text-center p-3" id="showAll">
                                 <small>Mostrar todo</small>
                             </a>
                         </div>

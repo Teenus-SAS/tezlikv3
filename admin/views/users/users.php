@@ -15,8 +15,6 @@
 </head>
 
 <body class="horizontal-navbar">
-    <?php require_once dirname(dirname(dirname(__DIR__))) . '/admin/modals/createUserAccess.php'; ?>
-
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
@@ -57,14 +55,14 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="formCreateUser">
-                                            <div class="gridx3cm">
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input class="form-control" name="email" id="email">
+                                            <div class="form-row">
+                                                <div class="col">
                                                     <label for="">Correo</label>
+                                                    <input type="email" class="form-control" name="email" id="email">
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <select class="form-control" name="password" id="password"></select>
+                                                <div class="col">
                                                     <label for="">Contraseña</label>
+                                                    <input type="password" class="form-control" name="password" id="password">
                                                 </div>
                                                 <div style="margin-bottom:0px;margin-top:5px;">
                                                     <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>
