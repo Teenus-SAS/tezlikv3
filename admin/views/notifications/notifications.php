@@ -105,7 +105,6 @@
     </div>
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/admin/js/users/usersAccess.js"></script>
 
     <script src="/admin/js/companies/configCompanies.js"></script>
     <script src="/admin/js/notifications/tblNotifications.js"></script>

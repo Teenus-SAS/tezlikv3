@@ -11,7 +11,7 @@ $(document).ready(function () {
   var timeout;
   var prevKey = '';
 
-  /* Cierre de pagina 
+  /* Cierre de pagina */
   $(window).on('mouseover', function () {
     window.onbeforeunload = null;
   });
@@ -20,19 +20,19 @@ $(document).ready(function () {
   });
   function ConfirmLeave() {
     logoutUser();
-  }*/
+  }
 
-  $(document).keydown(function (e) {
-    if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {
-      logoutUser();
-    } else if (
-      e.key.toUpperCase() == 'F4' &&
-      (prevKey == 'ALT' || prevKey == 'CONTROL')
-    ) {
-      logoutUser();
-    }
-    prevKey = e.key.toUpperCase();
-  });
+  // $(document).keydown(function (e) {
+  //   if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {
+  //     logoutUser();
+  //   } else if (
+  //     e.key.toUpperCase() == 'F4' &&
+  //     (prevKey == 'ALT' || prevKey == 'CONTROL')
+  //   ) {
+  //     logoutUser();
+  //   }
+  //   prevKey = e.key.toUpperCase();
+  // });
 
   /* Tiempo de inactividad */
   $(document).on('mousemove', function (event) {

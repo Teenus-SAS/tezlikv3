@@ -324,5 +324,3 @@ if (!isset($_SESSION))
     </div>
 </header>
 <!-- Header End -->
-
-<?php include_once dirname(__DIR__) . '../../global/partials/scriptsJS.php'; ?>

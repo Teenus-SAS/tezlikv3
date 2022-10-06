@@ -29,18 +29,18 @@ $(document).ready(function () {
       } else font = 'normal';
 
       $('#notify-scrollbar').append(`
-            <a href="javascript:void(0);" class="dropdown-item notification-item" style="font-weight: ${font}">
-                <div class="media">
-                    <div class="avatar avatar-xs">
-                        <i class="bx bx-user-plus"></i>
-                    </div>
-                    <p class="media-body">
-                        ${data[i].description}
-                        <small class="text-muted">${data[i].date_notification}</small>
-                    </p>
-                </div>
-            </a>
-        `);
+          <a href="javascript:void(0);" class="dropdown-item notification-item" style="font-weight: ${font}">
+            <div class="media">
+              <div class="avatar avatar-xs">
+                <i class="bx bx-user-plus"></i>
+              </div>
+              <p class="media-body">
+                ${data[i].description}
+                <small class="text-muted">${data[i].date_notification}</small>
+              </p>
+            </div>
+          </a>
+      `);
     }
     $('#count').html(n);
   };
