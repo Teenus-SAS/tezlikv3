@@ -36,8 +36,10 @@ class NotificationsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM notifications 
-                                      WHERE id_company IN(0,:id_company) ORDER BY date_notification DESC;");
+        $stmt = $connection->prepare("SELECT n.id_notification, n.description, n.id_company, n.date_notification, n.check_notification, c.logo
+                                      FROM notifications n
+                                        LEFT JOIN companies c ON c.id_company = n.id_company
+                                      WHERE n.id_company IN(0, :id_company) ORDER BY n.date_notification DESC;");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -49,15 +51,12 @@ class NotificationsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $date = date("Y-m-d");
-
         try {
-            $stmt = $connection->prepare("INSERT INTO notifications (id_company, description, date_notification, check_notification) 
-                                          VALUES (:id_company, :descr, :date_notification, :check_notification)");
+            $stmt = $connection->prepare("INSERT INTO notifications (id_company, description, check_notification) 
+                                          VALUES (:id_company, :descr, :check_notification)");
             $stmt->execute([
                 'id_company' => $dataNotifications['company'],
                 'descr' => $dataNotifications['description'],
-                'date_notification' => $date,
                 'check_notification' => 1
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
