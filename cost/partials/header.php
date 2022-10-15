@@ -1,8 +1,3 @@
-<!-- Begin Header -->
-<?php
-if (!isset($_SESSION))
-    session_start();
-?>
 <header id="page-topbar" class="topbar-header">
     <div class="navbar-header">
         <div class="left-bar">

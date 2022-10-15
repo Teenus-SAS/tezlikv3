@@ -94,22 +94,22 @@ $(document).ready(function () {
     $('#lastnameUser').val(data.lastname);
     $('#emailUser').val(data.email);
 
-    let acces = {
-      costCreateProducts: resp.create_product,
-      costCreateMaterials: resp.create_materials,
-      costCreateMachines: resp.create_machines,
-      costCreateProcess: resp.create_process,
-      productsMaterials: resp.product_materials,
-      productsProcess: resp.product_process,
-      factoryLoad: resp.factory_load,
-      servicesExternal: resp.external_service,
-      payroll: resp.payroll_load,
-      generalExpenses: resp.expense,
-      distributionExpenses: resp.expense_distribution,
-      users: resp.user,
-      analysisMaterials: resp.analysis_material,
-      prices: resp.price,
-      tools: resp.tool,
+    access = {
+      costCreateProducts: data.create_product,
+      costCreateMaterials: data.create_materials,
+      costCreateMachines: data.create_machines,
+      costCreateProcess: data.create_process,
+      productsMaterials: data.product_materials,
+      productsProcess: data.product_process,
+      factoryLoad: data.factory_load,
+      servicesExternal: data.external_service,
+      payroll: data.payroll_load,
+      generalExpenses: data.expense,
+      distributionExpenses: data.expense_distribution,
+      users: data.user,
+      analysisMaterials: data.analysis_material,
+      prices: data.price,
+      tools: data.tool,
     };
 
     let i = 1;
@@ -120,38 +120,6 @@ $(document).ready(function () {
       } else $(`#checkbox-${i}`).prop('checked', false);
       i++;
     });
-
-    /*
-    if (data.create_product == 1) $('#checkbox-1').prop('checked', true);
-    else $('#checkbox-1').prop('checked', false);
-    if (data.create_materials == 1) $('#checkbox-2').prop('checked', true);
-    else $('#checkbox-2').prop('checked', false);
-    if (data.create_machines == 1) $('#checkbox-3').prop('checked', true);
-    else $('#checkbox-3').prop('checked', false);
-    if (data.create_process == 1) $('#checkbox-4').prop('checked', true);
-    else $('#checkbox-4').prop('checked', false);
-    if (data.product_materials == 1) $('#checkbox-5').prop('checked', true);
-    else $('#checkbox-5').prop('checked', false);
-    if (data.product_process == 1) $('#checkbox-6').prop('checked', true);
-    else $('#checkbox-6').prop('checked', false);
-    if (data.factory_load == 1) $('#checkbox-7').prop('checked', true);
-    else $('#checkbox-7').prop('checked', false);
-    if (data.external_service == 1) $('#checkbox-8').prop('checked', true);
-    else $('#checkbox-8').prop('checked', false);
-    if (data.payroll_load == 1) $('#checkbox-9').prop('checked', true);
-    else $('#checkbox-9').prop('checked', false);
-    if (data.expense == 1) $('#checkbox-10').prop('checked', true);
-    else $('#checkbox-10').prop('checked', false);
-    if (data.expense_distribution == 1) $('#checkbox-11').prop('checked', true);
-    else $('#checkbox-11').prop('checked', false);
-    if (data.user == 1) $('#checkbox-12').prop('checked', true);
-    else $('#checkbox-12').prop('checked', false);
-    if (data.price == 1) $('#checkbox-13').prop('checked', true);
-    else $('#checkbox-13').prop('checked', false);
-    if (data.analysis_material == 1) $('#checkbox-14').prop('checked', true);
-    else $('#checkbox-14').prop('checked', false);
-    if (data.tool == 1) $('#checkbox-15').prop('checked', true);
-    else $('#checkbox-15').prop('checked', false);*/
 
     $('html, body').animate(
       {

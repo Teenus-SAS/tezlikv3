@@ -1,3 +1,4 @@
+<?php include_once dirname(__DIR__) . '/global/sessions/session.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 

@@ -33,7 +33,7 @@ $(document).ready(function () {
 
       // Calcular tiempo transcurrido
       fecha = new Date(data[i].date_notification);
-      // lateDay = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0);
+      lateDay = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0);
       hoy = new Date();
 
       tiempoPasado = hoy - fecha;

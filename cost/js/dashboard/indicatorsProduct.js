@@ -46,7 +46,6 @@ $(document).ready(function () {
     $('#rawMaterial').html(
       `$ ${data[0].cost_materials.toLocaleString('es-ES')}`
     );
-    // $('#workforce').html(`$ ${data[0].cost_workforce.toLocaleString('es-ES')}`);
     $('#workforce').html(
       `$ ${data[0].cost_workforce.toLocaleString(undefined, {
         minimumFractionDigits: 0,
@@ -84,8 +83,9 @@ $(document).ready(function () {
   UnitsVolSold = (data) => {
     $('#unitsSold').html(data[0].units_sold.toLocaleString('es-ES'));
     $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-ES')}`);
+    dataCost = getDataCost(data[0]);
     $('#recomendedPrice').html(
-      `$ ${data[0].price.toLocaleString(undefined, {
+      `$ ${dataCost.price.toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -95,21 +95,16 @@ $(document).ready(function () {
   /* Costeo Total */
 
   totalCost = (data) => {
-    cost =
-      parseFloat(data[0].cost_materials) +
-      parseFloat(data[0].cost_workforce) +
-      parseFloat(data[0].cost_indirect_cost);
-    costTotal = cost + parseFloat(data[0].assignable_expense);
-
+    dataCost = getDataCost(data[0]);
     // $('#salesPrice').html(`$ ${data[0].price.toLocaleString('es-ES')}`);
     $('#costTotal').html(
-      `$ ${costTotal.toLocaleString(undefined, {
+      `$ ${dataCost.costTotal.toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
     $('#cost').html(
-      `$ ${cost.toLocaleString(undefined, {
+      `$ ${dataCost.cost.toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -136,25 +131,44 @@ $(document).ready(function () {
       })}`
     );
 
-    costCommissionSale = data[0].price * (data[0].commission_sale / 100);
     $('#commission').html(`Comisión Vts (${data[0].commission_sale}%)`);
     $('#commisionSale').html(
-      `$ ${Math.round(costCommissionSale).toLocaleString()}`
+      `$ ${Math.round(dataCost.costCommissionSale).toLocaleString()}`
     );
 
-    costProfitability = data[0].price * (data[0].profitability / 100);
     $('#profit').html(`Rentabilidad (${data[0].profitability}%)`);
     $('#profitability').html(
-      `$ ${Math.round(costProfitability).toLocaleString()}`
+      `$ ${Math.round(dataCost.costProfitability).toLocaleString()}`
     );
 
-    price = costTotal + costCommissionSale + costProfitability;
-
     $('#salesPrice').html(
-      `$ ${price.toLocaleString(undefined, {
+      `$ ${dataCost.price.toLocaleString(undefined, {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
+  };
+
+  getDataCost = (data) => {
+    cost =
+      parseFloat(data.cost_materials) +
+      parseFloat(data.cost_workforce) +
+      parseFloat(data.cost_indirect_cost);
+    costTotal = cost + parseFloat(data.assignable_expense);
+
+    costCommissionSale = data.price * (data.commission_sale / 100);
+    costProfitability = data.price * (data.profitability / 100);
+
+    price = costTotal + costCommissionSale + costProfitability;
+
+    dataCost = {
+      cost: cost,
+      costTotal: costTotal,
+      costCommissionSale: costCommissionSale,
+      costProfitability: costProfitability,
+      price: price,
+    };
+
+    return dataCost;
   };
 });

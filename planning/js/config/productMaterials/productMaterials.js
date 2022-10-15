@@ -34,9 +34,12 @@ $(document).ready(function () {
   $('#material').change(function (e) {
     e.preventDefault();
     id = this.value;
-    let dataMaterials = sessionStorage.getItem('dataMaterials');
-    dataMaterials = JSON.parse(dataMaterials);
-    sessionStorage.removeItem('dataMaterials');
+
+    data = sessionStorage.getItem('dataMaterials');
+    if (data) {
+      dataMaterials = JSON.parse(dataMaterials);
+      sessionStorage.removeItem('dataMaterials');
+    }
 
     for (i = 0; i < dataMaterials.length; i++) {
       if (id == dataMaterials[i]['id_material']) {

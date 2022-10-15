@@ -8,18 +8,25 @@ $(document).ready(function () {
       }
     },
   }); */
+  inactive = sessionStorage.getItem('inactive');
+  if (inactive) location.href = '/';
   var timeout;
   var prevKey = '';
 
-  /* Cierre de pagina 
+  /* Cierre de pagina */
   $(window).on('mouseover', function () {
     window.onbeforeunload = null;
   });
   $(window).on('mouseout', function () {
     window.onbeforeunload = ConfirmLeave;
   });
+  $('body').on('click', 'a', function () {
+    window.onbeforeunload = null;
+  });
   function ConfirmLeave() {
     logoutUser();
+    sessionStorage.removeItem('inactive');
+    sessionStorage.setItem('inactive', 1);
   }
 
   $(document).keydown(function (e) {
@@ -32,7 +39,7 @@ $(document).ready(function () {
       logoutUser();
     }
     prevKey = e.key.toUpperCase();
-  }); */
+  });
 
   /* Tiempo de inactividad */
   $(document).on('mousemove', function (event) {
@@ -51,12 +58,7 @@ $(document).ready(function () {
   fetchindata = async () => {
     resp = await logoutUser();
 
-    if (resp.inactive) {
-      setTimeout(function () {
-        location.href = '/';
-      }, 2000);
-      toastr.error(resp.message);
-    }
+    toastr.error(resp.message);
   };
 
   logoutUser = async () => {
