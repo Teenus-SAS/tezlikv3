@@ -47,18 +47,18 @@
             <div class="auth-user-testimonial">
               <div class="owl-carousel">
                 <div class="item">
-                  <h3 class="text-white mb-1">Fije los precios de sus productos de forma muy sencilla!</h3>
-                  <h5 class="text-white mb-3">"con sus costos y rentabilidad!"</h5>
+                  <h3 class="text-white mb-1">Aumenta las expectativas del consumidor respecto a la funcionalidad, calidad y precios de tus productos!</h3>
+                  <h5 class="text-white mb-3">"Vende más!"</h5>
                   <p>Tezlik Software</p>
                 </div>
                 <div class="item">
-                  <h3 class="text-white mb-1">Modifique el costos de una materia prima y todos los productos asociados a ella se afectaran automaticamente!</h3>
-                  <h5 class="text-white mb-3">"Fácil como nos gusta!"</h5>
+                  <h3 class="text-white mb-1">¿Qué tan competitiva es tu empresa? </h3>
+                  <h5 class="text-white mb-3">"Una estructura de costos para fijar los precios lo llevara a ser mas competitivo"</h5>
                   <p>Tezlik Software</p>
                 </div>
                 <div class="item">
-                  <h3 class="text-white mb-1">Analice facilmente las materias primas a la luz de sus costos para reducirlos!</h3>
-                  <h5 class="text-white mb-3">"con un solo click!"</h5>
+                  <h3 class="text-white mb-1">Obtenga poder de negociación con proveedores</h3>
+                  <h5 class="text-white mb-3">"Conocer que necesita y que desea le da mayor fortaleza"</h5>
                   <p>Tezlik Software</p>
                 </div>
               </div>
