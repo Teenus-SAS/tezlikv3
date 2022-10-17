@@ -37,11 +37,23 @@ class PassUserDao
     public function forgotPasswordUser($email)
     {
         $connection = Connection::getInstance()->getConnection();
+
+        //validar si existen usuario en la tabla general de usuarios
+        $admins = 0;
         $stmt = $connection->prepare("SELECT * FROM users WHERE email = :email");
         $stmt->execute(['email' => $email]);
         $rows = $stmt->rowCount();
 
-        if ($rows > 0) {
+        //Valide en la tabla de admins
+        if (!$rows) {
+            $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
+            $stmt->execute(['email' => $email]);
+            $rows = $stmt->rowCount();
+            $admins = 1;
+        }
+
+        //Genera nuevo pass y actualizar BD
+        if ($rows) {
 
             $generateCodeDao = new GenerateCodeDao();
             $new_pass = $generateCodeDao->GenerateCode();
@@ -49,7 +61,12 @@ class PassUserDao
             /* actualizar $pass en la DB */
             // $pass = password_hash($new_pass, PASSWORD_DEFAULT);
             $pass = hash("sha256", $new_pass);
-            $stmt = $connection->prepare("UPDATE users SET password = :pass WHERE email = :email");
+
+            if ($admins)
+                $stmt = $connection->prepare("UPDATE admins SET password = :pass WHERE email = :email");
+            else
+                $stmt = $connection->prepare("UPDATE users SET password = :pass WHERE email = :email");
+
             $result = $stmt->execute(['pass' => $pass, 'email' => $email]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
