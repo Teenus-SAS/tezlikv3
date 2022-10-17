@@ -23,10 +23,11 @@ class AutenticationUserDao
     $stmt->execute(['email' => $dataUser]);
     $user = $stmt->fetch($connection::FETCH_ASSOC);
 
-    if ($user == false) {
-      $stmt = $connection->prepare("SELECT * FROM users u WHERE email = :email");
+    if (!$user) {
+      $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
       $stmt->execute(['email' => $dataUser]);
       $user = $stmt->fetch($connection::FETCH_ASSOC);
+      $user['rol'] = 'admin';
     }
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -34,7 +35,7 @@ class AutenticationUserDao
     return $user;
   }
 
-  public function checkUserAdmin($dataUser)
+  /* public function checkUserAdmin($dataUser)
   {
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
@@ -43,5 +44,5 @@ class AutenticationUserDao
     $user = $stmt->fetch($connection::FETCH_ASSOC);
 
     return $user;
-  }
+  } */
 }

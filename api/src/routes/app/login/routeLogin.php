@@ -39,50 +39,66 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 
     /* Valida el password del usuario */
 
-    //if ($user['password'] !== hash("sha256", $password)) {
     if (!password_verify($password, $user['password'])) {
         $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
         $response->getBody()->write(json_encode($resp));
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 
-    /* valide licenciamiento empresa */
+    if (empty($user['rol'])) {
 
-    $license = $licenseDao->findLicense($user['id_company']);
+        /* valide licenciamiento empresa */
 
-    if ($license == 0) {
-        $resp = array('error' => true, 'message' => 'Su licencia ha caducado, lo invitamos a comunicarse');
-        $response->getBody()->write(json_encode($resp));
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $license = $licenseDao->findLicense($user['id_company']);
+
+        if ($license == 0) {
+            $resp = array('error' => true, 'message' => 'Su licencia ha caducado, lo invitamos a comunicarse');
+            $response->getBody()->write(json_encode($resp));
+            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        }
+
+        /* Validar que el usuario es activo */
+
+        if ($user['active'] != 1) {
+            $resp = array('error' => true, 'message' => 'Usuario Inactivo, valide con el administrador');
+            $response->getBody()->write(json_encode($resp));
+            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        }
+
+        /* Valida la session del usuario */
+
+        if ($user['session_active'] != 0) {
+            $resp = array('error' => true, 'message' => 'Usuario logeado, cierre la sesión para abrir una nueva');
+            $response->getBody()->write(json_encode($resp));
+            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        }
+
+        /* Nueva session user*/
+
+        session_start();
+        $_SESSION['active'] = true;
+        $_SESSION['idUser'] = $user['id_user'];
+        $_SESSION['name'] = $user['firstname'];
+        $_SESSION['lastname'] = $user['lastname'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['rol'] = $user["id_rols"];
+        $_SESSION['id_company'] = $user['id_company'];
+        $_SESSION['avatar'] = $user['avatar'];
+        $_SESSION["time"] = microtime(true);
+    } else {
+        /* Nueva session admin*/
+
+        session_start();
+        $_SESSION['active'] = true;
+        $_SESSION['idUser'] = $user['id_admin'];
+        $_SESSION['name'] = $user['firstname'];
+        $_SESSION['lastname'] = $user['lastname'];
+        $_SESSION['email'] = $user['email'];
+        //$_SESSION['rol'] = $user["id_rols"];
+        //$_SESSION['id_company'] = $user['id_company'];
+        $_SESSION['avatar'] = $user['avatar'];
+        $_SESSION["time"] = microtime(true);
     }
-
-    /* Validar que el usuario es activo */
-
-    if ($user['active'] != 1) {
-        $resp = array('error' => true, 'message' => 'Usuario Inactivo, valide con el administrador');
-        $response->getBody()->write(json_encode($resp));
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-    }
-
-    /* Valida la session del usuario */
-
-    if ($user['session_active'] != 0) {
-        $resp = array('error' => true, 'message' => 'Usuario logeado, cierre la sesión para abrir una nueva');
-        $response->getBody()->write(json_encode($resp));
-        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-    }
-
-    /* Nueva session */
-    session_start();
-    $_SESSION['active'] = true;
-    $_SESSION['idUser'] = $user['id_user'];
-    $_SESSION['name'] = $user['firstname'];
-    $_SESSION['lastname'] = $user['lastname'];
-    $_SESSION['email'] = $user['email'];
-    $_SESSION['rol'] = $user["id_rols"];
-    $_SESSION['id_company'] = $user['id_company'];
-    $_SESSION['avatar'] = $user['avatar'];
-    $_SESSION["time"] = microtime(true);
 
     /* Actualizar metodo ultimo logueo */
     $lastLoginDao->findLastLogin();
@@ -98,9 +114,10 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $statusActiveUserDao->changeStatusUserLogin();
 
     /* Consultar si el usuario es administrador */
-    $userAdmin = $autenticationDao->checkUserAdmin($user['email']);
+    //$userAdmin = $autenticationDao->checkUserAdmin($user['email']);
 
-    if ($user["id_rols"] == 1 || $userAdmin) $location = '../../admin/';
+    if (!empty($user["rol"]) == 'admin')
+        $location = '../../admin/';
     else {
         /* Validar licencia y accesos de usuario */
         $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
