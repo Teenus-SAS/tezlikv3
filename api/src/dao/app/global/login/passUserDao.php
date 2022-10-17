@@ -26,7 +26,8 @@ class PassUserDao
 
         if ($rows > 0) {
             // $pass = password_hash($newPass, PASSWORD_DEFAULT);
-            $pass = hash("sha256", $newPass);
+            //$pass = hash("sha256", $newPass);
+            $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
             $stmt = $connection->prepare("UPDATE users SET pass = :pass WHERE id_user = :id_user");
             $stmt->execute(['id_user' => $id_user, 'pass' => $pass]);
@@ -60,7 +61,8 @@ class PassUserDao
 
             /* actualizar $pass en la DB */
             // $pass = password_hash($new_pass, PASSWORD_DEFAULT);
-            $pass = hash("sha256", $new_pass);
+            //$pass = hash("sha256", $new_pass);
+            $pass = password_hash($new_pass, PASSWORD_DEFAULT);
 
             if ($admins)
                 $stmt = $connection->prepare("UPDATE admins SET password = :pass WHERE email = :email");

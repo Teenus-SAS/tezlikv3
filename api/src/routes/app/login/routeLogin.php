@@ -39,8 +39,8 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 
     /* Valida el password del usuario */
 
-    if ($user['password'] !== hash("sha256", $password)) {
-        // if (!password_verify($password, $user['password'])) {
+    //if ($user['password'] !== hash("sha256", $password)) {
+    if (!password_verify($password, $user['password'])) {
         $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
         $response->getBody()->write(json_encode($resp));
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
