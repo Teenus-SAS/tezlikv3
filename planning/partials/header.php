@@ -52,8 +52,8 @@
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <!-- <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productMaterials.php')">Ficha Técnica Productos</a></li> -->
-                                        <li class="productsMaterials"><a href="/planning/product-materials">Ficha Técnica Productos</a></li>
-                                        <li class="productsProcess"><a href="/planning/product-process">Ficha Técnica Procesos</a></li>
+                                        <li class="planProductsMaterials"><a href="/planning/product-materials">Ficha Técnica Productos</a></li>
+                                        <li class="planProductsProcess"><a href="/planning/product-process">Ficha Técnica Procesos</a></li>
                                         <li class="planningMachines"><a href="/planning/planning-machines">Datos Programación Máquinas</a></li>
                                         <li class="planCiclesMachine"><a href="/planning/cicles-machines">Plan Ciclos Maquina</a></li>
                                     </ul>
@@ -68,7 +68,7 @@
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="/planning/users">Usuarios</a></li>
+                                        <li class="planUsers"><a href="/planning/users">Usuarios</a></li>
                                         <li class="clients"><a href="/planning/clients">Clientes</a></li>
                                         <li class="typeOrder"><a href="/planning/order-types">Tipo Pedidos</a></li>
                                     </ul>

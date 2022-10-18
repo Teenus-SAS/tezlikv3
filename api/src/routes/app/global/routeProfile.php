@@ -25,7 +25,7 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['avatar'] = $user['avatar'];
 
-        $resp = array('success' => true, 'message' => 'Perfil actualizado correctamente');
+        $resp = array('success' => true, 'message' => 'Perfil actualizado correctamente', 'avatar' => $user['avatar']);
     } else if (isset($profile['info']))
         $resp = array('info' => true, 'message' => $profile['message']);
     else

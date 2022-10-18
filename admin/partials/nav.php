@@ -29,6 +29,9 @@
                             <i class="bx bx-chevron-down"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/admin/users">
+                                <span> Usuarios</span>
+                            </a>
                             <a class="dropdown-item" href="/admin/users-log">
                                 <span> Sesiones Activas</span>
                             </a>

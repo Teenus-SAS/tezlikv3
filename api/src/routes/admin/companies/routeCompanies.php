@@ -21,8 +21,13 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
     $dataCompany = $request->getParsedBody();
     /*Agregar datos a companies */
     $idcompany = $companiesDao->addCompany($dataCompany);
+
+    if (sizeof($_FILES) > 0)
+        $companiesDao->logoCompany($dataCompany['idCompany']);
+
     /*Agregar datos a companies licenses*/
     $company = $companiesLicDao->addLicense($dataCompany, $idcompany['idCompany']);
+
 
     if ($company == null) {
         $resp = array('success' => true, 'message' => 'Datos de Empresa agregados correctamente');
@@ -39,6 +44,9 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
 $app->post('/updateDataCompany', function (Request $request, Response $response, $args) use ($companiesDao) {
     $dataCompany = $request->getParsedBody();
     $company = $companiesDao->updateCompany($dataCompany);
+
+    if (sizeof($_FILES) > 0)
+        $companiesDao->logoCompany($dataCompany['idCompany']);
 
     if ($company == null) {
         $resp = array('success' => true, 'message' => 'Datos de Empresa actualizados correctamente');

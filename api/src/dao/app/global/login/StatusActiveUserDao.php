@@ -16,15 +16,24 @@ class StatusActiveUserDao
     //$this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
   }
 
-  /* Actualizar estado de sesion de Usuario */
-  public function changeStatusUserLogin()
+  public function findSessionUser($id_user)
   {
-    $id_user = $_SESSION['idUser'];
-
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT session_active FROM users WHERE id_user = :id_user");
     $stmt->execute(['id_user' => $id_user]);
     $session = $stmt->fetch($connection::FETCH_ASSOC);
+    return $session;
+  }
+
+  /* Actualizar estado de sesion de Usuario */
+  public function changeStatusUserLogin()
+  {
+    $id_user = $_SESSION['idUser'];
+    $connection = Connection::getInstance()->getConnection();
+    // $stmt = $connection->prepare("SELECT session_active FROM users WHERE id_user = :id_user");
+    // $stmt->execute(['id_user' => $id_user]);
+    // $session = $stmt->fetch($connection::FETCH_ASSOC);
+    $session = $this->findSessionUser($id_user);
     $session = $session['session_active'];
 
     ($session == 1 ? $session = 0 : $session == 0) ? $session = 1 : $session;

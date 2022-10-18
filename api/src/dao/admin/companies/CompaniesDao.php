@@ -34,20 +34,55 @@ class CompaniesDao
         return $companyData;
     }
 
+    public function logoCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies';
+        $allowTypes = array('jpg', 'jpeg', 'png');
+
+        $image_name = $_FILES['logo']['name'];
+        $tmp_name   = $_FILES['logo']['tmp_name'];
+        $size       = $_FILES['logo']['size'];
+        $type       = $_FILES['logo']['type'];
+        $error      = $_FILES['logo']['error'];
+
+        /* Verifica si directorio esta creado y lo crea */
+        if (!is_dir($targetDir))
+            mkdir($targetDir, 0777, true);
+
+        $targetDir = '/assets/images/companies';
+        $targetFilePath = $targetDir . '/' . $image_name;
+
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+        if (in_array($fileType, $allowTypes)) {
+            $sql = "UPDATE companies SET logo = :logo WHERE id_company = :id_company";
+            $query = $connection->prepare($sql);
+            $query->execute([
+                'logo' => $targetFilePath,
+                'id_company' => $id_company
+            ]);
+
+            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies';
+            $targetFilePath = $targetDir . '/' . $image_name;
+
+            move_uploaded_file($tmp_name, $targetFilePath);
+        }
+    }
+
     //Agregar Empresa
     public function addCompany($dataCompany)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
 
-            $stmt = $connection->prepare("INSERT INTO companies (company, state, city, country, address, telephone, nit, logo, created_at, creador)
-                                          VALUES (:company, :state, :city, :country, :address, :telephone, :nit, :logo, :created_at, :creador)");
+            $stmt = $connection->prepare("INSERT INTO companies (company, state, city, country, address, telephone, nit)
+                                          VALUES (:company, :state, :city, :country, :address, :telephone, :nit)");
             $stmt->execute([
                 'company' => $dataCompany['company'],              'state' => $dataCompany['companyState'],
                 'city' => $dataCompany['companyCity'],             'country' => $dataCompany['companyCountry'],
                 'address' => $dataCompany['companyAddress'],       'telephone' => $dataCompany['companyTel'],
-                'nit' => $dataCompany['companyNIT'],               'logo' => $dataCompany['companyLogo'],
-                'created_at' => $dataCompany['companyCreated_at'], 'creador' => $dataCompany['companyCreator']
+                'nit' => $dataCompany['companyNIT']
             ]);
             $stmt = $connection->prepare("SELECT MAX(id_company) AS idCompany FROM companies");
             $stmt->execute();
@@ -69,16 +104,13 @@ class CompaniesDao
         try {
 
             $stmt = $connection->prepare("UPDATE companies SET company = :company, state = :state, city = :city,
-                                          country = :country, address = :address, telephone = :telephone, nit = :nit,
-                                          logo = :logo, created_at = :created_at, creador = :creador
+                                          country = :country, address = :address, telephone = :telephone, nit = :nit
                                           WHERE id_company = :id_company");
             $stmt->execute([
                 'company' => $dataCompany['company'],              'state' => $dataCompany['companyState'],
                 'city' => $dataCompany['companyCity'],             'country' => $dataCompany['companyCountry'],
                 'address' => $dataCompany['companyAddress'],       'telephone' => $dataCompany['companyTel'],
-                'nit' => $dataCompany['companyNIT'],               'logo' => $dataCompany['companyLogo'],
-                'created_at' => $dataCompany['companyCreated_at'], 'creador' => $dataCompany['companyCreator'],
-                'id_company' => $dataCompany['id_company'],
+                'nit' => $dataCompany['companyNIT'],               'id_company' => $dataCompany['idCompany']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

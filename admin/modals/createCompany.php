@@ -29,25 +29,17 @@
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-3">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="companyCreator" name="companyCreator" type="text" class="form-control">
-                                                <label for="companyCreator">Creador<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-3">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="companyCreated_at" name="companyCreated_at" type="date" class="form-control">
-                                                <label for="companyCreated_at">Fecha de Creación<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-6">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="companyLogo" name="companyLogo" type="text" class="form-control">
-                                                <label for="companyLogo">Logotipo URL<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                        <div class="col-12 col-lg-12">
+                                            <div class="bg-secondary-soft mb-4 rounded">
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <label for="Image" class="form-label">Ingrese su logo</label>
+                                                        <input class="form-control" type="file" id="formFile">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <img id="logo" src="" class="img-fluid" style="width: 100px;">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 

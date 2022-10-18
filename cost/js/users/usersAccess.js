@@ -8,10 +8,10 @@ $(document).ready(function () {
         analysisMaterials: resp.analysis_material,
         prices: resp.price,
         tools: resp.tool,
-        costCreateProducts: resp.create_product,
-        costCreateMaterials: resp.create_materials,
-        costCreateMachines: resp.create_machines,
-        costCreateProcess: resp.create_process,
+        createProducts: resp.create_product,
+        createMaterials: resp.create_materials,
+        createMachines: resp.create_machines,
+        createProcess: resp.create_process,
         productsMaterials: resp.product_materials,
         productsProcess: resp.product_process,
         factoryLoad: resp.factory_load,
@@ -28,10 +28,10 @@ $(document).ready(function () {
         }
       });
       if (
-        acces.costCreateProducts === 0 &&
-        acces.costCreateMaterials === 0 &&
-        acces.costCreateMachines === 0 &&
-        acces.costCreateProcess === 0
+        acces.createProducts === 0 &&
+        acces.createMaterials === 0 &&
+        acces.createMachines === 0 &&
+        acces.createProcess === 0
       ) {
         $('#navBasics').remove();
       }

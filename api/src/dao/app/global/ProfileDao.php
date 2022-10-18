@@ -30,7 +30,7 @@ class ProfileDao
                     'lastname' => $dataUser['lastnameUser']
                 ]);
             } else {
-                $pass = hash("sha256", $dataUser['password']);
+                $pass = password_hash($dataUser['password'], PASSWORD_DEFAULT);
                 $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, password = :pass
                                           WHERE id_user = :id_user");
                 $stmt->execute([

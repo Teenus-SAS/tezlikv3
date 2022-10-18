@@ -352,7 +352,7 @@
     <!-- Page End -->
     <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="/planning/js/users/usersAccess.js"></script>
+    <!-- <script src="/planning/js/users/usersAccess.js"></script> -->
 
     <!-- <script src="/global/js/global/loadContent.js"></script> -->
 </body>

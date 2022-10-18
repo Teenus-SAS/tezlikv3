@@ -20,24 +20,30 @@ class UserInactiveTimeDao extends StatusActiveUserDao
 
   public function findSession()
   {
-    @session_start();
-    $start_time = $_SESSION['time'];
+    // @session_start();
+    // $start_time = $_SESSION['time'];
 
-    $end_time = microtime(true);
+    // $end_time = microtime(true);
 
-    $duration = $end_time - $start_time;
-    $hours = (int)($duration / 60 / 60);
+    // $duration = $end_time - $start_time;
+    // $hours = (int)($duration / 60 / 60);
 
-    $minutes = (int)($duration / 60) - $hours * 60;
+    // $minutes = (int)($duration / 60) - $hours * 60;
 
-    if (empty($_SESSION['active']) || $minutes >= 7) {
-      //$connection = Connection::getInstance()->getConnection();
-      // $this->changeStatusUserLogin();
+    // if (empty($_SESSION['active']) || $minutes >= 7) {
+    //   //$connection = Connection::getInstance()->getConnection();
+    //   // $this->changeStatusUserLogin();
 
-      session_destroy();
-      // echo "<script> window.location='/'; </script>";
-      return 1;
-      exit();
-    }
+    //   session_destroy();
+    //   // echo "<script> window.location='/'; </script>";
+    //   return 1;
+    //   exit();
+    // }
+    $id_user = $_SESSION['idUser'];
+    $connection = Connection::getInstance()->getConnection();
+    $stmt = $connection->prepare("SELECT session_active FROM users WHERE id_user = :id_user");
+    $stmt->execute(['id_user' => $id_user]);
+    $session = $stmt->fetch($connection::FETCH_ASSOC);
+    return $session;
   }
 }

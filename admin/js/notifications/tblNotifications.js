@@ -27,6 +27,27 @@ $(document).ready(function () {
         data: 'company',
       },
       {
+        title: 'Fecha Creación',
+        data: 'date_notification',
+        render: function (data) {
+          date = new Date(data);
+          year = date.getFullYear();
+
+          month = `${date.getMonth() + 1}`.padStart(2, 0);
+
+          day = `${date.getDate()}`.padStart(2, 0);
+
+          hour = date.toLocaleTimeString(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+          });
+
+          stringDate = `${[year, month, day].join('-')} ${hour}`;
+
+          return stringDate;
+        },
+      },
+      {
         title: 'Acciones',
         data: 'id_notification',
         className: 'uniqueClassName',

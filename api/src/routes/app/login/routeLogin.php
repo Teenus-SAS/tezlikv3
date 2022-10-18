@@ -38,7 +38,6 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     }
 
     /* Valida el password del usuario */
-
     if (!password_verify($password, $user['password'])) {
         $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
         $response->getBody()->write(json_encode($resp));
@@ -114,9 +113,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $statusActiveUserDao->changeStatusUserLogin();
 
     /* Consultar si el usuario es administrador */
-    //$userAdmin = $autenticationDao->checkUserAdmin($user['email']);
-
-    if (!empty($user["rol"]) == 'admin')
+    if ($user["id_rols"] == 1)
         $location = '../../admin/';
     else {
         /* Validar licencia y accesos de usuario */

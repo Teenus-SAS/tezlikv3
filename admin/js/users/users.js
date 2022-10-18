@@ -39,7 +39,7 @@ $(document).ready(function () {
 
   /* Actualizar User */
   $(document).on('click', '.updateUser', function (e) {
-    $('#createUserAccess').show(800);
+    $('.createUserAccess').show(800);
     $('#btnCreateUser').html('Actualizar');
 
     let row = $(this).parent().parent()[0];

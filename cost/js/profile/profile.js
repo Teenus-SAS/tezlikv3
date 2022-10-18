@@ -22,10 +22,6 @@ $(document).ready(function () {
   $('#formFile').change(function (e) {
     e.preventDefault();
     avatar.src = URL.createObjectURL(event.target.files[0]);
-    sessionStorage.setItem(
-      'avatar',
-      URL.createObjectURL(event.target.files[0])
-    );
   });
 
   /* Limpiar imagen */
@@ -77,15 +73,13 @@ $(document).ready(function () {
   /* Cargar notificación */
   message = (data) => {
     if (data.success == true) {
-      avatar = sessionStorage.getItem('avatar');
       firstname = sessionStorage.getItem('name');
       lastname = sessionStorage.getItem('lastname');
 
-      sessionStorage.removeItem('avatar');
       sessionStorage.removeItem('name');
       sessionStorage.removeItem('lastname');
 
-      if (avatar) hAvatar.src = avatar;
+      if (data.avatar) hAvatar.src = data.avatar;
       $('.userName').html(`${firstname} ${lastname}`);
       $('#email').prop('disabled', true);
 

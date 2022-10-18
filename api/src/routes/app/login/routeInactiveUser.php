@@ -14,14 +14,14 @@ $app->get('/checkSessionUser', function (Request $request, Response $response, $
     session_start();
     $userInactiveTime = $userInactiveTimeDao->findSession();
 
-    if ($userInactiveTime == null)
-        $resp = array('active' => true);
-    else {
-        $resp = array('inactive' => true, 'message' => 'El tiempo de logueo se ha cumplido');
-        $statusActiveUserDao->changeStatusUserLogin();
-    }
+    // if ($userInactiveTime == null)
+    //     $resp = array('active' => true);
+    // else {
+    //     $resp = array('inactive' => true, 'message' => 'El tiempo de logueo se ha cumplido');
+    //     $statusActiveUserDao->changeStatusUserLogin();
+    // }
 
-    $response->getBody()->write(json_encode($resp));
+    $response->getBody()->write(json_encode($userInactiveTime['session_active']));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 

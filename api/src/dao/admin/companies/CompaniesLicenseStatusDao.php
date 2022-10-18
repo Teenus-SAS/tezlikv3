@@ -32,10 +32,10 @@ class CompaniesLicenseStatusDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("UPDATE companies_licenses SET status = :status 
+            $stmt = $connection->prepare("UPDATE companies_licenses SET status = :stat 
                                           WHERE id_company = :id_company");
             $stmt->execute([
-                'status' => $status,
+                'stat' => $status,
                 'id_company' => $id_company,
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
