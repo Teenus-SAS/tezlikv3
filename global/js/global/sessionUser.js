@@ -8,6 +8,8 @@ $(document).ready(function() {
         }
       },
     }); */
+
+
     inactive = sessionStorage.getItem('inactive');
     if (inactive) location.href = '/';
     var timeout;
