@@ -11,12 +11,18 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->post('/updateProfile', function (Request $request, Response $response, $args) use ($profileDao, $usersDao) {
     session_start();
-    $id_company = $_SESSION['id_company'];
     $dataUser = $request->getParsedBody();
 
-    $profile = $profileDao->updateProfile($dataUser);
 
-    if (sizeof($_FILES) > 0) $profileDao->avatarUser($dataUser['idUser'], $id_company);
+    if ($dataUser['admin'] == 1) {
+        $profile = $profileDao->updateProfileAdmin($dataUser);
+        if (sizeof($_FILES) > 0) $profileDao->avatarUserAdmin($dataUser['idAdmin']);
+    } else {
+        $id_company = $_SESSION['id_company'];
+        $profile = $profileDao->updateProfile($dataUser);
+        if (sizeof($_FILES) > 0) $profileDao->avatarUser($dataUser['idUser'], $id_company);
+    }
+
 
     if ($profile == null) {
         $user = $usersDao->findByEmail($dataUser['emailUser']);

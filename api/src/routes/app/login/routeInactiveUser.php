@@ -14,6 +14,8 @@ $app->get('/checkSessionUser', function (Request $request, Response $response, $
     session_start();
     $userInactiveTime = $userInactiveTimeDao->findSession();
 
+    $userInactiveTime == 1 ? $userInactiveTime = 0 : $userInactiveTime = $userInactiveTime['session_active'];
+
     // if ($userInactiveTime == null)
     //     $resp = array('active' => true);
     // else {
@@ -21,7 +23,7 @@ $app->get('/checkSessionUser', function (Request $request, Response $response, $
     //     $statusActiveUserDao->changeStatusUserLogin();
     // }
 
-    $response->getBody()->write(json_encode($userInactiveTime['session_active']));
+    $response->getBody()->write(json_encode($userInactiveTime));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 

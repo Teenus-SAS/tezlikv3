@@ -40,9 +40,20 @@ class UserInactiveTimeDao extends StatusActiveUserDao
     //   exit();
     // }
     $id_user = $_SESSION['idUser'];
-    $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT session_active FROM users WHERE id_user = :id_user");
-    $stmt->execute(['id_user' => $id_user]);
+    $case = $_SESSION['case'];
+
+    if (!$id_user && !$case)
+      return 1;
+    else {
+      $connection = Connection::getInstance()->getConnection();
+      if ($case == 1) {
+        $stmt = $connection->prepare("SELECT session_active FROM users WHERE id_user = :id_user");
+        $stmt->execute(['id_user' => $id_user]);
+      } else if ($case == 2) {
+        $stmt = $connection->prepare("SELECT session_active FROM admins WHERE id_admin = :id_admin");
+        $stmt->execute(['id_admin' => $id_user]);
+      }
+    }
     $session = $stmt->fetch($connection::FETCH_ASSOC);
     return $session;
   }

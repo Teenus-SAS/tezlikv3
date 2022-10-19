@@ -19,11 +19,16 @@ $(document).ready(function () {
           return meta.row + 1;
         },
       },
-      // {
-      //   title: 'Nombres',
-      //   data: 'firstname',
-      //   className: 'uniqueClassName',
-      // },
+      {
+        title: 'Nombres',
+        data: 'firstname',
+        className: 'uniqueClassName',
+      },
+      {
+        title: 'Apellidos',
+        data: 'lastname',
+        className: 'uniqueClassName',
+      },
       {
         title: 'Email',
         data: 'email',

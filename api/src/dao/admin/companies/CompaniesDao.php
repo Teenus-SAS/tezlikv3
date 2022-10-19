@@ -23,7 +23,7 @@ class CompaniesDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT cp.id_company, cp.company, cp.state, cp.city, cp.country, cp.address,
-                                      cp.telephone, cp.nit, cp.logo, cp.created_at, cp.creador FROM companies cp 
+                                      cp.telephone, cp.nit, cp.logo, cp.created_at FROM companies cp 
                                       INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company 
                                       WHERE cl.status = :stat");
         $stmt->execute(['stat' => $stat]);

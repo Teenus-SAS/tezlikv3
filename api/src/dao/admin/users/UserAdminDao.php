@@ -28,8 +28,10 @@ class UserAdminDao
         return $admins;
     }
 
-    public function findUserAdmin($email)
+    public function findUserAdmin()
     {
+        session_start();
+        $email = $_SESSION['email'];
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
@@ -45,11 +47,13 @@ class UserAdminDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $pass = hash("sha256", $dataUser['password']);
+            $pass = password_hash($dataUser['password'], PASSWORD_DEFAULT);
 
-            $stmt = $connection->prepare("INSERT INTO admins (email, password) 
-                                          VALUES (:email, :pass)");
+            $stmt = $connection->prepare("INSERT INTO admins (firstname, lastname, email, password) 
+                                          VALUES (:firstname, :lastname, :email, :pass)");
             $stmt->execute([
+                'firstname' => $dataUser['firstname'],
+                'lastname' => $dataUser['lastname'],
                 'email' => $dataUser['email'],
                 'pass' => $pass
             ]);
@@ -68,11 +72,13 @@ class UserAdminDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $pass = hash("sha256", $dataUser['password']);
+            $pass = password_hash($dataUser['password'], PASSWORD_DEFAULT);
 
-            $stmt = $connection->prepare("UPDATE admins SET email = :email, password = :pass
+            $stmt = $connection->prepare("UPDATE admins SET firstname = :firstname, lastname = :lastname, email = :email, password = :pass
                                       WHERE id_admin = :id_admin");
             $stmt->execute([
+                'firstname' => $dataUser['firstname'],
+                'lastname' => $dataUser['lastname'],
                 'id_admin' => $dataUser['idAdmin'],
                 'email' => $dataUser['email'],
                 'pass' => $pass

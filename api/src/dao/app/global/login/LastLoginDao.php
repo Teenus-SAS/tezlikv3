@@ -21,10 +21,16 @@ class LastLoginDao
         $connection = Connection::getInstance()->getConnection();
         @session_start();
         $id_user = $_SESSION['idUser'];
+        $case = $_SESSION['case'];
 
         try {
-            $stmt = $connection->prepare("UPDATE users SET last_login = now() WHERE id_user = :id_user");
-            $stmt->execute(['id_user' => $id_user]);
+            if ($case == 1) {
+                $stmt = $connection->prepare("UPDATE users SET last_login = now() WHERE id_user = :id_user");
+                $stmt->execute(['id_user' => $id_user]);
+            } else if ($case == 2) {
+                $stmt = $connection->prepare("UPDATE admins SET last_login = now() WHERE id_admin = :id_admin");
+                $stmt->execute(['id_admin' => $id_user]);
+            }
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();

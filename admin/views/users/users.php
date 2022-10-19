@@ -33,15 +33,15 @@
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Usuarios y Accesos</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Usuarios</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Creación de Usuario y Configuración de accesos</li>
+                                        <li class="breadcrumb-item active">Creación de Usuario</li>
                                     </ol>
                                 </div>
                             </div>
                             <div class="col-sm-7 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-warning" id="btnNewUser">Nuevo Usuario y Accesos</button>
+                                    <button class="btn btn-warning" id="btnNewUser">Nuevo Usuario</button>
                                 </div>
                             </div>
                         </div>
@@ -57,6 +57,14 @@
                                         <form id="formCreateUser">
                                             <div class="form-row">
                                                 <div class="col">
+                                                    <label for="">Nombres</label>
+                                                    <input type="text" class="form-control" name="firstname" id="firstname">
+                                                </div>
+                                                <div class="col">
+                                                    <label for="">Apellidos</label>
+                                                    <input type="text" class="form-control" name="lastname" id="lastname">
+                                                </div>
+                                                <div class="col">
                                                     <label for="">Correo</label>
                                                     <input type="email" class="form-control" name="email" id="email">
                                                 </div>
@@ -64,7 +72,7 @@
                                                     <label for="">Contraseña</label>
                                                     <input type="password" class="form-control" name="password" id="password">
                                                 </div>
-                                                <div style="margin-bottom:0px;margin-top:5px;">
+                                                <div style="margin-top:32px;">
                                                     <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>
                                                 </div>
                                             </div>
