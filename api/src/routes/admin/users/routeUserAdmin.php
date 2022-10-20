@@ -12,11 +12,19 @@ $app->get('/userAdmins', function (Request $request, Response $response, $args) 
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+$app->get('/userAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
+    $userAdmin = $userAdminDao->findUserAdmin();
+    $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 
 $app->post('/addUserAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
     $dataUserAdmin = $request->getParsedBody();
 
-    if (empty($dataUserAdmin['email']) || empty($dataUserAdmin['password']))
+    if (
+        empty($dataUserAdmin['firstname']) || empty($dataUserAdmin['lastname']) ||
+        empty($dataUserAdmin['email']) || empty($dataUserAdmin['password'])
+    )
         $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
     else {
         $userAdmin = $userAdminDao->insertUserAdmin($dataUserAdmin);
@@ -37,7 +45,10 @@ $app->post('/updateUserAdmin', function (Request $request, Response $response, $
     $email = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();
 
-    if (empty($dataUserAdmin['email']) || empty($dataUserAdmin['password']))
+    if (
+        empty($dataUserAdmin['firstname']) || empty($dataUserAdmin['lastname']) ||
+        empty($dataUserAdmin['email']) || empty($dataUserAdmin['password'])
+    )
         $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
     else {
 

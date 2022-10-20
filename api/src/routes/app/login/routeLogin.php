@@ -73,10 +73,10 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         }
 
         /* Nueva session user*/
-
         session_start();
         $_SESSION['active'] = true;
         $_SESSION['idUser'] = $user['id_user'];
+        $_SESSION['case'] = 1;
         $_SESSION['name'] = $user['firstname'];
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['email'] = $user['email'];
@@ -84,12 +84,21 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION['id_company'] = $user['id_company'];
         $_SESSION['avatar'] = $user['avatar'];
         $_SESSION["time"] = microtime(true);
+
+        // Validar licencia y accesos de usuario 
+        $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
+        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
+            $location = '../../selector/';
+        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)
+            $location = '../../cost/';
+        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1)
+            $location = '../../planning/';
     } else {
         /* Nueva session admin*/
-
         session_start();
         $_SESSION['active'] = true;
         $_SESSION['idUser'] = $user['id_admin'];
+        $_SESSION['case'] = 2;
         $_SESSION['name'] = $user['firstname'];
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['email'] = $user['email'];
@@ -97,6 +106,8 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         //$_SESSION['id_company'] = $user['id_company'];
         $_SESSION['avatar'] = $user['avatar'];
         $_SESSION["time"] = microtime(true);
+
+        $location = '../../admin/';
     }
 
     /* Actualizar metodo ultimo logueo */
@@ -112,11 +123,11 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     /* Modificar el estado de la sesion del usuario en BD */
     $statusActiveUserDao->changeStatusUserLogin();
 
-    /* Consultar si el usuario es administrador */
+    /* Consultar si el usuario es administrador 
     if ($user["id_rols"] == 1)
         $location = '../../admin/';
     else {
-        /* Validar licencia y accesos de usuario */
+        // Validar licencia y accesos de usuario 
         $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
             $location = '../../selector/';
@@ -124,7 +135,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
             $location = '../../cost/';
         else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1)
             $location = '../../planning/';
-    }
+    } */
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
     $response->getBody()->write(json_encode($resp));

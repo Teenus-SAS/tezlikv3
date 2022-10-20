@@ -42,7 +42,7 @@
                                             <div class="col-xxl-12 mb-5 mb-xxl-0">
                                                 <div class="bg-secondary-soft px-4 py-2 rounded">
                                                     <div class="row g-3">
-                                                        <input type="" id="idUser" name="idUser" hidden>
+                                                        <input type="" id="idAdmin" name="idAdmin" hidden>
                                                         <div class="col-md-4">
                                                             <label class="form-label">Nombres *</label>
                                                             <input type="text" class="form-control" placeholder="" aria-label="First name" id="firstname" name="nameUser">
@@ -110,7 +110,7 @@
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="/cost/js/profile/profile.js"></script>
+    <script src="/admin/js/profile/profile.js"></script>
 </body>
 
 </html>

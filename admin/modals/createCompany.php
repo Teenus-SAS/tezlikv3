@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
 
-                                        <div id="license" class="row">
+                                        <!-- <div id="license" class="row">
                                             <div class="col-12 col-lg-12 titlePayroll pt-2 bg-info text-white">
                                                 <label for=""><b>Licencia</b></label>
                                             </div>
@@ -126,7 +126,7 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
 
 
 

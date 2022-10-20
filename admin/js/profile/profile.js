@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $('#email').prop('disabled', true);
 
-  fetch(`/api/user`)
+  fetch(`/api/userAdmin`)
     .then((response) => response.text())
     .then((data) => {
       data = JSON.parse(data);
@@ -10,7 +10,7 @@ $(document).ready(function () {
 
   /* Cargar Perfil de usuario */
   loadProfile = (data) => {
-    $('#idUser').val(data.id_user);
+    $('#idAdmin').val(data.id_admin);
     $('#firstname').val(data.firstname);
     $('#lastname').val(data.lastname);
     $('#position').val(data.position);
@@ -56,7 +56,7 @@ $(document).ready(function () {
     let imageProd = $('#formFile')[0].files[0];
     dataProfile = new FormData(formSaveProfile);
     dataProfile.append('avatar', imageProd);
-    dataProfile.append('admin', 0);
+    dataProfile.append('admin', 1);
 
     $.ajax({
       type: 'POST',

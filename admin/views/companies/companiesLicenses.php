@@ -75,6 +75,12 @@
                                                         <input id="quantityUsers" name="quantityUsers" type="number" class="form-control">
                                                     </div>
                                                 </div>
+                                                <div class="col-sm">
+                                                    <div class="form-group m-0">
+                                                        <label for="">Tipo de Plan</label>
+                                                        <select name="plan" id="plan" class="form-control"></select>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-group m-auto text-center" style="width: 100px">
                                                         <button class="btn btn-primary" id="btnUpdLicense">Actualizar</button>
@@ -119,6 +125,7 @@
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
+    <!-- <script src="/admin/js/plans/configPlans.js"></script> -->
     <script src="/admin/js/companies/tblCompaniesLicense.js"></script>
     <script src="/admin/js/companies/companiesLicense.js"></script>
 </body>
