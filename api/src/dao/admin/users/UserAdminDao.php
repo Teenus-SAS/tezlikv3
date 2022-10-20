@@ -20,12 +20,13 @@ class UserAdminDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM admins");
+        $stmt = $connection->prepare("SELECT u.firstname, u.lastname, u.position, u.email, c.company FROM users u
+                                      INNER JOIN companies c ON c.id_company = u.id_company;");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $admins = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $admins));
-        return $admins;
+        $users = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+        return $users;
     }
 
     public function findUserAdmin()

@@ -9,7 +9,7 @@
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
-                    <li class="nav-item dropdown companies">
+                    <!-- <li class="nav-item dropdown companies">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-buildings mr-1"></i> Empresas
                             <i class="bx bx-chevron-down"></i>
@@ -22,8 +22,35 @@
                                 <span> Licencias</span>
                             </a>
                         </div>
+                    </li> -->
+                    <li class="nav-item notification">
+                        <a class="nav-link" href="/admin/companies">
+                            <i class="bx bxs-business mr-1"></i> Empresas
+                            <!-- <i class="bx bx-chevron-down"></i> -->
+                        </a>
                     </li>
-                    <li class="nav-item dropdown tools">
+                    <li class="nav-item notification">
+                        <a class="nav-link" href="/admin/companies-licences">
+                            <i class="bx bxs-note mr-1"></i> Licencias
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item notification">
+                        <a class="nav-link" href="/admin/users">
+                            <i class="bx bxs-user mr-1"></i> Usuarios
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item notification">
+                        <a class="nav-link" href="/admin/users-log">
+                            <i class="bx bxs-group mr-1"></i> Sesiones Activas
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+
+                    <!-- <li class="nav-item dropdown tools">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-user-circle mr-1"></i> Usuarios
                             <i class="bx bx-chevron-down"></i>
@@ -36,10 +63,10 @@
                                 <span> Sesiones Activas</span>
                             </a>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item dropdown puc">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="bx bx-book-open mr-1"></i> PUC
+                            <i class="bx bxs-book-alt mr-1"></i> PUC
                             <i class="bx bx-chevron-down"></i>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
