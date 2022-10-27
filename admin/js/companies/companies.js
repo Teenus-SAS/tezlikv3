@@ -1,13 +1,12 @@
 $(document).ready(function () {
   /* Abrir modal crear empresa */
 
-  let id;
   $('#btnNewCompany').click(function (e) {
     e.preventDefault();
     $('#createCompany').modal('show');
     $('#license').show();
-    // $('#btnCreateCompany').removeClass('updCompany');
-    // $('#btnCreateCompany').addClass('crtCompany');
+    logo.src = '';
+    sessionStorage.removeItem('id_company');
     $('#btnCreateCompany').html('Crear');
     $('#formCreateCompany').trigger('reset');
   });
@@ -37,11 +36,11 @@ $(document).ready(function () {
       companyCountry = $('#companyCountry').val();
       companyAddress = $('#companyAddress').val();
       companyTel = $('#companyTel').val();
-      // Licencia
-      companyLicStart = $('#companyLic_start').val();
-      companyLicEnd = $('#companyLic_end').val();
-      companyUsers = $('#companyUsers').val();
-      companyStatus = $('#companyStatus').val();
+      // // Licencia
+      // companyLicStart = $('#companyLic_start').val();
+      // companyLicEnd = $('#companyLic_end').val();
+      // companyUsers = $('#companyUsers').val();
+      // companyStatus = $('#companyStatus').val();
 
       if (
         company === '' ||
@@ -50,19 +49,16 @@ $(document).ready(function () {
         companyState === '' ||
         companyCountry === '' ||
         companyAddress === '' ||
-        companyTel === '' ||
-        companyLicStart == '' ||
-        companyLicEnd == '' ||
-        companyUsers == ''
+        companyTel === ''
       ) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
       dataCompany = new FormData(document.getElementById('formCreateCompany'));
-      dataCompany = append('companyStatus', companyStatus);
+      // dataCompany.append('companyStatus', companyStatus);
       let logo = $('#formFile')[0].files[0];
-      dataCompany = append('logo', logo);
+      dataCompany.append('logo', logo);
 
       $.ajax({
         type: 'POST',

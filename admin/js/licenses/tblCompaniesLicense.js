@@ -45,7 +45,7 @@ $(document).ready(function () {
       },
       {
         title: 'Estado',
-        data: 'status',
+        data: 'license_status',
         render: function (data) {
           if (data === 1) {
             return 'Activo';

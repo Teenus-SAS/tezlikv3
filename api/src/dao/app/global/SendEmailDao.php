@@ -39,6 +39,8 @@ class SendEmailDao
 
     public function SendEmailPassword($email, $password)
     {
+        $to = 'soporte@tezliksoftware.com.co';
+        $to .= $email;
         // the message
         $msg = "Hola,<br><br>
             Recientemente solicitó recordar su contraseña por lo que para mayor seguridad creamos una nueva. Para ingresar a Tezlik puede hacerlo con:
@@ -63,7 +65,7 @@ class SendEmailDao
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= 'From: SoporteTezlik <soporteTezlik@tezliksoftware.com.co>' . "\r\n";
         // send email
-        mail($email, "Nuevo password", $msg, $headers);
+        mail($to, "Nuevo password", $msg, $headers);
     }
 
     public function SendEmailSupport($dataSupport, $email)

@@ -36,7 +36,7 @@ $(document).ready(function () {
   function ConfirmLeave() {
     fetchindata();
   }
-
+  /*
   $(document).keydown(function (e) {
     if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {
       fetchindata();
@@ -47,7 +47,7 @@ $(document).ready(function () {
       fetchindata();
     }
     prevKey = e.key.toUpperCase();
-  });
+  }); */
 
   /* Tiempo de inactividad */
   $(document).on('mousemove', function (event) {

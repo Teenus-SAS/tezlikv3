@@ -8,7 +8,7 @@ $(document).ready(function () {
     $('.cardCreateUser').toggle(800);
     $('#btnCreateUser').html('Crear Usuario');
 
-    sessionStorage.removeItem('id_user');
+    sessionStorage.removeItem('id_admin');
 
     $('#formCreateUser').trigger('reset');
   });
@@ -16,10 +16,9 @@ $(document).ready(function () {
   /* Agregar nuevo usuario */
   $('#btnCreateUser').click(function (e) {
     e.preventDefault();
-    let idUser = sessionStorage.getItem('id_user');
+    let idAdmin = sessionStorage.getItem('id_admin');
 
-    if (idUser == '' || idUser == null) {
-      company = $('#company').val();
+    if (idAdmin == '' || idAdmin == null) {
       firstname = $('#firstname').val();
       lastname = $('#lastname').val();
       email = $('#email').val();
@@ -30,9 +29,7 @@ $(document).ready(function () {
         lastname == '' ||
         lastname == null ||
         email == '' ||
-        email == null ||
-        company == '' ||
-        company == null
+        email == null
       ) {
         toastr.error('Ingrese nombre, apellido y/o email');
         return false;
@@ -40,7 +37,7 @@ $(document).ready(function () {
 
       dataUser = $('#formCreateUser').serialize();
 
-      $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
+      $.post('/api/addUserAdmin', dataUser, function (data, textStatus, jqXHR) {
         message(data);
       });
     } else {
@@ -56,15 +53,13 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUser = this.id;
-    sessionStorage.setItem('id_user', idUser);
+    let idAdmin = this.id;
+    sessionStorage.setItem('id_admin', idAdmin);
 
     $('#firstname').val(data.firstname);
     $('#lastname').val(data.lastname);
     $('#email').val(data.email);
-    $('#email').prop('disabled', true);
     $(`#company option[value=${data.id_company}]`).prop('selected', true);
-    $('#company').prop('disabled', true);
 
     $('html, body').animate(
       {
@@ -75,18 +70,19 @@ $(document).ready(function () {
   });
 
   updateUser = () => {
-    idUser = sessionStorage.getItem('id_user');
+    idAdmin = sessionStorage.getItem('id_admin');
 
     dataUser = $('#formCreateUser').serialize();
 
-    dataUser = `${dataUser}&idUser=${idUser}`;
+    dataUser = `${dataUser}&idAdmin=${idAdmin}`;
 
-    $.post('/api/updateUser', dataUser, function (data, textStatus, jqXHR) {
-      $('#email').prop('disabled', false);
-      $('#company').prop('disabled', false);
-
-      message(data);
-    });
+    $.post(
+      '/api/updateUserAdmin',
+      dataUser,
+      function (data, textStatus, jqXHR) {
+        message(data);
+      }
+    );
   };
 
   /* Eliminar usuario */
@@ -94,9 +90,9 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    dataUser = {};
-    dataUser['idUser'] = data.id_user;
-    dataUser['email'] = data.email;
+    dataAdmin = {};
+    dataAdmin['idAdmin'] = data.id_admin;
+    dataAdmin['email'] = data.email;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -115,8 +111,8 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.post(
-            '/api/deleteUser',
-            dataUser,
+            '/api/deleteUserAdmin',
+            dataAdmin,
             function (data, textStatus, jqXHR) {
               message(data);
             }

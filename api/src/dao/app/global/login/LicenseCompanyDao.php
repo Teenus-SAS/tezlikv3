@@ -47,36 +47,37 @@ class LicenseCompanyDao
         return $license;
     }
 
-    public function insertLicenseCompanyByCompany($dataLicenseCompany, $id_company)
+    public function insertLicenseCompanyByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
 
-            if (empty($dataLicenseCompany['idRegisterUser'])) {
+            // if (empty($dataLicenseCompany['idRegisterUser'])) {
 
-                $licenseStart = date('Y-m-d');
-                $licenseEnd = date("Y-m-d", strtotime($licenseStart . "+ 30 day"));
+            $licenseStart = date('Y-m-d');
+            $licenseEnd = date("Y-m-d", strtotime($licenseStart . "+ 30 day"));
 
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, quantity_user, status)
-                                          VALUES (:id_company, :license_start, :quantity_user, :status)");
-                $stmt->execute([
-                    'id_company' => $id_company,
-                    'license_start' => $licenseStart,
-                    'license_end' => $licenseEnd,
-                    'quantity_user' => 1,
-                    'status' => 1
-                ]);
-            } else {
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, quantity_user, status)
-                                          VALUES (:id_company, :license_start, :quantity_user, :status)");
+            $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, quantity_user, license_status)
+                                          VALUES (:id_company, :license_start, :quantity_user, :license_status)");
+            $stmt->execute([
+                'id_company' => $id_company,
+                'license_start' => $licenseStart,
+                'license_end' => $licenseEnd,
+                'quantity_user' => 1,
+                'license_status' => 1
+            ]);
+            //}
+            /*else {
+                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, quantity_user, license_status)
+                                          VALUES (:id_company, :license_start, :quantity_user, :license_status)");
                 $stmt->execute([
                     'id_company' => $id_company,
                     'license_start' => $dataLicenseCompany['licenseStart'],
                     'license_end' => $dataLicenseCompany['licenseEnd'],
                     'quantity_user' => $dataLicenseCompany['quantityUser'],
-                    'status' => 1
+                    'license_status' => 1
                 ]);
-            }
+            }*/
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -89,14 +90,14 @@ class LicenseCompanyDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("UPDATE companies_licenses SET license_start = :license_start, license_end = :license_end, quantity_user = :quantity_user, status = :status
+            $stmt = $connection->prepare("UPDATE companies_licenses SET license_start = :license_start, license_end = :license_end, quantity_user = :quantity_user, license_status = :license_status
                                           WHERE id_company_license = :id_company_license");
             $stmt->execute([
                 'id_company_license' => $dataLicenseCompany['idCompanyLicense'],
                 'license_start' => $dataLicenseCompany['licenseStart'],
                 'license_end' => $dataLicenseCompany['licenseEnd'],
                 'quantity_user' => $dataLicenseCompany['quantityUser'],
-                'status' => 1
+                'license_status' => 1
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

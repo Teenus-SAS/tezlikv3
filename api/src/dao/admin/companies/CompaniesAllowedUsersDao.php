@@ -25,7 +25,7 @@ class CompaniesAllowedUsersDao
 
         $stmt = $connection->prepare("SELECT cp.company, cl.quantity_user FROM companies cp 
                                       INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company
-                                      WHERE cl.status = 0");
+                                      WHERE cl.license_status = 0");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $allowedData = $stmt->fetchAll($connection::FETCH_ASSOC);

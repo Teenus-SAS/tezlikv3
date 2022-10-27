@@ -1,6 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    url: '/api/companies/1',
+    url: '/api/allCompanies',
     success: function (r) {
       let $select = $(`#company`);
       $select.empty();

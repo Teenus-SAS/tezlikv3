@@ -57,20 +57,20 @@
                                         <form id="formCreateUser">
                                             <div class="form-row">
                                                 <div class="col">
+                                                    <label for="">Empresa</label>
+                                                    <select name="company" class="form-control" id="company" name="company"></select>
+                                                </div>
+                                                <div class="col">
                                                     <label for="">Nombres</label>
-                                                    <input type="text" class="form-control" name="firstname" id="firstname">
+                                                    <input type="text" class="form-control" name="nameUser" id="firstname">
                                                 </div>
                                                 <div class="col">
                                                     <label for="">Apellidos</label>
-                                                    <input type="text" class="form-control" name="lastname" id="lastname">
+                                                    <input type="text" class="form-control" name="lastnameUser" id="lastname">
                                                 </div>
                                                 <div class="col">
                                                     <label for="">Correo</label>
-                                                    <input type="email" class="form-control" name="email" id="email">
-                                                </div>
-                                                <div class="col">
-                                                    <label for="">Contraseña</label>
-                                                    <input type="password" class="form-control" name="password" id="password">
+                                                    <input type="email" class="form-control" name="emailUser" id="email">
                                                 </div>
                                                 <div style="margin-top:32px;">
                                                     <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>
@@ -114,6 +114,7 @@
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
+    <script src="/admin/js/companies/configCompanies.js"></script>
     <script src="/admin/js/users/tblUsers.js"></script>
     <script src="/admin/js/users/users.js"></script>
 </body>

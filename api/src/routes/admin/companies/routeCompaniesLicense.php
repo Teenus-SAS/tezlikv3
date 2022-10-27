@@ -17,13 +17,28 @@ $app->get('/licenses', function (Request $request, Response $response, $args) us
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+
+$app->post('/addLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
+    $dataLicense = $request->getParsedBody();
+    $license = $companiesLicenseDao->addLicense($dataLicense, $dataLicense['company']);
+
+    if ($license == null) {
+        $resp = array('success' => true, 'message' => 'Licencia ingresada correctamente');
+    } else {
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al actualizar la licencia. Intente nuevamente');
+    }
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 //Actualizar fechas de licencia y cantidad de usuarios
 $app->post('/updateLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
     $dataLicense = $request->getParsedBody();
     $license = $companiesLicenseDao->updateLicense($dataLicense);
 
     if ($license == null) {
-        $resp = array('success' => true, 'message' => 'Licencia actaulizada correctamente');
+        $resp = array('success' => true, 'message' => 'Licencia actualizada correctamente');
     } else {
         $resp = array('error' => true, 'message' => 'Ocurrio un error al actualizar la licencia. Intente nuevamente');
     }
@@ -35,7 +50,7 @@ $app->post('/updateLicense', function (Request $request, Response $response, $ar
 //Cambiar estado licencia
 $app->post('/changeStatusCompany/{id_company}', function (Request $request, Response $response, $args) use ($companiesLicenseStatusDao) {
     $sts = $companiesLicenseStatusDao->status($args['id_company']);
-    $status = $sts['status'];
+    $status = $sts['license_status'];
 
     if ($status == 1) {
         $licStatus = $companiesLicenseStatusDao->statusLicense(0, $args['id_company']);
@@ -56,23 +71,6 @@ $app->post('/changeStatusCompany/{id_company}', function (Request $request, Resp
             $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
         }
     }
-
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
-//Modificar Costos y planeación
-$app->post('/updateCompanyLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
-    session_start();
-    $id_company = $_SESSION['id_company'];
-    $dataLicense = $request->getParsedBody();
-
-    $resp = $companiesLicenseDao->addCostOrPlanning($dataLicense, $id_company);
-
-    if ($resp == null) {
-        // $dataLicense["cost"] == 1 ? $location = '../../cost/' : $location = '../../planning/'; 'location' => $location
-        $resp = array('success' => true, 'message' => 'Licencia de compañia actualizada correctamente');
-    } else $resp = array('error' => true, 'message' => 'Ocurrio un error, intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

@@ -37,7 +37,7 @@
                                 <div class="col-md-3" id="navAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="/admin/users">Usuarios</a></li>
+                                        <li class="users"><a href="/admin/users-admins">Usuarios</a></li>
                                         <!-- <li class="companies"><a href="/admin/companies">pruebas empresas</a></li>
                                         <li class="licenses"><a href="/admin/companies-licences">pruebas licencias</a></li> -->
                                     </ul>

@@ -1,8 +1,12 @@
 <?php
 
+use tezlikv3\dao\GenerateCodeDao;
+use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\UserAdminDao;
 
 $userAdminDao = new UserAdminDao();
+$newPassDao = new GenerateCodeDao();
+$emailDao = new SendEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,22 +16,29 @@ $app->get('/userAdmins', function (Request $request, Response $response, $args) 
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+$app->get('/usersCompany', function (Request $request, Response $response, $args) use ($userAdminDao) {
+    $userAdmin = $userAdminDao->findAllUser();
+    $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 $app->get('/userAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
     $userAdmin = $userAdminDao->findUserAdmin();
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addUserAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
+$app->post('/addUserAdmin', function (Request $request, Response $response, $args) use ($userAdminDao, $newPassDao, $emailDao) {
     $dataUserAdmin = $request->getParsedBody();
 
-    if (
-        empty($dataUserAdmin['firstname']) || empty($dataUserAdmin['lastname']) ||
-        empty($dataUserAdmin['email']) || empty($dataUserAdmin['password'])
-    )
+    if (empty($dataUserAdmin['firstname']) || empty($dataUserAdmin['lastname']) || empty($dataUserAdmin['email']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
     else {
-        $userAdmin = $userAdminDao->insertUserAdmin($dataUserAdmin);
+        $newPass = $newPassDao->GenerateCode();
+
+        // Se envia email con usuario(email) y contraseña
+        $emailDao->SendEmailPassword($dataUserAdmin['email'], $newPass);
+
+        $userAdmin = $userAdminDao->insertUserAdmin($dataUserAdmin, $newPass);
 
         if ($userAdmin == null)
             $resp = array('success' => true, 'message' => 'Usuario creado correctamente');
@@ -45,10 +56,7 @@ $app->post('/updateUserAdmin', function (Request $request, Response $response, $
     $email = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();
 
-    if (
-        empty($dataUserAdmin['firstname']) || empty($dataUserAdmin['lastname']) ||
-        empty($dataUserAdmin['email']) || empty($dataUserAdmin['password'])
-    )
+    if (empty($dataUserAdmin['firstname']) || empty($dataUserAdmin['lastname']) || empty($dataUserAdmin['email']))
         $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
     else {
 

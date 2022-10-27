@@ -4,7 +4,7 @@ $(document).ready(function () {
   tblUsers = $('#tblUsers').dataTable({
     pageLength: 50,
     ajax: {
-      url: '/api/usersCompany',
+      url: '/api/userAdmins',
       dataSrc: '',
     },
     language: {
@@ -35,18 +35,8 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
-        title: 'Posicion',
-        data: 'position',
-        className: 'uniqueClassName',
-      },
-      {
-        title: 'Empresa',
-        data: 'company',
-        className: 'uniqueClassName',
-      },
-      {
         title: 'Acciones',
-        data: 'id_user',
+        data: 'id_admin',
         className: 'uniqueClassName',
         render: function (data) {
           return `

@@ -17,6 +17,8 @@ $app->get('/recentNotification', function (Request $request, Response $response,
     session_start();
     $id_company = $_SESSION['id_company'];
 
+    !$id_company ? $id_company = '' : $id_company;
+
     $notifications = $notificationsDao->findRecentNotification($id_company);
     $response->getBody()->write(json_encode($notifications));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

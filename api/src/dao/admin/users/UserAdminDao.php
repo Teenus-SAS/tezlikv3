@@ -16,12 +16,25 @@ class UserAdminDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllUser()
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT u.id_user, u.firstname, u.lastname, u.position, u.email, c.id_company, c.company 
+                                      FROM users u
+                                        INNER JOIN companies c ON c.id_company = u.id_company");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $users = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+        return $users;
+    }
+
     public function findAllUserAdmins()
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT u.firstname, u.lastname, u.position, u.email, c.company FROM users u
-                                      INNER JOIN companies c ON c.id_company = u.id_company;");
+        $stmt = $connection->prepare("SELECT * FROM admins");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $users = $stmt->fetchAll($connection::FETCH_ASSOC);
@@ -43,12 +56,12 @@ class UserAdminDao
         return $admin;
     }
 
-    public function insertUserAdmin($dataUser)
+    public function insertUserAdmin($dataUser, $newPass)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $pass = password_hash($dataUser['password'], PASSWORD_DEFAULT);
+            $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
             $stmt = $connection->prepare("INSERT INTO admins (firstname, lastname, email, password) 
                                           VALUES (:firstname, :lastname, :email, :pass)");
@@ -73,16 +86,14 @@ class UserAdminDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $pass = password_hash($dataUser['password'], PASSWORD_DEFAULT);
 
-            $stmt = $connection->prepare("UPDATE admins SET firstname = :firstname, lastname = :lastname, email = :email, password = :pass
-                                      WHERE id_admin = :id_admin");
+            $stmt = $connection->prepare("UPDATE admins SET firstname = :firstname, lastname = :lastname, email = :email
+                                          WHERE id_admin = :id_admin");
             $stmt->execute([
                 'firstname' => $dataUser['firstname'],
                 'lastname' => $dataUser['lastname'],
                 'id_admin' => $dataUser['idAdmin'],
-                'email' => $dataUser['email'],
-                'pass' => $pass
+                'email' => $dataUser['email']
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

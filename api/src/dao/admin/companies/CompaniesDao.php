@@ -18,20 +18,42 @@ class CompaniesDao
     }
 
 
+    public function findAllCompanies()
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM companies");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $companyData = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("AllCompanies", array('AllCompanies' => $companyData));
+
+        return $companyData;
+    }
     //Obtener todas las empresas activas / inactivas
-    public function findAllCompanies($stat)
+    public function findAllCompaniesLicenses($stat)
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT cp.id_company, cp.company, cp.state, cp.city, cp.country, cp.address,
                                       cp.telephone, cp.nit, cp.logo, cp.created_at FROM companies cp 
                                       INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company 
-                                      WHERE cl.status = :stat");
+                                      WHERE cl.license_status = :stat");
         $stmt->execute(['stat' => $stat]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $companyData = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("AllCompanies", array('AllCompanies' => $companyData));
 
         return $companyData;
+    }
+
+    public function findLastCompany()
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(id_company) AS idCompany FROM companies");
+        $stmt->execute();
+        $lastId = $stmt->fetch($connection::FETCH_ASSOC);
+
+        return $lastId;
     }
 
     public function logoCompany($id_company)
@@ -84,11 +106,7 @@ class CompaniesDao
                 'address' => $dataCompany['companyAddress'],       'telephone' => $dataCompany['companyTel'],
                 'nit' => $dataCompany['companyNIT']
             ]);
-            $stmt = $connection->prepare("SELECT MAX(id_company) AS idCompany FROM companies");
-            $stmt->execute();
-            $lastId = $stmt->fetch($connection::FETCH_ASSOC);
 
-            return $lastId;
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();

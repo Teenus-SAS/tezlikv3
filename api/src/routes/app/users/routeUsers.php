@@ -35,11 +35,10 @@ $app->get('/user', function (Request $request, Response $response, $args) use ($
 
 $app->post('/addUser', function (Request $request, Response $response, $args) use ($userDao, $quantityUsersDao, $costAccessUserDao, $planningAccessUserDao) {
     session_start();
-    //variable de session id_company
-    $id_company = $_SESSION['id_company'];
-
     //data
     $dataUser = $request->getParsedBody();
+
+    !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
 
     //selecciona quantity_user de companies_licenses que tengan el id_company
     $quantityAllowsUsers = $quantityUsersDao->quantityUsersAllows($id_company);
@@ -63,6 +62,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
             /* Almacena los accesos */
             if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
             if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
+            !isset($usersAccess) ? $usersAccess = null : $usersAccess;
         }
 
 
@@ -82,8 +82,10 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
 $app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao, $costAccessUserDao, $planningAccessUserDao) {
     session_start();
-    $id_company = $_SESSION['id_company'];
     $dataUser = $request->getParsedBody();
+
+    !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
+
     $files = $request->getUploadedFiles();
 
     if (empty($dataUser['nameUser']) && empty($dataUser['lastnameUser'])) {
@@ -94,6 +96,7 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
             /* Actualizar los accesos */
             if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
             if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
+            !isset($usersAccess) ? $usersAccess = null : $usersAccess;
         } else {
             foreach ($files as $file) {
                 $name = $file->getClientFilename();
@@ -141,6 +144,7 @@ $app->post('/deleteUser', function (Request $request, Response $response, $args)
     if ($dataUser['idUser'] != $idUser) {
         if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->deleteUserAccess($dataUser);
         if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->deleteUserAccess($dataUser);
+        !isset($usersAccess) ? $usersAccess = null : $usersAccess;
 
         if ($usersAccess == null)
             $users = $userDao->deleteUser($dataUser);
