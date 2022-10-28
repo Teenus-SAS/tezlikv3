@@ -18,9 +18,18 @@ $(document).ready(function () {
 
     idCompany = sessionStorage.getItem('id_company');
     if (!idCompany || idCompany == null) {
+      company = $('#company').val();
       license_start = $('#license_start').val();
       license_end = $('#license_end').val();
       quantityUsers = $('#quantityUsers').val();
+      plan = $('#plan').val();
+
+      data = company * quantityUsers * plan;
+
+      if (license_start == '' || license_end == '' || !data || data == null) {
+        toastr.error('Ingrese todos los campos');
+        return false;
+      }
 
       if (license_start > license_end) {
         toastr.error('La fecha inicial no debe ser mayor a la final');
@@ -38,7 +47,8 @@ $(document).ready(function () {
   /*Actualizar licencia*/
   $(document).on('click', '.updateLicenses', function (e) {
     e.preventDefault();
-    $('.cardCreateLicense').toggle(800);
+    $('.cardCreateLicense').show(800);
+    $('#formAddLicense').trigger('reset');
     let row = $(this).parent().parent()[0];
     $('#btnAddLicense').html('Actualizar');
     let data = tblCompaniesLic.fnGetData(row);
@@ -49,13 +59,15 @@ $(document).ready(function () {
     $('#license_start').val(data.license_start);
     $('#license_end').val(data.license_end);
     $('#quantityUsers').val(data.quantity_user);
-    $(`#plan option[value=${data.id_plan}]`).prop('selected', true);
+    $(`#plan option[value=${data.plan}]`).prop('selected', true);
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });
 
   updateCompany = () => {
     idCompany = sessionStorage.getItem('id_company');
+
+    $('#company').prop('disabled', false);
 
     dataCompany = $('#formAddLicense').serialize();
 

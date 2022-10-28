@@ -17,11 +17,11 @@ class LicenseCompanyDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findCostandPlanning($id_company)
+    public function findLicenseCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT cost, planning 
+        $stmt = $connection->prepare("SELECT *
                                   FROM companies_licenses  WHERE id_company = :id_company;");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -30,22 +30,22 @@ class LicenseCompanyDao
         return $dataCompany;
     }
 
-    public function findLicense($id_company)
+    /* public function findLicense($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT cl.license_end 
-                                  FROM companies_licenses cl WHERE cl.id_company = :id_company;");
+        $stmt = $connection->prepare("SELECT license_end 
+                                  FROM companies_licenses WHERE id_company = :id_company;");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $licenseData = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $licenseData = $stmt->fetch($connection::FETCH_ASSOC);
         $this->logger->notice("licenses get", array('licenses' => $licenseData));
 
         $today = date('Y-m-d');
         $licenseDay = $licenseData[0]['license_end'];
         $today < $licenseDay ? $license = 1 : $license = 0;
         return $license;
-    }
+    }*/
 
     public function insertLicenseCompanyByCompany($id_company)
     {

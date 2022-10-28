@@ -22,11 +22,13 @@ $app->post('/addLicense', function (Request $request, Response $response, $args)
     $dataLicense = $request->getParsedBody();
     $license = $companiesLicenseDao->addLicense($dataLicense, $dataLicense['company']);
 
-    if ($license == null) {
+    if ($license == null)
         $resp = array('success' => true, 'message' => 'Licencia ingresada correctamente');
-    } else {
+    else if ($license['info'])
+        $resp = array('info' => true, 'message' => $license['message']);
+    else
         $resp = array('error' => true, 'message' => 'Ocurrio un error al actualizar la licencia. Intente nuevamente');
-    }
+
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

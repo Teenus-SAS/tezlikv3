@@ -24,7 +24,7 @@ class CompaniesLicenseDao
 
         $stmt = $connection->prepare("SELECT cp.id_company, cp.nit, cp.company, cl.license_start, cl.license_end,
                                       cl.quantity_user, cl.license_status, CASE WHEN cl.license_end > CURRENT_DATE
-                                      THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END license_days
+                                      THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END license_days, cl.plan
                                       FROM companies cp INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -91,7 +91,7 @@ class CompaniesLicenseDao
                 'license_end' => $dataLicense['license_end'],
                 'quantity_user' => $dataLicense['quantityUsers'],
                 'plan' => $dataLicense['plan'],
-                'id_company' => $dataLicense['id_company'],
+                'id_company' => $dataLicense['company'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

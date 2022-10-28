@@ -48,7 +48,11 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 
         /* valide licenciamiento empresa */
 
-        $license = $licenseDao->findLicense($user['id_company']);
+        $dataCompany = $licenseDao->findLicenseCompany($user['id_company']);
+
+        $today = date('Y-m-d');
+        $licenseDay = $dataCompany['license_end'];
+        $today < $licenseDay ? $license = 1 : $license = 0;
 
         if ($license == 0) {
             $resp = array('error' => true, 'message' => 'Su licencia ha caducado, lo invitamos a comunicarse');
@@ -84,9 +88,10 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION['id_company'] = $user['id_company'];
         $_SESSION['avatar'] = $user['avatar'];
         $_SESSION["time"] = microtime(true);
+        $_SESSION['plan'] = $dataCompany['plan'];
 
         // Validar licencia y accesos de usuario 
-        $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
+        // $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
             $location = '../../selector/';
         else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)
