@@ -107,8 +107,8 @@ $(document).ready(function () {
       generalExpenses: data.expense,
       distributionExpenses: data.expense_distribution,
       users: data.user,
-      analysisMaterials: data.analysis_material,
       prices: data.price,
+      analysisMaterials: data.analysis_material,
       tools: data.tool,
     };
 
