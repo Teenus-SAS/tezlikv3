@@ -33,7 +33,8 @@
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark" id="product"></h3>
+                                    <!-- <h3 class="mb-1 font-weight-bold text-dark" id="product"></h3> -->
+                                    <select id="selectNameProduct" class="form-control"></select>
                                     <ol class="breadcrumb mb-3 mb-md-0">
                                         <li class="breadcrumb-item active">Análisis de Costos</li>
                                     </ol>
@@ -554,6 +555,7 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/users/usersAccess.js"></script>
 
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>

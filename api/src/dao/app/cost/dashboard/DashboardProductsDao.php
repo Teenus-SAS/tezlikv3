@@ -21,7 +21,7 @@ class DashboardProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.product, pc.cost_materials, pc.cost_workforce, ed.assignable_expense, pc.cost_indirect_cost, 
-                                             pc.profitability, ed.units_sold, ed.turnover, pc.commission_sale, pc.price
+                                             pc.profitability, ed.units_sold, ed.turnover, pc.commission_sale, pc.price, p.img
                                       FROM products_costs pc
                                       INNER JOIN products p ON p.id_product = pc.id_product
                                       INNER JOIN expenses_distribution ed ON ed.id_product = pc.id_product

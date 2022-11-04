@@ -35,7 +35,10 @@ $(document).ready(function () {
   /* Indicadores Generales */
 
   generalIndicators = (data) => {
-    $('#product').html(data[0].product);
+    $(`#selectNameProduct option:contains(${data[0].product})`).prop(
+      'selected',
+      true
+    );
 
     let costTotal =
       data[0].cost_materials +
