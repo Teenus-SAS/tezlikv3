@@ -9,6 +9,8 @@ $(document).ready(function () {
     $('#btnCreateUser').html('Crear Usuario');
 
     sessionStorage.removeItem('id_user');
+    $('#email').prop('disabled', false);
+    $('#company').prop('disabled', false);
 
     $('#formCreateUser').trigger('reset');
   });

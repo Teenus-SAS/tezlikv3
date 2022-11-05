@@ -33,7 +33,7 @@ $(document).ready(function () {
         acces.createMachines === 0 &&
         acces.createProcess === 0
       ) {
-        $('#navBasics').remove();
+        $('#navCostBasics').remove();
       }
 
       if (
@@ -42,7 +42,7 @@ $(document).ready(function () {
         acces.factoryLoad === 0 &&
         acces.servicesExternal === 0
       ) {
-        $('#navSetting').remove();
+        $('#navCostSetting').remove();
       }
 
       if (
@@ -50,11 +50,11 @@ $(document).ready(function () {
         acces.generalExpenses === 0 &&
         acces.distributionExpenses === 0
       ) {
-        $('#navGeneral').remove();
+        $('#navCostGeneral').remove();
       }
 
       if (acces.users === 0) {
-        $('#navAdmin').remove();
+        $('#navCostAdmin').remove();
       }
     },
   });

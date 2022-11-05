@@ -1,20 +1,22 @@
 $(document).ready(function () {
   id_product = sessionStorage.getItem('idProduct');
-  fetch(`/api/dashboardPricesProducts/${id_product}`)
-    .then((response) => response.text())
-    .then((data) => {
-      data = JSON.parse(data);
-      generalIndicators(data.cost_product);
-      UnitsVolSold(data.cost_product);
-      totalCost(data.cost_product);
-      graphicCostExpenses(data.cost_product);
-      graphicCostWorkforce(data.cost_workforce);
-      graphicCostTimeProcess(data.cost_time_process);
-      graphicPromTime(data.average_time_process, data.cost_time_process);
-      graphicCompPrices(data.cost_product);
-      graphicCostMaterials(data.cost_materials);
-    });
 
+  loadIndicatorsProducts = (id_product) => {
+    fetch(`/api/dashboardPricesProducts/${id_product}`)
+      .then((response) => response.text())
+      .then((data) => {
+        data = JSON.parse(data);
+        generalIndicators(data.cost_product);
+        UnitsVolSold(data.cost_product);
+        totalCostData(data.cost_product);
+        graphicCostExpenses(data.cost_product);
+        graphicCostWorkforce(data.cost_workforce);
+        graphicCostTimeProcess(data.cost_time_process);
+        graphicPromTime(data.average_time_process, data.cost_time_process);
+        graphicCompPrices(data.cost_product);
+        graphicCostMaterials(data.cost_materials);
+      });
+  };
   /* Colors */
 
   dynamicColors = () => {
@@ -35,10 +37,12 @@ $(document).ready(function () {
   /* Indicadores Generales */
 
   generalIndicators = (data) => {
-    $(`#selectNameProduct option:contains(${data[0].product})`).prop(
-      'selected',
-      true
-    );
+    $('#nameProduct').html(data[0].product);
+    $(`#product option[value=${data[0].id_product}]`).prop('selected', true);
+
+    $('.imageProduct').html(`
+      <img src="${data[0].img}" alt="" style="width:50%;border-radius:100px">
+    `);
 
     let costTotal =
       data[0].cost_materials +
@@ -97,7 +101,7 @@ $(document).ready(function () {
 
   /* Costeo Total */
 
-  totalCost = (data) => {
+  totalCostData = (data) => {
     dataCost = getDataCost(data[0]);
     // $('#salesPrice').html(`$ ${data[0].price.toLocaleString('es-ES')}`);
     $('#costTotal').html(
@@ -174,4 +178,14 @@ $(document).ready(function () {
 
     return dataCost;
   };
+
+  loadIndicatorsProducts(id_product);
+
+  $('#product').change(function (e) {
+    e.preventDefault();
+
+    id_product = this.value;
+
+    loadIndicatorsProducts(id_product);
+  });
 });

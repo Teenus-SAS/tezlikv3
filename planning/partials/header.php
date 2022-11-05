@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="row" id="nav">
-                                <div class="col-md-3" id="navBasics">
+                                <div class="col-md-3" id="navPlanBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <!-- <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li> -->
@@ -48,7 +48,7 @@
                                         <li class="planProcess"><a href="/planning/process">Procesos</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-md-3" id="navSetting">
+                                <div class="col-md-3" id="navPlanSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <!-- <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productMaterials.php')">Ficha Técnica Productos</a></li> -->
@@ -58,14 +58,14 @@
                                         <li class="planCiclesMachine"><a href="/planning/cicles-machines">Plan Ciclos Maquina</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-md-3" id="navGeneral">
+                                <div class="col-md-3" id="navPlanGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="categories"><a href="/planning/categories">Categorías</a></li>
                                         <li class="sales"><a href="/planning/sales">Ventas</a></li>
                                     </ul>
                                 </div>
-                                <div class="col-md-3" id="navAdmin">
+                                <div class="col-md-3" id="navPlanAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="planUsers"><a href="/planning/users">Usuarios</a></li>

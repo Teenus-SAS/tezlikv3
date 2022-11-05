@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="row" id="nav">
-                                <div class="col-md-3" id="navBasics">
+                                <div class="col-md-3" id="navCostBasics">
                                     <h5 class="font-size-14 font-weight-600">Básico</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="createProducts"><a href="/cost/products">Productos</a></li>
@@ -40,7 +40,7 @@
 
                                     </ul>
                                 </div>
-                                <div class="col-md-3" id="navSetting">
+                                <div class="col-md-3" id="navCostSetting">
                                     <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
@@ -54,7 +54,7 @@
                                         <!-- <li class="linesProducts"><a href="">Lineas de Producto</a></li> -->
                                     </ul>
                                 </div>
-                                <div class="col-md-3" id="navGeneral">
+                                <div class="col-md-3" id="navCostGeneral">
                                     <h5 class="font-size-14 font-weight-600">General</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
@@ -65,7 +65,7 @@
 
                                     </ul>
                                 </div>
-                                <div class="col-md-3" id="navAdmin">
+                                <div class="col-md-3" id="navCostAdmin">
                                     <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="users"><a href="/cost/users">Usuarios</a></li>

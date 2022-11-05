@@ -21,6 +21,7 @@ get('/admin/companies-user', '/admin/views/companies/companyUsers.php');
 //Header
 get('/admin/users-admins', '/admin/views/users/usersAdmins.php');
 get('/admin/users', '/admin/views/users/users.php');
+get('/admin/plans', '/admin/views/plans/plans.php');
 get('/admin/profile', '/admin/views/perfil/perfil.php');
 
 

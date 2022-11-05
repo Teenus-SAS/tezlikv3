@@ -55,6 +55,23 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Tipo plan',
+        data: 'plan',
+        render: function (data) {
+          if (data == 0) {
+            return '';
+          } else if (data === 1) {
+            return 'Premium';
+          } else if (data == 2) {
+            return 'Pro';
+          } else if (data == 3) {
+            return 'Pyme';
+          } else if (data == 4) {
+            return 'Emprendedor';
+          }
+        },
+      },
+      {
         title: 'Acciones',
         data: 'id_company',
         className: 'uniqueClassName',

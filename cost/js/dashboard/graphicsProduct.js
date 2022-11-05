@@ -1,5 +1,12 @@
 /* DashboardProducts */
 $(document).ready(function () {
+  var myChart;
+  var chartWorkForce;
+  var chartTimeProcess;
+  var chartTotalTime;
+  var charCompPrice;
+  var chartMaterials;
+
   /* Costo del producto */
 
   graphicCostExpenses = (data) => {
@@ -11,10 +18,11 @@ $(document).ready(function () {
     costExpenses.push(data[0].assignable_expense);
 
     /* Ordenar el array */
-    //costExpenses.sort();
 
-    const ctx = document.getElementById('chartProductCosts').getContext('2d');
-    const myChart = new Chart(ctx, {
+    myChart ? myChart.destroy() : myChart;
+
+    ctx = document.getElementById('chartProductCosts').getContext('2d');
+    myChart = new Chart(ctx, {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {
@@ -83,8 +91,10 @@ $(document).ready(function () {
 
     $('#totalCostWorkforceEsp').html(`$ ${totalCost}`);
 
-    const cmo = document.getElementById('chartWorkForce');
-    const chartWorkForce = new Chart(cmo, {
+    chartWorkForce ? chartWorkForce.destroy() : chartWorkForce;
+
+    cmo = document.getElementById('chartWorkForce');
+    chartWorkForce = new Chart(cmo, {
       plugins: [ChartDataLabels],
       type: 'doughnut',
       data: {
@@ -151,8 +161,10 @@ $(document).ready(function () {
 
     $('#totalTimeProcess').html(`${total} min`);
 
-    var cmo = document.getElementById('chartTimeProcess');
-    var chartWorkForce = new Chart(cmo, {
+    chartTimeProcess ? chartTimeProcess.destroy() : chartWorkForce;
+
+    cmo = document.getElementById('chartTimeProcess');
+    chartTimeProcess = new Chart(cmo, {
       plugins: [ChartDataLabels],
       type: 'doughnut',
       data: {
@@ -220,8 +232,10 @@ $(document).ready(function () {
 
     $('#manufactPromTime').html(`${total} min`);
 
-    var cmo = document.getElementById('chartManufactTime');
-    var chartTotalTime = new Chart(cmo, {
+    chartTotalTime ? chartTotalTime.destroy() : chartTotalTime;
+
+    cmo = document.getElementById('chartManufactTime');
+    chartTotalTime = new Chart(cmo, {
       plugins: [ChartDataLabels],
       type: 'doughnut',
       data: {
@@ -287,8 +301,10 @@ $(document).ready(function () {
 
     $('#totalPricesComp').html(`$ ${total}`);
 
-    var cmo = document.getElementById('chartPrice');
-    var charCompPrice = new Chart(cmo, {
+    charCompPrice ? charCompPrice.destroy() : charCompPrice;
+
+    cmo = document.getElementById('chartPrice');
+    charCompPrice = new Chart(cmo, {
       plugins: [ChartDataLabels],
       type: 'doughnut',
       data: {
@@ -340,8 +356,10 @@ $(document).ready(function () {
       totalMaterial.push(data[i].totalCostMaterial);
     }
 
-    const cmc = document.getElementById('chartMaterialsCosts').getContext('2d');
-    const chartMaterials = new Chart(cmc, {
+    chartMaterials ? chartMaterials.destroy() : chartMaterials;
+
+    cmc = document.getElementById('chartMaterialsCosts').getContext('2d');
+    chartMaterials = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {

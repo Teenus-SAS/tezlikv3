@@ -39,7 +39,7 @@ $(document).ready(function () {
         acces.planMachines == 0 &&
         acces.planProcess == 0
       ) {
-        $('#navBasics').remove();
+        $('#navPlanBasics').remove();
       }
 
       if (
@@ -48,15 +48,15 @@ $(document).ready(function () {
         acces.planningMachines == 0 &&
         acces.planCiclesMachine == 0
       ) {
-        $('#navSetting').remove();
+        $('#navPlanSetting').remove();
       }
 
       if (acces.categories == 0 && acces.sales == 0) {
-        $('#navGeneral').remove();
+        $('#navPlanGeneral').remove();
       }
 
       if (acces.planUsers == 0 && acces.clients == 0 && acces.typeOrder == 0) {
-        $('#navAdmin').remove();
+        $('#navPlanAdmin').remove();
       }
     },
   });
