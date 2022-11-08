@@ -29,7 +29,7 @@ class PlansDao
         return $plans;
     }
 
-    public function findAllAccessPlans()
+    public function findAllPlansAccess()
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -38,6 +38,19 @@ class PlansDao
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $plans = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+        return $plans;
+    }
+
+    public function findPlanAccess($id_plan)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM plans_access WHERE id_plan = :id_plan");
+        $stmt->execute(['id_plan' => $id_plan]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $plans = $stmt->fetch($connection::FETCH_ASSOC);
 
         return $plans;
     }

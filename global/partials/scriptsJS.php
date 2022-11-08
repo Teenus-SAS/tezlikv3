@@ -49,3 +49,4 @@
 <script src="/global/js/global/sessionUser.js"></script>
 <script src="/cost/js/users/usersAccess.js"></script>
 <script src="/planning/js/users/usersAccess.js"></script>
+<script src="/global/js/global/plansAccess.js"></script>

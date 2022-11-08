@@ -15,9 +15,19 @@ $app->get('/plans', function (Request $request, Response $response, $args) use (
 });
 
 $app->get('/plansAccess', function (Request $request, Response $response, $args) use ($plansDao) {
-    $plans = $plansDao->findAllAccessPlans();
+    $plans = $plansDao->findAllPlansAccess();
 
     $response->getBody()->write(json_encode($plans));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/planAccess', function (Request $request, Response $response, $args) use ($plansDao) {
+    session_start();
+    $id_plan = $_SESSION['plan'];
+
+    $plan = $plansDao->findPlanAccess($id_plan);
+
+    $response->getBody()->write(json_encode($plan));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
