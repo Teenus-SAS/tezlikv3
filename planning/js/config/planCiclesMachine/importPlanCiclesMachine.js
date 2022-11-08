@@ -85,7 +85,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportPlanCiclesMachine').hide(800);
-          $('#formImportPlanCiclesMachine')[0].reset();
+          $('#formImportPlanCiclesMachine').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

@@ -179,7 +179,7 @@ $(document).ready(function () {
 
   const message = (data) => {
     if (data.success == true) {
-      $('#formCreatePlanMachine')[0].reset();
+      $('#formCreatePlanMachine').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

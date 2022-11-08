@@ -90,7 +90,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportProductsMaterials').hide(800);
-          $('#formImportProductMaterial')[0].reset();
+          $('#formImportProductMaterial').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

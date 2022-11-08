@@ -91,7 +91,7 @@ $(document).ready(function () {
   const message = (data) => {
     if (data.success == true) {
       $('.createPUC').toggle(800);
-      $('#formCreatePuc')[0].reset();
+      $('#formCreatePuc').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

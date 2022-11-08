@@ -151,7 +151,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardRawMaterials').hide(800);
-      $('#formCreateMaterial')[0].reset();
+      $('#formCreateMaterial').trigger('reset');
       toastr.success(data.message);
       updateTable();
       return false;

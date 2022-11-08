@@ -113,7 +113,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateMachines').hide(800);
-      $('#formCreateMachine')[0].reset();
+      $('#formCreateMachine').trigger('reset');
       toastr.success(data.message);
       updateTable();
       return false;

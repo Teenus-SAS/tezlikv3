@@ -83,7 +83,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportMachines').hide(800);
-          $('#formImportMachines')[0].reset();
+          $('#formImportMachines').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

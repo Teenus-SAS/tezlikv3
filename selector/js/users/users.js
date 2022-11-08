@@ -327,7 +327,7 @@ $(document).ready(function () {
       $('.cardAccessPlanning').hide();
       $('#createUserAccess').modal('hide');
       $('#formCreateUser').trigger('reset');
-      // $('#formCreateAccessUser')[0].reset();
+      // $('#formCreateAccessUser').trigger('reset')
       updateTable();
       toastr.success(data.message);
       return false;

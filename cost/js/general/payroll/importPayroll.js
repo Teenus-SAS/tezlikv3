@@ -93,7 +93,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportPayroll').hide(800);
-          $('#formImportPayroll')[0].reset();
+          $('#formImportPayroll').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

@@ -106,7 +106,7 @@
                     data[obj.name] = obj.value;
                 });
                 forgotPass();
-                $(form)[0].reset();
+                $(form).trigger('reset')
                 $(".floating-label").removeClass("enable-floating-label");
             }
         });

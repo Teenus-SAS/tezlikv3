@@ -154,7 +154,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardExpensesDistribution').hide(800);
-      $('#formExpensesDistribution')[0].reset();
+      $('#formExpensesDistribution').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

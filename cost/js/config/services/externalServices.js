@@ -146,7 +146,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardAddService').hide(800);
-      $('#formAddService')[0].reset();
+      $('#formAddService').trigger('reset');
       updateTable();
       toastr.success(data.message);
       //return false

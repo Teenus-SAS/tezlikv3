@@ -138,7 +138,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardFactoryLoad').hide(800);
-      $('#formNewFactoryLoad')[0].reset();
+      $('#formNewFactoryLoad').trigger('reset');
       updateTable();
       toastr.success(data.message);
       //return false

@@ -177,7 +177,7 @@ $(document).ready(function () {
   const message = (data) => {
     if (data.success == true) {
       $('.cardAddMaterials').hide(800);
-      $('#formAddMaterials')[0].reset();
+      $('#formAddMaterials').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

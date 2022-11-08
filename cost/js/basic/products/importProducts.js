@@ -51,7 +51,7 @@ $(document).ready(function () {
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
-          $('#formImportProduct')[0].reset();
+          $('#formImportProduct').trigger('reset');
           return false;
         }
         bootbox.confirm({
@@ -88,7 +88,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportProducts').hide(800);
-          $('#formImportProduct')[0].reset();
+          $('#formImportProduct').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

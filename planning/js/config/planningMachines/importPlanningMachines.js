@@ -98,7 +98,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportPlanMachines').hide(800);
-          $('#formImportPlanMachines')[0].reset();
+          $('#formImportPlanMachines').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

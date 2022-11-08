@@ -121,7 +121,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateProcess').hide(800);
-      $('#formCreateProcess')[0].reset();
+      $('#formCreateProcess').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

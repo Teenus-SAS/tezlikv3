@@ -125,7 +125,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateCategory').hide(800);
-      $('#formCreateCategory')[0].reset();
+      $('#formCreateCategory').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

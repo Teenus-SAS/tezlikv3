@@ -27,7 +27,7 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
-      $('#formSendSupport')[0].reset();
+      $('#formSendSupport').trigger('reset');
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);

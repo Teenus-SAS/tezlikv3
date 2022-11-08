@@ -207,7 +207,7 @@ $(document).ready(function () {
   const message = (data) => {
     if (data.success == true) {
       $('.cardCreateProduct').hide(800);
-      $('#formCreateProduct')[0].reset();
+      $('#formCreateProduct').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

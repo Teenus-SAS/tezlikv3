@@ -116,7 +116,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateExpenses').hide(800);
-      $('#formCreateExpenses')[0].reset();
+      $('#formCreateExpenses').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

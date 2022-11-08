@@ -210,7 +210,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateInvMold').hide(800);
-      $('#formCreateInvMold')[0].reset();
+      $('#formCreateInvMold').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

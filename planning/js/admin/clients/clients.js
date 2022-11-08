@@ -123,7 +123,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateClient').hide(800);
-      $('#formCreateClient')[0].reset();
+      $('#formCreateClient').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

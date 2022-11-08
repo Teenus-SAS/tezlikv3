@@ -214,7 +214,7 @@ $(document).ready(function () {
     if (data.success == true) {
       // $('.cardCreateRawProcesss').toggle(800);
       $('.cardAddProcess').hide(800);
-      $('#formAddProcess')[0].reset();
+      $('#formAddProcess').trigger('reset');
       updateTable();
       toastr.success(data.message);
       //return false

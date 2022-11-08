@@ -129,7 +129,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreatePlanCiclesMachine').hide(800);
-      $('#formCreatePlanCiclesMachine')[0].reset();
+      $('#formCreatePlanCiclesMachine').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

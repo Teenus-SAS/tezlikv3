@@ -85,7 +85,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportClients').hide(800);
-          $('#formImportClients')[0].reset();
+          $('#formImportClients').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

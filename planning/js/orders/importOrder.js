@@ -93,7 +93,7 @@ $(document).ready(function () {
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportOrder').hide(800);
-          $('#formImportOrder')[0].reset();
+          $('#formImportOrder').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;

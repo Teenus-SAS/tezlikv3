@@ -180,7 +180,7 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardCreatePayroll').hide(800);
-      $('#formCreatePayroll')[0].reset();
+      $('#formCreatePayroll').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

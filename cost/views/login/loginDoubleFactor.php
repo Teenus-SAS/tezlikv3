@@ -124,7 +124,7 @@
                 });
                 alert("Data has been submitted. Please see console log");
                 console.log("form data ===>", data);
-                $(form)[0].reset();
+                $(form).trigger('reset')
                 $(".floating-label").removeClass("enable-floating-label");
             }
         });
