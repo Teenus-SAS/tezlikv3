@@ -34,17 +34,20 @@ class ProductsQuantityDao
 
 
     //CANTIDAD TOTAL DE PRODUCTOS POR EMPRESA
-    public function totalProductsByCompany()
+    public function totalProductsByCompany($id_company, $id_plan)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.profitability, pc.commission_sale, pc.price, p.img 
-                                      FROM products p 
-                                      INNER JOIN products_costs pc ON p.id_product = pc.id_product");
-        $stmt->execute();
+        $stmt = $connection->prepare("SELECT COUNT(id_product) AS quantity, (SELECT cant_productos FROM plans_access WHERE id_plan = :id_plan) AS cant_products
+                                      FROM products 
+                                      WHERE id_company = :id_company");
+        $stmt->execute([
+            'id_company' => $id_company,
+            'id_plan' => $id_plan
+        ]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $products = $stmt->fetch($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $products));
         return $products;
     }

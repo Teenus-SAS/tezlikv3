@@ -2,29 +2,39 @@ $(document).ready(function () {
   // Ocultar Modal Nuevo usuario
   $('#btnClosePlan').click(function (e) {
     e.preventDefault();
+    $('#switchCost').prop('disabled', false);
+    $('#switchPlanning').prop('disabled', false);
+    $('#formCreatePlan').trigger('reset');
+
     $('#createPlansAccess').modal('hide');
   });
 
-  /* Abrir panel Nuevo usuario 
-
-  $('#btnNewplan').click(function (e) {
+  /* Accesos de usuario*/
+  $('.switch').change(function (e) {
     e.preventDefault();
-    $('.cardAccessCost').hide();
-    $('.separator').hide();
-    $('.cardAccessPlanning').hide();
-    $('#createPlansAccess').modal('show');
-    $('#btnCreateplanAndAccess').html('Crear Usuario y Accesos');
+    if (
+      $('#switchCost').is(':checked') &&
+      $('#switchPlanning').is(':checked')
+    ) {
+      $('.cardAccessCost').show(800);
+      $('.separator').show(800);
+      $('.cardAccessPlanning').show(800);
+    } else if ($('#switchCost').is(':checked')) {
+      $('.cardAccessCost').show(800);
+    } else if ($('#switchPlanning').is(':checked')) {
+      $('.cardAccessPlanning').show(800);
+    }
 
-    sessionStorage.removeItem('id_plan');
+    if (!$('#switchCost').is(':checked')) {
+      $('.separator').hide();
+      $('.cardAccessCost').hide(800);
+    }
 
-    $('#nameplan').prop('disabled', false);
-    $('#lastnameplan').prop('disabled', false);
-    $('#emailplan').prop('disabled', false);
-
-    $('#formCreatePlan').trigger('reset');
-  }); */
-
-  /* Agregar nuevo usuario */
+    if (!$('#switchPlanning').is(':checked')) {
+      $('.separator').hide();
+      $('.cardAccessPlanning').hide(800);
+    }
+  });
 
   $('#btnCreatePlanAccess').click(function (e) {
     e.preventDefault();
@@ -32,6 +42,7 @@ $(document).ready(function () {
 
     dataPlan = {};
     dataPlan['idPlan'] = idPlan;
+    dataPlan['cantProducts'] = $('#cantProducts').val();
 
     dataPlan = setCheckBoxes(dataPlan);
 
@@ -51,10 +62,40 @@ $(document).ready(function () {
     let idPlan = this.id;
     sessionStorage.setItem('id_plan', idPlan);
 
-    let row = $(this).parent().parent()[0];
-    let data = tblPlans.fnGetData(row);
+    rol = $('#rol').val();
+
+    if (rol == 1) {
+      $('#switchCost').prop('checked', true);
+      $('#switchPlanning').prop('disabled', true);
+      $('.cardAccessCost').show(800);
+      $('.separator').hide();
+      $('.cardAccessPlanning').hide();
+      $('.inputCantProducts').show();
+    }
+    if (rol == 2) {
+      $('#switchPlanning').prop('checked', true);
+      $('#switchCost').prop('disabled', true);
+      $('.cardAccessPlanning').show(800);
+      $('.separator').hide();
+      $('.cardAccessCost').hide();
+      $('.inputCantProducts').hide();
+    }
+
+    setData(idPlan);
+  });
+
+  setData = async (idPlan) => {
+    dataPlan = await loaddataAccess();
+
+    for (let i = 0; i < dataPlan.length; i++) {
+      if (dataPlan[i]['id_plan'] == idPlan) {
+        data = dataPlan[i];
+        break;
+      }
+    }
 
     $(`#plan option[value=${data.id_plan}]`).prop('selected', true);
+    $('#cantProducts').val(data.cant_productos);
 
     // Datos usuario
 
@@ -84,7 +125,7 @@ $(document).ready(function () {
 
     $('#createPlansAccess').modal('show');
     $('#btnCreatePlanAccess').html('Actualizar Accesos');
-  });
+  };
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataPlan) => {
@@ -115,46 +156,6 @@ $(document).ready(function () {
     return dataPlan;
   };
 
-  /* Eliminar usuario 
-
-  deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblplans.fnGetData(row);
-
-    let idPlan = data.id_plan;
-    let programsMachine = data.programs_machine;
-    dataPlan = {};
-    dataPlan['idPlan'] = idPlan;
-    dataPlan['programsMachine'] = programsMachine;
-
-    bootbox.confirm({
-      title: 'Eliminar',
-      message:
-        'Está seguro de eliminar este Usuario? Esta acción no se puede reversar.',
-      buttons: {
-        confirm: {
-          label: 'Si',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'No',
-          className: 'btn-danger',
-        },
-      },
-      callback: function (result) {
-        if (result == true) {
-          $.post(
-            '/api/deleteplan',
-            dataPlan,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
-          );
-        }
-      },
-    });
-  }; */
-
   /* Mensaje de exito */
 
   message = (data) => {
@@ -171,7 +172,6 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   function updateTable() {
-    $('#tblPlans').DataTable().clear();
-    $('#tblPlans').DataTable().ajax.reload();
+    $('#rol').trigger('change');
   }
 });

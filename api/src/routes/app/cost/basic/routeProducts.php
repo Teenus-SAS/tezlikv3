@@ -3,10 +3,13 @@
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\ProductsCostDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\dao\ProductsQuantityDao;
 
 $productsDao = new ProductsDao();
 $productsCostDao = new ProductsCostDao();
 $priceProductDao = new PriceProductDao();
+$productsQuantityDao = new ProductsQuantityDao();
+
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -65,61 +68,67 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addProducts', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao) {
+$app->post('/addProducts', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao, $productsQuantityDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $id_plan = $_SESSION['plan'];
     $dataProduct = $request->getParsedBody();
 
     /* Inserta datos */
-    $dataProducts = sizeof($dataProduct);
 
-    if ($dataProducts > 1) {
-        //INGRESA id_company, referencia, producto. BD
-        $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
+    $product = $productsQuantityDao->totalProductsByCompany($id_company, $id_plan);
 
-        //ULTIMO REGISTRO DE ID, EL MÁS ALTO
-        $lastProductId = $productsDao->lastInsertedProductId($id_company);
+    if ($product['quantity'] < $product['cant_products']) {
+        $dataProducts = sizeof($dataProduct);
 
-        if (sizeof($_FILES) > 0)
-            $productsDao->imageProduct($lastProductId['id_product'], $id_company);
+        if ($dataProducts > 1) {
+            //INGRESA id_company, referencia, producto. BD
+            $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
+
+            //ULTIMO REGISTRO DE ID, EL MÁS ALTO
+            $lastProductId = $productsDao->lastInsertedProductId($id_company);
+
+            if (sizeof($_FILES) > 0)
+                $productsDao->imageProduct($lastProductId['id_product'], $id_company);
 
 
-        //AGREGA ULTIMO ID A DATA
-        $dataProduct['idProduct'] = $lastProductId['id_product'];
-        $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
+            //AGREGA ULTIMO ID A DATA
+            $dataProduct['idProduct'] = $lastProductId['id_product'];
+            $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
 
-        if ($products == null &&  $productsCost == null)
-            $resp = array('success' => true, 'message' => 'Producto creado correctamente');
-        else if (isset($products['info']))
-            $resp = array('info' => true, 'message' => $products['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrió un error mientras ingresaba la información. Intente nuevamente');
-    } else {
-        $products = $dataProduct['importProducts'];
+            if ($products == null &&  $productsCost == null)
+                $resp = array('success' => true, 'message' => 'Producto creado correctamente');
+            else if (isset($products['info']))
+                $resp = array('info' => true, 'message' => $products['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrió un error mientras ingresaba la información. Intente nuevamente');
+        } else {
+            $products = $dataProduct['importProducts'];
 
-        for ($i = 0; $i < sizeof($products); $i++) {
+            for ($i = 0; $i < sizeof($products); $i++) {
 
-            $product = $productsDao->findProduct($products[$i], $id_company);
+                $product = $productsDao->findProduct($products[$i], $id_company);
 
-            if (!$product) {
-                $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
-                $lastProductId = $productsDao->lastInsertedProductId($id_company);
+                if (!$product) {
+                    $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
+                    $lastProductId = $productsDao->lastInsertedProductId($id_company);
 
-                $products[$i]['idProduct'] = $lastProductId['id_product'];
+                    $products[$i]['idProduct'] = $lastProductId['id_product'];
 
-                $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
-            } else {
-                $products[$i]['idProduct'] = $product['id_product'];
-                $resolution = $productsDao->updateProductByCompany($products[$i]);
-                $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
+                    $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
+                } else {
+                    $products[$i]['idProduct'] = $product['id_product'];
+                    $resolution = $productsDao->updateProductByCompany($products[$i]);
+                    $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
+                }
             }
+            if ($resolution == null)
+                $resp = array('success' => true, 'message' => 'Productos importados correctamente');
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrió un error mientras importaba los datos. Intente nuevamente');
         }
-        if ($resolution == null)
-            $resp = array('success' => true, 'message' => 'Productos importados correctamente');
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrió un error mientras importaba los datos. Intente nuevamente');
-    }
-
+    } else
+        $resp = array('error' => true, 'message' => 'Para crear más productos actualice su Plan');
 
 
     $response->getBody()->write(json_encode($resp));

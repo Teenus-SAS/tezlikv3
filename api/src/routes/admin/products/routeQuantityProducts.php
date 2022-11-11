@@ -18,7 +18,7 @@ $app->get('/quantityProductsGeneral', function (Request $request, Response $resp
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-
+/*
 //CANTIDAD DE PRODUCTOS POR EMPRESA
 $app->post('/quantityProducts', function (Request $request, Response $response, $args) use ($productsQuantityDao) {
     $dataProducts = $request->getParsedBody();
@@ -28,4 +28,4 @@ $app->post('/quantityProducts', function (Request $request, Response $response, 
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+}); */
