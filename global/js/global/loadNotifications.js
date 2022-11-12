@@ -32,34 +32,17 @@ $(document).ready(function () {
       else img = data[i].logo;
 
       // Calcular tiempo transcurrido
-      fecha = new Date(data[i].date_notification);
-      lateDay = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0);
-      hoy = new Date();
+      let fecha = new Date(data[i].date_notification);
+      let lateDay = new Date(fecha.getFullYear(), fecha.getMonth() + 1, 0);
+      let hoy = new Date();
 
-      tiempoPasado = hoy - fecha;
-      segs = 1000;
-      mins = segs * 60;
-      hours = mins * 60;
-      days = hours * 24;
-      months = days * 30.416666666666668;
-      years = months * 12;
+      let fecha1 = moment(fecha);
+      let fecha2 = moment(hoy);
 
-      //calculo
-      anos = Math.floor(tiempoPasado / years);
-
-      tiempoPasado = tiempoPasado - anos * years;
-      meses = Math.floor(tiempoPasado / months);
-
-      tiempoPasado = tiempoPasado - meses * months;
-      dias = Math.floor(tiempoPasado / days);
-
-      tiempoPasado = tiempoPasado - dias * days;
-      horas = Math.floor(tiempoPasado / hours);
-
-      tiempoPasado = tiempoPasado - horas * hours;
-      minutos = Math.floor(tiempoPasado / mins);
-
-      segundos = Math.floor(tiempoPasado / 1000);
+      let dias = fecha2.diff(fecha1, 'd');
+      let horas = fecha2.diff(fecha1, 'h');
+      let minutos = fecha2.diff(fecha1, 'm');
+      let segundos = fecha2.diff(fecha1, 's');
 
       if (segundos <= 60) time = `${segundos} seconds`;
       else if (minutos <= 60) time = `${minutos} mins`;

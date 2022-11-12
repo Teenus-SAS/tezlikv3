@@ -56,7 +56,7 @@
                                                 <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-1" name="prices" type="checkbox">
-                                                        <label for="checkbox-1">Generar Precios</label>
+                                                        <label for="checkbox-1">Precios (Detalle * Producto)</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">

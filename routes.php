@@ -50,6 +50,12 @@ get('/cost/external-services', '/cost/views/config/externalServices.php');
 get('/cost/payroll', '/cost/views/general/createPayroll.php');
 get('/cost/general-expenses', '/cost/views/general/expensesAssignation.php');
 get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php');
+// Quotes
+//basic
+get('/cost/companies', '/cost/views/quotes/companies.php');
+get('/cost/contacts', '/cost/views/quotes/contacts.php');
+get('/cost/payment-methods', '/cost/views/quotes/paymentMethods.php');
+
 //Admin
 get('/cost/users', '/cost/views/users/users.php');
 

@@ -76,6 +76,56 @@
                     </div>
                 </div>
             </div>
+            <div class="dropdown-mega dropdown d-none d-lg-block ml-2">
+                <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
+                    <i class="bx bx-coin" style="font-size: 2em;"></i>
+                </a>
+                <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown" x-placement="bottom-start" style="position: absolute; transform: translate3d(35px, 70px, 0px); top: 0px; left: 0px; will-change: transform;">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="row" id="nav">
+                                <div class="col-md-3" id="navCostQuotesBasics">
+                                    <h5 class="font-size-14 font-weight-600">Básico</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="contacts"><a href="/cost/contacts">Contactos</a></li>
+                                        <li class="companies"><a href="/cost/companies">Empresas</a></li>
+                                        <li class="paymentMethods"><a href="/cost/payment-methods">Metodos de Pago</a></li>
+                                    </ul>
+                                </div>
+                                <!-- <div class="col-md-3" id="navCostSetting">
+                                    <h5 class="font-size-14 font-weight-600">Configuración</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
+
+                                        <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
+
+                                        <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
+
+                                        <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
+                                    </ul>
+                                </div> -->
+                                <!-- <div class="col-md-3" id="navCostGeneral">
+                                    <h5 class="font-size-14 font-weight-600">General</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
+
+                                        <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
+
+                                        <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+
+                                    </ul>
+                                </div>
+                                <div class="col-md-3" id="navCostAdmin">
+                                    <h5 class="font-size-14 font-weight-600">Administrador</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="users"><a href="/cost/users">Usuarios</a></li>
+                                    </ul>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="d-inline-flex ml-0 ml-sm-2 d-lg-none dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-search-dropdown" aria-expanded="false" class="btn header-item notify-icon">
                     <i class="bx bx-search"></i>

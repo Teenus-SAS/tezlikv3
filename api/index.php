@@ -41,6 +41,10 @@ require_once('../api/src/routes/app/login/routeInactiveUser.php');
 require_once('../api/src/routes/admin/dashboard/routeDashboardGeneral.php');
 
 /* App Cost */
+// Quotes
+require_once('../api/src/routes/app/cost/quotes/routeCompanies.php');
+require_once('../api/src/routes/app/cost/quotes/routeContacts.php');
+require_once('../api/src/routes/app/cost/quotes/routePaymentMethods.php');
 
 // Analysis
 require_once('../api/src/routes/app/cost/analysis/routeReviewRawMaterials.php');

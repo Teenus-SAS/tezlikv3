@@ -22,7 +22,7 @@
                         </a>
                     </li>
                     <li class="nav-item dropdown tools">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-layer mr-1"></i> Herramientas
                             <i class="bx bx-chevron-down"></i>
                         </a>
@@ -33,6 +33,12 @@
                                 <i class="bx bx-chevron-right"></i>
                             </a>
                         </div>
+                    </li>
+                    <li class="nav-item quotes">
+                        <a class="nav-link" href="/cost/analysis-materials">
+                            <i class="bx bx-tone mr-1"></i> Cotizar
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
                     </li>
                 </ul>
             </div>

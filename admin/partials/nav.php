@@ -10,7 +10,7 @@
                         </a>
                     </li>
                     <!-- <li class="nav-item dropdown companies">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-buildings mr-1"></i> Empresas
                             <i class="bx bx-chevron-down"></i>
                         </a>
@@ -51,7 +51,7 @@
                     </li>
 
                     <!-- <li class="nav-item dropdown tools">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bx-user-circle mr-1"></i> Usuarios
                             <i class="bx bx-chevron-down"></i>
                         </a>
@@ -65,7 +65,7 @@
                         </div>
                     </li> -->
                     <li class="nav-item dropdown puc">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="bx bxs-book-alt mr-1"></i> PUC
                             <i class="bx bx-chevron-down"></i>
                         </a>

@@ -56,7 +56,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Costos</h5>
                                     <p class="card-text"></p>
-                                    <!-- <a href="#" class="btn btn-primary btnLocation px-4 me-sm-3">Ir</a> -->
+                                    <!-- <a href="javascript:void(0)" class="btn btn-primary btnLocation px-4 me-sm-3">Ir</a> -->
                                 </div>
                             </div>
 

@@ -454,11 +454,11 @@
                                                         <td>10000</td>
                                                         <td><span class="badge badge-soft-success">In Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -469,11 +469,11 @@
                                                         <td>100</td>
                                                         <td><span class="badge badge-soft-danger">Out Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
-                                                            <a href="#"><i class="bx bx-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bx-star text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -484,11 +484,11 @@
                                                         <td>7000</td>
                                                         <td><span class="badge badge-soft-success">In Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -499,11 +499,11 @@
                                                         <td>8000</td>
                                                         <td><span class="badge badge-soft-success">In Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
-                                                            <a href="#"><i class="bx bx-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bx-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bx-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bx-star text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -514,11 +514,11 @@
                                                         <td>50</td>
                                                         <td><span class="badge badge-soft-danger">Out Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                 </tbody>

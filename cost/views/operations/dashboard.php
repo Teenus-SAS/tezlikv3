@@ -347,7 +347,7 @@
                     <div id="topnav-menu-content" class="collapse navbar-collapse">
                         <ul id="side-menu" class="navbar-nav">
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="bx bxs-dashboard mr-1"></i> Dashboards
                                     <i class="bx bx-chevron-down"></i>
                                 </a>
@@ -358,7 +358,7 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="topnav-dashboard" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="bx bxs-customize mr-1"></i> Apps
                                     <i class="bx bx-chevron-down"></i>
                                 </a>
@@ -454,7 +454,7 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="bx bx-tone mr-1"></i> UI Elements
                                     <i class="bx bx-chevron-down"></i>
                                 </a>
@@ -490,7 +490,7 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="bx bx-layer mr-1"></i> Component
                                     <i class="bx bx-chevron-down"></i>
                                 </a>
@@ -600,7 +600,7 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="topnav-component" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="bx bx-cube-alt mr-1"></i> Pages
                                     <i class="bx bx-chevron-down"></i>
                                 </a>
@@ -654,7 +654,7 @@
                                 </div>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="topnav-ui" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <i class="bx bx-file mr-1"></i> Utility
                                     <i class="bx bx-chevron-down"></i>
                                 </a>
@@ -1061,11 +1061,11 @@
                                                         <td>10000</td>
                                                         <td><span class="badge badge-soft-success">In Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1076,11 +1076,11 @@
                                                         <td>100</td>
                                                         <td><span class="badge badge-soft-danger">Out Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
-                                                            <a href="#"><i class="bx bx-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bx-star text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1091,11 +1091,11 @@
                                                         <td>7000</td>
                                                         <td><span class="badge badge-soft-success">In Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1106,11 +1106,11 @@
                                                         <td>8000</td>
                                                         <td><span class="badge badge-soft-success">In Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
-                                                            <a href="#"><i class="bx bx-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bx-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bx-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bx-star text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -1121,11 +1121,11 @@
                                                         <td>50</td>
                                                         <td><span class="badge badge-soft-danger">Out Stock</span></td>
                                                         <td>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star text-warning"></i></a>
-                                                            <a href="#"><i class="bx bxs-star-half text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star text-warning"></i></a>
+                                                            <a href="javascript:void(0)"><i class="bx bxs-star-half text-warning"></i></a>
                                                         </td>
                                                     </tr>
                                                 </tbody>

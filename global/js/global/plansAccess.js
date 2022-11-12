@@ -4,7 +4,7 @@ $(document).ready(function () {
     url: '/api/planAccess',
     success: function (resp) {
       let acces = {
-        prices: resp.cost_price,
+        // prices: resp.cost_price,
         analysisMaterials: resp.cost_analysis_material,
         tools: resp.cost_tool,
         orders: resp.plan_order,
