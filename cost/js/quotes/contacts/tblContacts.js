@@ -32,22 +32,22 @@ $(document).ready(function () {
       {
         title: 'Telefono',
         data: 'phone',
-        className: 'classCenter',
+        className: 'uniqueClassName',
       },
       {
         title: 'Email',
         data: 'email',
-        className: 'classRight',
+        className: 'uniqueClassName',
       },
       {
         title: 'Cargo',
         data: 'position',
-        className: 'classRight',
+        className: 'uniqueClassName',
       },
       {
         title: 'Compañia',
         data: 'company_name',
-        className: 'classRight',
+        className: 'uniqueClassName',
       },
       {
         title: 'Acciones',

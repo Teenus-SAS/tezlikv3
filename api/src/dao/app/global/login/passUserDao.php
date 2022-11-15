@@ -25,8 +25,6 @@ class PassUserDao
         $rows = $stmt->rowCount();
 
         if ($rows > 0) {
-            // $pass = password_hash($newPass, PASSWORD_DEFAULT);
-            //$pass = hash("sha256", $newPass);
             $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
             $stmt = $connection->prepare("UPDATE users SET pass = :pass WHERE id_user = :id_user");

@@ -72,37 +72,7 @@
                     <i class="bx bx-bell bx-tada"></i>
                     <span class="badge badge-danger badge-pill notify-icon-badge" id="count"></span>
                 </button>
-                <div aria-labelledby="page-header-notification-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu">
-                    <div class="notify-title p-3">
-                        <h5 class="font-size-14 font-weight-600 mb-0">
-                            <span>Notificationes</span>
-                            <a class="text-primary" href="javascript: void(0);" id="clear">
-                                <small>Limpiar Todo</small>
-                            </a>
-                        </h5>
-                    </div>
-                    <div class="notify-scroll">
-                        <div class="scroll-content">
-                            <div class="scroll-content" id="notify-scrollbar">
-                                <!-- <a href="javascript:void(0);" class="dropdown-item notification-item">
-                                    <div class="media">
-                                        <div class="avatar avatar-xs bg-primary">
-                                            <i class="bx bx-user-plus"></i>
-                                        </div>
-                                        <p class="media-body">
-                                            New user registered.
-                                            <small class="text-muted">5 hours ago</small>
-                                        </p>
-                                    </div>
-                                </a>-->
-                            </div>
-                        </div>
-                        <div class="notify-all">
-                            <a href="javascript: void(0);" class="text-primary text-center p-3" id="showAll">
-                                <small>Mostrar todo</small>
-                            </a>
-                        </div>
-                    </div>
+                <div aria-labelledby="page-header-notification-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu notify-scrollbar" style="max-height:280px; overflow-y: auto;">
                 </div>
             </div>
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">

@@ -102,7 +102,7 @@
                 </div>
                 <div class="clearfix text-center">
                   <!-- <a href="javascript:;" onclick="loadContent('page-content','/global/views/login/forgot-password.php')" class="text-primary">¿Olvido su password?</a> -->
-                  <a href="forgot-pass" class="text-primary">¿Olvido su password?</a>
+                  <a href="/reset-pass" class="text-primary">¿Olvido su password?</a>
                 </div>
               </form>
             </div>

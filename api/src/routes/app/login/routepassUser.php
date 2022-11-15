@@ -13,24 +13,17 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->post('/changePassword', function (Request $request, Response $response, $args) use ($passUserDao) {
     session_start();
-    $id = $_SESSION['idUser'];
 
-    if ($id != null) {
+    if (isset($_SESSION['idUser'])) {
+        $id = $_SESSION['idUser'];
 
         $parsedBody = $request->getParsedBody();
-        // $newpass = $parsedBody["inputNewPass"];
-        // $newpass1 = $parsedBody["inputNewPass1"];
-
-        // if ($newpass != $newpass1)
-        //     $resp = array('error' => true, 'message' => 'Las contraseñas no coinciden, intente nuevamente');
-        // else {
         $usersChangePassword = $passUserDao->ChangePasswordUser($id, $parsedBody["inputNewPass"]);
 
         if ($usersChangePassword == null)
             $resp = array('success' => true, 'message' => 'Cambio de Password correcto');
         else
             $resp = array('error' => true, 'message' => 'Hubo un problema, intente nuevamente');
-        //}
     } else
         $resp = array('error' => true, 'message' => 'Usuario no autorizado');
 

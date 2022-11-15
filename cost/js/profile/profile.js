@@ -10,6 +10,7 @@ $(document).ready(function () {
 
   /* Cargar Perfil de usuario */
   loadProfile = (data) => {
+    $('#profileName').html(data.firstname);
     $('#idUser').val(data.id_user);
     $('#firstname').val(data.firstname);
     $('#lastname').val(data.lastname);

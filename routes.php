@@ -88,6 +88,7 @@ get('/planning/profile', '/planning/views/perfil/perfil.php');
 
 /* SELECTOR */
 get('/selector', '/selector/index.php');
+get('/selector/profile', '/selector/views/perfil/perfil.php');
 get('/selector/users', '/selector/views/users/users.php');
 
 // Dynamic GET. Example with 1 variable

@@ -12,6 +12,65 @@
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <style type="text/css">
+        /*Profile Pic Start*/
+        .picture-container {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .picture {
+            width: 106px;
+            height: 106px;
+            background-color: #999999;
+            border: 4px solid #CCCCCC;
+            color: #FFFFFF;
+            border-radius: 50%;
+            margin: 0px auto;
+            overflow: hidden;
+            transition: all 0.2s;
+            -webkit-transition: all 0.2s;
+        }
+
+        .picture:hover {
+            border-color: #2ca8ff;
+        }
+
+        .content.ct-wizard-green .picture:hover {
+            border-color: #05ae0e;
+        }
+
+        .content.ct-wizard-blue .picture:hover {
+            border-color: #3472f7;
+        }
+
+        .content.ct-wizard-orange .picture:hover {
+            border-color: #ff9500;
+        }
+
+        .content.ct-wizard-red .picture:hover {
+            border-color: #ff3b30;
+        }
+
+        .picture input[type="file"] {
+            cursor: pointer;
+            display: block;
+            height: 100%;
+            left: 0;
+            opacity: 0 !important;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        .picture-src {
+            width: 100%;
+
+        }
+
+        /*Profile Pic End*/
+    </style>
 </head>
 
 <body class="horizontal-navbar">
@@ -27,75 +86,86 @@
         <div class="main-content">
             <!-- Content -->
             <div class="page-content">
-                <div class="container">
+                <div class="container py-5">
                     <div class="row">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="col-12">
-                                    <!-- Page title -->
-                                    <div class="my-4">
-                                        <h3>Mi Perfil</h3>
-                                        <hr>
+                        <div class="col-lg-4">
+                            <div class="card mb-4">
+                                <div class="card-body text-center">
+                                    <div class="picture-container">
+                                        <div class="picture">
+                                            <img id="avatar" src="" class="img-fluid" style="width: 100px;" />
+                                            <input class="form-control" type="file" id="formFile">
+                                        </div>
                                     </div>
-                                    <div class="row mb-5 gx-5">
-                                        <form id="formSaveProfile">
-                                            <div class="col-xxl-12 mb-5 mb-xxl-0">
-                                                <div class="bg-secondary-soft px-4 py-2 rounded">
-                                                    <div class="row g-3">
-                                                        <input type="" id="idAdmin" name="idAdmin" hidden>
-                                                        <div class="col-md-4">
-                                                            <label class="form-label">Nombres *</label>
-                                                            <input type="text" class="form-control" placeholder="" aria-label="First name" id="firstname" name="nameUser">
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label class="form-label">Apellidos *</label>
-                                                            <input type="text" class="form-control" placeholder="" aria-label="Last name" id="lastname" name="lastnameUser">
-                                                        </div>
-                                                        <div class="col-md-4">
-                                                            <label class="form-label">Cargo *</label>
-                                                            <input type="text" class="form-control" placeholder="" aria-label="Position" id="position" name="position" disabled>
-                                                        </div>
-                                                        <div class="col-md-4 mt-4">
-                                                            <label for="email" class="form-label">Email *</label>
-                                                            <input type="email" class="form-control" id="email" name="emailUser">
-                                                        </div>
-                                                        <div class="col-md-4 mt-4">
-                                                            <label class="form-label">Nueva Contraseña</label>
-                                                            <input type="password" class="form-control" placeholder="" aria-label="Password" id="password" name="password">
-                                                        </div>
-                                                        <div class="col-md-4 mt-4">
-                                                            <label class="form-label">Confirmar Contraseña</label>
-                                                            <input type="password" class="form-control" placeholder="" aria-label="Confirm Password" id="conPassword" name="conPassword">
-                                                        </div>
-                                                    </div> <!-- Row END -->
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <!-- Upload profile -->
-                                            <div class="col-xxl-4">
-                                                <div class="bg-secondary-soft px-4 py-2 rounded">
-                                                    <div class="row">
-                                                        <div class="col-md-5">
-                                                            <label for="Image" class="form-label">Ingrese su foto</label>
-                                                            <input class="form-control" type="file" id="formFile">
-                                                        </div>
-                                                        <div class="col-2">
-                                                            <button class="btn btn-light" style="margin-top:33px" id="clearImg">Limpiar</button>
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <img id="avatar" src="" class="img-fluid" style="width: 100px;" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <!-- button -->
-                                    <div class="gap-3 d-md-flex justify-content-md-end text-center">
-                                        <button type="button" class="btn btn-primary btn-lg" id="btnSaveProfile">Actualizar Usuario</button>
-                                    </div>
+                                    <h5 class="my-3" id="profileName"></h5>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <form id="formSaveProfile">
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <input type="" id="idUser" name="idUser" hidden>
+                                            <div class="col-sm-3">
+                                                <label class="form-label">Nombres *</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control text-center firstname" placeholder="" aria-label="First name" id="firstname" name="nameUser">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label class="form-label">Apellidos *</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control text-center" placeholder="" aria-label="Last name" id="lastname" name="lastnameUser">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label class="form-label">Cargo *</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="text" class="form-control text-center" placeholder="" aria-label="Position" id="position" name="position" disabled>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label for="email" class="form-label">Email *</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="email" class="form-control text-center" id="email" name="emailUser">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label class="form-label">Nueva Contraseña</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="password" class="form-control text-center" placeholder="" aria-label="Password" id="password" name="password">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <label class="form-label">Confirmar Contraseña</label>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <input type="password" class="form-control text-center" placeholder="" aria-label="Confirm Password" id="conPassword" name="conPassword">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-end mb-2">
+                                            <button type="button" class="btn btn-primary" id="btnSaveProfile">Actualizar Usuario</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

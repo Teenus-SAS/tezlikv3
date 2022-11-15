@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-sm-4 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-warning" id="btnNewContact">Nueva Compañia</button>
+                                    <button class="btn btn-warning" id="btnNewContact">Nuevo Contacto</button>
                                     <!-- <button class="btn btn-info ml-3" id="btnImportNewContacts">Importar Contactos</button> -->
                                 </div>
                             </div>
@@ -78,18 +78,18 @@
                                                 </div>
                                                 <div class="w-100 mt-4"></div>
                                                 <div class="col form-group floating-label enable-floating-label show-label" style="margin-top:0px!important">
-                                                    <input type="email" class="form-control text-center" name="email" id="email">
+                                                    <input type="email" class="form-control" name="email" id="email">
                                                     <label for="email">Email<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
 
                                                 </div>
                                                 <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control text-center" name="position" id="position">
+                                                    <input type="text" class="form-control" name="position" id="position">
                                                     <label for="position">Cargo<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                                 <div class="col form-group floating-label enable-floating-label show-label" style="margin-top:0px!important">
-                                                    <select class="form-control text-center" name="idCompany" id="company"></select>
+                                                    <select class="form-control" name="idCompany" id="company"></select>
                                                 </div>
                                                 <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnCreateContact">Crear Contacto</button>

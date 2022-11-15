@@ -91,7 +91,7 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblCompanies.fnGetData(row);
 
-    let idCompany = data.id_company;
+    let idCompany = data.id_quote_company;
 
     bootbox.confirm({
       title: 'Eliminar',

@@ -89,8 +89,12 @@ class QCompaniesDao
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
+            if ($e->getCode() == 23000)
+                $error = array('info' => true, 'message' => 'No se puede eliminar la compañia, existe información asociada a ella');
+            else {
+                $message = $e->getMessage();
+                $error = array('info' => true, 'message' => $message);
+            }
             return $error;
         }
     }

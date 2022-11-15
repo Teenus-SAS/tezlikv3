@@ -16,13 +16,6 @@ $app->get('/checkSessionUser', function (Request $request, Response $response, $
 
     $userInactiveTime == 1 ? $userInactiveTime = 0 : $userInactiveTime = $userInactiveTime['session_active'];
 
-    // if ($userInactiveTime == null)
-    //     $resp = array('active' => true);
-    // else {
-    //     $resp = array('inactive' => true, 'message' => 'El tiempo de logueo se ha cumplido');
-    //     $statusActiveUserDao->changeStatusUserLogin();
-    // }
-
     $response->getBody()->write(json_encode($userInactiveTime));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
