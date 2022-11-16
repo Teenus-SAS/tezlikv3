@@ -78,7 +78,7 @@
             </div>
             <div class="dropdown-mega dropdown d-none d-lg-block ml-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
-                    <i class="bx bx-coin" style="font-size: 2em;"></i>
+                    <i class="bx bxs-cog bx-spin" style="font-size: 2em;"></i>
                 </a>
                 <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown" x-placement="bottom-start" style="position: absolute; transform: translate3d(35px, 70px, 0px); top: 0px; left: 0px; will-change: transform;">
                     <div class="row">
