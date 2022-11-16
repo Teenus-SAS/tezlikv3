@@ -49,6 +49,19 @@ class ExpensesDistributionDao
         return $findExpenseDistribution;
     }
 
+    /* Consultar data expenses_distribution */
+    public function findExpenseDistributionByIdProduct($dataExpensesDistribution)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM expenses_distribution WHERE id_product = :id_product");
+        $stmt->execute([
+            'id_product' => trim($dataExpensesDistribution['idOldProduct'])
+        ]);
+        $findExpenseDistribution = $stmt->fetch($connection::FETCH_ASSOC);
+        return $findExpenseDistribution;
+    }
+
     public function insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();

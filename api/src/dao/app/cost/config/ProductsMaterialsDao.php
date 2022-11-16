@@ -44,6 +44,19 @@ class ProductsMaterialsDao
         return $findProductMaterial;
     }
 
+    // Consultar datos product_material
+    public function findProductMaterialByIdProduct($dataProductMaterial)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products_materials WHERE id_product = :id_product");
+        $stmt->execute([
+            'id_product' => $dataProductMaterial['idOldProduct']
+        ]);
+        $findProductMaterial = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $findProductMaterial;
+    }
+
     // Insertar productos materia prima
     public function insertProductsMaterialsByCompany($dataProductMaterial, $id_company)
     {
@@ -60,7 +73,6 @@ class ProductsMaterialsDao
                 'id_product' => $dataProductMaterial['idProduct'],
                 'quantity' => trim($quantity),
             ]);
-
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();

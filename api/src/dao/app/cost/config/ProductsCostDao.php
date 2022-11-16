@@ -17,6 +17,17 @@ class ProductsCostDao
     }
 
     /* Falta la funcion de consultar */
+    public function findAllProductsCost($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products_costs WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $productsCosts = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $productsCosts;
+    }
 
     /* Insertar products_costs */
     public function insertProductsCostByCompany($dataProduct, $id_company)

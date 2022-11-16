@@ -35,7 +35,7 @@
                         </div>
                     </li>
                     <li class="nav-item quotes">
-                        <a class="nav-link" href="javascript:void(0)">
+                        <a class="nav-link" href="/cost/quotes">
                             <i class="bx bx-columns mr-1"></i> Cotizar
                             <i class="bx bx-chevron-down"></i>
                         </a>

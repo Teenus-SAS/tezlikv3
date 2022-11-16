@@ -127,7 +127,7 @@ $(document).ready(function () {
     let data = tblProducts.fnGetData(row);
 
     let idProduct = data.id_product;
-    dataProduct = {};
+    let dataProduct = {};
     dataProduct['idProduct'] = idProduct;
 
     bootbox.confirm({
@@ -148,6 +148,64 @@ $(document).ready(function () {
         if (result == true) {
           $.post(
             '/api/deleteProduct',
+            dataProduct,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  };
+
+  /* Copiar Producto */
+  copyFunction = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblProducts.fnGetData(row);
+
+    bootbox.confirm({
+      title: 'Copiar producto',
+      message: `Ingrese nuevo producto:<br><br>
+                <div class="form-row">
+                  <div class="col">
+                    <label for="">Referencia</label>
+                    <input type="text" class="form-control" name="referenceNewProduct" id="referenceNewProduct">
+                  </div>
+                  <div class="col">
+                    <label for="">Nombre Producto</label>
+                    <input type="text" class="form-control" name="newProduct" id="newProduct">
+                  </div>
+                </div>`,
+      buttons: {
+        confirm: {
+          label: 'Ok',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'Cancel',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          let ref = $('#referenceNewProduct').val();
+          let prod = $('#newProduct').val();
+
+          if (!ref || ref == '' || !prod || prod == '') {
+            toastr.error('Ingrese todos los campos');
+            return false;
+          }
+
+          let dataProduct = {};
+          dataProduct['idOldProduct'] = data.id_product;
+          dataProduct['referenceProduct'] = ref;
+          dataProduct['product'] = prod;
+          dataProduct['profitability'] = data.profitability;
+          dataProduct['commissionSale'] = data.commission_sale;
+          dataProduct['imgProduct'] = data.img;
+
+          $.post(
+            '/api/copyProduct',
             dataProduct,
             function (data, textStatus, jqXHR) {
               message(data);

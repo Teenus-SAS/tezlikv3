@@ -27,12 +27,14 @@ get('/admin/profile', '/admin/views/perfil/perfil.php');
 
 
 /* COST */
+
 //Navbar
 get('/cost', '/cost/index.php');
 get('/cost/prices', '/cost/views/analysis/prices.php');
 get('/cost/details-prices', '/cost/views/analysis/detailsPrices.php');
 get('/cost/analysis-materials', '/cost/views/analysis/materials.php');
 get('/cost/support', '/cost/views/support/emailSupport.php');
+get('/cost/quotes', '/cost/views/quotes/quote (2).php');
 get('/cost/profile', '/cost/views/perfil/perfil.php');
 get('/cost/configuration', '/cost/views/perfil/configuracion.php');
 //Header

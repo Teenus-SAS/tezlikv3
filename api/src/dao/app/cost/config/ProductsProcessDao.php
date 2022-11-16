@@ -51,6 +51,20 @@ class ProductsProcessDao
         return $findProductProcess;
     }
 
+    // Consultar datos del prodcuto en la BD
+    public function findProductProcessByIdProduct($dataProductProcess)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products_process WHERE id_product = :id_product");
+        $stmt->execute([
+            'id_product' => $dataProductProcess['idOldProduct']
+        ]);
+        $findProductProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+        return $findProductProcess;
+    }
+
     // Insertar productos procesos general
     public function insertProductsProcessByCompany($dataProductProcess, $id_company)
     {
