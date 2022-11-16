@@ -8,7 +8,7 @@
     <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
     <meta name="author" content="MatrrDigital">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Planning | Perfil</title>
+    <title>Tezlik - Selector | Perfil</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -74,6 +74,7 @@
 </head>
 
 <body class="horizontal-navbar">
+    <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
         <?php include_once dirname(dirname(__DIR__)) . '/partials/header.php'; ?>
@@ -83,7 +84,7 @@
 
         <!-- Begin main content -->
         <div class="main-content">
-            <!-- content -->
+            <!-- Content -->
             <div class="page-content">
                 <div class="container py-5">
                     <div class="row">
@@ -170,15 +171,16 @@
                 </div>
             </div>
         </div>
-        <!-- main content End -->
-        <!-- footer -->
+        <!-- Main content end -->
+
+        <!-- Footer -->
         <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
     </div>
+    <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/planning/js/users/usersAccess.js"></script>
 
-    <script src="/planning/js/profile/profile.js"></script>
+    <script src="/admin/js/profile/profile.js"></script>
 </body>
 
 </html>

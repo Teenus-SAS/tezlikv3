@@ -7,17 +7,43 @@ $(document).ready(function () {
           $('#clear').css('display', 'none');
           $('#showAll').css('display', 'none');
         }
-        getNotifications(resp);
+        fetchNotification(resp);
       },
     });
   };
 
   loadNotification();
 
+  fetchNotification = async (data) => {
+    $('.notify-scrollbar').empty();
+
+    let notify_scrollbar = document.getElementsByClassName('notify-scrollbar');
+
+    notify_scrollbar[0].insertAdjacentHTML(
+      'beforeend',
+      `<div class="notify-title p-3">
+          <h5 class="font-size-14 font-weight-600 mb-0">
+              <span>Notificationes</span>
+              <a class="text-primary" href="javascript: void(0);" onclick="clearNotification()">
+                  <small>Limpiar Todo</small>
+              </a>
+          </h5>
+      </div>`
+    );
+    await getNotifications(data);
+
+    notify_scrollbar[0].insertAdjacentHTML(
+      'beforeend',
+      `<div class="notify-all">
+        <a href="javascript: void(0);" class="text-primary text-center p-3" id="showAll">
+            <small>Mostrar todo</small>
+        </a>
+      </div>`
+    );
+  };
+
   /* Cargar notificaciones */
   getNotifications = (data) => {
-    $('#notify-scrollbar').empty();
-
     let n = 0;
 
     data.length > 5 ? (count = 5) : (count = data.length);
@@ -49,30 +75,34 @@ $(document).ready(function () {
       else if (horas <= 24) time = `${horas} hours`;
       else if (dias <= lateDay.getDate()) time = `${dias} days`;
 
-      $('#notify-scrollbar').append(`
-        <a href="javascript:void(0);" class="dropdown-item notification-item" style="font-weight: ${font}">
-          <div class="media">
-            <div class="avatar-xs">
-              <img class="img-fluid rounded-circle" src="${img}"> 
-            </div>
-            <p class="media-body">
-              ${data[i].description}
-              <small class="text-muted">${time} ago </small>
-            </p>
+      notify_scrollbar = document.getElementsByClassName('notify-scrollbar');
+
+      notify_scrollbar[0].insertAdjacentHTML(
+        'beforeend',
+        `
+      <a href="javascript:void(0);" class="dropdown-item notification-item" style="font-weight: ${font}">
+        <div class="media">
+          <div class="avatar-xs">
+            <img class="img-fluid rounded-circle" src="${img}"> 
           </div>
-        </a>
-      `);
+          <p class="media-body">
+            ${data[i].description}
+            <small class="text-muted">${time} ago </small>
+          </p>
+        </div>
+      </a>
+     `
+      );
     }
     $('#count').html(n);
   };
 
   /* Limpiar notificaciones */
-  $('#clear').click(function (e) {
-    e.preventDefault();
+  clearNotification = () => {
     $.get('/api/updateCheckNotification', function (data, textStatus, jqXHR) {
       msgNotification(data);
     });
-  });
+  };
 
   msgNotification = (data) => {
     if (data.success == true) {

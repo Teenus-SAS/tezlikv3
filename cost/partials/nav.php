@@ -35,8 +35,8 @@
                         </div>
                     </li>
                     <li class="nav-item quotes">
-                        <a class="nav-link" href="/cost/analysis-materials">
-                            <i class="bx bx-tone mr-1"></i> Cotizar
+                        <a class="nav-link" href="javascript:void(0)">
+                            <i class="bx bx-columns mr-1"></i> Cotizar
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>
