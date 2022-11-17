@@ -18,7 +18,7 @@ $app->post('/sendEmailSupport', function (Request $request, Response $response, 
         $support = $sendEmailDao->sendEmailSupport($dataSupport, $email);
 
     if ($support == null)
-        $resp = array('success' => true, 'message' => 'El correo a sido enviado, espere una pronta respuesta');
+        $resp = array('success' => true, 'message' => 'Email enviado correctamente. Nos comunicaremos muy pronto');
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error al enviar el correo. Intente nuevamente');
 
