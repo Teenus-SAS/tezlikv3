@@ -8,10 +8,10 @@
 	<meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
 	<meta name="author" content="MatrrDigital">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Tezlik - Cost | Quotes</title>
+	<title>Tezlik - Cost | Details Quote</title>
 	<link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
-	<link href="/cost/views/quotes/css/app.css" rel="stylesheet">
-	<link href="/cost/views/quotes/css/icons.css" rel="stylesheet">
+	<link href="/assets/css/app.css" rel="stylesheet">
+	<link href="/assets/css/icons.css" rel="stylesheet">
 
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -19,7 +19,7 @@
 
 <body class="horizontal-navbar">
 	<!-- Begin Page -->
-	<div class="page-wrapper">
+	<div class="page-wrapper mb-0">
 		<!-- Begin Header -->
 		<?php include_once dirname(dirname(__DIR__)) . '/partials/header.php'; ?>
 
@@ -30,38 +30,12 @@
 		<div class="main-content">
 			<!-- Content -->
 			<div class="page-content">
-				<!--breadcrumb 
-				<div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-					<div class="breadcrumb-title pe-3">Applications</div>
-					<div class="ps-3">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb mb-0 p-0">
-								<li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-								</li>
-								<li class="breadcrumb-item active" aria-current="page">Invoice</li>
-							</ol>
-						</nav>
-					</div>
-					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary">Settings</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown"> <span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end"> <a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div> <a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
-						</div>
-					</div>
-				</div>
-				end breadcrumb-->
 				<div class="card">
 					<div class="card-body">
 						<div id="invoice">
 							<div class="toolbar hidden-print">
-								<div class="text-end">
-									<button type="button" class="btn btn-dark"><i class="fa fa-print"></i> Print</button>
+								<div class="d-flex justify-content-end">
+									<button type="button" class="btn btn-dark mr-2"><i class="fa fa-print"></i> Print</button>
 									<button type="button" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
 								</div>
 								<hr>
@@ -201,6 +175,7 @@
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 	<script src="/cost/js/users/usersAccess.js"></script>
 
+	<script src="/cost/js/quotes/detailsQuote.js"></script>
 	<!-- <script src="/cost/js/quotes/paymentMethods/tblPaymentMethods.js"></script>
 	<script src="/cost/js/quotes/paymentMethods/paymentMethods.js"></script> -->
 	<!-- <script src="../global/js/import/import.js"></script>

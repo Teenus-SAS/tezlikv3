@@ -43,6 +43,7 @@
                                 <div class="form-inline justify-content-sm-end">
                                     <button class="btn btn-warning" id="btnNewProduct">Nuevo Producto</button>
                                     <button class="btn btn-info ml-3" id="btnImportNewProducts">Importar Productos</button>
+                                    <button class="btn btn btn-primary ml-3" id="btnActiveProducts">Activar Productos</button>
                                 </div>
                             </div>
                         </div>
