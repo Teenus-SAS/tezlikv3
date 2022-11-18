@@ -11,12 +11,20 @@ $(document).ready(function () {
       url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
     },
     columns: [
+      // {
+      //   title: 'No.',
+      //   data: null,
+      //   className: 'uniqueClassName',
+      //   render: function (data, type, full, meta) {
+      //     return meta.row + 1;
+      //   },
+      // },
       {
-        title: 'No.',
+        title: '',
         data: null,
         className: 'uniqueClassName',
-        render: function (data, type, full, meta) {
-          return meta.row + 1;
+        render: function (data) {
+          return `<input type="checkbox" class="form-control-updated checkboxProduct" id="${data}" checked>`;
         },
       },
       {

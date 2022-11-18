@@ -27,7 +27,6 @@ $indirectCostDao = new IndirectCostDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
 
-
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -37,6 +36,14 @@ $app->get('/products', function (Request $request, Response $response, $args) us
     session_start();
     $id_company = $_SESSION['id_company'];
     $products = $productsDao->findAllProductsByCompany($id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/productsInactives', function (Request $request, Response $response, $args) use ($productsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $products = $productsDao->findAllProductsInactives($id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -186,7 +193,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
             //ULTIMO REGISTRO DE ID, EL MÁS ALTO
             $lastProductId = $productsDao->lastInsertedProductId($id_company);
 
-        if ($lastProductId) {
+        if (isset($lastProductId)) {
             //AGREGA ULTIMO ID A DATA
             $dataProduct['idProduct'] = $lastProductId['id_product'];
             $resolution = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
@@ -270,8 +277,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Producto copiado correctamente');
-        else if (isset($products['info']))
-            $resp = array('info' => true, 'message' => $products['message']);
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrió un error mientras copiaba la información. Intente nuevamente');
     } else
@@ -329,4 +336,19 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
+});
+
+/* Inactivar Producto */
+$app->get('/inactiveProduct/{id_product}', function (Request $request, Response $response, $args) use ($productsDao) {
+    $product = $productsDao->inactiveProduct($args['id_product']);
+
+    if ($product == null)
+        $resp = array('success' => true, 'message' => 'Producto inactivado correctamente');
+    else if (isset($products['info']))
+        $resp = array('info' => true, 'message' => $products['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

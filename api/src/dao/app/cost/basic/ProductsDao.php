@@ -22,7 +22,23 @@ class ProductsDao
     $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.commission_sale, 0) AS commission_sale, pc.price, p.img 
                                   FROM products p
                                     LEFT JOIN products_costs pc ON p.id_product = pc.id_product
-                                  WHERE p.id_company = :id_company");
+                                  WHERE p.id_company = :id_company AND p.active = 1");
+    $stmt->execute(['id_company' => $id_company]);
+
+    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+    $this->logger->notice("products", array('products' => $products));
+    return $products;
+  }
+
+  public function findAllProductsInactives($id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.commission_sale, 0) AS commission_sale, pc.price, p.img 
+                                  FROM products p
+                                    LEFT JOIN products_costs pc ON p.id_product = pc.id_product
+                                  WHERE p.id_company = :id_company AND p.active = 0");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -168,6 +184,21 @@ class ProductsDao
       $stmt = $connection->prepare("DELETE FROM products WHERE id_product = :id_product");
       $stmt->execute(['id_product' => $dataProduct['idProduct']]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    }
+  }
+
+  public function inactiveProduct($id_product)
+  {
+    $connection = Connection::getInstance()->getConnection();
+
+    try {
+      $stmt = $connection->prepare("UPDATE products SET active = 0 WHERE id_product = :id_product");
+      $stmt->execute(['id_product' => $id_product]);
+      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+      $error = array('info' => true, 'message' => $message);
+      return $error;
     }
   }
 }
