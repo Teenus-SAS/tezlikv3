@@ -20,10 +20,14 @@ class QuotesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT q.id_quote, q.id_product, p.product, q.quantity, q.discount, q.offer_validity, q.warranty, q.id_payment_method, pm.method
-                                      FROM quotes q
-                                      INNER JOIN products p ON p.id_product = q.id_product
-                                      INNER JOIN quote_payment_methods pm ON pm.id_method = q.id_payment_method");
+        $stmt = $connection->prepare("SELECT q.id_quote, CONCAT(c.firstname, ' ' , c.lastname) AS contact, cp.company_name, 
+                                                SUM((qp.quantity * qp.price) * (1 - (qp.discount/100))) AS price, q.delivery_date, pm.method
+                                        FROM quotes q 
+                                        INNER JOIN quote_customers c ON c.id_contact = q.id_contact 
+                                        INNER JOIN quote_companies cp ON cp.id_company = c.id_company  
+                                        INNER JOIN quotes_products qp ON qp.id_quote = q.id_quote
+                                        INNER JOIN quote_payment_methods pm ON pm.id_method = q.id_payment_method
+                                        GROUP BY qp.id_quote;");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

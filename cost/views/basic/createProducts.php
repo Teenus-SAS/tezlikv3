@@ -15,6 +15,8 @@
 </head>
 
 <body class="horizontal-navbar">
+    <?php require_once dirname(dirname(__DIR__)) . '/modals/inactiveProducts.php'; ?>
+
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
@@ -167,7 +169,9 @@
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
     <script src="/cost/js/users/usersAccess.js"></script>
 
+    <script src="/global/js/global/searchData.js"></script>
     <script src="/cost/js/basic/products/tblProducts.js"></script>
+    <script src="/cost/js/basic/products/inactiveProducts.js"></script>
     <script src="/cost/js/basic/products/products.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/basic/products/importProducts.js"></script>

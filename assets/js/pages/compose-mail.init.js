@@ -17,5 +17,9 @@ $(function () {
 /* Obtener contenido */
 getContent = () => {
   content = editor.getData();
+
+  if (content.includes('<p>'))
+    content = content.replace('<p>', '').replace('</p>', '');
+
   return content;
 };

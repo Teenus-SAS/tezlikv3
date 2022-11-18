@@ -15,6 +15,7 @@
 </head>
 
 <body class="horizontal-navbar">
+	<?php include_once dirname(dirname(__DIR__)) . '/modals/createQuote.php' ?>
 	<!-- Begin Page -->
 	<div class="page-wrapper">
 		<!-- Begin Header -->
@@ -48,7 +49,7 @@
 						</div>
 					</div>
 				</div>
-
+				<!-- 
 				<div class="page-content-wrapper mt--45 mb-5 cardCreateQuotes">
 					<div class="container-fluid">
 						<div class="row">
@@ -98,7 +99,7 @@
 							</form>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 				<!-- page content -->
 				<div class="page-content-wrapper mt--45">
@@ -136,6 +137,8 @@
 	<script src="/cost/js/users/usersAccess.js"></script>
 
 	<script src="/cost/js/basic/products/configProducts.js"></script>
+	<script src="/cost/js/quotes/contacts/configContact.js"></script>
+	<script src="/cost/js/quotes/companies/configCompanies.js"></script>
 	<script src="/cost/js/quotes/paymentMethods/configPaymentMethods.js"></script>
 	<script src="/cost/js/quotes/tblQuotes.js"></script>
 	<script src="/cost/js/quotes/quotes.js"></script>

@@ -71,6 +71,7 @@ class SendEmailDao
     public function SendEmailSupport($dataSupport, $email)
     {
         $to = 'soporte@teenus.com.co';
+        $to .= $email;
         if (isset($dataSupport['ccHeader']))
             $ccHeader = $dataSupport['ccHeader'];
         else $ccHeader = '';

@@ -32,7 +32,7 @@ class ProductsDao
     return $products;
   }
 
-  public function findAllProductsInactives($id_company)
+  public function findAllInactivesProducts($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.commission_sale, 0) AS commission_sale, pc.price, p.img 
@@ -74,8 +74,8 @@ class ProductsDao
 
     try {
       if (!isset($dataProduct['imgProduct'])) {
-        $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product) 
-                                      VALUES(:id_company, :reference, :product)");
+        $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, active) 
+                                      VALUES(:id_company, :reference, :product, 1)");
         $stmt->execute([
           'reference' => trim($dataProduct['referenceProduct']),
           'product' => ucfirst(strtolower(trim($dataProduct['product']))),
@@ -187,13 +187,16 @@ class ProductsDao
     }
   }
 
-  public function inactiveProduct($id_product)
+  public function activeOrInactiveProducts($id_product, $active)
   {
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("UPDATE products SET active = 0 WHERE id_product = :id_product");
-      $stmt->execute(['id_product' => $id_product]);
+      $stmt = $connection->prepare("UPDATE products SET active = :active WHERE id_product = :id_product");
+      $stmt->execute([
+        'id_product' => $id_product,
+        'active' => $active
+      ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();

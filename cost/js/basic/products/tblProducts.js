@@ -11,20 +11,12 @@ $(document).ready(function () {
       url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
     },
     columns: [
-      // {
-      //   title: 'No.',
-      //   data: null,
-      //   className: 'uniqueClassName',
-      //   render: function (data, type, full, meta) {
-      //     return meta.row + 1;
-      //   },
-      // },
       {
-        title: '',
+        title: 'No.',
         data: null,
         className: 'uniqueClassName',
-        render: function (data) {
-          return `<input type="checkbox" class="form-control-updated checkboxProduct" id="${data}" checked>`;
+        render: function (data, type, full, meta) {
+          return meta.row + 1;
         },
       },
       {
@@ -64,7 +56,15 @@ $(document).ready(function () {
         },
       },
       {
-        width: '100px',
+        title: '',
+        data: 'id_product',
+        className: 'uniqueClassName',
+        render: function (data) {
+          return ` <input type="checkbox" class="form-control-updated checkboxProduct" id="${data}" checked>`;
+        },
+      },
+      {
+        width: '150px',
         title: 'Acciones',
         data: 'id_product',
         className: 'uniqueClassName',

@@ -40,10 +40,10 @@ $app->get('/products', function (Request $request, Response $response, $args) us
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/productsInactives', function (Request $request, Response $response, $args) use ($productsDao) {
+$app->get('/inactivesProducts', function (Request $request, Response $response, $args) use ($productsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $productsDao->findAllProductsInactives($id_company);
+    $products = $productsDao->findAllInactivesProducts($id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -339,8 +339,8 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 });
 
 /* Inactivar Producto */
-$app->get('/inactiveProduct/{id_product}', function (Request $request, Response $response, $args) use ($productsDao) {
-    $product = $productsDao->inactiveProduct($args['id_product']);
+$app->get('/inactiveProducts/{id_product}', function (Request $request, Response $response, $args) use ($productsDao) {
+    $product = $productsDao->activeOrInactiveProducts($args['id_product'], 0);
 
     if ($product == null)
         $resp = array('success' => true, 'message' => 'Producto inactivado correctamente');
@@ -351,4 +351,25 @@ $app->get('/inactiveProduct/{id_product}', function (Request $request, Response 
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+/* Activar Productos */
+$app->post('/activeProducts', function (Request $request, Response $response, $args) use ($productsDao) {
+    $dataProducts = $request->getParsedBody();
+
+    $products = $dataProducts['data'];
+
+    for ($i = 0; $i < sizeof($products); $i++) {
+        $resolution = $productsDao->activeOrInactiveProducts($products[$i]['idProduct'], 1);
+    }
+
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Productos activados correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'No se pudo modificar la información. Intente de nuevo');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withHeader('Content-Type', 'application/json');
 });

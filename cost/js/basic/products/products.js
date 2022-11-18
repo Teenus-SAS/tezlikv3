@@ -216,42 +216,6 @@ $(document).ready(function () {
     });
   };
 
-  /* Inactivar productos */
-  $(document).on('click', '.checkboxProduct', function () {
-    let idProduct = this.id;
-
-    bootbox.confirm({
-      title: 'Inactivar producto',
-      message: '¿Esta seguro de inactivar este producto?',
-      buttons: {
-        confirm: {
-          label: 'Si',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'No',
-          className: 'btn-danger',
-        },
-      },
-      callback: function (result) {
-        if (result == true) {
-          $.ajax({
-            url: `/api/inactiveProduct/${idProduct}`,
-            success: function (data) {
-              message(data);
-            },
-          });
-        }
-      },
-    });
-  });
-
-  /* Mostrar productos inactivos */
-  $('#btnActiveProducts').click(function (e) {
-    e.preventDefault();
-    $('#createInactivesProducts').modal('show');
-  });
-
   /* Mensaje de exito */
 
   const message = (data) => {
