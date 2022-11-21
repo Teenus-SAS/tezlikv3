@@ -1,15 +1,24 @@
 $(document).ready(function () {
+  /* Cargar data compañia */
+  loadCompanyData = async () => {
+    data = await searchData('/api/company');
+
+    $('#company').html(data.company);
+    $('#nit').html(data.nity);
+    $('#city').html(data.city);
+    $('#country').html(data.country);
+    $('#phone').html(data.phone);
+    $('#address').html(data.address);
+  };
+
+  loadCompanyData();
+
   $('#email').prop('disabled', true);
 
-  fetch(`/api/user`)
-    .then((response) => response.text())
-    .then((data) => {
-      data = JSON.parse(data);
-      loadProfile(data);
-    });
-
   /* Cargar Perfil de usuario */
-  loadProfile = (data) => {
+  loadProfile = async () => {
+    data = await searchData('/api/user');
+
     $('#profileName').html(data.firstname);
     $('#idUser').val(data.id_user);
     $('#firstname').val(data.firstname);
@@ -18,6 +27,8 @@ $(document).ready(function () {
     $('#email').val(data.email);
     if (data.avatar) avatar.src = data.avatar;
   };
+
+  loadProfile();
 
   /* Cargar foto de perfil */
   $('#formFile').change(function (e) {

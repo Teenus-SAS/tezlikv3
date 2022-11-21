@@ -65,8 +65,6 @@ $(document).ready(function () {
             <td>${i + 1}</td>
             <td>${data[i].reference}</td>
             <td>${data[i].product}</td>
-            <td>${data[i].profitability}</td>
-            <td>${data[i].commission_sale}</td>
             <td>
                 <input type="checkbox" class="form-control-updated checkInactiveProduct" id="checkIn-${
                   data[i].id_product

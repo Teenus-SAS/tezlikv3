@@ -30,6 +30,14 @@ $priceProductDao = new PriceProductDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+$app->get('/productCost/{id_product}', function (Request $request, Response $response, $args) use ($productsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $products = $productsDao->findProductCost($args['id_product'], $id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 /* Consulta todos */
 
 $app->get('/products', function (Request $request, Response $response, $args) use ($productsDao) {
@@ -173,11 +181,9 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $assignableExpenseDao,
     $priceProductDao
 ) {
-    // session_start();
-    // $id_company = $_SESSION['id_company'];
-    // $id_plan = $_SESSION['plan'];
-    $id_company = 44;
-    $id_plan = 2;
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $id_plan = $_SESSION['plan'];
     $dataProduct = $request->getParsedBody();
 
     /* Inserta datos */

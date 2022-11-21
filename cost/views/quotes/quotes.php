@@ -42,7 +42,7 @@
 							</div>
 							<div class="col-sm-4 col-xl-6">
 								<div class="form-inline justify-content-sm-end">
-									<!-- <button class="btn btn-warning" id="btnNewQuotes">Nuevo Quoteso</button> -->
+									<button class="btn btn-warning" id="btnNewQuotes">Nueva Cotización</button>
 									<!-- <button class="btn btn-info ml-3" id="btnImportNewQuotes">Importar Cotizaciones</button> -->
 								</div>
 							</div>
@@ -134,14 +134,16 @@
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 	<script src="/global/js/global/number.js"></script>
+	<script src="/global/js/global/searchData.js"></script>
 	<script src="/cost/js/users/usersAccess.js"></script>
 
 	<script src="/cost/js/basic/products/configProducts.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>
 	<script src="/cost/js/quotes/companies/configCompanies.js"></script>
 	<script src="/cost/js/quotes/paymentMethods/configPaymentMethods.js"></script>
-	<script src="/cost/js/quotes/tblQuotes.js"></script>
 	<script src="/cost/js/quotes/quotes.js"></script>
+	<script src="/cost/js/quotes/addProduct.js"></script>
+	<script src="/cost/js/quotes/tblQuotes.js"></script>
 	<!-- <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/basic/Quotes/importQuotes.js"></script>
     <script src="../global/js/import/file.js"></script>

@@ -20,37 +20,29 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Producto',
-        data: 'product',
+        title: 'Cliente',
+        data: 'contact',
         className: 'uniqueClassName',
       },
       {
-        title: 'Cantidad',
-        data: 'quantity',
-        className: 'uniqueClassName',
-        render: $.fn.dataTable.render.number('.', ',', 0, ''),
-      },
-      {
-        title: 'Descuento',
-        data: 'discount',
-        className: 'uniqueClassName',
-        render: function (data) {
-          return data + ' %';
-        },
-      },
-      {
-        title: 'Validez de Oferta',
-        data: 'offer_validity',
+        title: 'Compañia',
+        data: 'company_name',
         className: 'uniqueClassName',
       },
       {
-        title: 'Garantia',
-        data: 'warranty',
+        title: 'Precio',
+        data: 'price',
         className: 'uniqueClassName',
+        render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
       },
       {
         title: 'Metodo de Pago',
         data: 'method',
+        className: 'uniqueClassName',
+      },
+      {
+        title: 'Fecha de entrega',
+        data: 'delivery_date',
         className: 'uniqueClassName',
       },
       {

@@ -45,49 +45,48 @@
 									<header>
 										<div class="row">
 											<div class="col">
-												<a href="javascript:;">
-													<img src="assets/images/logo-icon.png" width="80" alt="">
-												</a>
+												<!-- <a href="javascript:;">
+													<img id="companyImg" src="assets/images/logo-icon.png" width="80" alt="">
+												</a> -->
 											</div>
 											<div class="col company-details">
-												<h2 class="name">
-													<a target="_blank" href="javascript:;">
-														Arboshiki
-													</a>
+												<h2 class="name" id="companyName">
 												</h2>
-												<div>455 Foggy Heights, AZ 85004, US</div>
-												<div>(123) 456-789</div>
-												<div>company@example.com</div>
+												<div id="companyAddress"></div>
+												<div id="companyPhone"></div>
+												<div id="companyCity"></div>
 											</div>
 										</div>
 									</header>
 									<main>
 										<div class="row contacts">
 											<div class="col invoice-to">
-												<div class="text-gray-light">INVOICE TO:</div>
-												<h2 class="to">John Doe</h2>
-												<div class="address">796 Silver Harbour, TX 79273, US</div>
-												<div class="email"><a href="mailto:john@example.com">john@example.com</a>
+												<div class="text-gray-light">Cotizado Por:</div>
+												<h2 id="contactName"></h2>
+												<div id="contactPhone"></div>
+												<div id="contactEmail">
 												</div>
 											</div>
 											<div class="col invoice-details">
-												<h1 class="invoice-id">INVOICE 3-2-1</h1>
-												<div class="date">Date of Invoice: 01/10/2018</div>
-												<div class="date">Due Date: 30/10/2018</div>
+												<h1 class="invoice-id">Cotizacion</h1>
+												<div id="dateQuote"></div>
+												<!-- <div class="date">Due Date: 30/10/2018</div> -->
 											</div>
 										</div>
 										<table>
 											<thead>
 												<tr>
 													<th>#</th>
-													<th class="text-left">DESCRIPTION</th>
-													<th class="text-right">HOUR PRICE</th>
-													<th class="text-right">HOURS</th>
-													<th class="text-right">TOTAL</th>
+													<th class="text-left">Referencia</th>
+													<th class="text-left">Descripción</th>
+													<th class="text-center">Cantidad</th>
+													<th class="text-center">Precio</th>
+													<th class="text-center">Descuento</th>
+													<th class="text-center">Total</th>
 												</tr>
 											</thead>
-											<tbody>
-												<tr>
+											<tbody id="tblQuotesProductsBody">
+												<!-- <tr>
 													<td class="no">04</td>
 													<td class="text-left">
 														<h3>
@@ -129,27 +128,12 @@
 													<td class="unit">$40.00</td>
 													<td class="qty">20</td>
 													<td class="total">$800.00</td>
-												</tr>
+												</tr> -->
 											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td colspan="2">SUBTOTAL</td>
-													<td>$5,200.00</td>
-												</tr>
-												<tr>
-													<td colspan="2"></td>
-													<td colspan="2">TAX 25%</td>
-													<td>$1,300.00</td>
-												</tr>
-												<tr>
-													<td colspan="2"></td>
-													<td colspan="2">GRAND TOTAL</td>
-													<td>$6,500.00</td>
-												</tr>
+											<tfoot id="tblQuotesProductsFooter">
 											</tfoot>
 										</table>
-										<div class="thanks">Thank you!</div>
+										<div class="mt-4 thanks">Thank you!</div>
 										<div class="notices">
 											<div>NOTICE:</div>
 											<div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
@@ -174,6 +158,7 @@
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 	<script src="/cost/js/users/usersAccess.js"></script>
+	<script src="/global/js/global/searchData.js"></script>
 
 	<script src="/cost/js/quotes/detailsQuote.js"></script>
 	<!-- <script src="/cost/js/quotes/paymentMethods/tblPaymentMethods.js"></script>

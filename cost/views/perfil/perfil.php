@@ -100,6 +100,63 @@
                                     <h5 class="my-3" id="profileName"></h5>
                                 </div>
                             </div>
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="mb-0">Compañia</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="company">Teenus SAS</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="mb-0">NIT</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="nit">(098) 765-4321</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="mb-0">Ciudad</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="city">Bogotá</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="mb-0">Pais</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="country">Bogotá</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="mb-0">Telefono</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="phone">(097) 234-5678</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="mb-0">Dirección</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="address">Bay Area, San Francisco, CA</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-8">
                             <form id="formSaveProfile">
@@ -180,6 +237,7 @@
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
+    <script src="/global/js/global/searchData.js"></script>
     <script src="/cost/js/profile/profile.js"></script>
 </body>
 

@@ -16,6 +16,23 @@ class ProductsDao
     $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
   }
 
+  public function findProductCost($id_product, $id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+
+    $stmt = $connection->prepare("SELECT * FROM  products_costs 
+                                  WHERE id_company = :id_company AND id_product = :id_product");
+    $stmt->execute([
+      'id_product' => $id_product,
+      'id_company' => $id_company
+    ]);
+
+    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    $product = $stmt->fetch($connection::FETCH_ASSOC);
+    return $product;
+  }
+
   public function findAllProductsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
@@ -83,8 +100,8 @@ class ProductsDao
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
       } else {
-        $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, img) 
-                                      VALUES(:id_company, :reference, :product, :img)");
+        $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, img, active) 
+                                      VALUES(:id_company, :reference, :product, :img, 1)");
         $stmt->execute([
           'id_company' => $id_company,
           'reference' => trim($dataProduct['referenceProduct']),

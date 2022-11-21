@@ -17,9 +17,7 @@
                                                 <th>No</th>
                                                 <th>Referencia</th>
                                                 <th>Producto</th>
-                                                <th>Rentabilidad</th>
-                                                <th>Comision</th>
-                                                <th></th>
+                                                <th>Activar</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tblInactiveProductsBody"></tbody>
