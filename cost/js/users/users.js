@@ -107,9 +107,13 @@ $(document).ready(function () {
       generalExpenses: data.expense,
       distributionExpenses: data.expense_distribution,
       users: data.user,
+      quotePaymentMethod: data.quote_payment_method,
+      quoteCompany: data.quote_company,
+      quoteContact: data.quote_contact,
       prices: data.price,
       analysisMaterials: data.analysis_material,
       tools: data.tool,
+      quotes: data.quote,
     };
 
     let i = 1;
@@ -152,7 +156,7 @@ $(document).ready(function () {
 
   /* Seleccionar checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 16; i++) {
+    for (let i = 1; i <= 19; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataUser['costCreateProducts'] = '1';
         if (i == 2) dataUser['costCreateMaterials'] = '1';
@@ -166,9 +170,13 @@ $(document).ready(function () {
         if (i == 10) dataUser['expense'] = '1';
         if (i == 11) dataUser['expenseDistribution'] = '1';
         if (i == 12) dataUser['costUser'] = '1';
-        if (i == 13) dataUser['price'] = '1';
-        if (i == 14) dataUser['analysisMaterial'] = '1';
-        if (i == 15) dataUser['tool'] = '1';
+        if (i == 13) dataUser['quotePaymentMethod'] = '1';
+        if (i == 14) dataUser['quoteCompany'] = '1';
+        if (i == 15) dataUser['quoteContact'] = '1';
+        if (i == 16) dataUser['price'] = '1';
+        if (i == 17) dataUser['analysisMaterial'] = '1';
+        if (i == 18) dataUser['tool'] = '1';
+        if (i == 19) dataUser['quote'] = '1';
       } else {
         if (i == 1) dataUser['costCreateProducts'] = '0';
         if (i == 2) dataUser['costCreateMaterials'] = '0';
@@ -182,9 +190,13 @@ $(document).ready(function () {
         if (i == 10) dataUser['expense'] = '0';
         if (i == 11) dataUser['expenseDistribution'] = '0';
         if (i == 12) dataUser['costUser'] = '0';
-        if (i == 13) dataUser['price'] = '0';
-        if (i == 14) dataUser['analysisMaterial'] = '0';
-        if (i == 15) dataUser['tool'] = '0';
+        if (i == 13) dataUser['quotePaymentMethod'] = '0';
+        if (i == 14) dataUser['quoteCompany'] = '0';
+        if (i == 15) dataUser['quoteContact'] = '0';
+        if (i == 16) dataUser['price'] = '0';
+        if (i == 17) dataUser['analysisMaterial'] = '0';
+        if (i == 18) dataUser['tool'] = '0';
+        if (i == 19) dataUser['quote'] = '0';
       }
     }
     return dataUser;

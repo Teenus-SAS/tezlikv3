@@ -161,6 +161,36 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Metodos de pago',
+        data: 'quote_payment_method',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Compañias',
+        data: 'quote_company',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Contactos',
+        data: 'quote_contact',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
         title: 'Precios',
         data: 'price',
         className: 'uniqueClassName',
@@ -183,6 +213,16 @@ $(document).ready(function () {
       {
         title: 'Herramientas',
         data: 'tool',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Cotizaciones',
+        data: 'quote',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1

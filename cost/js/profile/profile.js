@@ -3,12 +3,12 @@ $(document).ready(function () {
   loadCompanyData = async () => {
     data = await searchData('/api/company');
 
-    $('#company').html(data.company);
-    $('#nit').html(data.nity);
-    $('#city').html(data.city);
-    $('#country').html(data.country);
-    $('#phone').html(data.phone);
-    $('#address').html(data.address);
+    $('#company').html(data[0].company);
+    $('#nit').html(data[0].nit);
+    $('#city').html(data[0].city);
+    $('#country').html(data[0].country);
+    $('#phone').html(data[0].telephone);
+    $('#address').html(data[0].address);
   };
 
   loadCompanyData();

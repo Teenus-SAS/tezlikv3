@@ -37,7 +37,7 @@ class ProductsQuantityDao
     public function totalProductsByCompany($id_company, $id_plan)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT COUNT(id_product) AS quantity, (SELECT cant_productos FROM plans_access WHERE id_plan = :id_plan) AS cant_products
+        $stmt = $connection->prepare("SELECT COUNT(id_product) AS quantity, (SELECT cant_products FROM plans_access WHERE id_plan = :id_plan) AS cant_products
                                       FROM products 
                                       WHERE id_company = :id_company");
         $stmt->execute([

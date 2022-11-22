@@ -99,6 +99,63 @@
                                     <h5 class="my-3" id="profileName"></h5>
                                 </div>
                             </div>
+                            <div class="card companyData" style="margin-top: 39px">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="font-weight-bold mb-0">Compañia</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="company"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="font-weight-bold mb-0">NIT</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="nit"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="font-weight-bold mb-0">Ciudad</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="city"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="font-weight-bold mb-0">Pais</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="country"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="font-weight-bold mb-0">Telefono</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="phone"></p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <p class="font-weight-bold mb-0">Dirección</p>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <p class="text-muted mb-0" id="address"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-lg-8">
                             <form id="formSaveProfile">
@@ -178,7 +235,9 @@
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
     <script src="/planning/js/users/usersAccess.js"></script>
 
-    <script src="/planning/js/profile/profile.js"></script>
+    <script src="/global/js/global/searchData.js"></script>
+
+    <script src="/cost/js/profile/profile.js"></script>
 </body>
 
 </html>

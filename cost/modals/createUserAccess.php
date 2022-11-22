@@ -139,40 +139,62 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12">
-                                            <label for=""><b>Menú Navegación:</b></label>
+                                            <label for=""><b>Menú Cotización:</b></label>
                                         </div>
-                                        <div class="container">
-                                            <div class="row" style="margin:auto;">
-                                                <!-- <div class="col">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-1" name="molds" type="checkbox">
-                                                    <label for="checkbox-1"></label>
-                                                </div>
-                                            </div> -->
+                                        <div class="container mb-4">
+                                            <div class="row">
                                                 <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-13" name="prices" type="checkbox">
-                                                        <label for="checkbox-13">Generar Precios</label>
+                                                        <input id="checkbox-13" name="quotePaymentMethod" type="checkbox">
+                                                        <label for="checkbox-13">Metodos De Pago</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-14" name="analysisRawMaterials" type="checkbox">
-                                                        <label for="checkbox-14">Analisis Materia Prima</label>
+                                                        <input id="checkbox-14" name="quoteCompany" type="checkbox">
+                                                        <label for="checkbox-14">Compañias</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-15" name="tools" type="checkbox">
-                                                        <label for="checkbox-15">Herramientas</label>
+                                                        <input id="checkbox-15" name="quoteContact" type="checkbox">
+                                                        <label for="checkbox-15">Contactos</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-12 col-lg-4">
 
-                                        </div> -->
-
+                                        <div class="col-12 col-lg-12">
+                                            <label for=""><b>Menú Navegación:</b></label>
+                                        </div>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-16" name="prices" type="checkbox">
+                                                        <label for="checkbox-16">Generar Precios</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-17" name="analysisRawMaterials" type="checkbox">
+                                                        <label for="checkbox-17">Analisis Materia Prima</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-18" name="tools" type="checkbox">
+                                                        <label for="checkbox-18">Herramientas</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-19" name="quotes" type="checkbox">
+                                                        <label for="checkbox-19">Cotización</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <hr>
                                     </div>
                                 </form>

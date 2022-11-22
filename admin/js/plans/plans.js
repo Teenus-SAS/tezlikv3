@@ -95,7 +95,7 @@ $(document).ready(function () {
     }
 
     $(`#plan option[value=${data.id_plan}]`).prop('selected', true);
-    $('#cantProducts').val(data.cant_productos);
+    $('#cantProducts').val(data.cant_products);
 
     // Datos usuario
 

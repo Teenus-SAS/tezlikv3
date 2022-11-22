@@ -66,7 +66,7 @@ $(document).ready(function () {
         },
         {
           title: 'Cantidad Productos',
-          data: 'cant_productos',
+          data: 'cant_products',
           className: 'uniqueClassName',
         },
         {

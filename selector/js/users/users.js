@@ -140,9 +140,13 @@ $(document).ready(function () {
       generalExpenses: data.expense,
       distributionExpenses: data.expense_distribution,
       costUsers: data.cost_user,
+      quotesPaymentMethod: data.quote_payment_method,
+      quotesCompany: data.quote_company,
+      quotesContact: data.quote_contact,
       analysisMaterials: data.analysis_material,
       prices: data.price,
       tools: data.tool,
+      quote: data.quote,
 
       //Planeacion
       invMolds: data.create_mold,
@@ -200,7 +204,7 @@ $(document).ready(function () {
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 35; i++) {
+    for (let i = 1; i <= 39; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataUser['costCreateProducts'] = '1';
         if (i == 2) dataUser['costCreateMaterials'] = '1';
@@ -214,29 +218,33 @@ $(document).ready(function () {
         if (i == 10) dataUser['expense'] = '1';
         if (i == 11) dataUser['expenseDistribution'] = '1';
         if (i == 12) dataUser['costUser'] = '1';
-        if (i == 13) dataUser['price'] = '1';
-        if (i == 14) dataUser['analysisMaterial'] = '1';
-        if (i == 15) dataUser['tool'] = '1';
-        if (i == 16) dataUser['createMold'] = '1';
-        if (i == 17) dataUser['planningCreateProduct'] = '1';
-        if (i == 18) dataUser['planningCreateMaterial'] = '1';
-        if (i == 19) dataUser['planningCreateMachine'] = '1';
-        if (i == 20) dataUser['planningCreateProcess'] = '1';
-        if (i == 21) dataUser['planningProductsMaterial'] = '1';
-        if (i == 22) dataUser['planningProductsProcess'] = '1';
-        if (i == 23) dataUser['programsMachine'] = '1';
-        if (i == 24) dataUser['ciclesMachine'] = '1';
-        if (i == 25) dataUser['invCategory'] = '1';
-        if (i == 26) dataUser['sale'] = '1';
-        if (i == 27) dataUser['plannigUser'] = '1';
-        if (i == 28) dataUser['client'] = '1';
-        if (i == 29) dataUser['ordersType'] = '1';
-        if (i == 30) dataUser['inventory'] = '1';
-        if (i == 31) dataUser['order'] = '1';
-        if (i == 32) dataUser['program'] = '1';
-        if (i == 33) dataUser['load'] = '1';
-        if (i == 34) dataUser['explosionOfMaterial'] = '1';
-        if (i == 35) dataUser['office'] = '1';
+        if (i == 13) dataUser['quotePaymentMethod'] = '1';
+        if (i == 14) dataUser['quoteCompany'] = '1';
+        if (i == 15) dataUser['quoteContact'] = '1';
+        if (i == 16) dataUser['price'] = '1';
+        if (i == 17) dataUser['analysisMaterial'] = '1';
+        if (i == 18) dataUser['tool'] = '1';
+        if (i == 19) dataUser['quote'] = '1';
+        if (i == 20) dataUser['createMold'] = '1';
+        if (i == 21) dataUser['planningCreateProduct'] = '1';
+        if (i == 22) dataUser['planningCreateMaterial'] = '1';
+        if (i == 23) dataUser['planningCreateMachine'] = '1';
+        if (i == 24) dataUser['planningCreateProcess'] = '1';
+        if (i == 25) dataUser['planningProductsMaterial'] = '1';
+        if (i == 26) dataUser['planningProductsProcess'] = '1';
+        if (i == 27) dataUser['programsMachine'] = '1';
+        if (i == 28) dataUser['ciclesMachine'] = '1';
+        if (i == 29) dataUser['invCategory'] = '1';
+        if (i == 30) dataUser['sale'] = '1';
+        if (i == 31) dataUser['plannigUser'] = '1';
+        if (i == 32) dataUser['client'] = '1';
+        if (i == 33) dataUser['ordersType'] = '1';
+        if (i == 34) dataUser['inventory'] = '1';
+        if (i == 35) dataUser['order'] = '1';
+        if (i == 36) dataUser['program'] = '1';
+        if (i == 37) dataUser['load'] = '1';
+        if (i == 38) dataUser['explosionOfMaterial'] = '1';
+        if (i == 39) dataUser['office'] = '1';
       } else {
         if (i == 1) dataUser['costCreateProducts'] = '0';
         if (i == 2) dataUser['costCreateMaterials'] = '0';
@@ -250,28 +258,33 @@ $(document).ready(function () {
         if (i == 10) dataUser['expense'] = '0';
         if (i == 11) dataUser['expenseDistribution'] = '0';
         if (i == 12) dataUser['costUser'] = '0';
-        if (i == 13) dataUser['price'] = '0';
-        if (i == 14) dataUser['analysisMaterial'] = '0';
-        if (i == 15) dataUser['tool'] = '0';
-        if (i == 16) dataUser['createMold'] = '0';
-        if (i == 17) dataUser['planningCreateProduct'] = '0';
-        if (i == 18) dataUser['planningCreateMaterial'] = '0';
-        if (i == 19) dataUser['planningCreateMachine'] = '0';
-        if (i == 20) dataUser['planningCreateProcess'] = '0';
-        if (i == 21) dataUser['planningProductsMaterial'] = '0';
-        if (i == 22) dataUser['planningProductsProcess'] = '0';
-        if (i == 23) dataUser['programsMachine'] = '0';
-        if (i == 24) dataUser['ciclesMachine'] = '0';
-        if (i == 25) dataUser['invCategory'] = '0';
-        if (i == 26) dataUser['sale'] = '0';
-        if (i == 28) dataUser['client'] = '0';
-        if (i == 29) dataUser['ordersType'] = '0';
-        if (i == 30) dataUser['inventory'] = '0';
-        if (i == 31) dataUser['order'] = '0';
-        if (i == 32) dataUser['program'] = '0';
-        if (i == 33) dataUser['load'] = '0';
-        if (i == 34) dataUser['explosionOfMaterial'] = '0';
-        if (i == 35) dataUser['office'] = '0';
+        if (i == 13) dataUser['quotePaymentMethod'] = '0';
+        if (i == 14) dataUser['quoteCompany'] = '0';
+        if (i == 15) dataUser['quoteContact'] = '0';
+        if (i == 16) dataUser['price'] = '0';
+        if (i == 17) dataUser['analysisMaterial'] = '0';
+        if (i == 18) dataUser['tool'] = '0';
+        if (i == 19) dataUser['quote'] = '0';
+        if (i == 20) dataUser['createMold'] = '0';
+        if (i == 21) dataUser['planningCreateProduct'] = '0';
+        if (i == 22) dataUser['planningCreateMaterial'] = '0';
+        if (i == 23) dataUser['planningCreateMachine'] = '0';
+        if (i == 24) dataUser['planningCreateProcess'] = '0';
+        if (i == 25) dataUser['planningProductsMaterial'] = '0';
+        if (i == 26) dataUser['planningProductsProcess'] = '0';
+        if (i == 27) dataUser['programsMachine'] = '0';
+        if (i == 28) dataUser['ciclesMachine'] = '0';
+        if (i == 29) dataUser['invCategory'] = '0';
+        if (i == 30) dataUser['sale'] = '0';
+        if (i == 31) dataUser['plannigUser'] = '0';
+        if (i == 32) dataUser['client'] = '0';
+        if (i == 33) dataUser['ordersType'] = '0';
+        if (i == 34) dataUser['inventory'] = '0';
+        if (i == 35) dataUser['order'] = '0';
+        if (i == 36) dataUser['program'] = '0';
+        if (i == 37) dataUser['load'] = '0';
+        if (i == 38) dataUser['explosionOfMaterial'] = '0';
+        if (i == 39) dataUser['office'] = '0';
       }
     }
 
