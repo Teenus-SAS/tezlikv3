@@ -27,50 +27,80 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="row" id="nav">
-                                <div class="col-md-3" id="navCostBasics">
-                                    <h5 class="font-size-14 font-weight-600">Básico</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="createProducts"><a href="/cost/products">Productos</a></li>
+                                <?php if (
+                                    $_SESSION['cost_product'] != 0 && $_SESSION['cost_material'] != 0 &&
+                                    $_SESSION['cost_machine'] != 0 && $_SESSION['cost_process'] != 0
+                                ) { ?>
+                                    <div class="col-md-3" id="navCostBasics">
+                                        <h5 class="font-size-14 font-weight-600">Básico</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <?php if ($_SESSION['cost_product'] == 1) { ?>
+                                                <li class="createProducts"><a href="/cost/products">Productos</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['cost_material'] == 1) { ?>
+                                                <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['cost_machine'] == 1) { ?>
+                                                <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['cost_process'] == 1) { ?>
+                                                <li class="createProcess"><a href="/cost/process">Procesos</a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
+                                <?php if (
+                                    $_SESSION['cost_products_material'] != 0 && $_SESSION['cost_products_process'] != 0 &&
+                                    $_SESSION['factory_load'] != 0 && $_SESSION['external_service'] != 0
+                                ) { ?>
+                                    <div class="col-md-3" id="navCostSetting">
+                                        <h5 class="font-size-14 font-weight-600">Configuración</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <?php if ($_SESSION['cost_products_material'] == 1) { ?>
+                                                <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['cost_products_process'] == 1) { ?>
+                                                <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['factory_load'] == 1) { ?>
+                                                <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['external_service'] == 1) { ?>
+                                                <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
 
-                                        <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
+                                <?php if (
+                                    $_SESSION['payroll_load'] != 0 && $_SESSION['expense'] != 0 &&
+                                    $_SESSION['expense_distribution'] != 0
+                                ) { ?>
+                                    <div class="col-md-3" id="navCostGeneral">
+                                        <h5 class="font-size-14 font-weight-600">General</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <?php if ($_SESSION['payroll_load'] == 1) { ?>
+                                                <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['expense'] == 1) { ?>
+                                                <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['expense_distribution'] == 1) { ?>
+                                                <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+                                            <?php } ?>
 
-                                        <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($_SESSION['cost_user'] != 0) { ?>
+                                    <div class="col-md-3" id="navCostAdmin">
+                                        <h5 class="font-size-14 font-weight-600">Administrador</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <li class="users"><a href="/cost/users">Usuarios</a></li>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
 
-                                        <li class="createProcess"><a href="/cost/process">Procesos</a></li>
-
-                                    </ul>
-                                </div>
-                                <div class="col-md-3" id="navCostSetting">
-                                    <h5 class="font-size-14 font-weight-600">Configuración</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
-
-                                        <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
-
-                                        <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
-
-                                        <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
-
-                                        <!-- <li class="linesProducts"><a href="">Lineas de Producto</a></li> -->
-                                    </ul>
-                                </div>
-                                <div class="col-md-3" id="navCostGeneral">
-                                    <h5 class="font-size-14 font-weight-600">General</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
-
-                                        <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
-
-                                        <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
-
-                                    </ul>
-                                </div>
-                                <div class="col-md-3" id="navCostAdmin">
-                                    <h5 class="font-size-14 font-weight-600">Administrador</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="/cost/users">Usuarios</a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,13 +1,12 @@
 <?php
 
 use tezlikv3\dao\AutenticationUserDao;
-use tezlikv3\dao\CostUserAccessDao;
+use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\StatusActiveUserDao;
 use tezlikv3\dao\GenerateCodeDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\LastLoginDao;
-use tezlikv3\dao\PlanningUserAccessDao;
 
 $licenseDao = new LicenseCompanyDao();
 $autenticationDao = new AutenticationUserDao();
@@ -15,13 +14,14 @@ $statusActiveUserDao = new StatusActiveUserDao();
 $generateCodeDao = new GenerateCodeDao();
 $sendEmailDao = new SendEmailDao();
 $lastLoginDao = new LastLoginDao();
+$userAccessDao = new GeneralUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Autenticación */
 
-$app->post('/userAutentication', function (Request $request, Response $response, $args) use ($autenticationDao, $licenseDao, $statusActiveUserDao, $generateCodeDao, $sendEmailDao, $lastLoginDao) {
+$app->post('/userAutentication', function (Request $request, Response $response, $args) use ($autenticationDao, $licenseDao, $statusActiveUserDao, $lastLoginDao, $userAccessDao) {
     $parsedBody = $request->getParsedBody();
 
     $user = $parsedBody["validation-email"];
@@ -90,8 +90,10 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION["time"] = microtime(true);
         $_SESSION['plan'] = $dataCompany['plan'];
 
-        // Validar licencia y accesos de usuario 
-        // $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
+        // Guardar accesos de usario
+        $userAccessDao->setGeneralAccess($user['id_user']);
+
+        // Validar licencia 
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
             $location = '../../selector/';
         else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)

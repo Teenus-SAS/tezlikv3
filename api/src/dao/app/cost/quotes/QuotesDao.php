@@ -39,7 +39,7 @@ class QuotesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT  CONCAT(c.firstname, ' ' , c.lastname) AS contact, c.phone AS contact_phone, c.email, cp.company_name, cp.address, cp.phone, cp.city, q.delivery_date, pm.method
+        $stmt = $connection->prepare("SELECT q.id_quote, CONCAT(c.firstname, ' ' , c.lastname) AS contact, c.phone AS contact_phone, c.email, cp.company_name, cp.address, cp.phone, cp.city, q.delivery_date, pm.method
                                       FROM quotes q
                                         INNER JOIN quote_customers c ON c.id_contact = q.id_contact 
                                         INNER JOIN quote_companies cp ON cp.id_quote_company  = c.id_company

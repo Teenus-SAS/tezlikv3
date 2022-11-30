@@ -15,7 +15,8 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_quote');
 
-    $('#formCreateQuotes').trigger('reset');
+    $('#formNewQuote').trigger('reset');
+    $('#tableProductsQuoteBody').empty();
   });
 
   /* Crear cotizacion */
@@ -40,10 +41,14 @@ $(document).ready(function () {
         data == 0 ||
         contacts == '' ||
         offerValidity == '' ||
-        warranty == '' ||
-        deliveryDate == ''
+        warranty == ''
       ) {
         toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (products.length == 0) {
+        toastr.error('Seleccione por lo menos un producto a adicionar');
         return false;
       }
 
@@ -107,6 +112,11 @@ $(document).ready(function () {
 
   updateQuote = () => {
     idQuote = sessionStorage.getItem('id_quote');
+
+    if (products.length == 0) {
+      toastr.error('Seleccione por lo menos un producto a adicionar');
+      return false;
+    }
 
     $.ajax({
       type: 'POST',
@@ -179,7 +189,7 @@ $(document).ready(function () {
     if (data.success == true) {
       products.splice(0);
       $('#modalCreateQuote').modal('hide');
-      $('#formCreateQuotes').trigger('reset');
+      $('#formNewQuote').trigger('reset');
       toastr.success(data.message);
       updateTable();
       return false;

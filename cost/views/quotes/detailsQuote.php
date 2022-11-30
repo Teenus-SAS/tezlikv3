@@ -68,7 +68,7 @@
 												</div>
 											</div>
 											<div class="col invoice-details">
-												<h1 class="invoice-id">Cotizacion</h1>
+												<h1 id="idQuote"></h1>
 												<div id="dateQuote"></div>
 												<!-- <div class="date">Due Date: 30/10/2018</div> -->
 											</div>
@@ -135,11 +135,11 @@
 										</table>
 										<div class="mt-4 thanks">Thank you!</div>
 										<div class="notices">
-											<div>NOTICE:</div>
-											<div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+											<div>Condiciones Comerciales:</div>
+											<div id="paymentMethod"></div>
 										</div>
 									</main>
-									<footer>Invoice was created on a computer and is valid without the signature and seal.</footer>
+									<footer> "Autorizo a XXXX(la empresa). para recaudar, almacenar, utilizar y actualizar mis datos personales con fines exclusivamente comerciales y garantizándome que esta información no será revelada a terceros salvo orden de autoridad competente. Ley 1581 de 2012, Decreto 1377 de 2013.</footer>
 								</div>
 								<!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
 								<div></div>

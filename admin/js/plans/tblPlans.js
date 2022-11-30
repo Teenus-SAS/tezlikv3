@@ -70,7 +70,7 @@ $(document).ready(function () {
           className: 'uniqueClassName',
         },
         {
-          title: 'Precios',
+          title: 'Precios (Detalle Producto)',
           data: 'cost_price',
           className: 'uniqueClassName',
           render: function (data, type, row) {
@@ -92,6 +92,16 @@ $(document).ready(function () {
         {
           title: 'Herramientas',
           data: 'cost_tool',
+          className: 'uniqueClassName',
+          render: function (data, type, row) {
+            return data == 1
+              ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+              : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          },
+        },
+        {
+          title: 'Cotizaciones',
+          data: 'cost_quote',
           className: 'uniqueClassName',
           render: function (data, type, row) {
             return data == 1

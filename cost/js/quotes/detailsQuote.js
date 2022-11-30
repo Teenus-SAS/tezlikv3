@@ -11,6 +11,7 @@ $(document).ready(function () {
   fetchindata();
 
   loadDataQuote = (data) => {
+    $('#idQuote').html(`Cotización (${data.id_quote})`);
     /* Compañia */
     $('#companyName').html(data.company_name);
     $('#companyAddress').html(data.address);
@@ -24,6 +25,8 @@ $(document).ready(function () {
 
     /* Cotizacion */
     $('#dateQuote').html(data.delivery_date);
+
+    $('#paymentMethod').html(data.method);
   };
   loadDataQuoteProducts = (data) => {
     let sumPrice = 0;

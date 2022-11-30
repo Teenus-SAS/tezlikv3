@@ -3,7 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="titleNewContact"><i class="lni lni-notepad"></i> Nueva Cotización</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="page-content-wrapper mt--45">
@@ -32,32 +34,31 @@
                                         <div class="col-12 col-lg-12 titlePayroll">
                                             <label for=""><b>Condiciones Comerciales</b></label>
                                         </div>
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
                                                 <select class="form-control" name="idPaymentMethod" id="idPayment"></select>
                                                 <label for="idPayment" class="form-label">Condiciones de Pago <span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-3">
                                             <div class="form-group floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control" name="offerValidity" id="offerValidity">
                                                 <label for="offerValidity" class="form-label">Validez de la Oferta <span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-3">
                                             <div class="form-group floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control" name="warranty" id="warranty">
                                                 <label for="warranty" class="form-label">Garantia del Producto <span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-2">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input type="date" class="form-control" name="deliveryDate" id="deliveryDate">
-                                                <label for="deliveryDate" class="form-label">Fecha de Entrega<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                                <input type="date" class="form-control" name="deliveryDate" id="deliveryDate" min="<?php echo date("Y-m-d"); ?>">
+                                                <label for="deliveryDate" class="form-label">Fecha de Entrega</label>
                                             </div>
                                         </div>
 

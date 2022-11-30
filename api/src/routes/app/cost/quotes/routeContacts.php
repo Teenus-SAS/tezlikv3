@@ -14,6 +14,14 @@ $app->get('/contacts', function (Request $request, Response $response, $args) us
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/contactsByCompany/{id_company}', function (Request $request, Response $response, $args) use ($contactsDao) {
+    $contacts = $contactsDao->findAllContactsByCompany($args['id_company']);
+
+    $response->getBody()->write(json_encode($contacts, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+
 $app->post('/addContact', function (Request $request, Response $response, $args) use ($contactsDao) {
     $dataContact = $request->getParsedBody();
 

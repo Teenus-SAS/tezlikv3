@@ -104,6 +104,7 @@ $(document).ready(function () {
       prices: data.cost_price,
       analysisMaterials: data.cost_analysis_material,
       tools: data.cost_tool,
+      quotes: data.cost_quote,
 
       //Planeacion
       inventories: data.plan_inventory,
@@ -129,27 +130,29 @@ $(document).ready(function () {
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataPlan) => {
-    for (let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 10; i++) {
       if ($(`#checkbox-${i}`).is(':checked')) {
         if (i == 1) dataPlan['prices'] = '1';
         if (i == 2) dataPlan['analysisRawMaterials'] = '1';
         if (i == 3) dataPlan['tools'] = '1';
-        if (i == 4) dataPlan['inventories'] = '1';
-        if (i == 5) dataPlan['orders'] = '1';
-        if (i == 6) dataPlan['programming'] = '1';
-        if (i == 7) dataPlan['loads'] = '1';
-        if (i == 8) dataPlan['explosionOfMaterials'] = '1';
-        if (i == 9) dataPlan['offices'] = '1';
+        if (i == 4) dataPlan['quotes'] = '1';
+        if (i == 5) dataPlan['inventories'] = '1';
+        if (i == 6) dataPlan['orders'] = '1';
+        if (i == 7) dataPlan['programming'] = '1';
+        if (i == 8) dataPlan['loads'] = '1';
+        if (i == 9) dataPlan['explosionOfMaterials'] = '1';
+        if (i == 10) dataPlan['offices'] = '1';
       } else {
         if (i == 1) dataPlan['prices'] = '0';
         if (i == 2) dataPlan['analysisRawMaterials'] = '0';
         if (i == 3) dataPlan['tools'] = '0';
-        if (i == 4) dataPlan['inventories'] = '0';
-        if (i == 5) dataPlan['orders'] = '0';
-        if (i == 6) dataPlan['programming'] = '0';
-        if (i == 7) dataPlan['loads'] = '0';
-        if (i == 8) dataPlan['explosionOfMaterials'] = '0';
-        if (i == 9) dataPlan['offices'] = '0';
+        if (i == 4) dataPlan['quotes'] = '0';
+        if (i == 5) dataPlan['inventories'] = '0';
+        if (i == 6) dataPlan['orders'] = '0';
+        if (i == 7) dataPlan['programming'] = '0';
+        if (i == 8) dataPlan['loads'] = '0';
+        if (i == 9) dataPlan['explosionOfMaterials'] = '0';
+        if (i == 10) dataPlan['offices'] = '0';
       }
     }
 

@@ -3,7 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Crear Nomina</h5>
-                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="page-content-wrapper mt--45">
@@ -102,7 +104,7 @@
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
                                                 <select id="typeFactor" name="typeFactor" type="number" class="form-control">
-                                                    <option selected disabled value="0" >Seleccionar</option>
+                                                    <option selected disabled value="0">Seleccionar</option>
                                                     <option value="1">Nómina</option>
                                                     <option value="2">Servicios</option>
                                                     <option value="3">Calculo Manual</option>

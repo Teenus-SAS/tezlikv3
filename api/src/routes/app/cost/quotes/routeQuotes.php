@@ -40,21 +40,20 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
 
     $quote = $quotesDao->insertQuote($dataQuote);
 
-    if ($quote == null)
+    if ($quote == null) {
         /* Obtener id cotizacion */
         $quote = $quotesDao->findLastQuote();
-
-    if (isset($quote))
         /* Inserta todos los productos de la cotizacion */
         $quotesProducts = $quotesDao->insertQuotesProducts($dataQuote, $quote['id_quote']);
 
-    if ($quotesProducts == null)
-        $resp = array('success' => true, 'message' => 'Cotización insertada correctamente');
-    else if (isset($quotesProducts['info']))
-        $resp = array('info' => true, 'message' => $quotesProducts['message']);
-    else
+        if ($quotesProducts == null)
+            $resp = array('success' => true, 'message' => 'Cotización insertada correctamente');
+        else if (isset($quotesProducts['info']))
+            $resp = array('info' => true, 'message' => $quotesProducts['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+    } else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
-
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

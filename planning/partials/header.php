@@ -33,46 +33,82 @@
                     <div class="row">
                         <div class="col-sm-9">
                             <div class="row" id="nav">
-                                <div class="col-md-3" id="navPlanBasics">
-                                    <h5 class="font-size-14 font-weight-600">Básico</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <!-- <li class="invMolds"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/invMolds.php')">Moldes</a></li> -->
-                                        <li class="invMolds"><a href="/planning/molds">Moldes</a></li>
-                                        <!-- <li class="planProducts"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planProducts.php')">Productos</a></li> -->
-                                        <li class="planProducts"><a href="/planning/products">Productos</a></li>
-                                        <!-- <li class="planMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planRawMaterials.php')">Materia Prima</a></li> -->
-                                        <li class="planMaterials"><a href="/planning/materials">Materia Prima</a></li>
-                                        <!-- <li class="planMachines"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planMachines.php')">Máquinas</a></li> -->
-                                        <li class="planMachines"><a href="/planning/machines">Máquinas</a></li>
-                                        <!-- <li class="planProcess"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/basic/planProcess.php')">Procesos</a></li> -->
-                                        <li class="planProcess"><a href="/planning/process">Procesos</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-3" id="navPlanSetting">
-                                    <h5 class="font-size-14 font-weight-600">Configuración</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <!-- <li class="productsMaterials"><a href="javascript:void(0);" onclick="loadContent('page-content','../planning/views/config/productMaterials.php')">Ficha Técnica Productos</a></li> -->
-                                        <li class="planProductsMaterials"><a href="/planning/product-materials">Ficha Técnica Productos</a></li>
-                                        <li class="planProductsProcess"><a href="/planning/product-process">Ficha Técnica Procesos</a></li>
-                                        <li class="planningMachines"><a href="/planning/planning-machines">Datos Programación Máquinas</a></li>
-                                        <li class="planCiclesMachine"><a href="/planning/cicles-machines">Plan Ciclos Maquina</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-3" id="navPlanGeneral">
-                                    <h5 class="font-size-14 font-weight-600">General</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="categories"><a href="/planning/categories">Categorías</a></li>
-                                        <li class="sales"><a href="/planning/sales">Ventas</a></li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-3" id="navPlanAdmin">
-                                    <h5 class="font-size-14 font-weight-600">Administrador</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="planUsers"><a href="/planning/users">Usuarios</a></li>
-                                        <li class="clients"><a href="/planning/clients">Clientes</a></li>
-                                        <li class="typeOrder"><a href="/planning/order-types">Tipo Pedidos</a></li>
-                                    </ul>
-                                </div>
+                                <?php if (
+                                    $_SESSION['create_mold'] != 0 && $_SESSION['planning_product'] != 0 && $_SESSION['planning_material'] != 0 &&
+                                    $_SESSION['planning_machine'] != 0 && $_SESSION['planning_process'] != 0
+                                ) { ?>
+                                    <div class="col-md-3" id="navPlanBasics">
+                                        <h5 class="font-size-14 font-weight-600">Básico</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <?php if ($_SESSION['create_mold'] == 1) { ?>
+                                                <li class="invMolds"><a href="/planning/molds">Moldes</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['planning_product'] == 1) { ?>
+                                                <li class="planProducts"><a href="/planning/products">Productos</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['planning_material'] == 1) { ?>
+                                                <li class="planMaterials"><a href="/planning/materials">Materia Prima</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['planning_machine'] == 1) { ?>
+                                                <li class="planMachines"><a href="/planning/machines">Máquinas</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['planning_process'] == 1) { ?>
+                                                <li class="planProcess"><a href="/planning/process">Procesos</a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
+                                <?php if (
+                                    $_SESSION['planning_products_material'] != 0 && $_SESSION['planning_products_process'] != 0 &&
+                                    $_SESSION['programs_machine'] != 0 && $_SESSION['cicles_machine'] != 0
+                                ) { ?>
+                                    <div class="col-md-3" id="navPlanSetting">
+                                        <h5 class="font-size-14 font-weight-600">Configuración</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <?php if ($_SESSION['planning_products_material'] == 1) { ?>
+                                                <li class="planProductsMaterials"><a href="/planning/product-materials">Ficha Técnica Productos</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['planning_products_process'] == 1) { ?>
+                                                <li class="planProductsProcess"><a href="/planning/product-process">Ficha Técnica Procesos</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['programs_machine'] == 1) { ?>
+                                                <li class="planningMachines"><a href="/planning/planning-machines">Datos Programación Máquinas</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['cicles_machine'] == 1) { ?>
+                                                <li class="planCiclesMachine"><a href="/planning/cicles-machines">Plan Ciclos Maquina</a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($_SESSION['inv_category'] != 0 && $_SESSION['sale'] != 0) { ?>
+                                    <div class="col-md-3" id="navPlanGeneral">
+                                        <h5 class="font-size-14 font-weight-600">General</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <?php if ($_SESSION['inv_category'] == 1) { ?>
+                                                <li class="categories"><a href="/planning/categories">Categorías</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['sale'] == 1) { ?>
+                                                <li class="sales"><a href="/planning/sales">Ventas</a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
+                                <?php if ($_SESSION['planning_user'] != 0 && $_SESSION['client'] != 0 && $_SESSION['orders_type'] != 0) { ?>
+                                    <div class="col-md-3" id="navPlanAdmin">
+                                        <h5 class="font-size-14 font-weight-600">Administrador</h5>
+                                        <ul class="list-unstyled megamenu-list">
+                                            <?php if ($_SESSION['planning_user'] == 1) { ?>
+                                                <li class="planUsers"><a href="/planning/users">Usuarios</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['client'] == 1) { ?>
+                                                <li class="clients"><a href="/planning/clients">Clientes</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['orders_type'] == 1) { ?>
+                                                <li class="typeOrder"><a href="/planning/order-types">Tipo Pedidos</a></li>
+                                            <?php } ?>
+                                        </ul>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
