@@ -61,6 +61,12 @@
                                                 <label for="deliveryDate" class="form-label">Fecha de Entrega</label>
                                             </div>
                                         </div>
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group floating-label enable-floating-label show-label">
+                                                <textarea class="form-control" id="observation" rows="4"></textarea>
+                                                <label for="observation" class="form-label">Observaciones</label>
+                                            </div>
+                                        </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
                                             <label for=""><b>Productos</b></label>
@@ -93,7 +99,7 @@
                                             </div>
                                             <div class="col-12 col-lg-3">
                                                 <div class="form-group floating-label enable-floating-label show-label">
-                                                    <input class="form-control number text-center calcPrice" type="text" name="price" id="price">
+                                                    <input class="form-control number text-center calcPrice" type="text" name="price" id="price" readonly>
                                                     <label for="prices" class="form-label">Precio Unitario <span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
@@ -123,6 +129,9 @@
                                                     <label for="prices" class="form-label">Precio Total <span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6">
+                                                <img src="" id="imgProduct" style="width:20%">
                                             </div>
                                             <div class="col-12 col-lg-12">
                                                 <button class="btn btn-warning mb-4" id="btnAddProduct">Adicionar producto</button>

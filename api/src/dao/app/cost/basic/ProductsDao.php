@@ -20,8 +20,10 @@ class ProductsDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT * FROM  products_costs 
-                                  WHERE id_company = :id_company AND id_product = :id_product");
+    $stmt = $connection->prepare("SELECT p.img, IFNULL(pc.price, 0) AS price
+                                  FROM products p
+                                  LEFT JOIN products_costs pc ON pc.id_product = p.id_product
+                                  WHERE p.id_product = :id_product AND p.id_company = :id_company");
     $stmt->execute([
       'id_product' => $id_product,
       'id_company' => $id_company

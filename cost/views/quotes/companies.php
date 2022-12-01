@@ -15,6 +15,7 @@
 </head>
 
 <body class="horizontal-navbar">
+    <?php include_once dirname(dirname(__DIR__)) . '/modals/createQCompany.php' ?>
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
@@ -45,52 +46,6 @@
                                     <!-- <button class="btn btn-info ml-3" id="btnImportNewCompanies">Importar Compañias</button> -->
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content-wrapper mt--45 mb-5 cardCreateCompany">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <form id="formCreateCompany">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control" name="nit" id="nit">
-                                                    <label for="nit">NIT<span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control" name="companyName" id="companyName">
-                                                    <label for="companyName">Nombre<span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control" name="address" id="address">
-                                                    <label for="address">Dirección<span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
-                                                <div class="w-100 mt-4"></div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control" name="phone" id="phone">
-                                                    <label for="phone">Telefono <span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control" name="city" id="city">
-                                                    <label for="city">Ciudad<span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnCreateCompany">Crear Compañia</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -154,14 +109,10 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/cost/js/users/usersAccess.js"></script>
 
+    <script src="/global/js/global/loadImg.js"></script>
     <script src="/cost/js/quotes/companies/tblCompanies.js"></script>
     <script src="/cost/js/quotes/companies/companies.js"></script>
-    <!--<script src="../global/js/import/import.js"></script>
-    <script src="/cost/js/basic/Companies/importCompanies.js"></script>
-    <script src="../global/js/import/file.js"></script>
-    <script src="../global/js/global/validateImgExt.js"></script> -->
 </body>
 
 </html>

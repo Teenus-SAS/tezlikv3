@@ -30,19 +30,6 @@ $(document).ready(function () {
 
   loadProfile();
 
-  /* Cargar foto de perfil */
-  $('#formFile').change(function (e) {
-    e.preventDefault();
-    avatar.src = URL.createObjectURL(event.target.files[0]);
-  });
-
-  /* Limpiar imagen */
-  $('#clearImg').click(function (e) {
-    e.preventDefault();
-    document.getElementById('formFile').value = null;
-    avatar.src = '';
-  });
-
   /* Guardar perfil */
   $('#btnSaveProfile').click(function (e) {
     e.preventDefault();

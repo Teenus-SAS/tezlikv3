@@ -15,6 +15,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_quote');
 
+    $('.addProd').hide();
     $('#formNewQuote').trigger('reset');
     $('#tableProductsQuoteBody').empty();
   });
@@ -33,6 +34,7 @@ $(document).ready(function () {
       offerValidity = $('#offerValidity').val();
       warranty = $('#warranty').val();
       deliveryDate = $('#deliveryDate').val();
+      observation = $('#observation').val();
 
       let data = company * idPaymentMethod;
 
@@ -62,6 +64,7 @@ $(document).ready(function () {
           offerValidity: offerValidity,
           warranty: warranty,
           deliveryDate: deliveryDate,
+          observation: observation,
           products: products,
         },
         success: function (response) {

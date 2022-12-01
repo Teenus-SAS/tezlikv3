@@ -1,23 +1,26 @@
 $(document).ready(function () {
-  /* Ocultar panel Nueva carga fabril */
-  $('.cardCreateCompany').hide();
+  /* Ocultar modal crear compañia */
+  $('#btnCloseQCompany').click(function (e) {
+    e.preventDefault();
+    $('#createQCompany').modal('hide');
+  });
 
-  /* Abrir panel crear carga nomina */
+  /* Abrir modal crear compañia */
 
   $('#btnNewCompany').click(function (e) {
     e.preventDefault();
 
-    $('.cardCreateCompany').toggle(800);
-    $('#btnCreateCompany').html('Crear');
+    $('#createQCompany').modal('show');
+    $('#btnCreateQCompany').html('Crear');
 
     sessionStorage.removeItem('id_company');
 
-    $('#formCreateCompany').trigger('reset');
+    $('#formCreateQCompany').trigger('reset');
   });
 
-  /* Agregar nueva carga nomina */
+  /* Agregar nueva compañia */
 
-  $('#btnCreateCompany').click(function (e) {
+  $('#btnCreateQCompany').click(function (e) {
     e.preventDefault();
     let idCompany = sessionStorage.getItem('id_company');
 
@@ -39,22 +42,34 @@ $(document).ready(function () {
         return false;
       }
 
-      company = $('#formCreateCompany').serialize();
+      let imgCompany = $('#formFile')[0].files[0];
 
-      $.post('/api/addQCompany', company, function (data, textStatus, jqXHR) {
-        message(data);
+      company = new FormData(formCreateQCompany);
+      company.append('img', imgCompany);
+
+      $.ajax({
+        type: 'POST',
+        url: '/api/addQCompany',
+        data: company,
+        contentType: false,
+        cache: false,
+        processData: false,
+
+        success: function (resp) {
+          $('#createQCompany').modal('hide');
+          $('#formFile').val('');
+          message(resp);
+          updateTable();
+        },
       });
     } else {
       updateCompany();
     }
   });
 
-  /* Actualizar nomina */
+  /* Actualizar compañia */
 
   $(document).on('click', '.updateCompany', function (e) {
-    $('.cardCreateCompany').show(800);
-    $('#btnCreateCompany').html('Actualizar');
-
     idCompany = this.id;
     idCompany = sessionStorage.setItem('id_company', idCompany);
 
@@ -66,6 +81,10 @@ $(document).ready(function () {
     $('#address').val(data.address);
     $('#phone').val(data.phone);
     $('#city').val(data.city);
+    if (data.img) avatar.src = data.img;
+
+    $('#createQCompany').modal('show');
+    $('#btnCreateQCompany').html('Actualizar');
 
     $('html, body').animate(
       {
@@ -76,16 +95,31 @@ $(document).ready(function () {
   });
 
   updateCompany = () => {
-    let data = $('#formCreateCompany').serialize();
-    idCompany = sessionStorage.getItem('id_company');
-    data = `${data}&idCompany=${idCompany}`;
+    let idCompany = sessionStorage.getItem('id_company');
+    let imgCompany = $('#formFile')[0].files[0];
 
-    $.post('/api/updateQCompany', data, function (data, textStatus, jqXHR) {
-      message(data);
+    company = new FormData(formCreateQCompany);
+    company.append('idCompany', idCompany);
+    company.append('img', imgCompany);
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/updateQCompany',
+      data: company,
+      contentType: false,
+      cache: false,
+      processData: false,
+
+      success: function (resp) {
+        $('#createQCompany').modal('hide');
+        $('#formFile').val('');
+        message(resp);
+        updateTable();
+      },
     });
   };
 
-  /* Eliminar carga nomina */
+  /* Eliminar carga compañia */
 
   deleteFunction = () => {
     let row = $(this.activeElement).parent().parent()[0];
@@ -96,7 +130,7 @@ $(document).ready(function () {
     bootbox.confirm({
       title: 'Eliminar',
       message:
-        'Está seguro de eliminar esta nómina? Esta acción no se puede reversar.',
+        'Está seguro de eliminar esta compañia? Esta acción no se puede reversar.',
       buttons: {
         confirm: {
           label: 'Si',
@@ -124,8 +158,8 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
-      $('.cardCreateCompany').hide(800);
-      $('#formCreateCompany').trigger('reset');
+      $('#createQCompany').modal('hide');
+      $('#formCreateQCompany').trigger('reset');
       updateTable();
       toastr.success(data.message);
       return false;

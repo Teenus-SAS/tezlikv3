@@ -39,7 +39,8 @@ class QuotesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT q.id_quote, CONCAT(c.firstname, ' ' , c.lastname) AS contact, c.phone AS contact_phone, c.email, cp.company_name, cp.address, cp.phone, cp.city, q.delivery_date, pm.method
+        $stmt = $connection->prepare("SELECT q.id_quote, CONCAT(c.firstname, ' ' , c.lastname) AS contact, c.phone AS contact_phone, c.email, cp.img, 
+                                             cp.company_name, cp.address, cp.phone, cp.city, q.delivery_date, pm.method, q.observation
                                       FROM quotes q
                                         INNER JOIN quote_customers c ON c.id_contact = q.id_contact 
                                         INNER JOIN quote_companies cp ON cp.id_quote_company  = c.id_company
@@ -83,15 +84,16 @@ class QuotesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO quotes (id_company, id_contact, offer_validity, warranty, id_payment_method, delivery_date) 
-                                          VALUES (:id_company, :id_contact, :offer_validity, :warranty, :id_payment_method, :delivery_date)");
+            $stmt = $connection->prepare("INSERT INTO quotes (id_company, id_contact, offer_validity, warranty, id_payment_method, delivery_date, observation) 
+                                          VALUES (:id_company, :id_contact, :offer_validity, :warranty, :id_payment_method, :delivery_date, :observation)");
             $stmt->execute([
                 'id_company' => $dataQuote['company'],
                 'id_contact' => $dataQuote['contact'],
                 'offer_validity' => $dataQuote['offerValidity'],
                 'warranty' => $dataQuote['warranty'],
                 'id_payment_method' => $dataQuote['idPaymentMethod'],
-                'delivery_date' => $dataQuote['deliveryDate']
+                'delivery_date' => $dataQuote['deliveryDate'],
+                'observation' => $dataQuote['observation']
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -150,7 +152,7 @@ class QuotesDao
 
         try {
             $stmt = $connection->prepare("UPDATE quotes SET id_company = :id_company, id_contact = :id_contact, offer_validity = :offer_validity, warranty = :warranty, 
-                                                            id_payment_method = :id_payment_method, delivery_date = :delivery_date 
+                                                            id_payment_method = :id_payment_method, delivery_date = :delivery_date, observation = :observation
                                           WHERE id_quote= :id_quote");
             $stmt->execute([
                 'id_quote' => $dataQuote['idQuote'],
@@ -159,7 +161,8 @@ class QuotesDao
                 'offer_validity' => $dataQuote['offerValidity'],
                 'warranty' => $dataQuote['warranty'],
                 'id_payment_method' => $dataQuote['idPaymentMethod'],
-                'delivery_date' => $dataQuote['deliveryDate']
+                'delivery_date' => $dataQuote['deliveryDate'],
+                'observation' => $dataQuote['observation']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

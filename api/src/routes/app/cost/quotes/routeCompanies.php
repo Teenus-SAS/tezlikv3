@@ -27,6 +27,13 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
     else {
         $companies = $companiesDao->insertCompany($dataCompany, $id_company);
 
+        if (sizeof($_FILES) > 0) {
+            $lastCompany = $companiesDao->findLastInsertedQCompany();
+
+            // Insertar imagen
+            $companiesDao->imageQCompany($lastCompany['id_quote_company'], $id_company);
+        }
+
         if ($companies == null)
             $resp = array('success' => true, 'message' => 'Compañia ingresada correctamente');
         else if (isset($companies['info']))
@@ -39,6 +46,8 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
 });
 
 $app->post('/updateQCompany', function (Request $request, Response $response, $args) use ($companiesDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataCompany = $request->getParsedBody();
 
     if (
@@ -48,6 +57,9 @@ $app->post('/updateQCompany', function (Request $request, Response $response, $a
         $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
     else {
         $companies = $companiesDao->updateCompany($dataCompany);
+
+        if (sizeof($_FILES) > 0)
+            $companiesDao->imageQCompany($dataCompany['idCompany'], $id_company);
 
         if ($companies == null)
             $resp = array('success' => true, 'message' => 'Compañia modificada correctamente');

@@ -28,6 +28,7 @@ $(document).ready(function () {
 
     data == false ? (price = 0) : (price = data.price.toLocaleString());
     $('#price').val(price);
+    if (data.img) $('#imgProduct').attr('src', data.img);
   };
 
   /* Calcular precio total */
@@ -98,7 +99,9 @@ $(document).ready(function () {
       quantity: quantity,
       discount: discount,
       totalPrice: totalPrice,
+      description: description,
     };
+
     products.push(product);
 
     addProducts();

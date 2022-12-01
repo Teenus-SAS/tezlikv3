@@ -45,9 +45,9 @@
 									<header>
 										<div class="row">
 											<div class="col">
-												<!-- <a href="javascript:;">
-													<img id="companyImg" src="assets/images/logo-icon.png" width="80" alt="">
-												</a> -->
+												<a href="javascript:;">
+													<img id="companyImg" src="" width="80" alt="">
+												</a>
 											</div>
 											<div class="col company-details">
 												<h2 class="name" id="companyName">
@@ -133,13 +133,18 @@
 											<tfoot id="tblQuotesProductsFooter">
 											</tfoot>
 										</table>
-										<div class="mt-4 thanks">Thank you!</div>
+										<!-- <div class="mt-4 thanks">Thank you!</div> -->
 										<div class="notices">
-											<div>Condiciones Comerciales:</div>
+											<h3>Condiciones Comerciales:</h3>
 											<div id="paymentMethod"></div>
 										</div>
+										<br>
+										<div class="notices">
+											<h3>Observaciones Generales:</h3>
+											<div id="observation"></div>
+										</div>
 									</main>
-									<footer> "Autorizo a XXXX(la empresa). para recaudar, almacenar, utilizar y actualizar mis datos personales con fines exclusivamente comerciales y garantizándome que esta información no será revelada a terceros salvo orden de autoridad competente. Ley 1581 de 2012, Decreto 1377 de 2013.</footer>
+									<footer> Autorizo a XXXX(la empresa). para recaudar, almacenar, utilizar y actualizar mis datos personales con fines exclusivamente comerciales y garantizándome que esta información no será revelada a terceros salvo orden de autoridad competente. Ley 1581 de 2012, Decreto 1377 de 2013.</footer>
 								</div>
 								<!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
 								<div></div>

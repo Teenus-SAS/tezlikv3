@@ -45,6 +45,16 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
+        title: 'Img',
+        data: 'img',
+        className: 'uniqueClassName',
+        render: (data, type, row) => {
+          data ? data : (data = '');
+          ('use strict');
+          return `<img src="${data}" alt="" style="width:50%;border-radius:100px">`;
+        },
+      },
+      {
         title: 'Acciones',
         data: 'id_quote_company',
         className: 'uniqueClassName',

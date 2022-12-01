@@ -4,7 +4,7 @@ $(document).ready(function () {
     id_company = this.value;
 
     $.ajax({
-      url: `/contactsByCompany/${id_company}`,
+      url: `/api/contactsByCompany/${id_company}`,
       success: function (r) {
         let $select = $(`#contacts`);
         $select.empty();

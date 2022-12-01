@@ -49,57 +49,6 @@
 						</div>
 					</div>
 				</div>
-				<!-- 
-				<div class="page-content-wrapper mt--45 mb-5 cardCreateQuotes">
-					<div class="container-fluid">
-						<div class="row">
-							<form id="formCreateQuotes">
-								<div class="col-12">
-									<div class="card">
-										<div class="card-body">
-											<div class="form-row">
-												<div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-													<select class="form-control" name="idProduct" id="selectNameProduct"></select>
-													<label>Producto<span class="text-danger">*</span></label>
-													<div class="validation-error d-none font-size-13">Requerido</div>
-												</div>
-												<div class="col-xs-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-													<input type="text" class="form-control text-center number" name="quantity" id="quantity">
-													<label>Cantidad<span class="text-danger">*</span></label>
-													<div class="validation-error d-none font-size-13">Requerido</div>
-												</div>
-												<div class="col-xs-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-													<input type="number" class="form-control text-center" name="discount" id="discount">
-													<label>Descuento<span class="text-danger">*</span></label>
-													<div class="validation-error d-none font-size-13">Requerido</div>
-												</div>
-												<div class="w-100 mt-4"></div>
-												<div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-													<input type="text" class="form-control" name="offerValidity" id="offerValidity">
-													<label>Validez de la oferta<span class="text-danger">*</span></label>
-													<div class="validation-error d-none font-size-13">Requerido</div>
-												</div>
-												<div class="col form-group floating-label enable-floating-label show-label" style="margin-top:0px!important">
-													<input type="text" class="form-control" name="warranty" id="warranty">
-													<label>Garantia<span class="text-danger">*</span></label>
-													<div class="validation-error d-none font-size-13">Requerido</div>
-												</div>
-												<div class="col form-group floating-label enable-floating-label show-label" style="margin-top:0px!important">
-													<select class="form-control" name="idPaymentMethod" id="idPayment"></select>
-													<label>Metodo de Pago<span class="text-danger">*</span></label>
-													<div class="validation-error d-none font-size-13">Requerido</div>
-												</div>
-												<div class="col-xs-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-													<button type="text" class="btn btn-success" id="btnCreateQuotes">Crear Cotizacion</button>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div> -->
 
 				<!-- page content -->
 				<div class="page-content-wrapper mt--45">
@@ -135,7 +84,6 @@
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 	<script src="/global/js/global/number.js"></script>
 	<script src="/global/js/global/searchData.js"></script>
-	<script src="/cost/js/users/usersAccess.js"></script>
 
 	<script src="/cost/js/basic/products/configProducts.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>

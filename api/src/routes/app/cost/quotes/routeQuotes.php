@@ -17,7 +17,6 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
 
 /* Consultar detalle de cotizacion */
 $app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {
-
     $quote = $quotesDao->findQuote($args['id_quote']);
 
     $quotesProducts = $quotesDao->findAllQuotesProductsByIdQuote($args['id_quote']);
