@@ -4,9 +4,10 @@ $('.number').on({
   },
   keyup: function (event) {
     $(event.target).val(function (index, value) {
-      //   num = value.replace(/\./g, '');
-      //   num = num.replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
-      //   return num;
+      if (isNaN(value) == true) {
+        return '';
+      }
+
       if (!value.includes(','))
         number = value
           .replace(/\./g, '')

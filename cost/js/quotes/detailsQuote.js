@@ -32,8 +32,8 @@ $(document).ready(function () {
     $('#observation').html(data.observation);
   };
   loadDataQuoteProducts = (data) => {
-    let sumPrice = 0;
-    let sumTotal = 0;
+    let subtotal = 0;
+
     $('#tblQuotesProductsBody').empty();
     let tblQuotesProductsBody = document.getElementById(
       'tblQuotesProductsBody'
@@ -66,29 +66,51 @@ $(document).ready(function () {
     `
       );
 
-      sumPrice += parseFloat(data[i].price);
-      sumTotal += parseFloat(data[i].totalPrice);
+      subtotalPrice =
+        data[i].quantity * data[i].price * (1 - data[i].discount / 100);
+      subtotal = subtotal + subtotalPrice;
     }
 
-    let tblQuotesProductsFooter = document.getElementById(
-      'tblQuotesProductsFooter'
+    $('#subtotal').html(
+      `$ ${subtotal.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
     );
-
-    tblQuotesProductsFooter.insertAdjacentHTML(
-      'beforeend',
-      `<tr>
-        <td colspan="2"></td>
-        <td colspan="2"></td>
-        <td class="text-center">$ ${sumPrice.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}</td>
-        <td></td>
-        <td class="text-center">$ ${sumTotal.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}</td>
-      </tr>`
+    $('#iva').html(
+      `$ ${(subtotal * (19 / 100)).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
+    );
+    $('#total').html(
+      `$ ${(subtotal * (1 + 19 / 100)).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`
     );
   };
+
+  /* Imprimir cotización */
+  $('#btnImprimirQuote').click(function (e) {
+    printDiv();
+  });
+
+  function printDiv() {
+    var printContents = document.getElementById('invoice').innerHTML;
+    var document_html = window.open('_blank');
+    document_html.document.write('<html><head><title></title>');
+    document_html.document.write(`
+       <link href="/assets/css/app.css" rel="stylesheet">
+       <link href="/assets/css/icons.css" rel="stylesheet">
+       <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+      `);
+    document_html.document.write('</head><body>');
+    document_html.document.write(printContents);
+    document_html.document.write('</body></html>');
+    setTimeout(function () {
+      document_html.print();
+      document_html.close();
+    }, 500);
+  }
 });
