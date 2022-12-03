@@ -1,9 +1,4 @@
 $(document).ready(function () {
-  /* Ocultar panel Nuevo usuario 
-
-  $('.cardCreateUsers').hide();
-  $('.cardCreateAccessUser').hide(); */
-
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
     e.preventDefault();
@@ -14,8 +9,6 @@ $(document).ready(function () {
 
   $('#btnNewUser').click(function (e) {
     e.preventDefault();
-    // $('.cardCreateUsers').toggle(800);
-    // $('.cardCreateAccessUser').toggle(800);
     $('#createUserAccess').modal('show');
     $('#btnCreateUserAndAccess').html('Crear Usuario y Accesos');
 
@@ -26,7 +19,6 @@ $(document).ready(function () {
     $('#emailUser').prop('disabled', false);
 
     $('#formCreateUser').trigger('reset');
-    // $('#formCreateAccessUser').trigger('reset');
   });
 
   /* Agregar nuevo usuario */
@@ -156,49 +148,35 @@ $(document).ready(function () {
 
   /* Seleccionar checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 19; i++) {
-      if ($(`#checkbox-${i}`).is(':checked')) {
-        if (i == 1) dataUser['costCreateProducts'] = '1';
-        if (i == 2) dataUser['costCreateMaterials'] = '1';
-        if (i == 3) dataUser['costCreateMachines'] = '1';
-        if (i == 4) dataUser['costCreateProcess'] = '1';
-        if (i == 5) dataUser['costProductMaterials'] = '1';
-        if (i == 6) dataUser['costProductProcess'] = '1';
-        if (i == 7) dataUser['factoryLoad'] = '1';
-        if (i == 8) dataUser['externalService'] = '1';
-        if (i == 9) dataUser['payrollLoad'] = '1';
-        if (i == 10) dataUser['expense'] = '1';
-        if (i == 11) dataUser['expenseDistribution'] = '1';
-        if (i == 12) dataUser['costUser'] = '1';
-        if (i == 13) dataUser['quotePaymentMethod'] = '1';
-        if (i == 14) dataUser['quoteCompany'] = '1';
-        if (i == 15) dataUser['quoteContact'] = '1';
-        if (i == 16) dataUser['price'] = '1';
-        if (i == 17) dataUser['analysisMaterial'] = '1';
-        if (i == 18) dataUser['tool'] = '1';
-        if (i == 19) dataUser['quote'] = '1';
-      } else {
-        if (i == 1) dataUser['costCreateProducts'] = '0';
-        if (i == 2) dataUser['costCreateMaterials'] = '0';
-        if (i == 3) dataUser['costCreateMachines'] = '0';
-        if (i == 4) dataUser['costCreateProcess'] = '0';
-        if (i == 5) dataUser['costProductMaterials'] = '0';
-        if (i == 6) dataUser['costProductProcess'] = '0';
-        if (i == 7) dataUser['factoryLoad'] = '0';
-        if (i == 8) dataUser['externalService'] = '0';
-        if (i == 9) dataUser['payrollLoad'] = '0';
-        if (i == 10) dataUser['expense'] = '0';
-        if (i == 11) dataUser['expenseDistribution'] = '0';
-        if (i == 12) dataUser['costUser'] = '0';
-        if (i == 13) dataUser['quotePaymentMethod'] = '0';
-        if (i == 14) dataUser['quoteCompany'] = '0';
-        if (i == 15) dataUser['quoteContact'] = '0';
-        if (i == 16) dataUser['price'] = '0';
-        if (i == 17) dataUser['analysisMaterial'] = '0';
-        if (i == 18) dataUser['tool'] = '0';
-        if (i == 19) dataUser['quote'] = '0';
-      }
-    }
+    let i = 1;
+
+    let access = {
+      costCreateProducts: 0,
+      costCreateMaterials: 0,
+      costCreateMachines: 0,
+      costCreateProcess: 0,
+      costProductMaterials: 0,
+      costProductProcess: 0,
+      factoryLoad: 0,
+      externalService: 0,
+      payrollLoad: 0,
+      expense: 0,
+      expenseDistribution: 0,
+      costUser: 0,
+      quotePaymentMethod: 0,
+      quoteCompany: 0,
+      quoteContact: 0,
+      price: 0,
+      analysisMaterial: 0,
+      tool: 0,
+      quote: 0,
+    };
+
+    $.each(access, (index, value) => {
+      if ($(`#checkbox-${i}`).is(':checked')) dataUser[`${index}`] = 1;
+      else dataUser[`${index}`] = 0;
+      i++;
+    });
     return dataUser;
   };
 
@@ -208,7 +186,6 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    // let idUser = data.id_user;
     let idUser = data.id_user;
     let factoryLoad = data.factory_load;
     dataUser = {};
@@ -250,7 +227,6 @@ $(document).ready(function () {
     if (data.success == true) {
       $('#createUserAccess').modal('hide');
       $('#formCreateUser').trigger('reset');
-      // $('#formCreateAccessUser').trigger('reset')
       updateTable();
       toastr.success(data.message);
       return false;

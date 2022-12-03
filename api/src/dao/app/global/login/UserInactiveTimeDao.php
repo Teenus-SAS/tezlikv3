@@ -10,37 +10,16 @@ require_once __DIR__ . '/StatusActiveUserDao.php';
 
 class UserInactiveTimeDao extends StatusActiveUserDao
 {
-  /* private $logger;
+  private $logger;
 
   public function __construct()
   {
     $this->logger = new Logger(self::class);
     $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
-  } */
+  }
 
   public function findSession()
   {
-    // @session_start();
-    // $start_time = $_SESSION['time'];
-
-    // $end_time = microtime(true);
-
-    // $duration = $end_time - $start_time;
-    // $hours = (int)($duration / 60 / 60);
-
-    // $minutes = (int)($duration / 60) - $hours * 60;
-
-    // if (empty($_SESSION['active']) || $minutes >= 7) {
-    //   //$connection = Connection::getInstance()->getConnection();
-    //   // $this->changeStatusUserLogin();
-
-    //   session_destroy();
-    //   // echo "<script> window.location='/'; </script>";
-    //   return 1;
-    //   exit();
-    // }
-
-
     if (!isset($_SESSION['idUser']) && !isset($_SESSION['case']))
       return 1;
     else {

@@ -1,74 +1,75 @@
-$(document).ready(function () {
-  getApi = async (url) => {
-    try {
-      result = await $.ajax({
-        url: url,
-      });
-      return result;
-    } catch (error) {
-      return 0;
-    }
-  };
+$(
+  (function () {
+    /* Cierre de pagina */
+    $(window).on('mouseover', function () {
+      window.onbeforeunload = null;
+    });
+    $(window).on('mouseout', function () {
+      window.onbeforeunload = ConfirmLeave;
+    });
+    $('body').on('click', 'a', function () {
+      window.onbeforeunload = null;
+    });
 
-  var timeout;
-  var prevKey = '';
+    $(document).keydown(function (e) {
+      if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {
+        fetchindata();
+      } else if (
+        e.key.toUpperCase() == 'F4' &&
+        (prevKey == 'ALT' || prevKey == 'CONTROL')
+      ) {
+        fetchindata();
+      }
+      prevKey = e.key.toUpperCase();
+    });
 
-  checkSession = async () => {
-    data = await getApi('/api/checkSessionUser');
+    /* Tiempo de inactividad */
+    $(document).on('mousemove', function (event) {
+      if (timeout !== undefined) {
+        window.clearTimeout(timeout);
+      }
+      timeout = window.setTimeout(function () {
+        $(event.target).trigger('mousemoveend');
+      }, 7 * 60 * 1000); // pasados 5 minutos
+    });
 
-    if (data == 0) {
-      location.href = '/';
-    }
-  };
-  checkSession();
+    $(document).on('mousemoveend', function () {
+      fetchindata();
+    });
+  })(jQuery)
+);
 
-  /* Cierre de pagina */
-  $(window).on('mouseover', function () {
-    window.onbeforeunload = null;
-  });
-  $(window).on('mouseout', function () {
-    window.onbeforeunload = ConfirmLeave;
-  });
-  $('body').on('click', 'a', function () {
-    window.onbeforeunload = null;
-  });
-
-  function ConfirmLeave() {
-    fetchindata();
+getApi = async (url) => {
+  try {
+    result = await $.ajax({
+      url: url,
+    });
+    return result;
+  } catch (error) {
+    return 0;
   }
-  /*
-  $(document).keydown(function (e) {
-    if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {
-      fetchindata();
-    } else if (
-      e.key.toUpperCase() == 'F4' &&
-      (prevKey == 'ALT' || prevKey == 'CONTROL')
-    ) {
-      fetchindata();
-    }
-    prevKey = e.key.toUpperCase();
-  }); */
+};
 
-  /* Tiempo de inactividad */
-  $(document).on('mousemove', function (event) {
-    if (timeout !== undefined) {
-      window.clearTimeout(timeout);
-    }
-    timeout = window.setTimeout(function () {
-      $(event.target).trigger('mousemoveend');
-      // }, 5000); // pasados 5 minutos
-    }, 7 * 60 * 1000); // pasados 5 minutos
-  });
+var timeout;
+var prevKey = '';
 
-  $(document).on('mousemoveend', function () {
-    fetchindata();
-  });
+checkSession = async () => {
+  data = await getApi('/api/checkSessionUser');
 
-  fetchindata = async () => {
-    resp = await getApi('/api/logoutInactiveUser');
-    if (resp.inactive) {
-      location.href = '/';
-      toastr.error(resp.message);
-    }
-  };
-});
+  if (data == 0) {
+    location.href = '/';
+  }
+};
+checkSession();
+
+function ConfirmLeave() {
+  fetchindata();
+}
+
+fetchindata = async () => {
+  resp = await getApi('/api/logoutInactiveUser');
+  if (resp.inactive) {
+    location.href = '/';
+    toastr.error(resp.message);
+  }
+};

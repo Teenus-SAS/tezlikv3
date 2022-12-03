@@ -1,9 +1,4 @@
 $(document).ready(function () {
-  /* Ocultar panel Nuevo usuario 
-
-  $('.cardCreateUsers').hide();
-  $('.cardCreateAccessUser').hide(); */
-
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
     e.preventDefault();
@@ -14,8 +9,6 @@ $(document).ready(function () {
 
   $('#btnNewUser').click(function (e) {
     e.preventDefault();
-    // $('.cardCreateUsers').toggle(800);
-    // $('.cardCreateAccessUser').toggle(800);
     $('#createUserAccess').modal('show');
     $('#btnCreateUserAndAccess').html('Crear Usuario y Accesos');
 
@@ -26,7 +19,6 @@ $(document).ready(function () {
     $('#emailUser').prop('disabled', false);
 
     $('#formCreateUser').trigger('reset');
-    // $('#formCreateAccessUser').trigger('reset');
   });
 
   /* Agregar nuevo usuario */
@@ -94,29 +86,29 @@ $(document).ready(function () {
     $('#lastnameUser').val(data.lastname);
     $('#emailUser').val(data.email);
 
-    i = 1;
+    let i = 1;
 
-    access = {
-      invMolds: data.create_mold,
-      planProducts: data.create_product,
-      planMaterials: data.create_material,
-      planMachines: data.create_machine,
-      planProcess: data.create_process,
-      productsMaterials: data.products_material,
-      productProcess: data.products_process,
-      planningMachines: data.programs_machine,
-      planCiclesMachine: data.cicles_machine,
-      categories: data.inv_category,
-      sales: data.sale,
-      users: data.user,
-      clients: data.client,
-      typeOrder: data.orders_type,
-      inventories: data.inventory,
-      orders: data.plan_order,
-      programs: data.program,
-      loads: data.plan_load,
-      explosionMaterials: data.explosion_of_material,
-      offices: data.office,
+    let access = {
+      createMold: data.create_mold,
+      planningCreateProduct: data.create_product,
+      planningCreateMaterial: data.create_material,
+      planningCreateMachine: data.create_machine,
+      planningCreateProcess: data.create_process,
+      planningProductsMaterial: data.products_material,
+      planningProductsProcess: data.products_process,
+      programsMachine: data.programs_machine,
+      ciclesMachine: data.cicles_machine,
+      invCategory: data.inv_category,
+      sale: data.sale,
+      plannigUser: data.user,
+      client: data.client,
+      ordersType: data.orders_type,
+      inventory: data.inventory,
+      order: data.plan_order,
+      program: data.program,
+      load: data.plan_load,
+      explosionOfMaterial: data.explosion_of_material,
+      office: data.office,
     };
 
     $.each(access, (index, value) => {
@@ -157,51 +149,36 @@ $(document).ready(function () {
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 20; i++) {
-      if ($(`#checkbox-${i}`).is(':checked')) {
-        if (i == 1) dataUser['createMold'] = '1';
-        if (i == 2) dataUser['planningCreateProduct'] = '1';
-        if (i == 3) dataUser['planningCreateMaterial'] = '1';
-        if (i == 4) dataUser['planningCreateMachine'] = '1';
-        if (i == 5) dataUser['planningCreateProcess'] = '1';
-        if (i == 6) dataUser['planningProductsMaterial'] = '1';
-        if (i == 7) dataUser['planningProductsProcess'] = '1';
-        if (i == 8) dataUser['programsMachine'] = '1';
-        if (i == 9) dataUser['ciclesMachine'] = '1';
-        if (i == 10) dataUser['invCategory'] = '1';
-        if (i == 11) dataUser['sale'] = '1';
-        if (i == 12) dataUser['plannigUser'] = '1';
-        if (i == 13) dataUser['client'] = '1';
-        if (i == 14) dataUser['ordersType'] = '1';
-        if (i == 15) dataUser['inventory'] = '1';
-        if (i == 16) dataUser['order'] = '1';
-        if (i == 17) dataUser['program'] = '1';
-        if (i == 18) dataUser['load'] = '1';
-        if (i == 19) dataUser['explosionOfMaterial'] = '1';
-        if (i == 20) dataUser['office'] = '1';
-      } else {
-        if (i == 1) dataUser['createMold'] = '0';
-        if (i == 2) dataUser['planningCreateProduct'] = '0';
-        if (i == 3) dataUser['planningCreateMaterial'] = '0';
-        if (i == 4) dataUser['planningCreateMachine'] = '0';
-        if (i == 5) dataUser['planningCreateProcess'] = '0';
-        if (i == 6) dataUser['planningProductsMaterial'] = '0';
-        if (i == 7) dataUser['planningProductsProcess'] = '0';
-        if (i == 8) dataUser['programsMachine'] = '0';
-        if (i == 9) dataUser['ciclesMachine'] = '0';
-        if (i == 10) dataUser['invCategory'] = '0';
-        if (i == 11) dataUser['sale'] = '0';
-        if (i == 12) dataUser['plannigUser'] = '0';
-        if (i == 13) dataUser['client'] = '1';
-        if (i == 14) dataUser['ordersType'] = '1';
-        if (i == 15) dataUser['inventory'] = '1';
-        if (i == 16) dataUser['order'] = '1';
-        if (i == 17) dataUser['program'] = '1';
-        if (i == 18) dataUser['load'] = '1';
-        if (i == 19) dataUser['explosionOfMaterial'] = '1';
-        if (i == 20) dataUser['office'] = '1';
-      }
-    }
+    let i = 1;
+
+    let access = {
+      createMold: 0,
+      planningCreateProduct: 0,
+      planningCreateMaterial: 0,
+      planningCreateMachine: 0,
+      planningCreateProcess: 0,
+      planningProductsMaterial: 0,
+      planningProductsProcess: 0,
+      programsMachine: 0,
+      ciclesMachine: 0,
+      invCategory: 0,
+      sale: 0,
+      plannigUser: 0,
+      client: 0,
+      ordersType: 0,
+      inventory: 0,
+      order: 0,
+      program: 0,
+      load: 0,
+      explosionOfMaterial: 0,
+      office: 0,
+    };
+
+    $.each(access, (index, value) => {
+      if ($(`#checkbox-${i}`).is(':checked')) dataUser[`${index}`] = 1;
+      else dataUser[`${index}`] = 0;
+      i++;
+    });
 
     return dataUser;
   };
@@ -216,7 +193,6 @@ $(document).ready(function () {
     let idUser = data.id_user;
     let programsMachine = data.programs_machine;
     dataUser = {};
-    // dataUser['idUser'] = idUser;
     dataUser['idUser'] = idUser;
     dataUser['programsMachine'] = programsMachine;
 
