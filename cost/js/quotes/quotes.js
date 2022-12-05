@@ -16,6 +16,7 @@ $(document).ready(function () {
     sessionStorage.removeItem('id_quote');
 
     $('.addProd').hide();
+    $('#contacts').empty();
     $('#formNewQuote').trigger('reset');
     $('#tableProductsQuoteBody').empty();
   });
@@ -84,16 +85,8 @@ $(document).ready(function () {
     let data = tblQuotes.fnGetData(row);
 
     $(`#company option[value=${data.id_company}]`).prop('selected', true);
-    $(`#contacts option[value=${data.id_contact}]`).prop('selected', true);
-    $('#offerValidity').val(data.offer_validity);
-    $('#warranty').val(data.warranty);
-    $(`#idPayment option[value=${data.id_payment_method}]`).prop(
-      'selected',
-      true
-    );
-    $('#deliveryDate').val(data.delivery_date);
 
-    getQuotesProducts(idQuote);
+    getDataQuotes(data, idQuote);
 
     $('html, body').animate(
       {
@@ -103,8 +96,19 @@ $(document).ready(function () {
     );
   });
 
-  /* Obtener data de los productos cotizados */
-  getQuotesProducts = async (id) => {
+  getDataQuotes = async (data, id) => {
+    await configData(data.id_company);
+
+    $(`#contacts option[value=${data.id_contact}]`).prop('selected', true);
+    $('#offerValidity').val(data.offer_validity);
+    $('#warranty').val(data.warranty);
+    $(`#idPayment option[value=${data.id_payment_method}]`).prop(
+      'selected',
+      true
+    );
+    $('#deliveryDate').val(data.delivery_date);
+
+    /* Obtener data de los productos cotizados */
     products = await searchData(`/api/quotesProducts/${id}`);
 
     await addProducts();

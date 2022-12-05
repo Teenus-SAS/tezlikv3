@@ -99,7 +99,6 @@ $(document).ready(function () {
       quantity: quantity,
       discount: discount,
       totalPrice: totalPrice,
-      description: description,
     };
 
     products.push(product);

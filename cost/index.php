@@ -1,4 +1,6 @@
-<?php include_once dirname(__DIR__) . '/global/sessions/session.php'; ?>
+<?php
+if (!isset($_SESSION))
+    session_start(); ?>
 <!DOCTYPE html>
 <html lang="es">
 

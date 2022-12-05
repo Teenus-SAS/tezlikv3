@@ -3,19 +3,21 @@ $(document).ready(function () {
     e.preventDefault();
     id_company = this.value;
 
-    $.ajax({
-      url: `/api/contactsByCompany/${id_company}`,
-      success: function (r) {
-        let $select = $(`#contacts`);
-        $select.empty();
-
-        $select.append(`<option disabled selected>Seleccionar</option>`);
-        $.each(r, function (i, value) {
-          $select.append(
-            `<option value = ${value.id_contact}> ${value.firstname} - ${value.lastname} </option>`
-          );
-        });
-      },
-    });
+    configData(id_company);
   });
+
+  configData = async (id) => {
+    r = await searchData(`/api/contactsByCompany/${id}`);
+
+    let $select = $(`#contacts`);
+    $select.empty();
+
+    $select.append(`<option disabled selected>Seleccionar</option>`);
+
+    r.forEach(function (value) {
+      $select.append(
+        `<option value = ${value.id_contact}> ${value.firstname} - ${value.lastname} </option>`
+      );
+    });
+  };
 });
