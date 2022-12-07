@@ -65,6 +65,18 @@ class UsersDao
     return $user;
   }
 
+  public function findLastInsertedUser($id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+
+    $stmt = $connection->prepare("SELECT MAX(id_user) AS idUser FROM users u WHERE id_company = :id_company");
+    $stmt->execute(['id_company' => $id_company]);
+    $user = $stmt->fetch($connection::FETCH_ASSOC);
+
+    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    return $user;
+  }
+
   public function saveUser($dataUser, $id_company)
   {
     $newPassDao = new GenerateCodeDao();

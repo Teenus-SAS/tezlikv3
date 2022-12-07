@@ -77,18 +77,9 @@ class CostUserAccessDao
         return $users;
     }
 
-    public function insertUserAccessByUser($dataUser, $id_company)
+    public function insertUserAccessByUser($dataUser, $id_user)
     {
         $connection = Connection::getInstance()->getConnection();
-
-        if (!$dataUser['idUser']) {
-            /* Obtener id usuario creado */
-            $stmt = $connection->prepare("SELECT MAX(id_user) AS idUser FROM users WHERE id_company = :id_company");
-            $stmt->execute(['id_company' => $id_company]);
-            $idUser = $stmt->fetch($connection::FETCH_ASSOC);
-            $id_user = $idUser['idUser'];
-        } else
-            $id_user = $dataUser['idUser'];
 
         try {
             $stmt = $connection->prepare("INSERT INTO cost_users_access (id_user, create_product, create_materials, create_machines, create_process, product_materials, 

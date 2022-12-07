@@ -50,18 +50,13 @@ $(document).ready(function () {
         </td>
         <td class="text-left"> ${data[i].nameProduct}</td>
         <td class="text-center">${data[i].quantity.toLocaleString()}</td>
-        <td class="text-center">$ ${data[i].price.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}</td>
+        <td class="text-center">$ ${parseInt(
+          data[i].price
+        ).toLocaleString()}</td>
         <td class="text-center">${data[i].discount} %</td>
-        <td class="text-center">$ ${data[i].totalPrice.toLocaleString(
-          undefined,
-          {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          }
-        )}</td>
+        <td class="text-center">$ ${parseInt(
+          data[i].totalPrice
+        ).toLocaleString()}</td>
       </tr>
     `
       );
@@ -71,23 +66,10 @@ $(document).ready(function () {
       subtotal = subtotal + subtotalPrice;
     }
 
-    $('#subtotal').html(
-      `$ ${subtotal.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}`
-    );
-    $('#iva').html(
-      `$ ${(subtotal * (19 / 100)).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}`
-    );
+    $('#subtotal').html(`$ ${parseInt(subtotal).toLocaleString()}`);
+    $('#iva').html(`$ ${parseInt(subtotal * (19 / 100)).toLocaleString()}`);
     $('#total').html(
-      `$ ${(subtotal * (1 + 19 / 100)).toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}`
+      `$ ${parseInt(subtotal * (1 + 19 / 100)).toLocaleString()}`
     );
   };
 

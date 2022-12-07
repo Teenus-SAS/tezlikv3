@@ -26,7 +26,10 @@ $(document).ready(function () {
   loadDataProduct = async (id) => {
     data = await searchData(`/api/productCost/${id}`);
 
-    data == false ? (price = 0) : (price = data.price.toLocaleString());
+    data == false
+      ? (price = 0)
+      : (price = parseInt(data.price).toLocaleString());
+
     $('#price').val(price);
     if (data.img) $('#imgProduct').attr('src', data.img);
   };
@@ -48,14 +51,7 @@ $(document).ready(function () {
       parseFloat(price) *
       (1 - parseFloat(discount) / 100);
 
-    val.isInteger
-      ? (val = val.toLocaleString())
-      : (val = val.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }));
-
-    $('#totalPrice').val(val);
+    $('#totalPrice').val(parseInt(val).toLocaleString());
   });
 
   replaceNumber = (number) => {

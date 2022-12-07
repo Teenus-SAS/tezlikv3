@@ -59,17 +59,16 @@ class PlanningUserAccessDao
         return $users;
     }
 
+
     public function insertUserAccessByUser($dataUser)
     {
-        //session_start();
-        $id_company = $_SESSION['id_company'];
         $connection = Connection::getInstance()->getConnection();
 
-        /* Obtener id usuario creado */
+        /* Obtener id usuario creado 
 
         $stmt = $connection->prepare("SELECT MAX(id_user) AS idUser FROM users WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
-        $idUser = $stmt->fetch($connection::FETCH_ASSOC);
+        $idUser = $stmt->fetch($connection::FETCH_ASSOC); */
 
         try {
             $stmt = $connection->prepare("INSERT INTO planning_user_access (id_user, create_mold, create_product, create_material, create_machine, create_process, products_material, products_process, programs_machine, 

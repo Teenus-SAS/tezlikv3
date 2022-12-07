@@ -12,6 +12,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('#modalCreateQuote').modal('show');
+    $('#btnSaveQuote').html('Crear');
 
     sessionStorage.removeItem('id_quote');
 
@@ -88,6 +89,8 @@ $(document).ready(function () {
 
     getDataQuotes(data, idQuote);
 
+    $('#btnSaveQuote').html('Actualizar');
+
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -136,6 +139,7 @@ $(document).ready(function () {
         offerValidity: $('#offerValidity').val(),
         warranty: $('#warranty').val(),
         deliveryDate: $('#deliveryDate').val(),
+        observation: $('#observation').val(),
         products: products,
       },
       success: function (response) {

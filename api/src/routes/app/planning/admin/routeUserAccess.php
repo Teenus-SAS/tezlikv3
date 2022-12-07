@@ -1,8 +1,12 @@
 <?php
 
+use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\PlanningUserAccessDao;
+use tezlikv3\dao\UsersDao;
 
+$usersDao = new UsersDao();
 $userAccessDao = new PlanningUserAccessDao();
+$generalUAccessDao = new GeneralUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -27,10 +31,10 @@ $app->post('/planningUserAccess', function (Request $request, Response $response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
+$app->post('/addPlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $generalUAccessDao, $usersDao) {
     session_start();
     $dataUserAccess = $request->getParsedBody();
-    $id_user = $_SESSION['idUser'];
+    $id_company = $_SESSION['id_company'];
 
     if (
         empty($dataUserAccess['planningCreateProduct']) && empty($dataUserAccess['planningCreateMaterials']) &&
@@ -38,7 +42,17 @@ $app->post('/addPlanningUserAccess', function (Request $request, Response $respo
     )
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
-        $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_user);
+
+        if (isset($dataUserAccess['idUser']))
+            $user = $dataUserAccess;
+        else {
+            $user = $usersDao->findLastInsertedUser($id_company);
+        }
+
+        $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $user['idUser']);
+
+        /* Modificar accesos */
+        $generalUAccessDao->setGeneralAccess($user['idUser']);
 
         if ($userAccess == null)
             $resp = array('success' => true, 'message' => 'Acceso de usuario creado correctamente');
@@ -51,11 +65,21 @@ $app->post('/addPlanningUserAccess', function (Request $request, Response $respo
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
+$app->post('/updatePlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $generalUAccessDao, $usersDao) {
     session_start();
+    $id_company = $_SESSION['id_company'];
     $dataUserAccess = $request->getParsedBody();
 
     $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
+
+    if (isset($dataUserAccess['idUser']))
+        $user = $dataUserAccess;
+    else {
+        $user = $usersDao->findLastInsertedUser($id_company);
+    }
+
+    /* Modificar accesos */
+    $generalUAccessDao->setGeneralAccess($user['idUser']);
 
     if ($userAccess == null)
         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');
