@@ -3,6 +3,7 @@ $(document).ready(function () {
 
   $('#refProduct').change(function (e) {
     e.preventDefault();
+    $('#selectNameProduct option').removeAttr('selected');
     id = this.value;
     $(`#selectNameProduct option[value=${id}]`).attr('selected', true);
   });
@@ -10,6 +11,7 @@ $(document).ready(function () {
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     id = this.value;
+    $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).attr('selected', true);
   });
 

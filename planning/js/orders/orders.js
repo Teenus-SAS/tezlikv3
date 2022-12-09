@@ -3,12 +3,14 @@ $(document).ready(function () {
   $('#refProduct').change(function (e) {
     e.preventDefault();
     id = this.value;
+    $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
   });
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     id = this.value;
+    $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
   });
 

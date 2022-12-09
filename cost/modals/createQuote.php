@@ -99,7 +99,7 @@
                                             </div>
                                             <div class="col-12 col-lg-3">
                                                 <div class="form-group floating-label enable-floating-label show-label">
-                                                    <input class="form-control number text-center calcPrice" type="text" name="price" id="price" disabled>
+                                                    <input class="form-control number text-center calcPrice" type="text" name="price" id="price">
                                                     <label for="prices" class="form-label">Precio Unitario <span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>

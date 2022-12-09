@@ -12,6 +12,7 @@ $(document).ready(function () {
   $('#refProduct').change(function (e) {
     e.preventDefault();
     id = this.value;
+    $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     loadDataProduct(id);
   });
@@ -19,6 +20,7 @@ $(document).ready(function () {
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     id = this.value;
+    $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     loadDataProduct(id);
   });
@@ -26,16 +28,40 @@ $(document).ready(function () {
   loadDataProduct = async (id) => {
     data = await searchData(`/api/productCost/${id}`);
 
-    data == false
-      ? (price = 0)
-      : (price = parseInt(data.price).toLocaleString());
+    if (data.price == false) {
+      price = 0;
+    } else {
+      sessionStorage.removeItem('price');
+      sessionStorage.setItem('price', parseInt(data.price));
+      price = parseInt(data.price).toLocaleString();
+    }
 
     $('#price').val(price);
+
     if (data.img) $('#imgProduct').attr('src', data.img);
   };
 
   /* Calcular precio total */
   $(document).on('click keyup', '.calcPrice', function (e) {
+    id = this.id;
+
+    if (id.includes('price')) {
+      let idProduct = $('#refProduct').val();
+      if (idProduct > 0) {
+        let oldPrice = sessionStorage.getItem('price');
+
+        let price = replaceNumber(this.value);
+
+        if (price < oldPrice) {
+          oldPrice = parseInt(oldPrice).toLocaleString();
+
+          $('#price').val(oldPrice);
+          toastr.error('Ingrese un precio mayor al original');
+          return false;
+        }
+      }
+    }
+
     let quantity = $('#quantity').val();
     let price = $('#price').val();
     let discount = $('#discount').val();

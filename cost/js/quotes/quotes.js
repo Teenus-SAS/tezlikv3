@@ -110,6 +110,7 @@ $(document).ready(function () {
       true
     );
     $('#deliveryDate').val(data.delivery_date);
+    $('#observation').val(data.observation);
 
     /* Obtener data de los productos cotizados */
     products = await searchData(`/api/quotesProducts/${id}`);
