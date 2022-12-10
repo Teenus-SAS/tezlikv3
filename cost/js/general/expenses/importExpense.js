@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportExpensesAssignation').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileExpensesAssignation').val();
+    let file = $('#fileExpensesAssignation').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -105,9 +105,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsExpensesAssignation').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Gastos.xlsx';
+    let url = 'assets/formatsXlsx/Gastos.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
     link.target = '_blank';
 
     link.href = url;

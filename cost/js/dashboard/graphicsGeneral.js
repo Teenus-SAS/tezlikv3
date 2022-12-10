@@ -1,7 +1,7 @@
 /* Tiempo de procesos */
 graphicTimeProcessByProduct = (data) => {
-  product = [];
-  totalTime = [];
+  let product = [];
+  let totalTime = [];
 
   data.length > 10 ? (count = 10) : (count = data.length);
   for (i = 0; i < count; i++) {
@@ -53,9 +53,9 @@ graphicTimeProcessByProduct = (data) => {
 
 /* Mano de obra */
 graphicWorkforce = (data) => {
-  process = [];
-  minuteValue = [];
-  totalCost = 0;
+  let process = [];
+  let minuteValue = [];
+  let totalCost = 0;
 
   for (let i in data) {
     process.push(data[i].process);
@@ -117,9 +117,9 @@ graphicWorkforce = (data) => {
 /* Costo carga fabril */
 
 graphicsFactoryLoad = (data) => {
-  machine = [];
-  costMinute = [];
-  totalCostMinute = 0;
+  let machine = [];
+  let costMinute = [];
+  let totalCostMinute = 0;
 
   for (let i in data) {
     machine.push(data[i].machine);
@@ -177,8 +177,8 @@ graphicsFactoryLoad = (data) => {
 /* Gastos generales */
 
 graphicGeneralCost = (data) => {
-  expenseCount = [];
-  totalExpense = 0;
+  let expenseCount = [];
+  let totalExpense = 0;
 
   for (i = 0; i < 3; i++) {
     expenseCount.push(data[i].expenseCount);
@@ -267,10 +267,10 @@ graphicProfit = (data) => {
 
 // Rentabilidad y precio productos
 graphicProductCost = (data) => {
-  product = [];
-  profitability = [];
-  price = [];
-  cost = [];
+  let product = [];
+  let profitability = [];
+  let price = [];
+  let cost = [];
 
   data.length > 10 ? (count = 10) : (count = data.length);
 

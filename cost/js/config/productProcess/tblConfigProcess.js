@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   $('#refProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).attr('selected', true);
     loadtableProcess(id);
@@ -11,7 +11,7 @@ $(document).ready(function () {
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).attr('selected', true);
     loadtableProcess(id);
@@ -46,9 +46,6 @@ $(document).ready(function () {
         {
           title: 'Máquina',
           data: 'machine',
-          // render: {
-          //   null: 'Proceso Manual',
-          // },
           render: function (data, type, row) {
             if (data === null) {
               return 'Proceso Manual';
@@ -56,7 +53,6 @@ $(document).ready(function () {
               return data;
             }
           },
-          //class: 'classRight',
         },
         {
           title: 'Tiempo Alistamiento (min)',

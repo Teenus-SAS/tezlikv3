@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportProductsMaterials').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProductsMaterials').val();
+    let file = $('#fileProductsMaterials').val();
     if (!file) {
       toastr.error('Seleccione un archivo');
       return false;
@@ -85,8 +85,6 @@ $(document).ready(function () {
       url: '/api/addProductsMaterials',
       data: { importProductsMaterials: data },
       success: function (r) {
-        console.log(r);
-        debugger;
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportProductsMaterials').hide(800);
@@ -115,9 +113,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsProductsMaterials').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos_Materias.xlsx';
+    let url = 'assets/formatsXlsx/Productos_Materias.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
     link.target = '_blank';
 
     link.href = url;

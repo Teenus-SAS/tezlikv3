@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportMaterials').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileMaterials').val();
+    let file = $('#fileMaterials').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -44,7 +44,6 @@ $(document).ready(function () {
 
   /* Mensaje de advertencia */
   checkProduct = (data) => {
-    debugger;
     $.ajax({
       type: 'POST',
       url: '/api/materialsDataValidation',
@@ -106,9 +105,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsMaterials').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Materia_prima.xlsx';
+    let url = 'assets/formatsXlsx/Materia_prima.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
 
     link.target = '_blank';
 

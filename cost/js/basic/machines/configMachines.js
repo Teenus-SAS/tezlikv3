@@ -12,7 +12,7 @@ $(document).ready(function () {
     type: 'GET',
     url: '/api/machines',
     success: function (r) {
-      machinesData = JSON.stringify(r);
+      let machinesData = JSON.stringify(r);
       sessionStorage.setItem('machinesData', machinesData);
 
       let $select = $(`#idMachine`);

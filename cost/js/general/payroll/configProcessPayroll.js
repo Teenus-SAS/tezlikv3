@@ -1,7 +1,6 @@
 $(document).ready(function () {
   $.ajax({
-    type: 'GET',
-    url: '../../api/processPayroll',
+    url: '/api/processPayroll',
     success: function (r) {
       let $select = $(`#idProcess`);
       $select.empty();

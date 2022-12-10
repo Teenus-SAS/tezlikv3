@@ -7,7 +7,6 @@ $(document).ready(function () {
 
   $('#btnNewContact').click(function (e) {
     e.preventDefault();
-    // $('.cardImportMaterials').hide(800);
     $('.cardCreateContact').toggle(800);
     $('#btnCreateContact').html('Crear');
 
@@ -23,12 +22,12 @@ $(document).ready(function () {
     let idContact = sessionStorage.getItem('id_contact');
 
     if (idContact == '' || idContact == null) {
-      firstname = $('#firstname').val();
-      lastname = $('#lastname').val();
-      phone = $('#phone').val();
-      email = $('#email').val();
-      position = $('#position').val();
-      company = $('#company').val();
+      let firstname = $('#firstname').val();
+      let lastname = $('#lastname').val();
+      let phone = $('#phone').val();
+      let email = $('#email').val();
+      let position = $('#position').val();
+      let company = $('#company').val();
 
       if (
         firstname == '' ||
@@ -60,12 +59,11 @@ $(document).ready(function () {
   /* Actualizar contacto */
 
   $(document).on('click', '.updateRawMaterials', function (e) {
-    // $('.cardImportMaterials').hide(800);
     $('.cardCreateContact').show(800);
     $('#btnCreateContact').html('Actualizar');
 
-    idContact = this.id;
-    idContact = sessionStorage.setItem('id_contact', idContact);
+    let idContact = this.id;
+    sessionStorage.setItem('id_contact', idContact);
 
     let row = $(this).parent().parent()[0];
     let data = tblContacts.fnGetData(row);
@@ -88,7 +86,7 @@ $(document).ready(function () {
 
   updateContact = () => {
     let data = $('#formCreateContact').serialize();
-    idContact = sessionStorage.getItem('id_contact');
+    let idContact = sessionStorage.getItem('id_contact');
     data = data + '&idContact=' + idContact;
 
     $.post('../../api/updateContact', data, function (data, textStatus, jqXHR) {

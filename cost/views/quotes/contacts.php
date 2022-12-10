@@ -103,33 +103,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="page-content-wrapper mt--45 mb-5 cardImportContacts">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <form id="formImportContact" enctype="multipart/form-data">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="gridx4ip">
-                                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                                    <input class="form-control" type="file" id="fileContacts" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label"> Importar Contactos</label>
-                                                </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportContacts">Importar</button>
-                                                </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsContacts">Descarga Formato</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> -->
-
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">

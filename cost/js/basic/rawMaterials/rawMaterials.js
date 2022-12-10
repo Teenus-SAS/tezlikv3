@@ -1,6 +1,7 @@
 $(document).ready(function () {
-  /* Ocultar panel para crear materiales */
+  let dataMaterial = [];
 
+  /* Ocultar panel para crear materiales */
   $('.cardRawMaterials').hide();
 
   /* Abrir panel para crear materiales */
@@ -13,10 +14,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_material');
 
-    $('#refRawMaterial').val('');
-    $('#nameRawMaterial').val('');
-    $('#unityRawMaterial').val('');
-    $('#costRawMaterial').val('');
+    $('#formCreateMaterial').trigger('reset');
   });
 
   /* Crear producto */
@@ -26,10 +24,10 @@ $(document).ready(function () {
     let idMaterial = sessionStorage.getItem('id_material');
 
     if (idMaterial == '' || idMaterial == null) {
-      ref = $('#refRawMaterial').val();
-      material = $('#nameRawMaterial').val();
-      unity = $('#unityRawMaterial').val();
-      cost = $('#costRawMaterial').val();
+      let ref = $('#refRawMaterial').val();
+      let material = $('#nameRawMaterial').val();
+      let unity = $('#unityRawMaterial').val();
+      let cost = $('#costRawMaterial').val();
 
       if (
         ref == '' ||
@@ -45,11 +43,11 @@ $(document).ready(function () {
         return false;
       }
 
-      material = $('#formCreateMaterial').serialize();
+      let data = $('#formCreateMaterial').serialize();
 
       $.post(
         '../../api/addMaterials',
-        material,
+        data,
         function (data, textStatus, jqXHR) {
           message(data);
         }
@@ -66,8 +64,8 @@ $(document).ready(function () {
     $('.cardRawMaterials').show(800);
     $('#btnCreateMaterial').html('Actualizar');
 
-    idMaterial = this.id;
-    idMaterial = sessionStorage.setItem('id_material', idMaterial);
+    let idMaterial = this.id;
+    sessionStorage.setItem('id_material', idMaterial);
 
     let row = $(this).parent().parent()[0];
     let data = tblRawMaterials.fnGetData(row);
@@ -76,7 +74,7 @@ $(document).ready(function () {
     $('#nameRawMaterial').val(data.material);
     $('#unityRawMaterial').val(data.unit);
 
-    cost = data.cost;
+    let cost = data.cost;
 
     if (cost.isInteger) cost = cost.toLocaleString();
     else
@@ -96,7 +94,7 @@ $(document).ready(function () {
 
   updateMaterial = () => {
     let data = $('#formCreateMaterial').serialize();
-    idMaterial = sessionStorage.getItem('id_material');
+    let idMaterial = sessionStorage.getItem('id_material');
     data = data + '&idMaterial=' + idMaterial;
 
     $.post(
@@ -115,7 +113,6 @@ $(document).ready(function () {
     let data = tblRawMaterials.fnGetData(row);
 
     let idMaterial = data.id_material;
-    dataMaterial = {};
     dataMaterial['idMaterial'] = idMaterial;
 
     bootbox.confirm({

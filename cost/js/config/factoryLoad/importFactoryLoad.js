@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportFactoryLoad').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileFactoryLoad').val();
+    let file = $('#fileFactoryLoad').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -104,9 +104,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsFactoryLoad').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Carga_Fabril.xlsx';
+    let url = 'assets/formatsXlsx/Carga_Fabril.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
     link.target = '_blank';
 
     link.href = url;

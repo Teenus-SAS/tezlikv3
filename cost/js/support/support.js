@@ -3,15 +3,15 @@ $(document).ready(function () {
   $('#btnSend').click(function (e) {
     e.preventDefault();
     // cc = $('#ccHeader').val();
-    subject = $('#subject').val();
-    msg = getContent();
+    let subject = $('#subject').val();
+    let msg = getContent();
 
     if (subject == '' || subject == null || msg == '' || !msg) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
 
-    support = $('#formSendSupport').serialize();
+    let support = $('#formSendSupport').serialize();
     support = support + '&message=' + msg;
 
     $.post(

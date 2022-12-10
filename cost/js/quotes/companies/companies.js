@@ -25,11 +25,11 @@ $(document).ready(function () {
     let idCompany = sessionStorage.getItem('id_company');
 
     if (idCompany == '' || idCompany == null) {
-      nit = $('#nit').val();
-      companyName = $('#companyName').val();
-      address = $('#address').val();
-      phone = $('#phone').val();
-      city = $('#city').val();
+      let nit = $('#nit').val();
+      let companyName = $('#companyName').val();
+      let address = $('#address').val();
+      let phone = $('#phone').val();
+      let city = $('#city').val();
 
       if (
         nit == '' ||
@@ -44,7 +44,7 @@ $(document).ready(function () {
 
       let imgCompany = $('#formFile')[0].files[0];
 
-      company = new FormData(formCreateQCompany);
+      let company = new FormData(formCreateQCompany);
       company.append('img', imgCompany);
 
       $.ajax({
@@ -70,8 +70,8 @@ $(document).ready(function () {
   /* Actualizar compañia */
 
   $(document).on('click', '.updateCompany', function (e) {
-    idCompany = this.id;
-    idCompany = sessionStorage.setItem('id_company', idCompany);
+    let idCompany = this.id;
+    sessionStorage.setItem('id_company', idCompany);
 
     let row = $(this).parent().parent()[0];
     let data = tblCompanies.fnGetData(row);
@@ -98,7 +98,7 @@ $(document).ready(function () {
     let idCompany = sessionStorage.getItem('id_company');
     let imgCompany = $('#formFile')[0].files[0];
 
-    company = new FormData(formCreateQCompany);
+    let company = new FormData(formCreateQCompany);
     company.append('idCompany', idCompany);
     company.append('img', imgCompany);
 

@@ -1,7 +1,7 @@
 fetch(`/api/dashboardExpensesGenerals`)
   .then((response) => response.text())
   .then((data) => {
-    data = JSON.parse(data);
+    let data = JSON.parse(data);
     generalIndicators(data.expense_value);
     averagePrices(data.details_prices);
     generalSales(data.details_prices);
@@ -41,7 +41,7 @@ generalIndicators = (data) => {
   $('#products').html(data.products.toLocaleString('es-ES'));
 
   /* Gastos generales */
-  totalExpense = 0;
+  let totalExpense = 0;
   for (i = 0; i < 3; i++) {
     totalExpense = totalExpense + data[i].expenseCount;
   }
@@ -50,8 +50,8 @@ generalIndicators = (data) => {
 
 /* Promedio rentabilidad y comision */
 averagePrices = (data) => {
-  profitability = 0;
-  commissionSale = 0;
+  let profitability = 0;
+  let commissionSale = 0;
 
   if (data.length > 0) {
     for (let i in data) {
@@ -59,8 +59,8 @@ averagePrices = (data) => {
       commissionSale = commissionSale + data[i].commission_sale;
     }
 
-    averageprofitability = profitability / data.length;
-    averagecommissionSale = commissionSale / data.length;
+    let averageprofitability = profitability / data.length;
+    let averagecommissionSale = commissionSale / data.length;
 
     $('#profitabilityAverage').html(`${averageprofitability.toFixed(2)} %`);
     $('#comissionAverage').html(`${averagecommissionSale.toFixed(2)} %`);
@@ -72,8 +72,8 @@ averagePrices = (data) => {
 
 /* Tiempos promedio */
 averagesTime = (data) => {
-  enlistmentTime = 0;
-  operationTime = 0;
+  let enlistmentTime = 0;
+  let operationTime = 0;
 
   if (data.length > 0) {
     for (let i in data) {
@@ -81,9 +81,9 @@ averagesTime = (data) => {
       operationTime = operationTime + data[i].operation_time;
     }
 
-    averageEnlistment = enlistmentTime / data.length;
-    averageOperation = operationTime / data.length;
-    averageTotal = averageEnlistment + averageOperation;
+    let averageEnlistment = enlistmentTime / data.length;
+    let averageOperation = operationTime / data.length;
+    let averageTotal = averageEnlistment + averageOperation;
 
     //Formato Alistamiento (. miles , 2 decimales)
     averageEnlistment = new Intl.NumberFormat('es-CO', {
@@ -114,8 +114,8 @@ averagesTime = (data) => {
 
 /* Ventas generales */
 generalSales = (data) => {
-  unitsSold = 0;
-  turnover = 0;
+  let unitsSold = 0;
+  let turnover = 0;
 
   if (data.length > 0) {
     for (let i in data) {

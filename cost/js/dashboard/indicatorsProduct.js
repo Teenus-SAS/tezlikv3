@@ -1,11 +1,11 @@
 $(document).ready(function () {
-  id_product = sessionStorage.getItem('idProduct');
+  let id_product = sessionStorage.getItem('idProduct');
 
   loadIndicatorsProducts = (id_product) => {
     fetch(`/api/dashboardPricesProducts/${id_product}`)
       .then((response) => response.text())
       .then((data) => {
-        data = JSON.parse(data);
+        let data = JSON.parse(data);
         generalIndicators(data.cost_product);
         UnitsVolSold(data.cost_product);
         totalCostData(data.cost_product);

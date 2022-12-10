@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportExternalServices').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileExternalServices').val();
+    let file = $('#fileExternalServices').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -106,9 +106,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsExternalServices').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
+    let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
     link.target = '_blank';
 
     link.href = url;

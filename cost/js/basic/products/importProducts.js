@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportProducts').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProducts').val();
+    let file = $('#fileProducts').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');

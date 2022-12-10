@@ -1,12 +1,11 @@
 $(document).ready(function () {
   let idProduct;
+  let dataExternalService = [];
 
   /* Ocultar panel Nuevo Servicio */
-
   $('.cardAddService').hide();
 
-  /* Abrir panel crear carga fabril */
-
+  /* Abrir panel crear servicio  */
   $('#btnNewService').click(function (e) {
     e.preventDefault();
 
@@ -16,37 +15,34 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_service');
 
-    $('#service').val('');
-    $('#costService').val('');
+    $('#formAddService').trigger(eventType);
   });
 
   /* Seleccionar producto */
-
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     idProduct = $('#selectNameProduct').val();
   });
 
   /* Adicionar nueva carga fabril */
-
   $('#btnAddService').click(function (e) {
     e.preventDefault();
 
     let idService = sessionStorage.getItem('id_service');
 
     if (idService == '' || idService == null) {
-      idProduct = parseInt($('#selectNameProduct').val());
-      service = $('#service').val();
-      cost = parseInt($('#costService').val());
+      let idProduct = parseInt($('#selectNameProduct').val());
+      let service = $('#service').val();
+      let cost = parseInt($('#costService').val());
 
-      data = idProduct * cost;
+      let data = idProduct * cost;
 
       if (!data || service == '' || service == 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      externalServices = $('#formAddService').serialize();
+      let externalServices = $('#formAddService').serialize();
 
       externalServices = externalServices + '&idProduct=' + idProduct;
 
@@ -88,7 +84,7 @@ $(document).ready(function () {
   updateExternalService = () => {
     let data = $('#formAddService').serialize();
     idProduct = $('#selectNameProduct').val();
-    idService = sessionStorage.getItem('id_service');
+    let idService = sessionStorage.getItem('id_service');
 
     data = data + '&idService=' + idService + '&idProduct=' + idProduct;
 
@@ -109,7 +105,6 @@ $(document).ready(function () {
 
     let idService = data.id_service;
 
-    dataExternalService = {};
     dataExternalService['idService'] = idService;
     dataExternalService['idProduct'] = $('#selectNameProduct').val();
 

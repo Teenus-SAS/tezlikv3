@@ -1,6 +1,5 @@
 $(document).ready(function () {
   $.ajax({
-    type: 'GET',
     url: '/api/quotesCompanies',
     success: function (r) {
       let $select = $(`#company`);

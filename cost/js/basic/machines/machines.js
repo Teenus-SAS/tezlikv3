@@ -1,11 +1,10 @@
 $(document).ready(function () {
+  let dataMachine = [];
   /* Ocultar panel para crear Machinees */
-
   $('.cardCreateMachines').hide();
   $('#depreciationMinute').prop('disabled', true);
 
   /* Abrir panel para crear Machinees */
-
   $('#btnNewMachine').click(function (e) {
     e.preventDefault();
     $('.cardCreateMachines').toggle(800);
@@ -22,18 +21,18 @@ $(document).ready(function () {
     e.preventDefault();
     let idMachine = sessionStorage.getItem('id_machine');
     if (idMachine == '' || idMachine == null) {
-      Machine = $('#machine').val();
-      hoursMachine = $('#hoursMachine').val();
-      daysMachine = $('#daysMachine').val();
+      let Machine = $('#machine').val();
+      let hoursMachine = $('#hoursMachine').val();
+      let daysMachine = $('#daysMachine').val();
 
-      data = hoursMachine * daysMachine;
+      let data = hoursMachine * daysMachine;
 
       if (Machine == '' || Machine == null || data == null || data <= 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      machine = $('#formCreateMachine').serialize();
+      let machine = $('#formCreateMachine').serialize();
 
       $.post('/api/addMachines', machine, function (data, textStatus, jqXHR) {
         message(data);
@@ -48,8 +47,8 @@ $(document).ready(function () {
   $(document).on('click', '.updateMachines', function (e) {
     $('.cardCreateMachines').show(800);
     $('#btnCreateMachine').html('Actualizar');
-    idMachine = this.id;
-    idMachine = sessionStorage.setItem('id_machine', idMachine);
+    let idMachine = this.id;
+    sessionStorage.setItem('id_machine', idMachine);
 
     let row = $(this).parent().parent()[0];
     let data = tblMachines.fnGetData(row);
@@ -59,7 +58,7 @@ $(document).ready(function () {
     $('#residualValue').val(data.residual_value.toLocaleString());
     $('#depreciationYears').val(data.years_depreciation);
 
-    hours_machine = data.hours_machine;
+    let hours_machine = data.hours_machine;
 
     if (hours_machine.isInteger) hours_machine = hours_machine.toLocaleString();
     else
@@ -80,7 +79,7 @@ $(document).ready(function () {
 
   updateMachine = () => {
     let data = $('#formCreateMachine').serialize();
-    idMachine = sessionStorage.getItem('id_machine');
+    let idMachine = sessionStorage.getItem('id_machine');
 
     data = data + '&idMachine=' + idMachine;
     $.post('/api/updateMachines', data, function (data, textStatus, jqXHR) {
@@ -94,7 +93,6 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblMachines.fnGetData(row);
 
-    dataMachine = [];
     dataMachine['idMachine'] = data.id_machine;
 
     bootbox.confirm({

@@ -11,7 +11,7 @@ $(document).ready(function () {
 
   $('#refProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     loadDataProduct(id);
@@ -19,14 +19,14 @@ $(document).ready(function () {
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     loadDataProduct(id);
   });
 
   loadDataProduct = async (id) => {
-    data = await searchData(`/api/productCost/${id}`);
+    let data = await searchData(`/api/productCost/${id}`);
 
     if (data.price == false) {
       price = 0;
@@ -43,7 +43,7 @@ $(document).ready(function () {
 
   /* Calcular precio total */
   $(document).on('click keyup', '.calcPrice', function (e) {
-    id = this.id;
+    let id = this.id;
 
     if (id.includes('price')) {
       let idProduct = $('#refProduct').val();
@@ -113,7 +113,7 @@ $(document).ready(function () {
     let discount = $('#discount').val();
     let totalPrice = $('#totalPrice').val();
 
-    product = {
+    let product = {
       idProduct: idProduct,
       ref: ref.trim(),
       nameProduct: nameProduct.trim(),
@@ -140,7 +140,7 @@ $(document).ready(function () {
   $(document).on('click', '.deleteProduct', function (e) {
     e.preventDefault();
 
-    id = this.id;
+    let id = this.id;
     products.splice(id, 1);
     addProducts();
   });

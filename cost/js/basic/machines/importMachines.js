@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportMachines').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileMachines').val();
+    let file = $('#fileMachines').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -107,9 +107,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsMachines').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Maquinas.xlsx';
+    let url = 'assets/formatsXlsx/Maquinas.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
 
     link.target = '_blank';
 

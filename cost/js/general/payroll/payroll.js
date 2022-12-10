@@ -1,6 +1,7 @@
 $(document).ready(function () {
-  /* Ocultar panel Nueva carga fabril */
+  let dataPayroll = [];
 
+  /* Ocultar panel Nueva carga fabril */
   $('.cardCreatePayroll').hide();
   $('#factor').prop('disabled', true);
 
@@ -23,22 +24,6 @@ $(document).ready(function () {
     $('#formCreatePayroll').trigger('reset');
   });
 
-  /* Mostrar factor prestacional */
-
-  $(document).on('change', '#typeFactor', function (e) {
-    $('#factor').prop('disabled', true);
-
-    if (this.value == 0) 'Seleccione una opción';
-    else if (this.value == 1) value = 38.35;
-    else if (this.value == 2) value = 0;
-    else if (this.value == 3) {
-      $('#factor').prop('disabled', false);
-      value = $('#factor').val();
-    }
-
-    $('#factor').val(value);
-  });
-
   /* Agregar nueva carga nomina */
 
   $('#btnCreatePayroll').click(function (e) {
@@ -46,21 +31,21 @@ $(document).ready(function () {
     let idPayroll = sessionStorage.getItem('id_payroll');
 
     if (idPayroll == '' || idPayroll == null) {
-      employee = $('#employee').val();
-      process = parseInt($('#idProcess').val());
+      let employee = $('#employee').val();
+      let process = parseInt($('#idProcess').val());
 
-      salary = $('#basicSalary').val();
-      transport = $('#transport').val();
-      endowment = $('#endowment').val();
-      extraT = $('#extraTime').val();
-      bonification = $('#bonification').val();
+      let salary = $('#basicSalary').val();
+      let transport = $('#transport').val();
+      let endowment = $('#endowment').val();
+      let extraT = $('#extraTime').val();
+      let bonification = $('#bonification').val();
 
-      workingHD = parseInt($('#workingHoursDay').val());
-      workingDM = parseInt($('#workingDaysMonth').val());
+      let workingHD = parseInt($('#workingHoursDay').val());
+      let workingDM = parseInt($('#workingDaysMonth').val());
       //factor = parseInt($('#typeFactor').val());
 
-      data = process * workingDM * workingHD;
-      income = salary * transport * endowment * extraT * bonification;
+      let data = process * workingDM * workingHD;
+      let income = salary * transport * endowment * extraT * bonification;
 
       if (!data || income == null || process == '' || process == 0) {
         toastr.error('Ingrese todos los campos');
@@ -69,7 +54,7 @@ $(document).ready(function () {
 
       $('#factor').prop('disabled', false);
 
-      payroll = $('#formCreatePayroll').serialize();
+      let payroll = $('#formCreatePayroll').serialize();
 
       $.post('/api/addPayroll', payroll, function (data, textStatus, jqXHR) {
         $('#factor').prop('disabled', true);
@@ -88,8 +73,8 @@ $(document).ready(function () {
     $('#createPayroll').modal('show');
     $('#btnCreatePayroll').html('Actualizar');
 
-    idPayroll = this.id;
-    idPayroll = sessionStorage.setItem('id_payroll', idPayroll);
+    let idPayroll = this.id;
+    sessionStorage.setItem('id_payroll', idPayroll);
 
     let row = $(this).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
@@ -127,7 +112,7 @@ $(document).ready(function () {
   updatePayroll = () => {
     $('#factor').prop('disabled', false);
     let data = $('#formCreatePayroll').serialize();
-    idPayroll = sessionStorage.getItem('id_payroll');
+    let idPayroll = sessionStorage.getItem('id_payroll');
     data = `${data}&idPayroll=${idPayroll}`;
 
     $.post('/api/updatePayroll', data, function (data, textStatus, jqXHR) {
@@ -143,7 +128,6 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
 
-    dataPayroll = [];
     dataPayroll['idPayroll'] = data.id_payroll;
     dataPayroll['idProcess'] = data.id_process;
 
@@ -194,23 +178,4 @@ $(document).ready(function () {
     $('#tblPayroll').DataTable().clear();
     $('#tblPayroll').DataTable().ajax.reload();
   }
-
-  $(document).on('keyup', '#workingHoursDay', function (e) {
-    debugger;
-    value = this.value;
-    if (value > 16) {
-      toastr.error('El número de horas por dia no puede ser mayor a 16');
-      $('#workingHoursDay').val('');
-      return false;
-    }
-  });
-
-  $(document).on('keyup', '#workingDaysMonth', function (e) {
-    value = this.value;
-    if (value > 31) {
-      toastr.error('El número de días por mes no puede ser mayor a 31');
-      $('#workingDaysMonth').val('');
-      return false;
-    }
-  });
 });

@@ -8,7 +8,6 @@ $(document).ready(function () {
   $('#btnNewMethod').click(function (e) {
     e.preventDefault();
 
-    // $('.cardImportProcess').hide(800);
     $('.cardCreateMethod').toggle(800);
     $('#btnCreateMethod').html('Crear');
 
@@ -25,18 +24,18 @@ $(document).ready(function () {
     let idMethod = sessionStorage.getItem('id_method');
 
     if (idMethod == '' || idMethod == null) {
-      method = $('#method').val();
+      let method = $('#method').val();
 
       if (method == '' || method == 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      method = $('#formCreateMethod').serialize();
+      let data = $('#formCreateMethod').serialize();
 
       $.post(
         '../../api/addPaymentMethod',
-        method,
+        data,
         function (data, textStatus, jqXHR) {
           message(data);
         }
@@ -49,7 +48,6 @@ $(document).ready(function () {
   /* Actualizar metodos */
 
   $(document).on('click', '.updatePaymentMethod', function (e) {
-    // $('.cardImportProcess').hide(800);
     $('.cardCreateMethod').show(800);
     $('#btnCreateMethod').html('Actualizar');
 
@@ -69,7 +67,7 @@ $(document).ready(function () {
 
   updatePaymentMethod = () => {
     let data = $('#formCreateMethod').serialize();
-    idMethod = sessionStorage.getItem('id_method');
+    let idMethod = sessionStorage.getItem('id_method');
     data = data + '&idMethod=' + idMethod;
 
     $.post(

@@ -92,10 +92,6 @@
 	<script src="/cost/js/quotes/quotes.js"></script>
 	<script src="/cost/js/quotes/addProduct.js"></script>
 	<script src="/cost/js/quotes/tblQuotes.js"></script>
-	<!-- <script src="../global/js/import/import.js"></script>
-    <script src="/cost/js/basic/Quotes/importQuotes.js"></script>
-    <script src="../global/js/import/file.js"></script>
-    <script src="../global/js/global/validateImgExt.js"></script> -->
 </body>
 
 </html>

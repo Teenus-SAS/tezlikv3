@@ -85,8 +85,8 @@
                                                 <label for=""></label>
                                                 <select class="form-control" name="idProcess" id="idProcess"></select>
                                                 <select class="form-control" name="idMachine" id="idMachine"></select>
-                                                <input class="form-control text-center number" type="text" name="enlistmentTime" id="enlistmentTime">
-                                                <input class="form-control text-center number" type="text" name="operationTime" id="operationTime">
+                                                <input class="form-control text-center number time" type="text" name="enlistmentTime" id="enlistmentTime">
+                                                <input class="form-control text-center number time" type="text" name="operationTime" id="operationTime">
                                                 <input class="form-control text-center number" type="text" name="totalTime" id="totalTime" disabled>
                                                 <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
                                             </div>

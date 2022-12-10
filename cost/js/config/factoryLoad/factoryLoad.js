@@ -1,11 +1,11 @@
 $(document).ready(function () {
-  /* Ocultar panel Nueva carga fabril */
+  let dataFactoryLoad = [];
 
+  /* Ocultar panel Nueva carga fabril */
   $('.cardFactoryLoad').hide();
   $('#costMinute').prop('disabled', true);
 
   /* Abrir panel crear carga fabril */
-
   $('#btnNewFactoryLoad').click(function (e) {
     e.preventDefault();
 
@@ -15,10 +15,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_manufacturing_load');
 
-    $('#idMachine option:contains(Seleccionar)').prop('selected', true);
-    $('#descriptionFactoryLoad').val('');
-    $('#costFactory').val('');
-    $('#costMinute').val('');
+    $('#formNewFactoryLoad').trigger('reset');
   });
 
   /* Adicionar nueva carga fabril */
@@ -28,7 +25,7 @@ $(document).ready(function () {
     let idManufacturingLoad = sessionStorage.getItem('id_manufacturing_load');
 
     if (idManufacturingLoad == '' || idManufacturingLoad == null) {
-      valueMinute = parseInt($('#costMinute').val());
+      let valueMinute = parseInt($('#costMinute').val());
 
       if (valueMinute == '' || valueMinute == 0) {
         toastr.error('El costo de la carga fabril debe ser mayor a cero');
@@ -36,7 +33,7 @@ $(document).ready(function () {
       }
 
       $('#costMinute').prop('disabled', false);
-      factoryLoad = $('#formNewFactoryLoad').serialize();
+      let factoryLoad = $('#formNewFactoryLoad').serialize();
 
       $.post(
         '../../api/addFactoryLoad',
@@ -78,7 +75,7 @@ $(document).ready(function () {
   updateFactoryLoad = () => {
     $('#costMinute').prop('disabled', false);
     let data = $('#formNewFactoryLoad').serialize();
-    idManufacturingLoad = sessionStorage.getItem('id_manufacturing_load');
+    let idManufacturingLoad = sessionStorage.getItem('id_manufacturing_load');
     data = data + '&idManufacturingLoad=' + idManufacturingLoad;
 
     $.post(
@@ -99,9 +96,8 @@ $(document).ready(function () {
 
     let id_manufacturing_load = data.id_manufacturing_load;
 
-    idMachine = data.id_machine;
+    let idMachine = data.id_machine;
 
-    dataFactoryLoad = {};
     dataFactoryLoad['idManufacturingLoad'] = id_manufacturing_load;
     dataFactoryLoad['idMachine'] = idMachine;
 

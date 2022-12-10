@@ -10,7 +10,7 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/materials',
     success: function (r) {
-      dataMaterials = JSON.stringify(r);
+      let dataMaterials = JSON.stringify(r);
       sessionStorage.setItem('dataMaterials', dataMaterials);
 
       let $select = $(`#material`);

@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportProductsProcess').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProductsProcess').val();
+    let file = $('#fileProductsProcess').val();
     if (!file) {
       toastr.error('Seleccione un archivo');
       return false;
@@ -106,9 +106,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsProductsProcess').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
+    let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
     link.target = '_blank';
 
     link.href = url;

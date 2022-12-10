@@ -1,10 +1,8 @@
 $(document).ready(function () {
   /* Ocultar panel crear producto */
-
   $('.cardCreateProcess').hide();
 
   /* Abrir panel crear producto */
-
   $('#btnNewProcess').click(function (e) {
     e.preventDefault();
 
@@ -25,22 +23,18 @@ $(document).ready(function () {
     let idProcess = sessionStorage.getItem('id_process');
 
     if (idProcess == '' || idProcess == null) {
-      process = $('#process').val();
+      let process = $('#process').val();
 
       if (process == '' || process == 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      process = $('#formCreateProcess').serialize();
+      let data = $('#formCreateProcess').serialize();
 
-      $.post(
-        '../../api/addProcess',
-        process,
-        function (data, textStatus, jqXHR) {
-          message(data);
-        }
-      );
+      $.post('../../api/addProcess', data, function (data, textStatus, jqXHR) {
+        message(data);
+      });
     } else {
       updateProcess();
     }
@@ -69,7 +63,7 @@ $(document).ready(function () {
 
   updateProcess = () => {
     let data = $('#formCreateProcess').serialize();
-    idProcess = sessionStorage.getItem('id_process');
+    let idProcess = sessionStorage.getItem('id_process');
     data = data + '&idProcess=' + idProcess;
 
     $.post('../../api/updateProcess', data, function (data, textStatus, jqXHR) {

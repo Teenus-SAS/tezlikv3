@@ -28,9 +28,9 @@ $(document).ready(function () {
     let idUser = sessionStorage.getItem('id_user');
 
     if (idUser == '' || idUser == null) {
-      nameUser = $('#nameUser').val();
-      lastnameUser = $('#lastnameUser').val();
-      emailUser = $('#emailUser').val();
+      let nameUser = $('#nameUser').val();
+      let lastnameUser = $('#lastnameUser').val();
+      let emailUser = $('#emailUser').val();
 
       if (
         nameUser == '' ||
@@ -51,7 +51,7 @@ $(document).ready(function () {
 
       /* Obtener los checkbox seleccionados */
 
-      dataUser = {};
+      let dataUser = [];
       dataUser['nameUser'] = nameUser;
       dataUser['lastnameUser'] = lastnameUser;
       dataUser['emailUser'] = emailUser;
@@ -86,7 +86,7 @@ $(document).ready(function () {
     $('#lastnameUser').val(data.lastname);
     $('#emailUser').val(data.email);
 
-    access = {
+    let access = {
       costCreateProducts: data.create_product,
       costCreateMaterials: data.create_materials,
       costCreateMachines: data.create_machines,
@@ -128,7 +128,7 @@ $(document).ready(function () {
   updateUserAccess = () => {
     idUser = sessionStorage.getItem('id_user');
 
-    dataUser = {};
+    let dataUser = [];
     dataUser['idUser'] = idUser;
     dataUser['nameUser'] = $('#nameUser').val();
     dataUser['lastnameUser'] = $('#lastnameUser').val();
@@ -188,8 +188,7 @@ $(document).ready(function () {
 
     let idUser = data.id_user;
     let factoryLoad = data.factory_load;
-    dataUser = {};
-    // dataUser['idUser'] = idUser;
+    let dataUser = [];
     dataUser['idUser'] = idUser;
     dataUser['factoryLoad'] = factoryLoad;
 

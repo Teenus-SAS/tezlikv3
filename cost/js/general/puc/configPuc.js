@@ -1,14 +1,6 @@
 $(document).ready(function () {
-  // $('.cardCreateExpenses').hide();
-
-  // $('#btnNewExpense').click(function (e) {
-  //   e.preventDefault();
-  //   $('.cardCreateExpenses').toggle(800);
-  // });
-
   $.ajax({
-    type: 'GET',
-    url: '../../api/puc',
+    url: '/api/puc',
     success: function (r) {
       let $select1 = $(`#idPuc`);
       $select1.empty();

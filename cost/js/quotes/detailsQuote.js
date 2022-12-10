@@ -2,7 +2,7 @@ $(document).ready(function () {
   let idQuote = sessionStorage.getItem('id_quote');
 
   fetchindata = async () => {
-    data = await searchData(`/api/quote/${idQuote}`);
+    let data = await searchData(`/api/quote/${idQuote}`);
 
     loadDataQuote(data.quote);
     loadDataQuoteProducts(data.quotesProducts);
@@ -61,9 +61,9 @@ $(document).ready(function () {
     `
       );
 
-      subtotalPrice =
+      let subtotalPrice =
         data[i].quantity * data[i].price * (1 - data[i].discount / 100);
-      subtotal = subtotal + subtotalPrice;
+      let subtotal = subtotal + subtotalPrice;
     }
 
     $('#subtotal').html(`$ ${parseInt(subtotal).toLocaleString()}`);
@@ -79,8 +79,8 @@ $(document).ready(function () {
   });
 
   function printDiv() {
-    var printContents = document.getElementById('invoice').innerHTML;
-    var document_html = window.open('_blank');
+    let printContents = document.getElementById('invoice').innerHTML;
+    let document_html = window.open('_blank');
     document_html.document.write('<html><head><title></title>');
     document_html.document.write(`
        <link href="/assets/css/app.css" rel="stylesheet">

@@ -84,7 +84,7 @@ $(document).ready(function () {
     let idProduct = id.slice(8, id.length);
 
     if ($(`#${id}`).is(':checked')) {
-      planeacion = {
+      let planeacion = {
         idProduct: idProduct,
       };
 

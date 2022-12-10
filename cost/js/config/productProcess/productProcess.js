@@ -1,5 +1,7 @@
 $(document).ready(function () {
   let idProduct;
+  let dataProductProcess = [];
+
   /* Ocultar panel crear producto */
 
   $('.cardAddProcess').hide();
@@ -15,12 +17,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product_process');
 
-    $('#idProcess option:contains(Seleccionar)').prop('selected', true);
-    $('#idMachine option:contains(Seleccionar)').prop('selected', true);
-
-    $('#enlistmentTime').val('');
-    $('#operationTime').val('');
-    $('#totalTime').val('');
+    $('#formAddProcess').trigger('reset');
   });
 
   /* Seleccionar producto */
@@ -32,30 +29,17 @@ $(document).ready(function () {
 
   /* calcular el tiempo total proceso */
 
-  $(document).on('click keyup', '#enlistmentTime', function (e) {
-    tOperation = $('#operationTime').val();
+  $(document).on('click keyup', '.time', function (e) {
+    let tOperation = $('#operationTime').val();
+    let tEnlistment = $('#enlistmentTime').val();
 
     tOperation == '' ? (tOperation = '0') : tOperation;
     tOperation = replaceNumber(tOperation);
 
-    this.value == '' ? (this.value = '0') : this.value;
-    tEnlistment = replaceNumber(this.value);
-
-    let val = parseFloat(tEnlistment) + parseFloat(tOperation);
-    val = validateNumber(val);
-    $('#totalTime').val(val);
-  });
-
-  $(document).on('click keyup', '#operationTime', function (e) {
-    tEnlistment = $('#enlistmentTime').val();
-
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
     tEnlistment = replaceNumber(tEnlistment);
 
-    this.value == '' ? (this.value = '0') : this.value;
-    operationTime = replaceNumber(this.value);
-
-    let val = parseFloat(operationTime) + parseFloat(tEnlistment);
+    let val = parseFloat(tEnlistment) + parseFloat(tOperation);
     val = validateNumber(val);
     $('#totalTime').val(val);
   });
@@ -74,21 +58,19 @@ $(document).ready(function () {
 
     if (idProductProcess == '' || idProductProcess == null) {
       idProduct = parseInt($('#selectNameProduct').val());
-      refP = parseInt($('#idProcess').val());
-      refM = parseInt($('#idMachine').val());
+      let refP = parseInt($('#idProcess').val());
+      let refM = parseInt($('#idMachine').val());
 
-      enlisT = parseInt($('#enlistmentTime').val());
-      operT = parseInt($('#operationTime').val());
-      totalTime = parseInt($('#totalTime').val());
+      let totalTime = parseInt($('#totalTime').val());
 
-      data = idProduct * refP;
+      let data = idProduct * refP;
 
       if (!data || isNaN(refM) || totalTime == 0 || totalTime == '') {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      productProcess = $('#formAddProcess').serialize();
+      let productProcess = $('#formAddProcess').serialize();
 
       productProcess = productProcess + '&idProduct=' + idProduct;
       $.post(
@@ -120,10 +102,10 @@ $(document).ready(function () {
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
 
-    enlistment_time = validateNumber(data.enlistment_time);
+    let enlistment_time = validateNumber(data.enlistment_time);
     $('#enlistmentTime').val(enlistment_time);
 
-    operation_time = validateNumber(data.operation_time);
+    let operation_time = validateNumber(data.operation_time);
     $('#operationTime').val(operation_time);
 
     $('#enlistmentTime').click();
@@ -150,7 +132,7 @@ $(document).ready(function () {
   updateProcess = () => {
     let data = $('#formAddProcess').serialize();
     idProduct = $('#selectNameProduct').val();
-    idProductProcess = sessionStorage.getItem('id_product_process');
+    let idProductProcess = sessionStorage.getItem('id_product_process');
 
     data =
       data +
@@ -176,7 +158,6 @@ $(document).ready(function () {
 
     let idProductProcess = data.id_product_process;
     idProduct = $('#selectNameProduct').val();
-    dataProductProcess = {};
     dataProductProcess['idProductProcess'] = idProductProcess;
     dataProductProcess['idProduct'] = idProduct;
 
@@ -212,7 +193,6 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
-      // $('.cardCreateRawProcesss').toggle(800);
       $('.cardAddProcess').hide(800);
       $('#formAddProcess').trigger('reset');
       updateTable();

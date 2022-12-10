@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportProcess').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileProcess').val();
+    let file = $('#fileProcess').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -40,7 +40,6 @@ $(document).ready(function () {
 
   /* Mensaje de advertencia */
   checkProcess = (data) => {
-    debugger;
     $.ajax({
       type: 'POST',
       url: '/api/processDataValidation',
@@ -103,9 +102,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsProcess').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Procesos.xlsx';
+    let url = 'assets/formatsXlsx/Procesos.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
 
     link.target = '_blank';
 

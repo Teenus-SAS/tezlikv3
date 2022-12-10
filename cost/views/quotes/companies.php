@@ -50,33 +50,6 @@
                     </div>
                 </div>
 
-                <!-- <div class="page-content-wrapper mt--45 mb-5 cardImportCompanies">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <form id="formImportCompany" enctype="multipart/form-data">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="gridx4ip">
-                                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                                    <input class="form-control" type="file" id="fileCompanies" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label"> Importar Compañias</label>
-                                                </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportCompanies">Importar</button>
-                                                </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsCompanies">Descarga Formato</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> -->
-
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">

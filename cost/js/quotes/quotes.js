@@ -79,7 +79,7 @@ $(document).ready(function () {
   /* Actualizar Cotizaciones */
 
   $(document).on('click', '.updateQuote', function (e) {
-    idQuote = this.id;
+    let idQuote = this.id;
     sessionStorage.setItem('id_quote', idQuote);
 
     let row = $(this).parent().parent()[0];
@@ -122,7 +122,7 @@ $(document).ready(function () {
   };
 
   updateQuote = () => {
-    idQuote = sessionStorage.getItem('id_quote');
+    let idQuote = sessionStorage.getItem('id_quote');
 
     if (products.length == 0) {
       toastr.error('Seleccione por lo menos un producto a adicionar');

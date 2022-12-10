@@ -10,8 +10,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_expense');
 
-    $('#idPuc option:contains(Seleccionar)').prop('selected', true);
-    $('#expenseValue').val('');
+    $('#formCreateExpenses').trigger('reset');
   });
 
   $('#btnCreateExpense').click(function (e) {
@@ -20,17 +19,17 @@ $(document).ready(function () {
     let idExpense = sessionStorage.getItem('id_expense');
 
     if (idExpense == '' || idExpense == null) {
-      puc = parseInt($('#idPuc').val());
-      value = parseInt($('#expenseValue').val());
+      let puc = parseInt($('#idPuc').val());
+      let value = parseInt($('#expenseValue').val());
 
-      data = puc * value;
+      let data = puc * value;
 
       if (!data) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      expenses = $('#formCreateExpenses').serialize();
+      let expenses = $('#formCreateExpenses').serialize();
 
       $.post('/api/addExpenses', expenses, function (data, textStatus, jqXHR) {
         message(data);
@@ -66,7 +65,7 @@ $(document).ready(function () {
 
   updateExpenses = () => {
     let data = $('#formCreateExpenses').serialize();
-    idExpense = sessionStorage.getItem('id_expense');
+    let idExpense = sessionStorage.getItem('id_expense');
     data = data + '&idExpense=' + idExpense;
 
     $.post(

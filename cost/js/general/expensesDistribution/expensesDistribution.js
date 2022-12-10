@@ -1,10 +1,10 @@
 $(document).ready(function () {
-  /* Ocultar table de ingreso de datos volumen y unidades */
+  let dataExpensesDistribution = [];
 
+  /* Ocultar table de ingreso de datos volumen y unidades */
   $('.cardExpensesDistribution').hide();
 
   /* Abrir ventana para ingresar el volumen dy unidades de ventas para calcular gastos atribuibles al producto */
-
   $('#btnExpensesDistribution').click(function (e) {
     e.preventDefault();
 
@@ -14,10 +14,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_expenses_distribution');
 
-    $('#refProduct option:contains(Seleccionar)').prop('selected', true);
-    $('#selectNameProduct option:contains(Seleccionar)').prop('selected', true);
-    $('#undVendidas').val('');
-    $('#volVendidas').val('');
+    $('#formExpensesDistribution').trigger('reset');
   });
 
   $('#btnAssignExpenses').click(function (e) {
@@ -27,20 +24,20 @@ $(document).ready(function () {
     );
 
     if (idExpensesDistribution == '' || idExpensesDistribution == null) {
-      refProduct = parseInt($('#refProduct').val());
-      nameProduct = parseInt($('#selectNameProduct').val());
-      unitExp = parseInt($('#undVendidas').val());
-      volExp = parseInt($('#volVendidas').val());
+      let refProduct = parseInt($('#refProduct').val());
+      let nameProduct = parseInt($('#selectNameProduct').val());
+      let unitExp = parseInt($('#undVendidas').val());
+      let volExp = parseInt($('#volVendidas').val());
 
-      data = refProduct * nameProduct;
-      exp = unitExp * volExp;
+      let data = refProduct * nameProduct;
+      let exp = unitExp * volExp;
 
       if (!data || exp == null) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      expensesDistribution = $('#formExpensesDistribution').serialize();
+      let expensesDistribution = $('#formExpensesDistribution').serialize();
 
       $.post(
         '../../api/addExpensesDistribution',
@@ -88,8 +85,10 @@ $(document).ready(function () {
 
   updateExpensesDistribution = () => {
     let data = $('#formExpensesDistribution').serialize();
-    assignableExpense = $('#assignableExpense').val();
-    idExpensesDistribution = sessionStorage.getItem('id_expenses_distribution');
+    let assignableExpense = $('#assignableExpense').val();
+    let idExpensesDistribution = sessionStorage.getItem(
+      'id_expenses_distribution'
+    );
     data =
       data +
       '&assignableExpense=' +
@@ -116,7 +115,6 @@ $(document).ready(function () {
 
     let idProduct = data.id_product;
 
-    dataExpensesDistribution = {};
     dataExpensesDistribution['idExpensesDistribution'] =
       id_expenses_distribution;
     dataExpensesDistribution['selectNameProduct'] = idProduct;

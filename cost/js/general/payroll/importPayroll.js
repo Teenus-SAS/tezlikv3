@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportPayroll').click(function (e) {
     e.preventDefault();
 
-    file = $('#filePayroll').val();
+    let file = $('#filePayroll').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -112,9 +112,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsPayroll').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Carga_Nomina.xlsx';
+    let url = 'assets/formatsXlsx/Carga_Nomina.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
     link.target = '_blank';
 
     link.href = url;

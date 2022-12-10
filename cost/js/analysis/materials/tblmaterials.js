@@ -2,7 +2,7 @@ $(document).ready(function () {
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     getDataMaterials(id);
@@ -10,7 +10,7 @@ $(document).ready(function () {
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     getDataMaterials(id);
@@ -18,7 +18,7 @@ $(document).ready(function () {
 
   /* Cargar datos de proyectos */
   getDataMaterials = async (id) => {
-    data = await searchData(`/api/rawMaterials/${id}`);
+    let data = await searchData(`/api/rawMaterials/${id}`);
 
     if ($.fn.dataTable.isDataTable('#tblMaterials')) {
       $('#tblMaterials').DataTable().destroy();

@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   $('#refProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).attr('selected', true);
     loadtableExternalServices(id);
@@ -11,7 +11,7 @@ $(document).ready(function () {
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).attr('selected', true);
     loadtableExternalServices(id);

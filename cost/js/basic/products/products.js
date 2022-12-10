@@ -1,8 +1,6 @@
 $(document).ready(function () {
   /* Ocultar panel crear producto */
-
   $('.cardCreateProduct').hide();
-
   /* Abrir panel crear producto */
 
   $('#btnNewProduct').click(function (e) {
@@ -14,11 +12,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product');
 
-    $('#referenceProduct').val('');
-    $('#product').val('');
-    $('#profitability').val('');
-    $('#commisionSale').val('');
-    $('#formFile').val('');
+    $('#formCreateProduct').trigger('reset');
   });
 
   /* Crear producto */
@@ -28,10 +22,10 @@ $(document).ready(function () {
     let idProduct = sessionStorage.getItem('id_product');
 
     if (idProduct == '' || idProduct == null) {
-      ref = $('#referenceProduct').val();
-      prod = $('#product').val();
-      prof = $('#profitability').val();
-      comission = $('#commisionSale').val();
+      let ref = $('#referenceProduct').val();
+      let prod = $('#product').val();
+      let prof = $('#profitability').val();
+      let comission = $('#commisionSale').val();
 
       if (
         ref == '' ||
@@ -49,7 +43,7 @@ $(document).ready(function () {
 
       let imageProd = $('#formFile')[0].files[0];
 
-      dataProduct = new FormData(formCreateProduct);
+      let dataProduct = new FormData(formCreateProduct);
       dataProduct.append('img', imageProd);
 
       $.ajax({
@@ -80,8 +74,8 @@ $(document).ready(function () {
     $('.cardCreateProduct').show(800);
     $('#btnCreateProduct').html('Actualizar Producto');
 
-    idProduct = this.id;
-    idProduct = sessionStorage.setItem('id_product', idProduct);
+    let idProduct = this.id;
+    sessionStorage.setItem('id_product', idProduct);
 
     let row = $(this).parent().parent()[0];
     let data = tblProducts.fnGetData(row);
@@ -98,7 +92,7 @@ $(document).ready(function () {
     let idProduct = sessionStorage.getItem('id_product');
     let imageProd = $('#formFile')[0].files[0];
 
-    dataProduct = new FormData(formCreateProduct);
+    let dataProduct = new FormData(formCreateProduct);
     dataProduct.append('idProduct', idProduct);
     dataProduct.append('img', imageProd);
 

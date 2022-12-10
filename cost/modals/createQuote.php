@@ -155,7 +155,6 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody id="tableProductsQuoteBody">
-
                                                             </tbody>
                                                         </table>
                                                     </div>

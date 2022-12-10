@@ -1,7 +1,7 @@
 $(document).ready(function () {
   /* Cargar data compañia */
   loadCompanyData = async () => {
-    data = await searchData('/api/company');
+    let data = await searchData('/api/company');
 
     $('#company').html(data[0].company);
     $('#nit').html(data[0].nit);
@@ -17,7 +17,7 @@ $(document).ready(function () {
 
   /* Cargar Perfil de usuario */
   loadProfile = async () => {
-    data = await searchData('/api/user');
+    let data = await searchData('/api/user');
 
     $('#profileName').html(data.firstname);
     $('#idUser').val(data.id_user);
@@ -34,12 +34,13 @@ $(document).ready(function () {
   $('#btnSaveProfile').click(function (e) {
     e.preventDefault();
 
-    firstname = $('#firstname').val();
-    lastname = $('#lastname').val();
+    let firstname = $('#firstname').val();
+    let lastname = $('#lastname').val();
     sessionStorage.setItem('name', firstname);
     sessionStorage.setItem('lastname', lastname);
-    password = $('#password').val();
-    conPassword = $('#conPassword').val();
+
+    let password = $('#password').val();
+    let conPassword = $('#conPassword').val();
 
     if (!firstname || firstname == '' || !lastname || lastname == '') {
       toastr.error('Ingrese todos los campos');
@@ -53,7 +54,7 @@ $(document).ready(function () {
 
     $('#email').prop('disabled', false);
     let imageProd = $('#formFile')[0].files[0];
-    dataProfile = new FormData(formSaveProfile);
+    let dataProfile = new FormData(formSaveProfile);
     dataProfile.append('avatar', imageProd);
     dataProfile.append('admin', 0);
 
@@ -73,8 +74,8 @@ $(document).ready(function () {
   /* Cargar notificación */
   message = (data) => {
     if (data.success == true) {
-      firstname = sessionStorage.getItem('name');
-      lastname = sessionStorage.getItem('lastname');
+      let firstname = sessionStorage.getItem('name');
+      let lastname = sessionStorage.getItem('lastname');
 
       sessionStorage.removeItem('name');
       sessionStorage.removeItem('lastname');

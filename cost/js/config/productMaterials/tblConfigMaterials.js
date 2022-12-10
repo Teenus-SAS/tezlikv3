@@ -1,9 +1,8 @@
 $(document).ready(function () {
   /* Seleccion producto */
-
   $('#refProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     loadtableMaterials(id);
@@ -11,7 +10,7 @@ $(document).ready(function () {
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     loadtableMaterials(id);

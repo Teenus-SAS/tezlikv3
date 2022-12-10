@@ -1,5 +1,6 @@
 $(document).ready(function () {
   let idProduct;
+  let dataProductMaterial = [];
 
   /* Ocultar panel crear producto */
 
@@ -16,9 +17,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product_material');
 
-    $('#material option:contains(Seleccionar)').prop('selected', true);
-    $('#quantity').val('');
-    $('#unity').val('');
+    $('#formAddMaterials').trigger('reset');
   });
 
   /* Seleccionar producto */
@@ -32,11 +31,11 @@ $(document).ready(function () {
 
   $('#material').change(function (e) {
     e.preventDefault();
-    id = this.value;
+    let id = this.value;
 
-    data = sessionStorage.getItem('dataMaterials');
+    let data = sessionStorage.getItem('dataMaterials');
     if (data) {
-      dataMaterials = JSON.parse(dataMaterials);
+      let dataMaterials = JSON.parse(dataMaterials);
       sessionStorage.removeItem('dataMaterials');
     }
 
@@ -56,18 +55,18 @@ $(document).ready(function () {
     let idProductMaterial = sessionStorage.getItem('id_product_material');
 
     if (idProductMaterial == '' || idProductMaterial == null) {
-      ref = $('#material').val();
-      quan = $('#quantity').val();
+      let ref = $('#material').val();
+      let quan = $('#quantity').val();
       idProduct = $('#selectNameProduct').val();
 
-      data = ref * quan * idProduct;
+      let data = ref * quan * idProduct;
 
       if (!data) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
-      productMaterial = $('#formAddMaterials').serialize();
+      let productMaterial = $('#formAddMaterials').serialize();
       productMaterial = productMaterial + '&idProduct=' + idProduct;
 
       $.post(
@@ -95,7 +94,7 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product_material', data.id_product_material);
     $(`#material option[value=${data.id_material}]`).prop('selected', true);
 
-    quantity = data.quantity;
+    let quantity = data.quantity;
 
     if (quantity.isInteger) quantity = quantity.toLocaleString();
     else
@@ -118,7 +117,7 @@ $(document).ready(function () {
   updateMaterial = () => {
     let data = $('#formAddMaterials').serialize();
     idProduct = $('#selectNameProduct').val();
-    idProductMaterial = sessionStorage.getItem('id_product_material');
+    let idProductMaterial = sessionStorage.getItem('id_product_material');
     data =
       data +
       '&idProductMaterial=' +
@@ -143,8 +142,7 @@ $(document).ready(function () {
 
     let idProductMaterial = data.id_product_material;
 
-    idProduct = $('#selectNameProduct').val();
-    dataProductMaterial = {};
+    let idProduct = $('#selectNameProduct').val();
     dataProductMaterial['idProductMaterial'] = idProductMaterial;
     dataProductMaterial['idProduct'] = idProduct;
 

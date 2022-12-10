@@ -17,7 +17,7 @@ $(document).ready(function () {
   $('#btnImportDistributionExpenses').click(function (e) {
     e.preventDefault();
 
-    file = $('#fileDistributionExpenses').val();
+    let file = $('#fileDistributionExpenses').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -106,9 +106,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsDistributionExpenses').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx';
+    let url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx';
 
-    link = document.createElement('a');
+    let link = document.createElement('a');
     link.target = '_blank';
 
     link.href = url;

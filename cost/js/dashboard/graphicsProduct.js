@@ -10,7 +10,7 @@ $(document).ready(function () {
   /* Costo del producto */
 
   graphicCostExpenses = (data) => {
-    costExpenses = [];
+    let costExpenses = [];
 
     costExpenses.push(data[0].cost_workforce);
     costExpenses.push(data[0].cost_materials);
@@ -74,9 +74,9 @@ $(document).ready(function () {
   // add $('#totalCostWorkforceEsp').html(`$ ${totalCost}`);
 
   graphicCostWorkforce = (data) => {
-    process = [];
-    workforce = [];
-    totalCost = 0;
+    let process = [];
+    let workforce = [];
+    let totalCost = 0;
 
     for (let i in data) {
       process.push(data[i].process);
@@ -144,9 +144,9 @@ $(document).ready(function () {
   // add $('#totalTimeProcess').html(`${total} min`);
 
   graphicCostTimeProcess = (data) => {
-    process = [];
-    totalTime = [];
-    total = 0;
+    let process = [];
+    let totalTime = [];
+    let total = 0;
 
     for (let i in data) {
       process.push(data[i].process);
@@ -208,10 +208,10 @@ $(document).ready(function () {
   /* Total Tiempos */
 
   graphicPromTime = (dataAvTime, dataCostTime) => {
-    timeData = [];
+    let timeData = [];
 
-    totalTime = 0;
-    totalTimeProm = 0;
+    let totalTime = 0;
+    let totalTimeProm = 0;
 
     for (let i in dataAvTime) {
       totalTimeProm += dataAvTime[i].enlistment_time;
@@ -224,7 +224,7 @@ $(document).ready(function () {
     timeData.push(totalTime);
     timeData.push(totalTimeProm);
 
-    total = totalTime + totalTimeProm;
+    let total = totalTime + totalTimeProm;
     total = new Intl.NumberFormat('es-CO', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
@@ -348,8 +348,8 @@ $(document).ready(function () {
   /* Costos de la materia prima */
 
   graphicCostMaterials = (data) => {
-    material = [];
-    totalMaterial = [];
+    let material = [];
+    let totalMaterial = [];
 
     for (let i in data) {
       material.push(data[i].material);
