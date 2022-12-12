@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataProducts = [];
+  let dataProducts = {};
 
   /* Inactivar productos */
   $(document).on('click', '.checkboxProduct', function () {

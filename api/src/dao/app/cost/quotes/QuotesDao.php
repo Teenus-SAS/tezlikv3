@@ -56,7 +56,8 @@ class QuotesDao
     public function findAllQuotesProductsByIdQuote($id_quote)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT qp.id_product AS idProduct, p.reference AS ref, p.product AS nameProduct, qp.quantity, qp.price, qp.discount, (qp.quantity * qp.price * (1- qp.discount / 100)) AS totalPrice
+        $stmt = $connection->prepare("SELECT qp.id_product AS idProduct, p.reference AS ref, p.product AS nameProduct, qp.quantity, FORMAT(qp.price, 0, 'de_DE') AS price, 
+                                             qp.discount, FORMAT((qp.quantity * qp.price * (1- qp.discount / 100)),0,'de_DE') AS totalPrice
                                       FROM quotes_products qp
                                         INNER JOIN products p ON p.id_product = qp.id_product
                                       WHERE qp.id_quote = :id_quote");

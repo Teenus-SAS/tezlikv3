@@ -28,17 +28,20 @@ $(document).ready(function () {
   loadDataProduct = async (id) => {
     let data = await searchData(`/api/productCost/${id}`);
 
-    if (data.price == false) {
-      price = 0;
-    } else {
-      sessionStorage.removeItem('price');
-      sessionStorage.setItem('price', parseInt(data.price));
-      price = parseInt(data.price).toLocaleString();
-    }
+    // if (data.price == false) {
+    //   price = 0;
+    // } else {
+    //   price = parseInt(data.price).toLocaleString();
+    // }
+
+    sessionStorage.removeItem('price');
+    sessionStorage.setItem('price', parseInt(data.price));
 
     $('#price').val(price);
 
     if (data.img) $('#imgProduct').attr('src', data.img);
+
+    $('#quantity').click();
   };
 
   /* Calcular precio total */
@@ -165,7 +168,9 @@ $(document).ready(function () {
             <td class="text-center">$ ${products[i].price}</td>
             <td class="text-center">${products[i].discount} %</td>
             <td class="text-center">$ ${products[i].totalPrice}</td>
-            <td class="text-center"><a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a></td>
+            <td class="text-center">
+              <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>
+            </td>
         </tr>`
       );
     }

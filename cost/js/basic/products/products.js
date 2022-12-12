@@ -29,13 +29,11 @@ $(document).ready(function () {
 
       if (
         ref == '' ||
-        ref == 0 ||
+        !ref ||
         prod == '' ||
-        prod == 0 ||
+        !prod ||
         prof == '' ||
-        prof == 0 ||
-        comission == '' ||
-        comission == 0
+        comission == ''
       ) {
         toastr.error('Ingrese todos los campos');
         return false;

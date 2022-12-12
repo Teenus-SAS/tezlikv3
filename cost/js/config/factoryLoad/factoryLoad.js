@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataFactoryLoad = [];
+  let dataFactoryLoad = {};
 
   /* Ocultar panel Nueva carga fabril */
   $('.cardFactoryLoad').hide();

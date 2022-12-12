@@ -1,8 +1,10 @@
 <?php
 
 use tezlikv3\dao\QuotesDao;
+use tezlikv3\dao\SendEmailDao;
 
 $quotesDao = new QuotesDao();
+$sendEmailDao = new SendEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -95,6 +97,23 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
         $resp = array('info' => true, 'message' => $quotes['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($sendEmailDao) {
+    session_start();
+    $email = $_SESSION['email'];
+
+    $dataQuote = $request->getParsedBody();
+
+    $quote = $sendEmailDao->SendEmailQuote($dataQuote, $email);
+
+    if ($quote == null)
+        $resp = array('success' => true, 'message' => 'Email de cotización enviada correctamente');
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al enviar el email. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

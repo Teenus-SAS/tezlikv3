@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataExpensesDistribution = [];
+  let dataExpensesDistribution = {};
 
   /* Ocultar table de ingreso de datos volumen y unidades */
   $('.cardExpensesDistribution').hide();

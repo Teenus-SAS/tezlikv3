@@ -1,6 +1,6 @@
 $(document).ready(function () {
   let idProduct;
-  let dataProductProcess = [];
+  let dataProductProcess = {};
 
   /* Ocultar panel crear producto */
 

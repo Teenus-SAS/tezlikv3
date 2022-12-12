@@ -1,3 +1,5 @@
+<?php include_once dirname(dirname(__DIR__)) . '/modals/sendEmailQuote.php' ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -34,11 +36,12 @@
 					<div class="card-body">
 						<div class="toolbar hidden-print">
 							<div class="d-flex justify-content-end">
-								<button class="btn btn-dark mr-2" id="btnImprimirQuote"><i class="fa fa-print"></i> Print</button>
-								<!-- <button class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Export as PDF</button> -->
+								<button class="btn btn-dark mr-2" id="btnImprimirQuote"><i class="fa fa-print"></i> Imprimir</button>
+								<button class="btn btn-danger" id="btnNewSend"><i class="fa fa-mail-bulk"></i> Enviar</button>
 							</div>
 							<hr>
 						</div>
+
 						<div id="invoice">
 							<div class="invoice overflow-auto">
 								<div style="min-width: 600px">
@@ -46,7 +49,7 @@
 										<div class="row">
 											<div class="col">
 												<a href="javascript:;">
-													<img id="companyImg" src="" width="80" alt="">
+													<img id="companyImg" src="" width="200" alt="">
 												</a>
 											</div>
 											<div class="col company-details">
@@ -131,10 +134,14 @@
 	<!-- Page End -->
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-	<script src="/cost/js/users/usersAccess.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+	<script src="/assets/libs/ckeditor/js/ckeditor.min.js"></script>
+	<script src="/assets/js/pages/compose-mail.init.js"></script>
+
 	<script src="/global/js/global/searchData.js"></script>
 
-	<script src="/cost/js/quotes/detailsQuote.js"></script>
+	<script src="/cost/js/quotes/detailsQuote/dataQuote.js"></script>
+	<script src="/cost/js/quotes/detailsQuote/generalQuote.js"></script>
 </body>
 
 </html>

@@ -89,4 +89,23 @@ class SendEmailDao
         // send email
         mail($to, "Soporte", $msg, $headers, $ccHeader);
     }
+
+    public function SendEmailQuote($dataQuote, $email)
+    {
+        $to = $dataQuote['header'];
+        $to .= $email;
+        if (isset($dataQuote['ccHeader']))
+            $ccHeader = $dataQuote['ccHeader'];
+        else $ccHeader = '';
+        // the message
+        $msg = $dataQuote['message'];
+
+        //headers
+        $headers = $dataQuote['subject'] . "\r\n";
+        $headers .= "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers .= "From: <$email>" . "\r\n";
+        // send email
+        mail($to, $msg, $headers, $ccHeader);
+    }
 }

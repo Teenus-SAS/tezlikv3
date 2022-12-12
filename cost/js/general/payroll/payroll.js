@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataPayroll = [];
+  let dataPayroll = {};
 
   /* Ocultar panel Nueva carga fabril */
   $('.cardCreatePayroll').hide();

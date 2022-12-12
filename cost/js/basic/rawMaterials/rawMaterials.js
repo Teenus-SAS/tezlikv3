@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataMaterial = [];
+  let dataMaterial = {};
 
   /* Ocultar panel para crear materiales */
   $('.cardRawMaterials').hide();

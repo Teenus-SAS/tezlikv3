@@ -1,6 +1,6 @@
 $(document).ready(function () {
   let idProduct;
-  let dataProductMaterial = [];
+  let dataProductMaterial = {};
 
   /* Ocultar panel crear producto */
 

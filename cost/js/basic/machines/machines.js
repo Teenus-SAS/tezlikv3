@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataMachine = [];
+  let dataMachine = {};
   /* Ocultar panel para crear Machinees */
   $('.cardCreateMachines').hide();
   $('#depreciationMinute').prop('disabled', true);

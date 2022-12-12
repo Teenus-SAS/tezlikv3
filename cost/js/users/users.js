@@ -51,7 +51,7 @@ $(document).ready(function () {
 
       /* Obtener los checkbox seleccionados */
 
-      let dataUser = [];
+      let dataUser = {};
       dataUser['nameUser'] = nameUser;
       dataUser['lastnameUser'] = lastnameUser;
       dataUser['emailUser'] = emailUser;
@@ -128,7 +128,7 @@ $(document).ready(function () {
   updateUserAccess = () => {
     idUser = sessionStorage.getItem('id_user');
 
-    let dataUser = [];
+    let dataUser = {};
     dataUser['idUser'] = idUser;
     dataUser['nameUser'] = $('#nameUser').val();
     dataUser['lastnameUser'] = $('#lastnameUser').val();
@@ -188,7 +188,7 @@ $(document).ready(function () {
 
     let idUser = data.id_user;
     let factoryLoad = data.factory_load;
-    let dataUser = [];
+    let dataUser = {};
     dataUser['idUser'] = idUser;
     dataUser['factoryLoad'] = factoryLoad;
 

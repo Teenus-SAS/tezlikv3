@@ -1,6 +1,6 @@
 $(document).ready(function () {
   let idProduct;
-  let dataExternalService = [];
+  let dataExternalService = {};
 
   /* Ocultar panel Nuevo Servicio */
   $('.cardAddService').hide();

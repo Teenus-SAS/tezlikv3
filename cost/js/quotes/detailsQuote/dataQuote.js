@@ -1,4 +1,11 @@
 $(document).ready(function () {
+  replaceNumber = (number) => {
+    while (number.includes('.')) {
+      if (number.includes('.')) number = number.replace('.', '');
+    }
+    return number;
+  };
+
   let idQuote = sessionStorage.getItem('id_quote');
 
   fetchindata = async () => {
@@ -50,20 +57,17 @@ $(document).ready(function () {
         </td>
         <td class="text-left"> ${data[i].nameProduct}</td>
         <td class="text-center">${data[i].quantity.toLocaleString()}</td>
-        <td class="text-center">$ ${parseInt(
-          data[i].price
-        ).toLocaleString()}</td>
+        <td class="text-center">$ ${data[i].price}</td>
         <td class="text-center">${data[i].discount} %</td>
-        <td class="text-center">$ ${parseInt(
-          data[i].totalPrice
-        ).toLocaleString()}</td>
+        <td class="text-center">$ ${data[i].totalPrice}</td>
       </tr>
     `
       );
 
+      let price = replaceNumber(data[i].price);
       let subtotalPrice =
-        data[i].quantity * data[i].price * (1 - data[i].discount / 100);
-      let subtotal = subtotal + subtotalPrice;
+        data[i].quantity * price * (1 - data[i].discount / 100);
+      subtotal = subtotal + subtotalPrice;
     }
 
     $('#subtotal').html(`$ ${parseInt(subtotal).toLocaleString()}`);
@@ -72,27 +76,4 @@ $(document).ready(function () {
       `$ ${parseInt(subtotal * (1 + 19 / 100)).toLocaleString()}`
     );
   };
-
-  /* Imprimir cotización */
-  $('#btnImprimirQuote').click(function (e) {
-    printDiv();
-  });
-
-  function printDiv() {
-    let printContents = document.getElementById('invoice').innerHTML;
-    let document_html = window.open('_blank');
-    document_html.document.write('<html><head><title></title>');
-    document_html.document.write(`
-       <link href="/assets/css/app.css" rel="stylesheet">
-       <link href="/assets/css/icons.css" rel="stylesheet">
-       <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
-      `);
-    document_html.document.write('</head><body>');
-    document_html.document.write(printContents);
-    document_html.document.write('</body></html>');
-    setTimeout(function () {
-      document_html.print();
-      document_html.close();
-    }, 500);
-  }
 });

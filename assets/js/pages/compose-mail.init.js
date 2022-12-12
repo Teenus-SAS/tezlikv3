@@ -23,3 +23,8 @@ getContent = () => {
 
   return content;
 };
+
+/* Estabecer contenido */
+setContent = (data) => {
+  editor.setData(data);
+};
