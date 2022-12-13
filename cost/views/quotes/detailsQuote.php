@@ -108,9 +108,7 @@
 												</tr>
 											</tfoot>
 										</table>
-										<div class="notices">
-											<h3>Condiciones Comerciales:</h3>
-											<div id="paymentMethod"></div>
+										<div class="notices" id="qDescription">
 										</div>
 										<br>
 										<div class="notices">

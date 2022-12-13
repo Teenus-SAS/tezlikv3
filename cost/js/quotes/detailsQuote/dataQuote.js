@@ -1,5 +1,6 @@
 $(document).ready(function () {
   replaceNumber = (number) => {
+    number = number.replace('$ ', '');
     while (number.includes('.')) {
       if (number.includes('.')) number = number.replace('.', '');
     }
@@ -35,9 +36,17 @@ $(document).ready(function () {
     $('#dateQuote').html(data.delivery_date);
 
     /* Notices */
-    $('#paymentMethod').html(data.method);
+    $('#qDescription').html(`
+      <h3>Condiciones Comerciales:</h3>
+      <p>${data.method}</p><br>
+			<h3>Validez de la oferta:</h3>
+      <p>${data.offer_validity}</p><br>
+			<h3>Garantia del producto:</h3>
+      <p>${data.warranty}</p>
+    `);
     $('#observation').html(data.observation);
   };
+
   loadDataQuoteProducts = (data) => {
     let subtotal = 0;
 
@@ -57,9 +66,9 @@ $(document).ready(function () {
         </td>
         <td class="text-left"> ${data[i].nameProduct}</td>
         <td class="text-center">${data[i].quantity.toLocaleString()}</td>
-        <td class="text-center">$ ${data[i].price}</td>
+        <td class="text-center">${data[i].price}</td>
         <td class="text-center">${data[i].discount} %</td>
-        <td class="text-center">$ ${data[i].totalPrice}</td>
+        <td class="text-center">${data[i].totalPrice}</td>
       </tr>
     `
       );

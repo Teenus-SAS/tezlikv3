@@ -1,6 +1,7 @@
 $(document).ready(function () {
   let idProduct;
   let dataProductMaterial = {};
+  let dataMaterials = {};
 
   /* Ocultar panel crear producto */
 
@@ -35,7 +36,7 @@ $(document).ready(function () {
 
     let data = sessionStorage.getItem('dataMaterials');
     if (data) {
-      let dataMaterials = JSON.parse(dataMaterials);
+      dataMaterials = JSON.parse(data);
       sessionStorage.removeItem('dataMaterials');
     }
 
@@ -55,19 +56,19 @@ $(document).ready(function () {
     let idProductMaterial = sessionStorage.getItem('id_product_material');
 
     if (idProductMaterial == '' || idProductMaterial == null) {
-      let ref = $('#material').val();
+      let ref = parseInt($('#material').val());
       let quan = $('#quantity').val();
-      idProduct = $('#selectNameProduct').val();
+      idProduct = parseInt($('#selectNameProduct').val());
 
-      let data = ref * quan * idProduct;
+      let data = ref * idProduct;
 
-      if (!data) {
+      if (!data || quan == '' || !quan) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
 
       let productMaterial = $('#formAddMaterials').serialize();
-      productMaterial = productMaterial + '&idProduct=' + idProduct;
+      productMaterial += '&idProduct=' + idProduct;
 
       $.post(
         '/api/addProductsMaterials',

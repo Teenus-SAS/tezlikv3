@@ -80,12 +80,12 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     if ($dataExpensesDistributions > 1) {
         $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
-        /* Calcular gasto asignable
-        $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);*/
+        /* Calcular gasto asignable */
+        $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
         // Calcular Precio del producto
         $priceProduct = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
-        if ($expensesDistribution == null && $priceProduct == null)
+        if ($expensesDistribution == null && $priceProduct == null && $assignableExpense == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
         else if (isset($expensesDistribution['info']))
             $resp = array('info' => true, 'message' => $expensesDistribution['message']);
@@ -106,20 +106,21 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $expensesDistribution[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
                 $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
             }
+            /* Calcular gasto asignable */
+            $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
+
             // Calcular Precio del producto
             $priceProduct = $priceProductDao->calcPrice($expensesDistribution[$i]['selectNameProduct']);
         }
-        /* Calcular gasto asignable
-        $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);*/
 
-        if ($resolution == null && $priceProduct == null)
+
+        if ($resolution == null && $priceProduct == null && $assignableExpense == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto importada correctamente');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
 
-    // Calcular gasto asignable
-    $assignableExpenseDao->calcAssignableExpense($id_company);
+
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

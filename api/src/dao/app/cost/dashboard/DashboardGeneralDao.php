@@ -20,10 +20,10 @@ class DashboardGeneralDao
     public function findTimeProcessForProductByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.product, (SUM(pp.enlistment_time) + SUM(pp.operation_time)) AS totalTime
-                                      FROM products_process pp
-                                      INNER JOIN products p ON p.id_product = pp.id_product
-                                      WHERE pp.id_company = :id_company 
+        $stmt = $connection->prepare("SELECT p.product, IFNULL((SUM(pp.enlistment_time) + SUM(pp.operation_time)), 0) AS totalTime
+                                      FROM products p
+                                        LEFT JOIN products_process pp ON pp.id_product = p.id_product
+                                      WHERE p.id_company = :id_company AND p.active = 1
                                       GROUP BY p.product ORDER BY `totalTime` DESC");
         $stmt->execute(['id_company' => $id_company]);
 
@@ -38,12 +38,12 @@ class DashboardGeneralDao
     public function findAverageTimeProcessByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.product, pp.enlistment_time, pp.operation_time
-                                      FROM products_process pp
-                                      INNER JOIN products p ON p.id_product = pp.id_product
-                                      WHERE pp.id_company = :id_company
+        $stmt = $connection->prepare("SELECT p.product, IFNULL(pp.enlistment_time, 0) AS enlistment_time, IFNULL(pp.operation_time, 0) AS operation_time
+                                      FROM products p
+                                        LEFT JOIN products_process pp ON pp.id_product = p.id_product
+                                      WHERE p.id_company = :id_company AND p.active = 1
                                       GROUP BY pp.id_product_process
-                                      ORDER BY `p`.`product`  ASC");
+                                      ORDER BY `p`.`product` ASC");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -91,7 +91,7 @@ class DashboardGeneralDao
         $connection = Connection::getInstance()->getConnection();
 
         // Contar todos los productos
-        $stmt = $connection->prepare("SELECT COUNT(product) products FROM products WHERE id_company = :id_company;");
+        $stmt = $connection->prepare("SELECT COUNT(product) products FROM products WHERE id_company = :id_company AND active = 1");
         $stmt->execute(['id_company' => $id_company]);
         $quantityProducts = $stmt->fetch($connection::FETCH_ASSOC);
 

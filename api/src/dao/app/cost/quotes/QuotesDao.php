@@ -40,7 +40,7 @@ class QuotesDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT q.id_quote, CONCAT(c.firstname, ' ' , c.lastname) AS contact, c.phone AS contact_phone, c.email, cp.img, 
-                                             cp.company_name, cp.address, cp.phone, cp.city, q.delivery_date, pm.method, q.observation
+                                             cp.company_name, cp.address, cp.phone, cp.city, q.delivery_date, pm.method, q.observation, q.offer_validity, q.warranty
                                       FROM quotes q
                                         INNER JOIN quote_customers c ON c.id_contact = q.id_contact 
                                         INNER JOIN quote_companies cp ON cp.id_quote_company  = c.id_company
@@ -56,8 +56,8 @@ class QuotesDao
     public function findAllQuotesProductsByIdQuote($id_quote)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT qp.id_product AS idProduct, p.reference AS ref, p.product AS nameProduct, qp.quantity, FORMAT(qp.price, 0, 'de_DE') AS price, 
-                                             qp.discount, FORMAT((qp.quantity * qp.price * (1- qp.discount / 100)),0,'de_DE') AS totalPrice
+        $stmt = $connection->prepare("SELECT qp.id_product AS idProduct, p.reference AS ref, p.product AS nameProduct, qp.quantity, CONCAT('$ ', FORMAT(qp.price, 0, 'de_DE')) AS price, 
+                                             qp.discount, CONCAT('$ ', FORMAT((qp.quantity * qp.price * (1- qp.discount / 100)),0,'de_DE')) AS totalPrice
                                       FROM quotes_products qp
                                         INNER JOIN products p ON p.id_product = qp.id_product
                                       WHERE qp.id_quote = :id_quote");

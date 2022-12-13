@@ -123,7 +123,6 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
             if (sizeof($_FILES) > 0)
                 $productsDao->imageProduct($lastProductId['id_product'], $id_company);
 
-
             //AGREGA ULTIMO ID A DATA
             $dataProduct['idProduct'] = $lastProductId['id_product'];
             $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
@@ -254,7 +253,6 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 }
             }
 
-
             if ($resolution == null)
                 //Metodo calcular precio total materias
                 $resolution = $costMaterialsDao->calcCostMaterial($dataProduct['idProduct'], $id_company);
@@ -300,11 +298,10 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
 
     $dataProduct = $request->getParsedBody();
-    //$imgProduct = $request->getUploadedFiles();
 
     if (
         empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) ||
-        empty($dataProduct['profitability']) || empty($dataProduct['commissionSale'])
+        $dataProduct['profitability'] == '' || $dataProduct['commissionSale'] == ''
     )
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {

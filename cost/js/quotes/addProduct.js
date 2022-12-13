@@ -28,14 +28,14 @@ $(document).ready(function () {
   loadDataProduct = async (id) => {
     let data = await searchData(`/api/productCost/${id}`);
 
-    // if (data.price == false) {
-    //   price = 0;
-    // } else {
-    //   price = parseInt(data.price).toLocaleString();
-    // }
+    if (data.price == false) {
+      price = 0;
+    } else {
+      price = parseInt(data.price).toLocaleString();
+    }
 
     sessionStorage.removeItem('price');
-    sessionStorage.setItem('price', parseInt(data.price));
+    sessionStorage.setItem('price', data.price);
 
     $('#price').val(price);
 

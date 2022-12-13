@@ -58,7 +58,7 @@ class SendEmailDao
             Equipo de Soporte Tezlik";
 
         // use wordwrap() if lines are longer than 70 characters
-        $msg = wordwrap($msg, 70);
+        // $msg = wordwrap($msg, 70);
 
         //headers
         $headers = "MIME-Version: 1.0" . "\r\n";

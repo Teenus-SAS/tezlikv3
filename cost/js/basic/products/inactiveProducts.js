@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataProducts = {};
+  let dataProducts = [];
 
   /* Inactivar productos */
   $(document).on('click', '.checkboxProduct', function () {
@@ -109,6 +109,7 @@ $(document).ready(function () {
       data: { data: dataProducts },
       success: function (data) {
         $('#createInactivesProducts').modal('hide');
+        dataProducts = [];
         message(data);
         $('#tblProducts').DataTable().clear();
         $('#tblProducts').DataTable().ajax.reload();
