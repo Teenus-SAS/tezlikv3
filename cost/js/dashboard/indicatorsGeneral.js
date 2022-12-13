@@ -1,7 +1,7 @@
 fetch(`/api/dashboardExpensesGenerals`)
   .then((response) => response.text())
   .then((data) => {
-    let data = JSON.parse(data);
+    data = JSON.parse(data);
     generalIndicators(data.expense_value);
     averagePrices(data.details_prices);
     generalSales(data.details_prices);

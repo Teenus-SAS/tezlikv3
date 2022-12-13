@@ -5,7 +5,7 @@ $(document).ready(function () {
     fetch(`/api/dashboardPricesProducts/${id_product}`)
       .then((response) => response.text())
       .then((data) => {
-        let data = JSON.parse(data);
+        data = JSON.parse(data);
         generalIndicators(data.cost_product);
         UnitsVolSold(data.cost_product);
         totalCostData(data.cost_product);
