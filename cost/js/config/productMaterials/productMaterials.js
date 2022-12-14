@@ -100,9 +100,10 @@ $(document).ready(function () {
     if (quantity.isInteger) quantity = quantity.toLocaleString();
     else
       quantity = quantity.toLocaleString(undefined, {
-        minimumFractionDigits: 4,
-        maximumFractionDigits: 4,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
       });
+
     $('#quantity').val(quantity);
 
     $('#unity').val(data.unit);

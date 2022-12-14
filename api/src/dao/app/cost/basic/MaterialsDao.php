@@ -53,6 +53,7 @@ class MaterialsDao
     $connection = Connection::getInstance()->getConnection();
 
     $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
+    $costRawMaterial = str_replace(',', '.', $costRawMaterial);
 
     try {
       $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, cost) 
@@ -83,6 +84,7 @@ class MaterialsDao
     $connection = Connection::getInstance()->getConnection();
 
     $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
+    $costRawMaterial = str_replace(',', '.', $costRawMaterial);
 
     try {
       $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, cost = :cost 

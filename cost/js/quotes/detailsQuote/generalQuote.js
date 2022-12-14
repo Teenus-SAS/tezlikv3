@@ -39,11 +39,12 @@ $(document).ready(function () {
     html2canvas(document.getElementById('invoice'), {
       onrendered(canvas) {
         let src = canvas.toDataURL('image/png');
-        setContent(`<img src="${src}" alt="Contenido"/>`);
+        // setContent(`<img src="${src}" alt="Contenido"/>`);
+        data['img'] = src;
       },
     });
 
-    setTimeout(modalshow, 1000);
+    setTimeout(modalshow, 2000);
   });
 
   function modalshow() {
@@ -71,7 +72,7 @@ $(document).ready(function () {
     }
 
     data['header'] = toHeader;
-    data['ccHeader'] = toHeader;
+    data['ccHeader'] = $('#ccHeader').val();
     data['subject'] = subject;
     data['message'] = msg;
 

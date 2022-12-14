@@ -83,7 +83,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
             if (isset($products[$i]['commissionSale']))
                 $commisionSale = $products[$i]['commissionSale'];
 
-            if (empty($reference) || empty($product) || empty($profitability) || empty($commisionSale))
+            if (empty($reference) || empty($product) || $profitability == '' || $commisionSale == '')
                 $dataImportProduct = array('error' => true, 'message' => 'Ingrese todos los datos');
             else {
                 $findProduct = $productsDao->findProduct($products[$i], $id_company);
@@ -107,7 +107,6 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
     $dataProduct = $request->getParsedBody();
 
     /* Inserta datos */
-
     $product = $productsQuantityDao->totalProductsByCompany($id_company, $id_plan);
 
     if ($product['quantity'] < $product['cant_products']) {

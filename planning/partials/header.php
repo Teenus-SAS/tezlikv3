@@ -25,7 +25,7 @@
                     <span class="bx bx-search"></span>
                 </div>
             </form> -->
-            <div class="dropdown-mega dropdown d-none d-lg-block ml-2">
+            <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
                     <i class="bx bx-cog bx-spin" style="font-size: 2em;"></i>
                 </a>

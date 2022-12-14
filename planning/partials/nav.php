@@ -1,7 +1,7 @@
 <div class="horizontal-topnav shadow-sm">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg topnav-menu">
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="topnav-menu-content">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="/planning">

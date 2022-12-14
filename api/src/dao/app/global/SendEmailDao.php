@@ -92,13 +92,14 @@ class SendEmailDao
 
     public function SendEmailQuote($dataQuote, $email)
     {
-        $to = $dataQuote['header'];
+        $to = $dataQuote['header'] . "\n";
         $to .= $email;
         if (isset($dataQuote['ccHeader']))
             $ccHeader = $dataQuote['ccHeader'];
         else $ccHeader = '';
         // the message
-        $msg = $dataQuote['message'];
+        $msg = $dataQuote['message'] . "\n";
+        $msg .= $dataQuote['img'];
 
         //headers
         $headers = $dataQuote['subject'] . "\r\n";

@@ -14,7 +14,16 @@ $(document).ready(function () {
           number = value
             .replace(/\./g, '')
             .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
-        else number = value;
+        else {
+          number = value;
+          // while (number.includes('.')) {
+          //   number = number.replace('.', '');
+          // }
+          // number = number.replace(',', '.');
+
+          // number = parseFloat(number).toLocaleString();
+        }
+
         return number;
       });
     },
