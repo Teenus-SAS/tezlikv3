@@ -70,7 +70,7 @@ class PlanMaterialsDao
       $message = $e->getMessage();
 
       if ($e->getCode() == 23000)
-        $message = 'Referencia duplicada. Ingrese una nueva referencia';
+        $message = 'La referencia ya existe. Ingrese una nueva referencia';
       $error = array('info' => true, 'message' => $message);
       return $error;
     }
