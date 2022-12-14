@@ -116,7 +116,7 @@
 											<div id="observation"></div>
 										</div>
 									</main>
-									<footer> Autorizo a Tezlik. para recaudar, almacenar, utilizar y actualizar mis datos personales con fines exclusivamente comerciales y garantizándome que esta información no será revelada a terceros salvo orden de autoridad competente. Ley 1581 de 2012, Decreto 1377 de 2013.</footer>
+									<footer id="qFooter"></footer>
 								</div>
 							</div>
 						</div>

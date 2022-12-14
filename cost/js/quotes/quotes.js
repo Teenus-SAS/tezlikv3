@@ -1,7 +1,9 @@
 $(document).ready(function () {
   /* Ocultar modal para crear Cotizaciones */
-  $('#btnCloseQuote').click(function (e) {
+  $('.btnCloseQuote').click(function (e) {
     e.preventDefault();
+
+    products = [];
 
     $('#modalCreateQuote').modal('hide');
   });

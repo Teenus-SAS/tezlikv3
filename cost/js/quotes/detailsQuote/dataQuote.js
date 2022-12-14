@@ -14,10 +14,12 @@ $(document).ready(function () {
 
     loadDataQuote(data.quote);
     loadDataQuoteProducts(data.quotesProducts);
+    loadDataFooter();
   };
 
   fetchindata();
 
+  /* Datos Cotizacion */
   loadDataQuote = (data) => {
     $('#idQuote').html(`Cotización (${data.id_quote})`);
     /* Compañia */
@@ -47,6 +49,7 @@ $(document).ready(function () {
     $('#observation').html(data.observation);
   };
 
+  /* Tabla productos cotizados */
   loadDataQuoteProducts = (data) => {
     let subtotal = 0;
 
@@ -83,6 +86,15 @@ $(document).ready(function () {
     $('#iva').html(`$ ${parseInt(subtotal * (19 / 100)).toLocaleString()}`);
     $('#total').html(
       `$ ${parseInt(subtotal * (1 + 19 / 100)).toLocaleString()}`
+    );
+  };
+
+  /* Pie de pagina */
+  loadDataFooter = async () => {
+    let data = await searchData('/api/company');
+
+    $('#qFooter').html(
+      `Autorizo a ${data[0].company}. para recaudar, almacenar, utilizar y actualizar mis datos personales con fines exclusivamente comerciales y garantizándome que esta información no será revelada a terceros salvo orden de autoridad competente. Ley 1581 de 2012, Decreto 1377 de 2013.`
     );
   };
 });

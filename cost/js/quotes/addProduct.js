@@ -6,6 +6,12 @@ $(document).ready(function () {
   $('#btnAddNewProduct').click(function (e) {
     e.preventDefault();
     $('.addProd').toggle(800);
+
+    $('#imgProduct').attr('src', '');
+    $('#selectNameProduct option').removeAttr('selected');
+    $(`#selectNameProduct option[value='0']`).prop('selected', true);
+    $('#refProduct option').removeAttr('selected');
+    $(`#refProduct option[value='0']`).prop('selected', true);
     $('#discount option[value=0]').prop('selected', true);
   });
 
@@ -55,7 +61,7 @@ $(document).ready(function () {
 
         let price = replaceNumber(this.value);
 
-        if (price < oldPrice) {
+        if (price < parseInt(oldPrice)) {
           oldPrice = parseInt(oldPrice).toLocaleString();
 
           $('#price').val(oldPrice);
@@ -99,7 +105,7 @@ $(document).ready(function () {
     let price = $('#price').val();
     let quantity = $('#quantity').val();
 
-    if (ref == '' || price == '' || quantity == '') {
+    if (ref == 'Seleccionar' || price == '' || quantity == '') {
       toastr.error('Para cotizar, ingrese todos los datos de los productos');
       return false;
     }
@@ -116,14 +122,16 @@ $(document).ready(function () {
     let discount = $('#discount').val();
     let totalPrice = $('#totalPrice').val();
 
+    price = replaceNumber(price);
+
     let product = {
       idProduct: idProduct,
       ref: ref.trim(),
       nameProduct: nameProduct.trim(),
-      price: price,
+      price: `$ ${parseInt(price).toLocaleString()}`,
       quantity: quantity,
       discount: discount,
-      totalPrice: totalPrice,
+      totalPrice: `$ ${totalPrice}`,
     };
 
     products.push(product);
@@ -165,9 +173,9 @@ $(document).ready(function () {
             <td class="text-center">${products[i].ref}</td>              
             <td class="text-center">${products[i].nameProduct}</td>              
             <td class="text-center">${products[i].quantity}</td>              
-            <td class="text-center">$ ${products[i].price}</td>
+            <td class="text-center">${products[i].price}</td>
             <td class="text-center">${products[i].discount} %</td>
-            <td class="text-center">$ ${products[i].totalPrice}</td>
+            <td class="text-center">${products[i].totalPrice}</td>
             <td class="text-center">
               <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>
             </td>
