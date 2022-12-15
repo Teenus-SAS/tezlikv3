@@ -1,18 +1,31 @@
 $(document).ready(function () {
-  let dataExpensesDistribution = {};
-
   /* Ocultar table de ingreso de datos volumen y unidades */
   $('.cardExpensesDistribution').hide();
+  $('.cardRecoverExpenses').hide();
 
   /* Abrir ventana para ingresar el volumen dy unidades de ventas para calcular gastos atribuibles al producto */
   $('#btnExpensesDistribution').click(function (e) {
     e.preventDefault();
 
     $('.cardImportDistributionExpenses').hide(800);
+    $('.cardRecoverExpenses').hide(800);
     $('.cardExpensesDistribution').toggle(800);
     $('#btnAssignExpenses').html('Asignar');
 
     sessionStorage.removeItem('id_expenses_distribution');
+
+    $('#formExpensesDistribution').trigger('reset');
+  });
+
+  $('#btnNewRecoverExpenses').click(function (e) {
+    e.preventDefault();
+
+    $('.cardImportDistributionExpenses').hide(800);
+    $('.cardExpensesDistribution').hide(800);
+    $('.cardRecoverExpenses').toggle(800);
+    $('#btnAssignExpenses').html('Guardar');
+
+    sessionStorage.removeItem('id_recover_expense');
 
     $('#formExpensesDistribution').trigger('reset');
   });
@@ -114,6 +127,7 @@ $(document).ready(function () {
     let id_expenses_distribution = data.id_expenses_distribution;
 
     let idProduct = data.id_product;
+    let dataExpensesDistribution = {};
 
     dataExpensesDistribution['idExpensesDistribution'] =
       id_expenses_distribution;

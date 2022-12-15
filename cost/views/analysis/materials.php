@@ -56,11 +56,11 @@
                                 <div class="card">
                                     <div class="card-body gridx2">
                                         <div class="form-group floating-label enable-floating-label show-label">
-                                            <select class="form-control" name="refProduct" id="refProduct"></select>
+                                            <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                                             <label for="">Referencia</label>
                                         </div>
                                         <div class="form-group floating-label enable-floating-label show-label">
-                                            <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
+                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                             <label for="">Producto</label>
                                         </div>
                                     </div>

@@ -13,12 +13,14 @@ $(document).ready(function () {
     if (negotiatePrice == '') {
       negotiatePrice = 0;
     } else {
-      negotiatePrice = negotiatePrice.replace('.', '');
+      negotiatePrice = decimalNumber(negotiatePrice);
+      negotiatePrice = negotiatePrice.replace(',', '.');
       negotiatePrice = parseFloat(negotiatePrice);
     }
 
     currentPrice = $(`#currentPrice-${line}`).html();
-    currentPrice = currentPrice.replace('.', '').replace('$', '');
+    currentPrice = decimalNumber(currentPrice);
+    currentPrice = currentPrice.replace(',', '.').replace('$', '');
     currentPrice = parseFloat(currentPrice);
 
     // Calcular porcentaje
@@ -41,7 +43,13 @@ $(document).ready(function () {
     percentage = 100 - (negotiatePrice / currentPrice) * 100;
 
     if (isNaN(negotiatePrice)) $(`#percentage-${line}`).html('');
-    else $(`#percentage-${line}`).html(`${percentage.toFixed(3)} %`);
+    else
+      $(`#percentage-${line}`).html(
+        `${percentage.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} %`
+      );
 
     if (percentage < 0) {
       $(`#percentage-${line}`).css('color', 'red');
@@ -57,8 +65,9 @@ $(document).ready(function () {
   $(document).on('keyup', '#unitsmanufacturated', function (e) {
     unitsmanufacturated = this.value;
 
-    // Eliminar decimales
+    // Eliminar miles
     unitsmanufacturated = decimalNumber(unitsmanufacturated);
+    unitsmanufacturated = unitsmanufacturated.replace(',', '.');
     unitsmanufacturated = parseFloat(unitsmanufacturated);
 
     isNaN(unitsmanufacturated)
@@ -84,20 +93,22 @@ $(document).ready(function () {
       unityCost = $(`#unityCost-${i}`).html();
       quantity = $(`#quantity-${i}`).html();
 
-      unityCost = unityCost.replace('$', '').replace(',', '.');
-      // Eliminar decimales
+      // Eliminar miles
       unityCost = decimalNumber(unityCost);
+      unityCost = unityCost.replace('$', '').replace(',', '.');
 
-      quantity = quantity.replace(',', '.');
-      // Eliminar decimales
+      // Eliminar miles
       quantity = decimalNumber(quantity);
+      quantity = quantity.replace(',', '.');
 
       unityCost = parseFloat(unityCost);
       quantity = parseFloat(quantity);
 
       totalCost = unitsmanufacturated * unityCost;
 
-      $(`#totalCost-${i}`).html(totalCost.toLocaleString('es-ES'));
+      $(`#totalCost-${i}`).html(
+        parseInt(totalCost.toFixed()).toLocaleString('es-CO')
+      );
     }
   };
 
@@ -105,6 +116,10 @@ $(document).ready(function () {
   calculateProjectedCost = (i) => {
     for (i = 1; i < count + 1; i++) {
       quantity = $(`#quantity-${i}`).html();
+
+      quantity = decimalNumber(quantity);
+      quantity = quantity.replace(',', '.');
+
       quantity = parseFloat(quantity);
 
       let negotiatePrice = $(`#${i}`).val();
@@ -112,8 +127,9 @@ $(document).ready(function () {
       if (negotiatePrice == '') return false;
 
       negotiatePrice = negotiatePrice.replace('$', '');
-      // Eliminar decimales
+      // Eliminar miles
       negotiatePrice = decimalNumber(negotiatePrice);
+      negotiatePrice = negotiatePrice.replace(',', '.');
       negotiatePrice = parseFloat(negotiatePrice);
 
       if (negotiatePrice) {
@@ -122,7 +138,7 @@ $(document).ready(function () {
         if (isNaN(projectedCost)) $(`#projectedCost-${i}`).html();
         else
           $(`#projectedCost-${i}`).html(
-            `$ ${projectedCost.toLocaleString('es-ES')}`
+            `$ ${parseInt(projectedCost.toFixed()).toLocaleString('es-CO')}`
           );
       }
       savingsMontly();
@@ -139,15 +155,15 @@ $(document).ready(function () {
 
       if (projectedCost == '') return false;
 
-      projectedCost = projectedCost.replace('$', '').replace(',', '.');
-      // Eliminar decimales
+      // Eliminar miles
       projectedCost = decimalNumber(projectedCost);
+      projectedCost = projectedCost.replace('$', '').replace(',', '.');
       projectedCost = parseFloat(projectedCost);
 
       let currentCost = $(`#totalCost-${i}`).html();
-      currentCost = currentCost.replace('$', '').replace(',', '.');
-      // Eliminar decimales
+      // Eliminar miles
       currentCost = decimalNumber(currentCost);
+      currentCost = currentCost.replace('$', '').replace(',', '.');
       currentCost = parseFloat(currentCost);
 
       monthlySavingsRow = currentCost - projectedCost;
@@ -157,7 +173,7 @@ $(document).ready(function () {
       totalMonthlySavings = totalMonthlySavings + monthlySavingsRow;
 
       $(`#monthlySavings`).html(
-        `$ ${totalMonthlySavings.toLocaleString('es-ES')}`
+        `$ ${totalMonthlySavings.toLocaleString('es-CO')}`
       );
     }
   };
@@ -169,19 +185,20 @@ $(document).ready(function () {
       $('#annualSavings').val('');
     } else {
       $('#monthlySavings').val(
-        `$ ${totalMonthlySavings.toLocaleString('es-ES')}`
+        `$ ${totalMonthlySavings.toLocaleString('es-CO')}`
       );
       // Calcular ahorro anual
       annualSavings = totalMonthlySavings * 12;
-      $('#annualSavings').val(`$ ${annualSavings.toLocaleString('es-ES')}`);
+      $('#annualSavings').val(`$ ${annualSavings.toLocaleString('es-CO')}`);
     }
   };
 
-  /* Eliminar puntos decimales */
+  /* Eliminar puntos miles */
   decimalNumber = (num) => {
-    while (num.includes('.')) {
-      num = num.replace('.', '');
-    }
+    if (num.includes('.'))
+      while (num.includes('.')) {
+        num = num.replace('.', '');
+      }
     return num;
   };
 });

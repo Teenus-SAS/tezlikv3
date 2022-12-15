@@ -84,7 +84,7 @@ $(document).ready(function () {
           title: 'Participacion',
           data: 'participation',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number(',', '.', 2, '', '%'),
+          render: $.fn.dataTable.render.number('.', ',', 2, '', '%'),
         },
       ],
 

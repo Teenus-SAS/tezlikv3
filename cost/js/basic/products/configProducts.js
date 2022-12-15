@@ -9,7 +9,7 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/products',
     success: function (r) {
-      let $select = $(`#refProduct`);
+      let $select = $(`.refProduct`);
       $select.empty();
 
       $select.append(
@@ -21,7 +21,7 @@ $(document).ready(function () {
         );
       });
 
-      let $select1 = $(`#selectNameProduct`);
+      let $select1 = $(`.selectNameProduct`);
       $select1.empty();
 
       $select1.append(

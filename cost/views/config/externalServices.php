@@ -58,8 +58,8 @@
                                         <div class="gridx2">
                                             <label for="">Referencia</label>
                                             <label for="">Producto</label>
-                                            <select class="form-control" name="refProduct" id="refProduct"></select>
-                                            <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
+                                            <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
+                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                         </div>
                                     </div>
                                 </div>

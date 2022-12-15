@@ -42,6 +42,7 @@
                             <div class="col-sm-7 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
                                     <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
+                                    <button class="btn btn-primary ml-3" id="btnNewRecoverExpenses">Recuperar Gastos</button>
                                     <button class="btn btn-info ml-3" id="btnImportNewExpensesDistribution">Importar Distribuir Gastos</button>
                                 </div>
                             </div>
@@ -65,6 +66,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Distribuir Gastos -->
                 <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
                     <div class="container-fluid">
                         <div class="row">
@@ -72,17 +75,59 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="formExpensesDistribution">
-                                            <div class="gridx5">
-                                                <label for="">Referencia</label>
-                                                <label for="">Nombre Producto</label>
-                                                <label for="">Und Vendidas</label>
-                                                <label for="">Vol Ventas</label>
-                                                <label for=""></label>
-                                                <select class="form-control" name="refProduct" id="refProduct"></select>
-                                                <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
-                                                <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
-                                                <input type="text" class="form-control number text-center" id="volVendidas" name="turnover">
-                                                <button class="btn btn-primary" id="btnAssignExpenses">Asignar Gasto</button>
+                                            <div class="form-row">
+                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                    <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
+                                                    <label for="refProduct">Referencia</label>
+                                                </div>
+                                                <div class="col-5 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                                    <label for="selectNameProduct">Nombre Producto</label>
+                                                </div>
+                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                    <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
+                                                    <label for="undVendidas">Und Vendidas</label>
+                                                </div>
+                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                    <input type="text" class="form-control number text-center" id="volVendidas" name="turnover">
+                                                    <label for="volVendidas">Vol Ventas</label>
+                                                </div>
+                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
+                                                    <button class="btn btn-primary" id="btnAssignExpenses">Asignar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recuperar Gastos -->
+                <div class="page-content-wrapper mt--45 mb-5 cardRecoverExpenses">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formRecoverExpenses">
+                                            <div class="form-row">
+                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                    <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
+                                                    <label for="refProduct">Referencia</label>
+                                                </div>
+                                                <div class="col-6 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                                    <label for="selectNameProduct">Nombre Producto</label>
+                                                </div>
+                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                    <input type="number" class="form-control text-center" id="percentage" name="unitsSold">
+                                                    <label for="percentage">Porcentaje</label>
+                                                </div>
+                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
+                                                    <button class="btn btn-primary" id="btnRecoverExpenses">Guardar Gasto</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -127,9 +172,15 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
+                                        <div class="form-inline justify-content-sm-end mb-4">
+                                            <select class="form-control" name="typeExpense" id="typeExpense" style="margin-right: 15px;">
+                                                <option selected="" disabled="">Seleccionar</option>
+                                                <option value="1">Distribución</option>
+                                                <option value="2">Recuperación</option>
+                                            </select>
+                                        </div>
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblExpensesDistribution">
-
+                                            <table class="table table-striped" id="tblExpenses">
                                             </table>
                                         </div>
                                     </div>
@@ -149,14 +200,14 @@
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="../global/js/global/number.js"></script>
+    <script src="/global/js/global/number.js"></script>
     <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
     <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
-    <script src="../global/js/import/import.js"></script>
+    <script src="/global/js/import/import.js"></script>
     <script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
-    <script src="../global/js/import/file.js"></script>
+    <script src="/global/js/import/file.js"></script>
 </body>
 
 </html>
