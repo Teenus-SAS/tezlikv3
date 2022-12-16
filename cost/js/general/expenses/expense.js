@@ -53,7 +53,7 @@ $(document).ready(function () {
       true
     );
 
-    $('#expenseValue').val(data.expense_value.toLocaleString());
+    $('#expenseValue').val(data.expense_value.toLocaleString('es-CO'));
 
     $('html, body').animate(
       {

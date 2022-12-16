@@ -148,7 +148,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                     $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
                 } else {
                     $products[$i]['idProduct'] = $product['id_product'];
-                    $resolution = $productsDao->updateProductByCompany($products[$i]);
+                    $resolution = $productsDao->updateProductByCompany($products[$i], $id_company);
                     $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
                 }
             }
@@ -305,7 +305,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     else {
         // Actualizar Datos, Imagen y Calcular Precio del producto
-        $products = $productsDao->updateProductByCompany($dataProduct);
+        $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
         if (sizeof($_FILES) > 0)
             $products = $productsDao->imageProduct($dataProduct['idProduct'], $id_company);

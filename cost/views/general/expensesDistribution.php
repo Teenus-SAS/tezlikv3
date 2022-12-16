@@ -42,7 +42,7 @@
                             <div class="col-sm-7 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
                                     <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
-                                    <button class="btn btn-primary ml-3" id="btnNewRecoverExpenses">Recuperar Gastos</button>
+                                    <button class="btn btn-primary ml-3" id="btnNewExpenseRecover">Recuperar Gastos</button>
                                     <button class="btn btn-info ml-3" id="btnImportNewExpensesDistribution">Importar Distribuir Gastos</button>
                                 </div>
                             </div>
@@ -77,12 +77,12 @@
                                         <form id="formExpensesDistribution">
                                             <div class="form-row">
                                                 <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
-                                                    <label for="refProduct">Referencia</label>
+                                                    <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
+                                                    <label for="EDRefProduct">Referencia</label>
                                                 </div>
                                                 <div class="col-5 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
-                                                    <label for="selectNameProduct">Nombre Producto</label>
+                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
+                                                    <label for="EDNameProduct">Nombre Producto</label>
                                                 </div>
                                                 <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
@@ -105,28 +105,28 @@
                 </div>
 
                 <!-- Recuperar Gastos -->
-                <div class="page-content-wrapper mt--45 mb-5 cardRecoverExpenses">
+                <div class="page-content-wrapper mt--45 mb-5 cardExpenseRecover">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form id="formRecoverExpenses">
+                                        <form id="formExpenseRecover">
                                             <div class="form-row">
                                                 <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
-                                                    <label for="refProduct">Referencia</label>
+                                                    <select class="form-control refProduct" name="idProduct" id="ERRefProduct"></select>
+                                                    <label for="ERRefProduct">Referencia</label>
                                                 </div>
                                                 <div class="col-6 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
-                                                    <label for="selectNameProduct">Nombre Producto</label>
+                                                    <select class="form-control selectNameProduct" name="nameProduct" id="ERNameProduct"></select>
+                                                    <label for="ERNameProduct">Nombre Producto</label>
                                                 </div>
                                                 <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <input type="number" class="form-control text-center" id="percentage" name="unitsSold">
+                                                    <input type="number" class="form-control text-center" id="percentage" name="percentage">
                                                     <label for="percentage">Porcentaje</label>
                                                 </div>
                                                 <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
-                                                    <button class="btn btn-primary" id="btnRecoverExpenses">Guardar Gasto</button>
+                                                    <button class="btn btn-primary" id="btnExpenseRecover">Guardar Gasto</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -202,6 +202,8 @@
 
     <script src="/global/js/global/number.js"></script>
     <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
+    <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>
+    <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
     <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>

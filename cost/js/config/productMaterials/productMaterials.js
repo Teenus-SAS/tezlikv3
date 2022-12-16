@@ -97,7 +97,7 @@ $(document).ready(function () {
 
     let quantity = data.quantity;
 
-    if (quantity.isInteger) quantity = quantity.toLocaleString();
+    if (quantity.isInteger) quantity = quantity.toLocaleString('es-CO');
     else
       quantity = quantity.toLocaleString(undefined, {
         minimumFractionDigits: 2,

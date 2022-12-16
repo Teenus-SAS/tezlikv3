@@ -122,7 +122,7 @@ class ProductsDao
   }
 
   /* Actualizar producto */
-  public function updateProductByCompany($dataProduct)
+  public function updateProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
 
@@ -133,6 +133,7 @@ class ProductsDao
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => ucfirst(strtolower(trim($dataProduct['product']))),
         'id_product' => $dataProduct['idProduct'],
+        'id_company' => $id_company
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

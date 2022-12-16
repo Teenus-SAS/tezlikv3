@@ -71,6 +71,7 @@ $(document).ready(function () {
       return false;
     }
 
+    data['idQuote'] = idQuote;
     data['header'] = toHeader;
     data['ccHeader'] = $('#ccHeader').val();
     data['subject'] = subject;

@@ -39,7 +39,7 @@ graphicTimeProcessByProduct = (data) => {
         },
         datalabels: {
           anchor: 'end',
-          formatter: (totalTime) => totalTime.toLocaleString(),
+          formatter: (totalTime) => totalTime.toLocaleString('es-CO'),
           color: 'black',
           font: {
             size: '14',
@@ -309,7 +309,7 @@ graphicProductCost = (data) => {
         },
         datalabels: {
           anchor: 'end',
-          formatter: (cost) => cost.toLocaleString(),
+          formatter: (cost) => cost.toLocaleString('es-CO'),
           color: 'black',
           font: {
             size: '14',

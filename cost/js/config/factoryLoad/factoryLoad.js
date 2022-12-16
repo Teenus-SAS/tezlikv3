@@ -62,7 +62,7 @@ $(document).ready(function () {
 
     $(`#machine option[value=${data.id_machine}]`).prop('selected', true);
     $('#descriptionFactoryLoad').val(data.input);
-    $('#costFactory').val(data.cost.toLocaleString());
+    $('#costFactory').val(data.cost.toLocaleString('es-CO'));
 
     $('html, body').animate(
       {

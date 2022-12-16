@@ -78,14 +78,14 @@
                                         <div class="addProd row px-3">
                                             <div class="col-12 col-lg-4">
                                                 <div class="form-group floating-label enable-floating-label show-label">
-                                                    <select class="form-control" id="refProduct" name="idProduct"></select>
+                                                    <select class="form-control refProduct" id="refProduct" name="idProduct"></select>
                                                     <label for="refProduct" class="form-label">Referencia <span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-8">
                                                 <div class="form-group floating-label enable-floating-label show-label">
-                                                    <select class="form-control" id="selectNameProduct" name="idProduct"></select>
+                                                    <select class="form-control selectNameProduct" id="selectNameProduct" name="idProduct"></select>
                                                     <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>

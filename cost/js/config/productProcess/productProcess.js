@@ -119,7 +119,7 @@ $(document).ready(function () {
   });
 
   validateNumber = (number) => {
-    if (number.isInteger) number = number.toLocaleString();
+    if (number.isInteger) number = number.toLocaleString('es-CO');
     else
       number = number.toLocaleString(undefined, {
         minimumFractionDigits: 2,

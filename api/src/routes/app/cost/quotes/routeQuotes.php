@@ -102,13 +102,16 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($sendEmailDao) {
+$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($quotesDao, $sendEmailDao) {
     session_start();
     $email = $_SESSION['email'];
 
     $dataQuote = $request->getParsedBody();
 
-    $quote = $sendEmailDao->SendEmailQuote($dataQuote, $email);
+    $sendEmail = $sendEmailDao->SendEmailQuote($dataQuote, $email);
+
+    if ($sendEmail == null)
+        $quote = $quotesDao->updateFlagQuote($dataQuote);
 
     if ($quote == null)
         $resp = array('success' => true, 'message' => 'Email de cotización enviada correctamente');

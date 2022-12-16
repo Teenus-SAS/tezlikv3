@@ -13,14 +13,14 @@ $(document).ready(function () {
 
   $('#btnNewProgramming').click(function (e) {
     e.preventDefault();
-    fetchindata = async () => {
+    fetchindataProgramm = async () => {
       await generalData();
       $('.cardImportProgramming').hide(800);
       $('.cardCreateProgramming').toggle(800);
       $('#btnCreateProgramming').html('Crear');
       $('#formCreateProgramming').trigger('reset');
     };
-    fetchindata();
+    fetchindataProgramm();
     data = {};
   });
 

@@ -64,7 +64,7 @@ $(document).ready(function () {
       'selected',
       true
     );
-    $('#ciclesHour').val(data.cicles_hour.toLocaleString());
+    $('#ciclesHour').val(data.cicles_hour.toLocaleString('es-CO'));
 
     $('html, body').animate(
       {

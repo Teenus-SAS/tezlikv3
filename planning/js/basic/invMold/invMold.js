@@ -81,10 +81,12 @@ $(document).ready(function () {
     sessionStorage.setItem('id_mold', data.id_mold);
     $('#referenceMold').val(data.reference);
     $('#mold').val(data.mold);
-    $('#assemblyTime').val(data.assembly_time.toLocaleString());
-    $('#assemblyProduction').val(data.assembly_production.toLocaleString());
-    $('#cavity').val(data.cavity.toLocaleString());
-    $('#cavityAvailable').val(data.cavity_available.toLocaleString());
+    $('#assemblyTime').val(data.assembly_time.toLocaleString('es-CO'));
+    $('#assemblyProduction').val(
+      data.assembly_production.toLocaleString('es-CO')
+    );
+    $('#cavity').val(data.cavity.toLocaleString('es-CO'));
+    $('#cavityAvailable').val(data.cavity_available.toLocaleString('es-CO'));
 
     $('html, body').animate(
       {

@@ -76,7 +76,7 @@ $(document).ready(function () {
 
     let cost = data.cost;
 
-    if (cost.isInteger) cost = cost.toLocaleString();
+    if (cost.isInteger) cost = cost.toLocaleString('es-CO');
     else
       cost = cost.toLocaleString(undefined, {
         minimumFractionDigits: 2,

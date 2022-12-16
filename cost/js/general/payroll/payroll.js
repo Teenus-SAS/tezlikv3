@@ -81,11 +81,11 @@ $(document).ready(function () {
     $('#employee').val(data.employee);
     $(`#idProcess option:contains(${data.process})`).prop('selected', true);
 
-    $('#basicSalary').val(data.salary.toLocaleString());
-    $('#transport').val(data.transport.toLocaleString());
-    $('#endowment').val(data.endowment.toLocaleString());
-    $('#extraTime').val(data.extra_time.toLocaleString());
-    $('#bonification').val(data.bonification.toLocaleString());
+    $('#basicSalary').val(data.salary.toLocaleString('es-CO'));
+    $('#transport').val(data.transport.toLocaleString('es-CO'));
+    $('#endowment').val(data.endowment.toLocaleString('es-CO'));
+    $('#extraTime').val(data.extra_time.toLocaleString('es-CO'));
+    $('#bonification').val(data.bonification.toLocaleString('es-CO'));
 
     $('#workingHoursDay').val(data.hours_day);
     $('#workingDaysMonth').val(data.working_days_month);

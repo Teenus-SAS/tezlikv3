@@ -62,8 +62,8 @@ $(document).ready(function () {
     let data = tblClients.fnGetData(row);
 
     sessionStorage.setItem('id_client', data.id_client);
-    $('#ean').val(data.ean.toLocaleString());
-    $('#nit').val(data.nit.toLocaleString());
+    $('#ean').val(data.ean.toLocaleString('es-CO'));
+    $('#nit').val(data.nit.toLocaleString('es-CO'));
     $('#client').val(data.client);
 
     $('html, body').animate(

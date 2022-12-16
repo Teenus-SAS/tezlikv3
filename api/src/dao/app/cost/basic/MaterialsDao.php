@@ -79,7 +79,7 @@ class MaterialsDao
   }
 
   /* Actualizar materia prima  */
-  public function updateMaterialsByCompany($dataMaterial)
+  public function updateMaterialsByCompany($dataMaterial, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
 
@@ -88,13 +88,14 @@ class MaterialsDao
 
     try {
       $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, cost = :cost 
-                                    WHERE id_material = :id_material");
+                                    WHERE id_material = :id_material AND id_company = :id_company");
       $stmt->execute([
         'id_material' => $dataMaterial['idMaterial'],
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
         'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
-        'cost' => $costRawMaterial
+        'cost' => $costRawMaterial,
+        'id_company' => $id_company
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

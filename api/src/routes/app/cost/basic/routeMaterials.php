@@ -85,7 +85,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
             else {
                 $materials[$i]['idMaterial'] = $material['id_material'];
-                $resolution = $materialsDao->updateMaterialsByCompany($materials[$i]);
+                $resolution = $materialsDao->updateMaterialsByCompany($materials[$i], $id_company);
             }
         }
         if ($resolution == null)
@@ -103,7 +103,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 
-    $materials = $materialsDao->updateMaterialsByCompany($dataMaterial);
+    $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
     // Calcular precio total materias
     $costMaterials = $costMaterialsDao->calcCostMaterialsByRawMaterial($dataMaterial, $id_company);

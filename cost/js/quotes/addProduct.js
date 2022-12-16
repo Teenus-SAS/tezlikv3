@@ -37,7 +37,7 @@ $(document).ready(function () {
     if (data.price == false) {
       price = 0;
     } else {
-      price = parseInt(data.price).toLocaleString();
+      price = parseInt(data.price).toLocaleString('es-CO');
     }
 
     sessionStorage.removeItem('price');
@@ -62,7 +62,7 @@ $(document).ready(function () {
         let price = replaceNumber(this.value);
 
         if (price < parseInt(oldPrice)) {
-          oldPrice = parseInt(oldPrice).toLocaleString();
+          oldPrice = parseInt(oldPrice).toLocaleString('es-CO');
 
           $('#price').val(oldPrice);
           toastr.error('Ingrese un precio mayor al original');
@@ -86,7 +86,7 @@ $(document).ready(function () {
       parseFloat(price) *
       (1 - parseFloat(discount) / 100);
 
-    $('#totalPrice').val(parseInt(val).toLocaleString());
+    $('#totalPrice').val(parseInt(val).toLocaleString('es-CO'));
   });
 
   replaceNumber = (number) => {
@@ -128,7 +128,7 @@ $(document).ready(function () {
       idProduct: idProduct,
       ref: ref.trim(),
       nameProduct: nameProduct.trim(),
-      price: `$ ${parseInt(price).toLocaleString()}`,
+      price: `$ ${parseInt(price).toLocaleString('es-CO')}`,
       quantity: quantity,
       discount: discount,
       totalPrice: `$ ${totalPrice}`,

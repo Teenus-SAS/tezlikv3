@@ -57,5 +57,8 @@ $(document).ready(function () {
         },
       },
     ],
+    rowCallback: function (row, data, index) {
+      if (data['flag_quote'] == 1) $(row).css('color', 'blue');
+    },
   });
 });

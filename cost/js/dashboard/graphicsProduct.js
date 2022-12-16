@@ -15,7 +15,17 @@ $(document).ready(function () {
     costExpenses.push(data[0].cost_workforce);
     costExpenses.push(data[0].cost_materials);
     costExpenses.push(data[0].cost_indirect_cost);
-    costExpenses.push(data[0].assignable_expense);
+
+    let cost =
+      data[0].cost_materials +
+      data[0].cost_workforce +
+      data[0].cost_indirect_cost;
+
+    data[0].assignable_expense == 0
+      ? (assignable_expense = (data[0].expense_recover / 100) * cost)
+      : (assignable_expense = data[0].assignable_expense);
+
+    costExpenses.push(assignable_expense);
 
     /* Ordenar el array */
 
@@ -36,7 +46,6 @@ $(document).ready(function () {
           {
             data: costExpenses,
             backgroundColor: getRandomColor(4),
-            //borderColor: [getRandomColor()],
             borderWidth: 1,
           },
         ],
@@ -53,7 +62,7 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: 'end',
-            formatter: (costExpenses) => costExpenses.toLocaleString(),
+            formatter: (costExpenses) => costExpenses.toLocaleString('es-CO'),
             color: 'black',
             font: {
               size: '14',
@@ -103,7 +112,6 @@ $(document).ready(function () {
           {
             data: workforce,
             backgroundColor: getRandomColor(data.length),
-            //borderColor: [],
             borderWidth: 1,
           },
         ],
@@ -121,7 +129,6 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
             color: 'white',
@@ -136,7 +143,6 @@ $(document).ready(function () {
   };
 
   /* Tiempo de Proceso del producto */
-
   // cambios 17/05/22
   // add total = 0;
   // add total = total + totalTime[i];
@@ -173,7 +179,6 @@ $(document).ready(function () {
           {
             data: totalTime,
             backgroundColor: getRandomColor(data.length),
-            //borderColor: [],
             borderWidth: 1,
           },
         ],
@@ -191,7 +196,6 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
             color: 'white',
@@ -206,7 +210,6 @@ $(document).ready(function () {
   };
 
   /* Total Tiempos */
-
   graphicPromTime = (dataAvTime, dataCostTime) => {
     let timeData = [];
 
@@ -244,7 +247,6 @@ $(document).ready(function () {
           {
             data: timeData,
             backgroundColor: getRandomColor(2),
-            //borderColor: [],
             borderWidth: 1,
           },
         ],
@@ -262,7 +264,6 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
             color: 'white',
@@ -277,17 +278,23 @@ $(document).ready(function () {
   };
 
   /* Composición Precio */
-
   graphicCompPrices = (data) => {
     let total = 0;
+
+    let cost =
+      data[0].cost_materials +
+      data[0].cost_workforce +
+      data[0].cost_indirect_cost;
+
+    data[0].assignable_expense == 0
+      ? (assignable_expense = (data[0].expense_recover / 100) * cost)
+      : (assignable_expense = data[0].assignable_expense);
+
     let product = {
-      costs:
-        data[0].cost_materials +
-        data[0].cost_workforce +
-        data[0].cost_indirect_cost,
+      costs: cost,
       commSale: (data[0].price * data[0].commission_sale) / 100,
       profitability: (data[0].price * data[0].profitability) / 100,
-      assignableExpense: data[0].assignable_expense,
+      assignableExpense: assignable_expense,
     };
 
     for (let i in product) {
@@ -313,7 +320,6 @@ $(document).ready(function () {
           {
             data: Object.values(product),
             backgroundColor: getRandomColor(5),
-            //borderColor: [],
             borderWidth: 1,
           },
         ],
@@ -331,7 +337,6 @@ $(document).ready(function () {
                 sum += data;
               });
               let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
             color: 'white',
@@ -346,7 +351,6 @@ $(document).ready(function () {
   };
 
   /* Costos de la materia prima */
-
   graphicCostMaterials = (data) => {
     let material = [];
     let totalMaterial = [];
@@ -368,7 +372,6 @@ $(document).ready(function () {
           {
             data: totalMaterial,
             backgroundColor: getRandomColor(data.length),
-            //borderColor: [],
             borderWidth: 1,
           },
         ],
@@ -385,7 +388,7 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: 'end',
-            formatter: (totalMaterial) => totalMaterial.toLocaleString(),
+            formatter: (totalMaterial) => totalMaterial.toLocaleString('es-CO'),
             color: 'black',
             font: {
               size: '10',

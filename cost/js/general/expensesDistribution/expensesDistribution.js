@@ -1,33 +1,24 @@
 $(document).ready(function () {
   /* Ocultar table de ingreso de datos volumen y unidades */
   $('.cardExpensesDistribution').hide();
-  $('.cardRecoverExpenses').hide();
 
   /* Abrir ventana para ingresar el volumen dy unidades de ventas para calcular gastos atribuibles al producto */
   $('#btnExpensesDistribution').click(function (e) {
     e.preventDefault();
+    $('.selectNameProduct option').removeAttr('selected');
+    $('.refProduct option').removeAttr('selected');
+    $(`.selectNameProduct option[value='0']`).prop('selected', true);
+    $(`.refProduct option[value='0']`).prop('selected', true);
 
     $('.cardImportDistributionExpenses').hide(800);
-    $('.cardRecoverExpenses').hide(800);
-    $('.cardExpensesDistribution').toggle(800);
+    $('.cardExpenseRecover').hide(800);
     $('#btnAssignExpenses').html('Asignar');
+    $('.cardExpensesDistribution').toggle(800);
 
     sessionStorage.removeItem('id_expenses_distribution');
 
-    $('#formExpensesDistribution').trigger('reset');
-  });
-
-  $('#btnNewRecoverExpenses').click(function (e) {
-    e.preventDefault();
-
-    $('.cardImportDistributionExpenses').hide(800);
-    $('.cardExpensesDistribution').hide(800);
-    $('.cardRecoverExpenses').toggle(800);
-    $('#btnAssignExpenses').html('Guardar');
-
-    sessionStorage.removeItem('id_recover_expense');
-
-    $('#formExpensesDistribution').trigger('reset');
+    $('#undVendidas').val('');
+    $('#volVendidas').val('');
   });
 
   $('#btnAssignExpenses').click(function (e) {
@@ -37,8 +28,8 @@ $(document).ready(function () {
     );
 
     if (idExpensesDistribution == '' || idExpensesDistribution == null) {
-      let refProduct = parseInt($('#refProduct').val());
-      let nameProduct = parseInt($('#selectNameProduct').val());
+      let refProduct = parseInt($('#EDRefProduct').val());
+      let nameProduct = parseInt($('#EDNameProduct').val());
       let unitExp = parseInt($('#undVendidas').val());
       let volExp = parseInt($('#volVendidas').val());
 
@@ -56,7 +47,7 @@ $(document).ready(function () {
         '../../api/addExpensesDistribution',
         expensesDistribution,
         function (data, textStatus, jqXHR) {
-          message(data);
+          message(data, 1);
         }
       );
     } else {
@@ -65,28 +56,30 @@ $(document).ready(function () {
   });
 
   /* Actualizar gasto */
-
   $(document).on('click', '.updateExpenseDistribution', function (e) {
     $('.cardImportDistributionExpenses').hide(800);
+    $('.cardExpenseRecover').hide(800);
     $('.cardExpensesDistribution').show(800);
     $('#btnAssignExpenses').html('Actualizar');
 
     let row = $(this).parent().parent()[0];
-    let data = tblExpensesDistribution.fnGetData(row);
+    let data = tblExpenseRecover.fnGetData(row);
 
     sessionStorage.setItem(
       'id_expenses_distribution',
       data.id_expenses_distribution
     );
 
-    $(`#selectNameProduct option:contains(${data.product})`).prop(
+    $(`#EDNameProduct option:contains(${data.product})`).prop('selected', true);
+    $(`#EDRefProduct option:contains(${data.reference})`).prop(
       'selected',
       true
     );
-    $(`#refProduct option:contains(${data.reference})`).prop('selected', true);
-    $('#undVendidas').val(data.units_sold.toLocaleString());
-    $('#volVendidas').val(data.turnover.toLocaleString());
-    $('#expensesToDistribution').val(data.assignable_expense.toLocaleString());
+    $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
+    $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));
+    $('#expensesToDistribution').val(
+      data.assignable_expense.toLocaleString('es-CO')
+    );
 
     $('html, body').animate(
       {
@@ -113,16 +106,16 @@ $(document).ready(function () {
       '../../api/updateExpensesDistribution',
       data,
       function (data, textStatus, jqXHR) {
-        message(data);
+        message(data, 1);
       }
     );
   };
 
   /* Eliminar gasto */
 
-  deleteFunction = () => {
+  deleteExpenseDistribution = () => {
     let row = $(this.activeElement).parent().parent()[0];
-    let data = tblExpensesDistribution.fnGetData(row);
+    let data = tblExpenseRecover.fnGetData(row);
 
     let id_expenses_distribution = data.id_expenses_distribution;
 
@@ -153,7 +146,7 @@ $(document).ready(function () {
             '../../api/deleteExpensesDistribution',
             dataExpensesDistribution,
             function (data, textStatus, jqXHR) {
-              message(data);
+              message(data, 1);
             }
           );
         }
@@ -163,11 +156,13 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  message = (data, op) => {
     if (data.success == true) {
       $('.cardExpensesDistribution').hide(800);
+      $('.cardExpenseRecover').hide(800);
       $('#formExpensesDistribution').trigger('reset');
-      updateTable();
+      $('#formExpenseRecover').trigger('reset');
+      updateTable(op);
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
@@ -176,8 +171,10 @@ $(document).ready(function () {
 
   /* Actualizar tabla */
 
-  function updateTable() {
-    $('#tblExpensesDistribution').DataTable().clear();
-    $('#tblExpensesDistribution').DataTable().ajax.reload();
+  function updateTable(op) {
+    /* Cambiar select */
+    $(`#typeExpense option[value='${op}']`).prop('selected', true);
+
+    $('#typeExpense').change();
   }
 });

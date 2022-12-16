@@ -6,6 +6,7 @@ $(document).ready(function () {
   $('#btnImportNewExpensesDistribution').click(function (e) {
     e.preventDefault();
     $('.cardExpensesDistribution').hide(800);
+    $('.cardExpenseRecover').hide(800);
     $('.cardImportDistributionExpenses').toggle(800);
   });
 

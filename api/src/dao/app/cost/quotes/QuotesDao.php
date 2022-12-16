@@ -21,7 +21,7 @@ class QuotesDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT q.id_quote, q.id_contact, q.offer_validity, q.warranty, q.id_payment_method, q.id_company, CONCAT(c.firstname, ' ' , c.lastname) AS contact, 
-                                             cp.company_name, SUM((qp.quantity * qp.price) * (1 - (qp.discount/100))) AS price, q.delivery_date, q.observation, pm.method
+                                             cp.company_name, SUM((qp.quantity * qp.price) * (1 - (qp.discount/100))) AS price, q.delivery_date, q.observation, pm.method, q.flag_quote
                                         FROM quotes q 
                                         INNER JOIN quote_customers c ON c.id_contact = q.id_contact 
                                         INNER JOIN quote_companies cp ON cp.id_quote_company  = c.id_company  
@@ -188,6 +188,24 @@ class QuotesDao
                 $stmt->execute(['id_quote' => $id_quote]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updateFlagQuote($dataQuote)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE quotes SET flag_quote = :flag_quote WHERE id_quote = :id_quote");
+            $stmt->execute([
+                'id_quote' => $dataQuote['idQuote'],
+                'flag_quote' => 1
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);

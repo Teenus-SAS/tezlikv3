@@ -21,7 +21,7 @@ $(document).ready(function () {
           // }
           // number = number.replace(',', '.');
 
-          // number = parseFloat(number).toLocaleString();
+          // number = parseFloat(number).toLocaleString('es-CO');
         }
 
         return number;

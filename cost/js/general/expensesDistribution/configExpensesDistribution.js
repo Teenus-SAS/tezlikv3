@@ -4,7 +4,9 @@ $(document).ready(function () {
     type: 'GET',
     url: `/api/expenseTotal`,
     success: function (r) {
-      $('#expensesToDistribution').val(`$ ${r.total_expense.toLocaleString()}`);
+      $('#expensesToDistribution').val(
+        `$ ${r.total_expense.toLocaleString('es-CO')}`
+      );
       $('#expensesToDistribution').prop('disabled', true);
     },
   });

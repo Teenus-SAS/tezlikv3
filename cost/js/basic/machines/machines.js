@@ -54,13 +54,14 @@ $(document).ready(function () {
     let data = tblMachines.fnGetData(row);
 
     $('#machine').val(data.machine);
-    $('#costMachine').val(data.cost.toLocaleString());
-    $('#residualValue').val(data.residual_value.toLocaleString());
+    $('#costMachine').val(data.cost.toLocaleString('es-CO'));
+    $('#residualValue').val(data.residual_value.toLocaleString('es-CO'));
     $('#depreciationYears').val(data.years_depreciation);
 
     let hours_machine = data.hours_machine;
 
-    if (hours_machine.isInteger) hours_machine = hours_machine.toLocaleString();
+    if (hours_machine.isInteger)
+      hours_machine = hours_machine.toLocaleString('es-CO');
     else
       hours_machine = hours_machine.toLocaleString(undefined, {
         minimumFractionDigits: 2,
