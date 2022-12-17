@@ -1,18 +1,42 @@
 <?php
 
 use tezlikv3\dao\ExpensesDao;
+use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\PucDao;
 use tezlikv3\dao\TotalExpenseDao;
 
 $expensesDao = new ExpensesDao();
 $pucDao = new PucDao();
 $totalExpenseDao = new TotalExpenseDao();
+$licenseCompanyDao = new LicenseCompanyDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-/* Consulta todos */
+$app->get('/checkTypeExpense', function (Request $request, Response $response, $args) use ($licenseCompanyDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $typeExpense = $licenseCompanyDao->findLicenseCompany($id_company);
+    $response->getBody()->write(json_encode($typeExpense, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 
+$app->get('/changeTypeExpense/{flag}', function (Request $request, Response $response, $args) use ($licenseCompanyDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $typeExpense = $licenseCompanyDao->updateFlagExpense($args['flag'], $id_company);
+
+    if ($typeExpense == null)
+        $resp = array('success' => true, 'message' => 'Se selecciono el tipo gasto correctamente');
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+
+/* Consulta todos */
 $app->get('/expenses', function (Request $request, Response $response, $args) use ($expensesDao) {
     $expenses = $expensesDao->findAllExpensesByCompany();
     $response->getBody()->write(json_encode($expenses, JSON_NUMERIC_CHECK));

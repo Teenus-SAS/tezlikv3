@@ -211,7 +211,7 @@
                                                             <h6 class="mb-0 pl-3 text-right" id="payWorkforce">$</h6>
                                                             <p class="text-muted mb-2 pl-3">Costos Indirectos</p>
                                                             <h6 class="mb-0 pl-3 text-right " id="payIndirectCost">$</h6>
-                                                            <p class="mb-2" style="color:darkcyan">Gastos</p>
+                                                            <p class="mb-2" style="color:darkcyan" id="expenses">Gastos</p>
                                                             <h6 class="mb-0 pl-3 text-right" id="payAssignableExpenses"></h6>
                                                             <p class="mb-2" style="color:darkcyan" id="commission">Comisión Vts</p>
                                                             <h6 class="mb-0 pl-3 text-right" id="commisionSale"></h6>

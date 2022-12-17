@@ -84,7 +84,7 @@ $(document).ready(function () {
     percentRawMaterial = (data[0].cost_materials / costTotal) * 100;
     percentWorkforce = (data[0].cost_workforce / costTotal) * 100;
     percentIndirectCost = (data[0].cost_indirect_cost / costTotal) * 100;
-    percentAssignableExpenses = (assignable_expense / costTotal) * 100;
+    percentAssignableExpenses = (assignable_expense / cost) * 100;
 
     $('#percentRawMaterial').html(`${percentRawMaterial.toFixed(2)} %`);
     $('#percentWorkforce').html(`${percentWorkforce.toFixed(2)} %`);
@@ -144,6 +144,7 @@ $(document).ready(function () {
       ? (assignable_expense = (data[0].expense_recover / 100) * dataCost.cost)
       : (assignable_expense = data[0].assignable_expense);
 
+    $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
     $('#payAssignableExpenses').html(
       `$ ${assignable_expense.toLocaleString('es-CO', {
         minimumFractionDigits: 2,

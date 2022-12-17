@@ -39,7 +39,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
         $insert = 0;
         $update = 0;
 
-        $expensesDistribution = $dataExpensesDistribution['importExpenseDistribution'];
+        $expensesDistribution = $dataExpensesDistribution['importExpense'];
 
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
             // Obtener id producto
@@ -92,7 +92,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
     } else {
-        $expensesDistribution = $dataExpensesDistribution['importExpenseDistribution'];
+        $expensesDistribution = $dataExpensesDistribution['importExpense'];
 
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
             // Obtener id producto

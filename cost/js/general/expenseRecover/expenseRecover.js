@@ -7,8 +7,10 @@ $(document).ready(function () {
     $('.refProduct option').removeAttr('selected');
     $(`.selectNameProduct option[value='0']`).prop('selected', true);
     $(`.refProduct option[value='0']`).prop('selected', true);
+    $(`#ERNameProduct`).prop('disabled', false);
+    $(`#ERRefProduct`).prop('disabled', false);
 
-    $('.cardImportDistributionExpenses').hide(800);
+    $('.cardImportExpenses').hide(800);
     $('.cardExpensesDistribution').hide(800);
     $('.cardExpenseRecover').toggle(800);
     $('#btnAssignExpenses').html('Guardar');
@@ -48,7 +50,7 @@ $(document).ready(function () {
 
   /* Actualizar recuperacion gasto */
   $(document).on('click', '.updateExpenseRecover', function () {
-    $('.cardImportDistributionExpenses').hide(800);
+    $('.cardImportExpenses').hide(800);
     $('.cardExpensesDistribution').hide(800);
     $('.cardExpenseRecover').show(800);
     $('#btnExpenseRecover').html('Actualizar');
@@ -63,6 +65,10 @@ $(document).ready(function () {
       'selected',
       true
     );
+
+    $(`#ERNameProduct`).prop('disabled', true);
+    $(`#ERRefProduct`).prop('disabled', true);
+
     $('#percentage').val(data.expense_recover);
 
     $('html, body').animate(

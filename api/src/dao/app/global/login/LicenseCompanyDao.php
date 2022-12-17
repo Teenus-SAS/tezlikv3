@@ -21,7 +21,7 @@ class LicenseCompanyDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM companies_licenses  WHERE id_company = :id_company");
+        $stmt = $connection->prepare("SELECT * FROM companies_licenses WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $dataCompany = $stmt->fetch($connection::FETCH_ASSOC);
@@ -118,5 +118,16 @@ class LicenseCompanyDao
             $stmt->execute(['id_company_license' => $id_company_license]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
+    }
+
+    public function updateFlagExpense($flag_expense, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("UPDATE companies_licenses SET flag_expense = :flag_expense WHERE id_company = :id_company");
+        $stmt->execute([
+            'flag_expense' => $flag_expense,
+            'id_company' => $id_company
+        ]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 }

@@ -65,15 +65,17 @@ $(document).ready(function () {
       let fecha1 = moment(fecha);
       let fecha2 = moment(hoy);
 
-      let dias = fecha2.diff(fecha1, 'd');
-      let horas = fecha2.diff(fecha1, 'h');
-      let minutos = fecha2.diff(fecha1, 'm');
       let segundos = fecha2.diff(fecha1, 's');
+      let minutos = fecha2.diff(fecha1, 'm');
+      let horas = fecha2.diff(fecha1, 'h');
+      let dias = fecha2.diff(fecha1, 'd');
+      let meses = fecha2.diff(fecha1, 'month');
 
       if (segundos <= 60) time = `${segundos} seconds`;
       else if (minutos <= 60) time = `${minutos} mins`;
       else if (horas <= 24) time = `${horas} hours`;
       else if (dias <= lateDay.getDate()) time = `${dias} days`;
+      else time = `${meses} months`;
 
       notify_scrollbar = document.getElementsByClassName('notify-scrollbar');
 

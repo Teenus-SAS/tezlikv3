@@ -1,8 +1,10 @@
 <?php
 
 use tezlikv3\dao\ExpenseRecoverDao;
+use tezlikv3\dao\ProductsDao;
 
 $expenseRecoverDao = new ExpenseRecoverDao();
+$productsDao = new ProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,32 +18,96 @@ $app->get('/expensesRecover', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
+$app->post('/expenseRecoverDataValidation', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $productsDao) {
+    $dataExpense = $request->getParsedBody();
+
+    if (isset($dataExpense)) {
+        session_start();
+        $id_company = $_SESSION['id_company'];
+
+        $insert = 0;
+        $update = 0;
+
+        $expensesRecover = $dataExpense['importExpense'];
+
+        for ($i = 0; $i < sizeof($expensesRecover); $i++) {
+            // Obtener id producto
+            $findProduct = $productsDao->findProduct($expensesRecover[$i], $id_company);
+            if (!$findProduct) {
+                $i = $i + 1;
+                $dataImportExpenseRecover = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila{$i}");
+                break;
+            } else $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
+
+            if (empty($expensesRecover[$i]['percentage'])) {
+                $i = $i + 1;
+                $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            } else {
+                $expenseRecover = $expenseRecoverDao->findExpenseRecover($expensesRecover[$i], $id_company);
+                if (!$expenseRecover) $insert = $insert + 1;
+                else $update = $update + 1;
+                $dataImportExpenseRecover['insert'] = $insert;
+                $dataImportExpenseRecover['update'] = $update;
+            }
+        }
+    } else
+        $dataImportExpenseRecover = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($dataImportExpenseRecover, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/addExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $productsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $dataExpenses = $request->getParsedBody();
+    $dataExpense = $request->getParsedBody();
 
-    $expensesRecover = $expenseRecoverDao->insertRecoverExpenseByCompany($dataExpenses, $id_company);
+    $dataExpenses = sizeof($dataExpense);
 
-    if ($expensesRecover == null)
-        $resp = array('success' => true, 'message' => 'Gasto guardado correctamente');
-    else if (isset($expensesRecover['info']))
-        $resp = array('info' => true, 'message' => $expensesRecover['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
+    if ($dataExpenses > 1) {
+        $expensesRecover = $expenseRecoverDao->insertRecoverExpenseByCompany($dataExpense, $id_company);
 
+        if ($expensesRecover == null)
+            $resp = array('success' => true, 'message' => 'Gasto guardado correctamente');
+        else if (isset($expensesRecover['info']))
+            $resp = array('info' => true, 'message' => $expensesRecover['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
+    } else {
+        $expensesRecover = $dataExpense['importExpense'];
+
+        for ($i = 0; $i < sizeof($expensesRecover); $i++) {
+            // Obtener id producto
+            $findProduct = $productsDao->findProduct($expensesRecover[$i], $id_company);
+            $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
+
+            $expenseRecover = $expenseRecoverDao->findExpenseRecover($expensesRecover[$i], $id_company);
+            if (!$expenseRecover)
+                $resolution = $expenseRecoverDao->insertRecoverExpenseByCompany($expensesRecover[$i], $id_company);
+            else {
+                $expensesRecover[$i]['idExpenseRecover'] = $expenseRecover['id_expense_recover'];
+                $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
+            }
+        }
+
+        if ($resolution == null)
+            $resp = array('success' => true, 'message' => 'Recuperación de gasto importada correctamente');
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
+    }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
-    $dataExpenses = $request->getParsedBody();
+    $dataExpense = $request->getParsedBody();
 
-    if (empty($dataExpenses['idExpenseRecover']) || $dataExpenses['percentage'] < 0)
+    if (empty($dataExpense['idExpenseRecover']) || $dataExpense['percentage'] < 0)
         $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
     else {
-        $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpenses);
+        $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
 
         if ($expensesRecover == null)
             $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
@@ -55,9 +121,9 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 });
 
 $app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
-    $dataExpenses = $request->getParsedBody();
+    $dataExpense = $request->getParsedBody();
 
-    $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpenses['idExpenseRecover']);
+    $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);
 
     if ($expensesRecover == null)
         $resp = array('success' => true, 'message' => 'Gasto eliminado correctamente');

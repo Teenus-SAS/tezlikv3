@@ -1,17 +1,4 @@
 $(document).ready(function () {
-  $('#typeExpense').change(function (e) {
-    e.preventDefault();
-    if ($.fn.dataTable.isDataTable('#tblExpenses')) {
-      $('#tblExpenses').DataTable().destroy();
-      $('#tblExpenses').empty();
-    }
-
-    let value = this.value;
-
-    if (value == 1) loadTableExpensesDistribution();
-    else if (value == 2) loadTableExpenseRecover();
-  });
-
   /* Sincronizar selects referencia y nombre producto */
   $('.refProduct').change(function (e) {
     e.preventDefault();

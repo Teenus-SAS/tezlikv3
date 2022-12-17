@@ -33,6 +33,20 @@ class ExpenseRecoverDao
         return $recoverExpense;
     }
 
+    public function findExpenseRecover($dataExpense, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT id_expense_recover FROM expenses_recover 
+                                      WHERE id_product = :id_product AND id_company = :id_company");
+        $stmt->execute([
+            'id_product' => trim($dataExpense['idProduct']),
+            'id_company' => $id_company
+        ]);
+        $expenseRecover = $stmt->fetch($connection::FETCH_ASSOC);
+        return $expenseRecover;
+    }
+
     public function insertRecoverExpenseByCompany($dataExpense, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -46,7 +60,10 @@ class ExpenseRecoverDao
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
-            $message = $e->getMessage();
+            if ($e->getCode() == 23000)
+                $message = 'Producto ya registrado. Intente con uno nuevo';
+            else $message = $e->getMessage();
+
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

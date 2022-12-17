@@ -10,7 +10,7 @@ $(document).ready(function () {
     $(`.selectNameProduct option[value='0']`).prop('selected', true);
     $(`.refProduct option[value='0']`).prop('selected', true);
 
-    $('.cardImportDistributionExpenses').hide(800);
+    $('.cardImportExpenses').hide(800);
     $('.cardExpenseRecover').hide(800);
     $('#btnAssignExpenses').html('Asignar');
     $('.cardExpensesDistribution').toggle(800);
@@ -57,7 +57,7 @@ $(document).ready(function () {
 
   /* Actualizar gasto */
   $(document).on('click', '.updateExpenseDistribution', function (e) {
-    $('.cardImportDistributionExpenses').hide(800);
+    $('.cardImportExpenses').hide(800);
     $('.cardExpenseRecover').hide(800);
     $('.cardExpensesDistribution').show(800);
     $('#btnAssignExpenses').html('Actualizar');
@@ -172,9 +172,10 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   function updateTable(op) {
-    /* Cambiar select */
-    $(`#typeExpense option[value='${op}']`).prop('selected', true);
-
-    $('#typeExpense').change();
+    if ($.fn.dataTable.isDataTable('#tblExpenses')) {
+      $('#tblExpenses').DataTable().destroy();
+      $('#tblExpenses').empty();
+    }
+    op == 1 ? loadTableExpensesDistribution() : loadTableExpenseRecover();
   }
 });

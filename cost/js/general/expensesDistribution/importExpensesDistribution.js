@@ -1,24 +1,25 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportDistributionExpenses').hide();
+  $('.cardImportExpenses').hide();
 
-  $('#btnImportNewExpensesDistribution').click(function (e) {
+  $('#btnImportNewExpenses').click(function (e) {
     e.preventDefault();
     $('.cardExpensesDistribution').hide(800);
     $('.cardExpenseRecover').hide(800);
-    $('.cardImportDistributionExpenses').toggle(800);
+    $('#lblImprotExpense').html(this.value);
+    $('.cardImportExpenses').toggle(800);
   });
 
-  $('#fileDistributionExpenses').change(function (e) {
+  $('#fileExpenses').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportDistributionExpenses').click(function (e) {
+  $('#btnImportExpenses').click(function (e) {
     e.preventDefault();
 
-    let file = $('#fileDistributionExpenses').val();
+    let file = $('#fileExpenses').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -27,15 +28,25 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        let expenseDistributionToImport = data.map((item) => {
-          return {
-            referenceProduct: item.referencia_producto.trim(),
-            product: item.producto.trim(),
-            unitsSold: item.unidades_vendidas,
-            turnover: item.volumen_ventas,
-          };
+        let expenseToImport = data.map((item) => {
+          if (option == 1) {
+            url = '/api/expenseDistributionDataValidation';
+            return {
+              referenceProduct: item.referencia_producto.trim(),
+              product: item.producto.trim(),
+              unitsSold: item.unidades_vendidas,
+              turnover: item.volumen_ventas,
+            };
+          } else if (option == 2) {
+            url = '/api/expenseRecoverDataValidation';
+            return {
+              referenceProduct: item.referencia_producto.trim(),
+              product: item.producto.trim(),
+              percentage: item.porcentaje_recuperado,
+            };
+          }
         });
-        checkExpenseDistribution(expenseDistributionToImport);
+        checkExpense(expenseToImport, url);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -43,15 +54,15 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkExpenseDistribution = (data) => {
+  checkExpense = (data, url) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/expenseDistributionDataValidation',
-      data: { importExpenseDistribution: data },
+      url: url,
+      data: { importExpense: data },
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
-          $('#fileDistributionExpenses').val('');
+          $('#fileExpenses').val('');
           return false;
         }
 
@@ -70,24 +81,28 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveExpenseDistribution(data);
-            } else $('#fileDistributionExpenses').val('');
+              option == 1
+                ? (url = '/api/addExpensesDistribution')
+                : (url = '/api/addExpenseRecover');
+
+              saveExpenses(data, url);
+            } else $('#fileExpenses').val('');
           },
         });
       },
     });
   };
 
-  saveExpenseDistribution = (data) => {
+  saveExpenses = (data, url) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addExpensesDistribution',
-      data: { importExpenseDistribution: data },
+      url: url,
+      data: { importExpense: data },
       success: function (r) {
         /* Mensaje de exito */
         if (r.success == true) {
-          $('.cardImportDistributionExpenses').hide(800);
-          $('#formImportDistributionExpenses').trigger('reset');
+          $('.cardImportExpenses').hide(800);
+          $('#formImportExpenses').trigger('reset');
           updateTable();
           toastr.success(r.message);
           return false;
@@ -96,18 +111,25 @@ $(document).ready(function () {
 
         /* Actualizar tabla */
         function updateTable() {
-          $('#tblExpensesDistribution').DataTable().clear();
-          $('#tblExpensesDistribution').DataTable().ajax.reload();
+          if ($.fn.dataTable.isDataTable('#tblExpenses')) {
+            $('#tblExpenses').DataTable().destroy();
+            $('#tblExpenses').empty();
+          }
+          option == 1
+            ? loadTableExpensesDistribution()
+            : loadTableExpenseRecover();
         }
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsDistributionExpenses').click(function (e) {
+  $('#btnDownloadImportsExpenses').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx';
+    option == 1
+      ? (url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx')
+      : (url = 'assets/formatsXlsx/Recuperacion_Gastos.xlsx');
 
     let link = document.createElement('a');
     link.target = '_blank';

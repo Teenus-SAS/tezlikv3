@@ -35,15 +35,15 @@
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Distribución Gastos Generales</li>
+                                        <li class="breadcrumb-item active" id="descrExpense"></li>
                                     </ol>
                                 </div>
                             </div>
                             <div class="col-sm-7 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
-                                    <button class="btn btn-primary ml-3" id="btnNewExpenseRecover">Recuperar Gastos</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewExpensesDistribution">Importar Distribuir Gastos</button>
+                                    <button class="btn btn-warning" id="btnExpensesDistribution" style="display:none;">Distribuir Gastos</button>
+                                    <button class="btn btn-primary ml-3" id="btnNewExpenseRecover" style="display:none;">Recuperar Gastos</button>
+                                    <button class="btn btn-info ml-3" id="btnImportNewExpenses" style="display:none;"></button>
                                 </div>
                             </div>
                         </div>
@@ -137,23 +137,23 @@
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportDistributionExpenses">
+                <div class="page-content-wrapper mt--45 mb-5 cardImportExpenses">
                     <div class="container-fluid">
                         <div class="row">
-                            <form id="formImportDistributionExpenses" enctype="multipart/form-data">
+                            <form id="formImportExpenses" enctype="multipart/form-data">
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-body pt-3 pb-0">
                                             <div class="gridx4ip">
                                                 <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                                    <input class="form-control" type="file" id="fileDistributionExpenses" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label">Importar Distribución</label>
+                                                    <input class="form-control" type="file" id="fileExpenses" accept=".xls,.xlsx">
+                                                    <label for="formFile" id="lblImprotExpense" class="form-label"></label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportDistributionExpenses">Importar</button>
+                                                    <button type="text" class="btn btn-success" id="btnImportExpenses">Importar</button>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsDistributionExpenses">Descarga Formato</button>
+                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses">Descarga Formato</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -172,13 +172,6 @@
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="form-inline justify-content-sm-end mb-4">
-                                            <select class="form-control" name="typeExpense" id="typeExpense" style="margin-right: 15px;">
-                                                <option selected="" disabled="">Seleccionar</option>
-                                                <option value="1">Distribución</option>
-                                                <option value="2">Recuperación</option>
-                                            </select>
-                                        </div>
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblExpenses">
                                             </table>
@@ -199,7 +192,7 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-
+    <script src="/global/js/global/searchData.js"></script>
     <script src="/global/js/global/number.js"></script>
     <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
     <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>
