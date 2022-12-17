@@ -112,7 +112,6 @@ $(document).ready(function () {
 
   totalCostData = (data) => {
     dataCost = getDataCost(data[0]);
-    // $('#salesPrice').html(`$ ${data[0].price.toLocaleString('es-CO')}`);
     $('#costTotal').html(
       `$ ${dataCost.costTotal.toLocaleString('es-CO', {
         minimumFractionDigits: 0,

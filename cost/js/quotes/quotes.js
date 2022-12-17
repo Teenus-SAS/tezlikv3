@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  sessionStorage.removeItem('id_quote');
+  sessionStorage.removeItem('option');
+
   /* Ocultar modal para crear Cotizaciones */
   $('.btnCloseQuote').click(function (e) {
     e.preventDefault();
@@ -187,14 +190,20 @@ $(document).ready(function () {
   };
 
   /* Ver detalle cotizacion */
-  seeQuote = () => {
-    sessionStorage.removeItem('id_quote');
-    let row = $(this.activeElement).parent().parent()[0];
+  seeQuote = (op) => {
+    let row = $(this.activeElement)
+      .parent()
+      .parent()
+      .parent()
+      .parent()
+      .parent()[0];
     let data = tblQuotes.fnGetData(row);
 
     let idQuote = data.id_quote;
 
     sessionStorage.setItem('id_quote', idQuote);
+
+    if (op == 2) sessionStorage.setItem('option', 1);
   };
 
   /* Mensaje de exito */

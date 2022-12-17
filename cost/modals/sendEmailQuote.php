@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Enviar Cotización</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" class="close btnCloseSendEmail" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCloseSendEmail">Cerrar</button>
+                <button type="button" class="btn btn-secondary btnCloseSendEmail" data-bs-dismiss="modal">Cerrar</button>
                 <button class="btn btn-primary chat-send-btn" data-effect="wave" id="btnSend">
                     <span class="d-none d-sm-inline-block mr-2 align-middle">Enviar</span>
                     <i class="bx bxs-send fs-sm align-middle"></i>

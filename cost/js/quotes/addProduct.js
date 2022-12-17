@@ -51,26 +51,25 @@ $(document).ready(function () {
   };
 
   /* Calcular precio total */
-  $(document).on('click keyup', '.calcPrice', function (e) {
-    let id = this.id;
 
-    if (id.includes('price')) {
-      let idProduct = $('#refProduct').val();
-      if (idProduct > 0) {
-        let oldPrice = sessionStorage.getItem('price');
+  $(document).on('blur', '#price', function (e) {
+    let idProduct = $('#refProduct').val();
+    if (idProduct > 0) {
+      let oldPrice = sessionStorage.getItem('price');
 
-        let price = replaceNumber(this.value);
+      let price = replaceNumber(this.value);
 
-        if (price < parseInt(oldPrice)) {
-          oldPrice = parseInt(oldPrice).toLocaleString('es-CO');
+      if (price < parseInt(oldPrice)) {
+        oldPrice = parseInt(oldPrice).toLocaleString('es-CO');
 
-          $('#price').val(oldPrice);
-          toastr.error('Ingrese un precio mayor al original');
-          return false;
-        }
+        $('#price').val(oldPrice);
+        toastr.error('Ingrese un precio mayor al original');
+        return false;
       }
     }
+  });
 
+  $(document).on('click keyup', '.calcPrice', function (e) {
     let quantity = $('#quantity').val();
     let price = $('#price').val();
     let discount = $('#discount').val();
@@ -105,7 +104,12 @@ $(document).ready(function () {
     let price = $('#price').val();
     let quantity = $('#quantity').val();
 
-    if (ref == 'Seleccionar' || price == '' || quantity == '') {
+    if (
+      ref == 'Seleccionar' ||
+      price == '' ||
+      quantity == '' ||
+      quantity == 0
+    ) {
       toastr.error('Para cotizar, ingrese todos los datos de los productos');
       return false;
     }
