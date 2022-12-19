@@ -246,7 +246,7 @@ if (!isset($_SESSION)) {
                                             <canvas id="chartWorkForce" style="width: 90%;"></canvas>
                                             <div class="center-text">
                                                 <p class="text-muted mb-1 font-weight-600">Total Costo</p>
-                                                <h4 class="mb-0 font-weight-bold" id="totalCostWorkforceEsp"></h4>
+                                                <p class="mb-0 font-weight-bold" id="totalCostWorkforceEsp"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -264,7 +264,7 @@ if (!isset($_SESSION)) {
                                             </div>
                                             <div class="center-text">
                                                 <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
-                                                <h4 class="mb-0 font-weight-bold" id="totalTimeProcess"></h4>
+                                                <p class="mb-0 font-weight-bold" id="totalTimeProcess"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -282,7 +282,7 @@ if (!isset($_SESSION)) {
                                             </div>
                                             <div class="center-text">
                                                 <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
-                                                <h4 class="mb-0 font-weight-bold" id="manufactPromTime"></h4>
+                                                <p class="mb-0 font-weight-bold" id="manufactPromTime"></p>
                                             </div>
                                         </div>
                                     </div>
@@ -300,7 +300,7 @@ if (!isset($_SESSION)) {
                                             </div>
                                             <div class="center-text">
                                                 <p class="text-muted mb-1 font-weight-600">Precio Total</p>
-                                                <h4 class="mb-0 font-weight-bold" id="totalPricesComp"></h4>
+                                                <p class="mb-0 font-weight-bold" id="totalPricesComp"></p>
                                             </div>
                                         </div>
                                     </div>
