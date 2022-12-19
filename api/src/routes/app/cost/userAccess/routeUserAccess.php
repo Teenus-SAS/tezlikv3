@@ -68,6 +68,8 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
 $app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $generalUAccessDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $idUser = $_SESSION['idUser'];
+
     $dataUserAccess = $request->getParsedBody();
 
     $findUserAccess = $userAccessDao->findUserAccess($id_company, $dataUserAccess['idUser']);
@@ -78,7 +80,8 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
         $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_company);
 
     /* Modificar accesos */
-    $generalUAccessDao->setGeneralAccess($dataUserAccess['idUser']);
+    if ($idUser == $dataUserAccess['idUser'])
+        $generalUAccessDao->setGeneralAccess($dataUserAccess['idUser']);
 
     if ($userAccess == null)
         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');

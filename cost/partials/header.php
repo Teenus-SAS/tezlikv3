@@ -28,8 +28,8 @@
                         <div class="col-sm-9">
                             <div class="row" id="nav">
                                 <?php if (
-                                    $_SESSION['cost_product'] != 0 && $_SESSION['cost_material'] != 0 &&
-                                    $_SESSION['cost_machine'] != 0 && $_SESSION['cost_process'] != 0
+                                    $_SESSION['cost_product'] != 0 || $_SESSION['cost_material'] != 0 ||
+                                    $_SESSION['cost_machine'] != 0 || $_SESSION['cost_process'] != 0
                                 ) { ?>
                                     <div class="col-md-3" id="navCostBasics">
                                         <h5 class="font-size-14 font-weight-600">Básico</h5>
@@ -50,8 +50,8 @@
                                     </div>
                                 <?php } ?>
                                 <?php if (
-                                    $_SESSION['cost_products_material'] != 0 && $_SESSION['cost_products_process'] != 0 &&
-                                    $_SESSION['factory_load'] != 0 && $_SESSION['external_service'] != 0
+                                    $_SESSION['cost_products_material'] != 0 || $_SESSION['cost_products_process'] != 0 ||
+                                    $_SESSION['factory_load'] != 0 || $_SESSION['external_service'] != 0
                                 ) { ?>
                                     <div class="col-md-3" id="navCostSetting">
                                         <h5 class="font-size-14 font-weight-600">Configuración</h5>
@@ -73,7 +73,7 @@
                                 <?php } ?>
 
                                 <?php if (
-                                    $_SESSION['payroll_load'] != 0 && $_SESSION['expense'] != 0 &&
+                                    $_SESSION['payroll_load'] != 0 || $_SESSION['expense'] != 0 ||
                                     $_SESSION['expense_distribution'] != 0
                                 ) { ?>
                                     <div class="col-md-3" id="navCostGeneral">
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <?php if ($_SESSION['quote_payment_method'] != 0 && $_SESSION['quote_company'] != 0 && $_SESSION['quote_contact'] != 0) { ?>
+            <?php if ($_SESSION['quote_payment_method'] != 0 || $_SESSION['quote_company'] != 0 || $_SESSION['quote_contact'] != 0) { ?>
                 <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                     <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
                         <i class="bx bxs-cog bx-spin" style="font-size: 2em;"></i>

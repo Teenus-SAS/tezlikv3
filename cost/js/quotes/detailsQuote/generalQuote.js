@@ -91,13 +91,13 @@ $(document).ready(function () {
     });
   });
 
-  message = (data) => {
+  message = (resp) => {
     data = {};
-    if (data.success == true) {
-      toastr.success(data.message);
+    if (resp.success == true) {
+      toastr.success(resp.message);
       return false;
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
+    } else if (resp.error == true) toastr.error(resp.message);
+    else if (resp.info == true) toastr.info(resp.message);
   };
 
   function checkOpQuote() {

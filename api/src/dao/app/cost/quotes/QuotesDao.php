@@ -217,7 +217,8 @@ class QuotesDao
     {
         $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
 
-        $price = str_replace('.', '', $dataQuote['price']);
+        $price = str_replace('$ ', '', $dataQuote['price']);
+        $price = str_replace('.', '', $price);
         $dataQuote['price'] = str_replace(',', '.', $price);
 
         return $dataQuote;
