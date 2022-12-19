@@ -2,7 +2,7 @@ fetch(`/api/dashboardExpensesGenerals`)
   .then((response) => response.text())
   .then((data) => {
     data = JSON.parse(data);
-    generalIndicators(data.expense_value);
+    generalIndicators(data.expense_value, data.expense_recover);
     averagePrices(data.details_prices);
     generalSales(data.details_prices);
     graphicTimeProcessByProduct(data.time_process);
@@ -36,16 +36,26 @@ generalMaterials = (data) => {
 };
 
 /* Indicadores Generales */
-generalIndicators = (data) => {
+generalIndicators = (data, expenseRecover) => {
   // Cantidad de productos
   $('#products').html(data.products.toLocaleString('es-ES'));
 
   /* Gastos generales */
   let totalExpense = 0;
-  for (i = 0; i < 3; i++) {
-    totalExpense = totalExpense + data[i].expenseCount;
+
+  if (expenseRecover.length == 0) {
+    for (i = 0; i < 3; i++) {
+      totalExpense = totalExpense + data[i].expenseCount;
+    }
+    expenses = 'Gastos Generales';
+  } else {
+    expenses = `Gastos Generales (${expenseRecover.percentageExpense})`;
+    totalExpense = expenseRecover.totalExpense;
   }
-  $('#generalCost').html(`$ ${totalExpense.toLocaleString('es-ES')}`);
+  $('#expenses').html(expenses);
+  $('#generalCost').html(
+    `$ ${Math.round(totalExpense).toLocaleString('es-ES')}`
+  );
 };
 
 /* Promedio rentabilidad y comision */

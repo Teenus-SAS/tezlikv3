@@ -27,41 +27,46 @@ $(document).ready(function () {
         },
         callback: function (result) {
           result == true ? (option = 1) : (option = 2);
-          setDataExpense();
+          changeTypeExpense();
         },
       });
+    } else {
+      option = data.flag_expense;
+
+      setDataExpense();
     }
   };
 
   getExpense();
 
-  setDataExpense = async () => {
+  changeTypeExpense = async () => {
     resp = await searchData(`/api/changeTypeExpense/${option}`);
+    if (resp.success) toastr.success(resp.message);
+    else toastr.error(resp.message);
+    setDataExpense();
+  };
 
-    if (resp.success) {
-      toastr.success(resp.message);
+  setDataExpense = () => {
+    if ($.fn.dataTable.isDataTable('#tblExpenses')) {
+      $('#tblExpenses').DataTable().destroy();
+      $('#tblExpenses').empty();
+    }
 
-      if ($.fn.dataTable.isDataTable('#tblExpenses')) {
-        $('#tblExpenses').DataTable().destroy();
-        $('#tblExpenses').empty();
-      }
-
-      if (option == 1) {
-        $('#btnExpensesDistribution').show(800);
-        $('#btnImportNewExpenses').show(800);
-        $('#btnImportNewExpenses').html('Importar Distribuir Gastos');
-        $('#btnImportNewExpenses').val('Importar Distribución');
-        $('#descrExpense').html('Distribución Gastos Generales');
-        loadTableExpensesDistribution();
-      }
-      if (option == 2) {
-        $('#btnNewExpenseRecover').show(800);
-        $('#btnImportNewExpenses').show(800);
-        $('#btnImportNewExpenses').html('Importar Recuperar Gastos');
-        $('#btnImportNewExpenses').val('Importar Recuperación');
-        $('#descrExpense').html('Recuperación Gastos Generales');
-        loadTableExpenseRecover();
-      }
-    } else toastr.error(resp.message);
+    if (option == 1) {
+      $('#btnExpensesDistribution').show(800);
+      $('#btnImportNewExpenses').show(800);
+      $('#btnImportNewExpenses').html('Importar Distribuir Gastos');
+      $('#btnImportNewExpenses').val('Importar Distribución');
+      $('#descrExpense').html('Distribución Gastos Generales');
+      loadTableExpensesDistribution();
+    }
+    if (option == 2) {
+      $('#btnNewExpenseRecover').show(800);
+      $('#btnImportNewExpenses').show(800);
+      $('#btnImportNewExpenses').html('Importar Recuperar Gastos');
+      $('#btnImportNewExpenses').val('Importar Recuperación');
+      $('#descrExpense').html('Recuperación Gastos Generales');
+      loadTableExpenseRecover();
+    }
   };
 });

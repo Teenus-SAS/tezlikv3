@@ -86,7 +86,7 @@ class DashboardGeneralDao
         return $factoryLoadMinuteValue;
     }
 
-    public function findExpensesValueByCompany($id_company)
+    public function findExpensesDistributionValueByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -114,6 +114,22 @@ class DashboardGeneralDao
         return $expenseValue;
     }
 
+    public function findExpensesRecoverValueByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT SUM((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0)) * IFNULL(er.expense_recover, 0) / 100) AS totalExpense,
+                                             CAST(SUM(IFNULL(er.expense_recover, 0))/COUNT(p.id_product) AS UNSIGNED) AS percentageExpense
+                                      FROM products p
+                                        LEFT JOIN products_costs pc ON pc.id_product = p.id_product
+                                        LEFT JOIN expenses_recover er ON er.id_product = pc.id_product
+                                      WHERE p.id_company = :id_company AND p.active = 1");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $expenseValue = $stmt->fetch($connection::FETCH_ASSOC);
+
+        return $expenseValue;
+    }
 
     //CONTAR MATERIAS PRIMA
     public function findRawMaterialsByCompany($id_company)

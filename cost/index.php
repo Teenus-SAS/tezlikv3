@@ -1,6 +1,10 @@
 <?php
-if (!isset($_SESSION))
-    session_start(); ?>
+if (!isset($_SESSION)) {
+    session_start();
+    if (sizeof($_SESSION) == 0)
+        header('location: /');
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -127,7 +131,7 @@ if (!isset($_SESSION))
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gastos Generales</span>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold" id="expenses"></span>
                                                 <h2 class="mb-0 mt-1" id="generalCost"></h2>
                                             </div>
                                             <div class="text-center">
@@ -194,7 +198,6 @@ if (!isset($_SESSION))
                                         <h5 class="card-title">Productos con mayor rentabilidad</h5>
                                     </div>
                                     <div class="card-body pt-2">
-                                        <!-- <canvas id="chartTimeProcessProducts"></canvas> -->
                                         <canvas id="chartProductsCost"></canvas>
                                     </div>
                                 </div>
@@ -320,9 +323,6 @@ if (!isset($_SESSION))
                         </div>
                     </div>
                 </div>
-                <script src="js/dashboard/indicatorsGeneral.js"></script>
-                <!-- <script src="/app/cost/js/dashboard/indicatorsGeneral.js"></script> -->
-                <script src="js/dashboard/graphicsGeneral.js"></script>
             </div>
         </div>
         <!-- main content End -->
@@ -364,10 +364,8 @@ if (!isset($_SESSION))
     <!-- Page End -->
 
     <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
-
-    <!-- <script src="/global/js/global/loadContent.js"></script> -->
-    <!-- <script src="/global/js/login/access.js"></script> -->
-    <!-- <script src="/cost/js/users/usersAccess.js"></script> -->
+    <script src="js/dashboard/indicatorsGeneral.js"></script>
+    <script src="js/dashboard/graphicsGeneral.js"></script>
 </body>
 
 </html>

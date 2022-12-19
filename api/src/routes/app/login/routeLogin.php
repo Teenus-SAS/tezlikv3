@@ -93,7 +93,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION["time"] = microtime(true);
         $_SESSION['plan'] = $dataCompany['plan'];
 
-        // Guardar accesos de usario
+        // Guardar accesos de usario 
         $userAccessDao->setGeneralAccess($user['id_user']);
 
         // Validar licencia 
@@ -132,20 +132,6 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 
     /* Modificar el estado de la sesion del usuario en BD */
     $statusActiveUserDao->changeStatusUserLogin();
-
-    /* Consultar si el usuario es administrador 
-    if ($user["id_rols"] == 1)
-        $location = '../../admin/';
-    else {
-        // Validar licencia y accesos de usuario 
-        $dataCompany = $licenseDao->findCostandPlanning($user['id_company']);
-        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
-            $location = '../../selector/';
-        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)
-            $location = '../../cost/';
-        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1)
-            $location = '../../planning/';
-    } */
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
     $response->getBody()->write(json_encode($resp));
