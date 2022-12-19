@@ -12,7 +12,7 @@
                     <?php if ($_SESSION['price'] == 1) { ?>
                         <li class="nav-item prices">
                             <a class="nav-link" href="/cost/prices">
-                                <i class="bx bxs-customize mr-1"></i> Generar Precios
+                                <i class="bx bxs-customize mr-1"></i> Lista de Precios
                                 <i class="bx bx-chevron-down"></i>
                             </a>
                         </li>
