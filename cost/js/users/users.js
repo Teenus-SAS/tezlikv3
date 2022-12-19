@@ -106,6 +106,7 @@ $(document).ready(function () {
       analysisMaterials: data.analysis_material,
       tools: data.tool,
       quotes: data.quote,
+      economyScale: data.economy_scale,
     };
 
     let i = 1;
@@ -170,6 +171,7 @@ $(document).ready(function () {
       analysisMaterial: 0,
       tool: 0,
       quote: 0,
+      economyScale: 0,
     };
 
     $.each(access, (index, value) => {

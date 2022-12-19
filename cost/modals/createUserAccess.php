@@ -177,7 +177,7 @@
                                                         <label for="checkbox-16">Generar Precios</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4">
+                                                <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-17" name="analysisRawMaterials" type="checkbox">
                                                         <label for="checkbox-17">Analisis Materia Prima</label>
@@ -189,10 +189,17 @@
                                                         <label for="checkbox-18">Herramientas</label>
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="w-100"></div>
+                                                <div class="col-lg-4">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-19" name="quotes" type="checkbox">
                                                         <label for="checkbox-19">Cotización</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-20" name="economyScale" type="checkbox">
+                                                        <label for="checkbox-20">Economia De Escala</label>
                                                     </div>
                                                 </div>
                                             </div>

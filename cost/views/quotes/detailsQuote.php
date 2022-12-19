@@ -1,5 +1,12 @@
 <?php include_once dirname(dirname(__DIR__)) . '/modals/sendEmailQuote.php' ?>
 
+<?php
+if (!isset($_SESSION)) {
+	session_start();
+	if (sizeof($_SESSION) == 0)
+		header('location: /');
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 

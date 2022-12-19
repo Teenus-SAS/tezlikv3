@@ -36,6 +36,7 @@ get('/cost/analysis-materials', '/cost/views/analysis/materials.php');
 get('/cost/support', '/cost/views/support/emailSupport.php');
 get('/cost/quotes', '/cost/views/quotes/quotes.php');
 get('/cost/details-quote', '/cost/views/quotes/detailsQuote.php');
+get('/cost/economyScale', '/cost/views/economyScale/economyScale.php');
 get('/cost/profile', '/cost/views/perfil/perfil.php');
 get('/cost/configuration', '/cost/views/perfil/configuracion.php');
 //Header

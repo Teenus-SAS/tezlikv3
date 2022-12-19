@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <meta charset="utf-8" />
@@ -15,14 +15,14 @@ if (!isset($_SESSION)) {
     <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
     <meta name="author" content="MatrrDigital">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Companies</title>
+    <title>Tezlik - Cost | EconomySale</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
-    <?php include_once dirname(dirname(__DIR__)) . '/modals/createQCompany.php' ?>
+    <?php include_once dirname(dirname(__DIR__)) . '/modals/createEconomyScale.php' ?>
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
@@ -41,16 +41,16 @@ if (!isset($_SESSION)) {
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Compañias</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Economia de Escalas</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Creación de Compañias</li>
+                                        <li class="breadcrumb-item active">Calculo de economia de escalas</li>
                                     </ol>
                                 </div>
                             </div>
                             <div class="col-sm-4 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-warning" id="btnNewCompany">Nueva Compañia</button>
-                                    <!-- <button class="btn btn-info ml-3" id="btnImportNewCompanies">Importar Compañias</button> -->
+                                    <button class="btn btn-warning" id="btnNewEconomySale">Nuevo Calculo</button>
+                                    <!-- <button class="btn btn-info ml-3" id="btnImportNewEconomySale">Importar Economia de Escalas</button> -->
                                 </div>
                             </div>
                         </div>
@@ -64,12 +64,12 @@ if (!isset($_SESSION)) {
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <!-- <div class="card-header">
-                                        <h5 class="card-title">Compañias</h5>
-                                    </div> -->
+                                    <div class="card-header">
+                                        <h5 class="card-title">Economia de Escalas</h5>
+                                    </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblCompanies">
+                                            <table class="table table-striped" id="tblEconomySale">
 
                                             </table>
                                         </div>
@@ -89,10 +89,12 @@ if (!isset($_SESSION)) {
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/global/js/global/number.js"></script>
+    <script src="/global/js/global/searchData.js"></script>
 
-    <script src="/global/js/global/loadImg.js"></script>
-    <script src="/cost/js/quotes/companies/tblCompanies.js"></script>
-    <script src="/cost/js/quotes/companies/companies.js"></script>
+    <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/cost/js/economySale/economySale.js"></script>
+    <script src="/cost/js/economySale/tblEconomySale.js"></script>
 </body>
 
 </html>
