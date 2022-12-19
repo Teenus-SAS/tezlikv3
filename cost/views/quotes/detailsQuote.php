@@ -49,15 +49,15 @@
 										<div class="row">
 											<div class="col">
 												<a href="javascript:;">
-													<img id="companyImg" src="" width="200" alt="">
+													<img id="logo" src="" width="200" alt="">
 												</a>
 											</div>
 											<div class="col company-details">
-												<h2 class="name" id="companyName">
+												<h2 class="name" id="company">
 												</h2>
-												<div id="companyAddress"></div>
-												<div id="companyPhone"></div>
-												<div id="companyCity"></div>
+												<div id="address"></div>
+												<div id="phone"></div>
+												<div id="city"></div>
 											</div>
 										</div>
 									</header>
@@ -134,7 +134,7 @@
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
 	<script src="/global/js/global/searchData.js"></script>
-
+	<script src="/global/js/global/companyData.js"></script>
 	<script src="/cost/js/quotes/detailsQuote/dataQuote.js"></script>
 	<script src="/cost/js/quotes/detailsQuote/generalQuote.js"></script>
 </body>

@@ -49,7 +49,7 @@ generalIndicators = (data, expenseRecover) => {
     }
     expenses = 'Gastos Generales';
   } else {
-    expenses = `Gastos Generales (${expenseRecover.percentageExpense})`;
+    expenses = `Gastos Generales (${expenseRecover.percentageExpense}%)`;
     totalExpense = expenseRecover.totalExpense;
   }
   $('#expenses').html(expenses);

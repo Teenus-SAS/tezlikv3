@@ -14,21 +14,12 @@ $(document).ready(function () {
 
     loadDataQuote(data.quote);
     loadDataQuoteProducts(data.quotesProducts);
-    loadDataFooter();
   };
 
   fetchindataQuote();
 
   /* Datos Cotizacion */
   loadDataQuote = (data) => {
-    $('#idQuote').html(`Cotización No. ${data.id_quote}`);
-    /* Compañia */
-    $('#companyImg').prop('src', data.img);
-    $('#companyName').html(data.company_name);
-    $('#companyAddress').html(data.address);
-    $('#companyPhone').html(data.phone);
-    $('#companyCity').html(data.city);
-
     /* Contacto */
     $('#contactName').html(data.contact);
     $('#contactPhone').html(`Móvil: ${data.contact_phone}`);
@@ -80,15 +71,6 @@ $(document).ready(function () {
     );
     $('#total').html(
       `$ ${parseInt(subtotal * (1 + 19 / 100)).toLocaleString('es-CO')}`
-    );
-  };
-
-  /* Pie de pagina */
-  loadDataFooter = async () => {
-    let data = await searchData('/api/company');
-
-    $('#qFooter').html(
-      `Autorizo a ${data[0].company}. para recaudar, almacenar, utilizar y actualizar mis datos personales con fines exclusivamente comerciales y garantizándome que esta información no será revelada a terceros salvo orden de autoridad competente. Ley 1581 de 2012, Decreto 1377 de 2013.`
     );
   };
 

@@ -174,9 +174,9 @@
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-
     <script src="/global/js/global/searchData.js"></script>
     <script src="/global/js/global/loadImg.js"></script>
+    <script src="/global/js/global/companyData.js"></script>
     <script src="/cost/js/profile/profile.js"></script>
 </body>
 

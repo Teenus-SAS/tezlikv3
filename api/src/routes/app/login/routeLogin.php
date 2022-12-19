@@ -76,9 +76,6 @@ $app->post('/userAutentication', function (Request $request, Response $response,
             return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
         }
 
-        /* Resetear flag de gasto */
-        $licenseDao->updateFlagExpense(0, $user['id_company']);
-
         /* Nueva session user */
         session_start();
         $_SESSION['active'] = true;

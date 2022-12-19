@@ -1,18 +1,4 @@
 $(document).ready(function () {
-  /* Cargar data compañia */
-  loadCompanyData = async () => {
-    let data = await searchData('/api/company');
-
-    $('#company').html(data[0].company);
-    $('#nit').html(data[0].nit);
-    $('#city').html(data[0].city);
-    $('#country').html(data[0].country);
-    $('#phone').html(data[0].telephone);
-    $('#address').html(data[0].address);
-  };
-
-  loadCompanyData();
-
   $('#email').prop('disabled', true);
 
   /* Cargar Perfil de usuario */
