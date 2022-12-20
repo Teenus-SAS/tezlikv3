@@ -64,7 +64,7 @@ $(document).ready(function () {
       totalCost = totalCost + minuteValue[i];
     }
 
-    $('#totalCostWorkforce').html(`$ ${totalCost.toFixed(2)}`);
+    $('#totalCostWorkforce').html(`$ ${totalCost.toFixed(1)}`);
 
     const cmc = document.getElementById('chartWorkForceGeneral');
     const chartWorkForceGeneral = new Chart(cmc, {
@@ -277,7 +277,7 @@ graphicProfit = (data) => {
 
     for (i = 0; i < count; i++) {
       product.push(data[i].product);
-      cost[i] = data[i].price / data[i].profitability;
+      cost[i] = parseInt(data[i].price / data[i].profitability);
     }
 
     const cmc = document.getElementById('chartProductsCost');
@@ -286,6 +286,7 @@ graphicProfit = (data) => {
       type: 'bar',
       data: {
         labels: product,
+        //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
@@ -302,6 +303,9 @@ graphicProfit = (data) => {
           y: {
             beginAtZero: true,
           },
+          x: {
+            display: false,
+          },
         },
         //plugins: [ChartDataLabels],
         plugins: {
@@ -313,7 +317,7 @@ graphicProfit = (data) => {
             formatter: (cost) => cost.toLocaleString('es-CO'),
             color: 'black',
             font: {
-              size: '14',
+              size: '12',
               weight: 'normal',
             },
           },

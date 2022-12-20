@@ -59,7 +59,10 @@ $(document).ready(function () {
       assignable_expense;
 
     $('#rawMaterial').html(
-      `$ ${data[0].cost_materials.toLocaleString('es-CO')}`
+      `$ ${data[0].cost_materials.toLocaleString('es-CO', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
     );
     $('#workforce').html(
       `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
@@ -69,15 +72,15 @@ $(document).ready(function () {
     );
     $('#indirectCost').html(
       `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
       })}`
     );
 
     $('#assignableExpenses').html(
       `$ ${assignable_expense.toLocaleString('es-CO', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
       })}`
     );
 
@@ -86,11 +89,11 @@ $(document).ready(function () {
     percentIndirectCost = (data[0].cost_indirect_cost / costTotal) * 100;
     percentAssignableExpenses = (assignable_expense / cost) * 100;
 
-    $('#percentRawMaterial').html(`${percentRawMaterial.toFixed(2)} %`);
-    $('#percentWorkforce').html(`${percentWorkforce.toFixed(2)} %`);
-    $('#percentIndirectCost').html(`${percentIndirectCost.toFixed(2)} %`);
+    $('#percentRawMaterial').html(`${percentRawMaterial.toFixed(0)} %`);
+    $('#percentWorkforce').html(`${percentWorkforce.toFixed(0)} %`);
+    $('#percentIndirectCost').html(`${percentIndirectCost.toFixed(0)} %`);
     $('#percentAssignableExpenses').html(
-      `${percentAssignableExpenses.toFixed(2)} %`
+      `${percentAssignableExpenses.toFixed(0)} %`
     );
   };
 
@@ -125,7 +128,10 @@ $(document).ready(function () {
       })}`
     );
     $('#payRawMaterial').html(
-      `$ ${data[0].cost_materials.toLocaleString('es-CO')}`
+      `$ ${data[0].cost_materials.toLocaleString('es-CO', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
     );
     $('#payWorkforce').html(
       `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
@@ -135,8 +141,8 @@ $(document).ready(function () {
     );
     $('#payIndirectCost').html(
       `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
       })}`
     );
 
@@ -147,8 +153,8 @@ $(document).ready(function () {
     $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
     $('#payAssignableExpenses').html(
       `$ ${assignable_expense.toLocaleString('es-CO', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
       })}`
     );
 
