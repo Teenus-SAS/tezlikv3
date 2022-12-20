@@ -269,15 +269,13 @@ graphicProfit = (data) => {
   // Rentabilidad y precio productos
   graphicProductCost = (data) => {
     let product = [];
-    let profitability = [];
-    let price = [];
     let cost = [];
 
     data.length > 10 ? (count = 10) : (count = data.length);
 
     for (i = 0; i < count; i++) {
       product.push(data[i].product);
-      cost[i] = parseInt(data[i].price / data[i].profitability);
+      cost.push(data[i].cost);
     }
 
     const cmc = document.getElementById('chartProductsCost');

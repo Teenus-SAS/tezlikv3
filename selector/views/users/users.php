@@ -5,6 +5,7 @@ if (!isset($_SESSION)) {
         header('location: /');
 }
 ?>
+<?php require_once dirname(dirname(dirname(__DIR__))) . '/selector/modals/createUserAccess.php'; ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,7 +23,6 @@ if (!isset($_SESSION)) {
 </head>
 
 <body class="horizontal-navbar">
-    <?php require_once dirname(dirname(dirname(__DIR__))) . '/selector/modals/createUserAccess.php'; ?>
 
     <!-- Begin Page -->
     <div class="page-wrapper">

@@ -1,6 +1,5 @@
 $(document).ready(function () {
   sessionStorage.removeItem('id_quote');
-  sessionStorage.removeItem('option');
 
   /* Ocultar modal para crear Cotizaciones */
   $('.btnCloseQuote').click(function (e) {
@@ -87,7 +86,7 @@ $(document).ready(function () {
     let idQuote = this.id;
     sessionStorage.setItem('id_quote', idQuote);
 
-    let row = $(this).parent().parent().parent().parent().parent()[0];
+    let row = $(this).parent().parent()[0];
     let data = tblQuotes.fnGetData(row);
 
     $(`#company option[value=${data.id_company}]`).prop('selected', true);
@@ -157,12 +156,7 @@ $(document).ready(function () {
   /* Eliminar Cotizacion */
 
   deleteFunction = () => {
-    let row = $(this.activeElement)
-      .parent()
-      .parent()
-      .parent()
-      .parent()
-      .parent()[0];
+    let row = $(this.activeElement).parent().parent()[0];
     let data = tblQuotes.fnGetData(row);
 
     let idQuote = data.id_quote;
@@ -195,20 +189,13 @@ $(document).ready(function () {
   };
 
   /* Ver detalle cotizacion */
-  seeQuote = (op) => {
-    let row = $(this.activeElement)
-      .parent()
-      .parent()
-      .parent()
-      .parent()
-      .parent()[0];
+  seeQuote = () => {
+    let row = $(this.activeElement).parent().parent()[0];
     let data = tblQuotes.fnGetData(row);
 
     let idQuote = data.id_quote;
 
     sessionStorage.setItem('id_quote', idQuote);
-
-    if (op == 2) sessionStorage.setItem('option', 1);
   };
 
   /* Mensaje de exito */

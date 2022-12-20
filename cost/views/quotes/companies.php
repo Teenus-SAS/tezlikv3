@@ -5,6 +5,7 @@ if (!isset($_SESSION)) {
         header('location: /');
 }
 ?>
+<?php include_once dirname(dirname(__DIR__)) . '/modals/createQCompany.php' ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -22,7 +23,6 @@ if (!isset($_SESSION)) {
 </head>
 
 <body class="horizontal-navbar">
-    <?php include_once dirname(dirname(__DIR__)) . '/modals/createQCompany.php' ?>
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->

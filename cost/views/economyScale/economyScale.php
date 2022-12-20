@@ -22,7 +22,6 @@ if (!isset($_SESSION)) {
 </head>
 
 <body class="horizontal-navbar">
-    <?php include_once dirname(dirname(__DIR__)) . '/modals/createEconomyScale.php' ?>
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
@@ -50,7 +49,6 @@ if (!isset($_SESSION)) {
                             <div class="col-sm-4 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
                                     <button class="btn btn-warning" id="btnNewEconomySale">Nuevo Calculo</button>
-                                    <!-- <button class="btn btn-info ml-3" id="btnImportNewEconomySale">Importar Economia de Escalas</button> -->
                                 </div>
                             </div>
                         </div>
@@ -60,21 +58,105 @@ if (!isset($_SESSION)) {
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
-                        <!-- Row 5 -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Economia de Escalas</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="tblEconomySale">
+                        <div class="vertical-app-tabs" id="rootwizard">
+                            <div class="col-md-12 col-lg-12 InputGroup">
+                                <form id="formNewEconomySale">
+                                    <div class="row mt-5">
+                                        <div class="col-12 col-lg-12 titlePayroll">
+                                            <label for=""><b>Producto</b></label>
+                                        </div>
+                                        <div class="col-12 col-lg-4">
+                                            <div class="form-group floating-label enable-floating-label show-label">
+                                                <select class="form-control refProduct" id="refProduct" name="idProduct"></select>
+                                                <label for="refProduct" class="form-label">Referencia <span class="text-danger">*</span></label>
+                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-8">
+                                            <div class="form-group floating-label enable-floating-label show-label">
+                                                <select class="form-control selectNameProduct" id="selectNameProduct" name="idProduct"></select>
+                                                <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
+                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row px-3">
 
-                                            </table>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input class="form-control number text-center calcPrice" type="text" name="quantity" id="quantity">
+                                                    <label for="quantity" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input class="form-control number text-center calcPrice" type="text" name="price" id="price">
+                                                    <label for="prices" class="form-label">Precio Unitario <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group floating-label enable-floating-label show-label calcPrice">
+                                                    <select name="discount" id="discount" class="form-control">
+                                                        <option value="0">0%</option>
+                                                        <option value="1">1%</option>
+                                                        <option value="2">2%</option>
+                                                        <option value="3">3%</option>
+                                                        <option value="4">4%</option>
+                                                        <option value="5">5%</option>
+                                                        <option value="6">6%</option>
+                                                        <option value="7">7%</option>
+                                                        <option value="8">8%</option>
+                                                        <option value="9">9%</option>
+                                                        <option value="10">10%</option>
+                                                    </select>
+                                                    <label for="prices" class="form-label">Descuento <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input class="form-control text-center" type="text" name="totalPrice" id="totalPrice" readonly>
+                                                    <label for="prices" class="form-label">Precio Total <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-6 mb-4">
+                                                <img src="" id="imgProduct" style="width:80px">
+                                            </div>
+                                            <div class="col-12 col-lg-12">
+                                                <button class="btn btn-warning mb-4" id="btnAddProduct">Adicionar producto</button>
+                                            </div>
+                                        </div> -->
+                                        <hr>
+                                        <div class="col-12 col-lg-12 titlePayroll">
+                                            <label for=""><b>Descripción</b></label>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
+                                            <div class="card mt-4">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center">Referencia</th>
+                                                                    <th class="text-center">Producto</th>
+                                                                    <th class="text-center">Cantidad</th>
+                                                                    <th class="text-center">Valor Unitario</th>
+                                                                    <th class="text-center">Descuento</th>
+                                                                    <th class="text-center">Valor Total</th>
+                                                                    <th class="text-center">Acciones</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tableEconomySaleBody">
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>

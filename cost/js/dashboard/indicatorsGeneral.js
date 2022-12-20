@@ -43,19 +43,21 @@ generalIndicators = (data, expenseRecover) => {
   /* Gastos generales */
   let totalExpense = 0;
 
-  if (expenseRecover.length == 0) {
+  if (
+    expenseRecover.percentageExpense == undefined ||
+    !expenseRecover.percentageExpense
+  ) {
     for (i = 0; i < 3; i++) {
       totalExpense = totalExpense + data[i].expenseCount;
     }
+    totalExpense = `$ ${Math.round(totalExpense).toLocaleString('es-ES')}`;
     expenses = 'Gastos Generales';
   } else {
-    expenses = `Gastos Generales (${expenseRecover.percentageExpense}%)`;
-    totalExpense = expenseRecover.totalExpense;
+    expenses = `Gastos Generales (Promedio)`;
+    totalExpense = `${expenseRecover.percentageExpense} %`;
   }
   $('#expenses').html(expenses);
-  $('#generalCost').html(
-    `$ ${Math.round(totalExpense).toLocaleString('es-ES')}`
-  );
+  $('#generalCost').html(totalExpense);
 };
 
 /* Promedio rentabilidad y comision */

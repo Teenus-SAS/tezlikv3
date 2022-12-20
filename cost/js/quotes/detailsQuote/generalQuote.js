@@ -1,6 +1,5 @@
 $(document).ready(function () {
   let data = {};
-  let op = sessionStorage.getItem('option');
 
   /* Imprimir cotización */
   $('#btnImprimirQuote').click(function (e) {
@@ -29,7 +28,6 @@ $(document).ready(function () {
   $('.btnCloseSendEmail').click(function (e) {
     e.preventDefault();
     $('#modalSendEmail').modal('hide');
-    if (op == 1) location.href = '/cost/quotes';
   });
 
   /* Enviar email */
@@ -94,15 +92,10 @@ $(document).ready(function () {
   message = (resp) => {
     data = {};
     if (resp.success == true) {
+      $('#modalSendEmail').modal('hide');
       toastr.success(resp.message);
       return false;
     } else if (resp.error == true) toastr.error(resp.message);
     else if (resp.info == true) toastr.info(resp.message);
   };
-
-  function checkOpQuote() {
-    if (op == 1) $('#btnNewSend').click();
-  }
-
-  setTimeout(checkOpQuote, 3500);
 });

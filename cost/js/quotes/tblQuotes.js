@@ -51,23 +51,9 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: function (data) {
           return `
-              <div class="container-fluid">
-                <div class="form-row">
-                  <div class="col">
-                    <a href="/cost/details-quote" <i id="${data}" class="mdi mdi-email-send sendQuoteEmail" data-toggle="tooltip" title="Enviar Cotización" style="font-size: 25px;color: #662b2b;" onclick="seeQuote(2)"></a>
-                  </div>
-                  <div class="col">
-                    <a href="/cost/details-quote" <i id="${data}" class="mdi mdi-playlist-check" data-toggle='tooltip' title='Ver Cotización' style="font-size: 30px;color:black" onclick="seeQuote(1)"></i></a>
-                  </div>
-                  <div class="w-100"></div>
-                  <div class="col">
-                    <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateQuote" data-toggle='tooltip' title='Actualizar Cotización' style="font-size: 30px;"></i></a>
-                  </div>
-                  <div class="col">
-                    <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Cotización' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>
-                  </div>
-                </div>
-              </div> 
+                <a href="/cost/details-quote" <i id="${data}" class="mdi mdi-playlist-check" data-toggle='tooltip' title='Ver Cotización' style="font-size: 30px;color:black" onclick="seeQuote()"></i></a>
+                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateQuote" data-toggle='tooltip' title='Actualizar Cotización' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Cotización' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a> 
               `;
         },
       },
