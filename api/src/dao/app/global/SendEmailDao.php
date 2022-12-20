@@ -17,82 +17,82 @@ class SendEmailDao extends PHPMailer
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    // public function sendEmail()
-    // {
-    //     try {
-    //         // Contenido del correo
-    //         $asunto    = clean($_POST["asunto"]);
-    //         $contenido = clean($_POST["contenido"]);
-    //         $para      = clean($_POST["destinatario"]);
+    public function sendEmail($to, $subject, $header, $ccHeader, $message)
+    {
+        try {
+            if (!isset($_SESSION))
+                session_start();
+            $email = $_SESSION['email'];
 
-    //         if (!filter_var($para, FILTER_VALIDATE_EMAIL)) {
-    //             // throw new \Exception('Dirección de correo electrónico no válida.');
-    //         }
+            // Intancia de PHPMailer
 
-    //         // Intancia de PHPMailer
+            // Es necesario para poder usar un servidor SMTP como gmail
+            $this->isSMTP();
 
-    //         // Es necesario para poder usar un servidor SMTP como gmail
-    //         $this->isSMTP();
+            // Si estamos en desarrollo podemos utilizar esta propiedad para ver mensajes de error
+            //SMTP::DEBUG_OFF    = off (for production use) 0
+            //SMTP::DEBUG_CLIENT = client messages 1 
+            //SMTP::DEBUG_SERVER = client and server messages 2
+            $this->SMTPDebug     = 2;
 
-    //         // Si estamos en desarrollo podemos utilizar esta propiedad para ver mensajes de error
-    //         //SMTP::DEBUG_OFF    = off (for production use) 0
-    //         //SMTP::DEBUG_CLIENT = client messages 1 
-    //         //SMTP::DEBUG_SERVER = client and server messages 2
-    //         $this->SMTPDebug     = SMTP::DEBUG_SERVER;
+            //Set the hostname of the mail server
+            $this->Host          = 'smtp.gmail.com';
+            $this->Port          = 465; // o 587
 
-    //         //Set the hostname of the mail server
-    //         $this->Host          = 'smtp.gmail.com';
-    //         $this->Port          = 465; // o 587
+            // Propiedad para establecer la seguridad de encripción de la comunicación
+            $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
 
-    //         // Propiedad para establecer la seguridad de encripción de la comunicación
-    //         $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
+            // Para activar la autenticación smtp del servidor
+            $this->SMTPAuth      = true;
 
-    //         // Para activar la autenticación smtp del servidor
-    //         $this->SMTPAuth      = true;
+            // Credenciales de la cuenta
+            $this->Username     = '';
+            $this->Password     = '';
 
-    //         // Credenciales de la cuenta
-    //         $email              = 'tucorreo@gmail.com';
-    //         $this->Username     = $email;
-    //         $this->Password     = 'tucontraseña';
+            // Quien envía este mensaje
+            $this->setFrom($email);
 
-    //         // Quien envía este mensaje
-    //         $this->setFrom($email, 'Roberto Orozco');
+            // Si queremos una dirección de respuesta
+            // $this->addReplyTo('replyto@panchos.com', 'Pancho Doe');
 
-    //         // Si queremos una dirección de respuesta
-    //         $mail->addReplyTo('replyto@panchos.com', 'Pancho Doe');
+            // Destinatario
+            foreach ($to as $key => $value) {
+                $this->addAddress($value);
+            }
 
-    //         // Destinatario
-    //         $mail->addAddress($para, 'John Doe');
+            // Asunto del correo
+            if (isset($ccHeader) && !empty($ccHeader))
+                $this->addCC($ccHeader);
 
-    //         // Asunto del correo
-    //         $mail->Subject = $asunto;
+            $this->Subject = $subject;
 
-    //         // Contenido
-    //         $mail->IsHTML(true);
-    //         $mail->CharSet = 'UTF-8';
-    //         $mail->Body    = sprintf('<h1>El mensaje es:</h1><br><p>%s</p>', $contenido);
+            // Contenido
+            $this->IsHTML(true);
+            $this->CharSet = 'UTF-8';
+            $this->Body    = sprintf($message);
 
-    //         // Texto alternativo
-    //         $mail->AltBody = 'No olvides suscribirte a nuestro canal.';
+            // Texto alternativo
+            $this->mailHeader = $header;
 
-    //         // Agregar algún adjunto
-    //         //$mail->addAttachment(IMAGES_PATH.'logo.png');
+            // Agregar algún adjunto
+            //$mail->addAttachment(IMAGES_PATH.'logo.png');
 
-    //         // Enviar el correo
-    //         if (!$mail->send()) {
-    //             throw new \Exception($mail->ErrorInfo);
-    //         }
-    //     } catch (\Exception $e) {
-    //         $message = $e->getMessage();
-
-    //         $error = array('info' => true, 'message' => $message);
-    //     }
-    // }
+            // Enviar el correo
+            // if (!$this->send()) {
+            //     throw new \Exception($this->ErrorInfo);
+            // }
+            $this->send();
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 
     public function SendEmailCode($code, $user)
     {
         $name = $user['firstname'];
-        $to = $user['email'];
+        $to = array($user['email']);
 
         $msg = "Hola $name<br><br>
                 Si estas tratando de iniciar sesion en Tezlik. <br>
@@ -107,13 +107,15 @@ class SendEmailDao extends PHPMailer
         $headers .= "From: SoporteTeenus <soporte@teenus.com.co>" . "\r\n";
 
         // send email
-        mail($to, 'Codigo', $msg, $headers);
+        // mail($to, 'Codigo', $msg, $headers);
+        $resp = $this->sendEmail($to, 'Codigo', $headers, null, $msg);
+
+        return $resp;
     }
 
     public function SendEmailPassword($email, $password)
     {
-        $to = 'soporte@tezliksoftware.com.co';
-        $to .= $email;
+        $to = array('soporte@tezliksoftware.com.co', $email);
         // the message
         $msg = "Hola,<br><br>
             Recientemente solicitó recordar su contraseña por lo que para mayor seguridad creamos una nueva. Para ingresar a Tezlik puede hacerlo con:
@@ -138,13 +140,14 @@ class SendEmailDao extends PHPMailer
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= 'From: SoporteTezlik <soporteTezlik@tezliksoftware.com.co>' . "\r\n";
         // send email
-        mail($to, "Nuevo password", $msg, $headers);
+        // mail($to, "Nuevo password", $msg, $headers);
+        $resp = $this->sendEmail($to, 'Nuevo Password', $headers, null, $msg);
+        return $resp;
     }
 
     public function SendEmailSupport($dataSupport, $email)
     {
-        $to = 'soporte@teenus.com.co';
-        $to .= $email;
+        $to = array('soporte@teenus.com.co', $email);
         if (isset($dataSupport['ccHeader']))
             $ccHeader = $dataSupport['ccHeader'];
         else $ccHeader = '';
@@ -153,33 +156,40 @@ class SendEmailDao extends PHPMailer
 
         // use wordwrap() if lines are longer than 70 characters
         // $msg = wordwrap($msg, 70);
-
+        //subject
+        $subject = 'Soporte';
+        $subject .= $dataSupport['subject'];
         //headers
-        $headers = $dataSupport['subject'] . "\r\n";
-        $headers .= "MIME-Version: 1.0" . "\r\n";
+        $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= "From: SoporteTeenus <$email>" . "\r\n";
         // send email
-        mail($to, "Soporte", $msg, $headers, $ccHeader);
+        // mail($to, "Soporte", $msg, $headers, $ccHeader);
+        $resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg);
+        return $resp;
     }
 
     public function SendEmailQuote($dataQuote, $email)
     {
-        $to = $dataQuote['header'] . "\n";
-        $to .= $email;
+        $to = array($dataQuote['header'], $email);;
         if (isset($dataQuote['ccHeader']))
             $ccHeader = $dataQuote['ccHeader'];
         else $ccHeader = '';
+
         // the message
         $msg = $dataQuote['message'] . "\n";
         $msg .= $dataQuote['img'];
 
+        //subject
+        $subject = $dataQuote['subject'];
+
         //headers
-        $headers = $dataQuote['subject'] . "\r\n";
-        $headers .= "MIME-Version: 1.0" . "\r\n";
+        $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= "From: <$email>" . "\r\n";
         // send email
-        mail($to, $msg, $headers, $ccHeader);
+        // mail($to, $msg, $headers, $ccHeader);
+        $resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg);
+        return $resp;
     }
 }

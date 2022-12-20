@@ -182,11 +182,7 @@ $(document).ready(function () {
       parseFloat(data.cost_workforce) +
       parseFloat(data.cost_indirect_cost);
 
-    data.assignable_expense == 0
-      ? (assignable_expense = (data.expense_recover / 100) * cost)
-      : (assignable_expense = data.assignable_expense);
-
-    costTotal = cost + parseFloat(assignable_expense);
+    costTotal = cost + parseFloat(data.assignable_expense);
 
     costCommissionSale = data.price * (data.commission_sale / 100);
     costProfitability = data.price * (data.profitability / 100);
