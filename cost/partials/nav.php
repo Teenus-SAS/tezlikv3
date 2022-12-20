@@ -48,11 +48,9 @@
                             </a>
                         </li>
                     <?php } ?>
-                    <?php if ($_SESSION['cost_economy_scale'] == 1 /*&& $_SESSION['plan_cost_economy_sale'] == 1*/) {
-                    ?>
+                    <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
                         <li class="nav-item economyScale">
-                            <!-- href="/cost/economyScale" -->
-                            <a class="nav-link" href="javascript:;">
+                            <a class="nav-link" href="/cost/economyScale">
                                 <i class="bx bx-columns mr-1"></i> Economia De Escala
                                 <i class="bx bx-chevron-down"></i>
                             </a>

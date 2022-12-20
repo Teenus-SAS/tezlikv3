@@ -52,7 +52,7 @@
                                                 <label for=""><b>Costos.</b></label><br>
                                                 <label for=""><b>Menú Navegación:</b></label>
                                             </div>
-                                            <div class="row" style="margin:auto;">
+                                            <div class="row">
                                                 <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-1" name="prices" type="checkbox">
@@ -65,20 +65,25 @@
                                                         <label for="checkbox-2">Analisis Materia Prima</label>
                                                     </div>
                                                 </div>
-                                                <div class="w-100"></div>
                                                 <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-3" name="tools" type="checkbox">
                                                         <label for="checkbox-3">Herramientas</label>
                                                     </div>
                                                 </div>
-                                                <div class="col">
+                                                <div class="w-100"></div>
+                                                <div class="col-4">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-4" name="quotes" type="checkbox">
                                                         <label for="checkbox-4">Cotizaciones</label>
                                                     </div>
                                                 </div>
-
+                                                <div class="col">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-5" name="economyScale" type="checkbox">
+                                                        <label for="checkbox-5">Economia De Escala</label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -91,7 +96,7 @@
                                                 <label for=""><b>Planeación.</b></label><br>
                                                 <label for=""><b>Menú Navegación:</b></label>
                                             </div>
-                                            <div class="row" style="margin:auto;">
+                                            <div class="row">
                                                 <div class="col">
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-5" name="inventories" type="checkbox">
@@ -131,7 +136,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <hr>
                                     </div>
                                 </form>
