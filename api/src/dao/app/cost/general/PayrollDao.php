@@ -57,7 +57,7 @@ class PayrollDao
     if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1) $dataPayroll['factor'] = 38.35;
     if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
 
-    $payrollCalculate = $this->calculateValueMinute($dataReplace['basicSalary'], $dataPayroll);
+    $payrollCalculate = $this->calculateValueMinute($dataPayroll, $dataReplace);
 
     try {
       $stmt = $connection->prepare("INSERT INTO payroll (id_company, id_process, employee, salary, transport, extra_time, bonification, endowment,
@@ -95,7 +95,7 @@ class PayrollDao
     if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2)
       $dataPayroll['factor'] = 0;
 
-    $payrollCalculate = $this->calculateValueMinute($dataReplace['basicSalary'], $dataPayroll);
+    $payrollCalculate = $this->calculateValueMinute($dataPayroll, $dataReplace);
 
     try {
       $stmt = $connection->prepare("UPDATE payroll SET employee=:employee, id_process=:id_process, salary=:salary, transport=:transport, extra_time=:extra_time,
@@ -152,10 +152,10 @@ class PayrollDao
     return $dataReplace;
   }
 
-  public function calculateValueMinute($salaryBasic, $dataPayroll)
+  public function calculateValueMinute($dataPayroll, $dataReplace)
   {
     /* Calcular salario neto */
-    $salaryNet = intval($salaryBasic) * (1 + (floatval($dataPayroll['factor']) / 100)) + intval($dataPayroll['bonification']) + intval($dataPayroll['endowment']);
+    $salaryNet = ((intval($dataReplace['basicSalary']) + $dataReplace['transport']) * (1 + floatval($dataPayroll['factor']) / 100)) + $dataReplace['bonification'] + $dataReplace['endowment'];
 
     /* Total horas */
     $totalHoursMonth = floatval($dataPayroll['workingDaysMonth']) * floatval($dataPayroll['workingHoursDay']);

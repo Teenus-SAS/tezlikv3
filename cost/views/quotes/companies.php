@@ -4,6 +4,8 @@ if (!isset($_SESSION)) {
     if (sizeof($_SESSION) == 0)
         header('location: /');
 }
+if (sizeof($_SESSION) == 0)
+    header('location: /');
 ?>
 <?php include_once dirname(dirname(__DIR__)) . '/modals/createQCompany.php' ?>
 <!DOCTYPE html>
