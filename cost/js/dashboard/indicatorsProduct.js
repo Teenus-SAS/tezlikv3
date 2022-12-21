@@ -184,8 +184,8 @@ $(document).ready(function () {
 
     costTotal = cost + parseFloat(data.assignable_expense);
 
-    costCommissionSale = data.price * (data.commission_sale / 100);
     costProfitability = data.price * (data.profitability / 100);
+    costCommissionSale = costProfitability * (data.commission_sale / 100);
 
     price = costTotal + costCommissionSale + costProfitability;
 

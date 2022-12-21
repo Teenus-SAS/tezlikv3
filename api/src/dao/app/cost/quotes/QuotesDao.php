@@ -27,7 +27,7 @@ class QuotesDao
                                         INNER JOIN quote_companies cp ON cp.id_quote_company  = c.id_company  
                                         INNER JOIN quotes_products qp ON qp.id_quote = q.id_quote
                                         INNER JOIN quote_payment_methods pm ON pm.id_method = q.id_payment_method
-                                        GROUP BY qp.id_quote");
+                                        GROUP BY qp.id_quote ORDER BY qp.id_quote DESC");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

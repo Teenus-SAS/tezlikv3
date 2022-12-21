@@ -93,6 +93,9 @@ require_once('../api/src/routes/app/cost/prices/routePrices.php');
 // Tools
 require_once('../api/src/routes/app/cost/tools/routeSupport.php');
 
+// Economy Scales
+require_once('../api/src/routes/app/cost/economyScale/routeEconomyScale.php');
+
 // User Access
 require_once('../api/src/routes/app/cost/userAccess/routeUserAccess.php');
 

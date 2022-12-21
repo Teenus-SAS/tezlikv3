@@ -17,7 +17,7 @@ if (sizeof($_SESSION) == 0)
     <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
     <meta name="author" content="MatrrDigital">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | EconomySale</title>
+    <title>Tezlik - Cost | economyScale</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -50,7 +50,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                             <div class="col-sm-4 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-warning" id="btnNewEconomySale">Nuevo Calculo</button>
+                                    <button class="btn btn-warning" id="btnNeweconomyScale">Nuevo Calculo</button>
                                 </div>
                             </div>
                         </div>
@@ -64,138 +64,136 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-md-12 col-lg-12 InputGroup">
                                 <div class="card mt-4">
                                     <div class="card-body">
-                                        <form id="formNewEconomySale">
-                                            <div class="row">
-                                                <div class="col-12 col-lg-12 mb-2">
-                                                    <h5>Producto</h5>
-                                                </div>
-                                                <div class="col-12 col-lg-4">
-                                                    <div class="form-group floating-label enable-floating-label show-label">
-                                                        <select class="form-control refProduct" id="refProduct" name="idProduct"></select>
-                                                        <label for="refProduct" class="form-label">Referencia <span class="text-danger">*</span></label>
-                                                        <div class="validation-error d-none font-size-13">Requerido</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-lg-8">
-                                                    <div class="form-group floating-label enable-floating-label show-label">
-                                                        <select class="form-control selectNameProduct" id="selectNameProduct" name="idProduct"></select>
-                                                        <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
-                                                        <div class="validation-error d-none font-size-13">Requerido</div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12 col-lg-12 mb-2">
-                                                    <h5>Descripción</h5>
-                                                </div>
-                                                <div class="col-12 col-lg-12">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped">
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Crecimiento</td>
-                                                                    <td class="text-center">100%</td>
-                                                                    <td class="text-center">150%</td>
-                                                                    <td class="text-center">200%</td>
-                                                                    <td class="text-center">300%</td>
-                                                                    <td class="text-center">500%</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Ventas Mensuales (Unidad)</td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center unity" type="text" id="unity-1">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center unity" type="text" id="unity-2">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center unity" type="text" id="unity-3">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center unity" type="text" id="unity-4">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center unity" type="text" id="unity-5">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Precio</td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center price" type="text" id="price-1">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center price" type="text" id="price-2">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center price" type="text" id="price-3">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center price" type="text" id="price-4">
-                                                                    </td>
-                                                                    <td>
-                                                                        <input class="form-control number text-center price" type="text" id="price-5">
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Total Ingresos</td>
-                                                                    <td class="totalRevenue" id="totalRevenue-1"></td>
-                                                                    <td class="totalRevenue" id="totalRevenue-2"></td>
-                                                                    <td class="totalRevenue" id="totalRevenue-3"></td>
-                                                                    <td class="totalRevenue" id="totalRevenue-4"></td>
-                                                                    <td class="totalRevenue" id="totalRevenue-5"></td>
-                                                                </tr>
-                                                                <tr style="display: none;">
-                                                                    <td class="font-weight-bold">Costos Fijos</td>
-                                                                    <td class="fixedCosts" id="fixedCosts-1"></td>
-                                                                    <td class="fixedCosts" id="fixedCosts-2"></td>
-                                                                    <td class="fixedCosts" id="fixedCosts-3"></td>
-                                                                    <td class="fixedCosts" id="fixedCosts-4"></td>
-                                                                    <td class="fixedCosts" id="fixedCosts-5"></td>
-                                                                </tr>
-                                                                <tr style="display: none;">
-                                                                    <td class="font-weight-bold">Costos Variables</td>
-                                                                    <td class="variableCosts" id="variableCosts-1"></td>
-                                                                    <td class="variableCosts" id="variableCosts-2"></td>
-                                                                    <td class="variableCosts" id="variableCosts-3"></td>
-                                                                    <td class="variableCosts" id="variableCosts-4"></td>
-                                                                    <td class="variableCosts" id="variableCosts-5"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Total Costos y Gastos</td>
-                                                                    <td class="totalCostsAndExpenses" id="totalCostsAndExpenses-1"></td>
-                                                                    <td class="totalCostsAndExpenses" id="totalCostsAndExpenses-2"></td>
-                                                                    <td class="totalCostsAndExpenses" id="totalCostsAndExpenses-3"></td>
-                                                                    <td class="totalCostsAndExpenses" id="totalCostsAndExpenses-4"></td>
-                                                                    <td class="totalCostsAndExpenses" id="totalCostsAndExpenses-5"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Costo Por Unidad</td>
-                                                                    <td class="unityCost" id="unityCost-1"></td>
-                                                                    <td class="unityCost" id="unityCost-2"></td>
-                                                                    <td class="unityCost" id="unityCost-3"></td>
-                                                                    <td class="unityCost" id="unityCost-4"></td>
-                                                                    <td class="unityCost" id="unityCost-5"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Utilidad Por Unidad</td>
-                                                                    <td class="unitUtility" id="unitUtility-1"></td>
-                                                                    <td class="unitUtility" id="unitUtility-2"></td>
-                                                                    <td class="unitUtility" id="unitUtility-3"></td>
-                                                                    <td class="unitUtility" id="unitUtility-4"></td>
-                                                                    <td class="unitUtility" id="unitUtility-5"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td class="font-weight-bold">Utilidad Neta</td>
-                                                                    <td class="netUtility" id="netUtility-1"></td>
-                                                                    <td class="netUtility" id="netUtility-2"></td>
-                                                                    <td class="netUtility" id="netUtility-3"></td>
-                                                                    <td class="netUtility" id="netUtility-4"></td>
-                                                                    <td class="netUtility" id="netUtility-5"></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                        <div class="row">
+                                            <div class="col-12 col-lg-12 mb-2">
+                                                <h5>Producto</h5>
+                                            </div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <select class="form-control refProduct" id="refProduct" name="idProduct"></select>
+                                                    <label for="refProduct" class="form-label">Referencia <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
-                                        </form>
+                                            <div class="col-12 col-lg-8">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <select class="form-control selectNameProduct" id="selectNameProduct" name="idProduct"></select>
+                                                    <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-12 mb-2">
+                                                <h5>Descripción</h5>
+                                            </div>
+                                            <div class="col-12 col-lg-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Crecimiento</td>
+                                                                <td class="text-center">100%</td>
+                                                                <td class="text-center">150%</td>
+                                                                <td class="text-center">200%</td>
+                                                                <td class="text-center">300%</td>
+                                                                <td class="text-center">500%</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Ventas Mensuales (Unidad)</td>
+                                                                <td>
+                                                                    <input class="form-control number text-center unity totalRevenue" type="text" id="unity-1">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center unity totalRevenue" type="text" id="unity-2" readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center unity totalRevenue" type="text" id="unity-3" readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center unity totalRevenue" type="text" id="unity-4" readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center unity totalRevenue" type="text" id="unity-5" readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Precio</td>
+                                                                <td>
+                                                                    <input class="form-control number text-center price totalRevenue" type="text" id="price-1">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center price totalRevenue" type="text" id="price-2">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center price totalRevenue" type="text" id="price-3">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center price totalRevenue" type="text" id="price-4">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control number text-center price totalRevenue" type="text" id="price-5">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Total Ingresos</td>
+                                                                <td class="text-center" id="totalRevenue-1"></td>
+                                                                <td class="text-center" id="totalRevenue-2"></td>
+                                                                <td class="text-center" id="totalRevenue-3"></td>
+                                                                <td class="text-center" id="totalRevenue-4"></td>
+                                                                <td class="text-center" id="totalRevenue-5"></td>
+                                                            </tr>
+                                                            <tr style="display: none;">
+                                                                <td class="font-weight-bold">Costos Fijos</td>
+                                                                <td class="text-center" id="fixedCosts-1"></td>
+                                                                <td class="text-center" id="fixedCosts-2"></td>
+                                                                <td class="text-center" id="fixedCosts-3"></td>
+                                                                <td class="text-center" id="fixedCosts-4"></td>
+                                                                <td class="text-center" id="fixedCosts-5"></td>
+                                                            </tr>
+                                                            <tr style="display: none;">
+                                                                <td class="font-weight-bold">Costos Variables</td>
+                                                                <td class="text-center" id="variableCosts-1"></td>
+                                                                <td class="text-center" id="variableCosts-2"></td>
+                                                                <td class="text-center" id="variableCosts-3"></td>
+                                                                <td class="text-center" id="variableCosts-4"></td>
+                                                                <td class="text-center" id="variableCosts-5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Total Costos y Gastos</td>
+                                                                <td class="text-center" id="totalCostsAndExpenses-1"></td>
+                                                                <td class="text-center" id="totalCostsAndExpenses-2"></td>
+                                                                <td class="text-center" id="totalCostsAndExpenses-3"></td>
+                                                                <td class="text-center" id="totalCostsAndExpenses-4"></td>
+                                                                <td class="text-center" id="totalCostsAndExpenses-5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Costo Por Unidad</td>
+                                                                <td class="text-center unityCost" id="unityCost-1"></td>
+                                                                <td class="text-center unityCost" id="unityCost-2"></td>
+                                                                <td class="text-center unityCost" id="unityCost-3"></td>
+                                                                <td class="text-center unityCost" id="unityCost-4"></td>
+                                                                <td class="text-center unityCost" id="unityCost-5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Utilidad Por Unidad</td>
+                                                                <td class="text-center unitUtility" id="unitUtility-1"></td>
+                                                                <td class="text-center unitUtility" id="unitUtility-2"></td>
+                                                                <td class="text-center unitUtility" id="unitUtility-3"></td>
+                                                                <td class="text-center unitUtility" id="unitUtility-4"></td>
+                                                                <td class="text-center unitUtility" id="unitUtility-5"></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="font-weight-bold">Utilidad Neta</td>
+                                                                <td class="text-center netUtility" id="netUtility-1"></td>
+                                                                <td class="text-center netUtility" id="netUtility-2"></td>
+                                                                <td class="text-center netUtility" id="netUtility-3"></td>
+                                                                <td class="text-center netUtility" id="netUtility-4"></td>
+                                                                <td class="text-center netUtility" id="netUtility-5"></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -216,8 +214,8 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/global/searchData.js"></script>
 
     <script src="/cost/js/basic/products/configProducts.js"></script>
-    <script src="/cost/js/economySale/economySale.js"></script>
-    <!-- <script src="/cost/js/economySale/tblEconomySale.js"></script> -->
+    <script src="/cost/js/economyScale/economyScale.js"></script>
+    <!-- <script src="/cost/js/economyScale/tbleconomyScale.js"></script> -->
 </body>
 
 </html>

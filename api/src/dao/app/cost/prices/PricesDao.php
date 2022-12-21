@@ -35,4 +35,22 @@ class PricesDao
     $this->logger->notice("prices", array('prices' => $prices));
     return $prices;
   }
+
+  public function findPriceByProduct($id_product, $id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, CAST(IFNULL(pc.price / pc.profitability, 0) AS UNSIGNED) AS cost
+                                  FROM products p
+                                    INNER JOIN products_costs pc ON pc.id_product = p.id_product
+                                  WHERE p.id_product = :id_product AND p.id_company = :id_company
+                                  ORDER BY `pc`.`profitability`, cost DESC;");
+    $stmt->execute([
+      'id_product' => $id_product,
+      'id_company' => $id_company
+    ]);
+    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    $price = $stmt->fetch($connection::FETCH_ASSOC);
+    return $price;
+  }
 }
