@@ -40,7 +40,7 @@ $(document).ready(function () {
         title: 'Valor Minuto',
         data: 'cost_minute',
         className: 'classRight',
-        render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+        render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
       },
       {
         title: 'Acciones',
