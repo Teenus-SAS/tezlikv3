@@ -17,7 +17,7 @@ class SendEmailDao extends PHPMailer
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function sendEmail($to, $subject, $header, $ccHeader, $message)
+    public function sendEmail($to, $subject, $header, $ccHeader, $message, $img)
     {
         try {
             if (!isset($_SESSION))
@@ -33,21 +33,22 @@ class SendEmailDao extends PHPMailer
             //SMTP::DEBUG_OFF    = off (for production use) 0
             //SMTP::DEBUG_CLIENT = client messages 1 
             //SMTP::DEBUG_SERVER = client and server messages 2
-            $this->SMTPDebug     = 2;
+            // $this->SMTPDebug     = 2;
 
             //Set the hostname of the mail server
             $this->Host          = 'smtp.gmail.com';
             $this->Port          = 465; // o 587
 
             // Propiedad para establecer la seguridad de encripción de la comunicación
-            $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
+            // $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
+            $this->SMTPSecure = "ssl";
 
             // Para activar la autenticación smtp del servidor
             $this->SMTPAuth      = true;
 
             // Credenciales de la cuenta
-            $this->Username     = '';
-            $this->Password     = '';
+            $this->Username     = 'pruebaSoft145@gmail.com';
+            $this->Password     = 'glvgveacpopppjws';
 
             // Quien envía este mensaje
             $this->setFrom($email);
@@ -65,6 +66,10 @@ class SendEmailDao extends PHPMailer
                 $this->addCC($ccHeader);
 
             $this->Subject = $subject;
+
+            // Imagen
+            if ($img != null)
+                $this->addStringAttachment(file_get_contents($img), 'Cotización.png');
 
             // Contenido
             $this->IsHTML(true);
@@ -108,7 +113,7 @@ class SendEmailDao extends PHPMailer
 
         // send email
         // mail($to, 'Codigo', $msg, $headers);
-        $resp = $this->sendEmail($to, 'Codigo', $headers, null, $msg);
+        $resp = $this->sendEmail($to, 'Codigo', $headers, null, $msg, null);
 
         return $resp;
     }
@@ -141,7 +146,7 @@ class SendEmailDao extends PHPMailer
         $headers .= 'From: SoporteTezlik <soporteTezlik@tezliksoftware.com.co>' . "\r\n";
         // send email
         // mail($to, "Nuevo password", $msg, $headers);
-        $resp = $this->sendEmail($to, 'Nuevo Password', $headers, null, $msg);
+        $resp = $this->sendEmail($to, 'Nuevo Password', $headers, null, $msg, null);
         return $resp;
     }
 
@@ -165,7 +170,7 @@ class SendEmailDao extends PHPMailer
         $headers .= "From: SoporteTeenus <$email>" . "\r\n";
         // send email
         // mail($to, "Soporte", $msg, $headers, $ccHeader);
-        $resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg);
+        $resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg, null);
         return $resp;
     }
 
@@ -177,8 +182,7 @@ class SendEmailDao extends PHPMailer
         else $ccHeader = '';
 
         // the message
-        $msg = $dataQuote['message'] . "\n";
-        $msg .= $dataQuote['img'];
+        $msg = $dataQuote['message'];
 
         //subject
         $subject = $dataQuote['subject'];
@@ -189,7 +193,7 @@ class SendEmailDao extends PHPMailer
         $headers .= "From: <$email>" . "\r\n";
         // send email
         // mail($to, $msg, $headers, $ccHeader);
-        $resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg);
+        $resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg, $dataQuote['img']);
         return $resp;
     }
 }
