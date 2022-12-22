@@ -159,11 +159,11 @@ if (sizeof($_SESSION) == 0)
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Total Costos y Gastos</td>
-                                                                <td class="text-center" id="totalCostsAndExpenses-1"></td>
-                                                                <td class="text-center" id="totalCostsAndExpenses-2"></td>
-                                                                <td class="text-center" id="totalCostsAndExpenses-3"></td>
-                                                                <td class="text-center" id="totalCostsAndExpenses-4"></td>
-                                                                <td class="text-center" id="totalCostsAndExpenses-5"></td>
+                                                                <td class="text-center totalCostsAndExpenses" id="totalCostsAndExpenses-1"></td>
+                                                                <td class="text-center totalCostsAndExpenses" id="totalCostsAndExpenses-2"></td>
+                                                                <td class="text-center totalCostsAndExpenses" id="totalCostsAndExpenses-3"></td>
+                                                                <td class="text-center totalCostsAndExpenses" id="totalCostsAndExpenses-4"></td>
+                                                                <td class="text-center totalCostsAndExpenses" id="totalCostsAndExpenses-5"></td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Costo Por Unidad</td>

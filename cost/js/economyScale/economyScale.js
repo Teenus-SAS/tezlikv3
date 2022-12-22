@@ -24,47 +24,32 @@ $(document).ready(function () {
     /* Costos Fijos */
     let i = 1;
     let fixedCosts = data.fixedCost;
+    let dataCalcFCost = [];
 
     $.each(fixedCosts, (index, value) => {
       $(`#fixedCosts-${i}`).html(value.toLocaleString('es-CO'));
       i++;
+      dataCalcFCost.push(value);
     });
 
     /* Costos Variables */
     i = 1;
-    variableCosts = data.variableCost;
+    let variableCosts = data.variableCost;
+    let dataCalcVCost = [];
 
     $.each(variableCosts, (index, value) => {
       $(`#variableCosts-${i}`).html(value.toLocaleString('es-CO'));
       i++;
+      dataCalcVCost.push(value);
     });
 
     /* Total Costos y Gastos */
-    $('#totalCostsAndExpenses-1').html(
-      (
-        data.fixedCost.fixedCost100 + data.variableCost.variableCost100
-      ).toLocaleString('es-CO')
-    );
-    $('#totalCostsAndExpenses-2').html(
-      (
-        data.fixedCost.fixedCost150 + data.variableCost.variableCost150
-      ).toLocaleString('es-CO')
-    );
-    $('#totalCostsAndExpenses-3').html(
-      (
-        data.fixedCost.fixedCost200 + data.variableCost.variableCost200
-      ).toLocaleString('es-CO')
-    );
-    $('#totalCostsAndExpenses-4').html(
-      (
-        data.fixedCost.fixedCost300 + data.variableCost.variableCost300
-      ).toLocaleString('es-CO')
-    );
-    $('#totalCostsAndExpenses-5').html(
-      (
-        data.fixedCost.fixedCost500 + data.variableCost.variableCost500
-      ).toLocaleString('es-CO')
-    );
+
+    for (i = 0; i < 5; i++) {
+      $(`#totalCostsAndExpenses-${i + 1}`).html(
+        (dataCalcFCost[i] + dataCalcVCost[i]).toLocaleString('es-CO')
+      );
+    }
   };
 
   /* Calculo */
@@ -98,22 +83,43 @@ $(document).ready(function () {
       });
     }
 
-    calcTotalRevenue();
-  });
-
-  calcTotalRevenue = () => {
-    let units = $('.unity');
-    let prices = $('.price');
-
     for (i = 0; i < 5; i++) {
-      unit = replaceNumber(units[i].value);
-      price = replaceNumber(prices[i].value);
+      let unit = $(`#unity-${i + 1}`).val();
+      let price = $(`#price-${i + 1}`).val();
+
+      /* Calculo Total Ingresos */
+      unit = replaceNumber(unit);
+      price = replaceNumber(price);
 
       totalRevenue = unit * price;
 
-      $(`#totalRevenue-${i + 1}`).html(totalRevenue.toLocaleString('es-ES'));
+      $(`#totalRevenue-${i + 1}`).html(
+        Math.round(totalRevenue).toLocaleString('es-ES')
+      );
+
+      /* Calculo Costo x Unidad */
+      let totalCostsAndExpense = $(`#totalCostsAndExpenses-${i + 1}`).html();
+      totalCostsAndExpense = replaceNumber(totalCostsAndExpense);
+
+      unityCost = parseFloat(totalCostsAndExpense) / parseFloat(unit);
+
+      $(`#unityCost-${i + 1}`).html(
+        Math.round(unityCost).toLocaleString('es-ES')
+      );
+
+      /* Calculo Utilidad x Unidad */
+      let unitUtility = price - unityCost;
+      $(`#unitUtility-${i + 1}`).html(
+        Math.round(unitUtility).toLocaleString('es-ES')
+      );
+
+      /* Calculo Utilidad Neta */
+      let netUtility = unitUtility * unit;
+      $(`#netUtility-${i + 1}`).html(
+        Math.round(netUtility).toLocaleString('es-ES')
+      );
     }
-  };
+  });
 
   replaceNumber = (number) => {
     while (number.includes('.')) {
