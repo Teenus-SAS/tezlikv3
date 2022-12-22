@@ -19,17 +19,18 @@ class PricesDao
   public function findAllPricesByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.profitability, pc.commission_sale, IFNULL(ed.units_sold, 0) AS units_sold, IFNULL(ed.turnover, 0) AS turnover, p.img, ((((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost)+(IF(IFNULL(ed.assignable_expense, 0) = 0, 
-                                         (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover / 100, ed.assignable_expense))) + (((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost)+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover / 100, ed.assignable_expense))) 
-                                         * pc.profitability / 100) + ((((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost)+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover / 100, ed.assignable_expense)))+(((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost)+(IF(IFNULL(ed.assignable_expense, 0) = 0, 
-                                         (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover / 100, ed.assignable_expense))) * pc.profitability / 100)) * pc.commission_sale / 100))) AS price, CAST(IFNULL(pc.price / pc.profitability, 0) AS UNSIGNED) AS cost, (SELECT cost_price FROM plans_access WHERE id_plan = cl.plan) AS details_product
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.profitability, pc.commission_sale, IFNULL(ed.units_sold, 0) AS units_sold, IFNULL(ed.turnover, 0) AS turnover, p.img, ((((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product) , 0))+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0)) * 
+                                         er.expense_recover / 100, ed.assignable_expense))) + (((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0))+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0)) * er.expense_recover / 100, ed.assignable_expense))) * pc.profitability / 100) + 
+                                         ((((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0))+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0)) * er.expense_recover / 100, ed.assignable_expense)))+(((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + 
+                                         IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0))+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0)) * er.expense_recover / 100, ed.assignable_expense))) * pc.profitability / 100)) * pc.commission_sale / 100))) AS price, 
+                                         CAST(IFNULL(pc.price / pc.profitability, 0) AS UNSIGNED) AS cost, (SELECT cost_price FROM plans_access WHERE id_plan = cl.plan) AS details_product
                                   FROM products p
-                                  LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
-                                  INNER JOIN products_costs pc ON pc.id_product = p.id_product
-                                  LEFT JOIN expenses_recover er ON er.id_product = p.id_product
-                                  INNER JOIN companies_licenses cl ON cl.id_company = p.id_company 
+                                    LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                    INNER JOIN products_costs pc ON pc.id_product = p.id_product
+                                    LEFT JOIN expenses_recover er ON er.id_product = p.id_product
+                                    INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
                                   WHERE p.id_company = :id_company AND p.active = 1
-                                  ORDER BY `pc`.`profitability`, cost DESC");
+                                  ORDER BY `p`.`product` ASC");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

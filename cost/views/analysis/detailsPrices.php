@@ -140,52 +140,54 @@ if (sizeof($_SESSION) == 0)
                         </div>
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
-                            <div class="col-md-4 col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Ventas</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item py-4">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-muted mb-2">Número de Unidades</p>
-                                                        <h4 class="mb-0" id="unitsSold"></h4>
+                            <?php if ($_SESSION['flag_expense'] != 2) { ?>
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Ventas</h5>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item py-4">
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <p class="text-muted mb-2">Número de Unidades</p>
+                                                            <h4 class="mb-0" id="unitsSold"></h4>
+                                                        </div>
+                                                        <div class="avatar avatar-md bg-info mr-0 align-self-center">
+                                                            <i class="bx bx-layer fs-lg"></i>
+                                                        </div>
                                                     </div>
-                                                    <div class="avatar avatar-md bg-info mr-0 align-self-center">
-                                                        <i class="bx bx-layer fs-lg"></i>
+                                                </li>
+                                                <li class="list-group-item py-4">
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <p class="text-muted mb-2">Ingresos</p>
+                                                            <h4 class="mb-0" id="turnover"></h4>
+                                                        </div>
+                                                        <div class="avatar avatar-md bg-primary mr-0 align-self-center">
+                                                            <i class="bx bx-bar-chart-alt fs-lg"></i>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item py-4">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-muted mb-2">Ingresos</p>
-                                                        <h4 class="mb-0" id="turnover"></h4>
+                                                </li>
+                                                <li class="list-group-item py-4">
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <p class="text-muted mb-2">Precio de Venta Recomendado</p>
+                                                            <h4 class="mb-0" id="recomendedPrice">$</h4>
+                                                        </div>
+                                                        <div class="avatar avatar-md bg-success mr-0 align-self-center">
+                                                            <i class="bx bx-chart fs-lg"></i>
+                                                        </div>
                                                     </div>
-                                                    <div class="avatar avatar-md bg-primary mr-0 align-self-center">
-                                                        <i class="bx bx-bar-chart-alt fs-lg"></i>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item py-4">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-muted mb-2">Precio de Venta Recomendado</p>
-                                                        <h4 class="mb-0" id="recomendedPrice">$</h4>
-                                                    </div>
-                                                    <div class="avatar avatar-md bg-success mr-0 align-self-center">
-                                                        <i class="bx bx-chart fs-lg"></i>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                             <!-- Begin total revenue chart -->
-                            <div class="col-md-4 col-lg-6">
+                            <div class="col">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Costos y Gastos</h5>
@@ -220,6 +222,8 @@ if (sizeof($_SESSION) == 0)
                                                             <h6 class="mb-0 pl-3 text-right" id="payWorkforce">$</h6>
                                                             <p class="text-muted mb-2 pl-3">Costos Indirectos</p>
                                                             <h6 class="mb-0 pl-3 text-right " id="payIndirectCost">$</h6>
+                                                            <p class="text-muted mb-2 pl-3">Servicios Externos</p>
+                                                            <h6 class="mb-0 pl-3 text-right " id="services">$</h6>
                                                             <p class="mb-2" style="color:darkcyan" id="expenses">Gastos</p>
                                                             <h6 class="mb-0 pl-3 text-right" id="payAssignableExpenses"></h6>
                                                             <p class="mb-2" style="color:darkcyan" id="commission">Comisión Vts</p>

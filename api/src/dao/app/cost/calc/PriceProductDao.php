@@ -21,9 +21,18 @@ class PriceProductDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        // $stmt = $connection->prepare("SELECT
+        //                                 ((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + IFNULL(ed.assignable_expense, 0) +  IF(SUM(cost) IS NULL, 0, IFNULL(SUM(s.cost), 0)))
+        //                                 /((100-pc.commission_sale-pc.profitability)/100)) as totalPrice 
+        //                               FROM products_costs pc
+        //                               LEFT JOIN services s ON s.id_product = pc.id_product
+        //                               LEFT JOIN expenses_distribution ed ON ed.id_product = pc.id_product
+        //                               WHERE pc.id_product = :id_product");
         $stmt = $connection->prepare("SELECT
-                                        ((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + IFNULL(ed.assignable_expense, 0) +  IF(SUM(cost) IS NULL, 0, IFNULL(SUM(s.cost), 0)))
-                                        /((100-pc.commission_sale-pc.profitability)/100)) as totalPrice 
+                                        ((((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0)) + (IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0)) * er.expense_recover / 100, ed.assignable_expense)))
+                                        + (((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0))+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0)) * er.expense_recover / 100, ed.assignable_expense))) * pc.profitability / 100)
+                                        + ((((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0))+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0)) * er.expense_recover / 100, ed.assignable_expense))) + 
+                                        (((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0))+(IF(IFNULL(ed.assignable_expense, 0) = 0, (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + IFNULL(SUM(s.cost), 0)) * er.expense_recover / 100, ed.assignable_expense))) * pc.profitability / 100)) * pc.commission_sale / 100))) as totalPrice 
                                       FROM products_costs pc
                                       LEFT JOIN services s ON s.id_product = pc.id_product
                                       LEFT JOIN expenses_distribution ed ON ed.id_product = pc.id_product

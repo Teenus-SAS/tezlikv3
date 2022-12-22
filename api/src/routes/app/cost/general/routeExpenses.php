@@ -26,6 +26,11 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
     $id_company = $_SESSION['id_company'];
     $typeExpense = $licenseCompanyDao->updateFlagExpense($args['flag'], $id_company);
 
+    if ($args['flag'] == 2) {
+        $_SESSION['expense'] = 0;
+        $_SESSION['flag_expense'] = 2;
+    }
+
     if ($typeExpense == null)
         $resp = array('success' => true, 'message' => 'Se selecciono el tipo gasto correctamente');
     else

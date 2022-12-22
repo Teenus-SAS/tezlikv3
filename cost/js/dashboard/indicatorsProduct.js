@@ -146,6 +146,13 @@ $(document).ready(function () {
       })}`
     );
 
+    $('#services').html(
+      `$ ${data[0].services.toLocaleString('es-CO', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`
+    );
+
     data[0].assignable_expense == 0
       ? (assignable_expense = (data[0].expense_recover / 100) * dataCost.cost)
       : (assignable_expense = data[0].assignable_expense);
@@ -180,7 +187,8 @@ $(document).ready(function () {
     cost =
       parseFloat(data.cost_materials) +
       parseFloat(data.cost_workforce) +
-      parseFloat(data.cost_indirect_cost);
+      parseFloat(data.cost_indirect_cost) +
+      parseFloat(data.services);
 
     data.assignable_expense == 0
       ? (assignable_expense = (data.expense_recover / 100) * cost)
@@ -215,4 +223,9 @@ $(document).ready(function () {
 
     loadIndicatorsProducts(id_product);
   });
+
+  function setProduct() {
+    $(`#product option[value=${id_product}]`).prop('selected', true);
+  }
+  setTimeout(setProduct, 5000);
 });
