@@ -19,10 +19,13 @@ class SendEmailDao extends PHPMailer
 
     public function sendEmail($to, $subject, $header, $ccHeader, $message, $img)
     {
+        require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . "/env.php";
+
         try {
-            if (!isset($_SESSION))
+            /* if (!isset($_SESSION))
                 session_start();
-            $email = $_SESSION['email'];
+            $email = $_SESSION['email']; */
+
 
             // Intancia de PHPMailer
 
@@ -36,22 +39,29 @@ class SendEmailDao extends PHPMailer
             // $this->SMTPDebug     = 2;
 
             //Set the hostname of the mail server
-            $this->Host          = 'smtp.gmail.com';
-            $this->Port          = 465; // o 587
+            //$this->Host          = 'smtp.gmail.com';
+            //$this->Port          = 465; // o 587
+
+            $this->Host          = $_ENV["smtpHost"];
+            $this->Port          = $_ENV["smtpPort"];
 
             // Propiedad para establecer la seguridad de encripción de la comunicación
             // $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
-            $this->SMTPSecure = "ssl";
+            //$this->SMTPSecure = "ssl";
+            $this->SMTPSecure = "tls";
 
             // Para activar la autenticación smtp del servidor
             $this->SMTPAuth      = true;
 
             // Credenciales de la cuenta
-            $this->Username     = 'pruebaSoft145@gmail.com';
-            $this->Password     = 'glvgveacpopppjws';
+            //$this->Username     = 'pruebaSoft145@gmail.com';
+            //$this->Password     = 'glvgveacpopppjws';
+            $this->Username     = $_ENV["smtpEmail"];;
+            $this->Password     = $_ENV["smtpPass"];
 
             // Quien envía este mensaje
-            $this->setFrom($email);
+            //$this->setFrom($email);
+            $this->setFrom($_ENV["smtpEmail"]);
 
             // Si queremos una dirección de respuesta
             // $this->addReplyTo('replyto@panchos.com', 'Pancho Doe');

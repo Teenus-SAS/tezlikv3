@@ -187,6 +187,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             <?php } ?>
                             <!-- Begin total revenue chart -->
+
                             <div class="col">
                                 <div class="card">
                                     <div class="card-header">
