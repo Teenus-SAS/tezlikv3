@@ -147,6 +147,7 @@ $(document).ready(function () {
       analysisMaterial: data.price,
       tool: data.tool,
       quote: data.quote,
+      economyScale: data.economy_scale,
 
       //Planeacion
       createMold: data.create_mold,
@@ -204,89 +205,59 @@ $(document).ready(function () {
 
   /* Metodo para definir checkboxes */
   setCheckBoxes = (dataUser) => {
-    for (let i = 1; i <= 39; i++) {
-      if ($(`#checkbox-${i}`).is(':checked')) {
-        if (i == 1) dataUser['costCreateProducts'] = '1';
-        if (i == 2) dataUser['costCreateMaterials'] = '1';
-        if (i == 3) dataUser['costCreateMachines'] = '1';
-        if (i == 4) dataUser['costCreateProcess'] = '1';
-        if (i == 5) dataUser['costProductMaterials'] = '1';
-        if (i == 6) dataUser['costProductProcess'] = '1';
-        if (i == 7) dataUser['factoryLoad'] = '1';
-        if (i == 8) dataUser['externalService'] = '1';
-        if (i == 9) dataUser['payrollLoad'] = '1';
-        if (i == 10) dataUser['expense'] = '1';
-        if (i == 11) dataUser['expenseDistribution'] = '1';
-        if (i == 12) dataUser['costUser'] = '1';
-        if (i == 13) dataUser['quotePaymentMethod'] = '1';
-        if (i == 14) dataUser['quoteCompany'] = '1';
-        if (i == 15) dataUser['quoteContact'] = '1';
-        if (i == 16) dataUser['price'] = '1';
-        if (i == 17) dataUser['analysisMaterial'] = '1';
-        if (i == 18) dataUser['tool'] = '1';
-        if (i == 19) dataUser['quote'] = '1';
-        if (i == 20) dataUser['createMold'] = '1';
-        if (i == 21) dataUser['planningCreateProduct'] = '1';
-        if (i == 22) dataUser['planningCreateMaterial'] = '1';
-        if (i == 23) dataUser['planningCreateMachine'] = '1';
-        if (i == 24) dataUser['planningCreateProcess'] = '1';
-        if (i == 25) dataUser['planningProductsMaterial'] = '1';
-        if (i == 26) dataUser['planningProductsProcess'] = '1';
-        if (i == 27) dataUser['programsMachine'] = '1';
-        if (i == 28) dataUser['ciclesMachine'] = '1';
-        if (i == 29) dataUser['invCategory'] = '1';
-        if (i == 30) dataUser['sale'] = '1';
-        if (i == 31) dataUser['plannigUser'] = '1';
-        if (i == 32) dataUser['client'] = '1';
-        if (i == 33) dataUser['ordersType'] = '1';
-        if (i == 34) dataUser['inventory'] = '1';
-        if (i == 35) dataUser['order'] = '1';
-        if (i == 36) dataUser['program'] = '1';
-        if (i == 37) dataUser['load'] = '1';
-        if (i == 38) dataUser['explosionOfMaterial'] = '1';
-        if (i == 39) dataUser['office'] = '1';
-      } else {
-        if (i == 1) dataUser['costCreateProducts'] = '0';
-        if (i == 2) dataUser['costCreateMaterials'] = '0';
-        if (i == 3) dataUser['costCreateMachines'] = '0';
-        if (i == 4) dataUser['costCreateProcess'] = '0';
-        if (i == 5) dataUser['costProductMaterials'] = '0';
-        if (i == 6) dataUser['costProductProcess'] = '0';
-        if (i == 7) dataUser['factoryLoad'] = '0';
-        if (i == 8) dataUser['externalService'] = '0';
-        if (i == 9) dataUser['payrollLoad'] = '0';
-        if (i == 10) dataUser['expense'] = '0';
-        if (i == 11) dataUser['expenseDistribution'] = '0';
-        if (i == 12) dataUser['costUser'] = '0';
-        if (i == 13) dataUser['quotePaymentMethod'] = '0';
-        if (i == 14) dataUser['quoteCompany'] = '0';
-        if (i == 15) dataUser['quoteContact'] = '0';
-        if (i == 16) dataUser['price'] = '0';
-        if (i == 17) dataUser['analysisMaterial'] = '0';
-        if (i == 18) dataUser['tool'] = '0';
-        if (i == 19) dataUser['quote'] = '0';
-        if (i == 20) dataUser['createMold'] = '0';
-        if (i == 21) dataUser['planningCreateProduct'] = '0';
-        if (i == 22) dataUser['planningCreateMaterial'] = '0';
-        if (i == 23) dataUser['planningCreateMachine'] = '0';
-        if (i == 24) dataUser['planningCreateProcess'] = '0';
-        if (i == 25) dataUser['planningProductsMaterial'] = '0';
-        if (i == 26) dataUser['planningProductsProcess'] = '0';
-        if (i == 27) dataUser['programsMachine'] = '0';
-        if (i == 28) dataUser['ciclesMachine'] = '0';
-        if (i == 29) dataUser['invCategory'] = '0';
-        if (i == 30) dataUser['sale'] = '0';
-        if (i == 31) dataUser['plannigUser'] = '0';
-        if (i == 32) dataUser['client'] = '0';
-        if (i == 33) dataUser['ordersType'] = '0';
-        if (i == 34) dataUser['inventory'] = '0';
-        if (i == 35) dataUser['order'] = '0';
-        if (i == 36) dataUser['program'] = '0';
-        if (i == 37) dataUser['load'] = '0';
-        if (i == 38) dataUser['explosionOfMaterial'] = '0';
-        if (i == 39) dataUser['office'] = '0';
-      }
-    }
+    let i = 1;
+
+    let access = {
+      //costos
+      costCreateProducts: 0,
+      costCreateMaterials: 0,
+      costCreateMachines: 0,
+      costCreateProcess: 0,
+      costProductMaterials: 0,
+      costProductProcess: 0,
+      factoryLoad: 0,
+      externalService: 0,
+      payrollLoad: 0,
+      expense: 0,
+      expenseDistribution: 0,
+      costUser: 0,
+      quotePaymentMethod: 0,
+      quoteCompany: 0,
+      quoteContact: 0,
+      price: 0,
+      analysisMaterial: 0,
+      tool: 0,
+      quote: 0,
+      economyScale: 0,
+
+      //Planeacion
+      createMold: 0,
+      planningCreateProduct: 0,
+      planningCreateMaterial: 0,
+      planningCreateMachine: 0,
+      planningCreateProcess: 0,
+      planningProductsMaterial: 0,
+      planningProductsProcess: 0,
+      programsMachine: 0,
+      ciclesMachine: 0,
+      invCategory: 0,
+      sale: 0,
+      plannigUser: 0,
+      client: 0,
+      ordersType: 0,
+      inventory: 0,
+      order: 0,
+      program: 0,
+      load: 0,
+      explosionOfMaterial: 0,
+      office: 0,
+    };
+
+    $.each(access, (index, value) => {
+      if ($(`#checkbox-${i}`).is(':checked')) dataUser[`${index}`] = 1;
+      else dataUser[`${index}`] = 0;
+      i++;
+    });
 
     return dataUser;
   };

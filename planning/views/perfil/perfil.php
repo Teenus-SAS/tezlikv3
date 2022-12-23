@@ -38,7 +38,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="container py-5">
                     <div class="row">
                         <div class="col-lg-4">
-                            <div class="card mb-4">
+                            <div class="card">
                                 <div class="card-body text-center">
                                     <div class="picture-container">
                                         <div class="picture">
@@ -49,8 +49,11 @@ if (sizeof($_SESSION) == 0)
                                     <h5 class="my-3" id="profileName"></h5>
                                 </div>
                             </div>
-                            <div class="card companyData" style="margin-top: 39px">
+                            <div class="card companyData">
                                 <div class="card-body">
+                                    <div class="row">
+                                        <img id="logo" src="" style="display: block; margin: 0 auto; width: 200px;">
+                                    </div>
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <p class="font-weight-bold mb-0">Compañia</p>

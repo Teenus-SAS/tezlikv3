@@ -17,9 +17,9 @@ $app->get('/calcEconomyScale/{id_product}', function (Request $request, Response
     $fixedCosts = $economyScaleDao->findFixedCostByProduct($args['id_product'], $id_company);
     $variableCosts = $economyScaleDao->findVariableCostByProduct($args['id_product'], $id_company);
 
-    $data['price'] = $price;
+    $data['price'] = $price['cost'];
     $data['fixedCost'] = $fixedCosts;
-    $data['variableCost'] = $variableCosts;
+    $data['variableCost'] = $variableCosts['variableCost'];
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
