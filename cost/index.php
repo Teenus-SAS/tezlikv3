@@ -149,63 +149,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
-                            <div class="col-md-4 col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Ventas</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item py-4">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-muted mb-2">Total Unidades Vendidas</p>
-                                                        <h4 class="mb-0" id="productsSold"></h4>
-                                                    </div>
-                                                    <div class="avatar avatar-md bg-info mr-0 align-self-center">
-                                                        <i class="bx bx-layer fs-lg"></i>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item py-4">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-muted mb-2">Total Ingresos por Ventas</p>
-                                                        <h4 class="mb-0" id="salesRevenue"></h4>
-                                                    </div>
-                                                    <div class="avatar avatar-md bg-primary mr-0 align-self-center">
-                                                        <i class="bx bx-bar-chart-alt fs-lg"></i>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item py-4">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <p class="text-muted mb-2">Rentabilidad Promedio</p>
-                                                        <h4 class="mb-0" id="profitabilityAverage">8,235</h4>
-                                                    </div>
-                                                    <div class="avatar avatar-md bg-success mr-0 align-self-center">
-                                                        <i class="bx bx-chart fs-lg"></i>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Begin total revenue chart -->
-                            <div class="col-md-4 col-lg-6" style="height: fit-content;">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Productos con mayor rentabilidad</h5>
-                                    </div>
-                                    <div class="card-body pt-2">
-                                        <canvas id="chartProductsCost"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4 col-lg-3">
+                            <div class="col">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
@@ -249,6 +193,64 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
+                            <!-- Begin total revenue chart -->
+                            <div class="col-6" style="height: fit-content;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Productos con mayor rentabilidad</h5>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                        <canvas id="chartProductsCost"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <?php if ($_SESSION['flag_expense'] != 2) { ?>
+                                <div class="col-md-4 col-lg-3">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="card-title">Ventas</h5>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item py-4">
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <p class="text-muted mb-2">Total Unidades Vendidas</p>
+                                                            <h4 class="mb-0" id="productsSold"></h4>
+                                                        </div>
+                                                        <div class="avatar avatar-md bg-info mr-0 align-self-center">
+                                                            <i class="bx bx-layer fs-lg"></i>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item py-4">
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <p class="text-muted mb-2">Total Ingresos por Ventas</p>
+                                                            <h4 class="mb-0" id="salesRevenue"></h4>
+                                                        </div>
+                                                        <div class="avatar avatar-md bg-primary mr-0 align-self-center">
+                                                            <i class="bx bx-bar-chart-alt fs-lg"></i>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li class="list-group-item py-4">
+                                                    <div class="media">
+                                                        <div class="media-body">
+                                                            <p class="text-muted mb-2">Rentabilidad Promedio</p>
+                                                            <h4 class="mb-0" id="profitabilityAverage">8,235</h4>
+                                                        </div>
+                                                        <div class="avatar avatar-md bg-success mr-0 align-self-center">
+                                                            <i class="bx bx-chart fs-lg"></i>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
                             <!-- End total revenue chart -->
                         </div>
 

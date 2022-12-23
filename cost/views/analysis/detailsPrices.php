@@ -140,6 +140,59 @@ if (sizeof($_SESSION) == 0)
                         </div>
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Costeo Total</h5>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item py-4">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <div style="display: grid;grid-template-columns:1fr 110px">
+                                                            <p class="mb-2" style="color:green">Precio de Venta</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="salesPrice"></h6>
+                                                            <p class="mb-2" style="color:darkcyan">Total Costos</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="costTotal"></h6>
+                                                            <p class="mb-2" style="color:darkcyan">Costos</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="cost"></h6>
+                                                            <p class="text-muted mb-2 pl-3">Materia Prima</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="payRawMaterial"></h6>
+                                                            <p class="text-muted mb-2 pl-3">Mano de Obra</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="payWorkforce">$</h6>
+                                                            <p class="text-muted mb-2 pl-3">Costos Indirectos</p>
+                                                            <h6 class="mb-0 pl-3 text-right " id="payIndirectCost">$</h6>
+                                                            <p class="text-muted mb-2 pl-3">Servicios Externos</p>
+                                                            <h6 class="mb-0 pl-3 text-right " id="services">$</h6>
+                                                            <p class="mb-2" style="color:darkcyan" id="expenses">Gastos</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="payAssignableExpenses"></h6>
+                                                            <p class="mb-2" style="color:darkcyan" id="commission">Comisión Vts</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="commisionSale"></h6>
+                                                            <p class="mb-2" style="color:darkcyan" id="profit">Rentabilidad</p>
+                                                            <h6 class="mb-0 pl-3 text-right" id="profitability"></h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Begin total revenue chart -->
+
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Costos y Gastos</h5>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                        <!-- <div id="chartProductCosts"></div> -->
+                                        <canvas id="chartProductCosts"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End total revenue chart -->
                             <?php if ($_SESSION['flag_expense'] != 2) { ?>
                                 <div class="col-md-4 col-lg-3">
                                     <div class="card">
@@ -186,59 +239,6 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             <?php } ?>
-                            <!-- Begin total revenue chart -->
-
-                            <div class="col">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Costos y Gastos</h5>
-                                    </div>
-                                    <div class="card-body pt-2">
-                                        <!-- <div id="chartProductCosts"></div> -->
-                                        <canvas id="chartProductCosts"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End total revenue chart -->
-                            <div class="col-md-4 col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Costeo Total</h5>
-                                    </div>
-                                    <div class="card-body p-0">
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item py-4">
-                                                <div class="media">
-                                                    <div class="media-body">
-                                                        <div style="display: grid;grid-template-columns:1fr 110px">
-                                                            <p class="mb-2" style="color:green">Precio de Venta</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="salesPrice"></h6>
-                                                            <p class="mb-2" style="color:darkcyan">Total Costos</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="costTotal"></h6>
-                                                            <p class="mb-2" style="color:darkcyan">Costos</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="cost"></h6>
-                                                            <p class="text-muted mb-2 pl-3">Materia Prima</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="payRawMaterial"></h6>
-                                                            <p class="text-muted mb-2 pl-3">Mano de Obra</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="payWorkforce">$</h6>
-                                                            <p class="text-muted mb-2 pl-3">Costos Indirectos</p>
-                                                            <h6 class="mb-0 pl-3 text-right " id="payIndirectCost">$</h6>
-                                                            <p class="text-muted mb-2 pl-3">Servicios Externos</p>
-                                                            <h6 class="mb-0 pl-3 text-right " id="services">$</h6>
-                                                            <p class="mb-2" style="color:darkcyan" id="expenses">Gastos</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="payAssignableExpenses"></h6>
-                                                            <p class="mb-2" style="color:darkcyan" id="commission">Comisión Vts</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="commisionSale"></h6>
-                                                            <p class="mb-2" style="color:darkcyan" id="profit">Rentabilidad</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="profitability"></h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <!-- Row 4-->
                         <div class="row">
