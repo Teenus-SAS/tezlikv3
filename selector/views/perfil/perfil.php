@@ -49,8 +49,11 @@ if (sizeof($_SESSION) == 0)
                             </div>
                             <div class="card companyData">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <img id="logo" src="" style="display: block; margin: 0 auto; width: 200px;">
+                                    <div class="picture-container mb-4">
+                                        <div class="pictureC">
+                                            <img id="logo" src="" class="img-fluid" style="width: 400px;" />
+                                            <input class="form-control" type="file" id="formFileC">
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-4">

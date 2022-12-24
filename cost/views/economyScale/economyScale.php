@@ -141,7 +141,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <td class="text-center general" id="totalRevenue-4"></td>
                                                                 <td class="text-center general" id="totalRevenue-5"></td>
                                                             </tr>
-                                                            <tr style="display: none;">
+                                                            <tr>
                                                                 <td class="font-weight-bold">Costos Fijos</td>
                                                                 <td class="text-center general" id="fixedCosts-1"></td>
                                                                 <td class="text-center general" id="fixedCosts-2"></td>
@@ -149,7 +149,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <td class="text-center general" id="fixedCosts-4"></td>
                                                                 <td class="text-center general" id="fixedCosts-5"></td>
                                                             </tr>
-                                                            <tr style="display: none;">
+                                                            <tr>
                                                                 <td class="font-weight-bold">Costos Variables</td>
                                                                 <td class="text-center general" id="variableCosts-1"></td>
                                                                 <td class="text-center general" id="variableCosts-2"></td>

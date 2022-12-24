@@ -20,7 +20,12 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
     } else {
         $id_company = $_SESSION['id_company'];
         $profile = $profileDao->updateProfile($dataUser);
-        if (sizeof($_FILES) > 0) $profileDao->avatarUser($dataUser['idUser'], $id_company);
+        if (sizeof($_FILES) > 0) {
+            if (isset($_FILES['avatar']))
+                $profileDao->avatarUser($dataUser['idUser'], $id_company);
+            if (isset($_FILES['logo']))
+                $profileDao->logoCompany($id_company);
+        }
     }
 
 

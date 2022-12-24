@@ -284,16 +284,25 @@ $(document).ready(function () {
     let cost =
       data[0].cost_materials +
       data[0].cost_workforce +
-      data[0].cost_indirect_cost;
+      data[0].cost_indirect_cost +
+      data[0].services;
 
     data[0].assignable_expense == 0
       ? (assignable_expense = (data[0].expense_recover / 100) * cost)
       : (assignable_expense = data[0].assignable_expense);
 
+    let costTotal = cost + parseFloat(assignable_expense);
+
+    let price = costTotal / (1 - data[0].profitability / 100);
+
+    let costProfitability = price * (data[0].profitability / 100);
+
+    let costCommissionSale = price * (data[0].commission_sale / 100);
+
     let product = {
       costs: cost,
-      commSale: (data[0].price * data[0].commission_sale) / 100,
-      profitability: (data[0].price * data[0].profitability) / 100,
+      commSale: costCommissionSale,
+      profitability: costProfitability,
       assignableExpense: assignable_expense,
     };
 
@@ -336,7 +345,7 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              let percentage = Math.round((value * 100) / sum) + '%';
               return percentage;
             },
             color: 'white',

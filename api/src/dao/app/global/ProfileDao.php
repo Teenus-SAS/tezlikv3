@@ -116,6 +116,7 @@ class ProfileDao
             move_uploaded_file($tmp_name, $targetFilePath);
         }
     }
+
     public function avatarUserAdmin($id_admin)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -146,6 +147,42 @@ class ProfileDao
             ]);
 
             $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/users/admin';
+            $targetFilePath = $targetDir . '/' . $image_name;
+
+            move_uploaded_file($tmp_name, $targetFilePath);
+        }
+    }
+
+    public function logoCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies/' . $id_company;
+        $allowTypes = array('jpg', 'jpeg', 'png');
+
+        $image_name = $_FILES['logo']['name'];
+        $tmp_name   = $_FILES['logo']['tmp_name'];
+        $size       = $_FILES['logo']['size'];
+        $type       = $_FILES['logo']['type'];
+        $error      = $_FILES['logo']['error'];
+
+        /* Verifica si directorio esta creado y lo crea */
+        if (!is_dir($targetDir))
+            mkdir($targetDir, 0777, true);
+
+        $targetDir = '/assets/images/companies/' . $id_company;
+        $targetFilePath = $targetDir . '/' . $image_name;
+
+        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+        if (in_array($fileType, $allowTypes)) {
+            $sql = "UPDATE companies SET logo = :logo WHERE id_company = :id_company";
+            $query = $connection->prepare($sql);
+            $query->execute([
+                'logo' => $targetFilePath,
+                'id_company' => $id_company
+            ]);
+
+            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);

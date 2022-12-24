@@ -107,4 +107,25 @@ class ExpenseRecoverDao
             return $error;
         }
     }
+
+    public function deleteRecoverExpenseByProduct($dataExpense)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT * FROM expenses_recover WHERE id_product = :id_product");
+            $stmt->execute(['id_product' => $dataExpense['idProduct']]);
+            $row = $stmt->rowCount();
+
+            if ($row > 0) {
+                $stmt = $connection->prepare("DELETE FROM expenses_recover WHERE id_product = :id_product");
+                $stmt->execute(['id_product' => $dataExpense['idProduct']]);
+                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 }

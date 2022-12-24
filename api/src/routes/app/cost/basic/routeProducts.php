@@ -3,6 +3,7 @@
 use tezlikv3\dao\AssignableExpenseDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\ExpenseRecoverDao;
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\IndirectCostDao;
@@ -12,6 +13,7 @@ use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\ProductsQuantityDao;
+use tezlikv3\dao\QuotesDao;
 
 $productsDao = new ProductsDao();
 $productsCostDao = new ProductsCostDao();
@@ -21,11 +23,13 @@ $productsMaterialsDao = new ProductsMaterialsDao();
 $productsProcessDao = new ProductsProcessDao();
 $externalServicesDao = new ExternalServicesDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
+$expensesRecoverDao = new ExpenseRecoverDao();
 $costMaterialsDao = new CostMaterialsDao();
 $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
+$quotesDao = new QuotesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -325,13 +329,31 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteProduct', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao) {
+$app->post('/deleteProduct', function (Request $request, Response $response, $args) use (
+    $productsMaterialsDao,
+    $productsProcessDao,
+    $externalServicesDao,
+    $expensesDistributionDao,
+    $expensesRecoverDao,
+    $quotesDao,
+    $productsCostDao,
+    $productsDao
+) {
     $dataProduct = $request->getParsedBody();
 
+    $productsMaterials = $productsMaterialsDao->deleteProductMaterialByProduct($dataProduct);
+    $productsProcess = $productsProcessDao->deleteProductProcessByProduct($dataProduct);
+    $externalServices = $externalServicesDao->deleteExternalServiceByProduct($dataProduct);
+    $expensesDistribution = $expensesDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
+    $expensesRecover = $expensesRecoverDao->deleteRecoverExpenseByProduct($dataProduct);
+    $quotes = $quotesDao->deleteQuotesProductsByProduct($dataProduct);
     $productsCost = $productsCostDao->deleteProductsCost($dataProduct);
     $product = $productsDao->deleteProduct($dataProduct);
 
-    if ($product == null && $productsCost == null)
+    if (
+        $product == null && $productsCost == null && $productsMaterials == null && $productsProcess == null &&
+        $externalServices == null && $expensesDistribution == null && $expensesRecover == null && $quotes == null
+    )
         $resp = array('success' => true, 'message' => 'Producto eliminado correctamente');
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el producto, existe información asociada a él');

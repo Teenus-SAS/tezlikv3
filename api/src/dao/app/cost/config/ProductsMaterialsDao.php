@@ -130,11 +130,18 @@ class ProductsMaterialsDao
         }
     }
 
-    /* public function decimalsQuantity($dataProductMaterial)
+    public function deleteProductMaterialByProduct($dataProductMaterial)
     {
-        if (ctype_digit($dataProductMaterial['quantity'])) $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
-        else $quantity = $dataProductMaterial['quantity'];
+        $connection = Connection::getInstance()->getConnection();
 
-        return $quantity;
-    }*/
+        $stmt = $connection->prepare("SELECT * FROM products_materials WHERE id_product = :id_product");
+        $stmt->execute(['id_product' => $dataProductMaterial['idProduct']]);
+        $rows = $stmt->rowCount();
+
+        if ($rows > 0) {
+            $stmt = $connection->prepare("DELETE FROM products_materials WHERE id_product = :id_product");
+            $stmt->execute(['id_product' => $dataProductMaterial['idProduct']]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        }
+    }
 }

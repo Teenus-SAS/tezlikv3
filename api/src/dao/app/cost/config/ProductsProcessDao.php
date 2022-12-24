@@ -157,4 +157,19 @@ class ProductsProcessDao
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
+
+    public function deleteProductProcessByProduct($dataProductProcess)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products_process WHERE id_product = :id_product");
+        $stmt->execute(['id_product' => $dataProductProcess['idProduct']]);
+        $rows = $stmt->rowCount();
+
+        if ($rows > 0) {
+            $stmt = $connection->prepare("DELETE FROM products_process WHERE id_product = :id_product");
+            $stmt->execute(['id_product' => $dataProductProcess['idProduct']]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        }
+    }
 }

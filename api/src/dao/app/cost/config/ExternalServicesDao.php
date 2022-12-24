@@ -120,4 +120,19 @@ class ExternalServicesDao
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
+
+    public function deleteExternalServiceByProduct($dataExternalService)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM services WHERE id_product = :id_product");
+        $stmt->execute(['id_product' => $dataExternalService['idProduct']]);
+        $rows = $stmt->rowCount();
+
+        if ($rows > 0) {
+            $stmt = $connection->prepare("DELETE FROM services WHERE id_product = :id_product");
+            $stmt->execute(['id_product' => $dataExternalService['idProduct']]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        }
+    }
 }
