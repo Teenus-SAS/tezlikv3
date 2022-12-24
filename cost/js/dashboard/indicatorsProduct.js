@@ -43,20 +43,8 @@ $(document).ready(function () {
     $('.imageProduct').html(`
       <img src="${data[0].img}" alt="" style="width:50%;border-radius:100px">
     `);
-    let cost =
-      data[0].cost_materials +
-      data[0].cost_workforce +
-      data[0].cost_indirect_cost;
 
-    data[0].assignable_expense == 0
-      ? (assignable_expense = (data[0].expense_recover / 100) * cost)
-      : (assignable_expense = data[0].assignable_expense);
-
-    let costTotal =
-      data[0].cost_materials +
-      data[0].cost_workforce +
-      data[0].cost_indirect_cost +
-      assignable_expense;
+    dataCost = getDataCost(data[0]);
 
     $('#rawMaterial').html(
       `$ ${data[0].cost_materials.toLocaleString('es-CO', {
@@ -78,16 +66,18 @@ $(document).ready(function () {
     );
 
     $('#assignableExpenses').html(
-      `$ ${assignable_expense.toLocaleString('es-CO', {
+      `$ ${dataCost.assignableExpense.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
 
-    percentRawMaterial = (data[0].cost_materials / costTotal) * 100;
-    percentWorkforce = (data[0].cost_workforce / costTotal) * 100;
-    percentIndirectCost = (data[0].cost_indirect_cost / costTotal) * 100;
-    percentAssignableExpenses = (assignable_expense / cost) * 100;
+    percentRawMaterial = (data[0].cost_materials / dataCost.costTotal) * 100;
+    percentWorkforce = (data[0].cost_workforce / dataCost.costTotal) * 100;
+    percentIndirectCost =
+      (data[0].cost_indirect_cost / dataCost.costTotal) * 100;
+    percentAssignableExpenses =
+      (dataCost.assignableExpense / dataCost.costTotal) * 100;
 
     $('#percentRawMaterial').html(`${percentRawMaterial.toFixed(0)} %`);
     $('#percentWorkforce').html(`${percentWorkforce.toFixed(0)} %`);
@@ -104,7 +94,7 @@ $(document).ready(function () {
     $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
     dataCost = getDataCost(data[0]);
     $('#recomendedPrice').html(
-      `$ ${dataCost.price.toLocaleString('es-CO', {
+      `$ ${dataCost.pPrice.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -153,13 +143,9 @@ $(document).ready(function () {
       })}`
     );
 
-    data[0].assignable_expense == 0
-      ? (assignable_expense = (data[0].expense_recover / 100) * dataCost.cost)
-      : (assignable_expense = data[0].assignable_expense);
-
     $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
     $('#payAssignableExpenses').html(
-      `$ ${assignable_expense.toLocaleString('es-CO', {
+      `$ ${dataCost.assignableExpense.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -176,7 +162,7 @@ $(document).ready(function () {
     );
 
     $('#salesPrice').html(
-      `$ ${dataCost.price.toLocaleString('es-CO', {
+      `$ ${dataCost.pPrice.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -190,15 +176,17 @@ $(document).ready(function () {
       parseFloat(data.cost_indirect_cost) +
       parseFloat(data.services);
 
+    costTotal = cost / (1 - data.expense_recover / 100);
+
     data.assignable_expense == 0
-      ? (assignable_expense = (data.expense_recover / 100) * cost)
+      ? (assignable_expense = costTotal * (data.expense_recover / 100))
       : (assignable_expense = data.assignable_expense);
 
-    costTotal = cost + parseFloat(assignable_expense);
+    pPrice = costTotal / (1 - data.profitability / 100);
 
-    price = costTotal / (1 - data.profitability / 100);
+    price = pPrice / (1 - data.commission_sale / 100);
 
-    costProfitability = price * (data.profitability / 100);
+    costProfitability = pPrice * (data.profitability / 100);
 
     costCommissionSale = price * (data.commission_sale / 100);
 
@@ -207,6 +195,8 @@ $(document).ready(function () {
       costTotal: costTotal,
       costCommissionSale: costCommissionSale,
       costProfitability: costProfitability,
+      assignableExpense: assignable_expense,
+      pPrice: pPrice,
       price: price,
     };
 

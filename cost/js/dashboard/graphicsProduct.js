@@ -279,41 +279,19 @@ $(document).ready(function () {
 
   /* Composición Precio */
   graphicCompPrices = (data) => {
-    let total = 0;
-
-    let cost =
-      data[0].cost_materials +
-      data[0].cost_workforce +
-      data[0].cost_indirect_cost +
-      data[0].services;
-
-    data[0].assignable_expense == 0
-      ? (assignable_expense = (data[0].expense_recover / 100) * cost)
-      : (assignable_expense = data[0].assignable_expense);
-
-    let costTotal = cost + parseFloat(assignable_expense);
-
-    let price = costTotal / (1 - data[0].profitability / 100);
-
-    let costProfitability = price * (data[0].profitability / 100);
-
-    let costCommissionSale = price * (data[0].commission_sale / 100);
+    dataCost = getDataCost(data[0]);
 
     let product = {
-      costs: cost,
-      commSale: costCommissionSale,
-      profitability: costProfitability,
-      assignableExpense: assignable_expense,
+      costs: dataCost.cost,
+      commSale: dataCost.costCommissionSale,
+      profitability: dataCost.costProfitability,
+      assignableExpense: dataCost.assignableExpense,
     };
 
-    for (let i in product) {
-      total += product[i];
-    }
-
-    total = new Intl.NumberFormat('es-CO', {
+    let total = new Intl.NumberFormat('es-CO', {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    }).format(total);
+    }).format(dataCost.price);
 
     $('#totalPricesComp').html(`$ ${total}`);
 
@@ -340,6 +318,7 @@ $(document).ready(function () {
           },
           datalabels: {
             formatter: (value, ctx) => {
+              debugger;
               let sum = 0;
               let dataArr = ctx.chart.data.datasets[0].data;
               dataArr.map((data) => {
