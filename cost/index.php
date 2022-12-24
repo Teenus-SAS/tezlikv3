@@ -194,7 +194,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <!-- Begin total revenue chart -->
-                            <div class="col-6" style="height: fit-content;">
+                            <div class="col-9" style="height: fit-content;">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Productos con mayor rentabilidad</h5>
