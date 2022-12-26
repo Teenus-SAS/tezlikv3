@@ -32,8 +32,12 @@ $(document).ready(function () {
 
     $.each(fixedCosts, (index, value) => {
       $(`#fixedCosts-${i}`).html(`$ ${value.toLocaleString('es-CO')}`);
-      i++;
+      /* Total Costos y Gastos */
+      $(`#totalCostsAndExpenses-${i}`).html(
+        `$ ${value.toLocaleString('es-CO')}`
+      );
       dataCalcFCost.push(value);
+      i++;
     });
 
     variableCost = data.variableCost;
@@ -52,6 +56,7 @@ $(document).ready(function () {
 
     if (!value || value == 0) {
       toastr.error('Ingrese un valor mayor a cero');
+      loadDataProduct(idProduct);
       return false;
     }
 
