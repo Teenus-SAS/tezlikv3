@@ -71,8 +71,8 @@ $(document).ready(function () {
                 return `
                 <a href="javascript:;" <i id="${data}" class="bx bx-copy-alt" data-toggle='tooltip' title='Copiar Producto' style="font-size: 30px; color:green" onclick="copyFunction()"></i></a>
                 <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProducts" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>
                 `;
-                {/* <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a> */ }
             },
         },
         ],
