@@ -43,8 +43,8 @@ class PricesDao
   public function findPriceByProduct($id_product, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT CAST((((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT SUM(cost) FROM services WHERE id_product = p.id_product))/(1 - IFNULL(er.expense_recover, 0) / 100)) 
-                                         / (1 - (pc.profitability /100))) / (1 - (pc.commission_sale / 100)) AS UNSIGNED) AS cost
+    $stmt = $connection->prepare("SELECT CAST((((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product)) / (1 - IFNULL(er.expense_recover, 0) / 100)) 
+                                         / (1 - (IFNULL(pc.profitability, 0) /100))) / (1 - (IFNULL(pc.commission_sale, 0) / 100)) AS UNSIGNED) AS cost
                                   FROM products p
                                   LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
                                   INNER JOIN products_costs pc ON pc.id_product = p.id_product
