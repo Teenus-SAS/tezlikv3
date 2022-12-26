@@ -70,7 +70,8 @@ if (!isset($_SESSION)) {
 									<main>
 										<div class="row contacts">
 											<div class="col invoice-to">
-												<div class="text-gray-light">Cotizado Por:</div>
+												<div class="text-gray-light">Cotizado a:</div>
+												<h2 id="company"></h2>
 												<h2 id="contactName"></h2>
 												<div id="contactPhone"></div>
 												<div id="contactEmail">

@@ -26,7 +26,7 @@ $(document).ready(function () {
     $('#contactEmail').html(`Email: ${data.email}`);
 
     /* Cotizacion */
-    $('#dateQuote').html(data.delivery_date);
+    $('#dateQuote').html(`Fecha de Creación:${data.delivery_date}`);
 
     /* Notices */
     $('#qDescription').html(`<h3>Condiciones Comerciales:</h3> 
