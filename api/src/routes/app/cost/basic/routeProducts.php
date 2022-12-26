@@ -356,7 +356,7 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     )
         $resp = array('success' => true, 'message' => 'Producto eliminado correctamente');
     else
-        $resp = array('error' => true, 'message' => 'No es posible eliminar el producto, existe información asociada a él');
+        $resp = array('error' => true, 'message' => 'No es posible eliminar el producto');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

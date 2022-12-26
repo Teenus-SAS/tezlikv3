@@ -229,12 +229,12 @@ class QuotesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT * FROM quotes WHERE id_product = :id_product");
+            $stmt = $connection->prepare("SELECT * FROM quotes_products WHERE id_product = :id_product");
             $stmt->execute(['id_product' => $dataQuote['idProduct']]);
             $row = $stmt->rowCount();
 
             if ($row > 0) {
-                $stmt = $connection->prepare("DELETE FROM quotes WHERE id_product = :id_product");
+                $stmt = $connection->prepare("DELETE FROM quotes_products WHERE id_product = :id_product");
                 $stmt->execute(['id_product' => $dataQuote['idProduct']]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }

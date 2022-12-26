@@ -94,7 +94,7 @@ $(document).ready(function () {
     $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
     dataCost = getDataCost(data[0]);
     $('#recomendedPrice').html(
-      `$ ${dataCost.pPrice.toLocaleString('es-CO', {
+      `$ ${dataCost.price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -162,7 +162,7 @@ $(document).ready(function () {
     );
 
     $('#salesPrice').html(
-      `$ ${dataCost.pPrice.toLocaleString('es-CO', {
+      `$ ${dataCost.price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -196,7 +196,6 @@ $(document).ready(function () {
       costCommissionSale: costCommissionSale,
       costProfitability: costProfitability,
       assignableExpense: assignable_expense,
-      pPrice: pPrice,
       price: price,
     };
 
