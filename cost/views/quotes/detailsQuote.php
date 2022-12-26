@@ -71,14 +71,14 @@ if (!isset($_SESSION)) {
 										<div class="row contacts">
 											<div class="col invoice-to">
 												<div class="text-gray-light">Cotizado a:</div>
-												<h2 id="company"></h2>
+												<h2 id="company">Empresa</h2>
 												<h2 id="contactName"></h2>
 												<div id="contactPhone"></div>
 												<div id="contactEmail">
 												</div>
 											</div>
 											<div class="col invoice-details">
-												<h1 id="idQuote"></h1>
+												<h1 id="idQuote">Cotizacion No 1</h1>
 												<div id="dateQuote"></div>
 												<!-- <div class="date">Due Date: 30/10/2018</div> -->
 											</div>
