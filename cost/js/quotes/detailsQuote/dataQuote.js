@@ -20,12 +20,16 @@ $(document).ready(function () {
 
   /* Datos Cotizacion */
   loadDataQuote = (data) => {
+    /* Empresa */
+    $('#qCompany').html(data.company_name);
+
     /* Contacto */
     $('#contactName').html(data.contact);
     $('#contactPhone').html(`Móvil: ${data.contact_phone}`);
     $('#contactEmail').html(`Email: ${data.email}`);
 
     /* Cotizacion */
+    $('#idQuote').html(`Cotizacion No ${idQuote}`);
     $('#dateQuote').html(`Fecha de Creación:${data.delivery_date}`);
 
     /* Notices */

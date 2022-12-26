@@ -8,6 +8,7 @@
 <!-- ================== Plugins CSS ================== -->
 <!-- ================== BEGIN APP CSS  ================== -->
 <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+<link rel="stylesheet" href="/assets/css/print.css" />
 <link rel="stylesheet" href="/assets/css/styles.css" />
 <link rel="stylesheet" href="/assets/css/personalizestyle.css" />
 <!-- ================== END APP CSS ================== -->

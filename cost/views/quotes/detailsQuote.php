@@ -40,7 +40,7 @@ if (!isset($_SESSION)) {
 			<div class="page-content">
 				<div class="card">
 					<div class="card-body">
-						<div class="toolbar hidden-print">
+						<div class="toolbar hidden-print noImprimir">
 							<div class="d-flex justify-content-end">
 								<button class="btn btn-dark mr-2" id="btnImprimirQuote"><i class="fa fa-print"></i> Imprimir</button>
 								<button class="btn btn-danger" id="btnNewSend"><i class="fa fa-mail-bulk"></i> Enviar</button>
@@ -71,14 +71,14 @@ if (!isset($_SESSION)) {
 										<div class="row contacts">
 											<div class="col invoice-to">
 												<div class="text-gray-light">Cotizado a:</div>
-												<h2 id="company">Empresa</h2>
+												<h2 id="qCompany"></h2>
 												<div id="contactName"></div>
 												<div id="contactPhone"></div>
 												<div id="contactEmail">
 												</div>
 											</div>
 											<div class="col invoice-details">
-												<h1 id="idQuote">Cotizacion No 1</h1>
+												<h1 id="idQuote"></h1>
 												<div id="dateQuote"></div>
 												<!-- <div class="date">Due Date: 30/10/2018</div> -->
 											</div>

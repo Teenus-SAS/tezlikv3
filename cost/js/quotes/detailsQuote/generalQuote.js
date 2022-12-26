@@ -3,7 +3,8 @@ $(document).ready(function () {
 
   /* Imprimir cotización */
   $('#btnImprimirQuote').click(function (e) {
-    printDiv();
+    window.print();
+    // printDiv();
   });
 
   function printDiv() {
