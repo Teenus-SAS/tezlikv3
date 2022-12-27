@@ -82,11 +82,8 @@ $(document).ready(function () {
       notify_scrollbar[0].insertAdjacentHTML(
         'beforeend',
         `
-      <a href="javascript:void(0);" class="dropdown-item notification-item" style="font-weight: ${font}">
+      <a href="javascript:void(0);" class="dropdown-item notification-item" style="font-weight: ${font}; white-space:initial">
         <div class="media">
-          <div class="avatar-xs">
-            <img class="img-fluid rounded-circle" src="${img}"> 
-          </div>
           <p class="media-body">
             ${data[i].description}
             <small class="text-muted">${time} ago </small>
