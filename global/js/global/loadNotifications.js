@@ -84,10 +84,13 @@ $(document).ready(function () {
         `
       <a href="javascript:void(0);" class="dropdown-item notification-item" style="font-weight: ${font}; white-space:initial">
         <div class="media">
-          <p class="media-body">
-            ${data[i].description}
-            <small class="text-muted">${time} ago </small>
-          </p>
+        <p class="media-body">
+          ${data[i].description}
+          <small class="text-muted">${time} ago </small>
+        </p>
+        <div class="avatar-xs">
+          <i class="bx bx-check text-success fs-lg align-middle" style="font-size:xxx-large"></i> 
+        </div>
         </div>
       </a>
      `
