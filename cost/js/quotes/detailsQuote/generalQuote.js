@@ -4,26 +4,7 @@ $(document).ready(function () {
   /* Imprimir cotización */
   $('#btnImprimirQuote').click(function (e) {
     window.print();
-    // printDiv();
   });
-
-  function printDiv() {
-    let printContents = document.getElementById('invoice').innerHTML;
-    let document_html = window.open('_blank');
-    document_html.document.write('<html><head><title></title>');
-    document_html.document.write(`
-       <link href="/assets/css/app.css" rel="stylesheet">
-       <link href="/assets/css/icons.css" rel="stylesheet">
-       <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
-      `);
-    document_html.document.write('</head><body>');
-    document_html.document.write(printContents);
-    document_html.document.write('</body></html>');
-    setTimeout(function () {
-      document_html.print();
-      document_html.close();
-    }, 500);
-  }
 
   /* Ocultar formulario email */
   $('.btnCloseSendEmail').click(function (e) {

@@ -32,15 +32,22 @@ $(document).ready(function () {
 
     $.each(fixedCosts, (index, value) => {
       $(`#fixedCosts-${i}`).html(`$ ${value.toLocaleString('es-CO')}`);
-      /* Total Costos y Gastos */
-      $(`#totalCostsAndExpenses-${i}`).html(
-        `$ ${value.toLocaleString('es-CO')}`
-      );
       dataCalcFCost.push(value);
       i++;
     });
 
     variableCost = data.variableCost;
+    for (i = 0; i < 5; i++) {
+      /* Costos Variables */
+      $(`#variableCosts-${i + 1}`).html(
+        `$ ${variableCost.toLocaleString('es-CO')}`
+      );
+
+      /* Total Costos y Gastos */
+      $(`#totalCostsAndExpenses-${i + 1}`).html(
+        `$ ${(dataCalcFCost[i] + variableCost).toLocaleString('es-CO')}`
+      );
+    }
   };
 
   /* Calculo */
