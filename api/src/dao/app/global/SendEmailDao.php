@@ -26,46 +26,19 @@ class SendEmailDao extends PHPMailer
                 session_start();
             $email = $_SESSION['email']; */
 
-
-            // Intancia de PHPMailer
             $mail = new PHPMailer();
-
-            // Es necesario para poder usar un servidor SMTP como gmail
             $mail->isSMTP();
-
-
-            // Si estamos en desarrollo podemos utilizar esta propiedad para ver mensajes de error
-            //SMTP::DEBUG_OFF    = off (for production use) 0
-            //SMTP::DEBUG_CLIENT = client messages 1 
-            //SMTP::DEBUG_SERVER = client and server messages 2
-            // $this->SMTPDebug     = 2;
-
-            //Set the hostname of the mail server
-            //$this->Host          = 'smtp.gmail.com';
-            //$this->Port          = 465; // o 587
+            $mail->SMTPDebug     = 1;
             $mail->Host          = $_ENV["smtpHost"];
             $mail->Port          = $_ENV["smtpPort"];
-
-            // Propiedad para establecer la seguridad de encripción de la comunicación
-            // $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
-            //$this->SMTPSecure = "ssl";
-            $mail->SMTPSecure = "tls";
-
-            // Para activar la autenticación smtp del servidor
             $mail->SMTPAuth      = true;
-
-            // Credenciales de la cuenta
-            //$this->Username     = 'pruebaSoft145@gmail.com';
-            //$this->Password     = 'glvgveacpopppjws';
             $mail->Username     = $_ENV["smtpEmail"];
             $mail->Password     = $_ENV["smtpPass"];
-
-            // Quien envía este mensaje
+            $mail->SMTPSecure = "tls";
+            $mail->From = "soporteTezlik@tezliksoftware.com.co";
+            $mail->FromName = "SoporteTezlik";
             //$this->setFrom($email);
-            $mail->setFrom($_ENV["smtpEmail"]);
-
-            // Si queremos una dirección de respuesta
-            // $this->addReplyTo('replyto@panchos.com', 'Pancho Doe');
+            //$mail->setFrom($_ENV["smtpEmail"]);
 
             // Destinatario
             foreach ($to as $key => $value) {
@@ -89,14 +62,6 @@ class SendEmailDao extends PHPMailer
 
             // Texto alternativo
             $mail->mailHeader = $header;
-
-            // Agregar algún adjunto
-            //$mail->addAttachment(IMAGES_PATH.'logo.png');
-
-            // Enviar el correo
-            // if (!$this->send()) {
-            //     throw new \Exception($this->ErrorInfo);
-            // }
             $mail->send();
         } catch (\Exception $e) {
             $message = $e->getMessage();
