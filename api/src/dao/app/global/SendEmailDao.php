@@ -26,6 +26,9 @@ class SendEmailDao extends PHPMailer
                 session_start();
             $email = $_SESSION['email']; */
 
+            error_reporting(E_ALL); //Habilitar para ver errores php
+            ini_set('display_errors', 1); // Habilitar para ver errores php
+
             $mail = new PHPMailer();
             $mail->isSMTP();
             $mail->SMTPDebug     = 1;
@@ -45,6 +48,8 @@ class SendEmailDao extends PHPMailer
                 $mail->addAddress($value);
             }
 
+            $mail->addAddress($to);
+
             // Asunto del correo
             if (isset($ccHeader) && !empty($ccHeader))
                 $mail->addCC($ccHeader);
@@ -61,7 +66,7 @@ class SendEmailDao extends PHPMailer
             $mail->Body    = sprintf($message);
 
             // Texto alternativo
-            $mail->mailHeader = $header;
+            //$mail->mailHeader = $header;
             $mail->send();
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -96,7 +101,7 @@ class SendEmailDao extends PHPMailer
 
     public function SendEmailPassword($email, $password)
     {
-        $to = array('soporte@tezliksoftware.com.co', $email);
+        //$to = array('soporte@tezliksoftware.com.co', $email);
         // the message
         $msg = "Hola,<br><br>
             Recientemente solicitó recordar su contraseña por lo que para mayor seguridad creamos una nueva. Para ingresar a Tezlik puede hacerlo con:
@@ -117,12 +122,13 @@ class SendEmailDao extends PHPMailer
         // $msg = wordwrap($msg, 70);
 
         //headers
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= 'From: SoporteTezlik <soporteTezlik@tezliksoftware.com.co>' . "\r\n";
+        //$headers = "MIME-Version: 1.0" . "\r\n";
+        //$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        //$headers .= 'From: SoporteTezlik <soporteTezlik@tezliksoftware.com.co>' . "\r\n";
         // send email
         // mail($to, "Nuevo password", $msg, $headers);
-        $resp = $this->sendEmail($to, 'Nuevo Password', $headers, null, $msg, null);
+        //$resp = $this->sendEmail($to, 'Nuevo Password', $headers, null, $msg, null);
+        $resp = $this->sendEmail($email, 'Nuevo Password', null, null, $msg, null);
         return $resp;
     }
 
