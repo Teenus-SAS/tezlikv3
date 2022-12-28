@@ -19,7 +19,7 @@ class SendEmailDao extends PHPMailer
 
     public function sendEmail($to, $subject, $header, $ccHeader, $message, $img)
     {
-        require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . "/env.php";
+        require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/env.php';
 
         try {
             /* if (!isset($_SESSION))
@@ -43,9 +43,8 @@ class SendEmailDao extends PHPMailer
             //Set the hostname of the mail server
             //$this->Host          = 'smtp.gmail.com';
             //$this->Port          = 465; // o 587
-
-            $mail->Host          = $_ENV["smtpHost"];
-            $mail->Port          = $_ENV["smtpPort"];
+            $mail->Host          = $smtpHost;
+            $mail->Port          = $smtpPort;
 
             // Propiedad para establecer la seguridad de encripción de la comunicación
             // $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
@@ -58,12 +57,12 @@ class SendEmailDao extends PHPMailer
             // Credenciales de la cuenta
             //$this->Username     = 'pruebaSoft145@gmail.com';
             //$this->Password     = 'glvgveacpopppjws';
-            $mail->Username     = $_ENV["smtpEmail"];;
-            $mail->Password     = $_ENV["smtpPass"];
+            $mail->Username     = $smtpEmail;
+            $mail->Password     = $smtpPass;
 
             // Quien envía este mensaje
             //$this->setFrom($email);
-            $mail->setFrom($_ENV["smtpEmail"]);
+            $mail->setFrom($smtpEmail);
 
             // Si queremos una dirección de respuesta
             // $this->addReplyTo('replyto@panchos.com', 'Pancho Doe');
