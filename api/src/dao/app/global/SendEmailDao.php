@@ -43,8 +43,8 @@ class SendEmailDao extends PHPMailer
             //Set the hostname of the mail server
             //$this->Host          = 'smtp.gmail.com';
             //$this->Port          = 465; // o 587
-            $mail->Host          = $smtpHost;
-            $mail->Port          = $smtpPort;
+            $mail->Host          = $_ENV["smtpHost"];
+            $mail->Port          = $_ENV["smtpPort"];
 
             // Propiedad para establecer la seguridad de encripción de la comunicación
             // $this->SMTPSecure    = PHPMailer::ENCRYPTION_SMTPS; // tls o ssl para gmail obligado
@@ -57,12 +57,12 @@ class SendEmailDao extends PHPMailer
             // Credenciales de la cuenta
             //$this->Username     = 'pruebaSoft145@gmail.com';
             //$this->Password     = 'glvgveacpopppjws';
-            $mail->Username     = $smtpEmail;
-            $mail->Password     = $smtpPass;
+            $mail->Username     = $_ENV["smtpEmail"];
+            $mail->Password     = $_ENV["smtpPass"];
 
             // Quien envía este mensaje
             //$this->setFrom($email);
-            $mail->setFrom($smtpEmail);
+            $mail->setFrom($_ENV["smtpEmail"]);
 
             // Si queremos una dirección de respuesta
             // $this->addReplyTo('replyto@panchos.com', 'Pancho Doe');
