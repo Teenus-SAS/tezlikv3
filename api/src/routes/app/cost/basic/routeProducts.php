@@ -43,7 +43,6 @@ $app->get('/productCost/{id_product}', function (Request $request, Response $res
 });
 
 /* Consulta todos */
-
 $app->get('/products', function (Request $request, Response $response, $args) use ($productsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -51,6 +50,14 @@ $app->get('/products', function (Request $request, Response $response, $args) us
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+/* Consultar productos CRM */
+$app->get('/productsCRM', function (Request $request, Response $response, $args) use ($productsDao) {
+    $products = $productsDao->findAllProductsByCompany(1);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 
 $app->get('/inactivesProducts', function (Request $request, Response $response, $args) use ($productsDao) {
     session_start();
