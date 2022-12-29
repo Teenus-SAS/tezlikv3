@@ -1,9 +1,11 @@
 <?php
 
 use tezlikv3\dao\passUserDao;
+use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\SendEmailDao;
 
 $passUserDao = new passUserDao();
+$sendMakeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -33,7 +35,7 @@ $app->post('/changePassword', function (Request $request, Response $response, $a
 
 /* Forgot Password */
 
-$app->post('/forgotPassword', function (Request $request, Response $response, $args) use ($passUserDao, $sendEmailDao) {
+$app->post('/forgotPassword', function (Request $request, Response $response, $args) use ($passUserDao, $sendEmailDao, $sendMakeEmailDao) {
     $parsedBody = $request->getParsedBody();
     $email = trim($parsedBody["data"]);
 
@@ -42,7 +44,8 @@ $app->post('/forgotPassword', function (Request $request, Response $response, $a
     if ($passwordTemp == null)
         $resp = array('success' => true, 'message' => 'La contraseña fue enviada al email suministrado exitosamente');
     else {
-        $sendEmailDao->SendEmailPassword($email, $passwordTemp);
+        $dataEmail = $sendMakeEmailDao->SendEmailPassword($email, $passwordTemp);
+        $sendEmailDao->SendEmail($dataEmail);
         $resp = array('success' => true, 'message' => "La contraseña fue enviada al email suministrado exitosamente.");
     }
 
