@@ -54,7 +54,7 @@ class ProductsDao
   public function findAllProductsByCRM($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.price) AS price, p.img 
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.price, 0) AS price, p.img 
                                   FROM products p
                                     LEFT JOIN products_costs pc ON p.id_product = pc.id_product
                                   WHERE p.id_company = :id_company AND p.active = 1 ORDER BY `p`.`reference`, `p`.`product` ASC");
