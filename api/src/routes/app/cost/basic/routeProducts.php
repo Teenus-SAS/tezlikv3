@@ -53,11 +53,10 @@ $app->get('/products', function (Request $request, Response $response, $args) us
 
 /* Consultar productos CRM */
 $app->get('/productsCRM', function (Request $request, Response $response, $args) use ($productsDao) {
-    $products = $productsDao->findAllProductsByCompany(1);
+    $products = $productsDao->findAllProductsByCRM(1);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
-
 
 $app->get('/inactivesProducts', function (Request $request, Response $response, $args) use ($productsDao) {
     session_start();

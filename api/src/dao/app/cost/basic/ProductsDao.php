@@ -51,6 +51,22 @@ class ProductsDao
     return $products;
   }
 
+  public function findAllProductsByCRM($id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.price) AS price, p.img 
+                                  FROM products p
+                                    LEFT JOIN products_costs pc ON p.id_product = pc.id_product
+                                  WHERE p.id_company = :id_company AND p.active = 1 ORDER BY `p`.`reference`, `p`.`product` ASC");
+    $stmt->execute(['id_company' => $id_company]);
+
+    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+    $this->logger->notice("products", array('products' => $products));
+    return $products;
+  }
+
   public function findAllInactivesProducts($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
