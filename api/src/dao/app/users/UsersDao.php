@@ -80,7 +80,7 @@ class UsersDao
   public function saveUser($dataUser, $id_company)
   {
     $newPassDao = new GenerateCodeDao();
-    $email = new SendEmailDao();
+    $email = new SendMakeEmailDao();
     $connection = Connection::getInstance()->getConnection();
 
     $stmt = $connection->prepare("SELECT id_user FROM users WHERE email = :email");
