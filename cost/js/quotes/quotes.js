@@ -198,6 +198,18 @@ $(document).ready(function () {
     sessionStorage.setItem('id_quote', idQuote);
   };
 
+  /* Clonar Cotizacion */
+  copyQuote = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblQuotes.fnGetData(row);
+
+    let idQuote = data.id_quote;
+
+    $.get(`/api/copyQuote/${idQuote}`, function (data, textStatus, jqXHR) {
+      message(data);
+    });
+  };
+
   /* Mensaje de exito */
 
   message = (data) => {

@@ -68,6 +68,17 @@ class QuotesDao
         return $quotesProducts;
     }
 
+    public function findAllQuotesProductsByIdProduct($id_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM quotes_products WHERE id_product = :id_product");
+        $stmt->execute(['id_product' => $id_product]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $quotesProducts;
+    }
+
     public function findLastQuote()
     {
         $connection = Connection::getInstance()->getConnection();

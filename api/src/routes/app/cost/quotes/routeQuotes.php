@@ -1,10 +1,10 @@
 <?php
 
 use tezlikv3\dao\QuotesDao;
-use tezlikv3\dao\SendEmailDao;
+use tezlikv3\dao\SendMakeEmailDao;
 
 $quotesDao = new QuotesDao();
-$sendEmailDao = new SendEmailDao();
+$sendEmailDao = new SendMakeEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -16,6 +16,21 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
     $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+/* Consultar productos */
+$app->get('/productQuotes/{id_product}', function (Request $request, Response $response, $args) use ($quotesDao) {
+    $quotes = $quotesDao->findAllQuotesProductsByIdProduct($args['id_product']);
+    $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+/* Clonar cotización 
+$app->get('/copyQuote/{id_quote}',function(Request $request, Response $response,$args)use($quotesDao){
+    $dataQuote = $quotesDao->findQuote($args['id_quote']);
+
+    $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+}); */
 
 /* Consultar detalle de cotizacion */
 $app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {

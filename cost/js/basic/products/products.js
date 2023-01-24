@@ -138,16 +138,47 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteProduct',
-            dataProduct,
-            function (data, textStatus, jqXHR) {
-              message(data);
-            }
-          );
+          checkQProduct(dataProduct);
         }
       },
     });
+  };
+
+  checkQProduct = async (data) => {
+    let resp = await searchData(`/api/productQuotes/${data.idProduct}`);
+
+    if (resp.length > 0) {
+      bootbox.confirm({
+        title: 'Eliminar',
+        message:
+          'Este producto esta asociado a cotización. ¿Desea eliminar igualmente?',
+        buttons: {
+          confirm: {
+            label: 'Si',
+            className: 'btn-success',
+          },
+          cancel: {
+            label: 'No',
+            className: 'btn-danger',
+          },
+        },
+        callback: function (result) {
+          if (result == true) {
+            $.post(
+              '/api/deleteProduct',
+              data,
+              function (data, textStatus, jqXHR) {
+                message(data);
+              }
+            );
+          }
+        },
+      });
+    } else {
+      $.post('/api/deleteProduct', data, function (data, textStatus, jqXHR) {
+        message(data);
+      });
+    }
   };
 
   /* Copiar Producto */
