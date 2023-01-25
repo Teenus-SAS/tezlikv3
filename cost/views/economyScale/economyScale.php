@@ -103,16 +103,16 @@ if (sizeof($_SESSION) == 0)
                                                                     <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-1">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-2" readonly>
+                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-2">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-3" readonly>
+                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-3">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-4" readonly>
+                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-4">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-5" readonly>
+                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-5">
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -215,7 +215,7 @@ if (sizeof($_SESSION) == 0)
 
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/economyScale/economyScale.js"></script>
-    <!-- <script src="/cost/js/economyScale/tbleconomyScale.js"></script> -->
+    <script src="/cost/js/economyScale/calcEconomySale.js"></script>
 </body>
 
 </html>
