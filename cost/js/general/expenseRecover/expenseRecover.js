@@ -13,7 +13,7 @@ $(document).ready(function () {
     $('.cardImportExpenses').hide(800);
     $('.cardExpensesDistribution').hide(800);
     $('.cardExpenseRecover').toggle(800);
-    $('#btnAssignExpenses').html('Guardar');
+    $('#btnExpenseRecover').html('Guardar');
 
     sessionStorage.removeItem('id_expense_recover');
 

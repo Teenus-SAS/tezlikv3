@@ -54,8 +54,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
                 break;
             } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            $quantity = $productMaterials[$i]['quantity'];
-            if (empty($quantity)) {
+            if (empty($productMaterials[$i]['quantity'])) {
                 $i = $i + 1;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
                 break;
@@ -135,7 +134,7 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     $id_company = $_SESSION['id_company'];
     $dataProductMaterial = $request->getParsedBody();
 
-    if (empty($dataProductMaterial['material']) || empty($dataProductMaterial['idProduct'] || empty($dataProductMaterial['quantity'])))
+    if (empty($dataProductMaterial['material']) || empty($dataProductMaterial['idProduct']) || empty($dataProductMaterial['quantity']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
         $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);

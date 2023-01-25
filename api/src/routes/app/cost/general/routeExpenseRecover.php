@@ -9,6 +9,15 @@ $productsDao = new ProductsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+$app->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $products = $expenseRecoverDao->findAllProducts($id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/expensesRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
     session_start();
     $id_company = $_SESSION['id_company'];

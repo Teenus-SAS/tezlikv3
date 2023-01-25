@@ -164,6 +164,7 @@ $(document).ready(function () {
       $('#formExpenseRecover').trigger('reset');
       updateTable(op);
       toastr.success(data.message);
+      loadDataProducts();
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
