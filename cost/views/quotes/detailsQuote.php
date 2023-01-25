@@ -43,7 +43,8 @@ if (!isset($_SESSION)) {
 						<div class="toolbar hidden-print noImprimir">
 							<div class="d-flex justify-content-end">
 								<button class="btn btn-dark mr-2" id="btnImprimirQuote"><i class="fa fa-print"></i> Imprimir</button>
-								<button class="btn btn-danger" id="btnNewSend"><i class="fa fa-mail-bulk"></i> Enviar</button>
+								<button class="btn btn-danger mr-2" id="btnNewSend"><i class="fa fa-mail-bulk"></i> Enviar</button>
+								<button type="button" class="btn btn-secondary" onclick="copyQuote()"><i class="fa fa-file"></i> Copiar</button>
 							</div>
 							<hr>
 						</div>
@@ -142,6 +143,7 @@ if (!isset($_SESSION)) {
 
 	<script src="/global/js/global/searchData.js"></script>
 	<script src="/global/js/global/companyData.js"></script>
+	<script src="/cost/js/quotes/copyQuote.js"></script>
 	<script src="/cost/js/quotes/detailsQuote/dataQuote.js"></script>
 	<script src="/cost/js/quotes/detailsQuote/generalQuote.js"></script>
 </body>

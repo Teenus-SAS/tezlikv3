@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  tblQuotes = null;
+
   replaceNumber = (number) => {
     number = number.replace('$ ', '');
     while (number.includes('.')) {

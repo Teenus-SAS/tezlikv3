@@ -24,13 +24,34 @@ $app->get('/productQuotes/{id_product}', function (Request $request, Response $r
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* Clonar cotización 
-$app->get('/copyQuote/{id_quote}',function(Request $request, Response $response,$args)use($quotesDao){
-    $dataQuote = $quotesDao->findQuote($args['id_quote']);
+/* Clonar cotización */
+$app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {
+    $quote = $quotesDao->findQuote($args['id_quote']);
+    $products = $quotesDao->findAllQuotesProductsByIdQuote($args['id_quote']);
 
-    $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
+    $dataQuote['company'] = $quote['id_company'];
+    $dataQuote['contact'] = $quote['id_contact'];
+    $dataQuote['idPaymentMethod'] = $quote['id_payment_method'];
+    $dataQuote['offerValidity'] = $quote['offer_validity'];
+    $dataQuote['warranty'] = $quote['warranty'];
+    $dataQuote['deliveryDate'] = $quote['delivery_date'];
+    $dataQuote['observation'] = $quote['observation'];
+    $dataQuote['products'] = $products;
+
+    $respquote = $quotesDao->insertQuote($dataQuote);
+
+    $lastQuote = $quotesDao->findLastQuote();
+
+    $resp = $quotesDao->insertQuotesProducts($dataQuote, $lastQuote['id_quote']);
+
+    if ($respquote == null && $resp == null)
+        $resp = array('success' => true, 'message' => 'Cotización copiada correctamente');
+    else
+        $resp = array('error' => true, 'message' => 'La Cotización no puede ser copiada, Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-}); */
+});
 
 /* Consultar detalle de cotizacion */
 $app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {

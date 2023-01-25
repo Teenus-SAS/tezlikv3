@@ -96,6 +96,7 @@ if (!isset($_SESSION)) {
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>
 	<script src="/cost/js/quotes/companies/configCompanies.js"></script>
 	<script src="/cost/js/quotes/paymentMethods/configPaymentMethods.js"></script>
+	<script src="/cost/js/quotes/copyQuote.js"></script>
 	<script src="/cost/js/quotes/quotes.js"></script>
 	<script src="/cost/js/quotes/addProduct.js"></script>
 	<script src="/cost/js/quotes/tblQuotes.js"></script>
