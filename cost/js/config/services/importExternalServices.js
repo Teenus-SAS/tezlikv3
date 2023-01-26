@@ -27,11 +27,24 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let externalServiceToImport = data.map((item) => {
+          item.referencia_producto == undefined || !item.referencia_producto
+            ? (referenceProduct = '')
+            : (referenceProduct = item.referencia_producto.trim());
+          item.producto == undefined || !item.producto
+            ? (product = '')
+            : (product = item.producto.trim());
+          item.servicio == undefined || !item.servicio
+            ? (service = '')
+            : (service = item.servicio.trim());
+          item.costo == undefined || !item.costo
+            ? (costService = '')
+            : (costService = item.costo);
+
           return {
-            referenceProduct: item.referencia_producto.trim(),
-            product: item.producto.trim(),
-            service: item.servicio.trim(),
-            costService: item.costo,
+            referenceProduct: referenceProduct,
+            product: product,
+            service: service,
+            costService: costService,
           };
         });
         checkExternalService(externalServiceToImport);

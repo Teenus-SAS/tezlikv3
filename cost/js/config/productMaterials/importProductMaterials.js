@@ -26,13 +26,32 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let productMaterialsToImport = data.map((item) => {
+          item.referencia_producto == undefined || !item.referencia_producto
+            ? (referenceProduct = '')
+            : (referenceProduct = item.referencia_producto.trim());
+          item.producto == undefined || !item.producto
+            ? (product = '')
+            : (product = item.producto.trim());
+          item.referencia_material == undefined || !item.referencia_material
+            ? (refRawMaterial = '')
+            : (refRawMaterial = item.referencia_material.trim());
+          item.material == undefined || !item.material
+            ? (nameRawMaterial = '')
+            : (nameRawMaterial = item.material.trim());
+          item.cantidad == undefined || !item.cantidad
+            ? (quantity = '')
+            : (quantity = item.cantidad);
+          item.costo == undefined || !item.costo
+            ? (cost = '')
+            : (cost = item.costo);
+
           return {
-            referenceProduct: item.referencia_producto.trim(),
-            product: item.producto.trim(),
-            refRawMaterial: item.referencia_material.trim(),
-            nameRawMaterial: item.material.trim(),
-            quantity: item.cantidad,
-            cost: item.costo,
+            referenceProduct: referenceProduct,
+            product: product,
+            refRawMaterial: refRawMaterial,
+            nameRawMaterial: nameRawMaterial,
+            quantity: quantity,
+            cost: cost,
           };
         });
         checkProductMaterial(productMaterialsToImport);

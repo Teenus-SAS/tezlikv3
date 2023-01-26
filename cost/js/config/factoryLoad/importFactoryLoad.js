@@ -27,10 +27,20 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let factoryLoadToImport = data.map((item) => {
+          item.maquina == undefined || !item.maquina
+            ? (machine = '')
+            : (machine = item.maquina.trim());
+          item.descripcion == undefined || !item.descripcion
+            ? (descriptionFactoryLoad = '')
+            : (descriptionFactoryLoad = item.descripcion.trim());
+          item.costo == undefined || !item.costo
+            ? (costFactory = '')
+            : (costFactory = item.costo);
+
           return {
-            machine: item.maquina.trim(),
-            descriptionFactoryLoad: item.descripcion.trim(),
-            costFactory: item.costo,
+            machine: machine,
+            descriptionFactoryLoad: descriptionFactoryLoad,
+            costFactory: costFactory,
           };
         });
         checkFactoryLoad(factoryLoadToImport);

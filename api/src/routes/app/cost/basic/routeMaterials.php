@@ -35,15 +35,14 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
         $materials = $dataMaterial['importMaterials'];
 
         for ($i = 0; $i < sizeof($materials); $i++) {
-
-            $reference = $materials[$i]['refRawMaterial'];
-            $material = $materials[$i]['nameRawMaterial'];
-            $unity = $materials[$i]['unityRawMaterial'];
-            $cost = $materials[$i]['costRawMaterial'];
-
-            if (empty($reference) || empty($material) || empty($unity) || empty($cost))
-                $dataImportMaterial = array('error' => true, 'message' => 'Ingrese todos los datos');
-            else {
+            if (
+                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) ||
+                empty($materials[$i]['unityRawMaterial']) || empty($materials[$i]['costRawMaterial'])
+            ) {
+                $i = $i + 1;
+                $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            } else {
                 $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);
                 if (!$findMaterial) $insert = $insert + 1;
                 else $update = $update + 1;

@@ -26,13 +26,32 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let productProcessToImport = data.map((item) => {
+          item.referencia_producto == undefined || !item.referencia_producto
+            ? (referenceProduct = '')
+            : (referenceProduct = item.referencia_producto.trim());
+          item.producto == undefined || !item.producto
+            ? (product = '')
+            : (product = item.producto.trim());
+          item.process == undefined || !item.process
+            ? (proceso = '')
+            : (proceso = item.process.trim());
+          item.maquina == undefined || !item.maquina
+            ? (machine = '')
+            : (machine = item.maquina.trim());
+          item.tiempo_enlistamiento == undefined || !item.tiempo_enlistamiento
+            ? (enlistmentTime = '')
+            : (enlistmentTime = item.tiempo_enlistamiento);
+          item.tiempo_operacion == undefined || !item.tiempo_operacion
+            ? (operationTime = '')
+            : (operationTime = item.tiempo_operacion);
+
           return {
-            referenceProduct: item.referencia_producto.trim(),
-            product: item.producto.trim(),
-            process: item.proceso.trim(),
-            machine: item.maquina.trim(),
-            enlistmentTime: item.tiempo_enlistamiento,
-            operationTime: item.tiempo_operacion,
+            referenceProduct: referenceProduct,
+            product: product,
+            process: process,
+            machine: machine,
+            enlistmentTime: enlistmentTime,
+            operationTime: operationTime,
           };
         });
         checkProductProcess(productProcessToImport);

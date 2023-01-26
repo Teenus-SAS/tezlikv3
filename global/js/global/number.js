@@ -10,20 +10,19 @@ $(document).ready(function () {
           return '';
         }
 
-        if (!value.includes(','))
-          number = value
-            .replace(/\./g, '')
-            .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
-        else {
-          number = value;
-          // while (number.includes('.')) {
-          //   number = number.replace('.', '');
-          // }
-          // number = number.replace(',', '.');
+        //   number = value
+        //     .replace(/\./g, '')
+        //     .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
 
-          // number = parseFloat(number).toLocaleString('es-CO');
+        number = value;
+
+        while (number.includes('.')) {
+          number = number.replace('.', '');
         }
 
+        number = number.replace(',', '.');
+
+        number = formatNumber(parseFloat(number), 2);
         return number;
       });
     },
@@ -44,4 +43,22 @@ $(document).ready(function () {
       });
     },
   });
+
+  function formatNumber(floatValue = 0, decimals = 0, multiplier = 1) {
+    let floatMultiplied = floatValue * multiplier;
+    let stringFloat = floatMultiplied + '';
+    let arraySplitFloat = stringFloat.split('.');
+    let decimalsValue = '0';
+    if (arraySplitFloat.length > 1) {
+      decimalsValue = arraySplitFloat[1].slice(0, decimals);
+    }
+    let integerValue = arraySplitFloat[0];
+    let arrayFullStringValue = [integerValue, decimalsValue];
+    let FullStringValue = arrayFullStringValue.join('.');
+    let floatFullValue = parseFloat(FullStringValue) + '';
+    let formatFloatFullValue = new Intl.NumberFormat(undefined, {
+      minimumFractionDigits: decimals,
+    }).format(floatFullValue);
+    return formatFloatFullValue;
+  }
 });

@@ -81,21 +81,14 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
 
         for ($i = 0; $i < sizeof($products); $i++) {
 
-            if (isset($products[$i]['referenceProduct']))
-                $reference = $products[$i]['referenceProduct'];
-
-            if (isset($products[$i]['product']))
-                $product = $products[$i]['product'];
-
-            if (isset($products[$i]['profitability']))
-                $profitability = $products[$i]['profitability'];
-
-            if (isset($products[$i]['commissionSale']))
-                $commisionSale = $products[$i]['commissionSale'];
-
-            if (empty($reference) || empty($product) || $profitability == '' || $commisionSale == '')
-                $dataImportProduct = array('error' => true, 'message' => 'Ingrese todos los datos');
-            else {
+            if (
+                empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
+                $products[$i]['profitability'] == '' || $products[$i]['commissionSale'] == ''
+            ) {
+                $i = $i + 1;
+                $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            } else {
                 $findProduct = $productsDao->findProduct($products[$i], $id_company);
                 if (!$findProduct) $insert = $insert + 1;
                 else $update = $update + 1;
