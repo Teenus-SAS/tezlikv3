@@ -57,9 +57,10 @@ class DashboardGeneralDao
     public function findProcessMinuteValueByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pc.process, py.minute_value FROM payroll py 
-                                        INNER JOIN process pc ON pc.id_process = py.id_process
-                                        WHERE py.id_company = :id_company");
+        $stmt = $connection->prepare("SELECT pc.process, (SELECT SUM(minute_value) FROM payroll WHERE id_process = py.id_process) AS minute_value
+                                      FROM process pc
+                                        INNER JOIN payroll py ON py.id_process = pc.id_process
+                                      WHERE pc.id_company = :id_company GROUP BY `py`.`id_process`");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
