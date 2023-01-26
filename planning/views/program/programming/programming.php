@@ -82,7 +82,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-md-2 mb-3">
                                                     <label for="">Cantidad</label>
-                                                    <input type="text" class="form-control text-center number" id="quantity" name="quantity">
+                                                    <input type="text" class="form-control text-center numberCalc" id="quantity" name="quantity">
                                                 </div>
 
                                                 <button class="btn btn-info" type="submit" id="btnCreateProgramming" name="btnCreateProgramming" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>

@@ -28,6 +28,26 @@ $(document).ready(function () {
     },
   });
 
+  $('.numberCalc').on({
+    focus: function (event) {
+      $(event.target).select();
+    },
+    keyup: function (event) {
+      $(event.target).val(function (index, value) {
+        if (!/[0-9]/.test(value)) {
+          event.preventDefault();
+          return '';
+        }
+
+        number = value
+          .replace(/\./g, '')
+          .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
+
+        return number;
+      });
+    },
+  });
+
   $('.money').on({
     focus: function (event) {
       $(event.target).select();

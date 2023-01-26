@@ -100,37 +100,37 @@ if (sizeof($_SESSION) == 0)
                                                             <tr>
                                                                 <td class="font-weight-bold">Ventas Mensuales (Unidad)</td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-1">
+                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-1">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-2">
+                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-2">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-3">
+                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-3">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-4">
+                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-4">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center unity totalRevenue general" type="text" id="unity-5">
+                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-5">
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Precio</td>
                                                                 <td>
-                                                                    <input class="form-control number text-center price totalRevenue general" type="text" id="price-1">
+                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-1">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center price totalRevenue general" type="text" id="price-2">
+                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-2">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center price totalRevenue general" type="text" id="price-3">
+                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-3">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center price totalRevenue general" type="text" id="price-4">
+                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-4">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control number text-center price totalRevenue general" type="text" id="price-5">
+                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-5">
                                                                 </td>
                                                             </tr>
                                                             <tr>
