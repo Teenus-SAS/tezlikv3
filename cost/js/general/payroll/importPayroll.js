@@ -28,8 +28,8 @@ $(document).ready(function () {
       .then((data) => {
         let payrollToImport = data.map((item) => {
           return {
-            employee: item.nombres_y_apellidos.trim(),
-            process: item.proceso.trim(),
+            employee: item.nombres_y_apellidos,
+            process: item.proceso,
             basicSalary: item.salario_basico,
             transport: item.transporte,
             endowment: item.dotaciones,

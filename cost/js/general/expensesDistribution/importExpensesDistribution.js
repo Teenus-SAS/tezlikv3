@@ -32,16 +32,16 @@ $(document).ready(function () {
           if (option == 1) {
             url = '/api/expenseDistributionDataValidation';
             return {
-              referenceProduct: item.referencia_producto.trim(),
-              product: item.producto.trim(),
+              referenceProduct: item.referencia_producto,
+              product: item.producto,
               unitsSold: item.unidades_vendidas,
               turnover: item.volumen_ventas,
             };
           } else if (option == 2) {
             url = '/api/expenseRecoverDataValidation';
             return {
-              referenceProduct: item.referencia_producto.trim(),
-              product: item.producto.trim(),
+              referenceProduct: item.referencia_producto,
+              product: item.producto,
               percentage: item.porcentaje_recuperado,
             };
           }

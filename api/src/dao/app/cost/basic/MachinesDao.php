@@ -57,12 +57,12 @@ class MachinesDao
                                         :residual_value, :hours_machine, :days_machine)");
       $stmt->execute([
         'id_company' => $id_company,
-        'machine' => strtoupper($dataMachine['machine']),
-        'cost' => $dataMachine['costMachine'],
-        'years_depreciation' => $dataMachine['depreciationYears'],
-        'residual_value' => $dataMachine['residualValue'],
-        'hours_machine' => $dataMachine['hoursMachine'],
-        'days_machine' => $dataMachine['daysMachine']
+        'machine' => strtoupper(trim($dataMachine['machine'])),
+        'cost' => trim($dataMachine['costMachine']),
+        'years_depreciation' => trim($dataMachine['depreciationYears']),
+        'residual_value' => trim($dataMachine['residualValue']),
+        'hours_machine' => trim($dataMachine['hoursMachine']),
+        'days_machine' => trim($dataMachine['daysMachine'])
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -89,13 +89,13 @@ class MachinesDao
                                        residual_value = :residual_value , hours_machine = :hours_machine, days_machine = :days_machine   
                                     WHERE id_machine = :id_machine");
       $stmt->execute([
-        'id_machine' => $dataMachine['idMachine'],
-        'machine' => strtoupper($dataMachine['machine']),
-        'cost' => $dataMachine['costMachine'],
-        'years_depreciation' => $dataMachine['depreciationYears'],
-        'residual_value' => $dataMachine['residualValue'],
-        'hours_machine' => $dataMachine['hoursMachine'],
-        'days_machine' => $dataMachine['daysMachine']
+        'id_machine' => trim($dataMachine['idMachine']),
+        'machine' => strtoupper(trim($dataMachine['machine'])),
+        'cost' => trim($dataMachine['costMachine']),
+        'years_depreciation' => trim($dataMachine['depreciationYears']),
+        'residual_value' => trim($dataMachine['residualValue']),
+        'hours_machine' => trim($dataMachine['hoursMachine']),
+        'days_machine' => trim($dataMachine['daysMachine'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -120,12 +120,12 @@ class MachinesDao
     $connection = Connection::getInstance()->getConnection();
 
     $stmt = $connection->prepare("SELECT * FROM machines WHERE id_machine = :id_machine");
-    $stmt->execute(['id_machine' => $id_machine]);
+    $stmt->execute(['id_machine' => trim($id_machine)]);
     $rows = $stmt->rowCount();
 
     if ($rows > 0) {
       $stmt = $connection->prepare("DELETE FROM machines WHERE id_machine = :id_machine");
-      $stmt->execute(['id_machine' => $id_machine]);
+      $stmt->execute(['id_machine' => trim($id_machine)]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }

@@ -38,6 +38,14 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
         $productMaterials = $dataProductMaterial['importProductsMaterials'];
 
         for ($i = 0; $i < sizeof($productMaterials); $i++) {
+            if (
+                empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) ||
+                empty($productMaterials[$i]['nameRawMaterial']) || empty($productMaterials[$i]['quantity'])
+            ) {
+                $i = $i + 1;
+                $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
             // Obtener id producto
             $findProduct = $productsDao->findProduct($productMaterials[$i], $id_company);
             if (!$findProduct) {
@@ -54,17 +62,12 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
                 break;
             } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            if (empty($productMaterials[$i]['quantity'])) {
-                $i = $i + 1;
-                $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-                break;
-            } else {
-                $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
-                if (!$findProductsMaterials) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportProductsMaterials['insert'] = $insert;
-                $dataImportProductsMaterials['update'] = $update;
-            }
+
+            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
+            if (!$findProductsMaterials) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportProductsMaterials['insert'] = $insert;
+            $dataImportProductsMaterials['update'] = $update;
         }
     } else
         $dataImportProductsMaterials = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');

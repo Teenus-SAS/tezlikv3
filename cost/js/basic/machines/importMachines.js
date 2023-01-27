@@ -27,32 +27,13 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let machinesToImport = data.map((item) => {
-          item.maquina == undefined || !item.maquina
-            ? (machine = '')
-            : (machine = item.maquina.trim());
-          item.costo == undefined || !item.costo
-            ? (cost = '')
-            : (cost = item.costo);
-          item.años_depreciacion == undefined || !item.años_depreciacion
-            ? (depreciationYears = '')
-            : (depreciationYears = item.años_depreciacion);
-          item.valor_residual == undefined || !item.valor_residual
-            ? (residualValue = '')
-            : (residualValue = item.valor_residual);
-          item.horas_maquina == undefined || !item.horas_maquina
-            ? (hoursMachine = '')
-            : (hoursMachine = item.horas_maquina);
-          item.dias_maquina == undefined || !item.dias_maquina
-            ? (daysMachine = '')
-            : (daysMachine = item.dias_maquina);
-
           return {
-            machine: machine,
-            cost: cost,
-            depreciationYears: depreciationYears,
-            residualValue: residualValue,
-            hoursMachine: hoursMachine,
-            daysMachine: daysMachine,
+            machine: item.maquina,
+            cost: item.costo,
+            depreciationYears: item.años_depreciacion,
+            residualValue: item.valor_residual,
+            hoursMachine: item.horas_maquina,
+            daysMachine: item.dias_maquina,
           };
         });
         checkMachine(machinesToImport);

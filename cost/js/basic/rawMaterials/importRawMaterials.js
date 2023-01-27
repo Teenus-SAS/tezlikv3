@@ -27,23 +27,10 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let materialsToImport = data.map((item) => {
-          item.referencia == undefined || !item.referencia
-            ? (refRawMaterial = '')
-            : (refRawMaterial = item.referencia.trim());
-          item.material == undefined || !item.material
-            ? (nameRawMaterial = '')
-            : (nameRawMaterial = item.material.trim());
-          item.unidad == undefined || !item.unidad
-            ? (unityRawMaterial = '')
-            : (unityRawMaterial = item.unidad.trim());
-          item.costo == undefined || !item.costo
-            ? (costRawMaterial = '')
-            : (costRawMaterial = item.costo);
-
           return {
-            refRawMaterial: item.referencia.trim(),
-            nameRawMaterial: item.material.trim(),
-            unityRawMaterial: item.unidad.trim(),
+            refRawMaterial: item.referencia,
+            nameRawMaterial: item.material,
+            unityRawMaterial: item.unidad,
             costRawMaterial: item.costo,
           };
         });

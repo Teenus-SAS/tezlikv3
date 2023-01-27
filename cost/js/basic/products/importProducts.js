@@ -27,24 +27,11 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let productsToImport = data.map((item) => {
-          item.referencia == undefined || !item.referencia
-            ? (referenceProduct = '')
-            : (referenceProduct = item.referencia.trim());
-          item.producto == undefined || !item.producto
-            ? (product = '')
-            : (product = item.producto.trim());
-          item.rentabilidad == undefined || !item.rentabilidad
-            ? (profitability = '')
-            : (profitability = item.rentabilidad);
-          item.comision_ventas == undefined || !item.comision_ventas
-            ? (commissionSale = '')
-            : (commissionSale = item.comision_ventas);
-
           return {
-            referenceProduct: referenceProduct,
-            product: product,
-            profitability: profitability,
-            commissionSale: commissionSale,
+            referenceProduct: item.referencia,
+            product: item.producto,
+            profitability: item.rentabilidad,
+            commissionSale: item.comision_ventas,
           };
         });
 

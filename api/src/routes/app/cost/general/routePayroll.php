@@ -36,6 +36,20 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
         $payroll = $dataPayroll['importPayroll'];
 
         for ($i = 0; $i < sizeof($payroll); $i++) {
+            if (
+                empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) ||
+                empty($payroll[$i]['workingDaysMonth']) || empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor'])
+            ) {
+                $i = $i + 1;
+                $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
+            if ($payroll[$i]['workingDaysMonth'] > 31 || $payroll[$i]['workingHoursDay'] > 24) {
+                $i = $i + 1;
+                $dataImportPayroll = array('error' => true, 'message' => "El campo dias trabajo x mes debe ser menor a 31 <br>y horas trabajo x dia menor a 24, fila: {$i}");
+                break;
+            }
+
             // Obtener id proceso
             $findProcess = $processDao->findProcess($payroll[$i], $id_company);
 
@@ -46,34 +60,11 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
             } else
                 $payroll[$i]['idProcess'] = $findProcess['id_process'];
 
-            if (isset($payroll[$i]['employee']))
-                $employee = $payroll[$i]['employee'];
-            if (isset($payroll[$i]['basicSalary']))
-                $basicSalary = $payroll[$i]['basicSalary'];
-            if (isset($payroll[$i]['workingDaysMonth']))
-                $workingDaysMonth = $payroll[$i]['workingDaysMonth'];
-            if (isset($payroll[$i]['workingHoursDay']))
-                $workingHoursDay = $payroll[$i]['workingHoursDay'];
-            if (isset($payroll[$i]['typeFactor']))
-                $typeFactor = $payroll[$i]['typeFactor'];
+            $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
 
-            if (empty($employee) || empty($basicSalary) || empty($workingDaysMonth) || empty($workingHoursDay) || empty($typeFactor)) {
-                $i = $i + 1;
-                $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            } else {
-                if ($workingDaysMonth > 31 || $workingHoursDay > 24) {
-                    $i = $i + 1;
-                    $dataImportPayroll = array('error' => true, 'message' => "El campo dias trabajo x mes debe ser menor a 31 <br>y horas trabajo x dia menor a 24, fila: {$i}");
-                    break;
-                } else {
-                    $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
-
-                    !$findPayroll ? $insert = $insert + 1 : $update = $update + 1;
-                    $dataImportPayroll['insert'] = $insert;
-                    $dataImportPayroll['update'] = $update;
-                }
-            }
+            !$findPayroll ? $insert = $insert + 1 : $update = $update + 1;
+            $dataImportPayroll['insert'] = $insert;
+            $dataImportPayroll['update'] = $update;
         }
     } else
         $dataImportPayroll = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');

@@ -27,12 +27,8 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let ProcessToImport = data.map((item) => {
-          item.proceso == undefined || !item.proceso
-            ? (process = '')
-            : (process = item.proceso.trim());
-
           return {
-            process: process,
+            process: item.proceso,
           };
         });
         checkProcess(ProcessToImport);
