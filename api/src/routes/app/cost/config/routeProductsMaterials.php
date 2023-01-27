@@ -111,6 +111,8 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
 
             $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
 
+            $productMaterials[$i]['quantity'] = str_replace('.', ',', $productMaterials[$i]['quantity']);
+
             if (!$findProductsMaterials) $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($productMaterials[$i], $id_company);
             else {
                 $productMaterials[$i]['idProductMaterial'] = $findProductsMaterials['id_product_material'];

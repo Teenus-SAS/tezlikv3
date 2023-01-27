@@ -103,6 +103,10 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
             $payroll[$i]['idProcess'] = $findProcess['id_process'];
 
             $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
+
+            empty($payroll[$i]['extraTime']) ? $payroll[$i]['extraTime'] = 0 : $payroll[$i]['extraTime'];
+            empty($payroll[$i]['bonification']) ? $payroll[$i]['bonification'] = 0 : $payroll[$i]['bonification'];
+
             if (!$findPayroll)
                 $resolution = $payrollDao->insertPayrollByCompany($payroll[$i], $id_company);
             else {
