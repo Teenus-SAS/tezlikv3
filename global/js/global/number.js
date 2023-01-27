@@ -20,9 +20,22 @@ $(document).ready(function () {
           number = number.replace('.', '');
         }
 
-        number = number.replace(',', '.');
+        let decimals = 0;
+        dnumber = number;
 
-        number = formatNumber(parseFloat(number), 2);
+        while (dnumber.includes(',')) {
+          dnumber = dnumber.slice(1, dnumber.length);
+          if (dnumber == '') {
+            decimals = '';
+            break;
+          }
+          decimals = dnumber.length;
+        }
+
+        if (decimals == '' && typeof decimals === 'string') return number;
+
+        number = number.replace(',', '.');
+        number = formatNumber(parseFloat(number), decimals);
         return number;
       });
     },
