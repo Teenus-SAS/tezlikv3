@@ -78,6 +78,8 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
         for ($i = 0; $i < sizeof($materials); $i++) {
 
+            $materials[$i]['costRawMaterial'] = str_replace('.', ',', $materials[$i]['costRawMaterial']);
+
             $material = $materialsDao->findMaterial($materials[$i], $id_company);
 
             if (!$material)
