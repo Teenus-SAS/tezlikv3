@@ -21,8 +21,8 @@ class ReviewRawMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT pm.id_product_material, m.id_material, m.reference, m.material, CONCAT(pm.quantity, ' ', m.unit) AS quantity, m.cost, (pm.quantity*m.cost) AS unityCost,((pm.quantity*m.cost)/ 
-                                                (SELECT SUM(pm.quantity*m.cost) FROM products_materials pm INNER JOIN materials m ON m.id_material = pm.id_material WHERE pm.id_product = p.id_product AND pm.id_company = p.id_company))*100 AS participation 
+            $stmt = $connection->prepare("SELECT pm.id_product_material, m.id_material, m.reference, m.material, CONCAT(FORMAT(pm.quantity,2,'de_DE'), ' ', m.unit) AS quantity, m.cost, (pm.quantity*m.cost) AS unityCost,((pm.quantity*m.cost)/ 
+                                                 (SELECT SUM(pm.quantity*m.cost) FROM products_materials pm INNER JOIN materials m ON m.id_material = pm.id_material WHERE pm.id_product = p.id_product AND pm.id_company = p.id_company))*100 AS participation 
                                           FROM products p
                                             INNER JOIN products_materials pm ON pm.id_product = p.id_product
                                             INNER JOIN materials m ON m.id_material = pm.id_material

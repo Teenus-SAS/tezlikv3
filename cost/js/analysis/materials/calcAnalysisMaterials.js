@@ -75,10 +75,10 @@ $(document).ready(function () {
       : unitsmanufacturated;
 
     // Calcular costo total
-    calculateCostMaterial(unitsmanufacturated, i);
+    calculateCostMaterial();
 
     //calcula el costo proyectado
-    calculateProjectedCost(i);
+    calculateProjectedCost();
 
     // Calcular ahorro mensual
     savingsMontly();
@@ -113,7 +113,7 @@ $(document).ready(function () {
   };
 
   /* Calcula el costo proyectado */
-  calculateProjectedCost = (i) => {
+  calculateProjectedCost = () => {
     for (i = 1; i < count + 1; i++) {
       quantity = $(`#quantity-${i}`).html();
 
@@ -124,26 +124,23 @@ $(document).ready(function () {
 
       let negotiatePrice = $(`#${i}`).val();
 
-      if (negotiatePrice == '') return false;
+      negotiatePrice == '' ? (negotiatePrice = '0') : negotiatePrice;
 
-      negotiatePrice = negotiatePrice.replace('$', '');
       // Eliminar miles
       negotiatePrice = decimalNumber(negotiatePrice);
       negotiatePrice = negotiatePrice.replace(',', '.');
       negotiatePrice = parseFloat(negotiatePrice);
 
-      if (negotiatePrice) {
-        projectedCost = quantity * negotiatePrice * unitsmanufacturated;
+      projectedCost = quantity * negotiatePrice * unitsmanufacturated;
 
-        if (isNaN(projectedCost)) $(`#projectedCost-${i}`).html();
-        else
-          $(`#projectedCost-${i}`).html(
-            `$ ${parseInt(projectedCost.toFixed()).toLocaleString('es-CO')}`
-          );
-      }
-      savingsMontly();
-      savingsAnnual();
+      if (isNaN(projectedCost)) $(`#projectedCost-${i}`).html();
+      else
+        $(`#projectedCost-${i}`).html(
+          `$ ${parseInt(projectedCost.toFixed()).toLocaleString('es-CO')}`
+        );
     }
+    savingsMontly();
+    savingsAnnual();
   };
 
   /* Calcula el ahorro mensual */
@@ -153,7 +150,7 @@ $(document).ready(function () {
     for (i = 1; i < count + 1; i++) {
       let projectedCost = $(`#projectedCost-${i}`).html();
 
-      if (projectedCost == '') return false;
+      projectedCost == '' ? (projectedCost = '0') : projectedCost;
 
       // Eliminar miles
       projectedCost = decimalNumber(projectedCost);
@@ -170,7 +167,7 @@ $(document).ready(function () {
 
       isNaN(monthlySavingsRow) ? (monthlySavingsRow = 0) : monthlySavingsRow;
 
-      totalMonthlySavings = totalMonthlySavings + monthlySavingsRow;
+      totalMonthlySavings += monthlySavingsRow;
 
       $(`#monthlySavings`).html(
         `$ ${totalMonthlySavings.toLocaleString('es-CO')}`

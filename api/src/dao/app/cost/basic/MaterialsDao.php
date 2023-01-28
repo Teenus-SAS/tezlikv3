@@ -109,14 +109,24 @@ class MaterialsDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT * FROM materials WHERE id_material = :id_material");
-    $stmt->execute(['id_material' => $id_material]);
-    $rows = $stmt->rowCount();
-
-    if ($rows > 0) {
-      $stmt = $connection->prepare("DELETE FROM materials WHERE id_material = :id_material");
+    try {
+      $stmt = $connection->prepare("SELECT * FROM materials WHERE id_material = :id_material");
       $stmt->execute(['id_material' => $id_material]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+      $rows = $stmt->rowCount();
+
+      if ($rows > 0) {
+        $stmt = $connection->prepare("DELETE FROM materials WHERE id_material = :id_material");
+        $stmt->execute(['id_material' => $id_material]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+      }
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+
+      if ($e->getCode() == 23000)
+        $message = 'Esta materia prima no se puede eliminar, esta configurada a un producto';
+
+      $error = array('info' => true, 'message' => $message);
+      return $error;
     }
   }
 }

@@ -140,9 +140,10 @@ $app->post('/deleteMaterial', function (Request $request, Response $response, $a
 
     if ($materials == null)
         $resp = array('success' => true, 'message' => 'Material eliminado correctamente');
-
-    if ($materials != null)
-        $resp = array('error' => true, 'message' => 'No es posible eliminar el material, existe información asociada a él');
+    else if (isset($materials['info']))
+        $resp = array('info' => true, 'message' => $materials['message']);
+    else
+        $resp = array('error' => true, 'message' => 'No es posible eliminar el material');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
