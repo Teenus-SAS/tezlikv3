@@ -22,22 +22,19 @@ $(document).ready(function () {
 
     data = await searchData(`/api/calcEconomyScale/${id}`);
 
+    commission = data.commission;
+
     /* Precios */
     $('.price').val(data.price.toLocaleString('es-CO'));
 
     /* Costos Fijos */
-    let i = 1;
-    let fixedCosts = data.fixedCost;
-    dataCalcFCost = [];
-
-    $.each(fixedCosts, (index, value) => {
-      $(`#fixedCosts-${i}`).html(`$ ${value.toLocaleString('es-CO')}`);
-      dataCalcFCost.push(value);
-      i++;
-    });
+    fixedCost = data.fixedCost;
 
     variableCost = data.variableCost;
     for (i = 0; i < 5; i++) {
+      /* Costos Fijos */
+      $(`#fixedCosts-${i + 1}`).html(`$ ${fixedCost.toLocaleString('es-CO')}`);
+
       /* Costos Variables */
       $(`#variableCosts-${i + 1}`).html(
         `$ ${variableCost.toLocaleString('es-CO')}`
@@ -45,7 +42,7 @@ $(document).ready(function () {
 
       /* Total Costos y Gastos */
       $(`#totalCostsAndExpenses-${i + 1}`).html(
-        `$ ${(dataCalcFCost[i] + variableCost).toLocaleString('es-CO')}`
+        `$ ${(fixedCost + variableCost).toLocaleString('es-CO')}`
       );
     }
   };

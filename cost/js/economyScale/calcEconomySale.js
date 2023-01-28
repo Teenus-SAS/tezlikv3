@@ -20,6 +20,7 @@ $(document).ready(function () {
       $(`#unityCost-${row}`).html('');
       $(`#unitUtility-${row}`).html('');
       $(`#netUtility-${row}`).html('');
+      $(`#percentage-${row}`).html('');
 
       toastr.error('Ingrese un valor mayor a cero');
 
@@ -67,7 +68,7 @@ $(document).ready(function () {
 
       /* Total Costos y Gastos */
       $(`#totalCostsAndExpenses-${i + 1}`).html(
-        `$ ${(dataCalcFCost[i] + totalVariableCost).toLocaleString('es-CO')}`
+        `$ ${(fixedCost + totalVariableCost).toLocaleString('es-CO')}`
       );
 
       /* Calculo Total Ingresos */
@@ -105,6 +106,11 @@ $(document).ready(function () {
       $(`#netUtility-${i + 1}`).html(
         `$ ${Math.round(netUtility).toLocaleString('es-CO')}`
       );
+
+      /* Porcentaje */
+      percentage = (netUtility / (totalRevenue - commission)) * 100;
+
+      $(`#percentage-${i + 1}`).html(`${percentage.toFixed(2)} %`);
     }
   };
 

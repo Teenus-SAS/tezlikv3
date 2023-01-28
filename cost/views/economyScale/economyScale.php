@@ -189,6 +189,14 @@ if (sizeof($_SESSION) == 0)
                                                                 <td class="text-center netUtility general" id="netUtility-4"></td>
                                                                 <td class="text-center netUtility general" id="netUtility-5"></td>
                                                             </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td class="text-center general" id="percentage-1" style="color: black;"></td>
+                                                                <td class="text-center general" id="percentage-2" style="color: black;"></td>
+                                                                <td class="text-center general" id="percentage-3" style="color: black;"></td>
+                                                                <td class="text-center general" id="percentage-4" style="color: black;"></td>
+                                                                <td class="text-center general" id="percentage-5" style="color: black;"></td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>

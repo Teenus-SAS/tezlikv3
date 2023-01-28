@@ -96,7 +96,7 @@ $(document).ready(function () {
     } else if (data.type_contract == 'Servicios') {
       $(`#typeFactor option[value=2]`).prop('selected', true);
       $('#factor').val(data.factor_benefit);
-    } else if (data.type_contract == 'Calculo Manual') {
+    } else if (data.type_contract == 'Manual') {
       $(`#typeFactor option[value=3]`).prop('selected', true);
       $('#factor').val(data.factor_benefit);
     }

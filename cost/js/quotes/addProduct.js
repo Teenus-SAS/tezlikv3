@@ -6,6 +6,7 @@ $(document).ready(function () {
   $('#btnAddNewProduct').click(function (e) {
     e.preventDefault();
     $('.addProd').toggle(800);
+    sessionStorage.removeItem('actualizar');
 
     $('#imgProduct').attr('src', '');
     $('#selectNameProduct option').removeAttr('selected');
@@ -39,9 +40,7 @@ $(document).ready(function () {
     } else {
       price = parseInt(data.price).toLocaleString('es-CO');
     }
-
-    sessionStorage.removeItem('price');
-    sessionStorage.setItem('price', data.price);
+    oldPrice = data.price;
 
     $('#price').val(price);
 
@@ -55,8 +54,6 @@ $(document).ready(function () {
   $(document).on('blur', '#price', function (e) {
     let idProduct = $('#refProduct').val();
     if (idProduct > 0) {
-      let oldPrice = sessionStorage.getItem('price');
-
       let price = replaceNumber(this.value);
 
       if (price < parseInt(oldPrice)) {
@@ -80,12 +77,14 @@ $(document).ready(function () {
     price == '' ? (price = '0') : price;
     price = replaceNumber(price);
 
-    let val =
-      parseFloat(quantity) *
-      parseFloat(price) *
-      (1 - parseFloat(discount) / 100);
+    if (price >= parseInt(oldPrice)) {
+      let val =
+        parseFloat(quantity) *
+        parseFloat(price) *
+        (1 - parseFloat(discount) / 100);
 
-    $('#totalPrice').val(parseInt(val).toLocaleString('es-CO'));
+      $('#totalPrice').val(parseInt(val).toLocaleString('es-CO'));
+    }
   });
 
   replaceNumber = (number) => {
@@ -119,8 +118,6 @@ $(document).ready(function () {
       return false;
     }
 
-    $('.addProd').hide();
-
     let idProduct = $('#selectNameProduct').val();
     let nameProduct = $('#selectNameProduct :selected').text();
     let discount = $('#discount').val();
@@ -128,18 +125,31 @@ $(document).ready(function () {
 
     price = replaceNumber(price);
 
-    let product = {
-      idProduct: idProduct,
-      ref: ref.trim(),
-      nameProduct: nameProduct.trim(),
-      price: `$ ${parseInt(price).toLocaleString('es-CO')}`,
-      quantity: quantity,
-      discount: discount,
-      totalPrice: `$ ${totalPrice}`,
-    };
+    op = sessionStorage.getItem('actualizar');
 
-    products.push(product);
+    if (!op || op == null) {
+      let product = {
+        idProduct: idProduct,
+        ref: ref.trim(),
+        nameProduct: nameProduct.trim(),
+        price: `$ ${parseInt(price).toLocaleString('es-CO')}`,
+        quantity: quantity,
+        discount: discount,
+        totalPrice: `$ ${totalPrice}`,
+      };
 
+      products.push(product);
+    } else {
+      products[op].idProduct = idProduct;
+      products[op].ref = ref.trim();
+      products[op].nameProduct = nameProduct.trim();
+      products[op].quantity = quantity;
+      products[op].price = `$ ${parseInt(price).toLocaleString('es-CO')}`;
+      products[op].discount = discount;
+      products[op].totalPrice = `$ ${totalPrice}`;
+    }
+
+    $('.addProd').hide();
     addProducts();
 
     $('#refProduct').prop('selectedIndex', 0);
@@ -150,8 +160,39 @@ $(document).ready(function () {
     $('#totalPrice').val('');
   });
 
-  /* Borrar productos seleccionados de la tabla */
+  /* Modificar producto */
+  $(document).on('click', '.updateProduct', function (e) {
+    e.preventDefault();
 
+    let id = this.id;
+    let data = products[id];
+
+    $(`#refProduct option:contains(${data.ref})`).prop('selected', true);
+    $(`#selectNameProduct option:contains(${data.nameProduct})`).prop(
+      'selected',
+      true
+    );
+
+    $('#quantity').val(data.quantity.toLocaleString());
+
+    price = data.price;
+    price = price.replace('$ ', '');
+    $('#price').val(price.toLocaleString());
+
+    $(`#discount option[value="${data.discount}"]`).prop('selected', true);
+
+    totalPrice = data.totalPrice;
+    totalPrice = totalPrice.replace('$ ', '');
+    $('#totalPrice').val(totalPrice);
+
+    $('#btnAddProduct').html('Actualizar producto');
+
+    sessionStorage.setItem('actualizar', id);
+
+    $('.addProd').show(1000);
+  });
+
+  /* Borrar productos seleccionados de la tabla */
   $(document).on('click', '.deleteProduct', function (e) {
     e.preventDefault();
 
@@ -181,6 +222,7 @@ $(document).ready(function () {
             <td class="text-center">${products[i].discount} %</td>
             <td class="text-center">${products[i].totalPrice}</td>
             <td class="text-center">
+            <a href="javascript:;" id="${i}" <i class="bx bx-edit updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 18px"></i></a>
               <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>
             </td>
         </tr>`

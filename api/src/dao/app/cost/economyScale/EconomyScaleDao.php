@@ -19,23 +19,8 @@ class EconomyScaleDao
     public function findFixedCostByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        // $stmt = $connection->prepare("SELECT 
-        //                                     CAST((SELECT SUM(py.minute_value * (pp.enlistment_time + pp.operation_time)) FROM products_process pp INNER JOIN payroll py ON py.id_process = pp.id_process WHERE pp.id_product = p.id_product AND pp.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover)/100, ed.assignable_expense) AS UNSIGNED) AS fixedCost100, 
-        //                                     CAST((SELECT SUM(py.minute_value * (pp.enlistment_time + pp.operation_time)) FROM products_process pp INNER JOIN payroll py ON py.id_process = pp.id_process WHERE pp.id_product = p.id_product AND pp.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover)/100, ed.assignable_expense) AS UNSIGNED) AS fixedCost150, 
-        //                                     CAST((SELECT SUM(py.minute_value * (pp.enlistment_time + pp.operation_time)) FROM products_process pp INNER JOIN payroll py ON py.id_process = pp.id_process WHERE pp.id_product = p.id_product AND pp.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover)/100, ed.assignable_expense) AS UNSIGNED) AS fixedCost200, 
-        //                                     CAST((((SELECT SUM(py.minute_value * (pp.enlistment_time + pp.operation_time)) FROM products_process pp INNER JOIN payroll py ON py.id_process = pp.id_process WHERE pp.id_product = p.id_product AND pp.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover)/100, ed.assignable_expense)))*2 AS UNSIGNED) AS fixedCost300, 
-        //                                     CAST((((SELECT SUM(py.minute_value * (pp.enlistment_time + pp.operation_time)) FROM products_process pp INNER JOIN payroll py ON py.id_process = pp.id_process WHERE pp.id_product = p.id_product AND pp.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost) * er.expense_recover)/100, ed.assignable_expense)))*2 AS UNSIGNED) AS fixedCost500 
-        //                               FROM products p
-        //                                 LEFT JOIN products_costs pc ON pc.id_product = p.id_product
-        //                                 LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
-        //                                 LEFT JOIN expenses_recover er ON er.id_product = p.id_product
-        //                               WHERE p.id_product = :id_product AND p.id_company = :id_company");
-        $stmt = $connection->prepare("SELECT                                    
-                                                CAST((SELECT SUM(IFNULL(py.minute_value, 0) * (IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0))) FROM products LEFT JOIN products_process pp ON pp.id_product = products.id_product LEFT JOIN payroll py ON py.id_process = pp.id_process WHERE products.id_product = p.id_product AND products.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0)) * IFNULL(er.expense_recover, 0))/100, IFNULL(ed.assignable_expense, 0)) AS UNSIGNED) AS fixedCost100, 
-                                                CAST(((SELECT SUM(IFNULL(py.minute_value, 0) * (IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0))) FROM products LEFT JOIN products_process pp ON pp.id_product = products.id_product LEFT JOIN payroll py ON py.id_process = pp.id_process WHERE products.id_product = p.id_product AND products.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0)) * IFNULL(er.expense_recover, 0))/100, IFNULL(ed.assignable_expense, 0)))*1.5 AS UNSIGNED) AS fixedCost150, 
-                                                CAST(((SELECT SUM(IFNULL(py.minute_value, 0) * (IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0))) FROM products LEFT JOIN products_process pp ON pp.id_product = products.id_product LEFT JOIN payroll py ON py.id_process = pp.id_process WHERE products.id_product = p.id_product AND products.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0)) * IFNULL(er.expense_recover, 0))/100, IFNULL(ed.assignable_expense, 0)))*2 AS UNSIGNED) AS fixedCost200,
-                                                CAST(((SELECT SUM(IFNULL(py.minute_value, 0) * (IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0))) FROM products LEFT JOIN products_process pp ON pp.id_product = products.id_product LEFT JOIN payroll py ON py.id_process = pp.id_process WHERE products.id_product = p.id_product AND products.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0)) * IFNULL(er.expense_recover, 0))/100, IFNULL(ed.assignable_expense, 0)))*3 AS UNSIGNED) AS fixedCost300, 
-                                                CAST(((SELECT SUM(IFNULL(py.minute_value, 0) * (IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0))) FROM products LEFT JOIN products_process pp ON pp.id_product = products.id_product LEFT JOIN payroll py ON py.id_process = pp.id_process WHERE products.id_product = p.id_product AND products.id_company = p.id_company) + IF(IFNULL(ed.assignable_expense, 0) = 0, ((IFNULL(pc.cost_workforce, 0) + IFNULL(pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0)) * IFNULL(er.expense_recover, 0))/100, IFNULL(ed.assignable_expense, 0)))*5 AS UNSIGNED) AS fixedCost500
+        $stmt = $connection->prepare("SELECT CAST(pc.cost_workforce + IF(IFNULL(ed.assignable_expense, 0) = 0, ((pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) 
+                                             FROM services WHERE id_product = p.id_product)) / (1 - er.expense_recover / 100)) * (er.expense_recover / 100), ed.assignable_expense) AS UNSIGNED) AS costFixed
                                       FROM products p
                                         LEFT JOIN products_costs pc ON pc.id_product = p.id_product
                                         LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
@@ -54,24 +39,10 @@ class EconomyScaleDao
     public function findVariableCostByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        // $stmt = $connection->prepare("SELECT CAST((pc.cost_materials + SUM(pp.enlistment_time + pp.operation_time) + 
-        //                                          SUM(m.minute_depreciation) + SUM(ml.cost_minute) / (pc.commission_sale-pc.profitability)/100) AS UNSIGNED) AS variableCost
-        //                               FROM products p
-        //                                 LEFT JOIN products_costs pc ON pc.id_product = p.id_product
-        //                                 LEFT JOIN products_materials pm ON pm.id_product = p.id_product
-        //                                 LEFT JOIN products_process pp ON pp.id_product = p.id_product
-        //                                 LEFT JOIN manufacturing_load ml ON ml.id_machine = pp.id_machine	 
-        //                                 LEFT JOIN machines m ON m.id_machine = pp.id_machine
-        //                               WHERE p.id_product = :id_product AND p.id_company = :id_company");
-        $stmt = $connection->prepare("SELECT 
-                                              CAST((IFNULL(pc.cost_materials, 0) + SUM(IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0)) + SUM(IFNULL(m.minute_depreciation, 0)) + 
-                                              SUM(IFNULL(ml.cost_minute, 0)) / (IFNULL(pc.commission_sale, 0)-IFNULL(pc.profitability, 0))/100) AS UNSIGNED) AS variableCost
+        $stmt = $connection->prepare("SELECT ((pc.commission_sale / 100) * pc.price) AS commission, CAST(pc.cost_materials + pc.cost_indirect_cost + ((pc.commission_sale / 100) * pc.price) + 
+                                             (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product) AS UNSIGNED) AS variableCost
                                       FROM products p
-                                          LEFT JOIN products_costs pc ON pc.id_product = p.id_product
-                                          LEFT JOIN products_materials pm ON pm.id_product = p.id_product
-                                          LEFT JOIN products_process pp ON pp.id_product = p.id_product
-                                          LEFT JOIN manufacturing_load ml ON ml.id_machine = pp.id_machine	 
-                                          LEFT JOIN machines m ON m.id_machine = pp.id_machine
+                                        LEFT JOIN products_costs pc ON pc.id_product = p.id_product
                                       WHERE p.id_product = :id_product AND p.id_company = :id_company");
         $stmt->execute([
             'id_product' => $id_product,
