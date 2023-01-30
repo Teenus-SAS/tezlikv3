@@ -197,7 +197,6 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
 
-
     if (empty($dataProductProcess['idProduct']) || empty($dataProductProcess['idProcess']) || empty($dataProductProcess['idMachine']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
