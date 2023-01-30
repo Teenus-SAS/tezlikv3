@@ -54,7 +54,7 @@ $(document).ready(function () {
   $(document).on('blur', '#price', function (e) {
     let idProduct = $('#refProduct').val();
     if (idProduct > 0) {
-      let price = replaceNumber(this.value);
+      let price = decimalNumber(this.value);
 
       if (price < parseInt(oldPrice)) {
         oldPrice = parseInt(oldPrice).toLocaleString('es-CO');
@@ -72,10 +72,10 @@ $(document).ready(function () {
     let discount = $('#discount').val();
 
     quantity == '' ? (quantity = '0') : quantity;
-    quantity = replaceNumber(quantity);
+    quantity = decimalNumber(quantity);
 
     price == '' ? (price = '0') : price;
-    price = replaceNumber(price);
+    price = decimalNumber(price);
 
     if (price >= parseInt(oldPrice)) {
       let val =
@@ -86,14 +86,6 @@ $(document).ready(function () {
       $('#totalPrice').val(parseInt(val).toLocaleString('es-CO'));
     }
   });
-
-  replaceNumber = (number) => {
-    while (number.includes('.')) {
-      if (number.includes('.')) number = number.replace('.', '');
-    }
-    if (number.includes(',')) number = number.replace(',', '.');
-    return number;
-  };
 
   /* Adicionar productos a la tabla */
 
@@ -123,7 +115,7 @@ $(document).ready(function () {
     let discount = $('#discount').val();
     let totalPrice = $('#totalPrice').val();
 
-    price = replaceNumber(price);
+    price = decimalNumber(price);
 
     op = sessionStorage.getItem('actualizar');
 

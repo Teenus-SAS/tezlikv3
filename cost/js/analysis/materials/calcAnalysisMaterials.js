@@ -14,13 +14,12 @@ $(document).ready(function () {
       negotiatePrice = 0;
     } else {
       negotiatePrice = decimalNumber(negotiatePrice);
-      negotiatePrice = negotiatePrice.replace(',', '.');
       negotiatePrice = parseFloat(negotiatePrice);
     }
 
     currentPrice = $(`#currentPrice-${line}`).html();
     currentPrice = decimalNumber(currentPrice);
-    currentPrice = currentPrice.replace(',', '.').replace('$', '');
+    currentPrice = currentPrice.replace('$', '');
     currentPrice = parseFloat(currentPrice);
 
     // Calcular porcentaje
@@ -67,7 +66,6 @@ $(document).ready(function () {
 
     // Eliminar miles
     unitsmanufacturated = decimalNumber(unitsmanufacturated);
-    unitsmanufacturated = unitsmanufacturated.replace(',', '.');
     unitsmanufacturated = parseFloat(unitsmanufacturated);
 
     isNaN(unitsmanufacturated)
@@ -95,11 +93,10 @@ $(document).ready(function () {
 
       // Eliminar miles
       unityCost = decimalNumber(unityCost);
-      unityCost = unityCost.replace('$', '').replace(',', '.');
+      unityCost = unityCost.replace('$', '');
 
       // Eliminar miles
       quantity = decimalNumber(quantity);
-      quantity = quantity.replace(',', '.');
 
       unityCost = parseFloat(unityCost);
       quantity = parseFloat(quantity);
@@ -118,7 +115,6 @@ $(document).ready(function () {
       quantity = $(`#quantity-${i}`).html();
 
       quantity = decimalNumber(quantity);
-      quantity = quantity.replace(',', '.');
 
       quantity = parseFloat(quantity);
 
@@ -128,7 +124,6 @@ $(document).ready(function () {
 
       // Eliminar miles
       negotiatePrice = decimalNumber(negotiatePrice);
-      negotiatePrice = negotiatePrice.replace(',', '.');
       negotiatePrice = parseFloat(negotiatePrice);
 
       projectedCost = quantity * negotiatePrice * unitsmanufacturated;
@@ -154,13 +149,13 @@ $(document).ready(function () {
 
       // Eliminar miles
       projectedCost = decimalNumber(projectedCost);
-      projectedCost = projectedCost.replace('$', '').replace(',', '.');
+      projectedCost = projectedCost.replace('$', '');
       projectedCost = parseFloat(projectedCost);
 
       let currentCost = $(`#totalCost-${i}`).html();
       // Eliminar miles
       currentCost = decimalNumber(currentCost);
-      currentCost = currentCost.replace('$', '').replace(',', '.');
+      currentCost = currentCost.replace('$', '');
       currentCost = parseFloat(currentCost);
 
       monthlySavingsRow = currentCost - projectedCost;
@@ -188,14 +183,5 @@ $(document).ready(function () {
       annualSavings = totalMonthlySavings * 12;
       $('#annualSavings').val(`$ ${annualSavings.toLocaleString('es-CO')}`);
     }
-  };
-
-  /* Eliminar puntos miles */
-  decimalNumber = (num) => {
-    if (num.includes('.'))
-      while (num.includes('.')) {
-        num = num.replace('.', '');
-      }
-    return num;
   };
 });

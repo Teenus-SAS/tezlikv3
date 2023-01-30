@@ -42,7 +42,7 @@ $(document).ready(function () {
         return false;
       }
 
-      cost = cost.replace(',', '.');
+      cost = decimalNumber(cost);
 
       cost = 1 * parseFloat(cost);
 

@@ -30,7 +30,8 @@ $(document).ready(function () {
 
     if (id == 'unity-1') {
       this.value == '' ? (unity = '0') : (unity = this.value);
-      unity = replaceNumber(unity);
+      unity = decimalNumber(unity);
+      unity = unity.replace('$ ', '');
 
       $('#unity-1').val(unity.toLocaleString('es-CO'));
 
@@ -60,7 +61,9 @@ $(document).ready(function () {
       if (price == 0 || !price) return false;
 
       /* Costos Variables */
-      unit = replaceNumber(unit);
+      unit = decimalNumber(unit);
+      unit = unit.replace('$ ', '');
+
       let totalVariableCost = variableCost * unit;
       $(`#variableCosts-${i + 1}`).html(
         `$ ${totalVariableCost.toLocaleString('es-CO')}`
@@ -72,7 +75,8 @@ $(document).ready(function () {
       );
 
       /* Calculo Total Ingresos */
-      price = replaceNumber(price);
+      price = decimalNumber(price);
+      price = price.replace('$ ', '');
 
       totalRevenue = unit * price;
 
@@ -82,7 +86,8 @@ $(document).ready(function () {
 
       /* Calculo Costo x Unidad */
       let totalCostsAndExpense = $(`#totalCostsAndExpenses-${i + 1}`).html();
-      totalCostsAndExpense = replaceNumber(totalCostsAndExpense);
+      totalCostsAndExpense = decimalNumber(totalCostsAndExpense);
+      totalCostsAndExpense = totalCostsAndExpense.replace('$ ', '');
 
       unityCost = parseFloat(totalCostsAndExpense) / parseFloat(unit);
 
@@ -112,15 +117,5 @@ $(document).ready(function () {
 
       $(`#percentage-${i + 1}`).html(`${percentage.toFixed(2)} %`);
     }
-  };
-
-  replaceNumber = (number) => {
-    while (number.includes('.')) {
-      if (number.includes('.')) number = number.replace('.', '');
-    }
-    if (number.includes(',')) number = number.replace(',', '.');
-    number = number.replace('$ ', ' ');
-
-    return number;
   };
 });

@@ -27,15 +27,26 @@ $(document).ready(function () {
       let prof = $('#profitability').val();
       let comission = $('#commisionSale').val();
 
+      prof = decimalNumber(prof);
+      comission = decimalNumber(comission);
+
+      let data = parseFloat(prof) * parseFloat(comission);
       if (
         ref == '' ||
         !ref ||
         prod == '' ||
         !prod ||
         prof == '' ||
-        comission == ''
+        comission == '' ||
+        data <= 0 ||
+        isNaN(data)
       ) {
         toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (prof > 100 || comission > 100) {
+        toastr.error('La rentabilidad y comision debe ser menor al 100%');
         return false;
       }
 
@@ -53,11 +64,14 @@ $(document).ready(function () {
         processData: false,
 
         success: function (resp) {
-          $('.cardCreateProduct').hide(800);
-          $('.cardImportProducts').hide(800);
-          $('#formFile').val('');
-          message(resp);
-          updateTable();
+          if (resp.success == true) {
+            $('.cardCreateProduct').hide(800);
+            $('#formCreateProduct').trigger('reset');
+            updateTable();
+            toastr.success(resp.message);
+            return false;
+          } else if (resp.error == true) toastr.error(resp.message);
+          else if (resp.info == true) toastr.info(resp.message);
         },
       });
     } else {
@@ -103,11 +117,14 @@ $(document).ready(function () {
       processData: false,
 
       success: function (resp) {
-        $('.cardCreateProduct').hide(800);
-        $('.cardImportProducts').hide(800);
-        updateTable();
-        $('#formFile').val('');
-        message(resp);
+        if (resp.success == true) {
+          $('.cardCreateProduct').hide(800);
+          $('#formCreateProduct').trigger('reset');
+          updateTable();
+          toastr.success(resp.message);
+          return false;
+        } else if (resp.error == true) toastr.error(resp.message);
+        else if (resp.info == true) toastr.info(resp.message);
       },
     });
   };

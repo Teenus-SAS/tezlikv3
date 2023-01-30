@@ -30,10 +30,10 @@ $(document).ready(function () {
     tOperation = $('#operationTime').val();
 
     tOperation == '' ? (tOperation = '0') : tOperation;
-    tOperation = replaceNumber(tOperation);
+    tOperation = decimalNumber(tOperation);
 
     this.value == '' ? (this.value = '0') : this.value;
-    tEnlistment = replaceNumber(this.value);
+    tEnlistment = decimalNumber(this.value);
 
     let val = parseFloat(tEnlistment) + parseFloat(tOperation);
     val = validateNumber(val);
@@ -44,21 +44,15 @@ $(document).ready(function () {
     tEnlistment = $('#enlistmentTime').val();
 
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
-    tEnlistment = replaceNumber(tEnlistment);
+    tEnlistment = decimalNumber(tEnlistment);
 
     this.value == '' ? (this.value = '0') : this.value;
-    operationTime = replaceNumber(this.value);
+    operationTime = decimalNumber(this.value);
 
     let val = parseFloat(operationTime) + parseFloat(tEnlistment);
     val = validateNumber(val);
     $('#totalTime').val(val);
   });
-
-  replaceNumber = (number) => {
-    if (number.includes('.')) number = number.replace('.', '');
-    if (number.includes(',')) number = number.replace(',', '.');
-    return number;
-  };
 
   /* Adicionar nuevo proceso */
 

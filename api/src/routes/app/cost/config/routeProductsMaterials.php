@@ -40,12 +40,23 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
         for ($i = 0; $i < sizeof($productMaterials); $i++) {
             if (
                 empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) ||
-                empty($productMaterials[$i]['nameRawMaterial']) || empty($productMaterials[$i]['quantity'])
+                empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == ''
             ) {
                 $i = $i + 1;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
                 break;
             }
+
+            $quantity = str_replace(',', '.', $productMaterials[$i]['quantity']);
+
+            $quantity = 1 * $quantity;
+
+            if ($quantity <= 0 || is_nan($quantity)) {
+                $i = $i + 1;
+                $dataImportProductsMaterials = array('error' => true, 'message' => "La cantidad debe ser mayor a cero (0)<br>Fila: {$i}");
+                break;
+            }
+
             // Obtener id producto
             $findProduct = $productsDao->findProduct($productMaterials[$i], $id_company);
             if (!$findProduct) {
@@ -139,23 +150,32 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     $id_company = $_SESSION['id_company'];
     $dataProductMaterial = $request->getParsedBody();
 
-    if (empty($dataProductMaterial['material']) || empty($dataProductMaterial['idProduct']) || empty($dataProductMaterial['quantity']))
+    if (empty($dataProductMaterial['material']) || empty($dataProductMaterial['idProduct']) || $dataProductMaterial['quantity'] == '')
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
-        $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
+        $quantity = str_replace(',', '.', $dataProductMaterial['quantity']);
 
-        //Metodo calcular precio total materias
-        $costMaterials = $costMaterialsDao->calcCostMaterial($dataProductMaterial['idProduct'], $id_company);
+        $quantity = 1 * floatval($quantity);
 
-        // Calcular Precio del producto
-        $priceProduct = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+        if ($quantity <= 0 || is_nan($quantity))
+            $resp = array('error' => true, 'message' => "La cantidad debe ser mayor a cero (0)");
 
-        if ($productMaterials == null && $costMaterials == null && $priceProduct == null)
-            $resp = array('success' => true, 'message' => 'Materia prima actualizada correctamente');
-        else if (isset($productMaterials['info']))
-            $resp = array('info' => true, 'message' => $productMaterials['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        else {
+            $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
+
+            //Metodo calcular precio total materias
+            $costMaterials = $costMaterialsDao->calcCostMaterial($dataProductMaterial['idProduct'], $id_company);
+
+            // Calcular Precio del producto
+            $priceProduct = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+
+            if ($productMaterials == null && $costMaterials == null && $priceProduct == null)
+                $resp = array('success' => true, 'message' => 'Materia prima actualizada correctamente');
+            else if (isset($productMaterials['info']))
+                $resp = array('info' => true, 'message' => $productMaterials['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        }
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

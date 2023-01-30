@@ -94,4 +94,12 @@ $(document).ready(function () {
     }).format(floatFullValue);
     return formatFloatFullValue;
   }
+
+  decimalNumber = (num) => {
+    while (num.includes('.')) {
+      num = num.replace('.', '');
+    }
+    num = num.replace(',', '.');
+    return num;
+  };
 });

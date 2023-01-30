@@ -80,13 +80,21 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
         $products = $dataProduct['importProducts'];
 
         for ($i = 0; $i < sizeof($products); $i++) {
+            $profitability = str_replace(',', '.', $products[$i]['profitability']);
+            $commissionSale = str_replace(',', '.', $products[$i]['commissionSale']);
+
+            $data = floatval($profitability) * floatval($commissionSale);
 
             if (
                 empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
-                $products[$i]['profitability'] == '' || $products[$i]['commissionSale'] == ''
+                is_nan($data) || $data <= 0
             ) {
                 $i = $i + 1;
                 $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            } else if ($profitability > 100 || $commissionSale > 100) {
+                $i = $i + 1;
+                $dataImportProduct = array('error' => true, 'message' => "La rentabilidad y comision debe ser menor al 100%, fila: $i");
                 break;
             } else {
                 $findProduct = $productsDao->findProduct($products[$i], $id_company);
@@ -301,11 +309,18 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     $dataProduct = $request->getParsedBody();
 
+    $profitability = str_replace(',', '.', $dataProduct['profitability']);
+    $commissionSale = str_replace(',', '.', $dataProduct['commissionSale']);
+
+    $data = floatval($profitability) * floatval($commissionSale);
+
     if (
         empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) ||
-        $dataProduct['profitability'] == '' || $dataProduct['commissionSale'] == ''
+        $data <= 0 || is_nan($data)
     )
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
+    else if ($profitability > 100 || $commissionSale > 100)
+        $resp = array('error' => true, 'message' => 'La rentabilidad y comision debe ser menor al 100%');
     else {
         // Actualizar Datos, Imagen y Calcular Precio del producto
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);

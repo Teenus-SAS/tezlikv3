@@ -34,10 +34,10 @@ $(document).ready(function () {
     let tEnlistment = $('#enlistmentTime').val();
 
     tOperation == '' ? (tOperation = '0') : tOperation;
-    tOperation = replaceNumber(tOperation);
+    tOperation = decimalNumber(tOperation);
 
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
-    tEnlistment = replaceNumber(tEnlistment);
+    tEnlistment = decimalNumber(tEnlistment);
 
     let val = parseFloat(tEnlistment) + parseFloat(tOperation);
     val = validateNumber(val);
@@ -58,8 +58,8 @@ $(document).ready(function () {
       let enlistmentTime = $('#enlistmentTime').val();
       let operationTime = $('#operationTime').val();
 
-      enlistmentTime = replaceNumber(enlistmentTime);
-      operationTime = replaceNumber(operationTime);
+      enlistmentTime = decimalNumber(enlistmentTime);
+      operationTime = decimalNumber(operationTime);
 
       let data =
         idProduct *
@@ -86,12 +86,6 @@ $(document).ready(function () {
       updateProcess();
     }
   });
-
-  replaceNumber = (number) => {
-    if (number.includes('.')) number = number.replace('.', '');
-    if (number.includes(',')) number = number.replace(',', '.');
-    return number;
-  };
 
   /* Actualizar productos Procesos */
 

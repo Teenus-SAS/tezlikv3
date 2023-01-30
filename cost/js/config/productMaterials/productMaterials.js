@@ -67,6 +67,15 @@ $(document).ready(function () {
         return false;
       }
 
+      quan = decimalNumber(quan);
+
+      quant = 1 * parseFloat(quan);
+
+      if (quan <= 0) {
+        toastr.error('La cantidad debe ser mayor a cero (0)');
+        return false;
+      }
+
       let productMaterial = $('#formAddMaterials').serialize();
       productMaterial += '&idProduct=' + idProduct;
 

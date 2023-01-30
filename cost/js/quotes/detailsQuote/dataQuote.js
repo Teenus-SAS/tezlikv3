@@ -1,14 +1,6 @@
 $(document).ready(function () {
   tblQuotes = null;
 
-  replaceNumber = (number) => {
-    number = number.replace('$ ', '');
-    while (number.includes('.')) {
-      if (number.includes('.')) number = number.replace('.', '');
-    }
-    return number;
-  };
-
   let idQuote = sessionStorage.getItem('id_quote');
 
   fetchindataQuote = async () => {
@@ -65,7 +57,9 @@ $(document).ready(function () {
     `
       );
 
-      let price = replaceNumber(data[i].price);
+      let price = decimalNumber(data[i].price);
+      price = price.replace('$ ', '');
+
       let subtotalPrice =
         data[i].quantity * price * (1 - data[i].discount / 100);
       subtotal = subtotal + subtotalPrice;
