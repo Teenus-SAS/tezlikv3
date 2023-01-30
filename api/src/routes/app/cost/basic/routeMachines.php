@@ -140,15 +140,10 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
         $dataMachine['depreciationYears'] <= 0 || $dataMachine['hoursMachine'] <= 0 || $dataMachine['daysMachine'] <= 0
     ) {
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
-        exit;
-    }
-    if ($dataMachine['hoursMachine'] > 24) {
+    } else if ($dataMachine['hoursMachine'] > 24) {
         $resp = array('error' => true, 'message' => 'Las horas de trabajo no pueden ser mayor a 24');
-        exit;
-    }
-    if ($dataMachine['hoursMachine'] > 31) {
+    } else if ($dataMachine['hoursMachine'] > 31) {
         $resp = array('error' => true, 'message' => 'Los dias de trabajo no pueden ser mayor a 31');
-        exit;
     } else {
         $machines = $machinesDao->updateMachine($dataMachine);
 

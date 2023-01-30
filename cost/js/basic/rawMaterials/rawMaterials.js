@@ -42,6 +42,10 @@ $(document).ready(function () {
         return false;
       }
 
+      cost = cost.replace(',', '.');
+
+      cost = 1 * parseFloat(cost);
+
       if (cost <= 0) {
         toastr.error('El costo debe ser mayor a cero (0)');
         return false;
