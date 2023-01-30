@@ -71,11 +71,11 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Nombre</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control money text-center" name="cost" id="costMachine">
+                                                    <input type="number" class="form-control text-center" name="cost" id="costMachine">
                                                     <label for="">Precio</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control money text-center" name="residualValue" id="residualValue">
+                                                    <input type="number" class="form-control text-center" name="residualValue" id="residualValue">
                                                     <label for="">Valor Residual</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
@@ -85,11 +85,11 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="gridx4m mt-3">
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control number text-center" name="hoursMachine" id="hoursMachine">
+                                                    <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
                                                     <label for="">Horas de Trabajo</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="text" class="form-control number text-center" name="daysMachine" id="daysMachine">
+                                                    <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
                                                     <label for="">Dias de Trabajo</label>
                                                 </div>
                                                 <!-- <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">

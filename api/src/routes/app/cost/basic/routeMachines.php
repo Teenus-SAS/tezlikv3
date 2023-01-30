@@ -37,16 +37,23 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
         $machines = $dataMachine['importMachines'];
 
         for ($i = 0; $i < sizeof($machines); $i++) {
-
-            $machine = $machines[$i]['machine'];
-            $cost = $machines[$i]['cost'];
-            $yearsDepreciacion = $machines[$i]['depreciationYears'];
-            $hoursMachine = $machines[$i]['hoursMachine'];
-            $daysMachine = $machines[$i]['daysMachine'];
-
-            if (empty($machine) || empty($cost) || empty($yearsDepreciacion) || $hoursMachine <= 0 || $daysMachine <= 0) {
+            if (
+                empty($machines[$i]['machine']) || empty($machines[$i]['cost']) || empty($machines[$i]['yearsDepreciacion']) ||
+                $machines[$i]['yearsDepreciacion'] <= 0 || $machines[$i]['hoursMachine'] <= 0 || $machines[$i]['daysMachine'] <= 0
+            ) {
                 $dataImportMachine = array('error' => true, 'message' => 'Ingrese todos los datos');
                 // $dataImportMachine = array('error' => true, 'message' => 'Verifique que los campos dias y horas maquina sean mayor a cero');
+                break;
+            }
+
+            if ($machines[$i]['hoursMachine'] > 24) {
+                $i = $i + 1;
+                $dataImportMachine = array('error' => true, 'message' => "Las horas de trabajo no pueden ser mayor a 24, fila: $i");
+                break;
+            }
+            if ($machines[$i]['daysMachine']) {
+                $i = $i + 1;
+                $dataImportMachine = array('error' => true, 'message' => "Los dias de trabajo no pueden ser mayor a 31, fila: $i");
                 break;
             } else {
                 $findMachine = $machinesDao->findMachine($machines[$i], $id_company);
@@ -130,9 +137,15 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     if (
         empty($dataMachine['machine']) || empty($dataMachine['cost']) || empty($dataMachine['depreciationYears']) ||
-        $dataMachine['hoursMachine'] <= 0 || $dataMachine['daysMachine'] <= 0
+        $dataMachine['depreciationYears'] <= 0 || $dataMachine['hoursMachine'] <= 0 || $dataMachine['daysMachine'] <= 0
     )
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
+
+    if ($dataMachine['hoursMachine'] > 24)
+        $resp = array('error' => true, 'message' => 'Las horas de trabajo no pueden ser mayor a 24');
+    if ($dataMachine['hoursMachine'] > 31)
+        $resp = array('error' => true, 'message' => 'Los dias de trabajo no pueden ser mayor a 31');
+
     else {
 
         $machines = $machinesDao->updateMachine($dataMachine);

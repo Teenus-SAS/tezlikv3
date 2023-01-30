@@ -83,7 +83,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-12 mb-2">
-                                                <h5>Descripción</h5>
+                                                <h5>Margen de Utilidad</h5>
                                             </div>
                                             <div class="col-12 col-lg-12">
                                                 <div class="table-responsive">

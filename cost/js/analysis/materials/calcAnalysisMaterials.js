@@ -150,7 +150,7 @@ $(document).ready(function () {
     for (i = 1; i < count + 1; i++) {
       let projectedCost = $(`#projectedCost-${i}`).html();
 
-      projectedCost == '' ? (projectedCost = '0') : projectedCost;
+      if (projectedCost == '$ 0') return false;
 
       // Eliminar miles
       projectedCost = decimalNumber(projectedCost);

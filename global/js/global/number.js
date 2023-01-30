@@ -41,6 +41,42 @@ $(document).ready(function () {
     },
   });
 
+  // $('.numberD').on({
+  //   focus: function (event) {
+  //     $(event.target).select();
+  //   },
+  //   keyup: function (event) {
+  //     $(event.target).val(function (index, value) {
+  //       if (!/[0-9]/.test(value)) {
+  //         event.preventDefault();
+  //         return '';
+  //       }
+  //       number = value;
+
+  //       while (number.includes(',')) {
+  //         number = number.replace(',', '');
+  //       }
+
+  //       let decimals = 0;
+  //       dnumber = number;
+
+  //       while (dnumber.includes('.')) {
+  //         dnumber = dnumber.slice(1, dnumber.length);
+  //         if (dnumber == '') {
+  //           decimals = '';
+  //           break;
+  //         }
+  //         decimals = dnumber.length;
+  //       }
+
+  //       if (decimals == '' && typeof decimals === 'string') return number;
+
+  //       number = formatNumber(parseFloat(number), decimals);
+  //       return number;
+  //     });
+  //   },
+  // });
+
   $('.numberCalc').on({
     focus: function (event) {
       $(event.target).select();

@@ -180,154 +180,158 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <!-- Begin total revenue chart -->
-
-                            <div class="col-9">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Costos y Gastos</h5>
-                                    </div>
-                                    <div class="card-body pt-2">
-                                        <!-- <div id="chartProductCosts"></div> -->
-                                        <canvas id="chartProductCosts"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End total revenue chart -->
-                            <?php if ($_SESSION['flag_expense'] != 2) { ?>
-                                <div class="col-md-4 col-lg-3">
+                            <?php if ($_SESSION['flag_expense'] == 1) { ?>
+                                <div class="col-6">
+                                <?php } ?>
+                                <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                    <div class="col-9">
+                                    <?php } ?>
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5 class="card-title">Ventas</h5>
+                                            <h5 class="card-title">Costos y Gastos</h5>
                                         </div>
-                                        <div class="card-body p-0">
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item py-4">
-                                                    <div class="media">
-                                                        <div class="media-body">
-                                                            <p class="text-muted mb-2">Número de Unidades</p>
-                                                            <h4 class="mb-0" id="unitsSold"></h4>
-                                                        </div>
-                                                        <div class="avatar avatar-md bg-info mr-0 align-self-center">
-                                                            <i class="bx bx-layer fs-lg"></i>
-                                                        </div>
+                                        <div class="card-body pt-2">
+                                            <!-- <div id="chartProductCosts"></div> -->
+                                            <canvas id="chartProductCosts"></canvas>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <!-- End total revenue chart -->
+                                    <?php if ($_SESSION['flag_expense'] != 2) { ?>
+                                        <div class="col-md-4 col-lg-3">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <h5 class="card-title">Ventas</h5>
+                                                </div>
+                                                <div class="card-body p-0">
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item py-4">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <p class="text-muted mb-2">Número de Unidades</p>
+                                                                    <h4 class="mb-0" id="unitsSold"></h4>
+                                                                </div>
+                                                                <div class="avatar avatar-md bg-info mr-0 align-self-center">
+                                                                    <i class="bx bx-layer fs-lg"></i>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="list-group-item py-4">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <p class="text-muted mb-2">Ingresos</p>
+                                                                    <h4 class="mb-0" id="turnover"></h4>
+                                                                </div>
+                                                                <div class="avatar avatar-md bg-primary mr-0 align-self-center">
+                                                                    <i class="bx bx-bar-chart-alt fs-lg"></i>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="list-group-item py-4">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <p class="text-muted mb-2">Precio de Venta Recomendado</p>
+                                                                    <h4 class="mb-0" id="recomendedPrice">$</h4>
+                                                                </div>
+                                                                <div class="avatar avatar-md bg-success mr-0 align-self-center">
+                                                                    <i class="bx bx-chart fs-lg"></i>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                                <!-- Row 4-->
+                                <div class="row">
+                                    <!-- Begin total sales chart -->
+                                    <div class="col-lg-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Costo Mano de Obra</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="chart-container">
+                                                    <canvas id="chartWorkForce" style="width: 90%;"></canvas>
+                                                    <div class="center-text">
+                                                        <p class="text-muted mb-1 font-weight-600">Total Costo</p>
+                                                        <p class="mb-0 font-weight-bold" id="totalCostWorkforceEsp"></p>
                                                     </div>
-                                                </li>
-                                                <li class="list-group-item py-4">
-                                                    <div class="media">
-                                                        <div class="media-body">
-                                                            <p class="text-muted mb-2">Ingresos</p>
-                                                            <h4 class="mb-0" id="turnover"></h4>
-                                                        </div>
-                                                        <div class="avatar avatar-md bg-primary mr-0 align-self-center">
-                                                            <i class="bx bx-bar-chart-alt fs-lg"></i>
-                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Total Tiempo Proceso</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="chart-container">
+                                                    <div class="chart">
+                                                        <canvas id="chartTimeProcess" style="width: 90%;"></canvas>
                                                     </div>
-                                                </li>
-                                                <li class="list-group-item py-4">
-                                                    <div class="media">
-                                                        <div class="media-body">
-                                                            <p class="text-muted mb-2">Precio de Venta Recomendado</p>
-                                                            <h4 class="mb-0" id="recomendedPrice">$</h4>
-                                                        </div>
-                                                        <div class="avatar avatar-md bg-success mr-0 align-self-center">
-                                                            <i class="bx bx-chart fs-lg"></i>
-                                                        </div>
+                                                    <div class="center-text">
+                                                        <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
+                                                        <p class="mb-0 font-weight-bold" id="totalTimeProcess"></p>
                                                     </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                        </div>
-                        <!-- Row 4-->
-                        <div class="row">
-                            <!-- Begin total sales chart -->
-                            <div class="col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Costo Mano de Obra</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <canvas id="chartWorkForce" style="width: 90%;"></canvas>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total Costo</p>
-                                                <p class="mb-0 font-weight-bold" id="totalCostWorkforceEsp"></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Total Tiempo Proceso</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <div class="chart">
-                                                <canvas id="chartTimeProcess" style="width: 90%;"></canvas>
+                                    <div class="col-lg-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Total Tiempos</h5>
                                             </div>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalTimeProcess"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Total Tiempos</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <div class="chart">
-                                                <canvas id="chartManufactTime" style="width: 90%;"></canvas>
-                                            </div>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
-                                                <p class="mb-0 font-weight-bold" id="manufactPromTime"></p>
+                                            <div class="card-body">
+                                                <div class="chart-container">
+                                                    <div class="chart">
+                                                        <canvas id="chartManufactTime" style="width: 90%;"></canvas>
+                                                    </div>
+                                                    <div class="center-text">
+                                                        <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
+                                                        <p class="mb-0 font-weight-bold" id="manufactPromTime"></p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Composición Precio </h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <div class="chart">
-                                                <canvas id="chartPrice" style="width: 90%;"></canvas>
+                                    <div class="col-lg-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Composición Precio </h5>
                                             </div>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Precio Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalPricesComp"></p>
+                                            <div class="card-body">
+                                                <div class="chart-container">
+                                                    <div class="chart">
+                                                        <canvas id="chartPrice" style="width: 90%;"></canvas>
+                                                    </div>
+                                                    <div class="center-text">
+                                                        <p class="text-muted mb-1 font-weight-600">Precio Total</p>
+                                                        <p class="mb-0 font-weight-bold" id="totalPricesComp"></p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <!-- End total sales chart -->
-                            <!-- Begin earning chart -->
-                            <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-header dflex-between-center">
-                                        <h5 class="card-title">Costos Materia Prima</h5>
+                                    <!-- End total sales chart -->
+                                    <!-- Begin earning chart -->
+                                    <div class="col-lg-12">
+                                        <div class="card">
+                                            <div class="card-header dflex-between-center">
+                                                <h5 class="card-title">Costos Materia Prima</h5>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <canvas id="chartMaterialsCosts"></canvas>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="card-body pt-2">
-                                        <canvas id="chartMaterialsCosts"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End earning chart -->
-                            <!-- Begin today sale -->
-                            <!-- <div class="col-lg-3">
+                                    <!-- End earning chart -->
+                                    <!-- Begin today sale -->
+                                    <!-- <div class="col-lg-3">
                                 <div class="card revenue-card">
                                     <div class="card-header bg-info">
                                         <h5 class="card-title text-white">Revenue</h5>
@@ -355,12 +359,12 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div> -->
-                            <!-- End today sale -->
-                        </div>
-                        <!-- Row 3-->
-                        <!-- <div class="row"> -->
-                        <!-- Begin recent orders -->
-                        <!-- <div class="col-12 col-lg-8">
+                                    <!-- End today sale -->
+                                </div>
+                                <!-- Row 3-->
+                                <!-- <div class="row"> -->
+                                <!-- Begin recent orders -->
+                                <!-- <div class="col-12 col-lg-8">
                             <div class="card">
                                 <div class="card-header dflex-between-center">
                                     <h5 class="card-title">Recent Orders</h5>
@@ -423,9 +427,9 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div> -->
-                        <!-- End recent orders -->
-                        <!-- Begin quarter sale -->
-                        <!-- <div class="col-12 col-lg-4">
+                                <!-- End recent orders -->
+                                <!-- Begin quarter sale -->
+                                <!-- <div class="col-12 col-lg-4">
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title">Quartly Sale</h5>
@@ -435,11 +439,11 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div> -->
-                        <!-- End quarter sale -->
-                        <!-- </div> -->
+                                <!-- End quarter sale -->
+                                <!-- </div> -->
 
-                        <!-- Row 5 -->
-                        <!-- <div class="row">
+                                <!-- Row 5 -->
+                                <!-- <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -565,21 +569,21 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Main content end -->
+
+            <!-- Footer -->
+            <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
         </div>
-        <!-- Main content end -->
+        <!-- Page End -->
 
-        <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
-    </div>
-    <!-- Page End -->
-
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/cost/js/analysis/prices/configPrices.js"></script>
-    <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
-    <script src="/cost/js/dashboard/graphicsProduct.js"></script>
+        <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+        <script src="/cost/js/analysis/prices/configPrices.js"></script>
+        <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
+        <script src="/cost/js/dashboard/graphicsProduct.js"></script>
 </body>
 
 </html>

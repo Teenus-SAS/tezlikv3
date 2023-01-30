@@ -32,14 +32,18 @@ $(document).ready(function () {
                           <th id="quantity-${i + 1}">${data[i].quantity}</th>
                           <th id="currentPrice-${i + 1}">$ ${data[
             i
-          ].cost.toLocaleString('es-CO')}</th>
+          ].cost.toLocaleString('es-CO', {
+            maximumFractionDigits: 0,
+          })}</th>
                           <th><input class="form-control numberCalc negotiatePrice text-center" type="text" id="${
                             i + 1
                           }"></th>
                           <th id="percentage-${i + 1}"></th>
                           <th id="unityCost-${i + 1}">$ ${data[
             i
-          ].unityCost.toLocaleString('es-CO')}</th>
+          ].unityCost.toLocaleString('es-CO', {
+            maximumFractionDigits: 0,
+          })}</th>
                           <th id="totalCost-${i + 1}"></th>
                           <th id="projectedCost-${i + 1}"></th>
                         </tr>

@@ -22,13 +22,24 @@ $(document).ready(function () {
     let idMachine = sessionStorage.getItem('id_machine');
     if (idMachine == '' || idMachine == null) {
       let Machine = $('#machine').val();
+      let yearsDepreciation = $('#depreciationYears').val();
       let hoursMachine = $('#hoursMachine').val();
       let daysMachine = $('#daysMachine').val();
 
-      let data = hoursMachine * daysMachine;
+      let data = yearsDepreciation * hoursMachine * daysMachine;
 
       if (Machine == '' || Machine == null || data == null || data <= 0) {
         toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (hoursMachine > 24) {
+        toastr.error('Las horas de trabajo no pueden ser mayor a 24');
+        return false;
+      }
+
+      if (daysMachine > 31) {
+        toastr.error('Los dias de trabajo no pueden ser mayor a 31');
         return false;
       }
 

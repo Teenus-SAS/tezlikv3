@@ -84,31 +84,6 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <!-- Row 5 -->
                         <div class="row">
-                            <div class="col-12 cardTableRawMaterials">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Materias Primas</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="tblMaterials">
-                                                <tbody></tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th>Total:</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-12 cardRawMaterialsAnalysis">
                                 <div class="card">
                                     <div class="card-header">
@@ -153,6 +128,31 @@ if (sizeof($_SESSION) == 0)
                                                 <tbody class="colMaterials">
                                                 </tbody>
                                                 <tfoot></tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 cardTableRawMaterials">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Materias Primas</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="tblMaterials">
+                                                <tbody></tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>Total:</th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
