@@ -197,7 +197,12 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
 
-    if (empty($dataProductProcess['idProduct'] || empty($dataProductProcess['idProcess']) || empty($dataProductProcess['idMachine']) || empty($dataProductProcess['enlistmentTime']) || empty($dataProductProcess['operationTime'])))
+    $enlistmentTime = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
+    $operationTime = str_replace(',', '.', $dataProductProcess['operationTime']);
+
+    $totalTime = floatval($enlistmentTime) * floatval($operationTime);
+
+    if (empty($dataProductProcess['idProduct']) || empty($dataProductProcess['idProcess']) || empty($dataProductProcess['idMachine']) || is_nan($totalTime) || $totalTime == 0)
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
         $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);

@@ -71,11 +71,11 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Nombre</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="number" class="form-control text-center" name="cost" id="costMachine">
+                                                    <input type="text" class="form-control number text-center" name="cost" id="costMachine">
                                                     <label for="">Precio</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input type="number" class="form-control text-center" name="residualValue" id="residualValue">
+                                                    <input type="text" class="form-control number text-center" name="residualValue" id="residualValue">
                                                     <label for="">Valor Residual</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">

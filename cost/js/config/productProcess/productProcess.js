@@ -44,12 +44,6 @@ $(document).ready(function () {
     $('#totalTime').val(val);
   });
 
-  replaceNumber = (number) => {
-    if (number.includes('.')) number = number.replace('.', '');
-    if (number.includes(',')) number = number.replace(',', '.');
-    return number;
-  };
-
   /* Adicionar nuevo proceso */
 
   $('#btnAddProcess').click(function (e) {
@@ -61,11 +55,19 @@ $(document).ready(function () {
       let refP = parseInt($('#idProcess').val());
       let refM = parseInt($('#idMachine').val());
 
-      let totalTime = parseInt($('#totalTime').val());
+      let enlistmentTime = $('#enlistmentTime').val();
+      let operationTime = $('#operationTime').val();
 
-      let data = idProduct * refP;
+      enlistmentTime = replaceNumber(enlistmentTime);
+      operationTime = replaceNumber(operationTime);
 
-      if (!data || isNaN(refM) || totalTime == 0 || totalTime == '') {
+      let data =
+        idProduct *
+        refP *
+        parseFloat(enlistmentTime) *
+        parseFloat(operationTime);
+
+      if (!data || isNaN(refM) || data == 0) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
@@ -84,6 +86,12 @@ $(document).ready(function () {
       updateProcess();
     }
   });
+
+  replaceNumber = (number) => {
+    if (number.includes('.')) number = number.replace('.', '');
+    if (number.includes(',')) number = number.replace(',', '.');
+    return number;
+  };
 
   /* Actualizar productos Procesos */
 

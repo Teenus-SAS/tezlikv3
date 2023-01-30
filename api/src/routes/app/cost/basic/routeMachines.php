@@ -138,16 +138,18 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     if (
         empty($dataMachine['machine']) || empty($dataMachine['cost']) || empty($dataMachine['depreciationYears']) ||
         $dataMachine['depreciationYears'] <= 0 || $dataMachine['hoursMachine'] <= 0 || $dataMachine['daysMachine'] <= 0
-    )
+    ) {
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
-
-    if ($dataMachine['hoursMachine'] > 24)
+        exit;
+    }
+    if ($dataMachine['hoursMachine'] > 24) {
         $resp = array('error' => true, 'message' => 'Las horas de trabajo no pueden ser mayor a 24');
-    if ($dataMachine['hoursMachine'] > 31)
+        exit;
+    }
+    if ($dataMachine['hoursMachine'] > 31) {
         $resp = array('error' => true, 'message' => 'Los dias de trabajo no pueden ser mayor a 31');
-
-    else {
-
+        exit;
+    } else {
         $machines = $machinesDao->updateMachine($dataMachine);
 
         // Calcular depreciacion por minuto

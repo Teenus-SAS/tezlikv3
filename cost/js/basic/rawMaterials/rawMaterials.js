@@ -36,10 +36,14 @@ $(document).ready(function () {
         material == 0 ||
         unity == '' ||
         unity == 0 ||
-        cost == '' ||
-        cost == 0
+        cost == ''
       ) {
         toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (cost <= 0) {
+        toastr.error('El costo debe ser mayor a cero (0)');
         return false;
       }
 

@@ -42,6 +42,11 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
                 $i = $i + 1;
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
                 break;
+            }
+            if ($materials[$i]['costRawMaterial'] == 0) {
+                $i = $i + 1;
+                $dataImportMaterial = array('error' => true, 'message' => "El costo debe ser mayor a cero (0), fila: $i");
+                break;
             } else {
                 $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);
                 if (!$findMaterial) $insert = $insert + 1;
@@ -105,9 +110,13 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $dataMaterial = $request->getParsedBody();
 
     if (
-        empty($dataMaterial['costRawMaterial']) || empty($dataMaterial['idMaterial']) || empty($dataMaterial['refRawMaterial']) ||
+        !isset($dataMaterial['costRawMaterial']) || empty($dataMaterial['idMaterial']) || empty($dataMaterial['refRawMaterial']) ||
         empty($dataMaterial['nameRawMaterial']) || empty($dataMaterial['unityRawMaterial'])
-    )
+    ) {
+        $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
+        exit;
+    }
+    if ($dataMaterial['costRawMaterial'] <= 0)
         $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
     else {
         $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
