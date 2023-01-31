@@ -89,8 +89,8 @@ if (!isset($_SESSION)) {
 	<!-- Page End -->
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-	<script src="/global/js/global/number.js"></script>
-	<script src="/global/js/global/searchData.js"></script>
+	<!-- <script src="/global/js/global/number.js"></script> -->
+	<!-- <script src="/global/js/global/searchData.js"></script> -->
 
 	<script src="/cost/js/basic/products/configProducts.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>

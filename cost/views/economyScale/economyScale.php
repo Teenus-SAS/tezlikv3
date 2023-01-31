@@ -83,20 +83,20 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-12 mb-2">
-                                                <h5>Margen de Utilidad</h5>
+                                                <h5>Descripción</h5>
                                             </div>
                                             <div class="col-12 col-lg-12">
                                                 <div class="table-responsive">
                                                     <table class="table table-striped">
                                                         <tbody>
-                                                            <tr>
+                                                            <!-- <tr>
                                                                 <td class="font-weight-bold">Crecimiento</td>
                                                                 <td class="text-center">100%</td>
                                                                 <td class="text-center">150%</td>
                                                                 <td class="text-center">200%</td>
                                                                 <td class="text-center">300%</td>
                                                                 <td class="text-center">500%</td>
-                                                            </tr>
+                                                            </tr> -->
                                                             <tr>
                                                                 <td class="font-weight-bold">Ventas Mensuales (Unidad)</td>
                                                                 <td>
@@ -190,7 +190,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <td class="text-center netUtility general" id="netUtility-5"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td></td>
+                                                                <td class="font-weight-bold">Margen de Utilidad</td>
                                                                 <td class="text-center general" id="percentage-1" style="color: black;"></td>
                                                                 <td class="text-center general" id="percentage-2" style="color: black;"></td>
                                                                 <td class="text-center general" id="percentage-3" style="color: black;"></td>
@@ -218,8 +218,8 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/global/js/global/number.js"></script>
-    <script src="/global/js/global/searchData.js"></script>
+    <!-- <script src="/global/js/global/number.js"></script> -->
+    <!-- <script src="/global/js/global/searchData.js"></script> -->
 
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/economyScale/economyScale.js"></script>

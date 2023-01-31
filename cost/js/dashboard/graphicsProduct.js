@@ -16,16 +16,9 @@ $(document).ready(function () {
     costExpenses.push(data[0].cost_materials);
     costExpenses.push(data[0].cost_indirect_cost);
 
-    let cost =
-      data[0].cost_materials +
-      data[0].cost_workforce +
-      data[0].cost_indirect_cost;
+    let dataCost = getDataCost(data[0]);
 
-    data[0].assignable_expense == 0
-      ? (assignable_expense = (data[0].expense_recover / 100) * cost)
-      : (assignable_expense = data[0].assignable_expense);
-
-    costExpenses.push(assignable_expense);
+    costExpenses.push(dataCost.expense);
 
     /* Ordenar el array */
 
@@ -62,7 +55,10 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: 'end',
-            formatter: (costExpenses) => costExpenses.toLocaleString('es-CO'),
+            formatter: (costExpenses) =>
+              costExpenses.toLocaleString('es-CO', {
+                maximumFractionDigits: 0,
+              }),
             color: 'black',
             font: {
               size: '14',

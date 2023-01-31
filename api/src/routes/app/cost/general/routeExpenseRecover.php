@@ -1,10 +1,12 @@
 <?php
 
 use tezlikv3\dao\ExpenseRecoverDao;
+use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ProductsDao;
 
 $expenseRecoverDao = new ExpenseRecoverDao();
 $productsDao = new ProductsDao();
+$priceProductDao = new PriceProductDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -67,7 +69,7 @@ $app->post('/expenseRecoverDataValidation', function (Request $request, Response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $productsDao) {
+$app->post('/addExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $productsDao, $priceProductDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -78,7 +80,9 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
     if ($dataExpenses > 1) {
         $expensesRecover = $expenseRecoverDao->insertRecoverExpenseByCompany($dataExpense, $id_company);
 
-        if ($expensesRecover == null)
+        $priceProduct = $priceProductDao->calcPrice($dataExpense['idProduct']);
+
+        if ($expensesRecover == null && $priceProduct == null)
             $resp = array('success' => true, 'message' => 'Gasto guardado correctamente');
         else if (isset($expensesRecover['info']))
             $resp = array('info' => true, 'message' => $expensesRecover['message']);
@@ -99,9 +103,11 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                 $expensesRecover[$i]['idExpenseRecover'] = $expenseRecover['id_expense_recover'];
                 $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
             }
+
+            $priceProduct = $priceProductDao->calcPrice($expenseRecover[$i]['idProduct']);
         }
 
-        if ($resolution == null)
+        if ($resolution == null && $priceProduct == null)
             $resp = array('success' => true, 'message' => 'Recuperación de gasto importada correctamente');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
@@ -110,7 +116,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
+$app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $priceProductDao) {
     $dataExpense = $request->getParsedBody();
 
     if (empty($dataExpense['idExpenseRecover']) || $dataExpense['percentage'] < 0)
@@ -118,7 +124,9 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
     else {
         $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
 
-        if ($expensesRecover == null)
+        $priceProduct = $priceProductDao->calcPrice($dataExpense['idProduct']);
+
+        if ($expensesRecover == null && $priceProduct == null)
             $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
         else if (isset($expensesRecover['info']))
             $resp = array('info' => true, 'message' => $expensesRecover['message']);
@@ -129,12 +137,14 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
+$app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $priceProductDao) {
     $dataExpense = $request->getParsedBody();
 
     $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);
 
-    if ($expensesRecover == null)
+    $priceProduct = $priceProductDao->calcPrice($dataExpense['idProduct']);
+
+    if ($expensesRecover == null && $priceProduct == null)
         $resp = array('success' => true, 'message' => 'Gasto eliminado correctamente');
     else if (isset($expensesRecover['info']))
         $resp = array('info' => true, 'message' => $expensesRecover['message']);

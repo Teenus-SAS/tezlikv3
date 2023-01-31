@@ -66,7 +66,7 @@ $(document).ready(function () {
     );
 
     $('#assignableExpenses').html(
-      `$ ${dataCost.assignableExpense.toLocaleString('es-CO', {
+      `$ ${dataCost.expense.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -76,8 +76,7 @@ $(document).ready(function () {
     percentWorkforce = (data[0].cost_workforce / dataCost.costTotal) * 100;
     percentIndirectCost =
       (data[0].cost_indirect_cost / dataCost.costTotal) * 100;
-    percentAssignableExpenses =
-      (dataCost.assignableExpense / dataCost.costTotal) * 100;
+    percentAssignableExpenses = (dataCost.expense / dataCost.costTotal) * 100;
 
     $('#percentRawMaterial').html(`${percentRawMaterial.toFixed(0)} %`);
     $('#percentWorkforce').html(`${percentWorkforce.toFixed(0)} %`);
@@ -92,9 +91,8 @@ $(document).ready(function () {
   UnitsVolSold = (data) => {
     $('#unitsSold').html(data[0].units_sold.toLocaleString('es-CO'));
     $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
-    dataCost = getDataCost(data[0]);
     $('#recomendedPrice').html(
-      `$ ${dataCost.price.toLocaleString('es-CO', {
+      `$ ${data[0].price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -145,7 +143,7 @@ $(document).ready(function () {
 
     $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
     $('#payAssignableExpenses').html(
-      `$ ${dataCost.assignableExpense.toLocaleString('es-CO', {
+      `$ ${dataCost.expense.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -162,7 +160,7 @@ $(document).ready(function () {
     );
 
     $('#salesPrice').html(
-      `$ ${dataCost.price.toLocaleString('es-CO', {
+      `$ ${data[0].price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -178,25 +176,24 @@ $(document).ready(function () {
 
     costTotal = cost / (1 - data.expense_recover / 100);
 
-    data.assignable_expense == 0
-      ? (assignable_expense = costTotal * (data.expense_recover / 100))
-      : (assignable_expense = data.assignable_expense);
+    data.expense_recover == 0
+      ? (expense = data.assignable_expense)
+      : (expense = costTotal * (data.expense_recover / 100));
 
     pPrice = costTotal / (1 - data.profitability / 100);
 
-    price = pPrice / (1 - data.commission_sale / 100);
+    // price = pPrice / (1 - data.commission_sale / 100);
 
     costProfitability = pPrice * (data.profitability / 100);
 
-    costCommissionSale = price * (data.commission_sale / 100);
+    costCommissionSale = data.price * (data.commission_sale / 100);
 
     dataCost = {
       cost: cost,
       costTotal: costTotal,
       costCommissionSale: costCommissionSale,
       costProfitability: costProfitability,
-      assignableExpense: assignable_expense,
-      price: price,
+      expense: expense,
     };
 
     return dataCost;

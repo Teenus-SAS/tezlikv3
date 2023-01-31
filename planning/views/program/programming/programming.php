@@ -148,7 +148,7 @@ if (sizeof($_SESSION) == 0)
             cursor: move;
         }
     </style> -->
-    <script src="/global/js/global/number.js"></script>
+    <!-- <script src="/global/js/global/number.js"></script> -->
     <script src="../planning/js/program/programming/tblProgramming.js"></script>
     <!-- <script src="/planning/js/orders/configOrders.js"></script>
     <script src="/planning/js/basic/machines/configMachines.js"></script>

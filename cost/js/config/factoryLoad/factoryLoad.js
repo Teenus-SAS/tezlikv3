@@ -25,26 +25,9 @@ $(document).ready(function () {
     let idManufacturingLoad = sessionStorage.getItem('id_manufacturing_load');
 
     if (idManufacturingLoad == '' || idManufacturingLoad == null) {
-      let valueMinute = parseInt($('#costMinute').val());
-
-      if (valueMinute == '' || valueMinute == 0) {
-        toastr.error('El costo de la carga fabril debe ser mayor a cero');
-        return false;
-      }
-
-      $('#costMinute').prop('disabled', false);
-      let factoryLoad = $('#formNewFactoryLoad').serialize();
-
-      $.post(
-        '../../api/addFactoryLoad',
-        factoryLoad,
-        function (data, textStatus, jqXHR) {
-          $('#costMinute').prop('disabled', true);
-          message(data);
-        }
-      );
+      checkDataFactoryLoad('/api/addFactoryLoad', idManufacturingLoad);
     } else {
-      updateFactoryLoad();
+      checkDataFactoryLoad('/api/updateFactoryLoad', idManufacturingLoad);
     }
   });
 
@@ -72,20 +55,42 @@ $(document).ready(function () {
     );
   });
 
-  updateFactoryLoad = () => {
-    $('#costMinute').prop('disabled', false);
-    let data = $('#formNewFactoryLoad').serialize();
-    let idManufacturingLoad = sessionStorage.getItem('id_manufacturing_load');
-    data = data + '&idManufacturingLoad=' + idManufacturingLoad;
+  /* Revisar data carga fabril */
+  checkDataFactoryLoad = async (url, idManufacturingLoad) => {
+    let machine = $('#machine').val();
+    let descriptionFactoryLoad = $('#descriptionFactoryLoad').val();
+    let costFactory = $('#costFactory').val();
 
-    $.post(
-      '../../api/updateFactoryLoad',
-      data,
-      function (data, textStatus, jqXHR) {
-        $('#costMinute').prop('disabled', true);
-        message(data);
-      }
-    );
+    costFactory = parseFloat(decimalNumber(costFactory));
+
+    costFactory = 1 * costFactory;
+
+    if (
+      machine == '' ||
+      descriptionFactoryLoad == '' ||
+      isNaN(costFactory) ||
+      costFactory <= 0
+    ) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    $('#costMinute').prop('disabled', false);
+    let dataFactoryLoad = new FormData(formNewFactoryLoad);
+
+    if (idManufacturingLoad != '' || idManufacturingLoad != null)
+      dataFactoryLoad.append('idManufacturingLoad', idManufacturingLoad);
+
+    let resp = await sendDataPOST(url, dataFactoryLoad);
+
+    $('#costMinute').prop('disabled', true);
+    if (resp.success == true) {
+      $('.cardFactoryLoad').hide(800);
+      $('#formNewFactoryLoad').trigger('reset');
+      updateTable();
+      toastr.success(resp.message);
+    } else if (resp.error == true) toastr.error(resp.message);
+    else if (resp.info == true) toastr.info(resp.message);
   };
 
   /* Eliminar carga fabril */

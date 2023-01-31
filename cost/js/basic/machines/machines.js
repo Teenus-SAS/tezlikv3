@@ -21,35 +21,9 @@ $(document).ready(function () {
     e.preventDefault();
     let idMachine = sessionStorage.getItem('id_machine');
     if (idMachine == '' || idMachine == null) {
-      let Machine = $('#machine').val();
-      let yearsDepreciation = $('#depreciationYears').val();
-      let hoursMachine = $('#hoursMachine').val();
-      let daysMachine = $('#daysMachine').val();
-
-      let data = yearsDepreciation * hoursMachine * daysMachine;
-
-      if (Machine == '' || Machine == null || data == null || data <= 0) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      if (hoursMachine > 24) {
-        toastr.error('Las horas de trabajo no pueden ser mayor a 24');
-        return false;
-      }
-
-      if (daysMachine > 31) {
-        toastr.error('Los dias de trabajo no pueden ser mayor a 31');
-        return false;
-      }
-
-      let machine = $('#formCreateMachine').serialize();
-
-      $.post('/api/addMachines', machine, function (data, textStatus, jqXHR) {
-        message(data);
-      });
+      checkDataMachines('/api/addMachines', idMachine);
     } else {
-      updateMachine();
+      checkDataMachines('/api/updateMachines', idMachine);
     }
   });
 
@@ -69,16 +43,7 @@ $(document).ready(function () {
     $('#residualValue').val(data.residual_value.toLocaleString('es-CO'));
     $('#depreciationYears').val(data.years_depreciation);
 
-    let hours_machine = data.hours_machine;
-
-    if (hours_machine.isInteger)
-      hours_machine = hours_machine.toLocaleString('es-CO');
-    else
-      hours_machine = hours_machine.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-    $('#hoursMachine').val(hours_machine);
+    $('#hoursMachine').val(data.hours_machine);
     $('#daysMachine').val(data.days_machine);
 
     $('html, body').animate(
@@ -89,14 +54,64 @@ $(document).ready(function () {
     );
   });
 
-  updateMachine = () => {
-    let data = $('#formCreateMachine').serialize();
-    let idMachine = sessionStorage.getItem('id_machine');
+  /* Verificar datos */
+  checkDataMachines = async (url, idMachine) => {
+    let Machine = $('#machine').val();
+    let costMachine = $('#costMachine').val();
+    let residualValue = $('#residualValue').val();
+    let yearsDepreciation = $('#depreciationYears').val();
+    let hoursMachine = $('#hoursMachine').val();
+    let daysMachine = $('#daysMachine').val();
 
-    data = data + '&idMachine=' + idMachine;
-    $.post('/api/updateMachines', data, function (data, textStatus, jqXHR) {
-      message(data);
-    });
+    costMachine = parseFloat(decimalNumber(costMachine));
+    residualValue = parseFloat(decimalNumber(residualValue));
+    yearsDepreciation = parseFloat(decimalNumber(yearsDepreciation));
+    hoursMachine = parseFloat(hoursMachine.replace(',', '.'));
+    daysMachine = parseFloat(daysMachine.replace(',', '.'));
+
+    let data =
+      costMachine *
+      residualValue *
+      yearsDepreciation *
+      hoursMachine *
+      daysMachine;
+
+    if (
+      Machine == '' ||
+      Machine == null ||
+      data == '' ||
+      isNaN(data) ||
+      data <= 0
+    ) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    if (hoursMachine > 24) {
+      toastr.error('Las horas de trabajo no pueden ser mayor a 24');
+      return false;
+    }
+
+    if (daysMachine > 31) {
+      toastr.error('Los dias de trabajo no pueden ser mayor a 31');
+      return false;
+    }
+
+    let dataMachine = new FormData(formCreateMachine);
+
+    if (idMachine != '' || idMachine != null)
+      dataMachine.append('idMachine', idMachine);
+
+    let resp = await sendDataPOST(url, dataMachine);
+
+    if (resp.success == true) {
+      $('.cardCreateMachines').hide(800);
+      $('#formCreateMachine').trigger('reset');
+      toastr.success(resp.message);
+      updateTable();
+      return false;
+    } else if (resp.error == true) toastr.error(resp.message);
+    else if (resp.info == true) toastr.info(data.message);
   };
 
   /* Eliminar productos */

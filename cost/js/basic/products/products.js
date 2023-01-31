@@ -22,60 +22,9 @@ $(document).ready(function () {
     let idProduct = sessionStorage.getItem('id_product');
 
     if (idProduct == '' || idProduct == null) {
-      let ref = $('#referenceProduct').val();
-      let prod = $('#product').val();
-      let prof = $('#profitability').val();
-      let comission = $('#commisionSale').val();
-
-      prof = decimalNumber(prof);
-      comission = decimalNumber(comission);
-
-      let data = parseFloat(prof) * parseFloat(comission);
-      if (
-        ref == '' ||
-        !ref ||
-        prod == '' ||
-        !prod ||
-        prof == '' ||
-        comission == '' ||
-        data <= 0 ||
-        isNaN(data)
-      ) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      if (prof > 100 || comission > 100) {
-        toastr.error('La rentabilidad y comision debe ser menor al 100%');
-        return false;
-      }
-
-      let imageProd = $('#formFile')[0].files[0];
-
-      let dataProduct = new FormData(formCreateProduct);
-      dataProduct.append('img', imageProd);
-
-      $.ajax({
-        type: 'POST',
-        url: '/api/addProducts',
-        data: dataProduct,
-        contentType: false,
-        cache: false,
-        processData: false,
-
-        success: function (resp) {
-          if (resp.success == true) {
-            $('.cardCreateProduct').hide(800);
-            $('#formCreateProduct').trigger('reset');
-            updateTable();
-            toastr.success(resp.message);
-            return false;
-          } else if (resp.error == true) toastr.error(resp.message);
-          else if (resp.info == true) toastr.info(resp.message);
-        },
-      });
+      checkDataProducts('/api/addProducts', idProduct);
     } else {
-      updateProduct();
+      checkDataProducts('/api/updateProducts', idProduct);
     }
   });
 
@@ -100,33 +49,55 @@ $(document).ready(function () {
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });
 
-  updateProduct = () => {
-    let idProduct = sessionStorage.getItem('id_product');
+  /* Revisar datos */
+  checkDataProducts = async (url, idProduct) => {
+    let ref = $('#referenceProduct').val();
+    let prod = $('#product').val();
+    let prof = $('#profitability').val();
+    let comission = $('#commisionSale').val();
+
+    prof = parseFloat(prof.replace(',', '.'));
+    comission = parseFloat(comission.replace(',', '.'));
+
+    let data = prof * comission;
+
+    if (
+      ref == '' ||
+      !ref ||
+      prod == '' ||
+      !prod ||
+      prof == '' ||
+      comission == '' ||
+      data <= 0 ||
+      isNaN(data)
+    ) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    if (prof > 100 || comission > 100) {
+      toastr.error('La rentabilidad y comision debe ser menor al 100%');
+      return false;
+    }
+
     let imageProd = $('#formFile')[0].files[0];
 
     let dataProduct = new FormData(formCreateProduct);
-    dataProduct.append('idProduct', idProduct);
     dataProduct.append('img', imageProd);
 
-    $.ajax({
-      type: 'POST',
-      url: '/api/updateProducts',
-      data: dataProduct,
-      contentType: false,
-      cache: false,
-      processData: false,
+    if (idProduct != '' || idProduct != null)
+      dataProduct.append('idProduct', idProduct);
 
-      success: function (resp) {
-        if (resp.success == true) {
-          $('.cardCreateProduct').hide(800);
-          $('#formCreateProduct').trigger('reset');
-          updateTable();
-          toastr.success(resp.message);
-          return false;
-        } else if (resp.error == true) toastr.error(resp.message);
-        else if (resp.info == true) toastr.info(resp.message);
-      },
-    });
+    let resp = await sendDataPOST(url, dataProduct);
+
+    if (resp.success == true) {
+      $('.cardCreateProduct').hide(800);
+      $('#formCreateProduct').trigger('reset');
+      updateTable();
+      toastr.success(resp.message);
+      return false;
+    } else if (resp.error == true) toastr.error(resp.message);
+    else if (resp.info == true) toastr.info(resp.message);
   };
 
   /* Eliminar productos */
@@ -155,47 +126,16 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          checkQProduct(dataProduct);
+          $.post(
+            '/api/deleteProduct',
+            dataProduct,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
         }
       },
     });
-  };
-
-  checkQProduct = async (data) => {
-    let resp = await searchData(`/api/productQuotes/${data.idProduct}`);
-
-    if (resp.length > 0) {
-      bootbox.confirm({
-        title: 'Eliminar',
-        message:
-          'Este producto esta asociado a cotización. ¿Desea eliminar igualmente?',
-        buttons: {
-          confirm: {
-            label: 'Si',
-            className: 'btn-success',
-          },
-          cancel: {
-            label: 'No',
-            className: 'btn-danger',
-          },
-        },
-        callback: function (result) {
-          if (result == true) {
-            $.post(
-              '/api/deleteProduct',
-              data,
-              function (data, textStatus, jqXHR) {
-                message(data);
-              }
-            );
-          }
-        },
-      });
-    } else {
-      $.post('/api/deleteProduct', data, function (data, textStatus, jqXHR) {
-        message(data);
-      });
-    }
   };
 
   /* Copiar Producto */

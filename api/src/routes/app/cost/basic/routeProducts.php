@@ -29,7 +29,6 @@ $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
-$quotesDao = new QuotesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -309,35 +308,21 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     $dataProduct = $request->getParsedBody();
 
-    $profitability = str_replace(',', '.', $dataProduct['profitability']);
-    $commissionSale = str_replace(',', '.', $dataProduct['commissionSale']);
+    // Actualizar Datos, Imagen y Calcular Precio del producto
+    $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
-    $data = floatval($profitability) * floatval($commissionSale);
+    if (sizeof($_FILES) > 0)
+        $products = $productsDao->imageProduct($dataProduct['idProduct'], $id_company);
 
-    if (
-        empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) ||
-        $data <= 0 || is_nan($data)
-    )
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
-    else if ($profitability > 100 || $commissionSale > 100)
-        $resp = array('error' => true, 'message' => 'La rentabilidad y comision debe ser menor al 100%');
-    else {
-        // Actualizar Datos, Imagen y Calcular Precio del producto
-        $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
+    $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
+    $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
 
-        if (sizeof($_FILES) > 0)
-            $products = $productsDao->imageProduct($dataProduct['idProduct'], $id_company);
-
-        $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
-        $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
-
-        if ($products == null)
-            $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
-        else if (isset($products['info']))
-            $resp = array('info' => true, 'message' => $products['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
+    if ($products == null)
+        $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
+    else if (isset($products['info']))
+        $resp = array('info' => true, 'message' => $products['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -349,7 +334,6 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $externalServicesDao,
     $expensesDistributionDao,
     $expensesRecoverDao,
-    $quotesDao,
     $productsCostDao,
     $productsDao
 ) {
@@ -360,15 +344,16 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $externalServices = $externalServicesDao->deleteExternalServiceByProduct($dataProduct);
     $expensesDistribution = $expensesDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
     $expensesRecover = $expensesRecoverDao->deleteRecoverExpenseByProduct($dataProduct);
-    $quotes = $quotesDao->deleteQuotesProductsByProduct($dataProduct);
     $productsCost = $productsCostDao->deleteProductsCost($dataProduct);
     $product = $productsDao->deleteProduct($dataProduct);
 
     if (
         $product == null && $productsCost == null && $productsMaterials == null && $productsProcess == null &&
-        $externalServices == null && $expensesDistribution == null && $expensesRecover == null && $quotes == null
+        $externalServices == null && $expensesDistribution == null && $expensesRecover == null
     )
         $resp = array('success' => true, 'message' => 'Producto eliminado correctamente');
+    else if (isset($product['info']))
+        $resp = array('info' => true, 'message' => $product['message']);
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el producto');
 

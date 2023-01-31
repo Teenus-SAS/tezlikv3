@@ -17,12 +17,12 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* Consultar productos */
+/* Consultar productos 
 $app->get('/productQuotes/{id_product}', function (Request $request, Response $response, $args) use ($quotesDao) {
     $quotes = $quotesDao->findAllQuotesProductsByIdProduct($args['id_product']);
     $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+}); */
 
 /* Clonar cotización */
 $app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {

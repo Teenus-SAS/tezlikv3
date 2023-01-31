@@ -172,7 +172,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/planning/js/users/usersAccess.js"></script>
 
     <!-- Page End -->
-    <script src="/global/js/global/number.js"></script>
+    <!-- <script src="/global/js/global/number.js"></script> -->
     <script src="/planning/js/basic/products/tblProducts.js"></script>
     <script src="/planning/js/basic/invMold/configInvMold.js"></script>
     <script src="/planning/js/general/category/configCategories.js"></script>

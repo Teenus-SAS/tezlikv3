@@ -166,7 +166,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/planning/js/users/usersAccess.js"></script>
 
     <!-- Page End -->
-    <script src="/global/js/global/number.js"></script>
+    <!-- <script src="/global/js/global/number.js"></script> -->
     <script src="/planning/js/basic/invMold/tblInvMold.js"></script>
     <script src="/planning/js/basic/invMold/invMold.js"></script>
     <script src="../global/js/import/import.js"></script>

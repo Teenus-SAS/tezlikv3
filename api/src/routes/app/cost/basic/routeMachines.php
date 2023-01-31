@@ -135,37 +135,27 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
 
+    $machines = $machinesDao->updateMachine($dataMachine);
+
+    // Calcular depreciacion por minuto
+    $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['machine'], $id_company);
+
+    // Calcular costo indirecto
+    $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);
+
+    // Calcular precio products_costs
+    $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine['idMachine'], $id_company);
+
     if (
-        empty($dataMachine['machine']) || empty($dataMachine['cost']) || empty($dataMachine['depreciationYears']) ||
-        $dataMachine['depreciationYears'] <= 0 || $dataMachine['hoursMachine'] <= 0 || $dataMachine['daysMachine'] <= 0
-    ) {
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
-    } else if ($dataMachine['hoursMachine'] > 24) {
-        $resp = array('error' => true, 'message' => 'Las horas de trabajo no pueden ser mayor a 24');
-    } else if ($dataMachine['hoursMachine'] > 31) {
-        $resp = array('error' => true, 'message' => 'Los dias de trabajo no pueden ser mayor a 31');
-    } else {
-        $machines = $machinesDao->updateMachine($dataMachine);
+        $machines == null && $minuteDepreciation == null &&
+        $indirectCost == null && $priceProduct == null
+    )
+        $resp = array('success' => true, 'message' => 'Maquina actualizada correctamente');
+    else if (isset($machines['info']))
+        $resp = array('info' => true, 'message' => $machines['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
-        // Calcular depreciacion por minuto
-        $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['machine'], $id_company);
-
-        // Calcular costo indirecto
-        $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);
-
-        // Calcular precio products_costs
-        $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine['idMachine'], $id_company);
-
-        if (
-            $machines == null && $minuteDepreciation == null &&
-            $indirectCost == null && $priceProduct == null
-        )
-            $resp = array('success' => true, 'message' => 'Maquina actualizada correctamente');
-        else if (isset($machines['info']))
-            $resp = array('info' => true, 'message' => $machines['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

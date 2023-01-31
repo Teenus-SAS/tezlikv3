@@ -120,8 +120,6 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
 
-
-
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
