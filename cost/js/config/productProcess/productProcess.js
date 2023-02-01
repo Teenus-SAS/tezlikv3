@@ -51,39 +51,9 @@ $(document).ready(function () {
     let idProductProcess = sessionStorage.getItem('id_product_process');
 
     if (idProductProcess == '' || idProductProcess == null) {
-      idProduct = parseInt($('#selectNameProduct').val());
-      let refP = parseInt($('#idProcess').val());
-      let refM = parseInt($('#idMachine').val());
-
-      let enlistmentTime = $('#enlistmentTime').val();
-      let operationTime = $('#operationTime').val();
-
-      enlistmentTime = decimalNumber(enlistmentTime);
-      operationTime = decimalNumber(operationTime);
-
-      let data =
-        idProduct *
-        refP *
-        parseFloat(enlistmentTime) *
-        parseFloat(operationTime);
-
-      if (!data || isNaN(refM) || data == 0) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      let productProcess = $('#formAddProcess').serialize();
-
-      productProcess = productProcess + '&idProduct=' + idProduct;
-      $.post(
-        '/api/addProductsProcess',
-        productProcess,
-        function (data, textStatus, jqXHR) {
-          message(data);
-        }
-      );
+      checkDataProductsProcess('/api/addProductsProcess', idProductProcess);
     } else {
-      updateProcess();
+      checkDataProductsProcess('/api/updateProductsProcess', idProductProcess);
     }
   });
 
@@ -131,25 +101,34 @@ $(document).ready(function () {
     return number;
   };
 
-  updateProcess = () => {
-    let data = $('#formAddProcess').serialize();
-    idProduct = $('#selectNameProduct').val();
-    let idProductProcess = sessionStorage.getItem('id_product_process');
+  /* Revision data productos procesos */
+  checkDataProductsProcess = async (url, idProductProcess) => {
+    idProduct = parseInt($('#selectNameProduct').val());
+    let refP = parseInt($('#idProcess').val());
+    let refM = parseInt($('#idMachine').val());
 
-    data =
-      data +
-      '&idProductProcess=' +
-      idProductProcess +
-      '&idProduct=' +
-      idProduct;
+    let enlistmentTime = $('#enlistmentTime').val();
+    let operationTime = $('#operationTime').val();
 
-    $.post(
-      '../../api/updateProductsProcess',
-      data,
-      function (data, textStatus, jqXHR) {
-        message(data);
-      }
-    );
+    enlistmentTime = parseFloat(decimalNumber(enlistmentTime));
+    operationTime = parseFloat(decimalNumber(operationTime));
+
+    let data = idProduct * refP * enlistmentTime * operationTime;
+
+    if (!data || isNaN(refM) || data == 0) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    let dataProductProcess = new FormData(formAddProcess);
+    dataProductProcess.append('idProduct', idProduct);
+
+    if (idProductProcess != '' || idProcess != null)
+      dataProductProcess.append('idProductProcess', idProductProcess);
+
+    let resp = await sendDataPOST(url, dataProductProcess);
+
+    message(resp);
   };
 
   /* Eliminar proceso */

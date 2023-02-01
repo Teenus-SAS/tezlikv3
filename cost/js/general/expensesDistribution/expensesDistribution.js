@@ -28,30 +28,15 @@ $(document).ready(function () {
     );
 
     if (idExpensesDistribution == '' || idExpensesDistribution == null) {
-      let refProduct = parseInt($('#EDRefProduct').val());
-      let nameProduct = parseInt($('#EDNameProduct').val());
-      let unitExp = parseInt($('#undVendidas').val());
-      let volExp = parseInt($('#volVendidas').val());
-
-      let data = refProduct * nameProduct;
-      let exp = unitExp * volExp;
-
-      if (!data || exp == null) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      let expensesDistribution = $('#formExpensesDistribution').serialize();
-
-      $.post(
-        '../../api/addExpensesDistribution',
-        expensesDistribution,
-        function (data, textStatus, jqXHR) {
-          message(data, 1);
-        }
+      checkDataExpenseDistribution(
+        '/api/addExpensesDistribution',
+        idExpensesDistribution
       );
     } else {
-      updateExpensesDistribution();
+      checkDataExpenseDistribution(
+        '/api/updateExpensesDistribution',
+        idExpensesDistribution
+      );
     }
   });
 
@@ -89,26 +74,33 @@ $(document).ready(function () {
     );
   });
 
-  updateExpensesDistribution = () => {
-    let data = $('#formExpensesDistribution').serialize();
-    let assignableExpense = $('#assignableExpense').val();
-    let idExpensesDistribution = sessionStorage.getItem(
-      'id_expenses_distribution'
-    );
-    data =
-      data +
-      '&assignableExpense=' +
-      assignableExpense +
-      '&idExpensesDistribution=' +
-      idExpensesDistribution;
+  /* Revision de data gasto */
+  checkDataExpenseDistribution = async (url, idExpense) => {
+    let refProduct = parseInt($('#EDRefProduct').val());
+    let nameProduct = parseInt($('#EDNameProduct').val());
+    let unitExp = $('#undVendidas').val();
+    let volExp = $('#volVendidas').val();
 
-    $.post(
-      '../../api/updateExpensesDistribution',
-      data,
-      function (data, textStatus, jqXHR) {
-        message(data, 1);
-      }
-    );
+    unitExp = parseFloat(decimalNumber(unitExp));
+    volExp = parseFloat(decimalNumber(volExp));
+
+    let data = refProduct * nameProduct * unitExp * volExp;
+
+    if (isNaN(data) || data <= 0) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    let dataExpense = new FormData(formExpensesDistribution);
+
+    if (idExpense != '' || idExpense != null) {
+      dataExpense.append('assignableExpense', $('#assignableExpense').val());
+      dataExpense.append('idExpensesDistribution', idExpense);
+    }
+
+    let resp = await sendDataPOST(url, dataExpense);
+
+    message(resp, 1);
   };
 
   /* Eliminar gasto */

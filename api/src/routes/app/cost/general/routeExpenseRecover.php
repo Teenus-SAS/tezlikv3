@@ -119,20 +119,17 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 $app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $priceProductDao) {
     $dataExpense = $request->getParsedBody();
 
-    if (empty($dataExpense['idExpenseRecover']) || $dataExpense['percentage'] < 0)
-        $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
-    else {
-        $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
+    $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
 
-        $priceProduct = $priceProductDao->calcPrice($dataExpense['idProduct']);
+    $priceProduct = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
-        if ($expensesRecover == null && $priceProduct == null)
-            $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
-        else if (isset($expensesRecover['info']))
-            $resp = array('info' => true, 'message' => $expensesRecover['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
-    }
+    if ($expensesRecover == null && $priceProduct == null)
+        $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
+    else if (isset($expensesRecover['info']))
+        $resp = array('info' => true, 'message' => $expensesRecover['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

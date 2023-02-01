@@ -31,30 +31,9 @@ $(document).ready(function () {
     let idService = sessionStorage.getItem('id_service');
 
     if (idService == '' || idService == null) {
-      let idProduct = parseInt($('#selectNameProduct').val());
-      let service = $('#service').val();
-      let cost = parseInt($('#costService').val());
-
-      let data = idProduct * cost;
-
-      if (!data || service == '' || service == 0) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      let externalServices = $('#formAddService').serialize();
-
-      externalServices = externalServices + '&idProduct=' + idProduct;
-
-      $.post(
-        '../../api/addExternalService',
-        externalServices,
-        function (data, textStatus, jqXHR) {
-          message(data);
-        }
-      );
+      checkDataServices('/api/addExternalService', idService);
     } else {
-      updateExternalService();
+      checkDataServices('/api/updateExternalService', idService);
     }
   });
 
@@ -81,20 +60,30 @@ $(document).ready(function () {
     );
   });
 
-  updateExternalService = () => {
-    let data = $('#formAddService').serialize();
-    idProduct = $('#selectNameProduct').val();
-    let idService = sessionStorage.getItem('id_service');
+  /* Revision data servicio */
+  checkDataServices = async (url, idService) => {
+    let idProduct = parseInt($('#selectNameProduct').val());
+    let service = $('#service').val();
+    let cost = parseInt($('#costService').val());
 
-    data = data + '&idService=' + idService + '&idProduct=' + idProduct;
+    cost = parseFloat(decimalNumber(cost));
 
-    $.post(
-      '../../api/updateExternalService',
-      data,
-      function (data, textStatus, jqXHR) {
-        message(data);
-      }
-    );
+    let data = idProduct * cost;
+
+    if (service == '' || service == 0 || isNaN(data) || data <= 0) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    let dataExternalService = new FormData(formAddService);
+    dataExternalService.append('idProduct', idProduct);
+
+    if (idService != '' || idService != null)
+      dataExternalService.append('idService', idService);
+
+    let resp = await sendDataPOST(url, dataExternalService);
+
+    message(resp);
   };
 
   /* Eliminar servicio */

@@ -26,26 +26,8 @@ $(document).ready(function () {
     let id_expense_recover = sessionStorage.getItem('id_expense_recover');
 
     if (id_expense_recover == '' || !id_expense_recover) {
-      let idProduct = parseInt($('#ERNameProduct').val());
-      let percentage = parseInt($('#percentage').val());
-
-      let data = idProduct * percentage;
-
-      if (!data || data == 0) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      let expensesDistribution = $('#formExpenseRecover').serialize();
-
-      $.post(
-        '../api/addExpenseRecover',
-        expensesDistribution,
-        function (data, textStatus, jqXHR) {
-          message(data, 2);
-        }
-      );
-    } else updateExpenseRecover();
+      checkDataExpenseRecover('/api/addExpenseRecover', idExpenseRecover);
+    } else checkDataExpenseRecover('/api/updateExpenseRecover', idExpenseRecover);
   });
 
   /* Actualizar recuperacion gasto */
@@ -79,19 +61,33 @@ $(document).ready(function () {
     );
   });
 
-  updateExpenseRecover = () => {
-    let data = $('#formExpenseRecover').serialize();
-    let id_expense_recover = sessionStorage.getItem('id_expense_recover');
+  /* Revision Data gasto */
+  checkDataExpenseRecover = async (url, idExpenseRecover) => {
+    let idProduct = parseInt($('#ERNameProduct').val());
+    let percentage = $('#percentage').val();
 
-    data += `&idExpenseRecover=${id_expense_recover}`;
+    percentage = parseFloat(percentage.replace(',', '.'));
 
-    $.post(
-      '../api/updateExpenseRecover',
-      data,
-      function (data, textStatus, jqXHR) {
-        message(data, 2);
-      }
-    );
+    let data = idProduct * percentage;
+
+    if (isNaN(data) || data <= 0) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    if (percentage > 100) {
+      toastr.error('El porcentaje de recuperación debe ser menor al 100%');
+      return false;
+    }
+
+    let dataExpenseRecover = new FormData(formExpenseRecover);
+
+    if (idExpenseRecover != '' || idExpenseRecover != null)
+      dataExpenseRecover.append('idExpenseRecover', idExpenseRecover);
+
+    let resp = await sendDataPOST(url, dataExpenseRecover);
+
+    message(resp, 2);
   };
 
   /* Eliminar recuperacion de gasto */

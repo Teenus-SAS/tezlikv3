@@ -37,13 +37,12 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
         for ($i = 0; $i < sizeof($materials); $i++) {
             if (
                 empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) ||
-                empty($materials[$i]['unityRawMaterial']) || empty($materials[$i]['costRawMaterial'])
+                empty($materials[$i]['unityRawMaterial']) || $materials[$i]['costRawMaterial'] == ''
             ) {
                 $i = $i + 1;
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
                 break;
-            }
-            if ($materials[$i]['costRawMaterial'] == 0) {
+            } else if ($materials[$i]['costRawMaterial'] == 0) {
                 $i = $i + 1;
                 $dataImportMaterial = array('error' => true, 'message' => "El costo debe ser mayor a cero (0), fila: $i");
                 break;
@@ -109,35 +108,21 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 
-    if (
-        $dataMaterial['costRawMaterial'] == '' || empty($dataMaterial['idMaterial']) || empty($dataMaterial['refRawMaterial']) ||
-        empty($dataMaterial['nameRawMaterial']) || empty($dataMaterial['unityRawMaterial'])
-    )
-        $resp = array('error' => true, 'message' => 'Ingrese todos los campos');
-    else {
-        $costRawMaterial = str_replace(',', '.', $dataMaterial['costRawMaterial']);
+    $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
-        $costRawMaterial = 1 * floatval($costRawMaterial);
+    // Calcular precio total materias
+    $costMaterials = $costMaterialsDao->calcCostMaterialsByRawMaterial($dataMaterial, $id_company);
 
-        if ($costRawMaterial <= 0)
-            $resp = array('error' => true, 'message' => 'El costo debe ser mayor a cero (0)');
-        else {
-            $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
+    // Calcular precio
+    $priceProduct = $priceProductDao->calcPriceByMaterial($dataMaterial['idMaterial'], $id_company);
 
-            // Calcular precio total materias
-            $costMaterials = $costMaterialsDao->calcCostMaterialsByRawMaterial($dataMaterial, $id_company);
+    if ($materials == null && $costMaterials == null && $priceProduct == null)
+        $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
+    else if (isset($materials['info']))
+        $resp = array('info' => true, 'message' => $materials['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
-            // Calcular precio
-            $priceProduct = $priceProductDao->calcPriceByMaterial($dataMaterial['idMaterial'], $id_company);
-
-            if ($materials == null && $costMaterials == null && $priceProduct == null)
-                $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
-            else if (isset($materials['info']))
-                $resp = array('info' => true, 'message' => $materials['message']);
-            else
-                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-        }
-    }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

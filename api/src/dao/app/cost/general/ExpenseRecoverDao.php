@@ -58,6 +58,18 @@ class ExpenseRecoverDao
         return $products;
     }
 
+    public function findExpenseRecoverByIdProduct($dataExpense)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM expenses_recover WHERE id_product = :id_product");
+        $stmt->execute([
+            'id_product' => trim($dataExpense['idOldProduct']),
+        ]);
+        $expenseRecover = $stmt->fetch($connection::FETCH_ASSOC);
+        return $expenseRecover;
+    }
+
     public function insertRecoverExpenseByCompany($dataExpense, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -38,9 +38,7 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
                 break;
             } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
 
-            $service = $externalService[$i]['service'];
-            $cost = $externalService[$i]['costService'];
-            if (empty($service) || empty($cost)) {
+            if (empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])) {
                 $i = $i + 1;
                 $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
@@ -111,21 +109,18 @@ $app->post('/addExternalService', function (Request $request, Response $response
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use ($externalServicesDao, $priceProductDao) {
     $dataExternalService = $request->getParsedBody();
 
-    if (empty($dataExternalService['service']) || empty($dataExternalService['costService']) || empty($dataExternalService['idProduct']))
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
-    else {
-        $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
+    $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
 
-        // Calcular precio del producto
-        $priceProduct = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+    // Calcular precio del producto
+    $priceProduct = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-        if ($externalServices == null && $priceProduct == null)
-            $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
-        else if (isset($externalServices['info']))
-            $resp = array('info' => true, 'message' => $externalServices['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
+    if ($externalServices == null && $priceProduct == null)
+        $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
+    else if (isset($externalServices['info']))
+        $resp = array('info' => true, 'message' => $externalServices['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

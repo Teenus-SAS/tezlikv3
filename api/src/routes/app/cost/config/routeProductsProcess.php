@@ -197,38 +197,27 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
 
-    if (empty($dataProductProcess['idProduct']) || empty($dataProductProcess['idProcess']) || empty($dataProductProcess['idMachine']))
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
-    else {
-        $enlistmentTime = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
-        $operationTime = str_replace(',', '.', $dataProductProcess['operationTime']);
+    $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
-        $totalTime = floatval($enlistmentTime) * floatval($operationTime);
-        if (is_nan($totalTime) || $totalTime == 0)
-            $resp = array('error' => true, 'message' => 'Tiempo de enlistamiento y de operación debe ser mayor a cero (0)');
-        else {
-            $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
+    /* Calcular costo nomina */
+    $costPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
 
-            /* Calcular costo nomina */
-            $costPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
+    /* Calcular costo indirecto */
+    $indirectCost = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
 
-            /* Calcular costo indirecto */
-            $indirectCost = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
+    // Calcular Precio del producto
+    $priceProduct = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
 
-            // Calcular Precio del producto
-            $priceProduct = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+    if (
+        $productProcess == null && $costPayroll == null &&
+        $indirectCost == null && $priceProduct == null
+    )
+        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+    else if (isset($productProcess['info']))
+        $resp = array('info' => true, 'message' => $productProcess['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
-            if (
-                $productProcess == null && $costPayroll == null &&
-                $indirectCost == null && $priceProduct == null
-            )
-                $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
-            else if (isset($productProcess['info']))
-                $resp = array('info' => true, 'message' => $productProcess['message']);
-            else
-                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-        }
-    }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

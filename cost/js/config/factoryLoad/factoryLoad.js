@@ -83,14 +83,7 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataFactoryLoad);
 
-    $('#costMinute').prop('disabled', true);
-    if (resp.success == true) {
-      $('.cardFactoryLoad').hide(800);
-      $('#formNewFactoryLoad').trigger('reset');
-      updateTable();
-      toastr.success(resp.message);
-    } else if (resp.error == true) toastr.error(resp.message);
-    else if (resp.info == true) toastr.info(resp.message);
+    message(resp);
   };
 
   /* Eliminar carga fabril */

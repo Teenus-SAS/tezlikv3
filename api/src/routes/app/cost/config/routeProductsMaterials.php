@@ -150,33 +150,21 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     $id_company = $_SESSION['id_company'];
     $dataProductMaterial = $request->getParsedBody();
 
-    if (empty($dataProductMaterial['material']) || empty($dataProductMaterial['idProduct']) || $dataProductMaterial['quantity'] == '')
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
-    else {
-        $quantity = str_replace(',', '.', $dataProductMaterial['quantity']);
+    $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
 
-        $quantity = 1 * floatval($quantity);
+    //Metodo calcular precio total materias
+    $costMaterials = $costMaterialsDao->calcCostMaterial($dataProductMaterial['idProduct'], $id_company);
 
-        if ($quantity <= 0 || is_nan($quantity))
-            $resp = array('error' => true, 'message' => "La cantidad debe ser mayor a cero (0)");
+    // Calcular Precio del producto
+    $priceProduct = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
 
-        else {
-            $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
+    if ($productMaterials == null && $costMaterials == null && $priceProduct == null)
+        $resp = array('success' => true, 'message' => 'Materia prima actualizada correctamente');
+    else if (isset($productMaterials['info']))
+        $resp = array('info' => true, 'message' => $productMaterials['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
-            //Metodo calcular precio total materias
-            $costMaterials = $costMaterialsDao->calcCostMaterial($dataProductMaterial['idProduct'], $id_company);
-
-            // Calcular Precio del producto
-            $priceProduct = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
-
-            if ($productMaterials == null && $costMaterials == null && $priceProduct == null)
-                $resp = array('success' => true, 'message' => 'Materia prima actualizada correctamente');
-            else if (isset($productMaterials['info']))
-                $resp = array('info' => true, 'message' => $productMaterials['message']);
-            else
-                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-        }
-    }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

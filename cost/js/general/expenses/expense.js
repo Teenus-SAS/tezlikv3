@@ -19,23 +19,9 @@ $(document).ready(function () {
     let idExpense = sessionStorage.getItem('id_expense');
 
     if (idExpense == '' || idExpense == null) {
-      let puc = parseInt($('#idPuc').val());
-      let value = parseInt($('#expenseValue').val());
-
-      let data = puc * value;
-
-      if (!data) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      let expenses = $('#formCreateExpenses').serialize();
-
-      $.post('/api/addExpenses', expenses, function (data, textStatus, jqXHR) {
-        message(data);
-      });
+      checkDataExpense('/api/addExpenses', idExpense);
     } else {
-      updateExpenses();
+      checkDataExpense('/api/updateExpenses', idExpense);
     }
   });
 
@@ -63,18 +49,28 @@ $(document).ready(function () {
     );
   });
 
-  updateExpenses = () => {
-    let data = $('#formCreateExpenses').serialize();
-    let idExpense = sessionStorage.getItem('id_expense');
-    data = data + '&idExpense=' + idExpense;
+  /* Revision data gasto */
+  checkDataExpense = async (url, idExpense) => {
+    let puc = parseInt($('#idPuc').val());
+    let value = $('#expenseValue').val();
 
-    $.post(
-      '../../api/updateExpenses',
-      data,
-      function (data, textStatus, jqXHR) {
-        message(data);
-      }
-    );
+    value = parseFloat(decimalNumber(value));
+
+    let data = puc * value;
+
+    if (isNaN(data) || data <= 0) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    let dataExpense = new FormData(formCreateExpenses);
+
+    if (idExpense != '' || idExpense != null)
+      dataExpense.append('idExpense', idExpense);
+
+    let resp = await sendDataPOST(url, dataExpense);
+
+    message(resp);
   };
 
   deleteFunction = () => {

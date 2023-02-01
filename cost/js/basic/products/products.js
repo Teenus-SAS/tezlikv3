@@ -61,16 +61,7 @@ $(document).ready(function () {
 
     let data = prof * comission;
 
-    if (
-      ref == '' ||
-      !ref ||
-      prod == '' ||
-      !prod ||
-      prof == '' ||
-      comission == '' ||
-      data <= 0 ||
-      isNaN(data)
-    ) {
+    if (ref == '' || !ref || prod == '' || !prod || data <= 0 || isNaN(data)) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -90,14 +81,7 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataProduct);
 
-    if (resp.success == true) {
-      $('.cardCreateProduct').hide(800);
-      $('#formCreateProduct').trigger('reset');
-      updateTable();
-      toastr.success(resp.message);
-      return false;
-    } else if (resp.error == true) toastr.error(resp.message);
-    else if (resp.info == true) toastr.info(resp.message);
+    message(resp);
   };
 
   /* Eliminar productos */

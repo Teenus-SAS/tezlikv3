@@ -65,17 +65,22 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="formNewFactoryLoad">
-                                            <div class="gridx4cm">
-                                                <label for="">Máquina</label>
-                                                <label for="">Descripción Carga fabril</label>
-                                                <label for="">Costo</label>
-                                                <!-- <label for="">Valor Minuto</label> -->
-                                                <label for=""></label>
-                                                <select class="form-control" name="idMachine" id="machine"></select>
-                                                <input class="form-control" name="descriptionFactoryLoad" id="descriptionFactoryLoad" />
-                                                <input class="form-control text-center number" type="text" name="costFactory" id="costFactory" />
-                                                <!-- <input class="form-control text-center number" type="text" name="costMinute" id="costMinute" /> -->
-                                                <button class="btn btn-primary" id="btnCreateFactoryLoad">Crear</button>
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <label for="">Máquina</label>
+                                                    <select class="form-control" name="idMachine" id="machine"></select>
+                                                </div>
+                                                <div class="col">
+                                                    <label for="">Descripción Carga fabril</label>
+                                                    <input class="form-control" name="descriptionFactoryLoad" id="descriptionFactoryLoad" />
+                                                </div>
+                                                <div class="col-2">
+                                                    <label for="">Costo</label>
+                                                    <input class="form-control text-center number" type="text" name="costFactory" id="costFactory" />
+                                                </div>
+                                                <div class="col-2">
+                                                    <button class="btn btn-primary" id="btnCreateFactoryLoad" style="margin-top:33px">Asignar</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>

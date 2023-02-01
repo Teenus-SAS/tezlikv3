@@ -187,6 +187,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $costWorkforceDao,
     $indirectCostDao,
     $assignableExpenseDao,
+    $expensesRecoverDao,
     $priceProductDao
 ) {
     session_start();
@@ -227,6 +228,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 // Copiar data products_process
                 $oldProduct = $productsProcessDao->findProductProcessByIdProduct($dataProduct);
 
+                $arr = array();
+
                 foreach ($oldProduct as $arr) {
                     $arr['idProduct'] = $dataProduct['idProduct'];
                     $arr['idProcess'] = $arr['id_process'];
@@ -242,6 +245,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 // Copiar data external_services
                 $oldProduct = $externalServicesDao->findExternalServiceByIdProduct($dataProduct);
 
+                $arr = array();
+
                 foreach ($oldProduct as $arr) {
                     $arr['costService'] = $arr['cost'];
                     $arr['service'] = $arr['name_service'];
@@ -254,6 +259,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
             if ($resolution == null) {
                 // Copiar data expenses_distribution
                 $oldProduct = $expensesDistributionDao->findExpenseDistributionByIdProduct($dataProduct, $id_company);
+                $arr = array();
+
                 if ($oldProduct != false) {
                     $arr['selectNameProduct'] = $dataProduct['idProduct'];
                     $arr['unitsSold'] = $oldProduct['units_sold'];
@@ -261,6 +268,18 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                     $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
                 }
             }
+
+            // if ($resolution == null) {
+            //     // Copiar data expenses_recover
+            //     $oldProduct = $expensesRecoverDao->findExpenseRecoverByIdProduct($dataProduct);
+            //     $arr = array();
+
+            //     if ($oldProduct != false) {
+            //         $arr['idProduct'] = $dataProduct['idProduct'];
+            //         $arr['percentage'] = $oldProduct['expense_recover'];
+            //         $resolution = $expensesRecoverDao->insertRecoverExpenseByCompany($arr, $id_company);
+            //     }
+            // }
 
             if ($resolution == null)
                 //Metodo calcular precio total materias

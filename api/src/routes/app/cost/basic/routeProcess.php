@@ -91,18 +91,14 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
 $app->post('/updateProcess', function (Request $request, Response $response, $args) use ($processDao) {
     $dataProcess = $request->getParsedBody();
 
-    if (empty($dataProcess['process']))
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
-    else {
-        $process = $processDao->updateProcess($dataProcess);
+    $process = $processDao->updateProcess($dataProcess);
 
-        if ($process == null)
-            $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
-        else if (isset($process['info']))
-            $resp = array('info' => true, 'message' => $process['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
+    if ($process == null)
+        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+    else if (isset($process['info']))
+        $resp = array('info' => true, 'message' => $process['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

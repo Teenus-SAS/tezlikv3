@@ -38,7 +38,7 @@ class IndirectCostDao
         $stmt = $connection->prepare("SELECT pp.id_machine, m.minute_depreciation, (pp.enlistment_time + pp.operation_time) AS totalTime 
                                       FROM products_process pp 
                                       INNER JOIN machines m ON m.id_machine = pp.id_machine 
-                                      WHERE pp.id_product = :id_product AND pp.id_company = :id_company ");
+                                      WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $dataProductMachine = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $dataProductMachine;
@@ -79,7 +79,7 @@ class IndirectCostDao
 
         for ($i = 0; $i < sizeof($dataProduct); $i++) {
             // Buscar la maquina asociada al producto
-            $this->findMachineByProduct($dataProduct[$i]['id_product'], $id_company);
+            // $this->findMachineByProduct($dataProduct[$i]['id_product'], $id_company);
 
             // Suma el costo por minuto de la carga fabril y calcular costo indirecto
             $indirectCost = $this->calcCostMinuteAndIndirectCost($dataProduct[$i]['id_product'], $id_company);
@@ -106,7 +106,7 @@ class IndirectCostDao
     // General
     public function calcCostIndirectCost($dataProductProcess, $id_company)
     {
-        $this->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+        // $this->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
 
         $indirectCost = $this->calcCostMinuteAndIndirectCost($dataProductProcess['idProduct'], $id_company);
 

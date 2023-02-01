@@ -56,38 +56,15 @@ $(document).ready(function () {
     let idProductMaterial = sessionStorage.getItem('id_product_material');
 
     if (idProductMaterial == '' || idProductMaterial == null) {
-      let ref = parseInt($('#material').val());
-      let quan = $('#quantity').val();
-      idProduct = parseInt($('#selectNameProduct').val());
-
-      let data = ref * idProduct;
-
-      if (!data || quan == '' || !quan) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      quan = decimalNumber(quan);
-
-      quant = 1 * parseFloat(quan);
-
-      if (quan <= 0) {
-        toastr.error('La cantidad debe ser mayor a cero (0)');
-        return false;
-      }
-
-      let productMaterial = $('#formAddMaterials').serialize();
-      productMaterial += '&idProduct=' + idProduct;
-
-      $.post(
+      checkDataProductsMaterials(
         '/api/addProductsMaterials',
-        productMaterial,
-        function (data, textStatus, jqXHR) {
-          message(data);
-        }
+        idProductMaterial
       );
     } else {
-      updateMaterial();
+      checkDataProductsMaterials(
+        '/api/updateProductsMaterials',
+        idProductMaterial
+      );
     }
   });
 
@@ -125,24 +102,37 @@ $(document).ready(function () {
     );
   });
 
-  updateMaterial = () => {
-    let data = $('#formAddMaterials').serialize();
-    idProduct = $('#selectNameProduct').val();
-    let idProductMaterial = sessionStorage.getItem('id_product_material');
-    data =
-      data +
-      '&idProductMaterial=' +
-      idProductMaterial +
-      '&idProduct=' +
-      idProduct;
+  /* Revision data Productos materiales */
+  checkDataProductsMaterials = async (url, idProductMaterial) => {
+    let ref = parseInt($('#material').val());
+    let quan = $('#quantity').val();
+    idProduct = parseInt($('#selectNameProduct').val());
 
-    $.post(
-      '/api/updateProductsMaterials',
-      data,
-      function (data, textStatus, jqXHR) {
-        message(data);
-      }
-    );
+    let data = ref * idProduct;
+
+    if (!data || quan == '') {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    quan = parseFloat(decimalNumber(quan));
+
+    quant = 1 * quan;
+
+    if (quan <= 0 || isNaN(quan)) {
+      toastr.error('La cantidad debe ser mayor a cero (0)');
+      return false;
+    }
+
+    let dataProductMaterial = new FormData(formAddMaterials);
+    dataProductMaterial.append('idProduct', idProduct);
+
+    if (idProductMaterial != '' || idProductMaterial != null)
+      dataProductMaterial.append('idProductMaterial', idProductMaterial);
+
+    let resp = await sendDataPOST(url, dataProductMaterial);
+
+    message(resp);
   };
 
   /* Eliminar materia prima */

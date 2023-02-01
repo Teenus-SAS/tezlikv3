@@ -61,6 +61,11 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
         $expense = $dataExpense['importExpense'];
 
         for ($i = 0; $i < sizeof($expense); $i++) {
+            if (empty($expense[$i]['numberCount']) || empty($expense[$i]['count']) || empty($expense[$i]['expenseValue'])) {
+                $i = $i + 1;
+                $dataImportExpense = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
             // Obtener id cuenta
             $findPuc = $pucDao->findPuc($expense[$i]);
             if (!$findPuc) {
@@ -69,23 +74,14 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
                 break;
             } else $expense[$i]['idPuc'] = $findPuc['id_puc'];
 
-            $numberCount = $expense[$i]['numberCount'];
-            $count = $expense[$i]['count'];
-            $expenseValue = $expense[$i]['expenseValue'];
-            if (empty($numberCount) || empty($count) || empty($expenseValue)) {
-                $i = $i + 1;
-                $dataImportExpense = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            } else {
-                //RETORNA id_expense CON idPuc Y id_company
-                $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
-                //SI NO RETORNA id_expense $insert + 1
-                if (!$findExpense) $insert = $insert + 1;
-                //SI RETORNA id_expense $update + 1
-                else $update = $update + 1;
-                $dataImportExpense['insert'] = $insert;
-                $dataImportExpense['update'] = $update;
-            }
+            //RETORNA id_expense CON idPuc Y id_company
+            $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
+            //SI NO RETORNA id_expense $insert + 1
+            if (!$findExpense) $insert = $insert + 1;
+            //SI RETORNA id_expense $update + 1
+            else $update = $update + 1;
+            $dataImportExpense['insert'] = $insert;
+            $dataImportExpense['update'] = $update;
         }
     } else
         $dataImportExpense = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -148,21 +144,17 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
     $dataExpense = $request->getParsedBody();
 
-    if (empty($dataExpense['idPuc']) || empty($dataExpense['expenseValue']))
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
-    else {
-        $expenses = $expensesDao->updateExpenses($dataExpense);
+    $expenses = $expensesDao->updateExpenses($dataExpense);
 
-        // Calcular total del gasto
-        $totalExpense = $totalExpenseDao->insertUpdateTotalExpense($id_company);
+    // Calcular total del gasto
+    $totalExpense = $totalExpenseDao->insertUpdateTotalExpense($id_company);
 
-        if ($expenses == null && $totalExpense == null)
-            $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');
-        else if (isset($expenses['info']))
-            $resp = array('info' => true, 'message' => $expenses['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
+    if ($expenses == null && $totalExpense == null)
+        $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');
+    else if (isset($expenses['info']))
+        $resp = array('info' => true, 'message' => $expenses['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

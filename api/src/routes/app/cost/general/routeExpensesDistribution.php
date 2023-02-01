@@ -42,6 +42,12 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
         $expensesDistribution = $dataExpensesDistribution['importExpense'];
 
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
+            if (empty($expensesDistribution[$i]['unitsSold']) || empty($expensesDistribution[$i]['turnover'])) {
+                $i = $i + 1;
+                $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
+
             // Obtener id producto
             $findProduct = $productsDao->findProduct($expensesDistribution[$i], $id_company);
             if (!$findProduct) {
@@ -50,19 +56,11 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
                 break;
             } else $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
 
-            $unitsSold = $expensesDistribution[$i]['unitsSold'];
-            $turnover = $expensesDistribution[$i]['turnover'];
-            if (empty($unitsSold) || empty($turnover)) {
-                $i = $i + 1;
-                $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            } else {
-                $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($expensesDistribution[$i], $id_company);
-                if (!$findExpenseDistribution) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportExpenseDistribution['insert'] = $insert;
-                $dataImportExpenseDistribution['update'] = $update;
-            }
+            $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($expensesDistribution[$i], $id_company);
+            if (!$findExpenseDistribution) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportExpenseDistribution['insert'] = $insert;
+            $dataImportExpenseDistribution['update'] = $update;
         }
     } else
         $dataImportExpenseDistribution = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -129,23 +127,20 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $id_company = $_SESSION['id_company'];
     $dataExpensesDistribution = $request->getParsedBody();
 
-    if (empty($dataExpensesDistribution['selectNameProduct']) || empty($dataExpensesDistribution['unitsSold']) || empty($dataExpensesDistribution['turnover']))
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
-    else {
-        $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution);
-        // Calcular gasto asignable
-        $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
+    $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution);
+    // Calcular gasto asignable
+    $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
 
-        // Calcular Precio del producto
-        $priceProduct = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+    // Calcular Precio del producto
+    $priceProduct = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
-        if ($expensesDistribution == null && $assignableExpense == null && $priceProduct == null)
-            $resp = array('success' => true, 'message' => 'Distribución de gasto actualizada correctamente');
-        else if (isset($expensesDistribution['info']))
-            $resp = array('info' => true, 'message' => $expensesDistribution['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
+    if ($expensesDistribution == null && $assignableExpense == null && $priceProduct == null)
+        $resp = array('success' => true, 'message' => 'Distribución de gasto actualizada correctamente');
+    else if (isset($expensesDistribution['info']))
+        $resp = array('info' => true, 'message' => $expensesDistribution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

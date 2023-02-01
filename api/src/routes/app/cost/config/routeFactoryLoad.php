@@ -47,9 +47,7 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
                 break;
             } else $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
 
-            $descripcion = $factoryLoad[$i]['descriptionFactoryLoad'];
-            $cost = $factoryLoad[$i]['costFactory'];
-            if (empty($descripcion) || empty($cost)) {
+            if (empty($factoryLoad[$i]['descriptionFactoryLoad']) || empty($factoryLoad[$i]['costFactory'])) {
                 $i = $i + 1;
                 $dataImportFactoryLoad = array('error' => true, 'message' => "Campos vacios en fila {$i}");
                 break;
@@ -77,6 +75,9 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
     if ($dataFactoryLoads > 1) {
         $factoryLoad = $factoryloadDao->insertFactoryLoadByCompany($dataFactoryLoad, $id_company);
+
+        $lastFactoryLoad = $factoryloadDao->findLastInsertedFactoryLoad($id_company);
+        $factoryLoad['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
 
         // Calcular costo por minuto
         $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
@@ -108,6 +109,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
             // Falta verificar datos para actualizar
             $resolution = $factoryloadDao->insertFactoryLoadByCompany($factoryLoad[$i], $id_company);
+            $lastFactoryLoad = $factoryloadDao->findLastInsertedFactoryLoad($id_company);
+            $factoryLoad[$i]['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
 
             // Calcular costo por minuto
             $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($factoryLoad[$i], $id_company);
@@ -137,34 +140,29 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     $id_company = $_SESSION['id_company'];
     $dataFactoryLoad = $request->getParsedBody();
 
+    $factoryLoad = $factoryloadDao->updateFactoryLoad($dataFactoryLoad);
+
+    // Calcular costo por minuto
+    $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
+
+    // Calcular costo indirecto
+    $indirectCost = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
+
+    // Calcular Precio products_costs
+    $priceProduct = $priceProductDao->calcPriceByMachine($dataFactoryLoad['idMachine'], $id_company);
+
     if (
-        empty($dataFactoryLoad['idMachine']) || empty($dataFactoryLoad['descriptionFactoryLoad']) || empty($dataFactoryLoad['costFactory'])
+        $factoryLoad == null && $costMinute == null &&
+        $indirectCost == null && $priceProduct == null
     )
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
-    else {
-        $factoryLoad = $factoryloadDao->updateFactoryLoad($dataFactoryLoad);
+        $resp = array('success' => true, 'message' => 'Carga fabril actualizada correctamente');
+    else if (isset($factoryLoad['info']))
+        $resp = array('info' => true, 'message' => $factoryLoad['message']);
+    else if ($costMinute == 1)
+        $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
-        // Calcular costo por minuto
-        $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
-
-        // Calcular costo indirecto
-        $indirectCost = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
-
-        // Calcular Precio products_costs
-        $priceProduct = $priceProductDao->calcPriceByMachine($dataFactoryLoad['idMachine'], $id_company);
-
-        if (
-            $factoryLoad == null && $costMinute == null &&
-            $indirectCost == null && $priceProduct == null
-        )
-            $resp = array('success' => true, 'message' => 'Carga fabril actualizada correctamente');
-        else if (isset($factoryLoad['info']))
-            $resp = array('info' => true, 'message' => $factoryLoad['message']);
-        else if ($costMinute == 1)
-            $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

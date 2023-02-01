@@ -76,13 +76,7 @@ $(document).ready(function () {
       hoursMachine *
       daysMachine;
 
-    if (
-      Machine == '' ||
-      Machine == null ||
-      data == '' ||
-      isNaN(data) ||
-      data <= 0
-    ) {
+    if (Machine == '' || Machine == null || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -104,14 +98,7 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataMachine);
 
-    if (resp.success == true) {
-      $('.cardCreateMachines').hide(800);
-      $('#formCreateMachine').trigger('reset');
-      toastr.success(resp.message);
-      updateTable();
-      return false;
-    } else if (resp.error == true) toastr.error(resp.message);
-    else if (resp.info == true) toastr.info(data.message);
+    message(resp);
   };
 
   /* Eliminar productos */
