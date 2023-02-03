@@ -16,10 +16,10 @@ class ValueMinuteDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function calculateValueMinute($dataPayroll, $dataReplace)
+    public function calculateValueMinute($dataPayroll)
     {
         /* Calcular salario neto */
-        $salaryNet = ((intval($dataReplace['basicSalary']) + $dataReplace['transport']) * (1 + floatval($dataPayroll['factor']) / 100)) + $dataReplace['bonification'] + $dataReplace['endowment'];
+        $salaryNet = ((intval($dataPayroll['basicSalary']) + $dataPayroll['transport']) * (1 + floatval($dataPayroll['factor']) / 100)) + $dataPayroll['bonification'] + $dataPayroll['endowment'];
 
         /* Total horas */
         $totalHoursMonth = floatval($dataPayroll['workingDaysMonth']) * floatval($dataPayroll['workingHoursDay']);
@@ -29,7 +29,8 @@ class ValueMinuteDao
         $minuteValue =  $hourCost / 60;
 
         /* retorna los valores calculados */
-        $payrollCalculate = array('salaryNet' => $salaryNet, 'minuteValue' => $minuteValue);
-        return $payrollCalculate;
+        $dataPayroll['salaryNet'] = $salaryNet;
+        $dataPayroll['minuteValue'] = $minuteValue;
+        return $dataPayroll;
     }
 }

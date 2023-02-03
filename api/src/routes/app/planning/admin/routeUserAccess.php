@@ -1,10 +1,12 @@
 <?php
 
 use tezlikv3\dao\GeneralUserAccessDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PlanningUserAccessDao;
 use tezlikv3\dao\UsersDao;
 
 $usersDao = new UsersDao();
+$lastDataDao = new LastDataDao();
 $userAccessDao = new PlanningUserAccessDao();
 $generalUAccessDao = new GeneralUserAccessDao();
 
@@ -31,7 +33,7 @@ $app->post('/planningUserAccess', function (Request $request, Response $response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $generalUAccessDao, $usersDao) {
+$app->post('/addPlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $lastDataDao, $generalUAccessDao, $usersDao) {
     session_start();
     $dataUserAccess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -46,7 +48,7 @@ $app->post('/addPlanningUserAccess', function (Request $request, Response $respo
         if (isset($dataUserAccess['idUser']))
             $user = $dataUserAccess;
         else {
-            $user = $usersDao->findLastInsertedUser($id_company);
+            $user = $lastDataDao->findLastInsertedUser($id_company);
         }
 
         $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $user['idUser']);
@@ -65,7 +67,7 @@ $app->post('/addPlanningUserAccess', function (Request $request, Response $respo
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $generalUAccessDao, $usersDao) {
+$app->post('/updatePlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $lastDataDao, $generalUAccessDao, $usersDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataUserAccess = $request->getParsedBody();
@@ -75,7 +77,7 @@ $app->post('/updatePlanningUserAccess', function (Request $request, Response $re
     if (isset($dataUserAccess['idUser']))
         $user = $dataUserAccess;
     else {
-        $user = $usersDao->findLastInsertedUser($id_company);
+        $user = $lastDataDao->findLastInsertedUser($id_company);
     }
 
     /* Modificar accesos */

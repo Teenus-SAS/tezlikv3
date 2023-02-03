@@ -1,11 +1,15 @@
 <?php
 
+use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\PayrollDao;
 use tezlikv3\dao\ProcessDao;
 use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\dao\ValueMinuteDao;
 
 $payrollDao = new PayrollDao();
+$valueMinuteDao = new ValueMinuteDao();
+$convertDataDao = new ConvertDataDao();
 $processDao = new ProcessDao();
 $costWorkforceDao = new CostWorkforceDao();
 $priceProductDao = new PriceProductDao();
@@ -73,7 +77,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPayroll', function (Request $request, Response $response) use ($payrollDao, $processDao, $costWorkforceDao, $priceProductDao) {
+$app->post('/addPayroll', function (Request $request, Response $response) use ($payrollDao, $convertDataDao, $valueMinuteDao, $processDao, $costWorkforceDao, $priceProductDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
@@ -81,6 +85,8 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
     $dataPayrolls = sizeof($dataPayroll);
 
     if ($dataPayrolls > 1) {
+        $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
         $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
@@ -103,6 +109,9 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
             empty($payroll[$i]['extraTime']) ? $payroll[$i]['extraTime'] = 0 : $payroll[$i]['extraTime'];
             empty($payroll[$i]['bonification']) ? $payroll[$i]['bonification'] = 0 : $payroll[$i]['bonification'];
 
+            $payroll[$i] = $convertDataDao->strReplacePayroll($payroll[$i]);
+            $payroll[$i] = $valueMinuteDao->calculateValueMinute($payroll[$i]);
+
             if (!$findPayroll)
                 $resolution = $payrollDao->insertPayrollByCompany($payroll[$i], $id_company);
             else {
@@ -124,10 +133,14 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePayroll', function (Request $request, Response $response, $args) use ($payrollDao, $costWorkforceDao, $priceProductDao) {
+$app->post('/updatePayroll', function (Request $request, Response $response, $args) use ($payrollDao, $convertDataDao, $valueMinuteDao, $costWorkforceDao, $priceProductDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
+
+    $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+    $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+
 
     $payroll = $payrollDao->updatePayroll($dataPayroll);
 

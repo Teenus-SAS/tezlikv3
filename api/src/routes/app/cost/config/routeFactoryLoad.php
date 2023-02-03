@@ -4,9 +4,11 @@ use tezlikv3\dao\FactoryLoadDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\CostMinuteDao;
 use tezlikv3\dao\IndirectCostDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 
 $factoryloadDao = new FactoryLoadDao();
+$lastDataDao = new LastDataDao();
 $machinesDao = new MachinesDao();
 $costMinuteDao = new CostMinuteDao();
 $indirectCostDao = new IndirectCostDao();
@@ -66,7 +68,14 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addFactoryLoad', function (Request $request, Response $response, $args) use ($factoryloadDao, $machinesDao, $costMinuteDao, $indirectCostDao, $priceProductDao) {
+$app->post('/addFactoryLoad', function (Request $request, Response $response, $args) use (
+    $factoryloadDao,
+    $lastDataDao,
+    $machinesDao,
+    $costMinuteDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataFactoryLoad = $request->getParsedBody();
@@ -76,7 +85,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     if ($dataFactoryLoads > 1) {
         $factoryLoad = $factoryloadDao->insertFactoryLoadByCompany($dataFactoryLoad, $id_company);
 
-        $lastFactoryLoad = $factoryloadDao->findLastInsertedFactoryLoad($id_company);
+        $lastFactoryLoad = $lastDataDao->findLastInsertedFactoryLoad($id_company);
         $factoryLoad['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
 
         // Calcular costo por minuto
@@ -109,7 +118,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
             // Falta verificar datos para actualizar
             $resolution = $factoryloadDao->insertFactoryLoadByCompany($factoryLoad[$i], $id_company);
-            $lastFactoryLoad = $factoryloadDao->findLastInsertedFactoryLoad($id_company);
+            $lastFactoryLoad = $lastDataDao->findLastInsertedFactoryLoad($id_company);
             $factoryLoad[$i]['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
 
             // Calcular costo por minuto

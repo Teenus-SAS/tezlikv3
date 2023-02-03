@@ -16,7 +16,7 @@ class PlanProductsProcessDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function productsprocess($idProduct, $id_company)
+    public function findAllProductsprocess($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pp.id_process, pp.id_machine, pp.id_product_process,
@@ -55,8 +55,6 @@ class PlanProductsProcessDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $dataProductProcess = $this->convertData($dataProductProcess);
-
         try {
             $row = $this->findProductProcess($dataProductProcess, $id_company);
 
@@ -87,8 +85,6 @@ class PlanProductsProcessDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $dataProductProcess = $this->convertData($dataProductProcess);
-
         try {
             $stmt = $connection->prepare("UPDATE products_process SET id_product = :id_product, id_process = :id_process, id_machine = :id_machine, enlistment_time = :enlistment_time, operation_time = :operation_time
                                           WHERE id_product_process = :id_product_process");
@@ -106,16 +102,6 @@ class PlanProductsProcessDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
-    }
-
-    public function convertData($dataProductProcess)
-    {
-        $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
-        $dataProductProcess['enlistmentTime'] = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
-        $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
-        $dataProductProcess['operationTime'] = str_replace(',', '.', $dataProductProcess['operationTime']);
-
-        return $dataProductProcess;
     }
 
     public function deleteProductProcess($id_product_process)

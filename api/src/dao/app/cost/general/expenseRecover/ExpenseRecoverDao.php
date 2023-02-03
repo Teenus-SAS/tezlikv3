@@ -47,29 +47,6 @@ class ExpenseRecoverDao
         return $expenseRecover;
     }
 
-    public function findAllProducts($id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company
-                                      AND p.id_product NOT IN (SELECT id_product FROM expenses_recover WHERE id_product = p.id_product)");
-        $stmt->execute(['id_company' => $id_company]);
-        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $products;
-    }
-
-    public function findExpenseRecoverByIdProduct($dataExpense)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT * FROM expenses_recover WHERE id_product = :id_product");
-        $stmt->execute([
-            'id_product' => trim($dataExpense['idOldProduct']),
-        ]);
-        $expenseRecover = $stmt->fetch($connection::FETCH_ASSOC);
-        return $expenseRecover;
-    }
-
     public function insertRecoverExpenseByCompany($dataExpense, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -122,27 +99,6 @@ class ExpenseRecoverDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM expenses_recover WHERE id_expense_recover = :id_expense_recover");
                 $stmt->execute(['id_expense_recover' => $id_expense_recover]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-            }
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
-    public function deleteRecoverExpenseByProduct($dataExpense)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $stmt = $connection->prepare("SELECT * FROM expenses_recover WHERE id_product = :id_product");
-            $stmt->execute(['id_product' => $dataExpense['idProduct']]);
-            $row = $stmt->rowCount();
-
-            if ($row > 0) {
-                $stmt = $connection->prepare("DELETE FROM expenses_recover WHERE id_product = :id_product");
-                $stmt->execute(['id_product' => $dataExpense['idProduct']]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {

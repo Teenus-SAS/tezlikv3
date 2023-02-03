@@ -45,17 +45,6 @@ class CompaniesDao
         return $companyData;
     }
 
-    public function findLastCompany()
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT MAX(id_company) AS idCompany FROM companies");
-        $stmt->execute();
-        $lastId = $stmt->fetch($connection::FETCH_ASSOC);
-
-        return $lastId;
-    }
-
     //Agregar Empresa
     public function addCompany($dataCompany)
     {

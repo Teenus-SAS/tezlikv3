@@ -49,7 +49,9 @@ class PlanMaterialsDao
   public function insertMaterialsByCompany($dataMaterial, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = $this->convertQuantity($dataMaterial);
+
+    $quantity = str_replace('.', '', $dataMaterial['quantity']);
+    $quantity = str_replace(',', '.', $quantity);
 
     $dataMaterial['category'] == 'Insumos' ? $dataMaterial['category'] = 1 : $dataMaterial['category'];
     $dataMaterial['category'] == 'Materiales' ? $dataMaterial['category'] = 2 : $dataMaterial['category'];
@@ -80,7 +82,9 @@ class PlanMaterialsDao
   public function updateMaterialsByCompany($dataMaterial)
   {
     $connection = Connection::getInstance()->getConnection();
-    $quantity = $this->convertQuantity($dataMaterial);
+
+    $quantity = str_replace('.', '', $dataMaterial['quantity']);
+    $quantity = str_replace(',', '.', $quantity);
 
     $dataMaterial['category'] == 'Insumos' ? $dataMaterial['category'] = 1 : $dataMaterial['category'];
     $dataMaterial['category'] == 'Materiales' ? $dataMaterial['category'] = 2 : $dataMaterial['category'];
@@ -102,14 +106,6 @@ class PlanMaterialsDao
       $error = array('info' => true, 'message' => $message);
       return $error;
     }
-  }
-
-  public function convertQuantity($dataMaterial)
-  {
-    $quantity = str_replace('.', '', $dataMaterial['quantity']);
-    $quantity = str_replace(',', '.', $quantity);
-
-    return $quantity;
   }
 
   public function deleteMaterial($id_material)

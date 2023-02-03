@@ -45,9 +45,6 @@ class Planning_machinesDao
     public function insertPlanMachinesByCompany($dataPMachines, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-
-        $time = $this->timeConverter($dataPMachines);
-
         try {
             $stmt = $connection->prepare("INSERT INTO plan_program_machines (id_machine, id_company, number_workers, hours_day, hour_start, hour_end, year, january, 
                                                         february, march, april, may, june, july, august, september, october, november, december)
@@ -58,9 +55,9 @@ class Planning_machinesDao
                 'id_machine' => $dataPMachines['idMachine'],            'may' => $dataPMachines['may'],
                 'number_workers' => $dataPMachines['numberWorkers'],    'june' => $dataPMachines['june'],
                 'hours_day' => $dataPMachines['hoursDay'],              'july' => $dataPMachines['july'],
-                'hour_start' => $time['hourStart'],                     'august' => $dataPMachines['august'],
-                'hour_end' => $time['hourEnd'],                         'september' => $dataPMachines['september'],
-                'year' =>  $time['year'],                               'october' => $dataPMachines['october'],
+                'hour_start' => $dataPMachines['hourStart'],                     'august' => $dataPMachines['august'],
+                'hour_end' => $dataPMachines['hourEnd'],                         'september' => $dataPMachines['september'],
+                'year' =>  $dataPMachines['year'],                               'october' => $dataPMachines['october'],
                 'january' => $dataPMachines['january'],                 'november' => $dataPMachines['november'],
                 'february' => $dataPMachines['february'],               'december' => $dataPMachines['december'],
                 'march' => $dataPMachines['march']
@@ -77,8 +74,6 @@ class Planning_machinesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $time = $this->timeConverter($dataPMachines);
-
         try {
             $stmt = $connection->prepare("UPDATE plan_program_machines SET id_machine = :id_machine, number_workers = :number_workers, hours_day = :hours_day, hour_start = :hour_start, hour_end = :hour_end, 
                                                     year = :year, january = :january, february = :february, march = :march, april = :april, may = :may, june = :june, july = :july,
@@ -89,9 +84,9 @@ class Planning_machinesDao
                 'id_machine' => $dataPMachines['idMachine'],                    'may' => $dataPMachines['may'],
                 'number_workers' => $dataPMachines['numberWorkers'],            'june' => $dataPMachines['june'],
                 'hours_day' => $dataPMachines['hoursDay'],                      'july' => $dataPMachines['july'],
-                'hour_start' => $time['hourStart'],                             'august' => $dataPMachines['august'],
-                'hour_end' => $time['hourEnd'],                                 'september' => $dataPMachines['september'],
-                'year' => $time['year'],                                        'october' => $dataPMachines['october'],
+                'hour_start' => $dataPMachines['hourStart'],                             'august' => $dataPMachines['august'],
+                'hour_end' => $dataPMachines['hourEnd'],                                 'september' => $dataPMachines['september'],
+                'year' => $dataPMachines['year'],                                        'october' => $dataPMachines['october'],
                 'january' => $dataPMachines['january'],                         'november' => $dataPMachines['november'],
                 'february' => $dataPMachines['february'],                       'december' => $dataPMachines['december'],
                 'march' => $dataPMachines['march']
@@ -117,15 +112,5 @@ class Planning_machinesDao
             $stmt->execute(['id_program_machine' => $id_program_machine]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
-    }
-
-    // Convertir tiempo
-    public function timeConverter($dataPMachines)
-    {
-        $time['year'] = date('Y');
-        $time['hourStart'] = date("G:i", strtotime($dataPMachines['hourStart']));
-        $time['hourEnd'] = date("G:i", strtotime($dataPMachines['hourEnd']));
-
-        return $time;
     }
 }

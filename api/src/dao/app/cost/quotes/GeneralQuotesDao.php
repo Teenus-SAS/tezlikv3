@@ -16,30 +16,6 @@ class GeneralQuotesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findLastQuote()
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT MAX(id_quote) AS id_quote FROM quotes");
-        $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $quote = $stmt->fetch($connection::FETCH_ASSOC);
-        return $quote;
-    }
-
-    public function findLastInsertedQCompany()
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT MAX(id_quote_company) AS id_quote_company FROM quote_companies");
-        $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $company = $stmt->fetch($connection::FETCH_ASSOC);
-        return $company;
-    }
-
     public function findAllQuotesProductsByIdProduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();

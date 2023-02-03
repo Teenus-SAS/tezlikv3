@@ -2,12 +2,14 @@
 
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\GeneralQuotesDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\QuoteProductsDao;
 use tezlikv3\dao\QuotesDao;
 use tezlikv3\dao\SendMakeEmailDao;
 
 $quotesDao = new QuotesDao();
 $quoteProductsDao = new QuoteProductsDao();
+$lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $convertDataDao = new ConvertDataDao();
 $sendEmailDao = new SendMakeEmailDao();
@@ -24,7 +26,12 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
 });
 
 /* Clonar cotización */
-$app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao, $generalQuotesDao, $convertDataDao) {
+$app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use (
+    $quotesDao,
+    $quoteProductsDao,
+    $lastDataDao,
+    $convertDataDao
+) {
     $quote = $quotesDao->findQuote($args['id_quote']);
 
     $dataQuote['company'] = $quote['id_company'];
@@ -40,7 +47,7 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 
     $products = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
 
-    $lastQuote = $generalQuotesDao->findLastQuote();
+    $lastQuote = $lastDataDao->findLastQuote();
 
     for ($i = 0; $i < sizeof($products); $i++) {
         $product = $convertDataDao->convertDataQuotes($products[$i]);
@@ -75,14 +82,20 @@ $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $re
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addQuote', function (Request $request, Response $response, $arsg) use ($quotesDao, $quoteProductsDao, $generalQuotesDao, $convertDataDao) {
+$app->post('/addQuote', function (Request $request, Response $response, $arsg) use (
+    $quotesDao,
+    $quoteProductsDao,
+    $lastDataDao,
+    $generalQuotesDao,
+    $convertDataDao
+) {
     $dataQuote = $request->getParsedBody();
 
     $quote = $quotesDao->insertQuote($dataQuote);
 
     if ($quote == null) {
         /* Obtener id cotizacion */
-        $quote = $generalQuotesDao->findLastQuote();
+        $quote = $lastDataDao->findLastQuote();
 
         $products = $dataQuote['products'];
 

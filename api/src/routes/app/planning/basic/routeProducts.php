@@ -3,9 +3,11 @@
 use tezlikv3\dao\ImageDao;
 use tezlikv3\dao\invCategoriesDao;
 use tezlikv3\dao\InvMoldsDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PlanProductsDao;
 
 $productsDao = new PlanProductsDao();
+$lastDataDao = new LastDataDao();
 $imageDao = new ImageDao();
 $invMoldsDao = new InvMoldsDao();
 $invCategoriesDao = new invCategoriesDao();
@@ -72,7 +74,13 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $imageDao, $invMoldsDao, $invCategoriesDao) {
+$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use (
+    $productsDao,
+    $lastDataDao,
+    $imageDao,
+    $invMoldsDao,
+    $invCategoriesDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
@@ -85,7 +93,7 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
         $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
         //ULTIMO REGISTRO DE ID, EL MÁS ALTO
-        $lastProductId = $productsDao->lastInsertedProductId($id_company);
+        $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
         if (sizeof($_FILES) > 0) $imageDao->imageProduct($lastProductId['id_product'], $id_company);
 
@@ -112,7 +120,7 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
 
             if (!$product) {
                 $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
-                // $lastProductId = $productsDao->lastInsertedProductId($id_company);
+                // $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
                 // $products[$i]['idProduct'] = $lastProductId['id_product'];
             } else {

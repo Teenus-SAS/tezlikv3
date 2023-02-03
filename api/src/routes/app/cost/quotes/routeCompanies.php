@@ -2,9 +2,11 @@
 
 use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\ImageDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\QCompaniesDao;
 
 $companiesDao = new QCompaniesDao();
+$lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $imageDao = new ImageDao();
 
@@ -17,7 +19,11 @@ $app->get('/quotesCompanies', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addQCompany', function (Request $request, Response $response, $args) use ($companiesDao, $generalQuotesDao, $imageDao) {
+$app->post('/addQCompany', function (Request $request, Response $response, $args) use (
+    $companiesDao,
+    $lastDataDao,
+    $imageDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -32,7 +38,7 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
         $companies = $companiesDao->insertCompany($dataCompany, $id_company);
 
         if (sizeof($_FILES) > 0) {
-            $lastCompany = $generalQuotesDao->findLastInsertedQCompany();
+            $lastCompany = $lastDataDao->findLastInsertedQCompany();
 
             // Insertar imagen
             $imageDao->imageQCompany($lastCompany['id_quote_company'], $id_company);

@@ -16,8 +16,62 @@ class ConvertDataDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    /* Cotizacion */
-    public function convertDataPayroll($dataPayroll)
+    // public function strReplace($data)
+    // {
+    //     $arr = array();
+    //     foreach ($data as $key => $value) {
+    //         $arr["$key"] = str_replace('.', '', $value);
+    //     }
+
+    //     return $arr;
+    // }
+
+    // public function strReplaceDecimals($data)
+    // {
+    //     $arr = array();
+    //     foreach ($data as $key => $value) {
+    //         $arr["$key"] = str_replace(',', '.', $value);
+    //     }
+
+    //     return $arr;
+    // }
+
+    /* Maquinas */
+    public function strReplaceMachines($dataMachine)
+    {
+        $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
+        $dataMachine['costMachine'] = str_replace(',', '.', $dataMachine['costMachine']);
+        $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
+        $dataMachine['residualValue'] = str_replace(',', '.', $dataMachine['residualValue']);
+        $dataMachine['depreciationYears'] = str_replace(',', '.', $dataMachine['depreciationYears']);
+        $dataMachine['hoursMachine'] = str_replace(',', '.', $dataMachine['hoursMachine']);
+        $dataMachine['daysMachine'] = str_replace(',', '.', $dataMachine['daysMachine']);
+
+        return $dataMachine;
+    }
+
+    /* Productos Materias */
+    public function strReplaceProductsMaterials($dataProductMaterial)
+    {
+        $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
+        $quantity = str_replace(',', '.', $quantity);
+
+        return $quantity;
+    }
+
+    /* Productos Procesos */
+    public function strReplaceProductsProcess($dataProductProcess)
+    {
+        $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
+        $dataProductProcess['enlistmentTime'] = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
+        $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
+        $dataProductProcess['operationTime'] = str_replace(',', '.', $dataProductProcess['operationTime']);
+
+        return $dataProductProcess;
+    }
+
+    /* Nomina */
+    public function strReplacePayroll($dataPayroll)
     {
         $salaryBasic = str_replace('.', '', $dataPayroll['basicSalary']);
         $transport = str_replace('.', '', $dataPayroll['transport']);
@@ -30,18 +84,17 @@ class ConvertDataDao
         $extraTime == '' ? $extraTime = 0 : $extraTime;
         $endowment == '' ? $endowment = 0 : $endowment;
 
-        $dataReplace['basicSalary']  = $salaryBasic;
-        $dataReplace['transport'] = $transport;
-        $dataReplace['bonification'] = $bonification;
-        $dataReplace['extraTime'] = $extraTime;
-        $dataReplace['endowment'] = $endowment;
+        $dataPayroll['basicSalary']  = $salaryBasic;
+        $dataPayroll['transport'] = $transport;
+        $dataPayroll['bonification'] = $bonification;
+        $dataPayroll['extraTime'] = $extraTime;
+        $dataPayroll['endowment'] = $endowment;
 
-        return $dataReplace;
+        return $dataPayroll;
     }
 
-
     /* Cotizacion */
-    public function convertDataQuotes($dataQuote)
+    public function strReplaceQuotes($dataQuote)
     {
         $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
 
@@ -50,5 +103,20 @@ class ConvertDataDao
         $dataQuote['price'] = str_replace(',', '.', $price);
 
         return $dataQuote;
+    }
+
+    /* Moldes */
+    public function strReplaceMold($dataMold)
+    {
+        $dataMold['assemblyTime'] = str_replace('.', '', $dataMold['assemblyTime']);
+        $dataMold['assemblyTime'] = str_replace(',', '.', $dataMold['assemblyTime']);
+        $dataMold['assemblyProduction'] = str_replace('.', '', $dataMold['assemblyProduction']);
+        $dataMold['assemblyProduction'] = str_replace(',', '.', $dataMold['assemblyProduction']);
+        $dataMold['cavity'] = str_replace('.', '', $dataMold['cavity']);
+        $dataMold['cavity'] = str_replace(',', '.', $dataMold['cavity']);
+        $dataMold['cavityAvailable'] = str_replace('.', '', $dataMold['cavityAvailable']);
+        $dataMold['cavityAvailable'] = str_replace(',', '.', $dataMold['cavityAvailable']);
+
+        return $dataMold;
     }
 }

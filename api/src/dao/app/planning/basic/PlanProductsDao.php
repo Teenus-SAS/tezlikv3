@@ -117,16 +117,6 @@ class PlanProductsDao
     }
   }
 
-  public function lastInsertedProductId($id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-    $sql = "SELECT MAX(id_product) AS id_product FROM products WHERE id_company = :id_company";
-    $query = $connection->prepare($sql);
-    $query->execute(['id_company' => $id_company]);
-    $id_product = $query->fetch($connection::FETCH_ASSOC);
-    return $id_product;
-  }
-
   public function deleteProduct($id_product)
   {
     $connection = Connection::getInstance()->getConnection();

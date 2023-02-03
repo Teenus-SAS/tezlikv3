@@ -16,7 +16,7 @@ class ProductsMaterialsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function productsmaterials($idProduct, $id_company)
+    public function findAllProductsmaterials($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT pm.id_product_material, m.id_material, m.reference, m.material, m.unit, pm.quantity, m.cost 
@@ -45,26 +45,10 @@ class ProductsMaterialsDao
         return $findProductMaterial;
     }
 
-    // Consultar datos product_material
-    public function findProductMaterialByIdProduct($dataProductMaterial)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT id_material, FORMAT(quantity, 2, 'de_DE') AS quantity
-                                      FROM products_materials WHERE id_product = :id_product");
-        $stmt->execute([
-            'id_product' => $dataProductMaterial['idOldProduct']
-        ]);
-        $findProductMaterial = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $findProductMaterial;
-    }
-
     // Insertar productos materia prima
     public function insertProductsMaterialsByCompany($dataProductMaterial, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-
-        $quantity = $this->decimalsQuantity($dataProductMaterial);
 
         try {
             $stmt = $connection->prepare("INSERT INTO products_materials (id_material, id_company, id_product, quantity)
@@ -73,7 +57,7 @@ class ProductsMaterialsDao
                 'id_material' => $dataProductMaterial['material'],
                 'id_company' => $id_company,
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => trim($quantity),
+                'quantity' => trim($dataProductMaterial['quantity']),
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -88,8 +72,6 @@ class ProductsMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $quantity = $this->decimalsQuantity($dataProductMaterial);
-
         try {
             $stmt = $connection->prepare("UPDATE products_materials SET id_material = :id_material, id_product = :id_product, quantity = :quantity
                                     WHERE id_product_material = :id_product_material");
@@ -97,7 +79,7 @@ class ProductsMaterialsDao
                 'id_product_material' => $dataProductMaterial['idProductMaterial'],
                 'id_material' => $dataProductMaterial['material'],
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => trim($quantity),
+                'quantity' => trim($dataProductMaterial['quantity']),
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -106,14 +88,6 @@ class ProductsMaterialsDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
-    }
-
-    public function decimalsQuantity($dataProductMaterial)
-    {
-        $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
-        $quantity = str_replace(',', '.', $quantity);
-
-        return $quantity;
     }
 
     // Borrar productos materia prima general
@@ -128,21 +102,6 @@ class ProductsMaterialsDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_materials WHERE id_product_material = :id_product_material");
             $stmt->execute(['id_product_material' => $dataProductMaterial['idProductMaterial']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        }
-    }
-
-    public function deleteProductMaterialByProduct($dataProductMaterial)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT * FROM products_materials WHERE id_product = :id_product");
-        $stmt->execute(['id_product' => $dataProductMaterial['idProduct']]);
-        $rows = $stmt->rowCount();
-
-        if ($rows > 0) {
-            $stmt = $connection->prepare("DELETE FROM products_materials WHERE id_product = :id_product");
-            $stmt->execute(['id_product' => $dataProductMaterial['idProduct']]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }

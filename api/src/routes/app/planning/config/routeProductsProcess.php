@@ -1,15 +1,15 @@
 <?php
 
+use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\MinimumStockDao;
 use tezlikv3\dao\PlanProductsProcessDao;
 use tezlikv3\dao\PlanProductsDao;
-// use tezlikv3\dao\ProcessPayrollDao;
 use tezlikv3\dao\PlanMachinesDao;
 use tezlikv3\dao\PlanProcessDao;
 
 $productsProcessDao = new PlanProductsProcessDao();
 $productsDao = new PlanProductsDao();
-// $processPayrollDao = new ProcessPayrollDao();
+$convertDataDao = new ConvertDataDao();
 $processDao = new PlanProcessDao();
 $machinesDao = new PlanMachinesDao();
 $minimumStockDao = new MinimumStockDao();
@@ -22,7 +22,7 @@ $app->get('/planProductsProcess/{idProduct}', function (Request $request, Respon
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productProcess = $productsProcessDao->productsprocess($args['idProduct'], $id_company);
+    $productProcess = $productsProcessDao->findAllProductsprocess($args['idProduct'], $id_company);
     $response->getBody()->write(json_encode($productProcess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -95,7 +95,14 @@ $app->post('/planProductsProcessDataValidation', function (Request $request, Res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $productsDao, $processDao, $machinesDao, $minimumStockDao) {
+$app->post('/addPlanProductsProcess', function (Request $request, Response $response, $args) use (
+    $productsProcessDao,
+    $convertDataDao,
+    $productsDao,
+    $processDao,
+    $machinesDao,
+    $minimumStockDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
@@ -103,6 +110,7 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
     $dataProductsProcess = sizeof($dataProductProcess);
 
     if ($dataProductsProcess > 1) {
+        $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
         $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
 
         if ($productProcess == null)
@@ -140,10 +148,12 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
             //false = no, id_product_process = si
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
-            if (!$findProductProcess) {
+            $dataProductProcess = $productProcess[$i];
+            $dataProductProcess = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
 
+            if (!$findProductProcess) {
                 //si no se encuentra, inserta y retorna null, si se encuentra retorna 1
-                $resolution = $productsProcessDao->insertProductsProcessByCompany($productProcess[$i], $id_company);
+                $resolution = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
 
                 if ($resolution == 1) {
                     $i = $i + 1;
@@ -152,7 +162,7 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
                 } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
             } else {
                 $productProcess[$i]['idProductProcess'] = $findProductProcess['id_product_process'];
-                $resolution = $productsProcessDao->updateProductsProcess($productProcess[$i]);
+                $resolution = $productsProcessDao->updateProductsProcess($dataProductProcess);
             }
 
             // Calcular lote economico
@@ -169,12 +179,14 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao) {
+$app->post('/updatePlanProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $convertDataDao) {
     $dataProductProcess = $request->getParsedBody();
 
     if (empty($dataProductProcess['idProduct'] || empty($dataProductProcess['idProcess']) || empty($dataProductProcess['idMachine']) || empty($dataProductProcess['enlistmentTime']) || empty($dataProductProcess['operationTime'])))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
+        $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
+
         $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
         if ($productProcess == null)

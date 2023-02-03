@@ -64,12 +64,6 @@ class PlanningUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        /* Obtener id usuario creado 
-
-        $stmt = $connection->prepare("SELECT MAX(id_user) AS idUser FROM users WHERE id_company = :id_company");
-        $stmt->execute(['id_company' => $id_company]);
-        $idUser = $stmt->fetch($connection::FETCH_ASSOC); */
-
         try {
             $stmt = $connection->prepare("INSERT INTO planning_user_access (id_user, create_mold, create_product, create_material, create_machine, create_process, products_material, products_process, programs_machine, 
                                                                             cicles_machine, inv_category, sale, user, client, orders_type, inventory, plan_order, program, plan_load, explosion_of_material, office) 

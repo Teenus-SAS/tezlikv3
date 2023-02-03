@@ -2,9 +2,11 @@
 
 use tezlikv3\dao\PlanMachinesDao;
 use tezlikv3\dao\Planning_machinesDao;
+use tezlikv3\dao\TimeConvertDao;
 
 $planningMachinesDao = new Planning_machinesDao();
 $machinesDao = new PlanMachinesDao();
+$timeConvertDao = new TimeConvertDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -68,7 +70,11 @@ $app->post('/planningMachinesDataValidation', function (Request $request, Respon
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao, $machinesDao) {
+$app->post('/addPlanningMachines', function (Request $request, Response $response, $args) use (
+    $planningMachinesDao,
+    $timeConvertDao,
+    $machinesDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPMachines = $request->getParsedBody();
@@ -76,6 +82,7 @@ $app->post('/addPlanningMachines', function (Request $request, Response $respons
     $dataPMachine =  sizeof($dataPMachines);
 
     if ($dataPMachine > 1) {
+        $dataPMachine = $timeConvertDao->timeConverter($dataPMachine);
         $planningMachines = $planningMachinesDao->insertPlanMachinesByCompany($dataPMachines, $id_company);
 
         if ($planningMachines == null)
@@ -94,10 +101,13 @@ $app->post('/addPlanningMachines', function (Request $request, Response $respons
 
             $findPlanMachines = $planningMachinesDao->findPlanMachines($planningMachines[$i], $id_company);
 
-            if (!$findPlanMachines) $resolution = $planningMachinesDao->insertPlanMachinesByCompany($planningMachines[$i], $id_company);
+            $dataPMachine = $planningMachines[$i];
+            $dataPMachine = $timeConvertDao->timeConverter($dataPMachine);
+
+            if (!$findPlanMachines) $resolution = $planningMachinesDao->insertPlanMachinesByCompany($dataPMachine, $id_company);
             else {
                 $planningMachines[$i]['idProgramMachine'] = $findPlanMachines['id_program_machine'];
-                $resolution = $planningMachinesDao->updatePlanMachines($planningMachines[$i]);
+                $resolution = $planningMachinesDao->updatePlanMachines($dataPMachine);
             }
         }
         if ($resolution == null) $resp = array('success' => true, 'message' => 'Planeacion de maquina importada correctamente');
@@ -108,7 +118,7 @@ $app->post('/addPlanningMachines', function (Request $request, Response $respons
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+$app->post('/updatePlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao, $timeConvertDao) {
     $dataPMachines = $request->getParsedBody();
 
     if (
@@ -117,7 +127,8 @@ $app->post('/updatePlanningMachines', function (Request $request, Response $resp
     )
         $resp = array('error' => true, 'message' => 'No hubo ningún cambio');
     else {
-        $planningMachines = $planningMachinesDao->updatePlanMachines($dataPMachines);
+        $dataPMachine = $timeConvertDao->timeConverter($dataPMachines);
+        $planningMachines = $planningMachinesDao->updatePlanMachines($dataPMachine);
 
         if ($planningMachines == null)
             $resp = array('success' => true, 'message' => 'Planeación de maquina actualizada correctamente');

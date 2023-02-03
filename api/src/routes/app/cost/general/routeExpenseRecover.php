@@ -1,24 +1,17 @@
 <?php
 
 use tezlikv3\dao\ExpenseRecoverDao;
+use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ProductsDao;
 
 $expenseRecoverDao = new ExpenseRecoverDao();
+$generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $productsDao = new ProductsDao();
 $priceProductDao = new PriceProductDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
-$app->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
-    session_start();
-    $id_company = $_SESSION['id_company'];
-
-    $products = $expenseRecoverDao->findAllProducts($id_company);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-});
 
 $app->get('/expensesRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao) {
     session_start();
@@ -26,6 +19,15 @@ $app->get('/expensesRecover', function (Request $request, Response $response, $a
 
     $expensesRecover = $expenseRecoverDao->findAllExpenseRecoverByCompany($id_company);
     $response->getBody()->write(json_encode($expensesRecover, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) use ($generalExpenseRecoverDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $products = $generalExpenseRecoverDao->findAllProductsNotInERecover($id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

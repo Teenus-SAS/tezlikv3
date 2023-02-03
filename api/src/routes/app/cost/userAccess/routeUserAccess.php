@@ -2,9 +2,11 @@
 
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\UsersDao;
 
 $usersDao = new UsersDao();
+$lastDataDao = new LastDataDao();
 $userAccessDao = new CostUserAccessDao();
 $generalUAccessDao = new GeneralUserAccessDao();
 
@@ -31,7 +33,7 @@ $app->post('/costUserAccess', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $generalUAccessDao, $usersDao) {
+$app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $lastDataDao, $generalUAccessDao, $usersDao) {
     session_start();
     $dataUserAccess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -46,7 +48,7 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
         if (isset($dataUserAccess['idUser']))
             $user = $dataUserAccess;
         else {
-            $user = $usersDao->findLastInsertedUser($id_company);
+            $user = $lastDataDao->findLastInsertedUser($id_company);
         }
 
         $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_company);

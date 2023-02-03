@@ -1,10 +1,12 @@
 <?php
 
+use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\PlanProductsMaterialsDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\MaterialsDao;
 
 $productsMaterialsDao = new PlanProductsMaterialsDao();
+$convertDataDao = new ConvertDataDao();
 $productsDao = new ProductsDao();
 $materialsDao = new MaterialsDao();
 
@@ -15,7 +17,7 @@ $app->get('/planProductsMaterials/{idProduct}', function (Request $request, Resp
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productMaterials = $productsMaterialsDao->productsmaterials($args['idProduct'], $id_company);
+    $productMaterials = $productsMaterialsDao->findAllProductsmaterials($args['idProduct'], $id_company);
 
     $response->getBody()->write(json_encode($productMaterials, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -69,7 +71,12 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProductsMaterials', function (Request $request, Response $response, $args) use ($productsMaterialsDao, $productsDao, $materialsDao) {
+$app->post('/addPlanProductsMaterials', function (Request $request, Response $response, $args) use (
+    $productsMaterialsDao,
+    $convertDataDao,
+    $productsDao,
+    $materialsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProductMaterial = $request->getParsedBody();
@@ -77,6 +84,8 @@ $app->post('/addPlanProductsMaterials', function (Request $request, Response $re
     $dataProductMaterials = sizeof($dataProductMaterial);
 
     if ($dataProductMaterials > 1) {
+        $dataProductMaterial = $convertDataDao->strReplaceProductsMaterials($dataProductMaterial);
+
         $productMaterials = $productsMaterialsDao->insertProductsMaterialsByCompany($dataProductMaterial, $id_company);
 
         if ($productMaterials == null)
@@ -99,10 +108,12 @@ $app->post('/addPlanProductsMaterials', function (Request $request, Response $re
 
             $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
 
-            if (!$findProductsMaterials) $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($productMaterials[$i], $id_company);
+            $dataProductMaterial = $convertDataDao->strReplaceProductsMaterials($productMaterials[$i]);
+
+            if (!$findProductsMaterials) $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($dataProductMaterial, $id_company);
             else {
                 $productMaterials[$i]['idProductMaterial'] = $findProductsMaterials['id_product_material'];
-                $resolution = $productsMaterialsDao->updateProductsMaterials($productMaterials[$i]);
+                $resolution = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
             }
         }
         if ($resolution == null)
@@ -114,12 +125,13 @@ $app->post('/addPlanProductsMaterials', function (Request $request, Response $re
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanProductsMaterials', function (Request $request, Response $response, $args) use ($productsMaterialsDao) {
+$app->post('/updatePlanProductsMaterials', function (Request $request, Response $response, $args) use ($productsMaterialsDao, $convertDataDao) {
     $dataProductMaterial = $request->getParsedBody();
 
     if (empty($dataProductMaterial['material']) || empty($dataProductMaterial['idProduct'] || empty($dataProductMaterial['quantity'])))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
+        $dataProductMaterial = $convertDataDao->strReplaceProductsMaterials($dataProductMaterial);
         $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
 
         if ($productMaterials == null)

@@ -52,12 +52,8 @@ class PayrollDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $dataReplace = $this->strReplaceData($dataPayroll);
-
     if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1) $dataPayroll['factor'] = 38.35;
     if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
-
-    $payrollCalculate = $this->calculateValueMinute($dataPayroll, $dataReplace);
 
     try {
       $stmt = $connection->prepare("INSERT INTO payroll (id_company, id_process, employee, salary, transport, extra_time, bonification, endowment,
@@ -67,12 +63,12 @@ class PayrollDao
       $stmt->execute([
 
         'id_company' => $id_company,                                      'employee' => ucwords(trim($dataPayroll['employee'])),
-        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataReplace['basicSalary']),
-        'transport' => trim($dataReplace['transport']),                   'extra_time' => trim($dataReplace['extraTime']),
-        'bonification' => trim($dataReplace['bonification']),             'endowment' => trim($dataReplace['endowment']),
+        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
+        'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
+        'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
         'working_days_month' => trim($dataPayroll['workingDaysMonth']),   'hours_day' => trim($dataPayroll['workingHoursDay']),
         'factor_benefit' => trim($dataPayroll['factor']),                 'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
-        'salary_net' => trim($payrollCalculate['salaryNet']),             'minute_value' => trim($payrollCalculate['minuteValue'])
+        'salary_net' => trim($dataPayroll['salaryNet']),             'minute_value' => trim($dataPayroll['minuteValue'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -88,14 +84,10 @@ class PayrollDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $dataReplace = $this->strReplaceData($dataPayroll);
-
     if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1)
       $dataPayroll['factor'] = 38.35;
     if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2)
       $dataPayroll['factor'] = 0;
-
-    $payrollCalculate = $this->calculateValueMinute($dataPayroll, $dataReplace);
 
     try {
       $stmt = $connection->prepare("UPDATE payroll SET employee=:employee, id_process=:id_process, salary=:salary, transport=:transport, extra_time=:extra_time,
@@ -105,12 +97,12 @@ class PayrollDao
       $stmt->execute([
 
         'id_payroll' => trim($dataPayroll['idPayroll']),                  'employee' => ucwords(trim($dataPayroll['employee'])),
-        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataReplace['basicSalary']),
-        'transport' => trim($dataReplace['transport']),                   'extra_time' => trim($dataReplace['extraTime']),
-        'bonification' => trim($dataReplace['bonification']),             'endowment' => trim($dataReplace['endowment']),
+        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
+        'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
+        'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
         'working_days_month' => trim($dataPayroll['workingDaysMonth']),   'hours_day' => trim($dataPayroll['workingHoursDay']),
         'factor_benefit' => trim($dataPayroll['factor']),                 'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
-        'salary_net' => trim($payrollCalculate['salaryNet']),             'minute_value' => trim($payrollCalculate['minuteValue'])
+        'salary_net' => trim($dataPayroll['salaryNet']),             'minute_value' => trim($dataPayroll['minuteValue'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -133,44 +125,5 @@ class PayrollDao
       $stmt->execute(['id_payroll' => $id_payroll]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
-  }
-
-  public function strReplaceData($dataPayroll)
-  {
-    $salaryBasic = str_replace('.', '', $dataPayroll['basicSalary']);
-    $transport = str_replace('.', '', $dataPayroll['transport']);
-    $bonification = str_replace('.', '', $dataPayroll['bonification']);
-    $extraTime = str_replace('.', '', $dataPayroll['extraTime']);
-    $endowment = str_replace('.', '', $dataPayroll['endowment']);
-
-    $transport == '' ? $transport = 0 : $transport;
-    $bonification == '' ? $bonification = 0 : $bonification;
-    $extraTime == '' ? $extraTime = 0 : $extraTime;
-    $endowment == '' ? $endowment = 0 : $endowment;
-
-    $dataReplace['basicSalary']  = $salaryBasic;
-    $dataReplace['transport'] = $transport;
-    $dataReplace['bonification'] = $bonification;
-    $dataReplace['extraTime'] = $extraTime;
-    $dataReplace['endowment'] = $endowment;
-
-    return $dataReplace;
-  }
-
-  public function calculateValueMinute($dataPayroll, $dataReplace)
-  {
-    /* Calcular salario neto */
-    $salaryNet = ((intval($dataReplace['basicSalary']) + $dataReplace['transport']) * (1 + floatval($dataPayroll['factor']) / 100)) + $dataReplace['bonification'] + $dataReplace['endowment'];
-
-    /* Total horas */
-    $totalHoursMonth = floatval($dataPayroll['workingDaysMonth']) * floatval($dataPayroll['workingHoursDay']);
-    $hourCost = $salaryNet / $totalHoursMonth;
-
-    /* Calcular valor minuto salario */
-    $minuteValue =  $hourCost / 60;
-
-    /* retorna los valores calculados */
-    $payrollCalculate = array('salaryNet' => $salaryNet, 'minuteValue' => $minuteValue);
-    return $payrollCalculate;
   }
 }
