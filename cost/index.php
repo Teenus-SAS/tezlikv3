@@ -194,7 +194,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <!-- Begin total revenue chart -->
-                            <?php if ($_SESSION['flag_expense'] == 1) { ?>
+                            <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
                                 <div class="col-6" style="height: fit-content;">
                                 <?php } ?>
                                 <?php if ($_SESSION['flag_expense'] == 2) { ?>

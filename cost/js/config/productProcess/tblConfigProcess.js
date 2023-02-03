@@ -58,13 +58,13 @@ $(document).ready(function () {
           title: 'Tiempo Alistamiento (min)',
           data: 'enlistment_time',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+          render: $.fn.dataTable.render.number('.', ',', 2, ''),
         },
         {
           title: 'Tiempo Operación  (min)',
           data: 'operation_time',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+          render: $.fn.dataTable.render.number('.', ',', 2, ''),
         },
         {
           title: 'Acciones',

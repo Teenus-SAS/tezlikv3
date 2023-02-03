@@ -25,7 +25,9 @@ $(document).ready(function () {
     commission = data.commission;
 
     /* Precios */
-    $('.price').val(data.price.toLocaleString('es-CO'));
+    $('.price').val(
+      data.price.toLocaleString('es-CO', { maximumFractionDigits: 0 })
+    );
 
     /* Costos Fijos */
     fixedCost = data.fixedCost;
@@ -33,16 +35,22 @@ $(document).ready(function () {
     variableCost = data.variableCost;
     for (i = 0; i < 5; i++) {
       /* Costos Fijos */
-      $(`#fixedCosts-${i + 1}`).html(`$ ${fixedCost.toLocaleString('es-CO')}`);
+      $(`#fixedCosts-${i + 1}`).html(
+        `$ ${fixedCost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
+      );
 
       /* Costos Variables */
       $(`#variableCosts-${i + 1}`).html(
-        `$ ${variableCost.toLocaleString('es-CO')}`
+        `$ ${variableCost.toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        })}`
       );
 
       /* Total Costos y Gastos */
       $(`#totalCostsAndExpenses-${i + 1}`).html(
-        `$ ${(fixedCost + variableCost).toLocaleString('es-CO')}`
+        `$ ${(fixedCost + variableCost).toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        })}`
       );
     }
   };

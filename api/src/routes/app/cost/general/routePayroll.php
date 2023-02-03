@@ -37,8 +37,8 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
 
         for ($i = 0; $i < sizeof($payroll); $i++) {
             if (
-                empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) ||
-                empty($payroll[$i]['workingDaysMonth']) || empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor'])
+                empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) || empty($payroll[$i]['workingDaysMonth']) ||
+                empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor']) || empty($payroll[$i]['factor'])
             ) {
                 $i = $i + 1;
                 $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
@@ -82,18 +82,14 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
 
     if ($dataPayrolls > 1) {
 
-        if ($dataPayroll['workingDaysMonth'] > 31 || $dataPayroll['workingHoursDay'] > 24) {
-            $resp = array('error' => true, 'message' => "El campo dias trabajo x mes debe ser menor a 31 <br>y horas trabajo x dia menor a 24");
-        } else {
-            $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
+        $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
-            if ($payroll == null)
-                $resp = array('success' => true, 'message' => 'Nomina creada correctamente');
-            else if (isset($payroll['info']))
-                $resp = array('info' => true, 'message' => $payroll['message']);
-            else
-                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
-        }
+        if ($payroll == null)
+            $resp = array('success' => true, 'message' => 'Nomina creada correctamente');
+        else if (isset($payroll['info']))
+            $resp = array('info' => true, 'message' => $payroll['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
     } else {
         $payroll = $dataPayroll['importPayroll'];
 
@@ -133,32 +129,20 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
 
-    if (
-        empty($dataPayroll['employee']) || empty($dataPayroll['basicSalary']) ||
-        empty($dataPayroll['workingDaysMonth']) || empty($dataPayroll['workingHoursDay'])
-        || empty($dataPayroll['typeFactor'])
-    )
-        $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
-    else {
-        if ($dataPayroll['workingDaysMonth'] > 31 || $dataPayroll['workingHoursDay'] > 24) {
-            $resp = array('error' => true, 'message' => "El campo dias trabajo x mes debe ser menor a 31 <br>y horas trabajo x dia menor a 24");
-        } else {
-            $payroll = $payrollDao->updatePayroll($dataPayroll);
+    $payroll = $payrollDao->updatePayroll($dataPayroll);
 
-            // Calcular costo nomina
-            $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($dataPayroll, $id_company);
+    // Calcular costo nomina
+    $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($dataPayroll, $id_company);
 
-            // Calcular precio products_costs
-            $priceProduct = $priceProductDao->calcPriceByPayroll($dataPayroll['idProcess'], $id_company);
+    // Calcular precio products_costs
+    $priceProduct = $priceProductDao->calcPriceByPayroll($dataPayroll['idProcess'], $id_company);
 
-            if ($payroll == null && $costWorkforce == null && $priceProduct == null)
-                $resp = array('success' => true, 'message' => 'Nomina actualizada correctamente');
-            else if (isset($payroll['info']))
-                $resp = array('info' => true, 'message' => $payroll['message']);
-            else
-                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-        }
-    }
+    if ($payroll == null && $costWorkforce == null && $priceProduct == null)
+        $resp = array('success' => true, 'message' => 'Nomina actualizada correctamente');
+    else if (isset($payroll['info']))
+        $resp = array('info' => true, 'message' => $payroll['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -181,7 +165,6 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
             $resp = array('success' => true, 'message' => 'Nomina eliminada correctamente');
     } else
         $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, existe información asociada a ella');
-
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

@@ -62,26 +62,30 @@ $(document).ready(function () {
 
       /* Costos Variables */
       unit = decimalNumber(unit);
-      unit = unit.replace('$ ', '');
 
       let totalVariableCost = variableCost * unit;
       $(`#variableCosts-${i + 1}`).html(
-        `$ ${totalVariableCost.toLocaleString('es-CO')}`
+        `$ ${totalVariableCost.toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        })}`
       );
 
       /* Total Costos y Gastos */
       $(`#totalCostsAndExpenses-${i + 1}`).html(
-        `$ ${(fixedCost + totalVariableCost).toLocaleString('es-CO')}`
+        `$ ${(fixedCost + totalVariableCost).toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        })}`
       );
 
       /* Calculo Total Ingresos */
       price = decimalNumber(price);
-      price = price.replace('$ ', '');
 
       totalRevenue = unit * price;
 
       $(`#totalRevenue-${i + 1}`).html(
-        `$ ${Math.round(totalRevenue).toLocaleString('es-CO')}`
+        `$ ${Math.round(totalRevenue).toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        })}`
       );
 
       /* Calculo Costo x Unidad */
@@ -115,7 +119,11 @@ $(document).ready(function () {
       /* Porcentaje */
       percentage = (netUtility / (totalRevenue - commission)) * 100;
 
-      $(`#percentage-${i + 1}`).html(`${percentage.toFixed(2)} %`);
+      $(`#percentage-${i + 1}`).html(
+        `${percentage.toLocaleString(undefined, {
+          maximumFractionDigits: 2,
+        })} %`
+      );
     }
   };
 });

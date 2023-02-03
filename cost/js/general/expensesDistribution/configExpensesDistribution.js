@@ -53,6 +53,7 @@ $(document).ready(function () {
     }
 
     if (option == 1) {
+      $('.distributionExpenses').html('Distribución de Gastos');
       $('#btnExpensesDistribution').show(800);
       $('#btnImportNewExpenses').show(800);
       $('#btnImportNewExpenses').html('Importar Distribuir Gastos');
@@ -61,6 +62,8 @@ $(document).ready(function () {
       loadTableExpensesDistribution();
     }
     if (option == 2) {
+      $('.generalExpenses').hide();
+      $('.distributionExpenses').html('Recuperación de Gastos');
       $('#btnNewExpenseRecover').show(800);
       $('#btnImportNewExpenses').show(800);
       $('#btnImportNewExpenses').html('Importar Recuperar Gastos');

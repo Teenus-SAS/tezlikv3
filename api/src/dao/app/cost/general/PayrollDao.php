@@ -143,6 +143,11 @@ class PayrollDao
     $extraTime = str_replace('.', '', $dataPayroll['extraTime']);
     $endowment = str_replace('.', '', $dataPayroll['endowment']);
 
+    $transport == '' ? $transport = 0 : $transport;
+    $bonification == '' ? $bonification = 0 : $bonification;
+    $extraTime == '' ? $extraTime = 0 : $extraTime;
+    $endowment == '' ? $endowment = 0 : $endowment;
+
     $dataReplace['basicSalary']  = $salaryBasic;
     $dataReplace['transport'] = $transport;
     $dataReplace['bonification'] = $bonification;
