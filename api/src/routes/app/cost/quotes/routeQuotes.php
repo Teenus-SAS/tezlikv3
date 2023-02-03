@@ -1,9 +1,15 @@
 <?php
 
+use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\GeneralQuotesDao;
+use tezlikv3\dao\QuoteProductsDao;
 use tezlikv3\dao\QuotesDao;
 use tezlikv3\dao\SendMakeEmailDao;
 
 $quotesDao = new QuotesDao();
+$quoteProductsDao = new QuoteProductsDao();
+$generalQuotesDao = new GeneralQuotesDao();
+$convertDataDao = new ConvertDataDao();
 $sendEmailDao = new SendMakeEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -17,17 +23,9 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* Consultar productos 
-$app->get('/productQuotes/{id_product}', function (Request $request, Response $response, $args) use ($quotesDao) {
-    $quotes = $quotesDao->findAllQuotesProductsByIdProduct($args['id_product']);
-    $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-}); */
-
 /* Clonar cotización */
-$app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {
+$app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao, $generalQuotesDao, $convertDataDao) {
     $quote = $quotesDao->findQuote($args['id_quote']);
-    $products = $quotesDao->findAllQuotesProductsByIdQuote($args['id_quote']);
 
     $dataQuote['company'] = $quote['id_company'];
     $dataQuote['contact'] = $quote['id_contact'];
@@ -36,13 +34,18 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
     $dataQuote['warranty'] = $quote['warranty'];
     $dataQuote['deliveryDate'] = $quote['delivery_date'];
     $dataQuote['observation'] = $quote['observation'];
-    $dataQuote['products'] = $products;
+    // $dataQuote['products'] = $products;
 
     $respquote = $quotesDao->insertQuote($dataQuote);
 
-    $lastQuote = $quotesDao->findLastQuote();
+    $products = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
 
-    $resp = $quotesDao->insertQuotesProducts($dataQuote, $lastQuote['id_quote']);
+    $lastQuote = $generalQuotesDao->findLastQuote();
+
+    for ($i = 0; $i < sizeof($products); $i++) {
+        $product = $convertDataDao->convertDataQuotes($products[$i]);
+        $resp = $quoteProductsDao->insertQuotesProducts($product, $lastQuote['id_quote']);
+    }
 
     if ($respquote == null && $resp == null)
         $resp = array('success' => true, 'message' => 'Cotización copiada correctamente');
@@ -54,10 +57,10 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 });
 
 /* Consultar detalle de cotizacion */
-$app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {
+$app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao) {
     $quote = $quotesDao->findQuote($args['id_quote']);
 
-    $quotesProducts = $quotesDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+    $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
 
     $data['quote'] = $quote;
     $data['quotesProducts'] = $quotesProducts;
@@ -66,22 +69,29 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {
-    $quotesProducts = $quotesDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+$app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao) {
+    $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
     $response->getBody()->write(json_encode($quotesProducts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addQuote', function (Request $request, Response $response, $arsg) use ($quotesDao) {
+$app->post('/addQuote', function (Request $request, Response $response, $arsg) use ($quotesDao, $quoteProductsDao, $generalQuotesDao, $convertDataDao) {
     $dataQuote = $request->getParsedBody();
 
     $quote = $quotesDao->insertQuote($dataQuote);
 
     if ($quote == null) {
         /* Obtener id cotizacion */
-        $quote = $quotesDao->findLastQuote();
+        $quote = $generalQuotesDao->findLastQuote();
+
+        $products = $dataQuote['products'];
+
         /* Inserta todos los productos de la cotizacion */
-        $quotesProducts = $quotesDao->insertQuotesProducts($dataQuote, $quote['id_quote']);
+        for ($i = 0; $i < sizeof($products); $i++) {
+            $product = $convertDataDao->convertDataQuotes($products[$i]);
+
+            $quotesProducts = $quoteProductsDao->insertQuotesProducts($product, $quote['id_quote']);
+        }
 
         if ($quotesProducts == null)
             $resp = array('success' => true, 'message' => 'Cotización insertada correctamente');
@@ -96,18 +106,25 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateQuote', function (Request $request, Response $response, $args) use ($quotesDao) {
+$app->post('/updateQuote', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao, $convertDataDao) {
     $dataQuote = $request->getParsedBody();
 
     $quote = $quotesDao->updateQuote($dataQuote);
 
     if ($quote == null)
         /* Elimina todos los productos de la cotizacion */
-        $quotesProducts = $quotesDao->deleteQuotesProducts($dataQuote['idQuote']);
+        $quotesProducts = $quoteProductsDao->deleteQuotesProducts($dataQuote['idQuote']);
 
-    if ($quotesProducts == null)
+    if ($quotesProducts == null) {
         /* Inserta todos los productos de la cotizacion */
-        $quotesProducts = $quotesDao->insertQuotesProducts($dataQuote, $dataQuote['idQuote']);
+        $products = $dataQuote['products'];
+
+        for ($i = 0; $i < sizeof($products); $i++) {
+            $product = $convertDataDao->convertDataQuotes($products[$i]);
+
+            $quotesProducts = $quoteProductsDao->insertQuotesProducts($product, $dataQuote['idQuote']);
+        }
+    }
 
     if ($quotesProducts == null)
         $resp = array('success' => true, 'message' => 'Cotizacion modificada correctamente');
@@ -120,9 +137,9 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao) {
+$app->get('/deleteQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao) {
     /* Elimina todos los productos de la cotizacion */
-    $quotesProducts = $quotesDao->deleteQuotesProducts($args['id_quote']);
+    $quotesProducts = $quoteProductsDao->deleteQuotesProducts($args['id_quote']);
 
     if ($quotesProducts == null)
         $quotes = $quotesDao->deleteQuote($args['id_quote']);
@@ -138,7 +155,7 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($quotesDao, $sendEmailDao) {
+$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($generalQuotesDao, $sendEmailDao) {
     session_start();
     $email = $_SESSION['email'];
 
@@ -147,7 +164,7 @@ $app->post('/sendQuote', function (Request $request, Response $response, $args) 
     $sendEmail = $sendEmailDao->SendEmailQuote($dataQuote, $email);
 
     if ($sendEmail == null)
-        $quote = $quotesDao->updateFlagQuote($dataQuote);
+        $quote = $generalQuotesDao->updateFlagQuote($dataQuote);
 
     if ($quote == null)
         $resp = array('success' => true, 'message' => 'Email de cotización enviada correctamente');

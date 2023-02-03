@@ -1,33 +1,33 @@
 <?php
 
 use tezlikv3\dao\AutenticationUserDao;
+use tezlikv3\dao\ImageDao;
 use tezlikv3\dao\ProfileDao;
 
 $profileDao = new ProfileDao();
+$imageDao = new ImageDao();
 $usersDao = new AutenticationUserDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->post('/updateProfile', function (Request $request, Response $response, $args) use ($profileDao, $usersDao) {
+$app->post('/updateProfile', function (Request $request, Response $response, $args) use ($profileDao, $imageDao, $usersDao) {
     session_start();
     $dataUser = $request->getParsedBody();
 
-
     if ($dataUser['admin'] == 1) {
         $profile = $profileDao->updateProfileAdmin($dataUser);
-        if (sizeof($_FILES) > 0) $profileDao->avatarUserAdmin($dataUser['idAdmin']);
+        if (sizeof($_FILES) > 0) $imageDao->avatarUserAdmin($dataUser['idUser']);
     } else {
         $id_company = $_SESSION['id_company'];
         $profile = $profileDao->updateProfile($dataUser);
         if (sizeof($_FILES) > 0) {
             if (isset($_FILES['avatar']))
-                $profileDao->avatarUser($dataUser['idUser'], $id_company);
+                $imageDao->avatarUser($dataUser['idUser'], $id_company);
             if (isset($_FILES['logo']))
-                $profileDao->logoCompany($id_company);
+                $imageDao->logoCompany($id_company);
         }
     }
-
 
     if ($profile == null) {
         $user = $usersDao->findByEmail($dataUser['emailUser']);

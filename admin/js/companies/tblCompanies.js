@@ -55,6 +55,9 @@ $(document).ready(function () {
         {
           title: 'Logo',
           data: 'logo',
+          render: function (data) {
+            return `<img src="${data}" width="100px">`;
+          },
         },
         {
           title: 'Fecha de creación',

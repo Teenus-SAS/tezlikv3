@@ -169,45 +169,6 @@ class ProductsDao
     return $id_product;
   }
 
-
-  public function imageProduct($id_product, $id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-    $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/products/' . $id_company;
-    $allowTypes = array('jpg', 'jpeg', 'png');
-
-    $image_name = $_FILES['img']['name'];
-    $tmp_name   = $_FILES['img']['tmp_name'];
-    $size       = $_FILES['img']['size'];
-    $type       = $_FILES['img']['type'];
-    $error      = $_FILES['img']['error'];
-
-
-    /* Verifica si directorio esta creado y lo crea */
-    if (!is_dir($targetDir))
-      mkdir($targetDir, 0777, true);
-
-    $targetDir = '/api/src/assets/images/products/' . $id_company;
-    $targetFilePath = $targetDir . '/' . $image_name;
-
-    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-    if (in_array($fileType, $allowTypes)) {
-      $sql = "UPDATE products SET img = :img WHERE id_product = :id_product AND id_company = :id_company";
-      $query = $connection->prepare($sql);
-      $query->execute([
-        'img' => $targetFilePath,
-        'id_product' => $id_product,
-        'id_company' => $id_company
-      ]);
-
-      $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/products/' . $id_company;
-      $targetFilePath = $targetDir . '/' . $image_name;
-
-      move_uploaded_file($tmp_name, $targetFilePath);
-    }
-  }
-
   public function deleteProduct($dataProduct)
   {
     $connection = Connection::getInstance()->getConnection();

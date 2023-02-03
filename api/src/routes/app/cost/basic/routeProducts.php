@@ -6,6 +6,7 @@ use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\ExpenseRecoverDao;
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
+use tezlikv3\dao\ImageDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\ProductsCostDao;
@@ -16,6 +17,7 @@ use tezlikv3\dao\ProductsQuantityDao;
 use tezlikv3\dao\QuotesDao;
 
 $productsDao = new ProductsDao();
+$imageDao = new ImageDao();
 $productsCostDao = new ProductsCostDao();
 $priceProductDao = new PriceProductDao();
 $productsQuantityDao = new ProductsQuantityDao();
@@ -110,7 +112,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addProducts', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao, $productsQuantityDao) {
+$app->post('/addProducts', function (Request $request, Response $response, $args) use ($productsDao, $imageDao, $productsCostDao, $productsQuantityDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
@@ -130,7 +132,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
             $lastProductId = $productsDao->lastInsertedProductId($id_company);
 
             if (sizeof($_FILES) > 0)
-                $productsDao->imageProduct($lastProductId['id_product'], $id_company);
+                $imageDao->imageProduct($lastProductId['id_product'], $id_company);
 
             //AGREGA ULTIMO ID A DATA
             $dataProduct['idProduct'] = $lastProductId['id_product'];
@@ -321,7 +323,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateProducts', function (Request $request, Response $response, $args) use ($productsDao, $productsCostDao, $priceProductDao) {
+$app->post('/updateProducts', function (Request $request, Response $response, $args) use ($productsDao, $imageDao, $productsCostDao, $priceProductDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -331,7 +333,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
     if (sizeof($_FILES) > 0)
-        $products = $productsDao->imageProduct($dataProduct['idProduct'], $id_company);
+        $imageDao->imageProduct($dataProduct['idProduct'], $id_company);
 
     $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
     $products = $priceProductDao->calcPrice($dataProduct['idProduct']);

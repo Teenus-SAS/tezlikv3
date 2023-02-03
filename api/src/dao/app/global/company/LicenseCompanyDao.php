@@ -29,30 +29,10 @@ class LicenseCompanyDao
         return $dataCompany;
     }
 
-    /* public function findLicense($id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT license_end 
-                                  FROM companies_licenses WHERE id_company = :id_company;");
-        $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        $licenseData = $stmt->fetch($connection::FETCH_ASSOC);
-        $this->logger->notice("licenses get", array('licenses' => $licenseData));
-
-        $today = date('Y-m-d');
-        $licenseDay = $licenseData[0]['license_end'];
-        $today < $licenseDay ? $license = 1 : $license = 0;
-        return $license;
-    }*/
-
     public function insertLicenseCompanyByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-
-            // if (empty($dataLicenseCompany['idRegisterUser'])) {
-
             $licenseStart = date('Y-m-d');
             $licenseEnd = date("Y-m-d", strtotime($licenseStart . "+ 30 day"));
 
@@ -65,18 +45,7 @@ class LicenseCompanyDao
                 'quantity_user' => 1,
                 'license_status' => 1
             ]);
-            //}
-            /*else {
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, quantity_user, license_status)
-                                          VALUES (:id_company, :license_start, :quantity_user, :license_status)");
-                $stmt->execute([
-                    'id_company' => $id_company,
-                    'license_start' => $dataLicenseCompany['licenseStart'],
-                    'license_end' => $dataLicenseCompany['licenseEnd'],
-                    'quantity_user' => $dataLicenseCompany['quantityUser'],
-                    'license_status' => 1
-                ]);
-            }*/
+
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -118,16 +87,5 @@ class LicenseCompanyDao
             $stmt->execute(['id_company_license' => $id_company_license]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
-    }
-
-    public function updateFlagExpense($flag_expense, $id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("UPDATE companies_licenses SET flag_expense = :flag_expense WHERE id_company = :id_company");
-        $stmt->execute([
-            'flag_expense' => $flag_expense,
-            'id_company' => $id_company
-        ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\ExpensesDao;
+use tezlikv3\dao\FlagExpenseDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\PucDao;
 use tezlikv3\dao\TotalExpenseDao;
@@ -9,6 +10,7 @@ $expensesDao = new ExpensesDao();
 $pucDao = new PucDao();
 $totalExpenseDao = new TotalExpenseDao();
 $licenseCompanyDao = new LicenseCompanyDao();
+$flagExpenseDao = new FlagExpenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,10 +23,10 @@ $app->get('/checkTypeExpense', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/changeTypeExpense/{flag}', function (Request $request, Response $response, $args) use ($licenseCompanyDao) {
+$app->get('/changeTypeExpense/{flag}', function (Request $request, Response $response, $args) use ($licenseCompanyDao, $flagExpenseDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $typeExpense = $licenseCompanyDao->updateFlagExpense($args['flag'], $id_company);
+    $typeExpense = $flagExpenseDao->updateFlagExpense($args['flag'], $id_company);
 
     if ($args['flag'] == 2) {
         $_SESSION['expense'] = 0;
@@ -99,9 +101,6 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 
     if ($dataExpenses > 1) {
         $expenses = $expensesDao->insertExpensesByCompany($dataExpense, $id_company);
-
-        // Calcular total del gasto
-        //$totalExpense = $totalExpenseDao->insertUpdateTotalExpense($id_company);
 
         if ($expenses == null)
             $resp = array('success' => true, 'message' => 'Gasto creado correctamente');

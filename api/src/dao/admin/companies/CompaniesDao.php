@@ -56,42 +56,6 @@ class CompaniesDao
         return $lastId;
     }
 
-    public function logoCompany($id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-        $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies';
-        $allowTypes = array('jpg', 'jpeg', 'png');
-
-        $image_name = $_FILES['logo']['name'];
-        $tmp_name   = $_FILES['logo']['tmp_name'];
-        $size       = $_FILES['logo']['size'];
-        $type       = $_FILES['logo']['type'];
-        $error      = $_FILES['logo']['error'];
-
-        /* Verifica si directorio esta creado y lo crea */
-        if (!is_dir($targetDir))
-            mkdir($targetDir, 0777, true);
-
-        $targetDir = '/assets/images/companies';
-        $targetFilePath = $targetDir . '/' . $image_name;
-
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-        if (in_array($fileType, $allowTypes)) {
-            $sql = "UPDATE companies SET logo = :logo WHERE id_company = :id_company";
-            $query = $connection->prepare($sql);
-            $query->execute([
-                'logo' => $targetFilePath,
-                'id_company' => $id_company
-            ]);
-
-            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies';
-            $targetFilePath = $targetDir . '/' . $image_name;
-
-            move_uploaded_file($tmp_name, $targetFilePath);
-        }
-    }
-
     //Agregar Empresa
     public function addCompany($dataCompany)
     {

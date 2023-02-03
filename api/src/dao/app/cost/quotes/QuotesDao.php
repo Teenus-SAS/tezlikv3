@@ -53,44 +53,6 @@ class QuotesDao
         return $quote;
     }
 
-    public function findAllQuotesProductsByIdQuote($id_quote)
-    {
-        $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT qp.id_product AS idProduct, p.reference AS ref, p.product AS nameProduct, qp.quantity, CONCAT('$ ', FORMAT(qp.price, 0, 'de_DE')) AS price, 
-                                             qp.discount, CONCAT('$ ', FORMAT((qp.quantity * qp.price * (1- qp.discount / 100)),0,'de_DE')) AS totalPrice
-                                      FROM quotes_products qp
-                                        INNER JOIN products p ON p.id_product = qp.id_product
-                                      WHERE qp.id_quote = :id_quote");
-        $stmt->execute(['id_quote' => $id_quote]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $quotesProducts;
-    }
-
-    public function findAllQuotesProductsByIdProduct($id_product)
-    {
-        $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM quotes_products WHERE id_product = :id_product");
-        $stmt->execute(['id_product' => $id_product]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $quotesProducts;
-    }
-
-    public function findLastQuote()
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT MAX(id_quote) AS id_quote FROM quotes");
-        $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $quote = $stmt->fetch($connection::FETCH_ASSOC);
-        return $quote;
-    }
-
     public function insertQuote($dataQuote)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -108,48 +70,6 @@ class QuotesDao
                 'observation' => $dataQuote['observation']
             ]);
 
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
-    public function insertQuotesProducts($dataQuote, $id_quote)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            foreach ($dataQuote['products'] as $array) {
-
-                $array = $this->convertDataQuotes($array);
-
-                $stmt = $connection->prepare("INSERT INTO quotes_products (id_quote, id_product, quantity, price, discount) 
-                                          VALUES (:id_quote, :id_product, :quantity, :price, :discount)");
-                $stmt->execute([
-                    'id_quote' => $id_quote,
-                    'id_product' => $array['idProduct'],
-                    'quantity' => $array['quantity'],
-                    'price' => $array['price'],
-                    'discount' => $array['discount']
-                ]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-            }
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
-    public function deleteQuotesProducts($id_quote)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $stmt = $connection->prepare("DELETE FROM quotes_products WHERE id_quote = :id_quote");
-            $stmt->execute(['id_quote' => $id_quote]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -197,56 +117,6 @@ class QuotesDao
             if ($row > 0) {
                 $stmt = $connection->prepare("DELETE FROM quotes WHERE id_quote = :id_quote");
                 $stmt->execute(['id_quote' => $id_quote]);
-                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-            }
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
-    public function updateFlagQuote($dataQuote)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $stmt = $connection->prepare("UPDATE quotes SET flag_quote = :flag_quote WHERE id_quote = :id_quote");
-            $stmt->execute([
-                'id_quote' => $dataQuote['idQuote'],
-                'flag_quote' => 1
-            ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
-    public function convertDataQuotes($dataQuote)
-    {
-        $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
-
-        $price = str_replace('$ ', '', $dataQuote['price']);
-        $price = str_replace('.', '', $price);
-        $dataQuote['price'] = str_replace(',', '.', $price);
-
-        return $dataQuote;
-    }
-
-    public function deleteQuotesProductsByProduct($dataQuote)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $stmt = $connection->prepare("SELECT * FROM quotes_products WHERE id_product = :id_product");
-            $stmt->execute(['id_product' => $dataQuote['idProduct']]);
-            $row = $stmt->rowCount();
-
-            if ($row > 0) {
-                $stmt = $connection->prepare("DELETE FROM quotes_products WHERE id_product = :id_product");
-                $stmt->execute(['id_product' => $dataQuote['idProduct']]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {

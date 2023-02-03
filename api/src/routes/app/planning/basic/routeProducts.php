@@ -1,10 +1,12 @@
 <?php
 
+use tezlikv3\dao\ImageDao;
 use tezlikv3\dao\invCategoriesDao;
 use tezlikv3\dao\InvMoldsDao;
 use tezlikv3\dao\PlanProductsDao;
 
 $productsDao = new PlanProductsDao();
+$imageDao = new ImageDao();
 $invMoldsDao = new InvMoldsDao();
 $invCategoriesDao = new invCategoriesDao();
 
@@ -70,7 +72,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao, $invCategoriesDao) {
+$app->post('/addPlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $imageDao, $invMoldsDao, $invCategoriesDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
@@ -85,7 +87,7 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
         //ULTIMO REGISTRO DE ID, EL MÁS ALTO
         $lastProductId = $productsDao->lastInsertedProductId($id_company);
 
-        if (sizeof($_FILES) > 0) $productsDao->imageProduct($lastProductId['id_product'], $id_company);
+        if (sizeof($_FILES) > 0) $imageDao->imageProduct($lastProductId['id_product'], $id_company);
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto creado correctamente');
@@ -127,7 +129,7 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanProduct', function (Request $request, Response $response, $args) use ($productsDao) {
+$app->post('/updatePlanProduct', function (Request $request, Response $response, $args) use ($productsDao, $imageDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -141,7 +143,7 @@ $app->post('/updatePlanProduct', function (Request $request, Response $response,
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
         if (sizeof($_FILES) > 0)
-            $products = $productsDao->imageProduct($dataProduct['idProduct'], $id_company);
+            $products = $imageDao->imageProduct($dataProduct['idProduct'], $id_company);
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
