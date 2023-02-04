@@ -8,6 +8,8 @@ use Monolog\Logger;
 
 class ProcessPayrollDao
 {
+    private $logger;
+
     public function __construct()
     {
         $this->logger = new Logger(self::class);
