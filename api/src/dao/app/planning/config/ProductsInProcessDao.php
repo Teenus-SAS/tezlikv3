@@ -88,25 +88,6 @@ class ProductsInProcessDao
         }
     }
 
-    // public function updateProductInProcess($dataProduct)
-    // {
-    //     $connection = Connection::getInstance()->getConnection();
-
-    //     try {
-    //         $stmt = $connection->prepare("UPDATE plan_products_categories SET id_product = :id_product
-    //                                       WHERE id_product_category = :id_product_category");
-    //         $stmt->execute([
-    //             'id_product' => $dataProduct['idProduct'],
-    //             'id_product_category' => $dataProduct['idProductInProcess']
-    //         ]);
-    //         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    //     } catch (\Exception $e) {
-    //         $message = $e->getMessage();
-    //         $error = array('info' => true, 'message' => $message);
-    //         return $error;
-    //     }
-    // }
-
     public function deleteProductInProcess($id_product_category)
     {
         $connection = Connection::getInstance()->getConnection();

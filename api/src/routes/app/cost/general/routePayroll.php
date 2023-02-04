@@ -2,15 +2,15 @@
 
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\PayrollDao;
-use tezlikv3\dao\ProcessDao;
 use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ValueMinuteDao;
 
 $payrollDao = new PayrollDao();
 $valueMinuteDao = new ValueMinuteDao();
 $convertDataDao = new ConvertDataDao();
-$processDao = new ProcessDao();
+$processDao = new GeneralProcessDao();
 $costWorkforceDao = new CostWorkforceDao();
 $priceProductDao = new PriceProductDao();
 

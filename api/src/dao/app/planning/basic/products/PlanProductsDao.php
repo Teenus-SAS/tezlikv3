@@ -32,46 +32,13 @@ class PlanProductsDao
     return $products;
   }
 
-  /* Consultar si existe producto en BD por compañia */
-  public function findProduct($dataProduct, $id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT * FROM products
-                                  WHERE reference = :reference
-                                  AND product = :product 
-                                  AND id_company = :id_company");
-    $stmt->execute([
-      'reference' => trim($dataProduct['referenceProduct']),
-      'product' => ucfirst(strtolower(trim($dataProduct['product']))),
-      'id_company' => $id_company
-    ]);
-    $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
-    return $findProduct;
-  }
-
-  public function findProductByCategoryInProcess($dataProduct, $id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT * FROM products WHERE reference = :reference
-                                  AND product = :product AND category LIKE '%en proceso' AND id_company = :id_company");
-    $stmt->execute([
-      'reference' => trim($dataProduct['referenceProduct']),
-      'product' => ucfirst(strtolower(trim($dataProduct['product']))),
-      'id_company' => $id_company
-    ]);
-    $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
-    return $findProduct;
-  }
-
   /* Insertar producto */
   public function insertProductByCompany($dataProduct, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, id_mold, quantity, category) 
+      $stmt = $connection->prepare("INSERT INTO products (id_company, reference, product, id_mold, quantity, category) 
                                       VALUES(:id_company, :reference, :product, :id_mold, :quantity, :category)");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
@@ -114,21 +81,6 @@ class PlanProductsDao
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
       return $error;
-    }
-  }
-
-  public function deleteProduct($id_product)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT * FROM products WHERE id_product = :id_product");
-    $stmt->execute(['id_product' => $id_product]);
-    $rows = $stmt->rowCount();
-
-    if ($rows > 0) {
-      $stmt = $connection->prepare("DELETE FROM products WHERE id_product = :id_product");
-      $stmt->execute(['id_product' => $id_product]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }
 }

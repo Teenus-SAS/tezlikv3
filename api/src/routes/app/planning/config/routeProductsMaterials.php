@@ -1,19 +1,21 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
-use tezlikv3\dao\PlanProductsMaterialsDao;
-use tezlikv3\dao\ProductsDao;
-use tezlikv3\dao\MaterialsDao;
+use tezlikv3\dao\GeneralMaterialsDao;
+use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\GeneralProductsMaterialsDao;
 
-$productsMaterialsDao = new PlanProductsMaterialsDao();
+$productsMaterialsDao = new GeneralProductsMaterialsDao();
 $convertDataDao = new ConvertDataDao();
-$productsDao = new ProductsDao();
-$materialsDao = new MaterialsDao();
+$productsDao = new GeneralProductsDao();
+$materialsDao = new GeneralMaterialsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/planProductsMaterials/{idProduct}', function (Request $request, Response $response, $args) use ($productsMaterialsDao) {
+$app->get('/planProductsMaterials/{idProduct}', function (Request $request, Response $response, $args) use (
+    $productsMaterialsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -40,9 +42,22 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
         $productMaterials = $dataProductMaterial['importProducts'];
 
         for ($i = 0; $i < sizeof($productMaterials); $i++) {
-            if (empty($productMaterials[$i]['quantity'])) {
+            if (
+                empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) ||
+                empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == ''
+            ) {
                 $i = $i + 1;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
+
+            $quantity = str_replace(',', '.', $productMaterials[$i]['quantity']);
+
+            $quantity = 1 * $quantity;
+
+            if ($quantity <= 0 || is_nan($quantity)) {
+                $i = $i + 1;
+                $dataImportProductsMaterials = array('error' => true, 'message' => "La cantidad debe ser mayor a cero (0)<br>Fila: {$i}");
                 break;
             }
 

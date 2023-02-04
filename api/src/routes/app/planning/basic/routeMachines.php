@@ -1,8 +1,10 @@
 <?php
 
+use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\PlanMachinesDao;
 
 $machinesDao = new PlanMachinesDao();
+$generalMachinesDao = new GeneralMachinesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -18,7 +20,9 @@ $app->get('/planMachines', function (Request $request, Response $response, $args
 });
 
 /* Consultar Maquinas importadas */
-$app->post('/planMachinesDataValidation', function (Request $request, Response $response, $args) use ($machinesDao) {
+$app->post('/planMachinesDataValidation', function (Request $request, Response $response, $args) use (
+    $generalMachinesDao
+) {
     $dataMachine = $request->getParsedBody();
 
     if (isset($dataMachine)) {
@@ -37,7 +41,7 @@ $app->post('/planMachinesDataValidation', function (Request $request, Response $
                 $dataImportMachine = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
             } else {
-                $findMachine = $machinesDao->findMachine($machines[$i], $id_company);
+                $findMachine = $generalMachinesDao->findMachine($machines[$i], $id_company);
                 if (!$findMachine) $insert = $insert + 1;
                 else $update = $update + 1;
                 $dataImportMachine['insert'] = $insert;
@@ -53,7 +57,10 @@ $app->post('/planMachinesDataValidation', function (Request $request, Response $
 
 
 /* Agregar Maquinas */
-$app->post('/addPlanMachines', function (Request $request, Response $response, $args) use ($machinesDao) {
+$app->post('/addPlanMachines', function (Request $request, Response $response, $args) use (
+    $machinesDao,
+    $generalMachinesDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
@@ -71,7 +78,7 @@ $app->post('/addPlanMachines', function (Request $request, Response $response, $
         $machines = $dataMachine['importMachines'];
 
         for ($i = 0; $i < sizeof($machines); $i++) {
-            $machine = $machinesDao->findMachine($machines[$i], $id_company);
+            $machine = $generalMachinesDao->findMachine($machines[$i], $id_company);
 
             if (!$machine) {
                 $resolution = $machinesDao->insertMachinesByCompany($machines[$i], $id_company);
@@ -117,8 +124,8 @@ $app->post('/updatePlanMachines', function (Request $request, Response $response
 
 
 /* Eliminar Maquina */
-$app->get('/deletePlanMachine/{id_machine}', function (Request $request, Response $response, $args) use ($machinesDao) {
-    $machines = $machinesDao->deleteMachine($args['id_machine']);
+$app->get('/deletePlanMachine/{id_machine}', function (Request $request, Response $response, $args) use ($generalMachinesDao) {
+    $machines = $generalMachinesDao->deleteMachine($args['id_machine']);
 
     if ($machines == null)
         $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');

@@ -5,6 +5,8 @@ use tezlikv3\dao\InvMoldsDao;
 use tezlikv3\dao\PlanMaterialsDao;
 use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\ClassificationDao;
+use tezlikv3\dao\GeneralMaterialsDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\invCategoriesDao;
 use tezlikv3\dao\UnitSalesDao;
 
@@ -12,14 +14,18 @@ $inventoryDao = new InventoryDao();
 $categoriesDao = new invCategoriesDao();
 $moldsDao = new InvMoldsDao();
 $productsDao = new PlanProductsDao();
+$generalProductsDao = new GeneralProductsDao();
 $unitSalesDao = new UnitSalesDao();
 $materialsDao = new PlanMaterialsDao();
+$generalMaterialsDao = new GeneralMaterialsDao();
 $classificationDao = new ClassificationDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/inventory', function (Request $request, Response $response, $args) use ($inventoryDao, $productsDao) {
+$app->get('/inventory', function (Request $request, Response $response, $args) use (
+    $inventoryDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -43,8 +49,8 @@ $app->get('/inventory', function (Request $request, Response $response, $args) u
 
 $app->post('/inventoryDataValidation', function (Request $request, Response $response, $args) use (
     $categoriesDao,
-    $productsDao,
-    $materialsDao,
+    $generalProductsDao,
+    $generalMaterialsDao,
     $moldsDao,
     $unitSalesDao
 ) {
@@ -108,7 +114,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
                 $inventory[$i]['product'] = $inventory[$i]['nameInventory'];
 
                 // Consultar si existe producto
-                $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
+                $findProduct = $generalProductsDao->findProduct($inventory[$i], $id_company);
                 // Consultar si existe en tabla unit_sales
                 $inventory[$i]['idProduct'] = $findProduct['id_product'];
                 $unitSales = $unitSalesDao->findSales($inventory[$i], $id_company);
@@ -125,7 +131,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
                 $inventory[$i]['refRawMaterial'] = $inventory[$i]['reference'];
                 $inventory[$i]['nameRawMaterial'] = $inventory[$i]['nameInventory'];
 
-                $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
+                $findMaterial = $generalMaterialsDao->findMaterial($inventory[$i], $id_company);
                 if (!$findMaterial) {
                     // Almacenar inventarios no existentes
                     $dataImportinventory['reference'][$i] = $inventory[$i]['reference'];
@@ -152,7 +158,9 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
 
 $app->post('/addInventory', function (Request $request, Response $response, $args) use (
     $productsDao,
+    $generalProductsDao,
     $materialsDao,
+    $generalMaterialsDao,
     $moldsDao,
     $classificationDao
 ) {
@@ -169,7 +177,7 @@ $app->post('/addInventory', function (Request $request, Response $response, $arg
             $findMold = $moldsDao->findInvMold($inventory[$i], $id_company);
             $inventory[$i]['idMold'] = $findMold['id_mold'];
 
-            $findProduct = $productsDao->findProduct($inventory[$i], $id_company);
+            $findProduct = $generalProductsDao->findProduct($inventory[$i], $id_company);
 
             $resolution = $productsDao->updateProductByCompany($inventory[$i], $id_company);
 
@@ -180,7 +188,7 @@ $app->post('/addInventory', function (Request $request, Response $response, $arg
 
         // Materia prima y Insumos
         if ($category == 'Materiales' || $category == 'Insumos') {
-            $findMaterial = $materialsDao->findMaterial($inventory[$i], $id_company);
+            $findMaterial = $generalMaterialsDao->findMaterial($inventory[$i], $id_company);
             $inventory[$i]['idMaterial'] = $findMaterial['id_material'];
 
             $resolution = $materialsDao->updateMaterialsByCompany($inventory[$i]);

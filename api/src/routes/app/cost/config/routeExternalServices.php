@@ -1,13 +1,13 @@
 <?php
 
 use tezlikv3\dao\ExternalServicesDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralServicesDao;
-use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\PriceProductDao;
 
 $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
-$productsDao = new ProductsDao();
+$productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,7 +19,10 @@ $app->get('/externalservices/{id_product}', function (Request $request, Response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/externalServiceDataValidation', function (Request $request, Response $response, $args) use ($externalServicesDao, $productsDao) {
+$app->post('/externalServiceDataValidation', function (Request $request, Response $response, $args) use (
+    $externalServicesDao,
+    $productsDao
+) {
     $dataExternalService = $request->getParsedBody();
 
     if (isset($dataExternalService)) {
@@ -59,7 +62,11 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addExternalService', function (Request $request, Response $response, $args) use ($externalServicesDao, $productsDao, $priceProductDao) {
+$app->post('/addExternalService', function (Request $request, Response $response, $args) use (
+    $externalServicesDao,
+    $productsDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataExternalService = $request->getParsedBody();
@@ -108,7 +115,10 @@ $app->post('/addExternalService', function (Request $request, Response $response
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateExternalService', function (Request $request, Response $response, $args) use ($externalServicesDao, $priceProductDao) {
+$app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
+    $externalServicesDao,
+    $priceProductDao
+) {
     $dataExternalService = $request->getParsedBody();
 
     $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
@@ -127,7 +137,10 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteExternalService', function (Request $request, Response $response, $args) use ($externalServicesDao, $priceProductDao) {
+$app->post('/deleteExternalService', function (Request $request, Response $response, $args) use (
+    $externalServicesDao,
+    $priceProductDao
+) {
     $dataExternalService = $request->getParsedBody();
 
     $externalServices = $externalServicesDao->deleteExternalService($dataExternalService['idService']);

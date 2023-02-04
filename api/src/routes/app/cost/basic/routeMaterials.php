@@ -2,9 +2,11 @@
 
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\PriceProductDao;
 
 $materialsDao = new MaterialsDao();
+$generalMaterialsDao = new GeneralMaterialsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
 
@@ -13,16 +15,18 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/materials', function (Request $request, Response $response, $args) use ($materialsDao) {
+$app->get('/materials', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $materials = $materialsDao->findAllMaterialsByCompany($id_company);
+    $materials = $generalMaterialsDao->findAllMaterialsByCompany($id_company);
     $response->getBody()->write(json_encode($materials, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 /* Consultar Materias prima importada */
-$app->post('/materialsDataValidation', function (Request $request, Response $response, $args) use ($materialsDao) {
+$app->post('/materialsDataValidation', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao
+) {
     $dataMaterial = $request->getParsedBody();
 
     if (isset($dataMaterial)) {
@@ -47,7 +51,7 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
                 $dataImportMaterial = array('error' => true, 'message' => "El costo debe ser mayor a cero (0), fila: $i");
                 break;
             } else {
-                $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);
+                $findMaterial = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
                 if (!$findMaterial) $insert = $insert + 1;
                 else $update = $update + 1;
                 $dataImportMaterial['insert'] = $insert;
@@ -61,7 +65,7 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addMaterials', function (Request $request, Response $response, $args) use ($materialsDao) {
+$app->post('/addMaterials', function (Request $request, Response $response, $args) use ($materialsDao, $generalMaterialsDao) {
     session_start();
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -84,7 +88,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
             $materials[$i]['costRawMaterial'] = str_replace('.', ',', $materials[$i]['costRawMaterial']);
 
-            $material = $materialsDao->findMaterial($materials[$i], $id_company);
+            $material = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
 
             if (!$material)
                 $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
@@ -103,7 +107,11 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateMaterials', function (Request $request, Response $response, $args) use ($materialsDao, $costMaterialsDao, $priceProductDao) {
+$app->post('/updateMaterials', function (Request $request, Response $response, $args) use (
+    $materialsDao,
+    $costMaterialsDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
@@ -127,14 +135,10 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteMaterial', function (Request $request, Response $response, $args) use ($materialsDao) {
-    /*session_start();
-    $id_company = $_SESSION['id_company'];*/
+$app->post('/deleteMaterial', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
     $dataMaterial = $request->getParsedBody();
 
-    $materials = $materialsDao->deleteMaterial($dataMaterial['idMaterial']);
-    // Calcular precio total materias
-    // $productCost = $calcProductsCostDao->calcCostMaterialsByRawMaterial($dataMaterial, $id_company);
+    $materials = $generalMaterialsDao->deleteMaterial($dataMaterial['idMaterial']);
 
     if ($materials == null)
         $resp = array('success' => true, 'message' => 'Material eliminado correctamente');

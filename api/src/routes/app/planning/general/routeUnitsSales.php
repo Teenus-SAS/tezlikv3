@@ -1,12 +1,12 @@
 <?php
 
-use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\UnitSalesDao;
 use tezlikv3\dao\ClassificationDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\MinimumStockDao;
 
 $unitSalesDao = new UnitSalesDao();
-$productsDao = new PlanProductsDao();
+$productsDao = new GeneralProductsDao();
 $classificationDao = new ClassificationDao();
 $minimumStockDao = new MinimumStockDao();
 
@@ -23,7 +23,10 @@ $app->get('/unitSales', function (Request $request, Response $response, $args) u
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/unitSalesDataValidation', function (Request $request, Response $response, $args) use ($unitSalesDao, $productsDao) {
+$app->post('/unitSalesDataValidation', function (Request $request, Response $response, $args) use (
+    $unitSalesDao,
+    $productsDao
+) {
     $dataSale = $request->getParsedBody();
 
     if (isset($dataSale)) {
@@ -37,8 +40,9 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
 
         for ($i = 0; $i < sizeof($unitSales); $i++) {
             if (
-                empty($unitSales[$i]['january']) && empty($unitSales[$i]['february']) && empty($unitSales[$i]['march']) && empty($unitSales[$i]['april']) && empty($unitSales[$i]['may']) && empty($unitSales[$i]['june']) &&
-                empty($unitSales[$i]['july']) && empty($unitSales[$i]['august']) && empty($unitSales[$i]['september']) && empty($unitSales[$i]['october']) &&  empty($unitSales[$i]['november']) && empty($unitSales[$i]['december'])
+                empty($unitSales[$i]['january']) && empty($unitSales[$i]['february']) && empty($unitSales[$i]['march']) && empty($unitSales[$i]['april']) &&
+                empty($unitSales[$i]['may']) && empty($unitSales[$i]['june']) && empty($unitSales[$i]['july']) && empty($unitSales[$i]['august']) &&
+                empty($unitSales[$i]['september']) && empty($unitSales[$i]['october']) &&  empty($unitSales[$i]['november']) && empty($unitSales[$i]['december'])
             ) {
                 $i = $i + 1;
                 $dataImportUnitSales = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");

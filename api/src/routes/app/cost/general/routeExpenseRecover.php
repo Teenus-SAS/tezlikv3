@@ -2,12 +2,12 @@
 
 use tezlikv3\dao\ExpenseRecoverDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
-use tezlikv3\dao\ProductsDao;
 
 $expenseRecoverDao = new ExpenseRecoverDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
-$productsDao = new ProductsDao();
+$productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -31,7 +31,10 @@ $app->get('/expenseRecoverProducts', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/expenseRecoverDataValidation', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $productsDao) {
+$app->post('/expenseRecoverDataValidation', function (Request $request, Response $response, $args) use (
+    $expenseRecoverDao,
+    $productsDao
+) {
     $dataExpense = $request->getParsedBody();
 
     if (isset($dataExpense)) {
@@ -71,7 +74,11 @@ $app->post('/expenseRecoverDataValidation', function (Request $request, Response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $productsDao, $priceProductDao) {
+$app->post('/addExpenseRecover', function (Request $request, Response $response, $args) use (
+    $expenseRecoverDao,
+    $productsDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -118,7 +125,10 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $priceProductDao) {
+$app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use (
+    $expenseRecoverDao,
+    $priceProductDao
+) {
     $dataExpense = $request->getParsedBody();
 
     $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
@@ -136,7 +146,10 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use ($expenseRecoverDao, $priceProductDao) {
+$app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use (
+    $expenseRecoverDao,
+    $priceProductDao
+) {
     $dataExpense = $request->getParsedBody();
 
     $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);

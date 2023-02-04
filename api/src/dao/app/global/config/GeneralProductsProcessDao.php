@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class PlanProductsProcessDao
+class GeneralProductsProcessDao
 {
     private $logger;
 
@@ -47,6 +47,7 @@ class PlanProductsProcessDao
             'id_company' => $id_company
         ]);
         $findProductProcess = $stmt->fetch($connection::FETCH_ASSOC);
+
         return $findProductProcess;
     }
 
@@ -56,7 +57,15 @@ class PlanProductsProcessDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $row = $this->findProductProcess($dataProductProcess, $id_company);
+            $stmt = $connection->prepare("SELECT id_product_process FROM products_process WHERE id_product = :id_product AND id_company = :id_company
+                                          AND id_process = :id_process AND id_machine = :id_machine");
+            $stmt->execute([
+                'id_product' => $dataProductProcess['idProduct'],
+                'id_company' => $id_company,
+                'id_process' => $dataProductProcess['idProcess'],
+                'id_machine' => $dataProductProcess['idMachine'],
+            ]);
+            $row = $stmt->fetch($connection::FETCH_ASSOC);
 
             if ($row > 0) {
                 return 1;
@@ -96,25 +105,27 @@ class PlanProductsProcessDao
                 'enlistment_time' => trim($dataProductProcess['enlistmentTime']),
                 'operation_time' => trim($dataProductProcess['operationTime'])
             ]);
+
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
             $message = $e->getMessage();
+
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
     }
 
-    public function deleteProductProcess($id_product_process)
+    public function deleteProductProcess($dataProductProcess)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM products_process WHERE id_product_process = :id_product_process");
-        $stmt->execute(['id_product_process' => $id_product_process]);
+        $stmt->execute(['id_product_process' => $dataProductProcess['idProductProcess']]);
         $rows = $stmt->rowCount();
 
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_process WHERE id_product_process = :id_product_process");
-            $stmt->execute(['id_product_process' => $id_product_process]);
+            $stmt->execute(['id_product_process' => $dataProductProcess['idProductProcess']]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }

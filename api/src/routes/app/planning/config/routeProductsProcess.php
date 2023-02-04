@@ -1,24 +1,26 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\GeneralMachinesDao;
+use tezlikv3\dao\GeneralProcessDao;
+use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\MinimumStockDao;
-use tezlikv3\dao\PlanProductsProcessDao;
-use tezlikv3\dao\PlanProductsDao;
-use tezlikv3\dao\PlanMachinesDao;
-use tezlikv3\dao\PlanProcessDao;
 
-$productsProcessDao = new PlanProductsProcessDao();
-$productsDao = new PlanProductsDao();
+$productsProcessDao = new GeneralProductsProcessDao();
+$productsDao = new GeneralProductsDao();
 $convertDataDao = new ConvertDataDao();
-$processDao = new PlanProcessDao();
-$machinesDao = new PlanMachinesDao();
+$processDao = new GeneralProcessDao();
+$machinesDao = new GeneralMachinesDao();
 $minimumStockDao = new MinimumStockDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 // Productos procesos
-$app->get('/planProductsProcess/{idProduct}', function (Request $request, Response $response, $args) use ($productsProcessDao) {
+$app->get('/planProductsProcess/{idProduct}', function (Request $request, Response $response, $args) use (
+    $productsProcessDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 

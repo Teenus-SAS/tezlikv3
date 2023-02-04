@@ -4,15 +4,15 @@ use tezlikv3\dao\ClientsDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\DeliveryDateDao;
 use tezlikv3\dao\GeneralOrdersDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\MallasDao;
 use tezlikv3\dao\OrdersDao;
 use tezlikv3\dao\OrderTypesDao;
-use tezlikv3\dao\PlanProductsDao;
 
 $ordersDao = new OrdersDao();
 $generalOrdersDao = new GeneralOrdersDao();
 $convertDataDao = new ConvertDataDao();
-$productsDao = new PlanProductsDao();
+$productsDao = new GeneralProductsDao();
 $clientsDao = new ClientsDao();
 $orderTypesDao = new OrderTypesDao();
 $mallasDao = new MallasDao();

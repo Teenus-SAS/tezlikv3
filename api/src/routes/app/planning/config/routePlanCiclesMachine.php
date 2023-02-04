@@ -1,19 +1,21 @@
 <?php
 
+use tezlikv3\dao\GeneralMachinesDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\LotsProductsDao;
 use tezlikv3\dao\PlanCiclesMachineDao;
-use tezlikv3\dao\PlanMachinesDao;
-use tezlikv3\dao\PlanProductsDao;
 
 $planCiclesMachineDao = new PlanCiclesMachineDao();
-$machinesDao = new PlanMachinesDao();
-$productsDao = new PlanProductsDao();
+$machinesDao = new GeneralMachinesDao();
+$productsDao = new GeneralProductsDao();
 $economicLotDao = new LotsProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/planCiclesMachine', function (Request $request, Response $response, $args) use ($planCiclesMachineDao) {
+$app->get('/planCiclesMachine', function (Request $request, Response $response, $args) use (
+    $planCiclesMachineDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 

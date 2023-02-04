@@ -17,7 +17,6 @@ class ActiveUsersDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-
     //OBTENER CANTIDAD DE USUARIOS GENERALES ACTIVOS
     public function usersStatus()
     {

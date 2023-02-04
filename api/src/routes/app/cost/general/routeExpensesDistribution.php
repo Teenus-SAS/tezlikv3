@@ -1,13 +1,13 @@
 <?php
 
 use tezlikv3\dao\ExpensesDistributionDao;
-use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\TotalExpenseDao;
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
 
 $expensesDistributionDao = new ExpensesDistributionDao();
-$productsDao = new ProductsDao();
+$productsDao = new GeneralProductsDao();
 $totalExpenseDao = new TotalExpenseDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
@@ -29,7 +29,10 @@ $app->get('/expenseTotal', function (Request $request, Response $response, $args
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/expenseDistributionDataValidation', function (Request $request, Response $response, $args) use ($expensesDistributionDao, $productsDao) {
+$app->post('/expenseDistributionDataValidation', function (Request $request, Response $response, $args) use (
+    $expensesDistributionDao,
+    $productsDao
+) {
     $dataExpensesDistribution = $request->getParsedBody();
 
     if (isset($dataExpensesDistribution)) {
@@ -69,7 +72,12 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addExpensesDistribution', function (Request $request, Response $response, $args) use ($expensesDistributionDao, $productsDao, $assignableExpenseDao, $priceProductDao) {
+$app->post('/addExpensesDistribution', function (Request $request, Response $response, $args) use (
+    $expensesDistributionDao,
+    $productsDao,
+    $assignableExpenseDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataExpensesDistribution = $request->getParsedBody();
@@ -122,7 +130,11 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateExpensesDistribution', function (Request $request, Response $response, $args) use ($expensesDistributionDao, $assignableExpenseDao, $priceProductDao) {
+$app->post('/updateExpensesDistribution', function (Request $request, Response $response, $args) use (
+    $expensesDistributionDao,
+    $assignableExpenseDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataExpensesDistribution = $request->getParsedBody();
@@ -145,7 +157,11 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteExpensesDistribution', function (Request $request, Response $response, $args) use ($expensesDistributionDao, $assignableExpenseDao, $priceProductDao) {
+$app->post('/deleteExpensesDistribution', function (Request $request, Response $response, $args) use (
+    $expensesDistributionDao,
+    $assignableExpenseDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataExpensesDistribution = $request->getParsedBody();

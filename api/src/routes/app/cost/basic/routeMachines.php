@@ -1,12 +1,14 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\PriceProductDao;
 
 $machinesDao = new MachinesDao();
+$generalMachinesDao = new GeneralMachinesDao();
 $convertDataDao = new ConvertDataDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();
 $indirectCostDao = new IndirectCostDao();
@@ -26,7 +28,9 @@ $app->get('/machines', function (Request $request, Response $response, $args) us
 });
 
 /* Consultar Maquinas importadas */
-$app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use ($machinesDao) {
+$app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use (
+    $generalMachinesDao
+) {
     $dataMachine = $request->getParsedBody();
 
     if (isset($dataMachine)) {
@@ -58,7 +62,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
                 $dataImportMachine = array('error' => true, 'message' => "Los dias de trabajo no pueden ser mayor a 31, fila: $i");
                 break;
             } else {
-                $findMachine = $machinesDao->findMachine($machines[$i], $id_company);
+                $findMachine = $generalMachinesDao->findMachine($machines[$i], $id_company);
                 if (!$findMachine) $insert = $insert + 1;
                 else $update = $update + 1;
                 $dataImportMachine['insert'] = $insert;
@@ -76,6 +80,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
 /* Agregar Maquinas */
 $app->post('/addMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
+    $generalMachinesDao,
     $convertDataDao,
     $minuteDepreciationDao,
     $indirectCostDao,
@@ -105,7 +110,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
         for ($i = 0; $i < sizeof($machines); $i++) {
 
-            $machine = $machinesDao->findMachine($machines[$i], $id_company);
+            $machine = $generalMachinesDao->findMachine($machines[$i], $id_company);
 
             $machines[$i] = $convertDataDao->strReplaceMachines($machines[$i]);
 
@@ -182,12 +187,16 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
 
 /* Eliminar Maquina */
-$app->post('/deleteMachine', function (Request $request, Response $response, $args) use ($machinesDao, $indirectCostDao, $priceProductDao) {
+$app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
+    $generalMachinesDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
 
-    $machines = $machinesDao->deleteMachine($dataMachine['idMachine']);
+    $machines = $generalMachinesDao->deleteMachine($dataMachine['idMachine']);
 
     if ($machines == null) {
         // Calcular costo indirecto

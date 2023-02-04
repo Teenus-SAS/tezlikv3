@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\ImageDao;
 use tezlikv3\dao\invCategoriesDao;
 use tezlikv3\dao\InvMoldsDao;
@@ -7,6 +8,7 @@ use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PlanProductsDao;
 
 $productsDao = new PlanProductsDao();
+$generalProductsDao = new GeneralProductsDao();
 $lastDataDao = new LastDataDao();
 $imageDao = new ImageDao();
 $invMoldsDao = new InvMoldsDao();
@@ -26,7 +28,11 @@ $app->get('/planProducts', function (Request $request, Response $response, $args
 });
 
 /* Consultar productos importados */
-$app->post('/planProductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao, $invMoldsDao, $invCategoriesDao) {
+$app->post('/planProductsDataValidation', function (Request $request, Response $response, $args) use (
+    $generalProductsDao,
+    $invMoldsDao,
+    $invCategoriesDao
+) {
     $dataProduct = $request->getParsedBody();
 
     if (isset($dataProduct)) {
@@ -61,7 +67,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
                 break;
             }
 
-            $findProduct = $productsDao->findProduct($products[$i], $id_company);
+            $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
             if (!$findProduct) $insert = $insert + 1;
             else $update = $update + 1;
             $dataImportProduct['insert'] = $insert;
@@ -76,6 +82,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
 
 $app->post('/addPlanProduct', function (Request $request, Response $response, $args) use (
     $productsDao,
+    $generalProductsDao,
     $lastDataDao,
     $imageDao,
     $invMoldsDao,
@@ -116,7 +123,7 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
             $findCategory = $invCategoriesDao->findCategory($products[$i]);
             $products[$i]['category'] = $findCategory['id_category'];
 
-            $product = $productsDao->findProduct($products[$i], $id_company);
+            $product = $generalProductsDao->findProduct($products[$i], $id_company);
 
             if (!$product) {
                 $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
@@ -139,7 +146,6 @@ $app->post('/updatePlanProduct', function (Request $request, Response $response,
     $id_company = $_SESSION['id_company'];
 
     $dataProduct = $request->getParsedBody();
-    //$imgProduct = $request->getUploadedFiles();
 
     if (empty($dataProduct['referenceProduct']) || empty($dataProduct['product']) || empty($dataProduct['idMold']) || empty($dataProduct['quantity']))
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
@@ -162,8 +168,8 @@ $app->post('/updatePlanProduct', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePlanProduct/{id_product}', function (Request $request, Response $response, $args) use ($productsDao) {
-    $product = $productsDao->deleteProduct($args['id_product']);
+$app->get('/deletePlanProduct/{id_product}', function (Request $request, Response $response, $args) use ($generalProductsDao) {
+    $product = $generalProductsDao->deleteProduct($args['id_product']);
 
     if ($product == null)
         $resp = array('success' => true, 'message' => 'Producto eliminado correctamente');

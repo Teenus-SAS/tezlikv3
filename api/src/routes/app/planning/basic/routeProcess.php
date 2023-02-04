@@ -1,8 +1,8 @@
 <?php
 
-use tezlikv3\dao\PlanProcessDao;
+use tezlikv3\dao\GeneralProcessDao;
 
-$processDao = new PlanProcessDao();
+$processDao = new GeneralProcessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

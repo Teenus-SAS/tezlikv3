@@ -1,24 +1,30 @@
 <?php
 
+use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\PlanMaterialsDao;
 
 $materialsDao = new PlanMaterialsDao();
+$generalMaterialsDao = new GeneralMaterialsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/planMaterials', function (Request $request, Response $response, $args) use ($materialsDao) {
+$app->get('/planMaterials', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $materials = $materialsDao->findAllMaterialsByCompany($id_company);
+    $materials = $generalMaterialsDao->findAllMaterialsByCompany($id_company);
     $response->getBody()->write(json_encode($materials, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 /* Consultar Materias prima importada */
-$app->post('/planMaterialsDataValidation', function (Request $request, Response $response, $args) use ($materialsDao) {
+$app->post('/planMaterialsDataValidation', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao
+) {
     $dataMaterial = $request->getParsedBody();
 
     if (isset($dataMaterial)) {
@@ -40,7 +46,7 @@ $app->post('/planMaterialsDataValidation', function (Request $request, Response 
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
             } else {
-                $findMaterial = $materialsDao->findMaterial($materials[$i], $id_company);
+                $findMaterial = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
                 if (!$findMaterial) $insert = $insert + 1;
                 else $update = $update + 1;
                 $dataImportMaterial['insert'] = $insert;
@@ -54,7 +60,10 @@ $app->post('/planMaterialsDataValidation', function (Request $request, Response 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanMaterials', function (Request $request, Response $response, $args) use ($materialsDao) {
+$app->post('/addPlanMaterials', function (Request $request, Response $response, $args) use (
+    $materialsDao,
+    $generalMaterialsDao
+) {
     session_start();
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -74,7 +83,7 @@ $app->post('/addPlanMaterials', function (Request $request, Response $response, 
         $materials = $dataMaterial['importMaterials'];
 
         for ($i = 0; $i < sizeof($materials); $i++) {
-            $material = $materialsDao->findMaterial($materials[$i], $id_company);
+            $material = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
 
             if (!$material)
                 $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
@@ -93,7 +102,9 @@ $app->post('/addPlanMaterials', function (Request $request, Response $response, 
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanMaterials', function (Request $request, Response $response, $args) use ($materialsDao) {
+$app->post('/updatePlanMaterials', function (Request $request, Response $response, $args) use (
+    $materialsDao
+) {
     $dataMaterial = $request->getParsedBody();
 
     $materials = $materialsDao->updateMaterialsByCompany($dataMaterial);
@@ -109,8 +120,10 @@ $app->post('/updatePlanMaterials', function (Request $request, Response $respons
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePlanMaterial/{id_material}', function (Request $request, Response $response, $args) use ($materialsDao) {
-    $materials = $materialsDao->deleteMaterial($args['id_material']);
+$app->get('/deletePlanMaterial/{id_material}', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao
+) {
+    $materials = $generalMaterialsDao->deleteMaterial($args['id_material']);
     if ($materials == null)
         $resp = array('success' => true, 'message' => 'Material eliminado correctamente');
 

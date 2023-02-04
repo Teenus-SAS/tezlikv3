@@ -1,16 +1,16 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
-use tezlikv3\dao\ProductsMaterialsDao;
-use tezlikv3\dao\ProductsDao;
-use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\GeneralMaterialsDao;
+use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\GeneralProductsMaterialsDao;
 use tezlikv3\dao\PriceProductDao;
 
-$productsMaterialsDao = new ProductsMaterialsDao();
+$productsMaterialsDao = new GeneralProductsMaterialsDao();
 $convertDataDao = new ConvertDataDao();
-$productsDao = new ProductsDao();
-$materialsDao = new MaterialsDao();
+$productsDao = new GeneralProductsDao();
+$materialsDao = new GeneralMaterialsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
 
@@ -27,7 +27,11 @@ $app->get('/productsMaterials/{idProduct}', function (Request $request, Response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/productsMaterialsDataValidation', function (Request $request, Response $response, $args) use ($productsMaterialsDao, $productsDao, $materialsDao) {
+$app->post('/productsMaterialsDataValidation', function (Request $request, Response $response, $args) use (
+    $productsMaterialsDao,
+    $productsDao,
+    $materialsDao
+) {
     $dataProductMaterial = $request->getParsedBody();
 
     if (isset($dataProductMaterial)) {
@@ -186,7 +190,11 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteProductMaterial', function (Request $request, Response $response, $args) use ($productsMaterialsDao, $costMaterialsDao, $priceProductDao) {
+$app->post('/deleteProductMaterial', function (Request $request, Response $response, $args) use (
+    $productsMaterialsDao,
+    $costMaterialsDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProductMaterial = $request->getParsedBody();

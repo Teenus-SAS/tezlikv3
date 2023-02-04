@@ -1,15 +1,15 @@
 <?php
 
 use tezlikv3\dao\FactoryLoadDao;
-use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\CostMinuteDao;
+use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 
 $factoryloadDao = new FactoryLoadDao();
 $lastDataDao = new LastDataDao();
-$machinesDao = new MachinesDao();
+$machinesDao = new GeneralMachinesDao();
 $costMinuteDao = new CostMinuteDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
@@ -28,7 +28,9 @@ $app->get('/factoryLoad', function (Request $request, Response $response, $args)
 });
 
 /* Consultar carga fabril*/
-$app->post('/factoryLoadDataValidation', function (Request $request, Response $response, $args) use ($factoryloadDao, $machinesDao) {
+$app->post('/factoryLoadDataValidation', function (Request $request, Response $response, $args) use (
+    $machinesDao
+) {
     $dataFactoryLoad = $request->getParsedBody();
 
     if (isset($dataFactoryLoad)) {
@@ -144,7 +146,12 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateFactoryLoad', function (Request $request, Response $response, $args) use ($factoryloadDao, $costMinuteDao, $indirectCostDao, $priceProductDao) {
+$app->post('/updateFactoryLoad', function (Request $request, Response $response, $args) use (
+    $factoryloadDao,
+    $costMinuteDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataFactoryLoad = $request->getParsedBody();
@@ -176,7 +183,11 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteFactoryLoad', function (Request $request, Response $response, $args) use ($factoryloadDao, $indirectCostDao, $priceProductDao) {
+$app->post('/deleteFactoryLoad', function (Request $request, Response $response, $args) use (
+    $factoryloadDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataFactoryLoad = $request->getParsedBody();

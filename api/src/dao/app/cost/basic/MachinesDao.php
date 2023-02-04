@@ -29,21 +29,6 @@ class MachinesDao
     return $machines;
   }
 
-  /* Buscar si existe maquina en la BD */
-  public function findMachine($dataMachine, $id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT id_machine FROM machines
-                                 WHERE machine = :machine AND id_company = :id_company");
-    $stmt->execute([
-      'machine' => ucfirst(strtolower(trim($dataMachine['machine']))),
-      'id_company' => $id_company
-    ]);
-    $findMachine = $stmt->fetch($connection::FETCH_ASSOC);
-    return $findMachine;
-  }
-
   /* Insertar maquina */
   public function insertMachinesByCompany($dataMachine, $id_company)
   {
@@ -99,21 +84,6 @@ class MachinesDao
       $message = $e->getMessage();
       $error = array('info' => true, 'message' => $message);
       return $error;
-    }
-  }
-
-  public function deleteMachine($id_machine)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT * FROM machines WHERE id_machine = :id_machine");
-    $stmt->execute(['id_machine' => trim($id_machine)]);
-    $rows = $stmt->rowCount();
-
-    if ($rows > 0) {
-      $stmt = $connection->prepare("DELETE FROM machines WHERE id_machine = :id_machine");
-      $stmt->execute(['id_machine' => trim($id_machine)]);
-      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
   }
 }

@@ -16,7 +16,6 @@ class LastLoginUsersDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-
     //Obtener ultimos logueos en orden de todos los usuarios
     public function loginUsers()
     {

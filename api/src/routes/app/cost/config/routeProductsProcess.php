@@ -1,19 +1,19 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
-use tezlikv3\dao\ProductsProcessDao;
-use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\ProcessPayrollDao;
-use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\GeneralMachinesDao;
+use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\Dao\PriceProductDao;
 
-$productsProcessDao = new ProductsProcessDao();
+$productsProcessDao = new GeneralProductsProcessDao();
 $convertDataDao = new ConvertDataDao();
-$productsDao = new ProductsDao();
+$productsDao = new GeneralProductsDao();
 $processPayrollDao = new ProcessPayrollDao();
-$machinesDao = new MachinesDao();
+$machinesDao = new GeneralMachinesDao();
 $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
@@ -32,7 +32,12 @@ $app->get('/productsProcess/{idProduct}', function (Request $request, Response $
 });
 
 // Consultar productos procesos importados
-$app->post('/productsProcessDataValidation', function (Request $request, Response $response, $args) use ($productsProcessDao, $productsDao, $processPayrollDao, $machinesDao) {
+$app->post('/productsProcessDataValidation', function (Request $request, Response $response, $args) use (
+    $productsProcessDao,
+    $productsDao,
+    $processPayrollDao,
+    $machinesDao
+) {
     $dataProductProcess = $request->getParsedBody();
 
     if (isset($dataProductProcess)) {
@@ -243,7 +248,12 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteProductProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $costWorkforceDao, $indirectCostDao, $priceProductDao) {
+$app->post('/deleteProductProcess', function (Request $request, Response $response, $args) use (
+    $productsProcessDao,
+    $costWorkforceDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();

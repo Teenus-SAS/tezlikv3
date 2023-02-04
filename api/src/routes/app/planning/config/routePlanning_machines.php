@@ -1,11 +1,11 @@
 <?php
 
-use tezlikv3\dao\PlanMachinesDao;
+use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\Planning_machinesDao;
 use tezlikv3\dao\TimeConvertDao;
 
 $planningMachinesDao = new Planning_machinesDao();
-$machinesDao = new PlanMachinesDao();
+$machinesDao = new GeneralMachinesDao();
 $timeConvertDao = new TimeConvertDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -19,7 +19,10 @@ $app->get('/planningMachines', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/planningMachinesDataValidation', function (Request $request, Response $response, $args) use ($planningMachinesDao, $machinesDao) {
+$app->post('/planningMachinesDataValidation', function (Request $request, Response $response, $args) use (
+    $planningMachinesDao,
+    $machinesDao
+) {
     $dataPMachines = $request->getParsedBody();
 
     if (isset($dataPMachines)) {
@@ -118,7 +121,10 @@ $app->post('/addPlanningMachines', function (Request $request, Response $respons
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanningMachines', function (Request $request, Response $response, $args) use ($planningMachinesDao, $timeConvertDao) {
+$app->post('/updatePlanningMachines', function (Request $request, Response $response, $args) use (
+    $planningMachinesDao,
+    $timeConvertDao
+) {
     $dataPMachines = $request->getParsedBody();
 
     if (
@@ -141,7 +147,9 @@ $app->post('/updatePlanningMachines', function (Request $request, Response $resp
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePlanningMachines/{id_program_machine}', function (Request $request, Response $response, $args) use ($planningMachinesDao) {
+$app->get('/deletePlanningMachines/{id_program_machine}', function (Request $request, Response $response, $args) use (
+    $planningMachinesDao
+) {
     $planningMachines = $planningMachinesDao->deletePlanMachines($args['id_program_machine']);
 
     if ($planningMachines == null) $resp = array('success' => true, 'message' => 'Planeación de maquina eliminada correctamente');

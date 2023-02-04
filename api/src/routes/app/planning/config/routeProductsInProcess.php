@@ -1,10 +1,12 @@
 <?php
 
+use tezlikv3\dao\GeneralPlanProductsDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\ProductsInProcessDao;
-use tezlikv3\dao\PlanProductsDao;
 
 $productsInProcessDao = new ProductsInProcessDao();
-$productsDao = new PlanProductsDao();
+$planProductsDao = new GeneralPlanProductsDao();
+$productsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -30,7 +32,8 @@ $app->get('/productsInProcess', function (Request $request, Response $response, 
 
 $app->post('/productsInProcessDataValidation', function (Request $request, Response $response, $args) use (
     $productsInProcessDao,
-    $productsDao
+    $productsDao,
+    $planProductsDao
 ) {
     $dataProduct = $request->getParsedBody();
 
@@ -64,7 +67,7 @@ $app->post('/productsInProcessDataValidation', function (Request $request, Respo
             }
 
             // Saber si existe con categoria en proceso
-            $findProductInProcess = $productsDao->findProductByCategoryInProcess($productsInProcess[$i], $id_company);
+            $findProductInProcess = $planProductsDao->findProductByCategoryInProcess($productsInProcess[$i], $id_company);
             if (!$findProductInProcess) {
                 $i = $i + 1;
                 $dataImportProductsInProcess = array('error' => true, 'message' => "Producto no esta en la categoria en proceso. Fila: {$i}");
@@ -140,25 +143,6 @@ $app->post('/addProductInProcess', function (Request $request, Response $respons
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
-
-// $app->post('/updateProductInProcess', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
-//     $dataProduct = $request->getParsedBody();
-
-//     if (empty($dataProduct['idProduct']))
-//         $resp = array('error' => true, 'message' => 'No hubo cambio alguno');
-//     else {
-//         $productsInProcess = $productsInProcessDao->updateProductInProcess($dataProduct);
-
-//         if ($productsInProcess == null)
-//             $resp = array('success' => true, 'message' => 'Producto en proceso actualizado correctamente');
-//         else if (isset($productsInProcess['info']))
-//             $resp = array('info' => true, 'message' => $productsInProcess['message']);
-//         else
-//             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-//     }
-//     $response->getBody()->write(json_encode($resp));
-//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-// });
 
 $app->get('/deleteProductInProcess/{id_product_category}', function (Request $request, Response $response, $args) use ($productsInProcessDao) {
     $productsInProcess = $productsInProcessDao->deleteProductInProcess($args['id_product_category']);
