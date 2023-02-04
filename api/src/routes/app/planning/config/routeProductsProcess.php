@@ -28,7 +28,12 @@ $app->get('/planProductsProcess/{idProduct}', function (Request $request, Respon
 });
 
 // Consultar productos procesos importados
-$app->post('/planProductsProcessDataValidation', function (Request $request, Response $response, $args) use ($productsProcessDao, $productsDao, $processDao, $machinesDao) {
+$app->post('/planProductsProcessDataValidation', function (Request $request, Response $response, $args) use (
+    $productsProcessDao,
+    $productsDao,
+    $processDao,
+    $machinesDao
+) {
     $dataProductProcess = $request->getParsedBody();
 
     if (isset($dataProductProcess)) {
@@ -148,12 +153,11 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
             //false = no, id_product_process = si
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
-            $dataProductProcess = $productProcess[$i];
-            $dataProductProcess = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
+            $productProcess[$i] = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
 
             if (!$findProductProcess) {
                 //si no se encuentra, inserta y retorna null, si se encuentra retorna 1
-                $resolution = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
+                $resolution = $productsProcessDao->insertProductsProcessByCompany($productProcess[$i], $id_company);
 
                 if ($resolution == 1) {
                     $i = $i + 1;
@@ -162,7 +166,7 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
                 } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
             } else {
                 $productProcess[$i]['idProductProcess'] = $findProductProcess['id_product_process'];
-                $resolution = $productsProcessDao->updateProductsProcess($dataProductProcess);
+                $resolution = $productsProcessDao->updateProductsProcess($productProcess[$i]);
             }
 
             // Calcular lote economico
@@ -179,7 +183,10 @@ $app->post('/addPlanProductsProcess', function (Request $request, Response $resp
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $convertDataDao) {
+$app->post('/updatePlanProductsProcess', function (Request $request, Response $response, $args) use (
+    $productsProcessDao,
+    $convertDataDao
+) {
     $dataProductProcess = $request->getParsedBody();
 
     if (empty($dataProductProcess['idProduct'] || empty($dataProductProcess['idProcess']) || empty($dataProductProcess['idMachine']) || empty($dataProductProcess['enlistmentTime']) || empty($dataProductProcess['operationTime'])))

@@ -22,7 +22,11 @@ $app->get('/planCiclesMachine', function (Request $request, Response $response, 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/planCiclesMachineDataValidation', function (Request $request, Response $response, $args) use ($planCiclesMachineDao, $machinesDao, $productsDao) {
+$app->post('/planCiclesMachineDataValidation', function (Request $request, Response $response, $args) use (
+    $planCiclesMachineDao,
+    $machinesDao,
+    $productsDao
+) {
     $dataPlanCiclesMachine = $request->getParsedBody();
 
     if (isset($dataPlanCiclesMachine['importPlanCiclesMachine'])) {
@@ -35,6 +39,12 @@ $app->post('/planCiclesMachineDataValidation', function (Request $request, Respo
         $planCiclesMachine = $dataPlanCiclesMachine['importPlanCiclesMachine'];
 
         for ($i = 0; $i < sizeof($planCiclesMachine); $i++) {
+            if (empty($planCiclesMachine[$i]['ciclesHour'])) {
+                $i = $i + 1;
+                $dataImportPlanCiclesMachine = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
+
             // Obtener id producto
             $findProduct = $productsDao->findProduct($planCiclesMachine[$i], $id_company);
             if (!$findProduct) {
@@ -51,18 +61,12 @@ $app->post('/planCiclesMachineDataValidation', function (Request $request, Respo
                 break;
             } else $planCiclesMachine[$i]['idMachine'] = $findMachine['id_machine'];
 
-            if (empty($planCiclesMachine[$i]['ciclesHour'])) {
-                $i = $i + 1;
-                $dataImportPlanCiclesMachine = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-                break;
-            } else {
-                $findPlanCiclesMachine = $planCiclesMachineDao->findPlanCiclesMachine($planCiclesMachine[$i], $id_company);
+            $findPlanCiclesMachine = $planCiclesMachineDao->findPlanCiclesMachine($planCiclesMachine[$i], $id_company);
 
-                if (!$findPlanCiclesMachine) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportPlanCiclesMachine['insert'] = $insert;
-                $dataImportPlanCiclesMachine['update'] = $update;
-            }
+            if (!$findPlanCiclesMachine) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportPlanCiclesMachine['insert'] = $insert;
+            $dataImportPlanCiclesMachine['update'] = $update;
         }
     } else $dataImportPlanCiclesMachine = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 
@@ -70,7 +74,11 @@ $app->post('/planCiclesMachineDataValidation', function (Request $request, Respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPlanCiclesMachine', function (Request $request, Response $response, $args) use ($planCiclesMachineDao, $productsDao, $machinesDao) {
+$app->post('/addPlanCiclesMachine', function (Request $request, Response $response, $args) use (
+    $planCiclesMachineDao,
+    $productsDao,
+    $machinesDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPlanCiclesMachine = $request->getParsedBody();

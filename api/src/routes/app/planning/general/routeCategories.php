@@ -15,13 +15,6 @@ $app->get('/categories', function (Request $request, Response $response, $args) 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/*
-$app->get('/productsCategories', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
-    $categories = $invCategoriesDao->findAllCategoriesByTypeCategories('Producto');
-    $response->getBody()->write(json_encode($categories, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-}); */
-
 $app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
     $dataCategories = $request->getParsedBody();
 

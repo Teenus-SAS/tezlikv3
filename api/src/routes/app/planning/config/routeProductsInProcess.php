@@ -28,7 +28,10 @@ $app->get('/productsInProcess', function (Request $request, Response $response, 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/productsInProcessDataValidation', function (Request $request, Response $response, $args) use ($productsInProcessDao, $productsDao) {
+$app->post('/productsInProcessDataValidation', function (Request $request, Response $response, $args) use (
+    $productsInProcessDao,
+    $productsDao
+) {
     $dataProduct = $request->getParsedBody();
 
     if (isset($dataProduct)) {

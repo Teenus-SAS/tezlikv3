@@ -6,10 +6,12 @@ use tezlikv3\dao\PlanProductsDao;
 use tezlikv3\dao\ProgrammingDao;
 use tezlikv3\dao\DatesMachinesDao;
 use tezlikv3\dao\FinalDateDao;
+use tezlikv3\dao\GeneralOrdersDao;
 use tezlikv3\dao\LotsProductsDao;
 
 $machinesDao = new PlanMachinesDao();
 $ordersDao = new OrdersDao();
+$generalOrdersDao = new GeneralOrdersDao();
 $productsDao = new PlanProductsDao();
 $programmingDao = new ProgrammingDao();
 $datesMachinesDao = new DatesMachinesDao();
@@ -50,7 +52,7 @@ $app->post('/programming', function (Request $request, Response $response, $args
 });
 
 // Consultar fecha inicio maquina
-$app->post('/dateMachine', function (Request $request, Response $response, $args) use ($datesMachinesDao, $programmingDao) {
+$app->post('/dateMachine', function (Request $request, Response $response, $args) use ($datesMachinesDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProgramming = $request->getParsedBody();
@@ -66,7 +68,12 @@ $app->post('/dateMachine', function (Request $request, Response $response, $args
 });
 
 // Obtener información
-$app->post('/getProgrammingInfo', function (Request $request, Response $response, $args) use ($finalDateDao, $economicLotDao, $datesMachinesDao, $ordersDao) {
+$app->post('/getProgrammingInfo', function (Request $request, Response $response, $args) use (
+    $finalDateDao,
+    $economicLotDao,
+    $datesMachinesDao,
+    $generalOrdersDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProgramming = $request->getParsedBody();
@@ -90,7 +97,7 @@ $app->post('/getProgrammingInfo', function (Request $request, Response $response
     $datesMachines = $datesMachinesDao->findDatesMachine($dataProgramming, $id_company);
 
     // Obtener información producto, pedido y cliente
-    $orders = $ordersDao->findOrdersByCompany($dataProgramming, $id_company);
+    $orders = $generalOrdersDao->findOrdersByCompany($dataProgramming, $id_company);
 
     $data['economicLot'] = $economicLot['economic_lot'];
     $data['datesMachines'] = $datesMachines;
@@ -99,18 +106,3 @@ $app->post('/getProgrammingInfo', function (Request $request, Response $response
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
-
-// $app->post('/programmingDataValidation', function (Request $request, Response $response, $args) use ($ordersDao, $planCiclesMachineDao, $machinesDao, $productsDao) {
-//     $dataProgramming = $request->getParsedBody();
-
-//     if (isset($dataProgramming['importProgramming'])) {
-//         session_start();
-//         $id_company = $_SESSION['id_company'];
-
-//         $programming = $dataProgramming['importProgramming'];
-//     } else
-//         $dataImportProgramming = array('error' => true, 'message' => 'El archivo se encuentra vacio');
-
-//     $response->getBody()->write(json_encode($dataImportProgramming, JSON_NUMERIC_CHECK));
-//     return $response->withHeader('Content-Type', 'application/json');
-// });

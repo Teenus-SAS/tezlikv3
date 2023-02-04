@@ -39,6 +39,12 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
         $products = $dataProduct['importProducts'];
 
         for ($i = 0; $i < sizeof($products); $i++) {
+            if (empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) || empty($products[$i]['quantity'])) {
+                $i = $i + 1;
+                $dataImportProduct = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
+                break;
+            }
+
             // Obtener id Molde
             $findMold = $invMoldsDao->findInvMold($products[$i], $id_company);
             if (!$findMold) {
@@ -55,17 +61,11 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
                 break;
             }
 
-            if (empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) || empty($products[$i]['quantity'])) {
-                $i = $i + 1;
-                $dataImportProduct = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
-                break;
-            } else {
-                $findProduct = $productsDao->findProduct($products[$i], $id_company);
-                if (!$findProduct) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportProduct['insert'] = $insert;
-                $dataImportProduct['update'] = $update;
-            }
+            $findProduct = $productsDao->findProduct($products[$i], $id_company);
+            if (!$findProduct) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportProduct['insert'] = $insert;
+            $dataImportProduct['update'] = $update;
         }
     } else
         $dataImportProduct = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -120,9 +120,6 @@ $app->post('/addPlanProduct', function (Request $request, Response $response, $a
 
             if (!$product) {
                 $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
-                // $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
-
-                // $products[$i]['idProduct'] = $lastProductId['id_product'];
             } else {
                 $products[$i]['idProduct'] = $product['id_product'];
                 $resolution = $productsDao->updateProductByCompany($products[$i], $id_company);

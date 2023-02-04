@@ -55,8 +55,6 @@ $app->post('/addPlanProcess', function (Request $request, Response $response, $a
     $dataProcess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
-    //$countProcess = sizeof($dataProcess);
-
     if (empty($dataProcess['importProcess'])) {
         $process = $processDao->insertProcessByCompany($dataProcess, $id_company);
 

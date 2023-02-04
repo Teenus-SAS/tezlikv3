@@ -23,7 +23,11 @@ $app->get('/planProductsMaterials/{idProduct}', function (Request $request, Resp
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/planProductsMaterialsDataValidation', function (Request $request, Response $response, $args) use ($productsMaterialsDao, $productsDao, $materialsDao) {
+$app->post('/planProductsMaterialsDataValidation', function (Request $request, Response $response, $args) use (
+    $productsMaterialsDao,
+    $productsDao,
+    $materialsDao
+) {
     $dataProductMaterial = $request->getParsedBody();
 
     if (isset($dataProductMaterial)) {
@@ -36,6 +40,12 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
         $productMaterials = $dataProductMaterial['importProducts'];
 
         for ($i = 0; $i < sizeof($productMaterials); $i++) {
+            if (empty($productMaterials[$i]['quantity'])) {
+                $i = $i + 1;
+                $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
+
             // Obtener id producto
             $findProduct = $productsDao->findProduct($productMaterials[$i], $id_company);
             if (!$findProduct) {
@@ -52,17 +62,11 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
                 break;
             } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            if (empty($productMaterials[$i]['quantity'])) {
-                $i = $i + 1;
-                $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-                break;
-            } else {
-                $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
-                if (!$findProductsMaterials) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportProductsMaterials['insert'] = $insert;
-                $dataImportProductsMaterials['update'] = $update;
-            }
+            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
+            if (!$findProductsMaterials) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportProductsMaterials['insert'] = $insert;
+            $dataImportProductsMaterials['update'] = $update;
         }
     } else
         $dataImportProductsMaterials = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -108,12 +112,12 @@ $app->post('/addPlanProductsMaterials', function (Request $request, Response $re
 
             $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
 
-            $dataProductMaterial = $convertDataDao->strReplaceProductsMaterials($productMaterials[$i]);
+            $productMaterials[$i] = $convertDataDao->strReplaceProductsMaterials($productMaterials[$i]);
 
-            if (!$findProductsMaterials) $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($dataProductMaterial, $id_company);
+            if (!$findProductsMaterials) $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($productMaterials[$i], $id_company);
             else {
                 $productMaterials[$i]['idProductMaterial'] = $findProductsMaterials['id_product_material'];
-                $resolution = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
+                $resolution = $productsMaterialsDao->updateProductsMaterials($productMaterials[$i]);
             }
         }
         if ($resolution == null)
@@ -125,7 +129,10 @@ $app->post('/addPlanProductsMaterials', function (Request $request, Response $re
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePlanProductsMaterials', function (Request $request, Response $response, $args) use ($productsMaterialsDao, $convertDataDao) {
+$app->post('/updatePlanProductsMaterials', function (Request $request, Response $response, $args) use (
+    $productsMaterialsDao,
+    $convertDataDao
+) {
     $dataProductMaterial = $request->getParsedBody();
 
     if (empty($dataProductMaterial['material']) || empty($dataProductMaterial['idProduct'] || empty($dataProductMaterial['quantity'])))

@@ -119,4 +119,17 @@ class ConvertDataDao
 
         return $dataMold;
     }
+
+    /* Pedidos */
+    public function changeDateOrder($dataOrder)
+    {
+        $date = str_replace('/', '-', $dataOrder['dateOrder']);
+        $minDate = str_replace('/', '-', $dataOrder['minDate']);
+        $maxDate = str_replace('/', '-', $dataOrder['maxDate']);
+        $dataOrder['dateOrder'] = date('Y-m-d', strtotime($date));
+        $dataOrder['minDate'] = date('Y-m-d', strtotime($minDate));
+        $dataOrder['maxDate'] = date('Y-m-d', strtotime($maxDate));
+
+        return $dataOrder;
+    }
 }

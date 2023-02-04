@@ -32,6 +32,16 @@ $app->post('/planningMachinesDataValidation', function (Request $request, Respon
         $planningMachines = $dataPMachines['importPlanMachines'];
 
         for ($i = 0; $i < sizeof($planningMachines); $i++) {
+            if (
+                $planningMachines[$i]['january'] > 31 || $planningMachines[$i]['february'] > 28 || $planningMachines[$i]['march'] > 31 || $planningMachines[$i]['april'] > 30 ||
+                $planningMachines[$i]['may'] > 31 || $planningMachines[$i]['june'] > 30 || $planningMachines[$i]['july'] > 31 || $planningMachines[$i]['august'] > 31 ||
+                $planningMachines[$i]['september'] > 30 ||  $planningMachines[$i]['october'] > 31 ||  $planningMachines[$i]['november'] > 30 ||  $planningMachines[$i]['december'] > 31
+            ) {
+                $i = $i + 1;
+                $dataImportPlanMachines = array('error' => true, 'message' => "El valor es mayor al ultimo dia del mes<br>Fila: {$i}");
+                break;
+            }
+
             // Obtener id maquina
             $findMachine = $machinesDao->findMachine($planningMachines[$i], $id_company);
             if (!$findMachine) {
@@ -50,20 +60,11 @@ $app->post('/planningMachinesDataValidation', function (Request $request, Respon
                 break;
             }
 
-            if (
-                $planningMachines[$i]['january'] > 31 || $planningMachines[$i]['february'] > 28 || $planningMachines[$i]['march'] > 31 || $planningMachines[$i]['april'] > 30 || $planningMachines[$i]['may'] > 31 || $planningMachines[$i]['june'] > 30 ||
-                $planningMachines[$i]['july'] > 31 || $planningMachines[$i]['august'] > 31 || $planningMachines[$i]['september'] > 30 ||  $planningMachines[$i]['october'] > 31 ||  $planningMachines[$i]['november'] > 30 ||  $planningMachines[$i]['december'] > 31
-            ) {
-                $i = $i + 1;
-                $dataImportPlanMachines = array('error' => true, 'message' => "El valor es mayor al ultimo dia del mes<br>Fila: {$i}");
-                break;
-            } else {
-                $findPlanMachines = $planningMachinesDao->findPlanMachines($planningMachines[$i], $id_company);
-                if (!$findPlanMachines) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportPlanMachines['insert'] = $insert;
-                $dataImportPlanMachines['update'] = $update;
-            }
+            $findPlanMachines = $planningMachinesDao->findPlanMachines($planningMachines[$i], $id_company);
+            if (!$findPlanMachines) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportPlanMachines['insert'] = $insert;
+            $dataImportPlanMachines['update'] = $update;
         }
     } else $dataImportPlanMachines = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
     $response->getBody()->write(json_encode($dataImportPlanMachines, JSON_NUMERIC_CHECK));
@@ -101,13 +102,12 @@ $app->post('/addPlanningMachines', function (Request $request, Response $respons
 
             $findPlanMachines = $planningMachinesDao->findPlanMachines($planningMachines[$i], $id_company);
 
-            $dataPMachine = $planningMachines[$i];
-            $dataPMachine = $timeConvertDao->timeConverter($dataPMachine);
+            $planningMachines[$i] = $timeConvertDao->timeConverter($planningMachines[$i]);
 
-            if (!$findPlanMachines) $resolution = $planningMachinesDao->insertPlanMachinesByCompany($dataPMachine, $id_company);
+            if (!$findPlanMachines) $resolution = $planningMachinesDao->insertPlanMachinesByCompany($planningMachines[$i], $id_company);
             else {
                 $planningMachines[$i]['idProgramMachine'] = $findPlanMachines['id_program_machine'];
-                $resolution = $planningMachinesDao->updatePlanMachines($dataPMachine);
+                $resolution = $planningMachinesDao->updatePlanMachines($planningMachines[$i]);
             }
         }
         if ($resolution == null) $resp = array('success' => true, 'message' => 'Planeacion de maquina importada correctamente');

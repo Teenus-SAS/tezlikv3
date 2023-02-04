@@ -106,9 +106,9 @@ $app->post('/addMold', function (Request $request, Response $response, $args) us
         for ($i = 0; $i < sizeof($molds); $i++) {
             $findMold = $invMoldsDao->findInvMold($molds[$i], $id_company);
 
-            $dataMold = $convertDataDao->strReplaceMold($molds[$i]);
+            $molds[$i] = $convertDataDao->strReplaceMold($molds[$i]);
 
-            if (!$findMold) $resolution = $invMoldsDao->insertInvMoldByCompany($dataMold, $id_company);
+            if (!$findMold) $resolution = $invMoldsDao->insertInvMoldByCompany($molds[$i], $id_company);
             else {
                 $molds[$i]['idMold'] = $findMold['id_mold'];
                 $resolution = $invMoldsDao->updateInvMold($dataMold);

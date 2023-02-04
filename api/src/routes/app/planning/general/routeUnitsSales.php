@@ -36,6 +36,14 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
         $unitSales = $dataSale['importUnitSales'];
 
         for ($i = 0; $i < sizeof($unitSales); $i++) {
+            if (
+                empty($unitSales[$i]['january']) && empty($unitSales[$i]['february']) && empty($unitSales[$i]['march']) && empty($unitSales[$i]['april']) && empty($unitSales[$i]['may']) && empty($unitSales[$i]['june']) &&
+                empty($unitSales[$i]['july']) && empty($unitSales[$i]['august']) && empty($unitSales[$i]['september']) && empty($unitSales[$i]['october']) &&  empty($unitSales[$i]['november']) && empty($unitSales[$i]['december'])
+            ) {
+                $i = $i + 1;
+                $dataImportUnitSales = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
+                break;
+            }
 
             // Obtener id producto
             $findProduct = $productsDao->findProduct($unitSales[$i], $id_company);
@@ -45,20 +53,11 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
                 break;
             } else $unitSales[$i]['idProduct'] = $findProduct['id_product'];
 
-            if (
-                empty($unitSales[$i]['january']) && empty($unitSales[$i]['february']) && empty($unitSales[$i]['march']) && empty($unitSales[$i]['april']) && empty($unitSales[$i]['may']) && empty($unitSales[$i]['june']) &&
-                empty($unitSales[$i]['july']) && empty($unitSales[$i]['august']) && empty($unitSales[$i]['september']) && empty($unitSales[$i]['october']) &&  empty($unitSales[$i]['november']) && empty($unitSales[$i]['december'])
-            ) {
-                $i = $i + 1;
-                $dataImportUnitSales = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
-                break;
-            } else {
-                $findUnitSales = $unitSalesDao->findSales($unitSales[$i], $id_company);
-                !$findUnitSales ? $insert = $insert + 1 : $update = $update + 1;
+            $findUnitSales = $unitSalesDao->findSales($unitSales[$i], $id_company);
+            !$findUnitSales ? $insert = $insert + 1 : $update = $update + 1;
 
-                $dataImportUnitSales['insert'] = $insert;
-                $dataImportUnitSales['update'] = $update;
-            }
+            $dataImportUnitSales['insert'] = $insert;
+            $dataImportUnitSales['update'] = $update;
         }
     } else
         $dataImportUnitSales = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -67,7 +66,12 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addUnitSales', function (Request $request, Response $response, $args) use ($unitSalesDao, $productsDao, $classificationDao, $minimumStockDao) {
+$app->post('/addUnitSales', function (Request $request, Response $response, $args) use (
+    $unitSalesDao,
+    $productsDao,
+    $classificationDao,
+    $minimumStockDao
+) {
     session_start();
     $dataSale = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];

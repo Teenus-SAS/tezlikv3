@@ -32,13 +32,12 @@ $(document).ready(function () {
             dateOrder: item.fecha_pedido,
             minDate: item.fecha_minima,
             maxDate: item.fecha_maxima,
-            referenceProduct: item.referencia_producto.trim(),
-            product: item.producto.trim(),
-            client: item.cliente.trim(),
-            orderType: item.tipo_pedido.trim(),
+            referenceProduct: item.referencia_producto,
+            product: item.producto,
+            client: item.cliente,
+            orderType: item.tipo_pedido,
             originalQuantity: item.cantidad_original,
             quantity: item.cantidad_pendiente,
-            // deliveryDay: item.dia_entrega,
           };
         });
         checkOrder(OrderToImport);

@@ -8,7 +8,7 @@ use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
-use tezlikv3\dao\GeneralExpensesDistributionDao;
+use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralPMaterialsDao;
 use tezlikv3\dao\GeneralPProcessDao;
 use tezlikv3\dao\GeneralServicesDao;
@@ -21,7 +21,6 @@ use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\ProductsQuantityDao;
-use tezlikv3\dao\QuotesDao;
 
 $productsDao = new ProductsDao();
 $generalProductsDao = new GeneralCostProductsDao();
@@ -37,7 +36,7 @@ $generalPProcessDao = new GeneralPProcessDao();
 $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
-$generalExpensesDistributionDao = new GeneralExpensesDistributionDao();
+$generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
 $expensesRecoverDao = new ExpenseRecoverDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $costMaterialsDao = new CostMaterialsDao();
@@ -210,7 +209,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $externalServicesDao,
     $generalServicesDao,
     $expensesDistributionDao,
-    $generalExpensesDistributionDao,
+    $generalExpenseDistributionDao,
     $expensesRecoverDao,
     $generalExpenseRecoverDao,
     $costMaterialsDao,
@@ -287,7 +286,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
             if ($resolution == null) {
                 // Copiar data expenses_distribution
-                $oldProduct = $generalExpensesDistributionDao->findExpenseDistributionByIdProduct($dataProduct, $id_company);
+                $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct, $id_company);
                 $arr = array();
 
                 if ($oldProduct != false) {
@@ -380,7 +379,7 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $generalPMaterialsDao,
     $generalPProcessDao,
     $generalServicesDao,
-    $generalExpensesDistributionDao,
+    $generalExpenseDistributionDao,
     $generalExpenseRecoverDao,
     $productsCostDao,
     $productsDao
@@ -390,7 +389,7 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $productsMaterials = $generalPMaterialsDao->deleteProductMaterialByProduct($dataProduct);
     $productsProcess = $generalPProcessDao->deleteProductProcessByProduct($dataProduct);
     $externalServices = $generalServicesDao->deleteExternalServiceByProduct($dataProduct);
-    $expensesDistribution = $generalExpensesDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
+    $expensesDistribution = $generalExpenseDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
     $expensesRecover = $generalExpenseRecoverDao->deleteRecoverExpenseByProduct($dataProduct);
     $productsCost = $productsCostDao->deleteProductsCost($dataProduct);
     $product = $productsDao->deleteProduct($dataProduct);
