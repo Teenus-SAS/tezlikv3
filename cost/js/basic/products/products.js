@@ -59,7 +59,7 @@ $(document).ready(function () {
     prof = parseFloat(prof.replace(',', '.'));
     comission = parseFloat(comission.replace(',', '.'));
 
-    let data = prof * comission;
+    let data = 1 * prof;
 
     if (ref == '' || !ref || prod == '' || !prod || data <= 0 || isNaN(data)) {
       toastr.error('Ingrese todos los campos');

@@ -46,7 +46,7 @@ class ImageDao
                 'id_company' => $id_company
             ]);
 
-            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/users/' . $id_company;
+            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/users/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
@@ -82,7 +82,7 @@ class ImageDao
                 'id_admin' => $id_admin
             ]);
 
-            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/users/admin';
+            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/users/admin';
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
@@ -118,7 +118,7 @@ class ImageDao
                 'id_company' => $id_company
             ]);
 
-            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies/' . $id_company;
+            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/companies/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
@@ -156,7 +156,7 @@ class ImageDao
                 'id_company' => $id_company
             ]);
 
-            $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/products/' . $id_company;
+            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/products/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
@@ -194,7 +194,7 @@ class ImageDao
                 'id_company' => $id_company
             ]);
 
-            $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/Qcompanies/' . $id_company;
+            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/Qcompanies/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);

@@ -29,7 +29,8 @@ $app->get('/machines', function (Request $request, Response $response, $args) us
 
 /* Consultar Maquinas importadas */
 $app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use (
-    $generalMachinesDao
+    $generalMachinesDao,
+    $convertDataDao
 ) {
     $dataMachine = $request->getParsedBody();
 
@@ -43,12 +44,15 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
         $machines = $dataMachine['importMachines'];
 
         for ($i = 0; $i < sizeof($machines); $i++) {
+
+            $machines[$i] = $convertDataDao->strReplaceMachines($machines[$i]);
+
+            $data = floatval($machines[$i]['costMachine']) * floatval($machines[$i]['depreciationYears']) * floatval($machines[$i]['hoursMachine']) * floatval($machines[$i]['daysMachine']);
+
             if (
-                empty($machines[$i]['machine']) || empty($machines[$i]['cost']) || empty($machines[$i]['yearsDepreciacion']) ||
-                $machines[$i]['yearsDepreciacion'] <= 0 || $machines[$i]['hoursMachine'] <= 0 || $machines[$i]['daysMachine'] <= 0
+                empty($machines[$i]['machine']) || empty($machines[$i]['cost']) || empty($machines[$i]['yearsDepreciacion']) || $data <= 0 || is_nan($data)
             ) {
                 $dataImportMachine = array('error' => true, 'message' => 'Ingrese todos los datos');
-                // $dataImportMachine = array('error' => true, 'message' => 'Verifique que los campos dias y horas maquina sean mayor a cero');
                 break;
             }
 

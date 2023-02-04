@@ -107,14 +107,14 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
         $products = $dataProduct['importProducts'];
 
         for ($i = 0; $i < sizeof($products); $i++) {
-            $profitability = str_replace(',', '.', $products[$i]['profitability']);
-            $commissionSale = str_replace(',', '.', $products[$i]['commissionSale']);
+            $profitability = floatval(str_replace(',', '.', $products[$i]['profitability']));
+            $commissionSale = floatval(str_replace(',', '.', $products[$i]['commissionSale']));
 
-            $data = floatval($profitability) * floatval($commissionSale);
+            $profitability = 1 * $profitability;
 
             if (
                 empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
-                is_nan($data) || $data <= 0
+                $products[$i]['commissionSale'] == '' || is_nan($profitability) || $profitability <= 0
             ) {
                 $i = $i + 1;
                 $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
@@ -161,15 +161,17 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
             //INGRESA id_company, referencia, producto. BD
             $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
-            //ULTIMO REGISTRO DE ID, EL MÁS ALTO
-            $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
+            if ($products == null) {
+                //ULTIMO REGISTRO DE ID, EL MÁS ALTO
+                $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
-            if (sizeof($_FILES) > 0)
-                $imageDao->imageProduct($lastProductId['id_product'], $id_company);
+                if (sizeof($_FILES) > 0)
+                    $imageDao->imageProduct($lastProductId['id_product'], $id_company);
 
-            //AGREGA ULTIMO ID A DATA
-            $dataProduct['idProduct'] = $lastProductId['id_product'];
-            $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
+                //AGREGA ULTIMO ID A DATA
+                $dataProduct['idProduct'] = $lastProductId['id_product'];
+                $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
+            }
 
             if ($products == null &&  $productsCost == null)
                 $resp = array('success' => true, 'message' => 'Producto creado correctamente');
@@ -186,15 +188,20 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
 
                 if (!$product) {
                     $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
-                    $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
-                    $products[$i]['idProduct'] = $lastProductId['id_product'];
+                    if ($resolution = null) {
+                        $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
-                    $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
+                        $products[$i]['idProduct'] = $lastProductId['id_product'];
+
+                        $resolution = $productsCostDao->insertProductsCostByCompany($products[$i], $id_company);
+                    }
                 } else {
                     $products[$i]['idProduct'] = $product['id_product'];
                     $resolution = $productsDao->updateProductByCompany($products[$i], $id_company);
-                    $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
+
+                    if ($resolution == null)
+                        $resolution = $productsCostDao->updateProductsCostByCompany($products[$i]);
                 }
             }
             if ($resolution == null)
@@ -362,7 +369,12 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateProducts', function (Request $request, Response $response, $args) use ($productsDao, $imageDao, $productsCostDao, $priceProductDao) {
+$app->post('/updateProducts', function (Request $request, Response $response, $args) use (
+    $productsDao,
+    $imageDao,
+    $productsCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 

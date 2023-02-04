@@ -58,23 +58,16 @@ $(document).ready(function () {
   checkDataMachines = async (url, idMachine) => {
     let Machine = $('#machine').val();
     let costMachine = $('#costMachine').val();
-    let residualValue = $('#residualValue').val();
     let yearsDepreciation = $('#depreciationYears').val();
     let hoursMachine = $('#hoursMachine').val();
     let daysMachine = $('#daysMachine').val();
 
     costMachine = parseFloat(decimalNumber(costMachine));
-    residualValue = parseFloat(decimalNumber(residualValue));
     yearsDepreciation = parseFloat(decimalNumber(yearsDepreciation));
     hoursMachine = parseFloat(hoursMachine.replace(',', '.'));
     daysMachine = parseFloat(daysMachine.replace(',', '.'));
 
-    let data =
-      costMachine *
-      residualValue *
-      yearsDepreciation *
-      hoursMachine *
-      daysMachine;
+    let data = costMachine * yearsDepreciation * hoursMachine * daysMachine;
 
     if (Machine == '' || Machine == null || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
