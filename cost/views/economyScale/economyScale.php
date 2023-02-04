@@ -8,7 +8,7 @@ if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8" />
@@ -62,7 +62,7 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <div class="vertical-app-tabs" id="rootwizard">
                             <div class="col-md-12 col-lg-12 InputGroup">
-                                <div class="card mt-4">
+                                <div class="card">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12 col-lg-12 mb-2">
@@ -82,6 +82,12 @@ if (sizeof($_SESSION) == 0)
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
                                             <div class="col-12 col-lg-12 mb-2">
                                                 <h5>Descripción</h5>
                                             </div>
