@@ -66,11 +66,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formNewFactoryLoad">
                                             <div class="row">
-                                                <div class="col-3">
+                                                <div class="col-4">
                                                     <label for="">Máquina</label>
                                                     <select class="form-control" name="idMachine" id="machine"></select>
                                                 </div>
-                                                <div class="col">
+                                                <div class="col-5">
                                                     <label for="">Descripción Carga fabril</label>
                                                     <input class="form-control" name="descriptionFactoryLoad" id="descriptionFactoryLoad" />
                                                 </div>
@@ -78,7 +78,7 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Costo</label>
                                                     <input class="form-control text-center number" type="text" name="costFactory" id="costFactory" />
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-1">
                                                     <button class="btn btn-primary" id="btnCreateFactoryLoad" style="margin-top:33px">Asignar</button>
                                                 </div>
                                             </div>
