@@ -33,21 +33,6 @@ class FactoryLoadDao
     return $factoryloads;
   }
 
-  public function findLastInsertedFactoryLoad($id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT MAX(id_manufacturing_load) AS id_manufacturing_load
-                                  FROM manufacturing_load WHERE id_company = :id_company");
-    $stmt->execute(['id_company' => $id_company]);
-
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-    $factoryload = $stmt->fecth($connection::FETCH_ASSOC);
-    $this->logger->notice("factory load", array('factory load' => $factoryload));
-    return $factoryload;
-  }
-
   // Consultar si existe carga fabril en BD
 
   public function insertFactoryLoadByCompany($dataFactoryLoad, $id_company)
@@ -64,7 +49,6 @@ class FactoryLoadDao
         'id_company' => $id_company,
         'input' => ucfirst(strtolower(trim($dataFactoryLoad['descriptionFactoryLoad']))),
         'cost' => $costFactory,
-        //'cost_minute' => $dataFactoryLoad['costMinute']
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

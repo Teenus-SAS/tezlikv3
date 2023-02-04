@@ -49,8 +49,6 @@ class InvMoldsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $dataMold = $this->convertDataMold($dataMold);
-
         try {
             $stmt = $connection->prepare("INSERT INTO plan_inv_molds (reference, mold, id_company, assembly_time, assembly_production, cavity, cavity_available)
                                           VALUES (:reference, :mold, :id_company, :assembly_time, :assembly_production, :cavity, :cavity_available)");
@@ -77,8 +75,6 @@ class InvMoldsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $dataMold = $this->convertDataMold($dataMold);
-
         try {
             $stmt = $connection->prepare("UPDATE plan_inv_molds SET reference = :reference, mold = :mold, assembly_time = :assembly_time, assembly_production = :assembly_production, cavity = :cavity, cavity_available = :cavity_available
                                           WHERE id_mold = :id_mold");
@@ -99,16 +95,6 @@ class InvMoldsDao
         }
     }
 
-    public function convertDataMold($dataMold)
-    {
-        $dataMold['assemblyTime'] = str_replace('.', '', $dataMold['assemblyTime']);
-        $dataMold['assemblyProduction'] = str_replace('.', '', $dataMold['assemblyProduction']);
-        $dataMold['cavity'] = str_replace('.', '', $dataMold['cavity']);
-        $dataMold['cavityAvailable'] = str_replace('.', '', $dataMold['cavityAvailable']);
-
-        return $dataMold;
-    }
-
     public function deleteInvMold($id_mold)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -126,46 +112,6 @@ class InvMoldsDao
             $message = $e->getMessage();
             if ($e->getCode() == 23000)
                 $message = 'Molde asociado a un producto. Imposible Eliminar';
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
-    public function activeMold($dataMold)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $fecha_hoy = date('Y-m-d');
-
-        try {
-            $stmt = $connection->prepare("UPDATE plan_inv_molds SET date_active = :date_active, active = 1 
-                                          WHERE id_mold = :id_mold");
-            $stmt->execute([
-                'date_active' => $fecha_hoy,
-                'id_mold' => $dataMold['idMold']
-            ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
-    public function inactiveMold($dataMold)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $stmt = $connection->prepare("UPDATE plan_inv_molds SET date_active = '', observation = :observation, active = 0 
-                                          WHERE id_mold = :id_mold");
-            $stmt->execute([
-                'id_mold' => $dataMold['idMold'],
-                'observation' => $dataMold['observationMold']
-            ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

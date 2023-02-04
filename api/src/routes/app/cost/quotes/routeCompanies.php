@@ -1,8 +1,14 @@
 <?php
 
+use tezlikv3\dao\GeneralQuotesDao;
+use tezlikv3\dao\ImageDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\QCompaniesDao;
 
 $companiesDao = new QCompaniesDao();
+$lastDataDao = new LastDataDao();
+$generalQuotesDao = new GeneralQuotesDao();
+$imageDao = new ImageDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,7 +19,11 @@ $app->get('/quotesCompanies', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addQCompany', function (Request $request, Response $response, $args) use ($companiesDao) {
+$app->post('/addQCompany', function (Request $request, Response $response, $args) use (
+    $companiesDao,
+    $lastDataDao,
+    $imageDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -28,10 +38,10 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
         $companies = $companiesDao->insertCompany($dataCompany, $id_company);
 
         if (sizeof($_FILES) > 0) {
-            $lastCompany = $companiesDao->findLastInsertedQCompany();
+            $lastCompany = $lastDataDao->findLastInsertedQCompany();
 
             // Insertar imagen
-            $companiesDao->imageQCompany($lastCompany['id_quote_company'], $id_company);
+            $imageDao->imageQCompany($lastCompany['id_quote_company'], $id_company);
         }
 
         if ($companies == null)
@@ -45,7 +55,7 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateQCompany', function (Request $request, Response $response, $args) use ($companiesDao) {
+$app->post('/updateQCompany', function (Request $request, Response $response, $args) use ($companiesDao, $imageDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataCompany = $request->getParsedBody();
@@ -59,7 +69,7 @@ $app->post('/updateQCompany', function (Request $request, Response $response, $a
         $companies = $companiesDao->updateCompany($dataCompany);
 
         if (sizeof($_FILES) > 0)
-            $companiesDao->imageQCompany($dataCompany['idCompany'], $id_company);
+            $imageDao->imageQCompany($dataCompany['idCompany'], $id_company);
 
         if ($companies == null)
             $resp = array('success' => true, 'message' => 'Compañia modificada correctamente');

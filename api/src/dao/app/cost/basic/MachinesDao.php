@@ -48,7 +48,6 @@ class MachinesDao
   public function insertMachinesByCompany($dataMachine, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $dataMachine = $this->convertData($dataMachine);
 
     try {
       $stmt = $connection->prepare("INSERT INTO machines (id_company ,machine, cost, years_depreciation, 
@@ -82,8 +81,6 @@ class MachinesDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $dataMachine = $this->convertData($dataMachine);
-
     try {
       $stmt = $connection->prepare("UPDATE machines SET machine = :machine, cost = :cost, years_depreciation = :years_depreciation,
                                        residual_value = :residual_value , hours_machine = :hours_machine, days_machine = :days_machine   
@@ -103,18 +100,6 @@ class MachinesDao
       $error = array('info' => true, 'message' => $message);
       return $error;
     }
-  }
-
-  public function convertData($dataMachine)
-  {
-    $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
-    $dataMachine['residualValue'] = str_replace(',', '.', $dataMachine['cost']);
-    $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['residualValue']);
-    $dataMachine['residualValue'] = str_replace(',', '.', $dataMachine['residualValue']);
-    $dataMachine['hoursMachine'] = str_replace('.', '', $dataMachine['hoursMachine']);
-    $dataMachine['hoursMachine'] = str_replace(',', '.', $dataMachine['hoursMachine']);
-
-    return $dataMachine;
   }
 
   public function deleteMachine($id_machine)

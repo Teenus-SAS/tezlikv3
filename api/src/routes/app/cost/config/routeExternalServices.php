@@ -1,10 +1,12 @@
 <?php
 
 use tezlikv3\dao\ExternalServicesDao;
+use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\PriceProductDao;
 
 $externalServicesDao = new ExternalServicesDao();
+$generalServicesDao = new GeneralServicesDao();
 $productsDao = new ProductsDao();
 $priceProductDao = new PriceProductDao();
 
@@ -12,7 +14,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/externalservices/{id_product}', function (Request $request, Response $response, $args) use ($externalServicesDao) {
-    $externalServices = $externalServicesDao->externalServices($args['id_product']);
+    $externalServices = $externalServicesDao->findAllExternalServices($args['id_product']);
     $response->getBody()->write(json_encode($externalServices, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

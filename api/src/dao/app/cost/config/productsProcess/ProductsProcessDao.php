@@ -16,7 +16,7 @@ class ProductsProcessDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function productsprocess($idProduct, $id_company)
+    public function findAllProductsprocess($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pp.id_process, pp.id_machine, pp.id_product_process,
@@ -51,26 +51,10 @@ class ProductsProcessDao
         return $findProductProcess;
     }
 
-    // Consultar datos del prodcuto en la BD
-    public function findProductProcessByIdProduct($dataProductProcess)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT * FROM products_process WHERE id_product = :id_product");
-        $stmt->execute([
-            'id_product' => $dataProductProcess['idOldProduct']
-        ]);
-        $findProductProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
-
-        return $findProductProcess;
-    }
-
     // Insertar productos procesos general
     public function insertProductsProcessByCompany($dataProductProcess, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-
-        $dataProductProcess = $this->convertData($dataProductProcess);
 
         try {
             $stmt = $connection->prepare("SELECT id_product_process FROM products_process WHERE id_product = :id_product AND id_company = :id_company
@@ -110,8 +94,6 @@ class ProductsProcessDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $dataProductProcess = $this->convertData($dataProductProcess);
-
         try {
             $stmt = $connection->prepare("UPDATE products_process SET id_product = :id_product, id_process = :id_process, id_machine = :id_machine, enlistment_time = :enlistment_time, operation_time = :operation_time
                                           WHERE id_product_process = :id_product_process");
@@ -133,16 +115,6 @@ class ProductsProcessDao
         }
     }
 
-    public function convertData($dataProductProcess)
-    {
-        $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
-        $dataProductProcess['enlistmentTime'] = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
-        $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
-        $dataProductProcess['operationTime'] = str_replace(',', '.', $dataProductProcess['operationTime']);
-
-        return $dataProductProcess;
-    }
-
     public function deleteProductProcess($dataProductProcess)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -154,21 +126,6 @@ class ProductsProcessDao
         if ($rows > 0) {
             $stmt = $connection->prepare("DELETE FROM products_process WHERE id_product_process = :id_product_process");
             $stmt->execute(['id_product_process' => $dataProductProcess['idProductProcess']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        }
-    }
-
-    public function deleteProductProcessByProduct($dataProductProcess)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT * FROM products_process WHERE id_product = :id_product");
-        $stmt->execute(['id_product' => $dataProductProcess['idProduct']]);
-        $rows = $stmt->rowCount();
-
-        if ($rows > 0) {
-            $stmt = $connection->prepare("DELETE FROM products_process WHERE id_product = :id_product");
-            $stmt->execute(['id_product' => $dataProductProcess['idProduct']]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }

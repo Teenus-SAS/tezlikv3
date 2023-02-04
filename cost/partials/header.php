@@ -86,7 +86,12 @@
                                                 <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['expense_distribution'] == 1) { ?>
-                                                <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+                                                <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                    <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+                                                <?php } ?>
+                                                <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                                    <li class="distributionExpenses"><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
+                                                <?php } ?>
                                             <?php } ?>
 
                                         </ul>

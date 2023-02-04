@@ -26,8 +26,6 @@ require_once('../api/src/routes/admin/login/routeLastLoginsUsers.php');
 // Products
 require_once('../api/src/routes/admin/products/routeQuantityProducts.php');
 
-// PUC
-require_once('../api/src/routes/admin/puc/routePucs.php');
 
 // Notifications
 require_once('../api/src/routes/admin/notifications/routeNotifications.php');
@@ -73,17 +71,17 @@ require_once('../api/src/routes/app/cost/general/routeExpensesDistribution.php')
 require_once('../api/src/routes/app/cost/general/routeExpenseRecover.php');
 require_once('../api/src/routes/app/cost/general/routePayroll.php');
 require_once('../api/src/routes/app/cost/general/routeProcessPayroll.php');
+require_once('../api/src/routes/app/cost/general/routePuc.php');
 
 
 /* Global */
 require_once('../api/src/routes/app/global/routeCompany.php');
 require_once('../api/src/routes/app/global/routeDoubleFactor.php');
-require_once('../api/src/routes/app/global/routePuc.php');
+
 // Profile
 require_once('../api/src/routes/app/global/routeProfile.php');
 
 /* Login */
-require_once('../api/src/routes/app/login/routeLicenseCompany.php');
 require_once('../api/src/routes/app/login/routeLogin.php');
 require_once('../api/src/routes/app/login/routepassUser.php');
 

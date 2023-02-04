@@ -275,7 +275,7 @@ graphicProfit = (data) => {
 
     for (i = 0; i < count; i++) {
       product.push(data[i].product);
-      cost.push(data[i].cost);
+      cost.push(data[i].price);
     }
 
     const cmc = document.getElementById('chartProductsCost');
@@ -312,7 +312,8 @@ graphicProfit = (data) => {
           },
           datalabels: {
             anchor: 'end',
-            formatter: (cost) => cost.toLocaleString('es-CO'),
+            formatter: (cost) =>
+              cost.toLocaleString('es-CO', { maximumFractionDigits: 0 }),
             color: 'black',
             font: {
               size: '12',

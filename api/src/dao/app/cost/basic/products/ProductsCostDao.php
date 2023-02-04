@@ -41,11 +41,6 @@ class ProductsCostDao
             'id_company' => $id_company,
             'profitability' => trim($dataProduct['profitability']),
             'commission_sale' => trim($dataProduct['commissionSale'])
-
-            // 'id_product' => $dataProduct['idProduct'],
-            // 'id_company' => $id_company,
-            // 'profitability' => $dataProduct['profitability'],
-            // 'commission_sale' => $dataProduct['commissionSale']
         ]);
     }
     /* Actualizar products_costs */
@@ -59,10 +54,6 @@ class ProductsCostDao
             'id_product' => trim($dataProduct['idProduct']),
             'profitability' => trim($dataProduct['profitability']),
             'commission_sale' => trim($dataProduct['commissionSale'])
-
-            // 'id_product' => $dataProduct['idProduct'],
-            // 'profitability' => $dataProduct['profitability'],
-            // 'commission_sale' => $dataProduct['commissionSale']
         ]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

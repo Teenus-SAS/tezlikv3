@@ -1,11 +1,13 @@
 <?php
 
+use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\PriceProductDao;
 
 $machinesDao = new MachinesDao();
+$convertDataDao = new ConvertDataDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
@@ -72,7 +74,13 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
 
 
 /* Agregar Maquinas */
-$app->post('/addMachines', function (Request $request, Response $response, $args) use ($machinesDao, $minuteDepreciationDao, $indirectCostDao, $priceProductDao) {
+$app->post('/addMachines', function (Request $request, Response $response, $args) use (
+    $machinesDao,
+    $convertDataDao,
+    $minuteDepreciationDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
@@ -80,6 +88,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $dataMachines = sizeof($dataMachine);
 
     if ($dataMachines > 1) {
+        $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
         $machines = $machinesDao->insertMachinesByCompany($dataMachine, $id_company);
 
         // Calcular depreciacion por minuto
@@ -97,6 +106,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
         for ($i = 0; $i < sizeof($machines); $i++) {
 
             $machine = $machinesDao->findMachine($machines[$i], $id_company);
+
+            $machines[$i] = $convertDataDao->strReplaceMachines($machines[$i]);
 
             if (!$machine) {
                 $resolution = $machinesDao->insertMachinesByCompany($machines[$i], $id_company);
@@ -130,10 +141,18 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
 
 /* Actualizar Maquina */
-$app->post('/updateMachines', function (Request $request, Response $response, $args) use ($machinesDao, $minuteDepreciationDao, $indirectCostDao, $priceProductDao) {
+$app->post('/updateMachines', function (Request $request, Response $response, $args) use (
+    $machinesDao,
+    $convertDataDao,
+    $minuteDepreciationDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
+
+    $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
 
     $machines = $machinesDao->updateMachine($dataMachine);
 

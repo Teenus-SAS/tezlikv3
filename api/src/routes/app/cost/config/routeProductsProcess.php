@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\dao\ProcessPayrollDao;
@@ -9,6 +10,7 @@ use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\Dao\PriceProductDao;
 
 $productsProcessDao = new ProductsProcessDao();
+$convertDataDao = new ConvertDataDao();
 $productsDao = new ProductsDao();
 $processPayrollDao = new ProcessPayrollDao();
 $machinesDao = new MachinesDao();
@@ -24,7 +26,7 @@ $app->get('/productsProcess/{idProduct}', function (Request $request, Response $
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productProcess = $productsProcessDao->productsprocess($args['idProduct'], $id_company);
+    $productProcess = $productsProcessDao->findAllProductsprocess($args['idProduct'], $id_company);
     $response->getBody()->write(json_encode($productProcess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -97,7 +99,16 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $productsDao, $processPayrollDao, $machinesDao, $costWorkforceDao, $indirectCostDao, $priceProductDao) {
+$app->post('/addProductsProcess', function (Request $request, Response $response, $args) use (
+    $productsProcessDao,
+    $convertDataDao,
+    $productsDao,
+    $processPayrollDao,
+    $machinesDao,
+    $costWorkforceDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
@@ -105,6 +116,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $dataProductsProcess = sizeof($dataProductProcess);
 
     if ($dataProductsProcess > 1) {
+        $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
         $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
 
         /* Calcular costo nomina */
@@ -154,6 +166,8 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             //false = no, id_product_process = si
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
+            $productProcess[$i] = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
+
             if (!$findProductProcess) {
 
                 //si no se encuentra, inserta y retorna null, si se encuentra retorna 1
@@ -192,11 +206,18 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateProductsProcess', function (Request $request, Response $response, $args) use ($productsProcessDao, $costWorkforceDao, $indirectCostDao, $priceProductDao) {
+$app->post('/updateProductsProcess', function (Request $request, Response $response, $args) use (
+    $productsProcessDao,
+    $convertDataDao,
+    $costWorkforceDao,
+    $indirectCostDao,
+    $priceProductDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
 
+    $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
     $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
     /* Calcular costo nomina */

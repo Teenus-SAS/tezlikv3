@@ -1,8 +1,12 @@
 <?php
 
+use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\GeneralMoldsDao;
 use tezlikv3\dao\InvMoldsDao;
 
 $invMoldsDao = new InvMoldsDao();
+$generalMoldsDao = new GeneralMoldsDao();
+$convertDataDao = new ConvertDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -15,12 +19,12 @@ $app->get('/invMolds', function (Request $request, Response $response, $args) us
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/activeOrInactiveMold', function (Request $request, Response $response, $args) use ($invMoldsDao) {
+$app->post('/activeOrInactiveMold', function (Request $request, Response $response, $args) use ($generalMoldsDao) {
     $dataMold = $request->getParsedBody();
 
     if (isset($dataMold['observationMold'])) {
         // Desactivar molde
-        $mold = $invMoldsDao->inactiveMold($dataMold);
+        $mold = $generalMoldsDao->inactiveMold($dataMold);
 
         if ($mold == null)
             $resp = array('success' => true, 'message' => 'Molde desactivado correctamente');
@@ -28,7 +32,7 @@ $app->post('/activeOrInactiveMold', function (Request $request, Response $respon
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras desactivaba el molde. Intente nuevamente');
     } else {
         // Activar molde
-        $mold = $invMoldsDao->activeMold($dataMold);
+        $mold = $generalMoldsDao->activeMold($dataMold);
 
         if ($mold == null)
             $resp = array('success' => true, 'message' => 'Molde activado correctamente');
@@ -79,7 +83,7 @@ $app->post('/invMoldDataValidation', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addMold', function (Request $request, Response $response, $args) use ($invMoldsDao) {
+$app->post('/addMold', function (Request $request, Response $response, $args) use ($invMoldsDao, $convertDataDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMold = $request->getParsedBody();
@@ -87,6 +91,7 @@ $app->post('/addMold', function (Request $request, Response $response, $args) us
     $dataMolds = sizeof($dataMold);
 
     if ($dataMolds > 1) {
+        $dataMold = $convertDataDao->strReplaceMold($dataMold);
         $invMolds = $invMoldsDao->insertInvMoldByCompany($dataMold, $id_company);
 
         if ($invMolds == null)
@@ -101,10 +106,12 @@ $app->post('/addMold', function (Request $request, Response $response, $args) us
         for ($i = 0; $i < sizeof($molds); $i++) {
             $findMold = $invMoldsDao->findInvMold($molds[$i], $id_company);
 
-            if (!$findMold) $resolution = $invMoldsDao->insertInvMoldByCompany($molds[$i], $id_company);
+            $dataMold = $convertDataDao->strReplaceMold($molds[$i]);
+
+            if (!$findMold) $resolution = $invMoldsDao->insertInvMoldByCompany($dataMold, $id_company);
             else {
                 $molds[$i]['idMold'] = $findMold['id_mold'];
-                $resolution = $invMoldsDao->updateInvMold($molds[$i]);
+                $resolution = $invMoldsDao->updateInvMold($dataMold);
             }
         }
         if ($resolution == null)
@@ -116,7 +123,7 @@ $app->post('/addMold', function (Request $request, Response $response, $args) us
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateMold', function (Request $request, Response $response, $args) use ($invMoldsDao) {
+$app->post('/updateMold', function (Request $request, Response $response, $args) use ($invMoldsDao, $convertDataDao) {
     $dataMold = $request->getParsedBody();
 
     if (
@@ -125,6 +132,7 @@ $app->post('/updateMold', function (Request $request, Response $response, $args)
     ) {
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos a actualizar');
     } else {
+        $dataMold = $convertDataDao->strReplaceMold($dataMold);
         $invMolds = $invMoldsDao->updateInvMold($dataMold);
 
         if ($invMolds == null)

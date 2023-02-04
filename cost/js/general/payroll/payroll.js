@@ -1,16 +1,15 @@
 $(document).ready(function () {
   let dataPayroll = {};
 
-  /* Ocultar panel Nueva carga fabril */
-  $('.cardCreatePayroll').hide();
   $('#factor').prop('disabled', true);
 
+  /* Ocultar modal Nueva nomina */
   $('#btnCloseCardPayroll').click(function (e) {
     e.preventDefault();
     $('#createPayroll').modal('hide');
   });
 
-  /* Abrir panel crear carga nomina */
+  /* Abrir modal crear nomina */
 
   $('#btnNewPayroll').click(function (e) {
     e.preventDefault();
@@ -24,50 +23,20 @@ $(document).ready(function () {
     $('#formCreatePayroll').trigger('reset');
   });
 
-  /* Agregar nueva carga nomina */
+  /* Agregar nueva nomina */
 
   $('#btnCreatePayroll').click(function (e) {
     e.preventDefault();
     let idPayroll = sessionStorage.getItem('id_payroll');
 
     if (idPayroll == '' || idPayroll == null) {
-      let employee = $('#employee').val();
-      let process = parseInt($('#idProcess').val());
-
-      let salary = $('#basicSalary').val();
-      let transport = $('#transport').val();
-      let endowment = $('#endowment').val();
-      let extraT = $('#extraTime').val();
-      let bonification = $('#bonification').val();
-
-      let workingHD = parseInt($('#workingHoursDay').val());
-      let workingDM = parseInt($('#workingDaysMonth').val());
-      //factor = parseInt($('#typeFactor').val());
-
-      let data = process * workingDM * workingHD;
-      let income = salary * transport * endowment * extraT * bonification;
-
-      if (!data || income == null || process == '' || process == 0) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      $('#factor').prop('disabled', false);
-
-      let payroll = $('#formCreatePayroll').serialize();
-
-      $.post('/api/addPayroll', payroll, function (data, textStatus, jqXHR) {
-        $('#factor').prop('disabled', true);
-        $('#createPayroll').modal('hide');
-        message(data);
-      });
+      checkDataPayroll('/api/addPayroll', idPayroll);
     } else {
-      updatePayroll();
+      checkDataPayroll('/api/updatePayroll', idPayroll);
     }
   });
 
   /* Actualizar nomina */
-
   $(document).on('click', '.updatePayroll', function (e) {
     $('.cardImportPayroll').hide(800);
     $('#createPayroll').modal('show');
@@ -109,17 +78,43 @@ $(document).ready(function () {
     );
   });
 
-  updatePayroll = () => {
-    $('#factor').prop('disabled', false);
-    let data = $('#formCreatePayroll').serialize();
-    let idPayroll = sessionStorage.getItem('id_payroll');
-    data = `${data}&idPayroll=${idPayroll}`;
+  /* Revision data nomina */
+  checkDataPayroll = async (url, idPayroll) => {
+    let employee = $('#employee').val();
+    let process = $('#idProcess').val();
 
-    $.post('/api/updatePayroll', data, function (data, textStatus, jqXHR) {
-      $('#factor').prop('disabled', true);
-      $('#createPayroll').modal('hide');
-      message(data);
-    });
+    let salary = $('#basicSalary').val();
+    let factor = $('#factor').val();
+
+    salary = parseFloat(decimalNumber(salary));
+
+    let workingHD = $('#workingHoursDay').val();
+    let workingDM = $('#workingDaysMonth').val();
+
+    let data = process * workingDM * workingHD * salary;
+
+    if (isNaN(data) || data <= 0 || employee == '' || factor == '') {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
+
+    if (workingDM > 31 || workingHD > 24) {
+      toastr.error(
+        'El campo dias trabajo x mes debe ser menor a 31, y horas trabajo x dia menor a 24'
+      );
+      return false;
+    }
+
+    $('#factor').prop('disabled', false);
+
+    let dataPayroll = new FormData(formCreatePayroll);
+
+    if (idPayroll != '' || idPayroll != null)
+      dataPayroll.append('idPayroll', idPayroll);
+
+    let resp = await sendDataPOST(url, dataPayroll);
+
+    message(resp);
   };
 
   /* Eliminar carga nomina */
@@ -163,7 +158,8 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
-      $('.cardCreatePayroll').hide(800);
+      $('#factor').prop('disabled', true);
+      $('#createPayroll').modal('hide');
       $('#formCreatePayroll').trigger('reset');
       updateTable();
       toastr.success(data.message);

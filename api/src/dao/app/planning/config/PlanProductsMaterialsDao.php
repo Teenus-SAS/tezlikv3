@@ -16,7 +16,7 @@ class PlanProductsMaterialsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function productsmaterials($idProduct, $id_company)
+    public function findAllProductsmaterials($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT pm.id_product_material, m.id_material, m.reference, m.material, m.unit, pm.quantity, m.cost 
@@ -49,8 +49,6 @@ class PlanProductsMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $quantity = $this->decimalsQuantity($dataProductMaterial);
-
         try {
             $stmt = $connection->prepare("INSERT INTO products_materials (id_material, id_company, id_product, quantity)
                                           VALUES (:id_material, :id_company, :id_product, :quantity)");
@@ -58,7 +56,7 @@ class PlanProductsMaterialsDao
                 'id_material' => $dataProductMaterial['material'],
                 'id_company' => $id_company,
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => $quantity,
+                'quantity' => $dataProductMaterial['quantity'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -72,7 +70,6 @@ class PlanProductsMaterialsDao
     public function updateProductsMaterials($dataProductMaterial)
     {
         $connection = Connection::getInstance()->getConnection();
-        $quantity = $this->decimalsQuantity($dataProductMaterial);
 
         try {
             $stmt = $connection->prepare("UPDATE products_materials SET id_material = :id_material, id_product = :id_product, quantity = :quantity
@@ -81,7 +78,7 @@ class PlanProductsMaterialsDao
                 'id_product_material' => $dataProductMaterial['idProductMaterial'],
                 'id_material' => $dataProductMaterial['material'],
                 'id_product' => $dataProductMaterial['idProduct'],
-                'quantity' => $quantity,
+                'quantity' => $dataProductMaterial['quantity'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -89,14 +86,6 @@ class PlanProductsMaterialsDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
-    }
-
-    public function decimalsQuantity($dataProductMaterial)
-    {
-        $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
-        $quantity = str_replace(',', '.', $quantity);
-
-        return $quantity;
     }
 
     // Borrar productos materia prima general

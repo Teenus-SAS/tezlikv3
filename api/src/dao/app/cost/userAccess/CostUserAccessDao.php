@@ -40,24 +40,6 @@ class CostUserAccessDao
         }
     }
 
-    // public function findUserAccess($id_company, $id_user)
-    // {
-    //     $connection = Connection::getInstance()->getConnection();
-    //     $rol = $_SESSION['rol'];
-
-    //     if ($rol == 2) {
-    //         $stmt = $connection->prepare("SELECT usa.create_product, usa.create_materials, usa.create_machines, usa.create_process, usa.product_materials, usa.product_process  
-    //                                   FROM cost_users_access usa 
-    //                                   INNER JOIN users us ON us.id_user = usa.id_user
-    //                                   WHERE us.id_company = :id_company AND us.id_user = :id_user;");
-    //         $stmt->execute(['id_company' => $id_company, 'id_user' => $id_user]);
-    //         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    //         $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-    //         $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
-    //         return $users;
-    //     }
-    // }
-
     public function findUserAccess($id_company, $id_user)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -158,27 +140,5 @@ class CostUserAccessDao
         $stmt = $connection->prepare("DELETE FROM cost_users_access WHERE id_user = :id_user");
         $stmt->execute(['id_user' => $dataUser['idUser']]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-
-
-        // session_start();
-        // $idUser = $_SESSION['idUser'];
-
-        // $connection = Connection::getInstance()->getConnection();
-
-        // if ($dataUser['idUser'] != $idUser) {
-
-        //     $stmt = $connection->prepare("SELECT * FROM cost_users_access WHERE id_user = :id_user");
-        //     $stmt->execute(['id_user' => $dataUser['idUser']]);
-        //     $rows = $stmt->rowCount();
-
-        //     if ($rows > 0) {
-        //         $stmt = $connection->prepare("DELETE FROM cost_users_access WHERE id_user = :id_user");
-        //         $stmt->execute(['id_user' => $dataUser['idUser']]);
-        //         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        //     }
-        // } else {
-        //     return 1;
-        // }
     }
 }

@@ -74,56 +74,6 @@ class QCompaniesDao
         }
     }
 
-    public function findLastInsertedQCompany()
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT MAX(id_quote_company) AS id_quote_company FROM quote_companies");
-        $stmt->execute();
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $company = $stmt->fetch($connection::FETCH_ASSOC);
-        return $company;
-    }
-
-    public function imageQCompany($id_q_company, $id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-        $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/Qcompanies/' . $id_company;
-        $allowTypes = array('jpg', 'jpeg', 'png');
-
-        $image_name = $_FILES['img']['name'];
-        $tmp_name   = $_FILES['img']['tmp_name'];
-        $size       = $_FILES['img']['size'];
-        $type       = $_FILES['img']['type'];
-        $error      = $_FILES['img']['error'];
-
-
-        /* Verifica si directorio esta creado y lo crea */
-        if (!is_dir($targetDir))
-            mkdir($targetDir, 0777, true);
-
-        $targetDir = '/api/src/assets/images/Qcompanies/' . $id_company;
-        $targetFilePath = $targetDir . '/' . $image_name;
-
-        $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-
-        if (in_array($fileType, $allowTypes)) {
-            $sql = "UPDATE quote_companies SET img = :img WHERE id_quote_company = :id_quote_company AND id_company = :id_company";
-            $query = $connection->prepare($sql);
-            $query->execute([
-                'img' => $targetFilePath,
-                'id_quote_company' => $id_q_company,
-                'id_company' => $id_company
-            ]);
-
-            $targetDir = dirname(dirname(dirname(dirname(__DIR__)))) . '/assets/images/Qcompanies/' . $id_company;
-            $targetFilePath = $targetDir . '/' . $image_name;
-
-            move_uploaded_file($tmp_name, $targetFilePath);
-        }
-    }
-
     public function deleteCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
