@@ -10,32 +10,28 @@ $(
     $('body').on('click', 'a', function () {
       window.onbeforeunload = null;
     });
-    /*
-    $(document).keydown(function (e) {
-      if (e.key.toUpperCase() == 'W' && prevKey == 'CONTROL') {
-        fetchindata();
-      } else if (
-        e.key.toUpperCase() == 'F4' &&
-        (prevKey == 'ALT' || prevKey == 'CONTROL')
-      ) {
-        fetchindata();
-      }
-      prevKey = e.key.toUpperCase();
-    }); */
 
     /* Tiempo de inactividad */
-    $(document).on('mousemove', function (event) {
-      if (timeout !== undefined) {
-        window.clearTimeout(timeout);
-      }
-      timeout = window.setTimeout(function () {
-        $(event.target).trigger('mousemoveend');
-      }, 7 * 60 * 1000); // pasados 5 minutos
+    var interval, mouseMove;
+
+    $(document).mousemove(function () {
+      mouseMove = new Date();
+      inactividad(function () {
+        fetchindata();
+      }, 7 * 60 * 1000);
     });
 
-    $(document).on('mousemoveend', function () {
-      fetchindata();
-    });
+    var inactividad = function (callback, seconds) {
+      clearInterval(interval);
+      interval = setInterval(function () {
+        var now = new Date();
+        var diff = (now.getTime() - mouseMove.getTime()) / 1000;
+        if (diff >= seconds) {
+          clearInterval(interval);
+          callback();
+        }
+      }, 200);
+    };
   })(jQuery)
 );
 
