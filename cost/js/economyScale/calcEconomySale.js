@@ -10,10 +10,9 @@ $(document).ready(function () {
 
     let value = this.value;
     let id = this.id;
+    let row = parseInt(id.slice(6, 7));
 
     if (!value || value == 0) {
-      let row = id.slice(6, 7);
-
       $(`#totalRevenue-${row}`).html('');
       $(`#variableCosts-${row}`).html('');
       $(`#totalCostsAndExpenses-${row}`).html('');
@@ -36,10 +35,10 @@ $(document).ready(function () {
       $('#unity-1').val(unity.toLocaleString('es-CO'));
 
       let data = {
-        unity150: unity * 1.5,
-        unity200: unity * 2.0,
-        unity300: unity * 3.0,
-        unity500: unity * 5.0,
+        unity150: unity * 2,
+        unity200: unity * 3,
+        unity300: unity * 4,
+        unity500: unity * 6,
       };
       let i = 2;
 
@@ -47,6 +46,11 @@ $(document).ready(function () {
         $(`#unity-${i}`).val(value.toLocaleString('es-CO'));
         i++;
       });
+    } else {
+      let price = $(`#price-${row}`).val();
+      for (let i = row; i < 5; i++) {
+        $(`#price-${i + 1}`).val(price.toLocaleString('es-CO'));
+      }
     }
 
     generalCalc();
@@ -121,6 +125,7 @@ $(document).ready(function () {
 
       $(`#percentage-${i + 1}`).html(
         `${percentage.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })} %`
       );

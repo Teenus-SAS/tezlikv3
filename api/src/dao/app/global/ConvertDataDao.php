@@ -53,10 +53,10 @@ class ConvertDataDao
     /* Productos Materias */
     public function strReplaceProductsMaterials($dataProductMaterial)
     {
-        $quantity = str_replace('.', '', $dataProductMaterial['quantity']);
-        $quantity = str_replace(',', '.', $quantity);
+        $dataProductMaterial['quantity'] = str_replace('.', '', $dataProductMaterial['quantity']);
+        $dataProductMaterial['quantity'] = str_replace(',', '.', $dataProductMaterial['quantity']);
 
-        return $quantity;
+        return $dataProductMaterial;
     }
 
     /* Productos Procesos */

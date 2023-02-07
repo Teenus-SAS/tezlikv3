@@ -21,8 +21,7 @@ class CostProductMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT id_material, FORMAT(quantity, 2, 'de_DE') AS quantity
-                                      FROM products_materials WHERE id_product = :id_product");
+        $stmt = $connection->prepare("SELECT * FROM products_materials WHERE id_product = :id_product");
         $stmt->execute([
             'id_product' => $dataProductMaterial['idOldProduct']
         ]);

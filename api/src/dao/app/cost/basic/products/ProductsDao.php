@@ -38,26 +38,14 @@ class ProductsDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      if (!isset($dataProduct['imgProduct'])) {
-        $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, active) 
+      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, active) 
                                       VALUES(:id_company, :reference, :product, 1)");
-        $stmt->execute([
-          'reference' => trim($dataProduct['referenceProduct']),
-          'product' => ucfirst(strtolower(trim($dataProduct['product']))),
-          'id_company' => $id_company,
-        ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-      } else {
-        $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, img, active) 
-                                      VALUES(:id_company, :reference, :product, :img, 1)");
-        $stmt->execute([
-          'id_company' => $id_company,
-          'reference' => trim($dataProduct['referenceProduct']),
-          'product' => ucfirst(strtolower(trim($dataProduct['product']))),
-          'img' => $dataProduct['imgProduct'],
-        ]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-      }
+      $stmt->execute([
+        'reference' => trim($dataProduct['referenceProduct']),
+        'product' => ucfirst(strtolower(trim($dataProduct['product']))),
+        'id_company' => $id_company,
+      ]);
+      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
       if ($e->getCode() == 23000)
