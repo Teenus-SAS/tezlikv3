@@ -268,14 +268,29 @@ graphicProfit = (data) => {
 
   // Rentabilidad y precio productos
   graphicProductCost = (data) => {
+    let products = [];
     let product = [];
     let cost = [];
 
-    data.length > 10 ? (count = 10) : (count = data.length);
+    /* Capturar y ordenar de mayor a menor  */
+    for (i = 0; i < data.length; i++) {
+      let dataCost = getDataCost(data[i]);
+      products.push({
+        name: data[i].product,
+        cost: dataCost.costProfitability,
+      });
+    }
+
+    products.sort(function (a, b) {
+      return b['cost'] - a['cost'];
+    });
+
+    /* Guardar datos para grafica */
+    products.length > 10 ? (count = 10) : (count = products.length);
 
     for (i = 0; i < count; i++) {
-      product.push(data[i].product);
-      cost.push(data[i].price);
+      product.push(products[i].name);
+      cost.push(products[i].cost);
     }
 
     const cmc = document.getElementById('chartProductsCost');

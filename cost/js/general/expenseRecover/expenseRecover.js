@@ -18,6 +18,7 @@ $(document).ready(function () {
     sessionStorage.removeItem('id_expense_recover');
 
     $('#percentage').val('');
+    loadDataProducts();
   });
 
   $('#btnExpenseRecover').click(function (e) {
@@ -26,8 +27,8 @@ $(document).ready(function () {
     let id_expense_recover = sessionStorage.getItem('id_expense_recover');
 
     if (id_expense_recover == '' || !id_expense_recover) {
-      checkDataExpenseRecover('/api/addExpenseRecover', idExpenseRecover);
-    } else checkDataExpenseRecover('/api/updateExpenseRecover', idExpenseRecover);
+      checkDataExpenseRecover('/api/addExpenseRecover', id_expense_recover);
+    } else checkDataExpenseRecover('/api/updateExpenseRecover', id_expense_recover);
   });
 
   /* Actualizar recuperacion gasto */
@@ -42,10 +43,12 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_expense_recover', data.id_expense_recover);
 
-    $(`#ERNameProduct option:contains(${data.product})`).prop('selected', true);
-    $(`#ERRefProduct option:contains(${data.reference})`).prop(
-      'selected',
-      true
+    $('#ERNameProduct').append(
+      `<option value="${data.id_product}" selected> ${data.reference} </option>`
+    );
+
+    $('#ERRefProduct').append(
+      `<option value ="${data.id_product}" selected> ${data.product} </option>`
     );
 
     $(`#ERNameProduct`).prop('disabled', true);

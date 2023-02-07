@@ -12,13 +12,14 @@ $(
     });
 
     /* Tiempo de inactividad */
+
     var interval, mouseMove;
 
     $(document).mousemove(function () {
       mouseMove = new Date();
       inactividad(function () {
         fetchindata();
-      }, 7 * 60 * 1000);
+      }, 400);
     });
 
     var inactividad = function (callback, seconds) {

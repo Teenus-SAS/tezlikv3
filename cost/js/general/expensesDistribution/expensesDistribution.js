@@ -19,6 +19,7 @@ $(document).ready(function () {
 
     $('#undVendidas').val('');
     $('#volVendidas').val('');
+    loadDataProducts();
   });
 
   $('#btnAssignExpenses').click(function (e) {

@@ -19,14 +19,16 @@ class PricesDao
   public function findAllPricesByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.profitability, pc.commission_sale, IFNULL(ed.units_sold, 0) AS units_sold, IFNULL(ed.turnover, 0) AS turnover, p.img, 
-                                         pc.price, (SELECT cost_price FROM plans_access WHERE id_plan = cl.plan) AS details_product
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.cost_workforce, pc.cost_materials, pc.cost_indirect_cost, pc.profitability, pc.commission_sale, IFNULL(ed.assignable_expense, 0) AS assignable_expense, 
+                                         IFNULL(er.expense_recover, 0) AS expense_recover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, IFNULL(ed.units_sold, 0) AS units_sold, 
+                                         IFNULL(ed.turnover, 0) AS turnover, p.img, pc.price, (SELECT cost_price FROM plans_access WHERE id_plan = cl.plan) AS details_product
                                   FROM products p
                                     LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                    LEFT JOIN expenses_recover er ON er.id_product = p.id_product
                                     INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                     INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
                                   WHERE p.id_company = :id_company AND p.active = 1
-                                  ORDER BY `pc`.`price` DESC, `pc`.`profitability` DESC");
+                                  ORDER BY `p`.`reference` ASC");
 
     $stmt->execute(['id_company' => $id_company]);
 

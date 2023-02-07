@@ -92,24 +92,6 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-6 col-xl-3">
-								<div class="card">
-									<div class="card-body">
-										<div class="media align-items-center">
-											<div class="media-body">
-												<span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Promedio)</span>
-												<h2 class="mb-0 mt-1" id="profitabilityAverage"></h2>
-											</div>
-											<div class="text-center">
-												<div id="t-order"></div>
-												<span class="text-danger font-weight-bold font-size-13">
-													<i class="bx bx-down-arrow-alt"></i> 5.05%
-												</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div> -->
                             <div class="col-md-6 col-xl-3">
                                 <div class="card">
                                     <div class="card-body">
@@ -338,42 +320,12 @@ if (sizeof($_SESSION) == 0)
 
             <!-- footer -->
             <?php include_once  dirname(__DIR__) . '/global/partials/footer.php'; ?>
-
-            <!-- <div class="setting-sidebar">
-			<div class="card mb-0">
-				<div class="card-header">
-					<h5 class="card-title dflex-between-center">
-						Layouts
-						<a href="javascript:void(0)"><i class="mdi mdi-close fs-sm"></i></a>
-					</h5>
-				</div>
-				<div class="card-body">
-					<div class="layout">
-						<a href="index-horizontal.html">
-							<img src="assets/images/horizontal.png" alt="Lettstart Admin" class="img-fluid" />
-							<h6 class="font-size-16">Horizontal Layout</h6>
-						</a>
-					</div>
-					<div class="layout">
-						<a href="index.html">
-							<img src="assets/images/vertical.png" alt="Lettstart Admin" class="img-fluid" />
-							<h6 class="font-size-16">Vertical Layout</h6>
-						</a>
-					</div>
-					<div class="layout">
-						<a href="layout-dark-sidebar.html">
-							<img src="assets/images/dark.png" alt="Lettstart Admin" class="img-fluid" />
-							<h6 class="font-size-16">Dark Sidebar</h6>
-						</a>
-					</div>
-				</div>
-			</div>
-		</div> -->
         </div>
         <!-- Page End -->
 
         <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
         <script src="js/dashboard/indicatorsGeneral.js"></script>
+        <script src="js/dashboard/calcDataCost.js"></script>
         <script src="js/dashboard/graphicsGeneral.js"></script>
 </body>
 
