@@ -176,6 +176,7 @@ if (sizeof($_SESSION) == 0)
     <!-- <script src="/global/js/global/searchData.js"></script> -->
     <!-- <script src="/global/js/global/number.js"></script> -->
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script src="/cost/js/analysis/materials/tblmaterials.js"></script>
     <script src="/cost/js/analysis/materials/tblAnalysisMaterials.js"></script>

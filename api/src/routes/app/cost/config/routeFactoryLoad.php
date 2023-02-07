@@ -88,7 +88,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
         $factoryLoad = $factoryloadDao->insertFactoryLoadByCompany($dataFactoryLoad, $id_company);
 
         $lastFactoryLoad = $lastDataDao->findLastInsertedFactoryLoad($id_company);
-        $factoryLoad['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
+        $dataFactoryLoad['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
 
         // Calcular costo por minuto
         $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);

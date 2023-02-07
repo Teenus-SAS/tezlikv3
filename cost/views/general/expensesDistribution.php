@@ -201,12 +201,10 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <!-- <script src="/global/js/global/searchData.js"></script> -->
-    <!-- <script src="/global/js/global/number.js"></script> -->
     <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
     <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>
     <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
-    <!-- <script src="/cost/js/basic/products/configProducts.js"></script> -->
+    <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
     <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
     <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>

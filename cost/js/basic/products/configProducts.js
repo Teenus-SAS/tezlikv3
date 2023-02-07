@@ -1,21 +1,16 @@
 $(document).ready(function () {
-  $('.cardCreateProduct').hide();
-
-  $('#btnCreateProduct').click(function (e) {
-    e.preventDefault();
-    $('.cardCreateProduct').toggle(800);
-  });
-
   $.ajax({
     url: '/api/products',
     success: function (r) {
       let $select = $(`.refProduct`);
       $select.empty();
 
+      let ref = r.sort(sortReference);
+
       $select.append(
         `<option value='0' disabled selected>Seleccionar</option>`
       );
-      $.each(r, function (i, value) {
+      $.each(ref, function (i, value) {
         $select.append(
           `<option value =${value.id_product}> ${value.reference} </option>`
         );
@@ -24,10 +19,12 @@ $(document).ready(function () {
       let $select1 = $(`.selectNameProduct`);
       $select1.empty();
 
+      let prod = r.sort(sortNameProduct);
+
       $select1.append(
         `<option value='0' disabled selected>Seleccionar</option>`
       );
-      $.each(r, function (i, value) {
+      $.each(prod, function (i, value) {
         $select1.append(
           `<option value = ${value.id_product}> ${value.product} </option>`
         );

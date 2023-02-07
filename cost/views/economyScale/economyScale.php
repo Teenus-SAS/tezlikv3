@@ -228,6 +228,7 @@ if (sizeof($_SESSION) == 0)
     <!-- <script src="/global/js/global/searchData.js"></script> -->
 
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/economyScale/economyScale.js"></script>
     <script src="/cost/js/economyScale/calcEconomySale.js"></script>
 </body>

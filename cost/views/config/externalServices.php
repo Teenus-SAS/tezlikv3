@@ -160,6 +160,7 @@ if (sizeof($_SESSION) == 0)
 
     <script src="../global/js/global/number.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/config/services/tblExternalServices.js"></script>
     <script src="/cost/js/config/services/externalServices.js"></script>
     <script src="../global/js/import/import.js"></script>

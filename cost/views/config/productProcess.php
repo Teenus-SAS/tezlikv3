@@ -179,9 +179,9 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <!-- <script src="/global/js/global/number.js"></script> -->
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/general/payroll/configProcessPayroll.js"></script>
     <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script src="/cost/js/config/productProcess/productProcess.js"></script>

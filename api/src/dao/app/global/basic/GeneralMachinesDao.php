@@ -35,14 +35,24 @@ class GeneralMachinesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM machines WHERE id_machine = :id_machine");
-        $stmt->execute(['id_machine' => $id_machine]);
-        $rows = $stmt->rowCount();
-
-        if ($rows > 0) {
-            $stmt = $connection->prepare("DELETE FROM machines WHERE id_machine = :id_machine");
+        try {
+            $stmt = $connection->prepare("SELECT * FROM machines WHERE id_machine = :id_machine");
             $stmt->execute(['id_machine' => $id_machine]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            $rows = $stmt->rowCount();
+
+            if ($rows > 0) {
+                $stmt = $connection->prepare("DELETE FROM machines WHERE id_machine = :id_machine");
+                $stmt->execute(['id_machine' => $id_machine]);
+                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            if ($e->getCode() == 23000)
+                $message = 'Maquina asociada a un proceso. No es posible eliminar';
+
+            $error = array('info' => true, 'message' => $message);
+            return $error;
         }
     }
 }

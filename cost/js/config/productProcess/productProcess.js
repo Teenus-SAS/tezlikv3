@@ -90,17 +90,6 @@ $(document).ready(function () {
     );
   });
 
-  validateNumber = (number) => {
-    if (number.isInteger) number = number.toLocaleString('es-CO');
-    else
-      number = number.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-
-    return number;
-  };
-
   /* Revision data productos procesos */
   checkDataProductsProcess = async (url, idProductProcess) => {
     idProduct = parseInt($('#selectNameProduct').val());
@@ -113,7 +102,7 @@ $(document).ready(function () {
     enlistmentTime = parseFloat(decimalNumber(enlistmentTime));
     operationTime = parseFloat(decimalNumber(operationTime));
 
-    let data = idProduct * refP * enlistmentTime * operationTime;
+    let data = idProduct * refP * enlistmentTime + operationTime;
 
     if (!data || isNaN(refM) || data == 0) {
       toastr.error('Ingrese todos los campos');

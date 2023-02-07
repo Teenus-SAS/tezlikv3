@@ -124,17 +124,6 @@ $(document).ready(function () {
     );
   });
 
-  validateNumber = (number) => {
-    if (number.isInteger) number = number.toLocaleString('es-CO');
-    else
-      number = number.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-
-    return number;
-  };
-
   updateProcess = () => {
     let data = $('#formAddProcess').serialize();
     idProduct = $('#selectNameProduct').val();

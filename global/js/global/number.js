@@ -102,4 +102,15 @@ $(document).ready(function () {
     num = num.replace(',', '.');
     return num;
   };
+
+  validateNumber = (number) => {
+    if (number.isInteger) number = number.toLocaleString('es-CO');
+    else
+      number = number.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+
+    return number;
+  };
 });

@@ -93,6 +93,7 @@ if (!isset($_SESSION)) {
 	<!-- <script src="/global/js/global/searchData.js"></script> -->
 
 	<script src="/cost/js/basic/products/configProducts.js"></script>
+	<script src="/global/js/global/orderData.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>
 	<script src="/cost/js/quotes/companies/configCompanies.js"></script>
 	<script src="/cost/js/quotes/paymentMethods/configPaymentMethods.js"></script>
