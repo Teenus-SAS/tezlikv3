@@ -21,31 +21,24 @@ class SendMakeEmailDao
     public function SendEmailCode($code, $user)
     {
         $name = $user['firstname'];
-        $to = array($user['email']);
 
         $msg = "Hola $name<br><br>
                 Si estas tratando de iniciar sesion en Tezlik. <br>
                 Ingresa el siguiente código para completar el inicio de sesión:<br><br>
                 <h4>$code</h4>";
-        //$msg = wordwrap($msg, 70);
-
         // Headers
         /* $headers = "Tu código de verificación de inicio de sesión";
         $headers .= "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
         $headers .= "From: SoporteTeenus <soporte@teenus.com.co>" . "\r\n"; */
 
-        // send email
-        // mail($to, 'Codigo', $msg, $headers);
-        //$resp = $this->sendEmail($to, 'Codigo', $headers, null, $msg, null);
-        //$resp = $this->sendEmail($to, 'Codigo', $headers, null, $msg, null);
+        $resp = array('to' => array($user['email']), 'img' => null, 'subject' => 'Código De Verificación', 'body' => $msg, 'ccHeader' => null);
 
-        //return $resp;
+        return $resp;
     }
 
     public function SendEmailPassword($email, $password)
     {
-        //$to = array('soporte@tezliksoftware.com.co', $email);
         // the message
         $msg = "Hola,<br><br>
             Recientemente solicitó recordar su contraseña por lo que para mayor seguridad creamos una nueva. Para ingresar a Tezlik puede hacerlo con:
@@ -62,9 +55,6 @@ class SendMakeEmailDao
         
             Equipo de Soporte Tezlik";
 
-        // use wordwrap() if lines are longer than 70 characters
-        // $msg = wordwrap($msg, 70);
-
         //headers
         //$headers = "MIME-Version: 1.0" . "\r\n";
         //$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
@@ -73,14 +63,12 @@ class SendMakeEmailDao
         // mail($to, "Nuevo password", $msg, $headers);
         //$resp = $this->sendEmail($to, 'Nuevo Password', $headers, null, $msg, null);
 
-        $resp = array("user" => $email, "subject" => 'Nuevo Password', "body" => $msg);
-        //$resp = $this->sendEmail($email, 'Nuevo Password', null, null, $msg, null);
+        $resp = array('to' => array($email), 'img' => null, 'subject' => 'Nuevo Password', 'body' => $msg, 'ccHeader' => null);
         return $resp;
     }
 
     public function SendEmailSupport($dataSupport, $email)
     {
-        $to = array('soporte@teenus.com.co', $email);
         if (isset($dataSupport['ccHeader']))
             $ccHeader = $dataSupport['ccHeader'];
         else $ccHeader = '';
@@ -90,16 +78,16 @@ class SendMakeEmailDao
         // use wordwrap() if lines are longer than 70 characters
         // $msg = wordwrap($msg, 70);
         //subject
-        $subject = 'Soporte';
+        $subject = 'Soporte' . "\r\n";
         $subject .= $dataSupport['subject'];
         //headers
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= "From: SoporteTeenus <$email>" . "\r\n";
-        // send email
-        // mail($to, "Soporte", $msg, $headers, $ccHeader);
-        //$resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg, null);
-        //return $resp;
+        // $headers = "MIME-Version: 1.0" . "\r\n";
+        // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        // $headers .= "From: SoporteTeenus <$email>" . "\r\n";
+
+        $resp = array('to' => array($email), 'img' => null, 'subject' => $subject, 'body' => $msg, 'ccHeader' => $ccHeader);
+
+        return $resp;
     }
 
     public function SendEmailQuote($dataQuote, $email)
@@ -116,12 +104,12 @@ class SendMakeEmailDao
         $subject = $dataQuote['subject'];
 
         //headers
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= "From: <$email>" . "\r\n";
-        // send email
-        // mail($to, $msg, $headers, $ccHeader);
-        //$resp = $this->sendEmail($to, $subject, $headers, $ccHeader, $msg, $dataQuote['img']);
-        //return $resp;
+        // $headers = "MIME-Version: 1.0" . "\r\n";
+        // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        // $headers .= "From: <$email>" . "\r\n";
+
+        $resp = array('to' => $to, 'img' => $dataQuote['img'], 'subject' => $subject, 'body' => $msg, 'ccHeader' => $ccHeader);
+
+        return $resp;
     }
 }

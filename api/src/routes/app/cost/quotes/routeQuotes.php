@@ -5,6 +5,7 @@ use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\QuoteProductsDao;
 use tezlikv3\dao\QuotesDao;
+use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\SendMakeEmailDao;
 
 $quotesDao = new QuotesDao();
@@ -12,7 +13,8 @@ $quoteProductsDao = new QuoteProductsDao();
 $lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $convertDataDao = new ConvertDataDao();
-$sendEmailDao = new SendMakeEmailDao();
+$sendEmailDao = new SendEmailDao();
+$sendMakeEmailDao = new SendMakeEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -168,13 +170,15 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($generalQuotesDao, $sendEmailDao) {
+$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($generalQuotesDao, $sendMakeEmailDao, $sendEmailDao) {
     session_start();
     $email = $_SESSION['email'];
 
     $dataQuote = $request->getParsedBody();
 
-    $sendEmail = $sendEmailDao->SendEmailQuote($dataQuote, $email);
+    $dataQuote = $sendMakeEmailDao->SendEmailQuote($dataQuote, $email);
+
+    $sendEmail = $sendEmailDao->sendEmail($dataQuote);
 
     if ($sendEmail == null)
         $quote = $generalQuotesDao->updateFlagQuote($dataQuote);

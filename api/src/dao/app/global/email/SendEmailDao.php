@@ -22,7 +22,7 @@ class SendEmailDao extends PHPMailer
 
     public function sendEmail($dataEmail)
     {
-        require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/env.php';
+        require_once dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/env.php';
 
         try {
             $mail = new PHPMailer(true);
@@ -43,15 +43,16 @@ class SendEmailDao extends PHPMailer
             $mail->FromName = "SoporteTezlik";
 
             // Destinatario
-            foreach ($to as $key => $value) {
+            foreach ($dataEmail['to'] as $key => $value) {
                 $mail->addAddress($value);
             }
 
-            $mail->addAddress($dataEmail['user']);
+            // if ($dataEmail['user'] != null)
+            //     $mail->addAddress($dataEmail['user']);
 
             //Attachments
-            if ($img != null)
-                $mail->addStringAttachment(file_get_contents($img), 'Cotización.png');
+            if ($dataEmail['img'] != null)
+                $mail->addStringAttachment(file_get_contents($dataEmail['img']), 'Cotización.png');
 
             // Content
             $mail->IsHTML(true);
@@ -60,11 +61,11 @@ class SendEmailDao extends PHPMailer
             $mail->Body    = sprintf($dataEmail['body']);
 
             // Asunto del correo
-            if (isset($ccHeader) && !empty($ccHeader))
-                $mail->addCC($ccHeader);
+            if ($dataEmail['ccHeader'] != null)
+                $mail->addCC($dataEmail['ccHeader']);
 
             // Texto alternativo
-            //$mail->mailHeader = $header;
+            //$mail->mailHeader = $dataEmail['header'];
             $mail->send();
         } catch (\Exception $e) {
             $message = $e->getMessage();

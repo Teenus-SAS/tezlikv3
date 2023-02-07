@@ -45,8 +45,12 @@ $app->post('/forgotPassword', function (Request $request, Response $response, $a
         $resp = array('success' => true, 'message' => 'La contraseña fue enviada al email suministrado exitosamente');
     else {
         $dataEmail = $sendMakeEmailDao->SendEmailPassword($email, $passwordTemp);
-        $sendEmailDao->SendEmail($dataEmail);
-        $resp = array('success' => true, 'message' => "La contraseña fue enviada al email suministrado exitosamente.");
+        $email =  $sendEmailDao->SendEmail($dataEmail);
+
+        if ($email == null)
+            $resp = array('success' => true, 'message' => "La contraseña fue enviada al email suministrado exitosamente.");
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras enviaba la información. Intente nuevamente');
     }
 
     $response->getBody()->write(json_encode($resp));
