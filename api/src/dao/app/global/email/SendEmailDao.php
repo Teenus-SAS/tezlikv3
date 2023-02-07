@@ -25,10 +25,6 @@ class SendEmailDao extends PHPMailer
         require_once dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/env.php';
 
         try {
-            /* if (!isset($_SESSION))
-                session_start();
-            $email = $_SESSION['email']; */
-
             $mail = new PHPMailer(true);
 
             //Server settings

@@ -16,22 +16,22 @@ class MinuteDepreciationDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function calcMinuteDepreciationByMachine($nameMachine, $id_company)
+    public function calcMinuteDepreciationByMachine($id_machine, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT ((cost - residual_value) / (years_depreciation * 12)) / hours_machine / days_machine / 60 AS minute_depreciation 
                                       FROM `machines` 
-                                      WHERE machine = :machine");
-        $stmt->execute(['machine' => strtoupper($nameMachine)]);
+                                      WHERE id_machine = :id_machine");
+        $stmt->execute(['id_machine' => $id_machine]);
         $dataMachine = $stmt->fetch($connection::FETCH_ASSOC);
 
         // Modificar depreciacion por minuto
         $stmt = $connection->prepare("UPDATE machines SET minute_depreciation = :minute_depreciation 
-                                      WHERE machine = :machine AND id_company = :id_company");
+                                      WHERE id_machine = :id_machine AND id_company = :id_company");
         $stmt->execute([
             'minute_depreciation' => $dataMachine['minute_depreciation'],
-            'machine' => $nameMachine,
+            'id_machine' => $id_machine,
             'id_company' => $id_company
         ]);
     }

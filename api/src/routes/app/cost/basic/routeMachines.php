@@ -5,11 +5,13 @@ use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\IndirectCostDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 
 $machinesDao = new MachinesDao();
 $generalMachinesDao = new GeneralMachinesDao();
 $convertDataDao = new ConvertDataDao();
+$lastDataDao = new LastDataDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
@@ -86,6 +88,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $machinesDao,
     $generalMachinesDao,
     $convertDataDao,
+    $lastDataDao,
     $minuteDepreciationDao,
     $indirectCostDao,
     $priceProductDao
@@ -100,12 +103,15 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
         $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
         $machines = $machinesDao->insertMachinesByCompany($dataMachine, $id_company);
 
-        // Calcular depreciacion por minuto
-        $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['machine'], $id_company);
+        if ($machines == null) {
+            $lastMachine = $lastDataDao->lastInsertedMachineId($id_company);
 
-        if ($machines == null && $minuteDepreciation == null)
-            $resp = array('success' => true, 'message' => 'Maquina creada correctamente');
-        else if (isset($machines['info']))
+            // Calcular depreciacion por minuto
+            $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($lastMachine['id_machine'], $id_company);
+
+            if ($minuteDepreciation == null)
+                $resp = array('success' => true, 'message' => 'Maquina creada correctamente');
+        } else if (isset($machines['info']))
             $resp = array('info' => true, 'message' => $machines['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
@@ -120,19 +126,22 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
             if (!$machine) {
                 $resolution = $machinesDao->insertMachinesByCompany($machines[$i], $id_company);
+
                 if ($resolution['info'] == true)
                     break;
+                $lastMachine = $lastDataDao->lastInsertedMachineId($id_company);
+                $machines[$i]['idMachine'] = $lastMachine['id_machine'];
             } else {
                 $machines[$i]['idMachine'] = $machine['id_machine'];
                 $resolution = $machinesDao->updateMachine($machines[$i]);
                 // Calcular costo indirecto
-                $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine[$i], $id_company);
+                $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($machines[$i], $id_company);
 
                 // Calcular precio products_costs
-                $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine[$i]['idMachine'], $id_company);
+                $priceProduct = $priceProductDao->calcPriceByMachine($machines[$i]['idMachine'], $id_company);
             }
             // Calcular depreciacion por minuto
-            $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationImportedByMachine($machines[$i], $id_company);
+            $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationImportedByMachine($machines[$i]['idMachine'], $id_company);
         }
         if (
             $resolution == null && $minuteDepreciation == null
@@ -166,7 +175,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $machines = $machinesDao->updateMachine($dataMachine);
 
     // Calcular depreciacion por minuto
-    $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['machine'], $id_company);
+    $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['idMachine'], $id_company);
 
     // Calcular costo indirecto
     $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);

@@ -101,9 +101,6 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="/assets/libs/ckeditor/js/ckeditor.min.js"></script>
-    <script src="/assets/js/pages/compose-mail.init.js"></script>
-    <script src="/assets/js/app.js"></script>
     <script src="../cost/js/support/support.js"></script>
 </body>
 

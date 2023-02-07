@@ -68,6 +68,17 @@ class LastDataDao
         return $id_product;
     }
 
+    /* Maquinas */
+    public function lastInsertedMachineId($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $sql = "SELECT MAX(id_machine) AS id_machine FROM machines WHERE id_company = :id_company";
+        $query = $connection->prepare($sql);
+        $query->execute(['id_company' => $id_company]);
+        $id_machine = $query->fetch($connection::FETCH_ASSOC);
+        return $id_machine;
+    }
+
     /* Carga Fabril */
     public function findLastInsertedFactoryLoad($id_company)
     {

@@ -1,7 +1,9 @@
 <?php
 
 use tezlikv3\dao\SendEmailDao;
+use tezlikv3\dao\SendMakeEmailDao;
 
+$sendMakeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
