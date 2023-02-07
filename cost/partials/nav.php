@@ -25,6 +25,25 @@
                             </a>
                         </li>
                     <?php } ?>
+
+                    <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
+                        <li class="nav-item economyScale">
+                            <a class="nav-link" href="/cost/economyScale">
+                                <i class="bx bx-dollar-circle mr-1"></i> Economia De Escala
+                                <i class="bx bx-chevron-down"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
+
+                    <?php if ($_SESSION['quotes'] == 1 && $_SESSION['plan_cost_quote'] == 1) { ?>
+                        <li class="nav-item quotes">
+                            <a class="nav-link" href="/cost/quotes">
+                                <i class="bx bx-columns mr-1"></i> Cotizar
+                                <i class="bx bx-chevron-down"></i>
+                            </a>
+                        </li>
+                    <?php } ?>
+
                     <?php if ($_SESSION['tool'] == 1 && $_SESSION['plan_cost_tool'] == 1) { ?>
                         <li class="nav-item dropdown tools">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -40,23 +59,7 @@
                             </div>
                         </li>
                     <?php } ?>
-                    <?php if ($_SESSION['quotes'] == 1 && $_SESSION['plan_cost_quote'] == 1) { ?>
-                        <li class="nav-item quotes">
-                            <a class="nav-link" href="/cost/quotes">
-                                <i class="bx bx-columns mr-1"></i> Cotizar
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
-                    <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
-                        <li class="nav-item economyScale">
-                            <a class="nav-link" href="/cost/economyScale">
-                                <i class="bx bx-dollar-circle mr-1"></i> Economia De Escala
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                        </li>
-                    <?php }
-                    ?>
+
                 </ul>
             </div>
         </nav>
