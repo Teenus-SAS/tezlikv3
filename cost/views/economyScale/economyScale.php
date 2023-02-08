@@ -95,52 +95,51 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="table-responsive">
                                                     <table class="table table-striped">
                                                         <tbody>
-                                                            <!-- <tr>
-                                                                <td class="font-weight-bold">Crecimiento</td>
-                                                                <td class="text-center">100%</td>
-                                                                <td class="text-center">150%</td>
-                                                                <td class="text-center">200%</td>
-                                                                <td class="text-center">300%</td>
-                                                                <td class="text-center">500%</td>
-                                                            </tr> -->
                                                             <tr>
                                                                 <td class="font-weight-bold">Ventas Mensuales (Unidad)</td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-1">
+                                                                    <input class="form-control text-center general" type="text" id="unity-0" readonly>
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-2">
+                                                                    <input class="form-control text-center totalRevenue general" type="text" id="unity-1">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-3">
+                                                                    <input class="form-control text-center totalRevenue general" type="text" id="unity-2">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-4">
+                                                                    <input class="form-control text-center totalRevenue general" type="text" id="unity-3">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center unity totalRevenue general" type="text" id="unity-5">
+                                                                    <input class="form-control text-center totalRevenue general" type="text" id="unity-4">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control text-center totalRevenue general" type="text" id="unity-5">
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Precio</td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-1">
+                                                                    <input class="form-control text-center price general" type="text" id="price-0" readonly>
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-2">
+                                                                    <input class="form-control text-center price totalRevenue general" type="text" id="price-1">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-3">
+                                                                    <input class="form-control text-center price totalRevenue general" type="text" id="price-2">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-4">
+                                                                    <input class="form-control text-center price totalRevenue general" type="text" id="price-3">
                                                                 </td>
                                                                 <td>
-                                                                    <input class="form-control numberCalc text-center price totalRevenue general" type="text" id="price-5">
+                                                                    <input class="form-control text-center price totalRevenue general" type="text" id="price-4">
+                                                                </td>
+                                                                <td>
+                                                                    <input class="form-control text-center price totalRevenue general" type="text" id="price-5">
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Total Ingresos</td>
+                                                                <td class="text-center general" id="totalRevenue-0"></td>
                                                                 <td class="text-center general" id="totalRevenue-1"></td>
                                                                 <td class="text-center general" id="totalRevenue-2"></td>
                                                                 <td class="text-center general" id="totalRevenue-3"></td>
@@ -149,14 +148,16 @@ if (sizeof($_SESSION) == 0)
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Costos Fijos</td>
-                                                                <td class="text-center general" id="fixedCosts-1"></td>
-                                                                <td class="text-center general" id="fixedCosts-2"></td>
-                                                                <td class="text-center general" id="fixedCosts-3"></td>
-                                                                <td class="text-center general" id="fixedCosts-4"></td>
-                                                                <td class="text-center general" id="fixedCosts-5"></td>
+                                                                <td class="text-center fixedCosts general" id="fixedCosts-0"></td>
+                                                                <td class="text-center fixedCosts general" id="fixedCosts-1"></td>
+                                                                <td class="text-center fixedCosts general" id="fixedCosts-2"></td>
+                                                                <td class="text-center fixedCosts general" id="fixedCosts-3"></td>
+                                                                <td class="text-center fixedCosts general" id="fixedCosts-4"></td>
+                                                                <td class="text-center fixedCosts general" id="fixedCosts-5"></td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Costos Variables</td>
+                                                                <td class="text-center general" id="variableCosts-0"></td>
                                                                 <td class="text-center general" id="variableCosts-1"></td>
                                                                 <td class="text-center general" id="variableCosts-2"></td>
                                                                 <td class="text-center general" id="variableCosts-3"></td>
@@ -165,6 +166,7 @@ if (sizeof($_SESSION) == 0)
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Total Costos y Gastos</td>
+                                                                <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-0"></td>
                                                                 <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-1"></td>
                                                                 <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-2"></td>
                                                                 <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-3"></td>
@@ -173,6 +175,7 @@ if (sizeof($_SESSION) == 0)
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Costo Por Unidad</td>
+                                                                <td class="text-center" id="unityCost-0"></td>
                                                                 <td class="text-center unityCost general" id="unityCost-1"></td>
                                                                 <td class="text-center unityCost general" id="unityCost-2"></td>
                                                                 <td class="text-center unityCost general" id="unityCost-3"></td>
@@ -181,22 +184,25 @@ if (sizeof($_SESSION) == 0)
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Utilidad Por Unidad</td>
-                                                                <td class="text-center unitUtility general" id="unitUtility-1"></td>
-                                                                <td class="text-center unitUtility general" id="unitUtility-2"></td>
-                                                                <td class="text-center unitUtility general" id="unitUtility-3"></td>
-                                                                <td class="text-center unitUtility general" id="unitUtility-4"></td>
-                                                                <td class="text-center unitUtility general" id="unitUtility-5"></td>
+                                                                <td class="text-center general" id="unitUtility-0"></td>
+                                                                <td class="text-center general" id="unitUtility-1"></td>
+                                                                <td class="text-center general" id="unitUtility-2"></td>
+                                                                <td class="text-center general" id="unitUtility-3"></td>
+                                                                <td class="text-center general" id="unitUtility-4"></td>
+                                                                <td class="text-center general" id="unitUtility-5"></td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Utilidad Neta</td>
-                                                                <td class="text-center netUtility general" id="netUtility-1"></td>
-                                                                <td class="text-center netUtility general" id="netUtility-2"></td>
-                                                                <td class="text-center netUtility general" id="netUtility-3"></td>
-                                                                <td class="text-center netUtility general" id="netUtility-4"></td>
-                                                                <td class="text-center netUtility general" id="netUtility-5"></td>
+                                                                <td class="text-center general" id="netUtility-0"></td>
+                                                                <td class="text-center general" id="netUtility-1"></td>
+                                                                <td class="text-center general" id="netUtility-2"></td>
+                                                                <td class="text-center general" id="netUtility-3"></td>
+                                                                <td class="text-center general" id="netUtility-4"></td>
+                                                                <td class="text-center general" id="netUtility-5"></td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Margen de Utilidad</td>
+                                                                <td class="text-center general" id="percentage-0" style="color: black;"></td>
                                                                 <td class="text-center general" id="percentage-1" style="color: black;"></td>
                                                                 <td class="text-center general" id="percentage-2" style="color: black;"></td>
                                                                 <td class="text-center general" id="percentage-3" style="color: black;"></td>

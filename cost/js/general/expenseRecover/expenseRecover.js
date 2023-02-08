@@ -43,16 +43,16 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_expense_recover', data.id_expense_recover);
 
-    $('#ERNameProduct').append(
-      `<option value="${data.id_product}" selected> ${data.reference} </option>`
-    );
-
     $('#ERRefProduct').append(
-      `<option value ="${data.id_product}" selected> ${data.product} </option>`
+      `<option value ="${data.id_product}" selected> ${data.reference} </option>`
     );
 
-    $(`#ERNameProduct`).prop('disabled', true);
+    $('#ERNameProduct').append(
+      `<option value="${data.id_product}" selected> ${data.product} </option>`
+    );
+
     $(`#ERRefProduct`).prop('disabled', true);
+    $(`#ERNameProduct`).prop('disabled', true);
 
     $('#percentage').val(data.expense_recover);
 

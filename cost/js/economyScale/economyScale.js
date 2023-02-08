@@ -22,6 +22,9 @@ $(document).ready(function () {
 
     data = await searchData(`/api/calcEconomyScale/${id}`);
 
+    $('#unity-0').val(1);
+    unitys = [1];
+
     commission = data.commission;
 
     /* Precios */
@@ -33,25 +36,19 @@ $(document).ready(function () {
     fixedCost = data.fixedCost;
 
     variableCost = data.variableCost;
-    for (i = 0; i < 5; i++) {
-      /* Costos Fijos */
-      $(`#fixedCosts-${i + 1}`).html(
-        `$ ${fixedCost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
-      );
 
-      /* Costos Variables */
-      $(`#variableCosts-${i + 1}`).html(
-        `$ ${variableCost.toLocaleString('es-CO', {
-          maximumFractionDigits: 0,
-        })}`
-      );
+    // Costos Fijos
+    $(`.fixedCosts`).html(
+      `$ ${fixedCost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
+    );
 
-      /* Total Costos y Gastos */
-      $(`#totalCostsAndExpenses-${i + 1}`).html(
-        `$ ${(fixedCost + variableCost).toLocaleString('es-CO', {
-          maximumFractionDigits: 0,
-        })}`
-      );
-    }
+    // Total Costos y Gastos
+    $(`.totalCostsAndExpenses`).html(
+      `$ ${(fixedCost + variableCost).toLocaleString('es-CO', {
+        maximumFractionDigits: 0,
+      })}`
+    );
+
+    generalCalc(0);
   };
 });
