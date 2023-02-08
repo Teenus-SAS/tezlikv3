@@ -4,6 +4,8 @@ if (!isset($_SESSION)) {
 	if (sizeof($_SESSION) == 0)
 		header('location: /');
 }
+if (sizeof($_SESSION) == 0)
+	header('location: /');
 ?>
 <?php include_once dirname(dirname(__DIR__)) . '/modals/sendEmailQuote.php' ?>
 <!DOCTYPE html>
@@ -39,7 +41,7 @@ if (!isset($_SESSION)) {
 			<!-- Content -->
 			<div class="page-content">
 				<div class="card">
-					<div class="card-body">
+					<div class="card-body" style="padding-right: 35px; padding-left: 35px">
 						<div class="toolbar hidden-print noImprimir">
 							<div class="d-flex justify-content-end">
 								<button class="btn btn-dark mr-2" id="btnImprimirQuote"><i class="fa fa-print"></i> Imprimir</button>
@@ -51,7 +53,7 @@ if (!isset($_SESSION)) {
 
 						<div id="invoice">
 							<div class="invoice overflow-auto">
-								<div style="min-width: 600px">
+								<div style="min-width: 600px;">
 									<header>
 										<div class="row">
 											<div class="col">

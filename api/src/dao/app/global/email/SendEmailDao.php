@@ -20,7 +20,7 @@ class SendEmailDao extends PHPMailer
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function sendEmail($dataEmail)
+    public function sendEmail($dataEmail, $email, $name)
     {
         require_once dirname(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/env.php';
 
@@ -39,8 +39,8 @@ class SendEmailDao extends PHPMailer
             $mail->Port          = $_ENV["smtpPort"];
 
             //Recipients
-            $mail->setFrom("accounts@tezliksoftware.com.co", null, null);
-            $mail->FromName = "SoporteTezlik";
+            $mail->setFrom($email, null, null);
+            $mail->FromName = $name;
 
             // Destinatario
             foreach ($dataEmail['to'] as $key => $value) {
@@ -52,7 +52,7 @@ class SendEmailDao extends PHPMailer
 
             //Attachments
             if ($dataEmail['img'] != null)
-                $mail->addStringAttachment(file_get_contents($dataEmail['img']), 'Cotización.png');
+                $mail->addStringAttachment(file_get_contents($dataEmail['img']), 'Cotización.pdf');
 
             // Content
             $mail->IsHTML(true);

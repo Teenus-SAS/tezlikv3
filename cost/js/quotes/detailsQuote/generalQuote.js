@@ -3,8 +3,41 @@ $(document).ready(function () {
 
   /* Imprimir cotización */
   $('#btnImprimirQuote').click(function (e) {
-    window.print();
+    html2canvas(document.getElementById('invoice'), {
+      onrendered(canvas) {
+        let img = canvas.toDataURL('image/png');
+
+        let windowContent = '<!DOCTYPE html>';
+        windowContent += '<html>';
+        windowContent += `  <head>
+                              <title>Tezlik - Cost | Details Quote</title>
+                            </head>`;
+        windowContent += '<body>';
+        windowContent += `  <div class="wrapper">
+                              <div class="page-wrapper">
+                                  <div class="page-content">
+                                      <div class="card">
+                                          <div class="card-body">
+                                              <img style="width:100%" src="${img}"/>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>`;
+        windowContent += '</body>';
+        windowContent += '</html>';
+
+        printWin = window.open('/cost/details-quote');
+        printWin.document.write(windowContent);
+      },
+    });
+    setTimeout(timeOut, 2000);
   });
+
+  function timeOut() {
+    printWin.print();
+    printWin.close();
+  }
 
   /* Ocultar formulario email */
   $('.btnCloseSendEmail').click(function (e) {
@@ -16,16 +49,37 @@ $(document).ready(function () {
   $('#btnNewSend').click(function (e) {
     e.preventDefault();
 
-    setContent('<p>Hey</p>');
+    // try {
+    //   setContent('<p>Hey</p>');
+
+    //   let element = document.getElementById('invoice');
+    //   let regionCanvas = element.getBoundingClientRect();
+    //   html2canvas(element, {
+    //     async onrendered(canvas) {
+    //       const pdf = new jsPDF('p', 'mm', 'a4');
+    //       pdf.addImage(
+    //         canvas.toDataURL('image/png'),
+    //         'PNG',
+    //         3,
+    //         0,
+    //         205,
+    //         (205 / regionCanvas.width) * regionCanvas.height
+    //       );
+    //       await pdf.save('Cotización', {
+    //         returnPromise: true,
+    //       });
+    //     },
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     html2canvas(document.getElementById('invoice'), {
       onrendered(canvas) {
         let src = canvas.toDataURL('image/png');
-        // setContent(`<img src="${src}" alt="Contenido"/>`);
         data['img'] = src;
       },
     });
-
     setTimeout(modalshow, 2000);
   });
 

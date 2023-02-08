@@ -173,12 +173,13 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
 $app->post('/sendQuote', function (Request $request, Response $response, $args) use ($generalQuotesDao, $sendMakeEmailDao, $sendEmailDao) {
     session_start();
     $email = $_SESSION['email'];
+    $name = $_SESSION['name'];
 
     $dataQuote = $request->getParsedBody();
 
     $dataQuote = $sendMakeEmailDao->SendEmailQuote($dataQuote, $email);
 
-    $sendEmail = $sendEmailDao->sendEmail($dataQuote);
+    $sendEmail = $sendEmailDao->sendEmail($dataQuote, $email, $name);
 
     if ($sendEmail == null)
         $quote = $generalQuotesDao->updateFlagQuote($dataQuote);

@@ -72,12 +72,6 @@ $(document).ready(function () {
 
   /* Mano de Obra */
 
-  // cambios 17/05/22
-  // add totalCost = 0;
-  // add totalCost = totalCost + workforce[i];
-  // add Intl.NumberFormat
-  // add $('#totalCostWorkforceEsp').html(`$ ${totalCost}`);
-
   graphicCostWorkforce = (data) => {
     let process = [];
     let workforce = [];
@@ -89,12 +83,9 @@ $(document).ready(function () {
       totalCost = totalCost + workforce[i];
     }
 
-    totalCost = new Intl.NumberFormat('es-CO', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(totalCost);
-
-    $('#totalCostWorkforceEsp').html(`$ ${totalCost}`);
+    $('#totalCostWorkforceEsp').html(
+      `$ ${totalCost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
+    );
 
     chartWorkForce ? chartWorkForce.destroy() : chartWorkForce;
 
@@ -124,7 +115,11 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+
+              sum > 0
+                ? (percentage = ((value * 100) / sum).toFixed(2) + '%')
+                : (percentage = 0);
+
               return percentage;
             },
             color: 'white',
@@ -139,11 +134,6 @@ $(document).ready(function () {
   };
 
   /* Tiempo de Proceso del producto */
-  // cambios 17/05/22
-  // add total = 0;
-  // add total = total + totalTime[i];
-  // add Intl.NumberFormat
-  // add $('#totalTimeProcess').html(`${total} min`);
 
   graphicCostTimeProcess = (data) => {
     let process = [];
@@ -156,12 +146,9 @@ $(document).ready(function () {
       total = total + totalTime[i];
     }
 
-    total = new Intl.NumberFormat('es-CO', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(total);
-
-    $('#totalTimeProcess').html(`${total} min`);
+    $('#totalTimeProcess').html(
+      `${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })} min`
+    );
 
     chartTimeProcess ? chartTimeProcess.destroy() : chartWorkForce;
 
@@ -224,12 +211,10 @@ $(document).ready(function () {
     timeData.push(totalTimeProm);
 
     let total = totalTime + totalTimeProm;
-    total = new Intl.NumberFormat('es-CO', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(total);
 
-    $('#manufactPromTime').html(`${total} min`);
+    $('#manufactPromTime').html(
+      `${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })} min`
+    );
 
     chartTotalTime ? chartTotalTime.destroy() : chartTotalTime;
 
@@ -281,15 +266,12 @@ $(document).ready(function () {
       costs: dataCost.cost,
       commSale: dataCost.costCommissionSale,
       profitability: dataCost.costProfitability,
-      assignableExpense: dataCost.assignableExpense,
+      assignableExpense: dataCost.expense,
     };
 
-    let total = new Intl.NumberFormat('es-CO', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(dataCost.price);
-
-    $('#totalPricesComp').html(`$ ${total}`);
+    $('#totalPricesComp').html(
+      `$ ${data[0].price.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
+    );
 
     charCompPrice ? charCompPrice.destroy() : charCompPrice;
 
@@ -314,14 +296,9 @@ $(document).ready(function () {
           },
           datalabels: {
             formatter: (value, ctx) => {
-              debugger;
-              let sum = 0;
-              let dataArr = ctx.chart.data.datasets[0].data;
-              dataArr.map((data) => {
-                sum += data;
+              return value.toLocaleString('es-CO', {
+                maximumFractionDigits: 0,
               });
-              let percentage = Math.round((value * 100) / sum) + '%';
-              return percentage;
             },
             color: 'white',
             font: {

@@ -27,6 +27,8 @@ require_once('../api/src/routes/admin/login/routeLastLoginsUsers.php');
 // Products
 require_once('../api/src/routes/admin/products/routeQuantityProducts.php');
 
+// Puc
+require_once('../api/src/routes/admin/puc/routePucs.php');
 
 // Notifications
 require_once('../api/src/routes/admin/notifications/routeNotifications.php');

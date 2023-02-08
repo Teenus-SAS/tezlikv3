@@ -38,10 +38,10 @@ $(document).ready(function () {
 
   generalIndicators = (data) => {
     $('#nameProduct').html(data[0].product);
-    $(`#product option[value=${data[0].id_product}]`).prop('selected', true);
+    // $(`#product option[value=${data[0].id_product}]`).prop('selected', true);
 
     $('.imageProduct').html(`
-      <img src="${data[0].img}" alt="" style="width:50%;border-radius:100px">
+      <img src="${data[0].img}" class="mx-auto d-block" style="width:60px;border-radius:100px">
     `);
 
     dataCost = getDataCost(data[0]);

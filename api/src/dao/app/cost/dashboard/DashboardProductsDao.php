@@ -55,9 +55,9 @@ class DashboardProductsDao
     public function findCostWorkforceByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.process, (SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) 
-                                                          FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
-                                                          WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process) AS workforce	
+        $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) 
+                                                            FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
+                                                            WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process), 0) AS workforce		
                                       FROM process p
                                       INNER JOIN products_process pp ON pp.id_process = p.id_process
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");

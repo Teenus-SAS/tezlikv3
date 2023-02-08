@@ -19,7 +19,7 @@ $app->post('/sendEmailSupport', function (Request $request, Response $response, 
     } else {
         $dataSupport = $sendMakeEmailDao->sendEmailSupport($dataSupport, $email);
 
-        $support = $sendEmailDao->sendEmail($dataSupport);
+        $support = $sendEmailDao->sendEmail($dataSupport, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
 
         if ($support == null)
             $resp = array('success' => true, 'message' => 'Email enviado correctamente. Nos comunicaremos muy p ronto');
