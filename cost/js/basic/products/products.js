@@ -128,15 +128,14 @@ $(document).ready(function () {
     let data = tblProducts.fnGetData(row);
 
     bootbox.confirm({
-      title: 'Copiar producto',
-      message: `Ingrese nuevo producto:<br><br>
-                <div class="form-row">
-                  <div class="col">
-                    <label for="">Referencia</label>
-                    <input type="text" class="form-control" name="referenceNewProduct" id="referenceNewProduct">
+      title: 'Clonar producto',
+      message: `<div class="row">
+                  <div class="col-12">
+                    <label for="referenceNewProduct">Referencia</label>
+                    <input type="text" class="form-control mb-2" name="referenceNewProduct" id="referenceNewProduct">
                   </div>
-                  <div class="col">
-                    <label for="">Nombre Producto</label>
+                  <div class="col-12">
+                    <label for="newProduct">Nombre Producto</label>
                     <input type="text" class="form-control" name="newProduct" id="newProduct">
                   </div>
                 </div>`,
