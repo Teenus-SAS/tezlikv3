@@ -132,7 +132,7 @@ $(document).ready(function () {
       message: `<div class="row">
                   <div class="col-12">
                     <label for="referenceNewProduct">Referencia</label>
-                    <input type="text" class="form-control" name="referenceNewProduct" id="referenceNewProduct">
+                    <input type="text" class="form-control mb-2" name="referenceNewProduct" id="referenceNewProduct">
                   </div>
                   <div class="col-12">
                     <label for="newProduct">Nombre Producto</label>
