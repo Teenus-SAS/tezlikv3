@@ -31,6 +31,14 @@ $(document).ready(function () {
     $('.price').val(
       data.price.toLocaleString('es-CO', { maximumFractionDigits: 0 })
     );
+    prices = [
+      data.price,
+      data.price,
+      data.price,
+      data.price,
+      data.price,
+      data.price,
+    ];
 
     /* Costos Fijos */
     fixedCost = data.fixedCost;

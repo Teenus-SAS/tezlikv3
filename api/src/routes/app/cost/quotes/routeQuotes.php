@@ -179,13 +179,15 @@ $app->post('/sendQuote', function (Request $request, Response $response, $args) 
 
     $dataQuote = $sendMakeEmailDao->SendEmailQuote($dataQuote, $email);
 
-    $sendEmail = $sendEmailDao->sendEmail($dataQuote, $email, $name);
+    $resolution = $sendEmailDao->sendEmail($dataQuote, 'soporteTezlik@tezliksoftware.com.co', $name);
 
-    if ($sendEmail == null)
-        $quote = $generalQuotesDao->updateFlagQuote($dataQuote);
+    if ($resolution == null)
+        $resolution = $generalQuotesDao->updateFlagQuote($dataQuote);
 
-    if ($quote == null)
+    if ($resolution == null)
         $resp = array('success' => true, 'message' => 'Email de cotización enviada correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error al enviar el email. Intente nuevamente');
 

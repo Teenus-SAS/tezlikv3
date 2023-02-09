@@ -22,7 +22,7 @@ class ImageDao
         $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/users/' . $id_company;
         $allowTypes = array('jpg', 'jpeg', 'png');
 
-        $image_name = $_FILES['avatar']['name'];
+        $image_name = str_replace(' ', '', $_FILES['avatar']['name']);
         $tmp_name   = $_FILES['avatar']['tmp_name'];
         $size       = $_FILES['avatar']['size'];
         $type       = $_FILES['avatar']['type'];
@@ -56,10 +56,10 @@ class ImageDao
     public function avatarUserAdmin($id_admin)
     {
         $connection = Connection::getInstance()->getConnection();
-        $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/users/admin';
+        $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/users/admin';
         $allowTypes = array('jpg', 'jpeg', 'png');
 
-        $image_name = $_FILES['avatar']['name'];
+        $image_name = str_replace(' ', '', $_FILES['avatar']['name']);
         $tmp_name   = $_FILES['avatar']['tmp_name'];
         $size       = $_FILES['avatar']['size'];
         $type       = $_FILES['avatar']['type'];
@@ -82,7 +82,7 @@ class ImageDao
                 'id_admin' => $id_admin
             ]);
 
-            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/users/admin';
+            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/users/admin';
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
@@ -92,10 +92,10 @@ class ImageDao
     public function logoCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/companies/' . $id_company;
+        $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies/' . $id_company;
         $allowTypes = array('jpg', 'jpeg', 'png');
 
-        $image_name = $_FILES['logo']['name'];
+        $image_name = str_replace(' ', '', $_FILES['logo']['name']);
         $tmp_name   = $_FILES['logo']['tmp_name'];
         $size       = $_FILES['logo']['size'];
         $type       = $_FILES['logo']['type'];
@@ -118,7 +118,7 @@ class ImageDao
                 'id_company' => $id_company
             ]);
 
-            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/companies/' . $id_company;
+            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/companies/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
@@ -128,10 +128,10 @@ class ImageDao
     public function imageProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/products/' . $id_company;
+        $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/products/' . $id_company;
         $allowTypes = array('jpg', 'jpeg', 'png');
 
-        $image_name = $_FILES['img']['name'];
+        $image_name = str_replace(' ', '', $_FILES['img']['name']);
         $tmp_name   = $_FILES['img']['tmp_name'];
         $size       = $_FILES['img']['size'];
         $type       = $_FILES['img']['type'];
@@ -142,7 +142,7 @@ class ImageDao
         if (!is_dir($targetDir))
             mkdir($targetDir, 0777, true);
 
-        $targetDir = '/api/src/assets/images/products/' . $id_company;
+        $targetDir = '/assets/images/products/' . $id_company;
         $targetFilePath = $targetDir . '/' . $image_name;
 
         $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
@@ -156,7 +156,7 @@ class ImageDao
                 'id_company' => $id_company
             ]);
 
-            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/products/' . $id_company;
+            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/products/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
@@ -169,7 +169,7 @@ class ImageDao
         $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/Qcompanies/' . $id_company;
         $allowTypes = array('jpg', 'jpeg', 'png');
 
-        $image_name = $_FILES['img']['name'];
+        $image_name = str_replace(' ', '', $_FILES['img']['name']);
         $tmp_name   = $_FILES['img']['tmp_name'];
         $size       = $_FILES['img']['size'];
         $type       = $_FILES['img']['type'];

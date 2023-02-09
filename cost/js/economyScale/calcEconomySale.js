@@ -34,6 +34,7 @@ $(document).ready(function () {
 
         let percentage = { 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
         unitys = [1];
+
         unitys[row] = unity;
 
         for (let i = row; i < 5; i++) {
@@ -46,8 +47,11 @@ $(document).ready(function () {
           unitys[i + 1] = unity;
         }
       } else {
-        let price = $(`#price-${row}`).val();
+        let price = parseFloat(strReplaceNumber(this.value));
+
+        prices = [0, price];
         for (let i = row; i < 5; i++) {
+          prices[i + 1] = price;
           $(`#price-${i + 1}`).val(price.toLocaleString('es-CO'));
         }
       }
@@ -64,7 +68,7 @@ $(document).ready(function () {
 
       for (i = op; i <= count; i++) {
         let unit = unitys[i];
-        let price = $(`#price-${i}`).val();
+        let price = prices[i];
 
         if (unit > 0 && price > 0) {
           /* Costos Variables */
@@ -77,38 +81,38 @@ $(document).ready(function () {
           );
 
           /* Total Costos y Gastos */
+          let totalCostsAndExpense = fixedCost + totalVariableCost;
+
           $(`#totalCostsAndExpenses-${i}`).html(
-            `$ ${(fixedCost + totalVariableCost).toLocaleString('es-CO', {
+            `$ ${totalCostsAndExpense.toLocaleString('es-CO', {
               maximumFractionDigits: 0,
             })}`
           );
 
           /* Calculo Total Ingresos */
-          price = parseFloat(strReplaceNumber(price));
-
           totalRevenue = unit * price;
 
           $(`#totalRevenue-${i}`).html(
-            `$ ${Math.round(totalRevenue).toLocaleString('es-CO', {
+            `$ ${totalRevenue.toLocaleString('es-CO', {
               maximumFractionDigits: 0,
             })}`
           );
 
           /* Calculo Costo x Unidad */
-          let totalCostsAndExpense = $(`#totalCostsAndExpenses-${i}`).html();
-          totalCostsAndExpense = strReplaceNumber(totalCostsAndExpense);
-          totalCostsAndExpense = totalCostsAndExpense.replace('$ ', '');
-
           unityCost = parseFloat(totalCostsAndExpense) / parseFloat(unit);
 
           $(`#unityCost-${i}`).html(
-            `$ ${Math.round(unityCost).toLocaleString('es-CO')}`
+            `$ ${unityCost.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            })}`
           );
 
           /* Calculo Utilidad x Unidad */
           let unitUtility = price - unityCost;
           $(`#unitUtility-${i}`).html(
-            `$ ${Math.round(unitUtility).toLocaleString('es-CO')}`
+            `$ ${unitUtility.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            })}`
           );
 
           /* Calculo Utilidad Neta */
@@ -119,7 +123,9 @@ $(document).ready(function () {
             : $(`#netUtility-${i}`).css('color', 'black');
 
           $(`#netUtility-${i}`).html(
-            `$ ${Math.round(netUtility).toLocaleString('es-CO')}`
+            `$ ${netUtility.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            })}`
           );
 
           /* Porcentaje */

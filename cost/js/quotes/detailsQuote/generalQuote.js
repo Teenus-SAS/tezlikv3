@@ -17,7 +17,7 @@ $(document).ready(function () {
                               <div class="page-wrapper">
                                   <div class="page-content">
                                       <div class="card">
-                                          <div class="card-body">
+                                          <div class="card-body" style="padding-right: 35px; padding-left: 35px">
                                               <img style="width:100%" src="${img}"/>
                                           </div>
                                       </div>
@@ -49,37 +49,16 @@ $(document).ready(function () {
   $('#btnNewSend').click(function (e) {
     e.preventDefault();
 
-    // try {
-    //   setContent('<p>Hey</p>');
-
-    //   let element = document.getElementById('invoice');
-    //   let regionCanvas = element.getBoundingClientRect();
-    //   html2canvas(element, {
-    //     async onrendered(canvas) {
-    //       const pdf = new jsPDF('p', 'mm', 'a4');
-    //       pdf.addImage(
-    //         canvas.toDataURL('image/png'),
-    //         'PNG',
-    //         3,
-    //         0,
-    //         205,
-    //         (205 / regionCanvas.width) * regionCanvas.height
-    //       );
-    //       await pdf.save('Cotización', {
-    //         returnPromise: true,
-    //       });
-    //     },
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
-    html2canvas(document.getElementById('invoice'), {
-      onrendered(canvas) {
-        let src = canvas.toDataURL('image/png');
-        data['img'] = src;
-      },
-    });
+    try {
+      html2canvas(document.getElementById('invoice'), {
+        onrendered(canvas) {
+          let src = canvas.toDataURL('image/png');
+          data['img'] = src;
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
     setTimeout(modalshow, 2000);
   });
 

@@ -175,7 +175,7 @@ if (sizeof($_SESSION) == 0)
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Costo Por Unidad</td>
-                                                                <td class="text-center" id="unityCost-0"></td>
+                                                                <td class="text-center general" id="unityCost-0"></td>
                                                                 <td class="text-center unityCost general" id="unityCost-1"></td>
                                                                 <td class="text-center unityCost general" id="unityCost-2"></td>
                                                                 <td class="text-center unityCost general" id="unityCost-3"></td>
