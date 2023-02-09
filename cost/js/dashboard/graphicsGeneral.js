@@ -67,7 +67,8 @@ $(document).ready(function () {
     $('#totalCostWorkforce').html(`$ ${totalCost.toFixed(1)}`);
 
     const cmc = document.getElementById('chartWorkForceGeneral');
-    const chartWorkForceGeneral = new Chart(cmc, {
+
+    const chartWorkForce = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: 'doughnut',
       data: {
@@ -86,6 +87,17 @@ $(document).ready(function () {
         ],
       },
       options: {
+        // scales: {
+        //   yAxes: [
+        //     {
+        //       display: true,
+        //       ticks: {
+        //         min: 0,
+        //         max: 100,
+        //       },
+        //     },
+        //   ],
+        // },
         tooltips: {
           enabled: false,
         },
