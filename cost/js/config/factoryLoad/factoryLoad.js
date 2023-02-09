@@ -61,7 +61,7 @@ $(document).ready(function () {
     let descriptionFactoryLoad = $('#descriptionFactoryLoad').val();
     let costFactory = $('#costFactory').val();
 
-    costFactory = parseFloat(decimalNumber(costFactory));
+    costFactory = parseFloat(strReplaceNumber(costFactory));
 
     costFactory = 1 * costFactory;
 

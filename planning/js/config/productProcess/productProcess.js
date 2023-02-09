@@ -30,10 +30,10 @@ $(document).ready(function () {
     tOperation = $('#operationTime').val();
 
     tOperation == '' ? (tOperation = '0') : tOperation;
-    tOperation = decimalNumber(tOperation);
+    tOperation = strReplaceNumber(tOperation);
 
     this.value == '' ? (this.value = '0') : this.value;
-    tEnlistment = decimalNumber(this.value);
+    tEnlistment = strReplaceNumber(this.value);
 
     let val = parseFloat(tEnlistment) + parseFloat(tOperation);
     val = validateNumber(val);
@@ -44,10 +44,10 @@ $(document).ready(function () {
     tEnlistment = $('#enlistmentTime').val();
 
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
-    tEnlistment = decimalNumber(tEnlistment);
+    tEnlistment = strReplaceNumber(tEnlistment);
 
     this.value == '' ? (this.value = '0') : this.value;
-    operationTime = decimalNumber(this.value);
+    operationTime = strReplaceNumber(this.value);
 
     let val = parseFloat(operationTime) + parseFloat(tEnlistment);
     val = validateNumber(val);

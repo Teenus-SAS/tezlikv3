@@ -63,7 +63,7 @@ $(document).ready(function () {
 
     unitsmanufacturated = $('#unitsmanufacturated').val();
     // Eliminar decimales
-    unitsmanufacturated = decimalNumber(unitsmanufacturated);
+    unitsmanufacturated = strReplaceNumber(unitsmanufacturated);
     unitsmanufacturated = parseFloat(unitsmanufacturated);
 
     if (!unitsmanufacturated) {

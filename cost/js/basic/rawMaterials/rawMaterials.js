@@ -85,7 +85,7 @@ $(document).ready(function () {
       return false;
     }
 
-    cost = parseFloat(decimalNumber(cost));
+    cost = parseFloat(strReplaceNumber(cost));
 
     cost = 1 * cost;
 

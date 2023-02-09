@@ -42,7 +42,7 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-12">
                                 <div class="page-title">
-                                    <div class="row justify-content-between">
+                                    <div class="row">
                                         <div class="col-6 d-flex align-items-center">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
@@ -245,7 +245,7 @@ if (sizeof($_SESSION) == 0)
                                     <?php } ?>
                                 </div>
                                 <!-- Row 4-->
-                                <div class="row">
+                                <div class="row d-flex align-items-center">
                                     <!-- Begin total sales chart -->
                                     <div class="col-lg-3">
                                         <div class="card">
@@ -343,6 +343,8 @@ if (sizeof($_SESSION) == 0)
         <!-- Page End -->
 
         <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+
+        <script src="/global/js/global/orderData.js"></script>
         <script src="/cost/js/analysis/prices/configPrices.js"></script>
         <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
         <script src="/cost/js/dashboard/calcDataCost.js"></script>

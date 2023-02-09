@@ -83,9 +83,10 @@ $(document).ready(function () {
       return false;
     }
 
+    $(`#ERRefProduct`).prop('disabled', false);
     let dataExpenseRecover = new FormData(formExpenseRecover);
 
-    if (idExpenseRecover != '' || idExpenseRecover != null)
+    if (idExpenseRecover != null)
       dataExpenseRecover.append('idExpenseRecover', idExpenseRecover);
 
     let resp = await sendDataPOST(url, dataExpenseRecover);

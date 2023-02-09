@@ -13,12 +13,12 @@ $(document).ready(function () {
     if (negotiatePrice == '') {
       negotiatePrice = 0;
     } else {
-      negotiatePrice = decimalNumber(negotiatePrice);
+      negotiatePrice = strReplaceNumber(negotiatePrice);
       negotiatePrice = parseFloat(negotiatePrice);
     }
 
     currentPrice = $(`#currentPrice-${line}`).html();
-    currentPrice = decimalNumber(currentPrice);
+    currentPrice = strReplaceNumber(currentPrice);
     currentPrice = currentPrice.replace('$', '');
     currentPrice = parseFloat(currentPrice);
 
@@ -65,7 +65,7 @@ $(document).ready(function () {
     unitsmanufacturated = this.value;
 
     // Eliminar miles
-    unitsmanufacturated = decimalNumber(unitsmanufacturated);
+    unitsmanufacturated = strReplaceNumber(unitsmanufacturated);
     unitsmanufacturated = parseFloat(unitsmanufacturated);
 
     isNaN(unitsmanufacturated)
@@ -92,11 +92,11 @@ $(document).ready(function () {
       quantity = $(`#quantity-${i}`).html();
 
       // Eliminar miles
-      unityCost = decimalNumber(unityCost);
+      unityCost = strReplaceNumber(unityCost);
       unityCost = unityCost.replace('$', '');
 
       // Eliminar miles
-      quantity = decimalNumber(quantity);
+      quantity = strReplaceNumber(quantity);
 
       unityCost = parseFloat(unityCost);
       quantity = parseFloat(quantity);
@@ -114,7 +114,7 @@ $(document).ready(function () {
     for (i = 1; i < count + 1; i++) {
       quantity = $(`#quantity-${i}`).html();
 
-      quantity = decimalNumber(quantity);
+      quantity = strReplaceNumber(quantity);
 
       quantity = parseFloat(quantity);
 
@@ -123,7 +123,7 @@ $(document).ready(function () {
       negotiatePrice == '' ? (negotiatePrice = '0') : negotiatePrice;
 
       // Eliminar miles
-      negotiatePrice = decimalNumber(negotiatePrice);
+      negotiatePrice = strReplaceNumber(negotiatePrice);
       negotiatePrice = parseFloat(negotiatePrice);
 
       projectedCost = quantity * negotiatePrice * unitsmanufacturated;
@@ -148,13 +148,13 @@ $(document).ready(function () {
       if (projectedCost == '$ 0') return false;
 
       // Eliminar miles
-      projectedCost = decimalNumber(projectedCost);
+      projectedCost = strReplaceNumber(projectedCost);
       projectedCost = projectedCost.replace('$', '');
       projectedCost = parseFloat(projectedCost);
 
       let currentCost = $(`#totalCost-${i}`).html();
       // Eliminar miles
-      currentCost = decimalNumber(currentCost);
+      currentCost = strReplaceNumber(currentCost);
       currentCost = currentCost.replace('$', '');
       currentCost = parseFloat(currentCost);
 

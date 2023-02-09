@@ -34,10 +34,10 @@ $(document).ready(function () {
     let tEnlistment = $('#enlistmentTime').val();
 
     tOperation == '' ? (tOperation = '0') : tOperation;
-    tOperation = decimalNumber(tOperation);
+    tOperation = strReplaceNumber(tOperation);
 
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
-    tEnlistment = decimalNumber(tEnlistment);
+    tEnlistment = strReplaceNumber(tEnlistment);
 
     let val = parseFloat(tEnlistment) + parseFloat(tOperation);
     val = validateNumber(val);
@@ -99,8 +99,8 @@ $(document).ready(function () {
     let enlistmentTime = $('#enlistmentTime').val();
     let operationTime = $('#operationTime').val();
 
-    enlistmentTime = parseFloat(decimalNumber(enlistmentTime));
-    operationTime = parseFloat(decimalNumber(operationTime));
+    enlistmentTime = parseFloat(strReplaceNumber(enlistmentTime));
+    operationTime = parseFloat(strReplaceNumber(operationTime));
 
     let data = idProduct * refP * enlistmentTime + operationTime;
 

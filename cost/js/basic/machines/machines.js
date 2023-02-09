@@ -62,8 +62,8 @@ $(document).ready(function () {
     let hoursMachine = $('#hoursMachine').val();
     let daysMachine = $('#daysMachine').val();
 
-    costMachine = parseFloat(decimalNumber(costMachine));
-    yearsDepreciation = parseFloat(decimalNumber(yearsDepreciation));
+    costMachine = parseFloat(strReplaceNumber(costMachine));
+    yearsDepreciation = parseFloat(strReplaceNumber(yearsDepreciation));
     hoursMachine = parseFloat(hoursMachine.replace(',', '.'));
     daysMachine = parseFloat(daysMachine.replace(',', '.'));
 

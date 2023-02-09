@@ -57,7 +57,12 @@ $(document).ready(function () {
           title: 'Cantidad',
           data: 'quantity',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 2, ''),
+          render: function (data) {
+            number = `${data}`;
+            number = number.replace('.', ',');
+
+            return number;
+          },
         },
         {
           title: 'Precio Unitario',

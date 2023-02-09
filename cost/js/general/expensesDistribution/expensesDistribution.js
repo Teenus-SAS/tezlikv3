@@ -82,8 +82,8 @@ $(document).ready(function () {
     let unitExp = $('#undVendidas').val();
     let volExp = $('#volVendidas').val();
 
-    unitExp = parseFloat(decimalNumber(unitExp));
-    volExp = parseFloat(decimalNumber(volExp));
+    unitExp = parseFloat(strReplaceNumber(unitExp));
+    volExp = parseFloat(strReplaceNumber(volExp));
 
     let data = refProduct * nameProduct * unitExp * volExp;
 

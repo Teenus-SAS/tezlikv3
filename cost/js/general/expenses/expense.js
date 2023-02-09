@@ -54,7 +54,7 @@ $(document).ready(function () {
     let puc = parseInt($('#idPuc').val());
     let value = $('#expenseValue').val();
 
-    value = parseFloat(decimalNumber(value));
+    value = parseFloat(strReplaceNumber(value));
 
     let data = puc * value;
 

@@ -54,7 +54,7 @@ $(document).ready(function () {
   $(document).on('blur', '#price', function (e) {
     let idProduct = $('#refProduct').val();
     if (idProduct > 0) {
-      let price = decimalNumber(this.value);
+      let price = strReplaceNumber(this.value);
 
       if (price < parseInt(oldPrice)) {
         oldPrice = parseInt(oldPrice).toLocaleString('es-CO');
@@ -72,10 +72,10 @@ $(document).ready(function () {
     let discount = $('#discount').val();
 
     quantity == '' ? (quantity = '0') : quantity;
-    quantity = decimalNumber(quantity);
+    quantity = strReplaceNumber(quantity);
 
     price == '' ? (price = '0') : price;
-    price = decimalNumber(price);
+    price = strReplaceNumber(price);
 
     if (price >= parseInt(oldPrice)) {
       let val =
@@ -115,7 +115,7 @@ $(document).ready(function () {
     let discount = $('#discount').val();
     let totalPrice = $('#totalPrice').val();
 
-    price = decimalNumber(price);
+    price = strReplaceNumber(price);
 
     op = sessionStorage.getItem('actualizar');
 

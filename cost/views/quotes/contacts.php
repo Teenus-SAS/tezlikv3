@@ -144,15 +144,10 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/cost/js/users/usersAccess.js"></script>
 
     <script src="/cost/js/quotes/companies/configCompanies.js"></script>
     <script src="/cost/js/quotes/contacts/tblContacts.js"></script>
     <script src="/cost/js/quotes/contacts/contacts.js"></script>
-    <!-- <script src="../global/js/import/import.js"></script>
-    <script src="/cost/js/basic/Contacts/importContacts.js"></script>
-    <script src="../global/js/import/file.js"></script>
-    <script src="../global/js/global/validateImgExt.js"></script> -->
 </body>
 
 </html>

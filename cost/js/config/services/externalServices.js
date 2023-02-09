@@ -66,7 +66,7 @@ $(document).ready(function () {
     let service = $('#service').val();
     let cost = parseInt($('#costService').val());
 
-    cost = parseFloat(decimalNumber(cost));
+    cost = parseFloat(strReplaceNumber(cost));
 
     let data = idProduct * cost;
 

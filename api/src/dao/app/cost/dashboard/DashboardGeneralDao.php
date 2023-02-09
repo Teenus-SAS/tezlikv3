@@ -119,7 +119,7 @@ class DashboardGeneralDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT CAST(SUM(IFNULL(er.expense_recover, 0))/COUNT(p.id_product) AS UNSIGNED) AS percentageExpense
+        $stmt = $connection->prepare("SELECT SUM(IFNULL(er.expense_recover, 0))/COUNT(p.id_product) AS percentageExpense
                                       FROM products p
                                         LEFT JOIN products_costs pc ON pc.id_product = p.id_product
                                         LEFT JOIN expenses_recover er ON er.id_product = pc.id_product

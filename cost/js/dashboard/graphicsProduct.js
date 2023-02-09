@@ -262,12 +262,21 @@ $(document).ready(function () {
   graphicCompPrices = (data) => {
     dataCost = getDataCost(data[0]);
 
-    let product = {
-      costs: dataCost.cost,
-      commSale: dataCost.costCommissionSale,
-      profitability: dataCost.costProfitability,
-      assignableExpense: dataCost.expense,
-    };
+    let costs = [
+      dataCost.cost,
+      dataCost.costCommissionSale,
+      dataCost.costProfitability,
+      dataCost.expense,
+    ];
+
+    let percentages = [
+      (dataCost.cost / data[0].price) * 100,
+      data[0].commission_sale,
+      data[0].profitability,
+      data[0].expense_recover,
+    ];
+
+    let product = [costs, percentages];
 
     $('#totalPricesComp').html(
       `$ ${data[0].price.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
@@ -283,7 +292,8 @@ $(document).ready(function () {
         labels: ['Costos', 'Comisión Venta', 'Rentabilidad', 'Gastos'],
         datasets: [
           {
-            data: Object.values(product),
+            // label: product[1],
+            data: product[0],
             backgroundColor: getRandomColor(5),
             borderWidth: 1,
           },
@@ -296,9 +306,13 @@ $(document).ready(function () {
           },
           datalabels: {
             formatter: (value, ctx) => {
-              return value.toLocaleString('es-CO', {
-                maximumFractionDigits: 0,
+              let sum = 0;
+              let dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map((data) => {
+                sum += data;
               });
+              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              return percentage;
             },
             color: 'white',
             font: {

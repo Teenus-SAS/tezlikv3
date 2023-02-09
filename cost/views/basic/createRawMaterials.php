@@ -154,9 +154,7 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/cost/js/users/usersAccess.js"></script>
 
-    <script src="../global/js/global/number.js"></script>
     <script src="/cost/js/basic/rawMaterials/tblRawMaterials.js"></script>
     <script src="/cost/js/basic/rawMaterials/rawMaterials.js"></script>
     <script src="../global/js/import/import.js"></script>

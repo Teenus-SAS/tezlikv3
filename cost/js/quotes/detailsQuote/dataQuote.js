@@ -57,7 +57,7 @@ $(document).ready(function () {
     `
       );
 
-      let price = decimalNumber(data[i].price);
+      let price = strReplaceNumber(data[i].price);
       price = price.replace('$ ', '');
 
       let subtotalPrice =

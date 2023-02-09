@@ -10,32 +10,14 @@ $(document).ready(function () {
           return '';
         }
 
-        //   number = value
-        //     .replace(/\./g, '')
-        //     .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, '.');
-
         number = value;
 
         while (number.includes('.')) {
           number = number.replace('.', '');
         }
 
-        let decimals = 0;
-        dnumber = number;
+        number = decimalNumber(number);
 
-        while (dnumber.includes(',')) {
-          dnumber = dnumber.slice(1, dnumber.length);
-          if (dnumber == '') {
-            decimals = '';
-            break;
-          }
-          decimals = dnumber.length;
-        }
-
-        if (decimals == '' && typeof decimals === 'string') return number;
-
-        number = number.replace(',', '.');
-        number = formatNumber(parseFloat(number), decimals);
         return number;
       });
     },
@@ -77,6 +59,7 @@ $(document).ready(function () {
     },
   });
 
+  /* Devolver numero formato 0.000.000,0 */
   function formatNumber(floatValue = 0, decimals = 0, multiplier = 1) {
     let floatMultiplied = floatValue * multiplier;
     let stringFloat = floatMultiplied + '';
@@ -95,7 +78,8 @@ $(document).ready(function () {
     return formatFloatFullValue;
   }
 
-  decimalNumber = (num) => {
+  /* Quitar miles y decimales del numero */
+  strReplaceNumber = (num) => {
     while (num.includes('.')) {
       num = num.replace('.', '');
     }
@@ -103,6 +87,7 @@ $(document).ready(function () {
     return num;
   };
 
+  /* Validar si es entero o decimal */
   validateNumber = (number) => {
     if (number.isInteger) number = number.toLocaleString('es-CO');
     else
@@ -111,6 +96,27 @@ $(document).ready(function () {
         maximumFractionDigits: 2,
       });
 
+    return number;
+  };
+
+  /* Devolver cantidad de decimales */
+  decimalNumber = (number) => {
+    let decimals = 0;
+    dnumber = number;
+
+    while (dnumber.includes(',')) {
+      dnumber = dnumber.slice(1, dnumber.length);
+      if (dnumber == '') {
+        decimals = '';
+        break;
+      }
+      decimals = dnumber.length;
+    }
+
+    if (decimals == '' && typeof decimals === 'string') return number;
+
+    number = number.replace(',', '.');
+    number = formatNumber(parseFloat(number), decimals);
     return number;
   };
 });

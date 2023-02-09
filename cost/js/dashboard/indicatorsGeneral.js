@@ -54,7 +54,10 @@ generalIndicators = (data, expenseRecover) => {
     expenses = 'Gastos Generales';
   } else {
     expenses = `Gastos Generales (Promedio)`;
-    totalExpense = `${expenseRecover.percentageExpense} %`;
+    totalExpense = `${expenseRecover.percentageExpense.toLocaleString('es-CO', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })} %`;
   }
   $('#expenses').html(expenses);
   $('#generalCost').html(totalExpense);

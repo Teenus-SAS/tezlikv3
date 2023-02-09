@@ -86,7 +86,7 @@ $(document).ready(function () {
     let salary = $('#basicSalary').val();
     let factor = $('#factor').val();
 
-    salary = parseFloat(decimalNumber(salary));
+    salary = parseFloat(strReplaceNumber(salary));
 
     let workingHD = $('#workingHoursDay').val();
     let workingDM = $('#workingDaysMonth').val();

@@ -81,16 +81,9 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product_material', data.id_product_material);
     $(`#material option[value=${data.id_material}]`).prop('selected', true);
 
-    let quantity = data.quantity;
+    let quantity = `${data.quantity}`;
 
-    if (quantity.isInteger) quantity = quantity.toLocaleString('es-CO');
-    else
-      quantity = quantity.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-
-    $('#quantity').val(quantity);
+    $('#quantity').val(quantity.replace('.', ','));
 
     $('#unity').val(data.unit);
 
@@ -115,7 +108,7 @@ $(document).ready(function () {
       return false;
     }
 
-    quan = parseFloat(decimalNumber(quan));
+    quan = parseFloat(strReplaceNumber(quan));
 
     quant = 1 * quan;
 

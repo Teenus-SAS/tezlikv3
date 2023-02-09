@@ -30,7 +30,7 @@ $(document).ready(function () {
 
       if (id.includes('unity')) {
         this.value == '' ? (unity = '0') : (unity = this.value);
-        unity = parseInt(decimalNumber(unity));
+        unity = parseInt(strReplaceNumber(unity));
 
         let percentage = { 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
         unitys = [1];
@@ -84,7 +84,7 @@ $(document).ready(function () {
           );
 
           /* Calculo Total Ingresos */
-          price = parseFloat(decimalNumber(price));
+          price = parseFloat(strReplaceNumber(price));
 
           totalRevenue = unit * price;
 
@@ -96,7 +96,7 @@ $(document).ready(function () {
 
           /* Calculo Costo x Unidad */
           let totalCostsAndExpense = $(`#totalCostsAndExpenses-${i}`).html();
-          totalCostsAndExpense = decimalNumber(totalCostsAndExpense);
+          totalCostsAndExpense = strReplaceNumber(totalCostsAndExpense);
           totalCostsAndExpense = totalCostsAndExpense.replace('$ ', '');
 
           unityCost = parseFloat(totalCostsAndExpense) / parseFloat(unit);

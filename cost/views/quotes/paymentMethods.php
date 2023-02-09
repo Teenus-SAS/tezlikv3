@@ -114,14 +114,9 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script src="/cost/js/users/usersAccess.js"></script>
 
     <script src="/cost/js/quotes/paymentMethods/tblPaymentMethods.js"></script>
     <script src="/cost/js/quotes/paymentMethods/paymentMethods.js"></script>
-    <!-- <script src="../global/js/import/import.js"></script>
-    <script src="/cost/js/basic/PaymentMethods/importPaymentMethods.js"></script>
-    <script src="../global/js/import/file.js"></script>
-    <script src="../global/js/global/validateImgExt.js"></script> -->
 </body>
 
 </html>
