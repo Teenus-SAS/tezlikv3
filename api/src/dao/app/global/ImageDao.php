@@ -19,7 +19,7 @@ class ImageDao
     public function avatarUser($id_user, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/users/' . $id_company;
+        $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/users/' . $id_company;
         $allowTypes = array('jpg', 'jpeg', 'png');
 
         $image_name = str_replace(' ', '', $_FILES['avatar']['name']);
@@ -46,7 +46,7 @@ class ImageDao
                 'id_company' => $id_company
             ]);
 
-            $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/users/' . $id_company;
+            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/images/users/' . $id_company;
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
