@@ -210,7 +210,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                 $resp = array('error' => true, 'message' => 'Ocurrió un error mientras importaba los datos. Intente nuevamente');
         }
     } else
-        $resp = array('error' => true, 'message' => 'Llegaste al limite de tu plan. Sube de categoria para obtener más espacio');
+        $resp = array('error' => true, 'message' => 'Llegaste al limite de tu plan. Comunicate con tu administrador y sube de categoria para obtener más espacio');
 
 
     $response->getBody()->write(json_encode($resp));
@@ -362,7 +362,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
         else
             $resp = array('error' => true, 'message' => 'Ocurrió un error mientras copiaba la información. Intente nuevamente');
     } else
-        $resp = array('error' => true, 'message' => 'Llegaste al limite de tu plan. Sube de categoria para obtener más espacio');
+        $resp = array('error' => true, 'message' => 'Llegaste al limite de tu plan. Comunicate con tu administrador y sube de categoria para obtener más espacio');
 
 
     $response->getBody()->write(json_encode($resp));
