@@ -48,27 +48,33 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnCreateProduct">Adicionar Nueva Materia Prima</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <button class="btn btn-info" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardCreateRawMaterials">
+                <div class="page-content-wrapper mt--45 mb-5">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="gridx2">
-                                            <label for="">Referencia</label>
-                                            <label for="">Producto</label>
-                                            <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
-                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                        <div class="form-row">
+                                            <div class="col-sm-4">
+                                                <label for="">Referencia</label>
+                                                <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <label for="">Producto</label>
+                                                <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -82,17 +88,24 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-body">
+                                    <div class="card-body pb-0">
                                         <form id="formAddMaterials">
-                                            <div class="gridx4pm">
-                                                <label for="">Materia Prima</label>
-                                                <label for="">Cantidad</label>
-                                                <label for="">Unidad</label>
-                                                <label for=""></label>
-                                                <select class="form-control" name="material" id="material"></select>
-                                                <input class="form-control text-center number" type="text" name="quantity" id="quantity">
-                                                <input class="form-control text-center number" type="text" name="unity" id="unity" disabled>
-                                                <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
+                                            <div class="form-row">
+                                                <div class="col-sm-7 floating-label enable-floating-label show-label">
+                                                    <label for="">Materia Prima</label>
+                                                    <select class="form-control" name="material" id="material"></select>
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                    <label for="">Cantidad</label>
+                                                    <input class="form-control text-center number" type="text" name="quantity" id="quantity">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                    <label for="">Unidad</label>
+                                                    <input class="form-control text-center number" type="text" name="unity" id="unity" disabled>
+                                                </div>
+                                                <div class="col-xs-2 mt-1">
+                                                    <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -105,26 +118,26 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportProductsMaterials">
                     <div class="container-fluid">
                         <div class="row">
-                            <form id="formImportProductMaterial" enctype="multipart/form-data">
-                                <div class="col-12">
+                            <div class="col-12">
+                                <form id="formImportProductMaterial" enctype="multipart/form-data">
                                     <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="gridx4ip">
-                                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
+                                        <div class="card-body pt-3">
+                                            <div class="form-row">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:0px!important">
                                                     <input class="form-control" type="file" id="fileProductsMaterials" accept=".xls,.xlsx">
                                                     <label for="formFile" class="form-label"> Importar Productos*Materia Prima</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportProductsMaterials">Importar</button>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsProductsMaterials">Descarga Formato</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

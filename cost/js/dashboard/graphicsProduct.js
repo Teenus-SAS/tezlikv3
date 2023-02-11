@@ -10,15 +10,27 @@ $(document).ready(function () {
   /* Costo del producto */
 
   graphicCostExpenses = (data) => {
-    let costExpenses = [];
-
-    costExpenses.push(data[0].cost_workforce);
-    costExpenses.push(data[0].cost_materials);
-    costExpenses.push(data[0].cost_indirect_cost);
+    let product = [];
 
     let dataCost = getDataCost(data[0]);
+    product.push(
+      { name: 'Mano de Obra', cost: data[0].cost_workforce },
+      { name: 'Materia Prima', cost: data[0].cost_materials },
+      { name: 'Costos Indirectos', cost: data[0].cost_indirect_cost },
+      { name: 'Gastos Generales', cost: dataCost.expense }
+    );
 
-    costExpenses.push(dataCost.expense);
+    product.sort(function (a, b) {
+      return b['cost'] - a['cost'];
+    });
+
+    let costExpenses = [];
+    let nameProduct = [];
+
+    for (i = 0; i < 4; i++) {
+      nameProduct.push(product[i].name);
+      costExpenses.push(product[i].cost);
+    }
 
     /* Ordenar el array */
 
@@ -29,12 +41,7 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {
-        labels: [
-          'Mano de Obra',
-          'Materia Prima',
-          'Costos Indirectos',
-          'Gastos Generales',
-        ],
+        labels: nameProduct,
         datasets: [
           {
             data: costExpenses,

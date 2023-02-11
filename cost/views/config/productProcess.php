@@ -48,27 +48,33 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnCreateProcess">Nuevo Proceso</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewProductProcess">Importar Procesos</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <button class="btn btn-info" id="btnImportNewProductProcess">Importar Procesos</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardCreateRawMaterials">
+                <div class="page-content-wrapper mt--45 mb-5">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="gridx2">
-                                            <label for="">Referencia</label>
-                                            <label for="">Producto</label>
-                                            <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
-                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                        <div class="form-row">
+                                            <div class="col-sm-4">
+                                                <label for="">Referencia</label>
+                                                <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <label for="">Producto</label>
+                                                <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -85,22 +91,33 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="formAddProcess">
-                                            <div class="gridx6pp">
-                                                <label for="">Proceso</label>
-                                                <label for="">Maquina</label>
-                                                <label for="" class="text-center">t.alistamiento (min)</label>
-                                                <label for="" class="text-center">t.operacion (min)</label>
-                                                <label for="" class="text-center">t.total (min)</label>
-                                                <label for=""></label>
-                                                <select class="form-control" name="idProcess" id="idProcess"></select>
-                                                <select class="form-control" name="idMachine" id="idMachine"></select>
-                                                <input class="form-control text-center number time" type="text" name="enlistmentTime" id="enlistmentTime">
-                                                <input class="form-control text-center number time" type="text" name="operationTime" id="operationTime">
-                                                <input class="form-control text-center number" type="text" name="totalTime" id="totalTime" disabled>
-                                                <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
+                                            <div class="form-row">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                    <label for="">Proceso</label>
+                                                    <select class="form-control" name="idProcess" id="idProcess"></select>
+                                                </div>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                    <label for="">Maquina</label>
+                                                    <select class="form-control" name="idMachine" id="idMachine"></select>
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                    <label for="" class="text-center">t.alistamiento (min)</label>
+                                                    <input class="form-control text-center number time" type="text" name="enlistmentTime" id="enlistmentTime">
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                    <label for="" class="text-center">t.operacion (min)</label>
+                                                    <input class="form-control text-center number time" type="text" name="operationTime" id="operationTime">
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                    <label for="" class="text-center">t.total (min)</label>
+                                                    <input class="form-control text-center number" type="text" name="totalTime" id="totalTime" disabled>
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
+                                                </div>
                                             </div>
                                         </form>
-                                        <div class="alert alert-warning mt-3" role="alert">
+                                        <div class="alert alert-warning" role="alert">
                                             Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto.
                                         </div>
                                     </div>
@@ -113,29 +130,29 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportProductsProcess">
                     <div class="container-fluid">
                         <div class="row">
-                            <form id="formImportProductProcess" enctype="multipart/form-data">
-                                <div class="col-12">
+                            <div class="col-12">
+                                <form id="formImportProductProcess" enctype="multipart/form-data">
                                     <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="gridx4ip">
-                                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
+                                        <div class="card-body pt-3">
+                                            <div class="form-row">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:0px!important">
                                                     <input class="form-control" type="file" id="fileProductsProcess" accept=".xls,.xlsx">
                                                     <label for="formFile" class="form-label"> Importar Productos*Procesos</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportProductsProcess">Importar</button>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsProductsProcess">Descarga Formato</button>
                                                 </div>
                                             </div>
-                                            <div class="alert alert-warning" role="alert">
+                                            <div class="alert alert-warning mt-2" role="alert">
                                                 Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto.
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

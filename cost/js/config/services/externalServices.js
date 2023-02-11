@@ -15,7 +15,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_service');
 
-    $('#formAddService').trigger(eventType);
+    $('#formAddService').trigger('reset');
   });
 
   /* Seleccionar producto */

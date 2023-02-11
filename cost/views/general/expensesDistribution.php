@@ -48,11 +48,15 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnExpensesDistribution" style="display:none;">Distribuir Gastos</button>
-                                    <button class="btn btn-primary ml-3" id="btnNewExpenseRecover" style="display:none;">Recuperar Gastos</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewExpenses" style="display:none;"></button>
+                                </div>
+                                <div class="col-xs-2 mr-2">
+                                    <button class="btn btn-primary" id="btnNewExpenseRecover" style="display:none;">Recuperar Gastos</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <button class="btn btn-info" id="btnImportNewExpenses" style="display:none;"></button>
                                 </div>
                             </div>
                         </div>
@@ -65,9 +69,13 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="gridx2">
-                                            <label for="">Gastos a distribuir</label>
-                                            <input type="text" class="form-control number text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">
+                                        <div class="form-row">
+                                            <div class="col-sm-3">
+                                                <label for="">Gastos a distribuir</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <input type="text" class="form-control number text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -83,25 +91,25 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form id="formExpensesDistribution">
+                                        <form id="formExpensesD|istribution">
                                             <div class="form-row">
-                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
                                                     <label for="EDRefProduct">Referencia</label>
                                                 </div>
-                                                <div class="col-5 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
                                                     <label for="EDNameProduct">Nombre Producto</label>
                                                 </div>
-                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
                                                     <label for="undVendidas">Und Vendidas</label>
                                                 </div>
-                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <input type="text" class="form-control number text-center" id="volVendidas" name="turnover">
                                                     <label for="volVendidas">Vol Ventas</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
                                                     <button class="btn btn-primary" id="btnAssignExpenses">Asignar</button>
                                                 </div>
                                             </div>
@@ -122,19 +130,19 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formExpenseRecover">
                                             <div class="form-row">
-                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <select class="form-control refProduct" name="idProduct" id="ERRefProduct"></select>
                                                     <label for="ERRefProduct">Referencia</label>
                                                 </div>
-                                                <div class="col-6 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <select class="form-control selectNameProduct" name="nameProduct" id="ERNameProduct"></select>
                                                     <label for="ERNameProduct">Nombre Producto</label>
                                                 </div>
-                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
                                                     <input type="number" class="form-control text-center" id="percentage" name="percentage">
                                                     <label for="percentage">Porcentaje</label>
                                                 </div>
-                                                <div class="col-2 form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
                                                     <button class="btn btn-primary" id="btnExpenseRecover">Guardar Gasto</button>
                                                 </div>
                                             </div>
@@ -149,26 +157,26 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportExpenses">
                     <div class="container-fluid">
                         <div class="row">
-                            <form id="formImportExpenses" enctype="multipart/form-data">
-                                <div class="col-12">
+                            <div class="col-12">
+                                <form id="formImportExpenses" enctype="multipart/form-data">
                                     <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="gridx4ip">
-                                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
+                                        <div class="card-body pt-3">
+                                            <div class="form-row">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:0px!important">
                                                     <input class="form-control" type="file" id="fileExpenses" accept=".xls,.xlsx">
                                                     <label for="formFile" id="lblImprotExpense" class="form-label"></label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportExpenses">Importar</button>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses">Descarga Formato</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

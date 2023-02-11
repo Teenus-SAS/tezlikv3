@@ -192,7 +192,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                         <div class="card-body pt-2">
                                             <!-- <div id="chartProductCosts"></div> -->
-                                            <canvas id="chartProductCosts"></canvas>
+                                            <canvas id="chartProductCosts" style="width: 80%;"></canvas>
                                         </div>
                                     </div>
                                     </div>
@@ -254,7 +254,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="card-body">
                                                 <div class="chart-container">
-                                                    <canvas id="chartWorkForce" style="width: 90%;"></canvas>
+                                                    <canvas id="chartWorkForce" style="width: 80%;"></canvas>
                                                     <div class="center-text">
                                                         <p class="text-muted mb-1 font-weight-600">Total Costo</p>
                                                         <p class="mb-0 font-weight-bold" id="totalCostWorkforceEsp"></p>
@@ -270,9 +270,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="card-body">
                                                 <div class="chart-container">
-                                                    <div class="chart">
-                                                        <canvas id="chartTimeProcess" style="width: 90%;"></canvas>
-                                                    </div>
+                                                    <canvas id="chartTimeProcess" style="width: 80%;"></canvas>
                                                     <div class="center-text">
                                                         <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
                                                         <p class="mb-0 font-weight-bold" id="totalTimeProcess"></p>
@@ -288,9 +286,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="card-body">
                                                 <div class="chart-container">
-                                                    <div class="chart">
-                                                        <canvas id="chartManufactTime" style="width: 90%;"></canvas>
-                                                    </div>
+                                                    <canvas id="chartManufactTime" style="width: 80%;"></canvas>
                                                     <div class="center-text">
                                                         <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
                                                         <p class="mb-0 font-weight-bold" id="manufactPromTime"></p>
@@ -306,9 +302,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="card-body">
                                                 <div class="chart-container">
-                                                    <div class="chart">
-                                                        <canvas id="chartPrice" style="width: 90%;"></canvas>
-                                                    </div>
+                                                    <canvas id="chartPrice" style="width: 80%;"></canvas>
                                                     <div class="center-text">
                                                         <p class="text-muted mb-1 font-weight-600">Precio Total</p>
                                                         <p class="mb-0 font-weight-bold" id="totalPricesComp"></p>
@@ -325,7 +319,7 @@ if (sizeof($_SESSION) == 0)
                                                 <h5 class="card-title">Costos Materia Prima</h5>
                                             </div>
                                             <div class="card-body pt-2">
-                                                <canvas id="chartMaterialsCosts"></canvas>
+                                                <canvas id="chartMaterialsCosts" style="width: 80%;"></canvas>
                                             </div>
                                         </div>
                                     </div>

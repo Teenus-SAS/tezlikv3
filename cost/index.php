@@ -177,21 +177,20 @@ if (sizeof($_SESSION) == 0)
                             </div>
                             <!-- Begin total revenue chart -->
                             <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                <div class="col-6" style="height: fit-content;">
+                                <div class="col-sm-6" style="height: fit-content;">
                                 <?php } ?>
                                 <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                    <div class="col-9" style="height: fit-content;">
+                                    <div class="col-sm-9" style="height: fit-content;">
                                     <?php } ?>
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-title">Productos con mayor rentabilidad</h5>
                                         </div>
                                         <div class="card-body pt-2">
-                                            <canvas id="chartProductsCost"></canvas>
+                                            <canvas id="chartProductsCost" style="width: 100%;"></canvas>
                                         </div>
                                     </div>
                                     </div>
-
                                     <?php if ($_SESSION['flag_expense'] != 2) { ?>
                                         <div class="col-md-4 col-lg-3">
                                             <div class="card">
@@ -248,12 +247,10 @@ if (sizeof($_SESSION) == 0)
                                                 <h5 class="card-title">Costo Mano de Obra (Min)</h5>
                                             </div>
                                             <div class="card-body">
-                                                <div class="chart-container">
-                                                    <canvas id="chartWorkForceGeneral"></canvas>
-                                                    <div class="center-text">
-                                                        <p class="text-muted mb-1 font-weight-600">Total Costo </p>
-                                                        <h4 class="mb-0 font-weight-bold" id="totalCostWorkforce"></h4>
-                                                    </div>
+                                                <canvas id="chartWorkForceGeneral" style="width: 80%;"></canvas>
+                                                <div class="center-text">
+                                                    <p class="text-muted mb-1 font-weight-600">Total Costo </p>
+                                                    <h4 class="mb-0 font-weight-bold" id="totalCostWorkforce"></h4>
                                                 </div>
                                             </div>
                                         </div>
@@ -266,7 +263,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="card-body">
                                                 <div class="chart-container">
-                                                    <canvas id="chartFactoryLoadCost"></canvas>
+                                                    <canvas id="chartFactoryLoadCost" style="width: 80%;"></canvas>
                                                     <div class="center-text">
                                                         <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
                                                         <h4 class="mb-0 font-weight-bold" id="factoryLoadCost"></h4>
@@ -287,7 +284,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="card-body pt-2">
                                                 <div class="chart-container">
-                                                    <canvas id="chartExpensesGenerals"></canvas>
+                                                    <canvas id="chartExpensesGenerals" style="width: 80%;"></canvas>
                                                     <div class="center-text">
                                                         <p class="text-muted mb-1 font-weight-600">Total Gastos </p>
                                                         <h4 class="mb-0 font-weight-bold" id="totalCost"></h4>
@@ -303,7 +300,7 @@ if (sizeof($_SESSION) == 0)
                                                 <h5 class="card-title">Tiempo Total de Fabricación por Producto (min)</h5>
                                             </div>
                                             <div class="card-body pt-2">
-                                                <canvas id="chartTimeProcessProducts"></canvas>
+                                                <canvas id="chartTimeProcessProducts" style="width: 80%;"></canvas>
                                                 <div class="center-text">
                                                     <p class="text-muted mb-1 font-weight-600"></p>
                                                     <h4 class="mb-0 font-weight-bold"></h4>

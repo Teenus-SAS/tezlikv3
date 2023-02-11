@@ -48,10 +48,12 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnNewFactoryLoad">Nueva Carga Fabril Máquina</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewFactoryLoad">Importar Carga Fabril Máquinas</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <button class="btn btn-info" id="btnImportNewFactoryLoad">Importar Carga Fabril Máquinas</button>
                                 </div>
                             </div>
                         </div>
@@ -65,21 +67,21 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="formNewFactoryLoad">
-                                            <div class="row">
-                                                <div class="col-4">
+                                            <div class="form-row">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                     <label for="">Máquina</label>
                                                     <select class="form-control" name="idMachine" id="machine"></select>
                                                 </div>
-                                                <div class="col-5">
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label">
                                                     <label for="">Descripción Carga fabril</label>
                                                     <input class="form-control" name="descriptionFactoryLoad" id="descriptionFactoryLoad" />
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Costo</label>
                                                     <input class="form-control text-center number" type="text" name="costFactory" id="costFactory" />
                                                 </div>
-                                                <div class="col-1">
-                                                    <button class="btn btn-primary" id="btnCreateFactoryLoad" style="margin-top:33px">Asignar</button>
+                                                <div class="col-xs-2 mt-1">
+                                                    <button class="btn btn-primary" id="btnCreateFactoryLoad">Asignar</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -93,26 +95,26 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportFactoryLoad">
                     <div class="container-fluid">
                         <div class="row">
-                            <form id="formImportFactoryLoad" enctype="multipart/form-data">
-                                <div class="col-12">
+                            <div class="col-12">
+                                <form id="formImportFactoryLoad" enctype="multipart/form-data">
                                     <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="gridx4ip">
-                                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
+                                        <div class="card-body pt-3">
+                                            <div class="form-row">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:0px!important">
                                                     <input class="form-control" type="file" id="fileFactoryLoad" accept=".xls,.xlsx">
                                                     <label for="formFile" class="form-label"> Importar Carga Fabril Máquinas</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportFactoryLoad">Importar</button>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsFactoryLoad">Descarga Formato</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

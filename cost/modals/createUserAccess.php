@@ -1,5 +1,5 @@
 <div class="modal fade" id="createUserAccess" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Crear Accesos De Usuario</h5>
@@ -42,165 +42,125 @@
                                         <div class="col-12 col-lg-12 titlePayroll">
                                             <label for=""><b>Accesos De Usuario</b></label>
                                         </div>
-                                        <div class="col-12 col-lg-12">
-                                            <label for=""><b>Menú Configuración:</b></label>
-                                        </div>
 
-                                        <div class="row mb-4" style="margin:auto;">
-                                            <div class="col-lg-3 mb-3">Básico</div>
-                                            <div class="col col-lg-3">
-                                                Configuración
+                                        <div class="row ml-2">
+                                            <div class="col-12 col-lg-12">
+                                                <label for=""><b>Menú Configuración:</b></label>
                                             </div>
-                                            <div class="col col-lg-3">
-                                                Configuración General
-                                            </div>
-                                            <div class="col">
-                                                Creación Usuarios
-                                            </div>
-                                            <div class="w-100"></div>
 
-                                            <div class="col">
-                                                <div class="checkbox checkbox-success checkbox-circle">
+                                            <div class="col-sm-3 pb-2">Básico
+                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-1" name="createProduct" type="checkbox">
                                                     <label for="checkbox-1">Crear Productos</label>
                                                 </div>
-                                            </div>
-                                            <div class="col-lg-4">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-5" name="costProductMaterials" type="checkbox">
-                                                    <label for="checkbox-5">Ficha Técnica Materiales</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-9" name="factoryLoad" type="checkbox">
-                                                    <label for="checkbox-9">Cargar Nómina</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-12" name="costUser" type="checkbox">
-                                                    <label for="checkbox-12">Usuarios</label>
-                                                </div>
-                                            </div>
-                                            <div class="w-100"></div>
-                                            <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-2" name="costCreateMaterials" type="checkbox">
                                                     <label for="checkbox-2">Crear Materiales</label>
                                                 </div>
-                                            </div>
-                                            <div class="col col-lg-4">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-6" name="costProductProcess" type="checkbox">
-                                                    <label for="checkbox-6">Ficha Técnica Procesos</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-10" name="expense" type="checkbox">
-                                                    <label for="checkbox-10">Asignar Gastos</label>
-                                                </div>
-                                            </div>
-                                            <div class="col"></div>
-                                            <div class="w-100"></div>
-                                            <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-3" name="costCreateMachines" type="checkbox">
                                                     <label for="checkbox-3">Crear Máquinas</label>
                                                 </div>
-                                            </div>
-                                            <div class="col col-lg-4">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-7" name="payrollLoad" type="checkbox">
-                                                    <label for="checkbox-7">Carga Fabril</label>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-11" name="expenseDistribution" type="checkbox">
-                                                    <label for="checkbox-11">Distribuir Gastos</label>
-                                                </div>
-                                            </div>
-                                            <div class="col"></div>
-                                            <div class="w-100"></div>
-                                            <div class="col">
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-4" name="costCreateProcess" type="checkbox">
                                                     <label for="checkbox-4">Crear Procesos</label>
                                                 </div>
                                             </div>
-                                            <div class="col col-lg-4">
+                                            <div class="col-sm-3 pb-2">
+                                                Configuración
+                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-5" name="costProductMaterials" type="checkbox">
+                                                    <label for="checkbox-5">Ficha Técnica Materiales</label>
+                                                </div>
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-4" name="costCreateProcess" type="checkbox">
+                                                    <label for="checkbox-4">Crear Procesos</label>
+                                                </div>
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-7" name="payrollLoad" type="checkbox">
+                                                    <label for="checkbox-7">Carga Fabril</label>
+                                                </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-8" name="externalService" type="checkbox">
                                                     <label for="checkbox-8">Servicios Externos</label>
                                                 </div>
                                             </div>
-                                            <div class="col"></div>
-                                            <div class="col"></div>
-                                        </div>
-
-                                        <div class="col-12 col-lg-12">
-                                            <label for=""><b>Menú Cotización:</b></label>
-                                        </div>
-                                        <div class="container mb-4">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-13" name="quotePaymentMethod" type="checkbox">
-                                                        <label for="checkbox-13">Metodos De Pago</label>
-                                                    </div>
+                                            <div class="col-sm-3 pb-2">
+                                                Configuración General
+                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-9" name="factoryLoad" type="checkbox">
+                                                    <label for="checkbox-9">Cargar Nómina</label>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-14" name="quoteCompany" type="checkbox">
-                                                        <label for="checkbox-14">Compañias</label>
-                                                    </div>
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-10" name="expense" type="checkbox">
+                                                    <label for="checkbox-10">Asignar Gastos</label>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-15" name="quoteContact" type="checkbox">
-                                                        <label for="checkbox-15">Contactos</label>
-                                                    </div>
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-11" name="expenseDistribution" type="checkbox">
+                                                    <label for="checkbox-11">Distribuir Gastos</label>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <div class="col-sm-2 pb-3">
+                                                Creación Usuarios
+                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-12" name="costUser" type="checkbox">
+                                                    <label for="checkbox-12">Usuarios</label>
+                                                </div>
+                                            </div>
 
-                                        <div class="col-12 col-lg-12">
-                                            <label for=""><b>Menú Navegación:</b></label>
-                                        </div>
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-16" name="prices" type="checkbox">
-                                                        <label for="checkbox-16">Generar Precios</label>
-                                                    </div>
+                                            <div class="col-12 col-lg-12">
+                                                <label for=""><b>Menú Cotización:</b></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-13" name="quotePaymentMethod" type="checkbox">
+                                                    <label for="checkbox-13">Metodos De Pago</label>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-17" name="analysisRawMaterials" type="checkbox">
-                                                        <label for="checkbox-17">Analisis Materia Prima</label>
-                                                    </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-14" name="quoteCompany" type="checkbox">
+                                                    <label for="checkbox-14">Compañias</label>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-18" name="tools" type="checkbox">
-                                                        <label for="checkbox-18">Herramientas</label>
-                                                    </div>
+                                            </div>
+                                            <div class="col-sm-4 pb-3">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-15" name="quoteContact" type="checkbox">
+                                                    <label for="checkbox-15">Contactos</label>
                                                 </div>
-                                                <div class="w-100"></div>
-                                                <div class="col-lg-4">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-19" name="quotes" type="checkbox">
-                                                        <label for="checkbox-19">Cotización</label>
-                                                    </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-12">
+                                                <label for=""><b>Menú Navegación:</b></label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-16" name="prices" type="checkbox">
+                                                    <label for="checkbox-16">Generar Precios</label>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-20" name="economyScale" type="checkbox">
-                                                        <label for="checkbox-20">Economia De Escala</label>
-                                                    </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-17" name="analysisRawMaterials" type="checkbox">
+                                                    <label for="checkbox-17">Analisis Materia Prima</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-18" name="tools" type="checkbox">
+                                                    <label for="checkbox-18">Herramientas</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-19" name="quotes" type="checkbox">
+                                                    <label for="checkbox-19">Cotización</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-20" name="economyScale" type="checkbox">
+                                                    <label for="checkbox-20">Economia De Escala</label>
                                                 </div>
                                             </div>
                                         </div>

@@ -12,11 +12,11 @@ if (sizeof($_SESSION) == 0)
 
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="LetStart Admin is a full featured, multipurpose, premium bootstrap admin template built with Bootstrap 4 Framework, HTML5, CSS and JQuery.">
     <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
     <meta name="author" content="MatrrDigital">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tezlik - Cost | Materials</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
@@ -48,10 +48,12 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Nueva Materia Prima</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
                                 </div>
                             </div>
                         </div>
@@ -64,26 +66,26 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form name="formCreateMaterial" id="formCreateMaterial">
-                                            <div class="gridx5">
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                        <form class="col-12" id="formCreateMaterial">
+                                            <div class="form-row">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
                                                     <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
                                                     <label for="">Referencia</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:10px">
                                                     <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
                                                     <label for="">Nombre Materia Prima</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
                                                     <input type="text" class="form-control text-center" id="unityRawMaterial" name="unityRawMaterial">
                                                     <label for="">Unidad</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
                                                     <input type="text" class="form-control text-center number" step="any" id="costRawMaterial" name="costRawMaterial">
                                                     <label for="">Costo</label>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:5px">
-                                                    <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear Material</button>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:5px">
+                                                    <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -97,21 +99,19 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportMaterials">
                     <div class="container-fluid">
                         <div class="row">
-                            <form id="formImportMaterials" enctype="multipart/form-data">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="gridx4ip">
-                                                <div class="form-group floating-label enable-floating-label show-label mt-3 drag-area" style="margin-top:0px!important">
-                                                    <input class="form-control" type="file" id="fileMaterials" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label">Importar Materia Prima</label>
-                                                </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportMaterials">Importar</button>
-                                                </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsMaterials">Descarga Formato</button>
-                                                </div>
+                            <form class="col-12" id="formImportMaterials" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row">
+                                            <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                <input class="form-control" type="file" id="fileMaterials" accept=".xls,.xlsx">
+                                                <label for="formFile" class="form-label">Importar Materia Prima</label>
+                                            </div>
+                                            <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <button type="text" class="btn btn-success" id="btnImportMaterials">Importar</button>
+                                            </div>
+                                            <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsMaterials">Descarga Formato</button>
                                             </div>
                                         </div>
                                     </div>
@@ -137,7 +137,6 @@ if (sizeof($_SESSION) == 0)
 
                                             </table>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
