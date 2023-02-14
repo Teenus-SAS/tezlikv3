@@ -55,11 +55,10 @@ $(document).ready(function () {
     let idProduct = $('#refProduct').val();
     if (idProduct > 0) {
       let price = strReplaceNumber(this.value);
+      oldPrice = strReplaceNumber(oldPrice);
 
-      if (price < parseInt(oldPrice)) {
-        oldPrice = parseInt(oldPrice).toLocaleString('es-CO');
-
-        $('#price').val(oldPrice);
+      if (price < oldPrice) {
+        $('#price').val(oldPrice.toLocaleString('es-CO'));
         toastr.error('Ingrese un precio mayor al original');
         return false;
       }
@@ -169,6 +168,8 @@ $(document).ready(function () {
 
     price = data.price;
     price = price.replace('$ ', '');
+    oldPrice = price;
+
     $('#price').val(price.toLocaleString());
 
     $(`#discount option[value="${data.discount}"]`).prop('selected', true);

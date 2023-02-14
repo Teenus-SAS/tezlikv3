@@ -7,6 +7,11 @@ $(document).ready(function () {
   var charCompPrice;
   var chartMaterials;
 
+  var anchura = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
+
   /* Costo del producto */
 
   graphicCostExpenses = (data) => {
@@ -42,6 +47,9 @@ $(document).ready(function () {
       type: 'bar',
       data: {
         labels: nameProduct,
+        formatter: function (value, context) {
+          return context.chart.data.labels[context.dataIndex];
+        },
         datasets: [
           {
             data: costExpenses,
@@ -54,6 +62,9 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+          },
+          x: {
+            display: false,
           },
         },
         plugins: {
@@ -337,7 +348,10 @@ $(document).ready(function () {
     let material = [];
     let totalMaterial = [];
 
-    for (let i in data) {
+    anchura <= 480 ? (length = 5) : (length = data.length);
+    data.length > length ? (count = length) : (count = data.length);
+
+    for (i = 0; i < count; i++) {
       material.push(data[i].material);
       totalMaterial.push(data[i].totalCostMaterial);
     }
@@ -350,6 +364,9 @@ $(document).ready(function () {
       type: 'bar',
       data: {
         labels: material,
+        formatter: function (value, context) {
+          return context.chart.data.labels[context.dataIndex];
+        },
         datasets: [
           {
             data: totalMaterial,
@@ -362,6 +379,9 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+          },
+          x: {
+            display: false,
           },
         },
         plugins: {

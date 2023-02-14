@@ -49,23 +49,9 @@ $(document).ready(function () {
   $('#btnNewSend').click(function (e) {
     e.preventDefault();
 
-    try {
-      html2canvas(document.getElementById('invoice'), {
-        onrendered(canvas) {
-          let src = canvas.toDataURL('image/png');
-          data['img'] = src;
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-    setTimeout(modalshow, 2000);
-  });
-
-  function modalshow() {
     $('#formSendMail').trigger('reset');
     $('#modalSendEmail').modal('show');
-  }
+  });
 
   $('#btnSend').click(function (e) {
     e.preventDefault();
@@ -86,23 +72,48 @@ $(document).ready(function () {
       return false;
     }
 
-    let idQuote = sessionStorage.getItem('id_quote');
+    idQuote = sessionStorage.getItem('id_quote');
 
-    data['idQuote'] = idQuote;
-    data['header'] = toHeader;
-    data['ccHeader'] = $('#ccHeader').val();
-    data['subject'] = subject;
-    data['message'] = msg;
+    let data = new FormData();
+    data.append('idQuote', idQuote);
+    data.append('header', toHeader);
+    data.append('ccHeader', $('#ccHeader').val());
+    data.append('subject', subject);
+    data.append('message', msg);
 
-    $.ajax({
-      type: 'POST',
-      url: '/api/sendQuote',
-      data: data,
-      success: function (resp) {
-        message(resp);
-      },
-    });
+    sendQuote(data);
   });
+
+  sendQuote = async (data) => {
+    try {
+      let canvas = await html2canvas(document.getElementById('invoice'));
+      let url = canvas.toDataURL();
+
+      let docDefinition = {
+        pageSize: 'LETTER',
+        content: [
+          {
+            image: url,
+            width: 500,
+            absolutePosition: { x: 50, y: 50 },
+          },
+        ],
+      };
+
+      let pdfDocGenerator = pdfMake.createPdf(docDefinition);
+      let blob = await new Promise((resolve) => {
+        pdfDocGenerator.getBlob(resolve);
+      });
+
+      data.append('pdf', blob, `Cotizacion-${idQuote}.pdf`);
+
+      let resp = await sendDataPOST('/api/sendQuote', data);
+
+      message(resp);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   message = (resp) => {
     data = {};

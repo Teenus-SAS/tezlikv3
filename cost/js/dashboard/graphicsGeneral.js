@@ -1,10 +1,17 @@
 $(document).ready(function () {
+  var anchura = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
+
+  anchura <= 480 ? (length = 5) : (length = 10);
+
   /* Tiempo de procesos */
   graphicTimeProcessByProduct = (data) => {
     let product = [];
     let totalTime = [];
 
-    data.length > 10 ? (count = 10) : (count = data.length);
+    data.length > length ? (count = length) : (count = data.length);
     for (i = 0; i < count; i++) {
       product.push(data[i].product);
       totalTime.push(data[i].totalTime);
@@ -20,7 +27,6 @@ $(document).ready(function () {
         },
         datasets: [
           {
-            label: product,
             data: totalTime,
             backgroundColor: getRandomColor(count),
             borderWidth: 1,
@@ -33,6 +39,9 @@ $(document).ready(function () {
           y: {
             beginAtZero: true,
           },
+          x: {
+            display: false,
+          },
         },
         plugins: {
           legend: {
@@ -43,7 +52,7 @@ $(document).ready(function () {
             formatter: (totalTime) => totalTime.toLocaleString('es-CO'),
             color: 'black',
             font: {
-              size: '14',
+              size: '12',
               weight: 'normal',
             },
           },
@@ -246,38 +255,6 @@ $(document).ready(function () {
     });
   };
 
-  /* Indicadores globales 
-
-graphicProfit = (data) => {
-  const cmo = document.getElementById('chartExpensesGenerals');
-  const chartExpensesGenerals = new Chart(cmo, {
-    type: 'doughnut',
-    data: {
-      labels: ['Utilidad'],
-      datasets: [
-        {
-          data: [
-            data['expenseCount51'],
-            data['expenseCount52'],
-            data['expenseCount53'],
-          ],
-
-          backgroundColor: getRandomColor(3),
-          //borderColor: [],
-          borderWidth: 1,
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false,
-                },
-            },
-        },
-      },
-    },
-  });
-};*/
-
   // Rentabilidad y precio productos
   graphicProductCost = (data) => {
     let products = [];
@@ -298,7 +275,8 @@ graphicProfit = (data) => {
     });
 
     /* Guardar datos para grafica */
-    products.length > 10 ? (count = 10) : (count = products.length);
+
+    products.length > length ? (count = length) : (count = products.length);
 
     for (i = 0; i < count; i++) {
       product.push(products[i].name);

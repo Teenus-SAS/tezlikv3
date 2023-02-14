@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class ImageDao
+class FilesDao
 {
     private $logger;
 
@@ -198,6 +198,44 @@ class ImageDao
             $targetFilePath = $targetDir . '/' . $image_name;
 
             move_uploaded_file($tmp_name, $targetFilePath);
+        }
+    }
+
+    /* Coitzación */
+
+    public function uploadPDFQuote($id_company)
+    {
+        try {
+            $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/pdf/quotes/' . $id_company;
+            $allowTypes = array('pdf');
+
+            $name = str_replace(' ', '', $_FILES['pdf']['name']);
+            $tmp_name   = $_FILES['pdf']['tmp_name'];
+            $size       = $_FILES['pdf']['size'];
+            $type       = $_FILES['pdf']['type'];
+            $error      = $_FILES['pdf']['error'];
+
+            /* Verifica si directorio esta creado y lo crea */
+            if (!is_dir($targetDir))
+                mkdir($targetDir, 0777, true);
+
+            $targetDir = '/assets/pdf/quotes/' . $id_company;
+            $targetFilePath = $targetDir . '/' . $name;
+
+            $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+            if (in_array($fileType, $allowTypes)) {
+                $targetDir = dirname(dirname(dirname(dirname(dirname(__DIR__))))) . '/assets/pdf/quotes/' . $id_company;
+                $targetFilePath = $targetDir . '/' . $name;
+
+                move_uploaded_file($tmp_name, $targetFilePath);
+            }
+            return $targetFilePath;
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            $error = array('info' => true, 'message' => $message);
+            return $error;
         }
     }
 }

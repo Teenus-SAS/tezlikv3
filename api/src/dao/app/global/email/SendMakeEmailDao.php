@@ -26,13 +26,8 @@ class SendMakeEmailDao
                 Si estas tratando de iniciar sesion en Tezlik. <br>
                 Ingresa el siguiente código para completar el inicio de sesión:<br><br>
                 <h4>$code</h4>";
-        // Headers
-        /* $headers = "Tu código de verificación de inicio de sesión";
-        $headers .= "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= "From: SoporteTeenus <soporte@teenus.com.co>" . "\r\n"; */
 
-        $resp = array('to' => array($user['email']), 'img' => null, 'subject' => 'Código De Verificación', 'body' => $msg, 'ccHeader' => null);
+        $resp = array('to' => array($user['email']), 'pdf' => null, 'subject' => 'Código De Verificación', 'body' => $msg, 'ccHeader' => null);
 
         return $resp;
     }
@@ -55,15 +50,7 @@ class SendMakeEmailDao
         
             Equipo de Soporte Tezlik";
 
-        //headers
-        //$headers = "MIME-Version: 1.0" . "\r\n";
-        //$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        //$headers .= 'From: SoporteTezlik <soporteTezlik@tezliksoftware.com.co>' . "\r\n";
-        // send email
-        // mail($to, "Nuevo password", $msg, $headers);
-        //$resp = $this->sendEmail($to, 'Nuevo Password', $headers, null, $msg, null);
-
-        $resp = array('to' => array($email), 'img' => null, 'subject' => 'Nuevo Password', 'body' => $msg, 'ccHeader' => null);
+        $resp = array('to' => array($email), 'pdf' => null, 'subject' => 'Nuevo Password', 'body' => $msg, 'ccHeader' => null);
         return $resp;
     }
 
@@ -75,22 +62,15 @@ class SendMakeEmailDao
         // the message
         $msg = $dataSupport['message'];
 
-        // use wordwrap() if lines are longer than 70 characters
-        // $msg = wordwrap($msg, 70);
-        //subject
         $subject = 'Soporte' . "\r\n";
         $subject .= $dataSupport['subject'];
-        //headers
-        // $headers = "MIME-Version: 1.0" . "\r\n";
-        // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        // $headers .= "From: SoporteTeenus <$email>" . "\r\n";
 
-        $resp = array('to' => array($email), 'img' => null, 'subject' => $subject, 'body' => $msg, 'ccHeader' => $ccHeader);
+        $resp = array('to' => array($email), 'pdf' => null, 'subject' => $subject, 'body' => $msg, 'ccHeader' => $ccHeader);
 
         return $resp;
     }
 
-    public function SendEmailQuote($dataQuote, $email)
+    public function SendEmailQuote($dataQuote, $email, $file)
     {
         $to = array($dataQuote['header'], $email);;
         if (isset($dataQuote['ccHeader']))
@@ -103,12 +83,7 @@ class SendMakeEmailDao
         //subject
         $subject = $dataQuote['subject'];
 
-        //headers
-        // $headers = "MIME-Version: 1.0" . "\r\n";
-        // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        // $headers .= "From: <$email>" . "\r\n";
-
-        $resp = array('to' => $to, 'img' => $dataQuote['img'], 'subject' => $subject, 'body' => $msg, 'ccHeader' => $ccHeader);
+        $resp = array('to' => $to, 'pdf' => $file, 'subject' => $subject, 'body' => $msg, 'ccHeader' => $ccHeader);
 
         return $resp;
     }

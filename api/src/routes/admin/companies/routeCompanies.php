@@ -2,11 +2,11 @@
 
 use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\CompaniesLicenseDao;
-use tezlikv3\dao\ImageDao;
+use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LastDataDao;
 
 $companiesDao = new CompaniesDao();
-$imageDao = new ImageDao();
+$FilesDao = new FilesDao();
 $lastDataDao = new LastDataDao();
 $companiesLicDao = new CompaniesLicenseDao();
 
@@ -27,14 +27,14 @@ $app->get('/companies/{stat}', function (Request $request, Response $response, $
 });
 
 //Nueva Empresa
-$app->post('/addNewCompany', function (Request $request, Response $response, $args) use ($companiesDao, $lastDataDao, $imageDao, $companiesLicDao) {
+$app->post('/addNewCompany', function (Request $request, Response $response, $args) use ($companiesDao, $lastDataDao, $FilesDao, $companiesLicDao) {
     $dataCompany = $request->getParsedBody();
     /*Agregar datos a companies */
     $company = $companiesDao->addCompany($dataCompany);
 
     $lastId = $lastDataDao->findLastCompany();
     if (sizeof($_FILES) > 0) {
-        $imageDao->logoCompany($lastId['idCompany']);
+        $FilesDao->logoCompany($lastId['idCompany']);
     }
     /*Agregar datos a companies licenses*/
     $company = $companiesLicDao->addLicense($dataCompany, $lastId['idCompany']);
@@ -52,12 +52,12 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
 
 
 //Actualizar Empresa
-$app->post('/updateDataCompany', function (Request $request, Response $response, $args) use ($companiesDao, $imageDao) {
+$app->post('/updateDataCompany', function (Request $request, Response $response, $args) use ($companiesDao, $FilesDao) {
     $dataCompany = $request->getParsedBody();
     $company = $companiesDao->updateCompany($dataCompany);
 
     if (sizeof($_FILES) > 0)
-        $imageDao->logoCompany($dataCompany['idCompany']);
+        $FilesDao->logoCompany($dataCompany['idCompany']);
 
     if ($company == null) {
         $resp = array('success' => true, 'message' => 'Datos de Empresa actualizados correctamente');

@@ -15,7 +15,7 @@ use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProductsMaterialsDao;
 use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\GeneralServicesDao;
-use tezlikv3\dao\ImageDao;
+use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\ProductsDao;
@@ -27,7 +27,7 @@ $productsDao = new ProductsDao();
 $generalProductsDao = new GeneralProductsDao();
 $generalCostProductsDao = new GeneralCostProductsDao();
 $lastDataDao = new LastDataDao();
-$imageDao = new ImageDao();
+$FilesDao = new FilesDao();
 $productsCostDao = new ProductsCostDao();
 $priceProductDao = new PriceProductDao();
 $productsQuantityDao = new ProductsQuantityDao();
@@ -68,6 +68,18 @@ $app->get('/productsCRM', function (Request $request, Response $response, $args)
 ) {
     $products = $generalCostProductsDao->findAllProductsByCRM(1);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+/* Consultar Productos creados */
+$app->get('/productsLimit', function (Request $request, Response $response, $args) use ($productsQuantityDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $id_plan = $_SESSION['plan'];
+
+    $product = $productsQuantityDao->totalProductsByCompany($id_company, $id_plan);
+
+    $response->getBody()->write(json_encode($product, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -142,7 +154,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
     $productsDao,
     $generalProductsDao,
     $lastDataDao,
-    $imageDao,
+    $FilesDao,
     $productsCostDao,
     $productsQuantityDao
 ) {
@@ -166,7 +178,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                 $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
                 if (sizeof($_FILES) > 0)
-                    $imageDao->imageProduct($lastProductId['id_product'], $id_company);
+                    $FilesDao->imageProduct($lastProductId['id_product'], $id_company);
 
                 //AGREGA ULTIMO ID A DATA
                 $dataProduct['idProduct'] = $lastProductId['id_product'];
@@ -371,7 +383,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
 $app->post('/updateProducts', function (Request $request, Response $response, $args) use (
     $productsDao,
-    $imageDao,
+    $FilesDao,
     $productsCostDao,
     $priceProductDao
 ) {
@@ -384,7 +396,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
     if (sizeof($_FILES) > 0)
-        $imageDao->imageProduct($dataProduct['idProduct'], $id_company);
+        $FilesDao->imageProduct($dataProduct['idProduct'], $id_company);
 
     $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
     $products = $priceProductDao->calcPrice($dataProduct['idProduct']);

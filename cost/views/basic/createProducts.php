@@ -146,6 +146,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Productos</h5>
+                                        <div class="alert alert-danger limitPlan" role="alert" style="display:none;"> ¡Llegaste al limite de tu plan. Comunícate con tu administrador y sube de categoría para obtener más espacio! </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">

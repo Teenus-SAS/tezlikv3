@@ -30,6 +30,8 @@
 <!-- RowReorder -->
 <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css">
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.25.1/ui/trumbowyg.min.css">
+
 <!-- Image -->
 <style type="text/css">
    /*Profile Pic Start*/

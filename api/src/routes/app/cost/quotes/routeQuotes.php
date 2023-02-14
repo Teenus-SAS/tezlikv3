@@ -2,6 +2,7 @@
 
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\GeneralQuotesDao;
+use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\QuoteProductsDao;
 use tezlikv3\dao\QuotesDao;
@@ -13,6 +14,7 @@ $quoteProductsDao = new QuoteProductsDao();
 $lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $convertDataDao = new ConvertDataDao();
+$FilesDao = new FilesDao();
 $sendEmailDao = new SendEmailDao();
 $sendMakeEmailDao = new SendMakeEmailDao();
 
@@ -170,16 +172,24 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/sendQuote', function (Request $request, Response $response, $args) use ($generalQuotesDao, $sendMakeEmailDao, $sendEmailDao) {
+$app->post('/sendQuote', function (Request $request, Response $response, $args) use (
+    $generalQuotesDao,
+    $sendMakeEmailDao,
+    $FilesDao,
+    $sendEmailDao
+) {
     session_start();
     $email = $_SESSION['email'];
     $name = $_SESSION['name'];
+    $id_company = $_SESSION['id_company'];
 
     $dataQuote = $request->getParsedBody();
 
-    $dataQuote = $sendMakeEmailDao->SendEmailQuote($dataQuote, $email);
+    $file = $FilesDao->uploadPDFQuote($id_company);
 
-    $resolution = $sendEmailDao->sendEmail($dataQuote, 'soporteTezlik@tezliksoftware.com.co', $name);
+    $dataQuote = $sendMakeEmailDao->SendEmailQuote($dataQuote, $email, $file);
+
+    $resolution = $sendEmailDao->sendEmail($dataQuote, $email, $name);
 
     if ($resolution == null)
         $resolution = $generalQuotesDao->updateFlagQuote($dataQuote);
