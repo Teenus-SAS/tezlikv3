@@ -77,8 +77,16 @@ averagePrices = (data) => {
     let averageprofitability = profitability / data.length;
     let averagecommissionSale = commissionSale / data.length;
 
-    $('#profitabilityAverage').html(`${averageprofitability.toFixed(2)} %`);
-    $('#comissionAverage').html(`${averagecommissionSale.toFixed(2)} %`);
+    $('#profitabilityAverage').html(
+      `${averageprofitability.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })} %`
+    );
+    $('#comissionAverage').html(
+      `${averagecommissionSale.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })} %`
+    );
   } else {
     $('#profitabilityAverage').html(`0 %`);
     $('#comissionAverage').html(`0 %`);
@@ -100,27 +108,21 @@ averagesTime = (data) => {
     let averageOperation = operationTime / data.length;
     let averageTotal = averageEnlistment + averageOperation;
 
-    //Formato Alistamiento (. miles , 2 decimales)
-    averageEnlistment = new Intl.NumberFormat('es-CO', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(averageEnlistment);
-
-    //Formato Operación (. miles , 2 decimales)
-    averageOperation = new Intl.NumberFormat('es-CO', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(averageOperation);
-
-    //Formato Tiempo Total Prom (. miles , 2 decimales)
-    averageTotal = new Intl.NumberFormat('es-CO', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(averageTotal);
-
-    $('#enlistmentTime').html(`${averageEnlistment} min`);
-    $('#operationTime').html(`${averageOperation} min`);
-    $('#averageTotalTime').html(`${averageTotal} min`);
+    $('#enlistmentTime').html(
+      `${averageEnlistment.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })} min`
+    );
+    $('#operationTime').html(
+      `${averageOperation.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })} min`
+    );
+    $('#averageTotalTime').html(
+      `${averageTotal.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })} min`
+    );
   } else {
     $('#enlistmentTime').html(`0 min`);
     $('#operationTime').html(`0 min`);

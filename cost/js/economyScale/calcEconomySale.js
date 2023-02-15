@@ -33,7 +33,7 @@ $(document).ready(function () {
         unity = parseInt(strReplaceNumber(unity));
 
         let percentage = { 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
-        unitys = [1];
+        // unitys = [1];
 
         unitys[row] = unity;
 
@@ -49,7 +49,7 @@ $(document).ready(function () {
       } else {
         let price = parseFloat(strReplaceNumber(this.value));
 
-        prices = [0, price];
+        prices[row] = price;
         for (let i = row; i < 5; i++) {
           prices[i + 1] = price;
           $(`#price-${i + 1}`).val(price.toLocaleString('es-CO'));

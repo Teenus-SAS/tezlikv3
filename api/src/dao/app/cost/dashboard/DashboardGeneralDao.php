@@ -119,10 +119,9 @@ class DashboardGeneralDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT SUM(IFNULL(er.expense_recover, 0))/COUNT(p.id_product) AS percentageExpense
+        $stmt = $connection->prepare("SELECT SUM(er.expense_recover) / COUNT(p.id_product) AS percentageExpense
                                       FROM products p
-                                        LEFT JOIN products_costs pc ON pc.id_product = p.id_product
-                                        LEFT JOIN expenses_recover er ON er.id_product = pc.id_product
+                                        INNER JOIN expenses_recover er ON er.id_product = p.id_product
                                       WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
