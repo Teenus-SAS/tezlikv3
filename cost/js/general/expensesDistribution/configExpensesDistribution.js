@@ -62,6 +62,7 @@ $(document).ready(function () {
       loadTableExpensesDistribution();
     }
     if (option == 2) {
+      $('.cardCheckExpense').show(800);
       $('.generalExpenses').hide();
       $('.distributionExpenses').html('Recuperación de Gastos');
       $('#btnNewExpenseRecover').show(800);

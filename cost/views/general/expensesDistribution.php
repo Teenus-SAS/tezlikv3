@@ -44,7 +44,8 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active" id="descrExpense"></li>
+                                        <button class="btn btn-secondary mr-2" id="btnUpdateExpenses" style="display:none">Modificar Gastos</button>
+                                        <li class="breadcrumb-item active mt-2" id="descrExpense"></li>
                                     </ol>
                                 </div>
                             </div>
@@ -189,6 +190,10 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
+                                        <div class="col-sm-2 py-2 cardCheckExpense" style="display: none;">
+                                            <input class="form-control-updated checkExpense" type="checkbox" id="all">
+                                            <label>Seleccionar Todos</label>
+                                        </div>
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblExpenses">
                                             </table>
@@ -212,6 +217,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
     <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>
     <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
+    <script src="/cost/js/general/expenseRecover/updateExpenses.js"></script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
     <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>

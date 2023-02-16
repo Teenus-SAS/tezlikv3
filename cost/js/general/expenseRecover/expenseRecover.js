@@ -39,7 +39,7 @@ $(document).ready(function () {
     $('#btnExpenseRecover').html('Actualizar');
 
     let row = $(this).parent().parent()[0];
-    let data = tblExpenseRecover.fnGetData(row);
+    let data = tblExpenseRecover.rows(row).data()[0];
 
     sessionStorage.setItem('id_expense_recover', data.id_expense_recover);
 
@@ -97,7 +97,7 @@ $(document).ready(function () {
   /* Eliminar recuperacion de gasto */
   deleteExpenseRecover = () => {
     let row = $(this.activeElement).parent().parent()[0];
-    let data = tblExpenseRecover.fnGetData(row);
+    let data = tblExpenseRecover.rows(row).data()[0];
 
     let id_expense_recover = data.id_expense_recover;
 
@@ -124,7 +124,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.post(
-            '../../api/deleteExpenseRecover',
+            '/api/deleteExpenseRecover',
             dataExpenseRecover,
             function (data, textStatus, jqXHR) {
               message(data, 2);

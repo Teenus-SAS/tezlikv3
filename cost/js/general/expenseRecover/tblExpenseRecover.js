@@ -1,7 +1,7 @@
 $(document).ready(function () {
   /* Cargue tabla de gastos recuperados */
   loadTableExpenseRecover = () => {
-    tblExpenseRecover = $('#tblExpenses').dataTable({
+    tblExpenseRecover = $('#tblExpenses').DataTable({
       destroy: true,
       pageLength: 50,
       ajax: {
@@ -12,6 +12,13 @@ $(document).ready(function () {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
       },
       columns: [
+        {
+          title: '',
+          data: 'id_expense_recover',
+          render: function (data) {
+            return `<input type="checkbox" class="form-control-updated checkExpense" id="check-${data}">`;
+          },
+        },
         {
           title: 'No.',
           data: null,

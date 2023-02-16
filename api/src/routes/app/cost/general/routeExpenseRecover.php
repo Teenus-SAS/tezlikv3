@@ -131,17 +131,42 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 ) {
     $dataExpense = $request->getParsedBody();
 
-    $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
+    $dataExpenses = sizeof($dataExpense);
 
-    $priceProduct = $priceProductDao->calcPrice($dataExpense['idProduct']);
+    if ($dataExpenses > 1) {
+        $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
 
-    if ($expensesRecover == null && $priceProduct == null)
-        $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
-    else if (isset($expensesRecover['info']))
-        $resp = array('info' => true, 'message' => $expensesRecover['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
+        $priceProduct = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
+        if ($expensesRecover == null && $priceProduct == null)
+            $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
+        else if (isset($expensesRecover['info']))
+            $resp = array('info' => true, 'message' => $expensesRecover['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
+    } else {
+        $expensesRecover = $dataExpense['data'];
+
+        $percentage = $expensesRecover[sizeof($expensesRecover) - 1];
+
+        unset($expensesRecover[sizeof($expensesRecover) - 1]);
+
+        for ($i = 0; $i < sizeof($expensesRecover); $i++) {
+            $expensesRecover[$i]['percentage'] = $percentage;
+            $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
+
+            if ($resolution == null)
+                $resolution = $priceProductDao->calcPrice($expensesRecover[$i]['idProduct']);
+            else break;
+        }
+
+        if ($resolution == null)
+            $resp = array('success' => true, 'message' => 'Gastos modificados correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
+    }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
