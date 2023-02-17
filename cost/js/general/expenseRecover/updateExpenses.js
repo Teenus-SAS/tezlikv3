@@ -46,42 +46,54 @@ $(document).ready(function () {
   $('#btnUpdateExpenses').click(function (e) {
     e.preventDefault();
 
+    $('#percentageRecover').val('');
+
+    $('#modifyExpensesRecover').modal('show');
+  });
+
+  /* Ocultar modal */
+  $('#btnCloseExpensesRecover').click(function (e) {
+    e.preventDefault();
+    $('.checkExpense').prop('checked', false);
+    expensesRecover = [];
+    $('#btnUpdateExpenses').hide(800);
+    $('#modifyExpensesRecover').modal('hide');
+  });
+
+  $('#btnUpdateExpensesRecover').click(function (e) {
+    e.preventDefault();
+
+    let percentage = $('#percentageRecover').val();
+
+    percentage = parseFloat(percentage.replace(',', '.'));
+
+    if (!percentage || percentage == '') {
+      toastr.error('Campo vacio');
+      return false;
+    }
+
+    if (percentage > 100) {
+      toastr.error('El porcentaje de recuperación debe ser menor al 100%');
+      return false;
+    }
+
+    $('#modifyExpensesRecover').modal('hide');
+
     bootbox.confirm({
       title: 'Modificar Gastos',
-      message: `<div class="row">
-                    <div class="col-12">
-                      <label for="">Porcentaje de recuperación</label>
-                      <input type="number" class="form-control" id="percentageRecover">
-                    </div>
-                  </div>`,
+      message: 'Esta seguro de realizar este cambio?',
       buttons: {
         confirm: {
-          label: 'Ok',
+          label: 'Si',
           className: 'btn-success',
         },
         cancel: {
-          label: 'Cancel',
+          label: 'No',
           className: 'btn-danger',
         },
       },
       callback: function (result) {
         if (result == true) {
-          let percentage = $('#percentageRecover').val();
-
-          percentage = parseFloat(percentage.replace(',', '.'));
-
-          if (!percentage || percentage == '') {
-            toastr.error('Campo vacio');
-            return false;
-          }
-
-          if (percentage > 100) {
-            toastr.error(
-              'El porcentaje de recuperación debe ser menor al 100%'
-            );
-            return false;
-          }
-
           expensesRecover.push(percentage);
 
           $.ajax({

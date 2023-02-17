@@ -7,6 +7,7 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
