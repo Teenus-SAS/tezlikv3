@@ -79,7 +79,12 @@ $(document).ready(function () {
   });
 
   /* Consultar limite de productos */
-  $.get('/api/productsLimit', function (data, textStatus, jqXHR) {
+
+  getCantProducts = async () => {
+    let data = await searchData('/api/productsLimit');
     if (data.quantity >= data.cant_products) $('.limitPlan').show(800);
-  });
+    else $('.limitPlan').hide(800);
+  };
+
+  getCantProducts();
 });

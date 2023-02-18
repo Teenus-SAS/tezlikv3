@@ -48,9 +48,11 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 py-2">
                                     <button class="btn btn-warning" id="btnComposition">Composición</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-info ml-3" id="btnRawMaterialsAnalysis">Análisis de Materias Primas</button>
                                 </div>
                             </div>
@@ -58,19 +60,21 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardCreateRawMaterials">
+                <div class="page-content-wrapper mt--45 mb-5">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-body gridx2">
-                                        <div class="form-group floating-label enable-floating-label show-label">
-                                            <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
-                                            <label for="">Referencia</label>
-                                        </div>
-                                        <div class="form-group floating-label enable-floating-label show-label">
-                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
-                                            <label for="">Producto</label>
+                                    <div class="card-body">
+                                        <div class="form-row">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <label for="">Referencia</label>
+                                                <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
+                                            </div>
+                                            <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                <label for="">Producto</label>
+                                                <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -90,20 +94,18 @@ if (sizeof($_SESSION) == 0)
                                         <h5 class="card-title">Análisis Materia Prima</h5>
                                     </div>
                                     <div class="card-body">
-                                        <div class="gridx2">
-                                            <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                        <div class="form-row">
+                                            <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <input class="form-control text-center numberCalc" type="text" id="unitsmanufacturated" style="width: 200px;" />
                                                 <label>Unidades a Fabricar</label>
                                             </div>
-                                            <div class="gridx2">
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input class="form-control text-center" id="monthlySavings" style="width: 200px;" readonly />
-                                                    <label>Ahorro Mensual</label>
-                                                </div>
-                                                <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <input class="form-control text-center" id="annualSavings" style="width: 200px;" readonly />
-                                                    <label>Ahorro Anual</label>
-                                                </div>
+                                            <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <input class="form-control text-center" id="monthlySavings" style="width: 200px;" readonly />
+                                                <label>Ahorro Mensual</label>
+                                            </div>
+                                            <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin: bottom 5px;">
+                                                <input class="form-control text-center" id="annualSavings" style="width: 200px;" readonly />
+                                                <label>Ahorro Anual</label>
                                             </div>
                                         </div>
                                         <div class="alert alert-success mt-3" role="alert">

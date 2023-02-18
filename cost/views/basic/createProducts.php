@@ -73,7 +73,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-row">
-                                            <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <input type="text" class="form-control" name="referenceProduct" id="referenceProduct">
                                                 <label for="">Referencia</label>
                                             </div>
@@ -86,13 +86,13 @@ if (sizeof($_SESSION) == 0)
                                 </div>
 
                                 <div class="card">
-                                    <div class="card-body pt-3 pb-0">
+                                    <div class="card-body pt-3">
                                         <div class="form-row">
-                                            <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                            <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <input type="number" class="form-control text-center" name="profitability" id="profitability">
                                                 <label for="">Rentabilidad(%)</label>
                                             </div>
-                                            <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                            <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <input type="number" class="form-control text-center" name="commissionSale" id="commisionSale">
                                                 <label for="">Comisión de Ventas(%)</label>
                                             </div>
@@ -100,7 +100,7 @@ if (sizeof($_SESSION) == 0)
                                                 <input class="form-control" type="file" id="formFile">
                                                 <label for="formFile" class="form-label"> Cargar imagen producto</label>
                                             </div>
-                                            <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                            <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
                                                 <button type="text" class="btn btn-success" id="btnCreateProduct">Crear Producto</button>
                                             </div>
                                         </div>
@@ -123,10 +123,10 @@ if (sizeof($_SESSION) == 0)
                                                 <input class="form-control" type="file" id="fileProducts" accept=".xls,.xlsx">
                                                 <label for="formFile" class="form-label"> Importar Productos</label>
                                             </div>
-                                            <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-top:7px">
+                                            <div class="col-xs-2" style="margin-top:7px">
                                                 <button type="text" class="btn btn-success" id="btnImportProducts">Importar</button>
                                             </div>
-                                            <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-top:7px">
+                                            <div class="col-xs-2" style="margin-top:7px">
                                                 <button type="text" class="btn btn-info" id="btnDownloadImportsProducts">Descarga Formato</button>
                                             </div>
                                         </div>

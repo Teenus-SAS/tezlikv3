@@ -3,41 +3,9 @@ $(document).ready(function () {
 
   /* Imprimir cotización */
   $('#btnImprimirQuote').click(function (e) {
-    html2canvas(document.getElementById('invoice'), {
-      onrendered(canvas) {
-        let img = canvas.toDataURL('image/png');
-
-        let windowContent = '<!DOCTYPE html>';
-        windowContent += '<html>';
-        windowContent += `  <head>
-                              <title>Tezlik - Cost | Details Quote</title>
-                            </head>`;
-        windowContent += '<body>';
-        windowContent += `  <div class="wrapper">
-                              <div class="page-wrapper">
-                                  <div class="page-content">
-                                      <div class="card">
-                                          <div class="card-body" style="padding-right: 35px; padding-left: 35px">
-                                              <img style="width:100%" src="${img}"/>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                            </div>`;
-        windowContent += '</body>';
-        windowContent += '</html>';
-
-        printWin = window.open('/cost/details-quote');
-        printWin.document.write(windowContent);
-      },
-    });
-    setTimeout(timeOut, 2000);
+    e.preventDefault();
+    window.print();
   });
-
-  function timeOut() {
-    printWin.print();
-    printWin.close();
-  }
 
   /* Ocultar formulario email */
   $('.btnCloseSendEmail').click(function (e) {

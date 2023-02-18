@@ -12,9 +12,6 @@ $(document).ready(function () {
     type: 'GET',
     url: '/api/machines',
     success: function (r) {
-      let machinesData = JSON.stringify(r);
-      sessionStorage.setItem('machinesData', machinesData);
-
       let $select = $(`#idMachine`);
       $select.empty();
       $select.append(`<option disabled>Seleccionar</option>`);

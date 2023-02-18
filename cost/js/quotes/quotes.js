@@ -31,6 +31,22 @@ $(document).ready(function () {
   $('#btnSaveQuote').click(function (e) {
     e.preventDefault();
 
+    let cardProducts = $('.addProd').css('display');
+
+    if (cardProducts == 'flex') {
+      toastr.error('Verifica que el ultimo producto se haya guardado');
+
+      $('#btnAddProduct').css('border', '2px solid black');
+
+      $('#modalCreateQuote').animate(
+        {
+          scrollTop: 400,
+        },
+        1000
+      );
+      return false;
+    }
+
     let idQuote = sessionStorage.getItem('id_quote');
 
     if (!idQuote || idQuote == '') {

@@ -54,10 +54,10 @@ $(document).ready(function () {
 
     if (option == 1) {
       $('.distributionExpenses').html('Distribución de Gastos');
-      $('#btnExpensesDistribution').show(800);
-      $('#btnImportNewExpenses').show(800);
-      $('#btnImportNewExpenses').html('Importar Distribuir Gastos');
-      $('#btnImportNewExpenses').val('Importar Distribución');
+      $('.cardBtnExpensesDistribution').show(800);
+      $('.cardBtnImportExpenses').show(800);
+      $('#btnImportNewExpenses').html('Importar Distribución');
+      $('#lblImportExpense').html('Importar Distribución de Gasto');
       $('#descrExpense').html('Distribución Gastos Generales');
       loadTableExpensesDistribution();
     }
@@ -65,10 +65,10 @@ $(document).ready(function () {
       $('.cardCheckExpense').show(800);
       $('.generalExpenses').hide();
       $('.distributionExpenses').html('Recuperación de Gastos');
-      $('#btnNewExpenseRecover').show(800);
-      $('#btnImportNewExpenses').show(800);
+      $('.cardBtnExpenseRecover').show(800);
+      $('.cardBtnImportExpenses').show(800);
       $('#btnImportNewExpenses').html('Importar Recuperar Gastos');
-      $('#btnImportNewExpenses').val('Importar Recuperación');
+      $('#lblImportExpense').html('Importar Recuperación');
       $('#descrExpense').html('Recuperación Gastos Generales');
       loadTableExpenseRecover();
     }

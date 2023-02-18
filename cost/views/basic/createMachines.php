@@ -68,29 +68,29 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formCreateMachine">
                                             <div class="form-row">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" name="machine" id="machine">
                                                     <label for="">Nombre</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control number text-center" name="cost" id="costMachine">
                                                     <label for="">Precio</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control number text-center" name="residualValue" id="residualValue">
                                                     <label for="">Valor Residual</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control number text-center" name="depreciationYears" id="depreciationYears">
                                                     <label for="">Años Depreciación</label>
                                                 </div>
                                             </div>
                                             <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
                                                     <label for="">Horas de Trabajo</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:10px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
                                                     <label for="">Dias de Trabajo</label>
                                                 </div>
@@ -109,21 +109,19 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportMachines">
                     <div class="container-fluid">
                         <div class="row">
-                            <form id="formImportMachines" enctype="multipart/form-data">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body pt-3 pb-0">
-                                            <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
-                                                    <input class="form-control" type="file" id="fileMachines" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label"> Importar Máquinas</label>
-                                                </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportMachines">Importar</button>
-                                                </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsMachines">Descarga Formato</button>
-                                                </div>
+                            <form class="col-12" id="formImportMachines" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row">
+                                            <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                <input class="form-control" type="file" id="fileMachines" accept=".xls,.xlsx">
+                                                <label for="formFile" class="form-label"> Importar Máquinas</label>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-success" id="btnImportMachines">Importar</button>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsMachines">Descarga Formato</button>
                                             </div>
                                         </div>
                                     </div>

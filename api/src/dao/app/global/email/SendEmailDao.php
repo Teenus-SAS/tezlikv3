@@ -51,8 +51,10 @@ class SendEmailDao extends PHPMailer
             //     $mail->addAddress($dataEmail['user']);
 
             //Attachments
-            if ($dataEmail['pdf'] != null)
-                $mail->AddAttachment($dataEmail['pdf'], 'Cotización.pdf');
+            if ($dataEmail['pdf'] != null) {
+                $fichero = file_get_contents($dataEmail['pdf']);
+                $mail->addStringAttachment($fichero, 'Cotización.pdf');
+            }
 
             // Content
             $mail->IsHTML(true);

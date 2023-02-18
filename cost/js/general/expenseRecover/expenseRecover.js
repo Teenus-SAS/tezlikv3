@@ -38,8 +38,11 @@ $(document).ready(function () {
     $('.cardExpenseRecover').show(800);
     $('#btnExpenseRecover').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
-    let data = tblExpenseRecover.rows(row).data()[0];
+    let data = sessionStorage.getItem('dataExpensesRecover');
+
+    data = JSON.parse(data);
+
+    data = setDataRowRecover(data, this.id);
 
     sessionStorage.setItem('id_expense_recover', data.id_expense_recover);
 
@@ -95,9 +98,12 @@ $(document).ready(function () {
   };
 
   /* Eliminar recuperacion de gasto */
-  deleteExpenseRecover = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblExpenseRecover.rows(row).data()[0];
+  $(document).on('click', '.deleteExpenseRecover', function () {
+    let data = sessionStorage.getItem('dataExpensesRecover');
+
+    data = JSON.parse(data);
+
+    data = setDataRowRecover(data, this.id);
 
     let id_expense_recover = data.id_expense_recover;
 
@@ -133,5 +139,16 @@ $(document).ready(function () {
         }
       },
     });
+  });
+
+  setDataRowRecover = (data, id) => {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id_expense_recover == id) {
+        data = data[i];
+        break;
+      }
+    }
+
+    return data;
   };
 });

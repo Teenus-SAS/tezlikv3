@@ -47,20 +47,22 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <button class="btn btn-secondary mr-2" id="btnUpdateExpenses" style="display:none">Modificar Gastos</button>
                                         <li class="breadcrumb-item active mt-2" id="descrExpense"></li>
                                     </ol>
                                 </div>
                             </div>
                             <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnExpensesDistribution" style="display:none;">Distribuir Gastos</button>
+                                <div class="col-xs-2 mr-2 cardBtnUpdateExpenses" style="display:none">
+                                    <button class="btn btn-secondary" id="btnUpdateExpenses">Modificar Gastos</button>
                                 </div>
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-primary" id="btnNewExpenseRecover" style="display:none;">Recuperar Gastos</button>
+                                <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
+                                    <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
                                 </div>
-                                <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewExpenses" style="display:none;"></button>
+                                <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
+                                    <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
+                                    <button id="btnImportNewExpenses" class="btn btn-primary"></button>
                                 </div>
                             </div>
                         </div>
@@ -97,23 +99,23 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formExpensesD|istribution">
                                             <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
                                                     <label for="EDRefProduct">Referencia</label>
                                                 </div>
-                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
                                                     <label for="EDNameProduct">Nombre Producto</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
                                                     <label for="undVendidas">Und Vendidas</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
                                                     <input type="text" class="form-control number text-center" id="volVendidas" name="turnover">
                                                     <label for="volVendidas">Vol Ventas</label>
                                                 </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
+                                                <div class="col-xs-2" style="margin-top:12px">
                                                     <button class="btn btn-primary" id="btnAssignExpenses">Asignar</button>
                                                 </div>
                                             </div>
@@ -134,19 +136,19 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formExpenseRecover">
                                             <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <select class="form-control refProduct" name="idProduct" id="ERRefProduct"></select>
                                                     <label for="ERRefProduct">Referencia</label>
                                                 </div>
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <select class="form-control selectNameProduct" name="nameProduct" id="ERNameProduct"></select>
                                                     <label for="ERNameProduct">Nombre Producto</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
                                                     <input type="number" class="form-control text-center" id="percentage" name="percentage">
                                                     <label for="percentage">Porcentaje</label>
                                                 </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:12px">
+                                                <div class="col-xs-2" style="margin-top:12px">
                                                     <button class="btn btn-primary" id="btnExpenseRecover">Guardar Gasto</button>
                                                 </div>
                                             </div>
@@ -166,14 +168,14 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card">
                                         <div class="card-body pt-3">
                                             <div class="form-row">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:0px!important">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
                                                     <input class="form-control" type="file" id="fileExpenses" accept=".xls,.xlsx">
-                                                    <label for="formFile" id="lblImprotExpense" class="form-label"></label>
+                                                    <label for="formFile" id="lblImportExpense" class="form-label"></label>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportExpenses">Importar</button>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses">Descarga Formato</button>
                                                 </div>
                                             </div>
@@ -193,12 +195,9 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="col-sm-2 py-2 cardCheckExpense" style="display: none;">
-                                            <input class="form-control-updated checkExpense" type="checkbox" id="all">
-                                            <label>Seleccionar Todos</label>
-                                        </div>
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblExpenses">
+
                                             </table>
                                         </div>
                                     </div>

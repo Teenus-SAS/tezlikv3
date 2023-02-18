@@ -66,41 +66,41 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="form-row">
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-3 form-group floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" name="firstname" id="firstname">
                                                     <label for="firstname">Nombre<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-3 form-group floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" name="lastname" id="lastname">
                                                     <label for="lastname">Apellido<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-3 form-group floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" name="phone" id="phone">
                                                     <label for="phone">Telefono<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-3 form-group floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" name="phone1" id="phone1">
                                                     <label for="phone1">Telefono (2)</label>
                                                 </div>
-                                                <div class="w-100 mt-4"></div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-top:0px!important">
+                                                <div class="col-sm-3 form-group floating-label enable-floating-label show-label">
                                                     <input type="email" class="form-control" name="email" id="email">
                                                     <label for="email">Email<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
-
                                                 </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-3 form-group floating-label enable-floating-label show-label">
                                                     <input type="text" class="form-control" name="position" id="position">
                                                     <label for="position">Cargo<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-top:0px!important">
+                                                <div class="col-sm-3 form-group floating-label enable-floating-label show-label">
+                                                    <label>Compañia<span class="text-danger">*</span></label>
                                                     <select class="form-control" name="idCompany" id="company"></select>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
-                                                <div class="col form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-top:3px">
                                                     <button type="text" class="btn btn-success" id="btnCreateContact">Crear Contacto</button>
                                                 </div>
                                             </div>

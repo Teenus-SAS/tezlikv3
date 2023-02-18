@@ -166,7 +166,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
     /* Inserta datos */
     $product = $productsQuantityDao->totalProductsByCompany($id_company, $id_plan);
 
-    if ($product['quantity'] < $product['cant_products']) {
+    if ($product['quantity'] < $product['cant_products'] || $product['quantity'] == 0 && $product['cant_products'] == 0) {
         $dataProducts = sizeof($dataProduct);
 
         if ($dataProducts > 1) {

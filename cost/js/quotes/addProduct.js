@@ -14,6 +14,7 @@ $(document).ready(function () {
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value='0']`).prop('selected', true);
     $('#discount option[value=0]').prop('selected', true);
+    $('#btnAddProduct').css('border', '');
   });
 
   $('#refProduct').change(function (e) {

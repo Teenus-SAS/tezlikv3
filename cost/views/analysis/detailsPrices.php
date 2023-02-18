@@ -43,12 +43,12 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="page-title">
                                     <div class="row">
-                                        <div class="col-6 d-flex align-items-center">
+                                        <div class="col-sm-6 d-flex align-items-center">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
-                                        <div class="col-2 imageProduct">
+                                        <div class="col-sm-2 py-4 imageProduct">
                                         </div>
-                                        <div class="col-4 d-flex align-items-center">
+                                        <div class="col-sm-4 mb-3 d-flex align-items-center">
                                             <select id="product" class="form-control"></select>
                                         </div>
                                     </div>

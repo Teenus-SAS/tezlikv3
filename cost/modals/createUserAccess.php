@@ -73,8 +73,8 @@
                                                     <label for="checkbox-5">Ficha Técnica Materiales</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-4" name="costCreateProcess" type="checkbox">
-                                                    <label for="checkbox-4">Crear Procesos</label>
+                                                    <input id="checkbox-6" name="costProductProcess" type="checkbox">
+                                                    <label for="checkbox-6">Ficha Técnica Procesos</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-7" name="payrollLoad" type="checkbox">

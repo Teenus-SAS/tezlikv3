@@ -1,59 +1,57 @@
 $(document).ready(function () {
   /* Cargue tabla de gastos recuperados */
-  loadTableExpenseRecover = () => {
-    tblExpenseRecover = $('#tblExpenses').DataTable({
-      destroy: true,
-      pageLength: 50,
-      ajax: {
-        url: '../../api/expensesRecover',
-        dataSrc: '',
-      },
-      language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-      },
-      columns: [
-        {
-          title: '',
-          data: 'id_expense_recover',
-          render: function (data) {
-            return `<input type="checkbox" class="form-control-updated checkExpense" id="check-${data}">`;
-          },
-        },
-        {
-          title: 'No.',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data, type, full, meta) {
-            return meta.row + 1;
-          },
-        },
-        {
-          title: 'Referencia',
-          data: 'reference',
-        },
-        {
-          title: 'Producto',
-          data: 'product',
-        },
-        {
-          title: 'Porcentaje recuperado',
-          data: 'expense_recover',
-          className: 'classRight',
-          render: function (data) {
-            return `${data} %`;
-          },
-        },
-        {
-          title: 'Acciones',
-          data: 'id_expense_recover',
-          className: 'uniqueClassName',
-          render: function (data) {
-            return `
-            <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateExpenseRecover" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
-            <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteExpenseRecover()"></i></a>`;
-          },
-        },
-      ],
-    });
+  loadTableExpenseRecover = async () => {
+    $('#tblExpenses').empty();
+
+    let data = await searchData('/api/expensesRecover');
+    sessionStorage.setItem('dataExpensesRecover', JSON.stringify(data));
+
+    let tblExpenses = document.getElementById('tblExpenses');
+
+    tblExpenses.insertAdjacentHTML(
+      'beforeend',
+      `<thead>
+        <tr>
+          <th class="uniqueClassName">
+            <label>Seleccionar Todos</label>
+            <input class="form-control-updated checkExpense" type="checkbox" id="all">
+          </th>
+          <th class="uniqueClassName">No.</th>
+          <th class="uniqueClassName">Referencia</th>
+          <th class="uniqueClassName">Producto</th>
+          <th class="uniqueClassName">Porcentaje recuperado</th>
+          <th class="uniqueClassName">Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tblExpensesBody"></tbody>`
+    );
+
+    let tblExpensesBody = document.getElementById('tblExpensesBody');
+    for (let i = 0; i < data.length; i++) {
+      tblExpensesBody.insertAdjacentHTML(
+        'beforeend',
+        `<tr>
+          <td class="uniqueClassName">
+            <input type="checkbox" class="form-control-updated checkExpense" id="check-${
+              data[i].id_expense_recover
+            }">
+          </td>
+          <td class="uniqueClassName">${i + 1}</td>
+          <td class="uniqueClassName">${data[i].reference} </td>
+          <td class="uniqueClassName">${data[i].product} </td>
+          <td class="uniqueClassName">${data[i].expense_recover} %</td>
+          <td class="uniqueClassName">
+            <a href="javascript:;" <i id="${
+              data[i].id_expense_recover
+            }" class="bx bx-edit-alt updateExpenseRecover" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>
+            <a href="javascript:;" <i id="${
+              data[i].id_expense_recover
+            }" class="mdi mdi-delete-forever deleteExpenseRecover" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red"></i></a>
+          </td>
+        </tr>`
+      );
+    }
+
+    tblExpenseRecover = $('#tblExpenses').DataTable();
   };
 });

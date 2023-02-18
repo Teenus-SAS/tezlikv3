@@ -67,11 +67,11 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <label for="">Referencia</label>
                                                 <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                                             </div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                 <label for="">Producto</label>
                                                 <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                             </div>
@@ -91,15 +91,15 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pb-0">
                                         <form id="formAddMaterials">
                                             <div class="form-row">
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Materia Prima</label>
                                                     <select class="form-control" name="material" id="material"></select>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Cantidad</label>
                                                     <input class="form-control text-center number" type="text" name="quantity" id="quantity">
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label for="">Unidad</label>
                                                     <input class="form-control text-center number" type="text" name="unity" id="unity" disabled>
                                                 </div>
@@ -118,26 +118,24 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportProductsMaterials">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12">
-                                <form id="formImportProductMaterial" enctype="multipart/form-data">
-                                    <div class="card">
-                                        <div class="card-body pt-3">
-                                            <div class="form-row">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:0px!important">
-                                                    <input class="form-control" type="file" id="fileProductsMaterials" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label"> Importar Productos*Materia Prima</label>
-                                                </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportProductsMaterials">Importar</button>
-                                                </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsProductsMaterials">Descarga Formato</button>
-                                                </div>
+                            <form class="col-12" id="formImportProductMaterial" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row">
+                                            <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                <input class="form-control" type="file" id="fileProductsMaterials" accept=".xls,.xlsx">
+                                                <label for="formFile" class="form-label"> Importar Productos*Materia Prima</label>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-success" id="btnImportProductsMaterials">Importar</button>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProductsMaterials">Descarga Formato</button>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

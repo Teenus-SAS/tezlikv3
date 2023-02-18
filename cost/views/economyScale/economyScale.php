@@ -64,23 +64,18 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-md-12 col-lg-12 InputGroup">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-12 col-lg-12 mb-2">
+                                        <div class="form-row">
+                                            <div class="col-sm-12 mb-2">
                                                 <h5>Producto</h5>
                                             </div>
-                                            <div class="col-12 col-lg-4">
-                                                <div class="form-group floating-label enable-floating-label show-label">
-                                                    <select class="form-control refProduct" id="refProduct" name="idProduct"></select>
-                                                    <label for="refProduct" class="form-label">Referencia <span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
+                                                <label for="refProduct" class="form-label">Referencia <span class="text-danger">*</span></label>
+                                                <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
-                                            <div class="col-12 col-lg-8">
-                                                <div class="form-group floating-label enable-floating-label show-label">
-                                                    <select class="form-control selectNameProduct" id="selectNameProduct" name="idProduct"></select>
-                                                    <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
+                                            <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
+                                                <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                     </div>
@@ -93,7 +88,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="col-12 col-lg-12">
                                                 <div class="table-responsive">
-                                                    <table class="table table-striped">
+                                                    <table id="tblEconomyScale" class="table table-striped">
                                                         <tbody>
                                                             <tr>
                                                                 <td class="font-weight-bold">Ventas Mensuales (Unidad)</td>

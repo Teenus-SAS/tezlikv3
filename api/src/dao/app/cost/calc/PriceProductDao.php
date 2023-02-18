@@ -102,6 +102,5 @@ class PriceProductDao
                 $this->updatePrice($dataProduct[$i]['id_product'], $dataPrice['totalPrice']);
             }
         }
-        //$this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 }

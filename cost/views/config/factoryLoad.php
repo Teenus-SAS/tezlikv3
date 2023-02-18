@@ -68,15 +68,15 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formNewFactoryLoad">
                                             <div class="form-row">
-                                                <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Máquina</label>
                                                     <select class="form-control" name="idMachine" id="machine"></select>
                                                 </div>
-                                                <div class="col-sm-5 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Descripción Carga fabril</label>
                                                     <input class="form-control" name="descriptionFactoryLoad" id="descriptionFactoryLoad" />
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label for="">Costo</label>
                                                     <input class="form-control text-center number" type="text" name="costFactory" id="costFactory" />
                                                 </div>
@@ -100,14 +100,14 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card">
                                         <div class="card-body pt-3">
                                             <div class="form-row">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:0px!important">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
                                                     <input class="form-control" type="file" id="fileFactoryLoad" accept=".xls,.xlsx">
                                                     <label for="formFile" class="form-label"> Importar Carga Fabril Máquinas</label>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportFactoryLoad">Importar</button>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsFactoryLoad">Descarga Formato</button>
                                                 </div>
                                             </div>

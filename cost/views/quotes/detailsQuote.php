@@ -25,6 +25,35 @@ if (sizeof($_SESSION) == 0)
 
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+
+	<style>
+		@media print {
+			.invoice table th {
+				white-space: nowrap;
+				font-weight: 400;
+				font-size: 10px;
+			}
+
+			.dtitle {
+				font-size: 10px;
+			}
+
+			.invoice table tfoot tr:last-child td {
+				color: #0d6efd;
+				font-size: 1em;
+			}
+
+			.invoice table tfoot td {
+				background: 0 0;
+				border-bottom: none;
+				white-space: nowrap;
+				text-align: right;
+				padding: 10px 20px;
+				font-size: 1em;
+				border-top: 1px solid #aaa;
+			}
+		}
+	</style>
 </head>
 
 <body class="horizontal-navbar">
@@ -39,7 +68,7 @@ if (sizeof($_SESSION) == 0)
 		<!-- Begin main content -->
 		<div class="main-content">
 			<!-- Content -->
-			<div class="page-content">
+			<div class="page-content" style="margin-bottom:0px">
 				<div class="card">
 					<div class="card-body" style="padding-right: 35px; padding-left: 35px">
 						<div class="toolbar hidden-print noImprimir">
@@ -54,79 +83,75 @@ if (sizeof($_SESSION) == 0)
 						<div id="invoice">
 							<div class="invoice overflow-auto">
 								<div style="min-width: 600px;">
-									<header>
-										<div class="row">
-											<div class="col">
-												<a href="javascript:;">
-													<img id="logo" src="" width="200" alt="">
-												</a>
-											</div>
-											<div class="col company-details">
-												<h2 class="name" id="company">
-												</h2>
-												<div id="address"></div>
-												<div id="phone"></div>
-												<div id="city"></div>
-											</div>
+									<div class="row">
+										<div class="col">
+											<a href="javascript:;">
+												<img id="logo" src="" width="200" alt="">
+											</a>
 										</div>
-									</header>
-									<main>
-										<div class="row contacts">
-											<div class="col invoice-to">
-												<div class="text-gray-light">Cotizado a:</div>
-												<h2 id="qCompany"></h2>
-												<div id="contactName"></div>
-												<div id="contactPhone"></div>
-												<div id="contactEmail">
-												</div>
-											</div>
-											<div class="col invoice-details">
-												<h1 id="idQuote"></h1>
-												<div id="dateQuote"></div>
-												<!-- <div class="date">Due Date: 30/10/2018</div> -->
+										<div class="col company-details">
+											<h2 class="name" id="company">
+											</h2>
+											<div id="address"></div>
+											<div id="phone"></div>
+											<div id="city"></div>
+										</div>
+									</div>
+									<div class="row contacts">
+										<div class="col invoice-to">
+											<div class="text-gray-light">Cotizado a:</div>
+											<h2 id="qCompany"></h2>
+											<div id="contactName"></div>
+											<div id="contactPhone"></div>
+											<div id="contactEmail">
 											</div>
 										</div>
-										<table>
-											<thead>
-												<tr>
-													<th>#</th>
-													<th class="text-left">Referencia</th>
-													<th class="text-left">Descripción</th>
-													<th class="text-center">Cantidad</th>
-													<th class="text-center">Precio</th>
-													<th class="text-center">Descuento</th>
-													<th class="text-center">Total</th>
-												</tr>
-											</thead>
-											<tbody id="tblQuotesProductsBody">
-											</tbody>
-											<tfoot>
-												<tr>
-													<td colspan="2"></td>
-													<td colspan="4">SUBTOTAL</td>
-													<td id="subtotal"></td>
-												</tr>
-												<tr>
-													<td colspan="2"></td>
-													<td colspan="4">IVA 19%</td>
-													<td id="iva"></td>
-												</tr>
-												<tr>
-													<td colspan="2"></td>
-													<td colspan="4" style="color: #8DAC18;"><b>TOTAL</b></td>
-													<td id="total" style="color: #8DAC18;"><b></b></td>
-												</tr>
-											</tfoot>
-										</table>
-										<div class="notices" id="qDescription">
+										<div class="col invoice-details">
+											<h1 id="idQuote"></h1>
+											<div id="dateQuote"></div>
+											<!-- <div class="date">Due Date: 30/10/2018</div> -->
 										</div>
-										<br>
-										<div class="notices">
-											<h3>Observaciones Generales:</h3>
-											<div id="observation"></div>
-										</div>
-									</main>
-									<footer id="qFooter"></footer>
+									</div>
+									<table>
+										<thead>
+											<tr>
+												<th>#</th>
+												<th class="text-left">Referencia</th>
+												<th class="text-left">Descripción</th>
+												<th class="text-center">Cantidad</th>
+												<th class="text-center">Precio</th>
+												<th class="text-center">Descuento</th>
+												<th class="text-center">Total</th>
+											</tr>
+										</thead>
+										<tbody id="tblQuotesProductsBody">
+										</tbody>
+										<tfoot>
+											<tr>
+												<td colspan="4"></td>
+												<td colspan="2">SUBTOTAL</td>
+												<td id="subtotal"></td>
+											</tr>
+											<tr>
+												<td colspan="4"></td>
+												<td colspan="2">IVA 19%</td>
+												<td id="iva"></td>
+											</tr>
+											<tr>
+												<td colspan="4"></td>
+												<td colspan="2" style="color: #8DAC18;"><b>TOTAL</b></td>
+												<td id="total" style="color: #8DAC18;"><b></b></td>
+											</tr>
+										</tfoot>
+									</table>
+									<div class="notices" id="qDescription">
+									</div>
+									<br>
+									<div class="notices py-5">
+										<h3>Observaciones Generales:</h3>
+										<div id="observation"></div>
+									</div>
+									<div style="width: 100%;text-align: center;color: #777;border-top: 1px solid #aaa;padding: 8px 0;" id="qFooter"></div>
 								</div>
 							</div>
 						</div>

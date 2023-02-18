@@ -8,7 +8,8 @@ $(document).ready(function () {
     if (id.includes('all')) {
       expensesRecover = [];
       if ($(`#${id}`).is(':checked')) {
-        let data = tblExpenseRecover.rows().data();
+        let data = sessionStorage.getItem('dataExpensesRecover');
+        data = JSON.parse(data);
 
         for (let i = 0; i < data.length; i++) {
           expensesRecover.push({
@@ -19,13 +20,14 @@ $(document).ready(function () {
         $('.checkExpense').prop('checked', true);
       } else {
         $('.checkExpense').prop('checked', false);
-        $('#btnUpdateExpenses').hide(800);
+        $('.cardBtnUpdateExpenses').hide(800);
       }
     } else {
       let idExpenseRecover = id.slice(6, id.length);
       if ($(`#${id}`).is(':checked')) {
-        let row = $(this).parent().parent()[0];
-        let data = tblExpenseRecover.rows(row).data()[0];
+        let data = sessionStorage.getItem('dataExpensesRecover');
+        data = JSON.parse(data);
+        data = setDataRowRecover(data, this.id);
 
         let expense = {
           idExpenseRecover: idExpenseRecover,
@@ -40,7 +42,7 @@ $(document).ready(function () {
       }
     }
 
-    if (expensesRecover.length >= 2) $('#btnUpdateExpenses').show(800);
+    if (expensesRecover.length >= 2) $('.cardBtnUpdateExpenses').show(800);
   });
 
   $('#btnUpdateExpenses').click(function (e) {
@@ -56,7 +58,7 @@ $(document).ready(function () {
     e.preventDefault();
     $('.checkExpense').prop('checked', false);
     expensesRecover = [];
-    $('#btnUpdateExpenses').hide(800);
+    $('.cardBtnUpdateExpenses').hide(800);
     $('#modifyExpensesRecover').modal('hide');
   });
 
@@ -102,7 +104,7 @@ $(document).ready(function () {
             data: { data: expensesRecover },
             success: function (resp) {
               $('.checkExpense').prop('checked', false);
-              $('#btnUpdateExpenses').hide(800);
+              $('.cardBtnUpdateExpenses').hide(800);
               expensesRecover = [];
 
               message(resp, 2);
@@ -111,7 +113,7 @@ $(document).ready(function () {
         } else {
           $('.checkExpense').prop('checked', false);
           expensesRecover = [];
-          $('#btnUpdateExpenses').hide(800);
+          $('.cardBtnUpdateExpenses').hide(800);
         }
       },
     });

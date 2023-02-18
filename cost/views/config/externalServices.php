@@ -67,11 +67,11 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <label for="">Referencia</label>
                                                 <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                                             </div>
-                                            <div class="col-sm-8">
+                                            <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                 <label for="">Producto</label>
                                                 <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                             </div>
@@ -88,14 +88,14 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-body pb-0">
+                                    <div class="card-body">
                                         <form id="formAddService">
                                             <div class="form-row">
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Servicio</label>
                                                     <input class="form-control" type="text" name="service" id="service">
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label for="">Costo</label>
                                                     <input class="form-control text-center number" type="text" name="costService" id="costService">
                                                 </div>
@@ -123,10 +123,10 @@ if (sizeof($_SESSION) == 0)
                                                     <input class="form-control" type="file" id="fileExternalServices" accept=".xls,.xlsx">
                                                     <label for="formFile" class="form-label">Importar Servicios Externos</label>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportExternalServices">Importar</button>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:7px">
+                                                <div class="col-xs-2" style="margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices">Descarga Formato</button>
                                                 </div>
                                             </div>

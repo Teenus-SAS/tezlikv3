@@ -68,7 +68,7 @@ if (sizeof($_SESSION) == 0)
                                     <form id="formCreateProcess">
                                         <div class="card-body">
                                             <div class="form-row">
-                                                <div class="col-sm-10 floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                                <div class="col-sm-10 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label for="">Proceso</label>
                                                     <input type="text" class="form-control" id="process" name="process">
                                                 </div>
@@ -87,26 +87,24 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 mb-5 cardImportProcess">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12">
-                                <form id="formImportProcess" enctype="multipart/form-data">
-                                    <div class="card">
-                                        <div class="card-body pt-3">
-                                            <div class="form-row">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
-                                                    <input class=" form-control" type="file" id="fileProcess" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label"> Importar Process</label>
-                                                </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportProcess">Importar</button>
-                                                </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsProcess">Descarga Formato</button>
-                                                </div>
+                            <form class="col-12" id="formImportProcess" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row">
+                                            <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                <input class=" form-control" type="file" id="fileProcess" accept=".xls,.xlsx">
+                                                <label for="formFile" class="form-label"> Importar Process</label>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-success" id="btnImportProcess">Importar</button>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsProcess">Descarga Formato</button>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
