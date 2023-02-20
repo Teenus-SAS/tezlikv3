@@ -233,6 +233,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $productsDao,
     $lastDataDao,
     $productsCostDao,
+    $generalCostProductsDao,
     $productsQuantityDao,
     $productsMaterialsDao,
     $generalPMaterialsDao,
@@ -341,9 +342,12 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
             //     }
             // }
 
-            if ($resolution == null)
+            if ($resolution == null) {
                 //Metodo calcular precio total materias
-                $resolution = $costMaterialsDao->calcCostMaterial($dataProduct['idProduct'], $id_company);
+                $dataProduct = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
+
+                $resolution = $costMaterialsDao->updateCostMaterials($dataProduct, $id_company);
+            }
 
             if ($resolution == null)
                 // Calcular costo nomina
@@ -363,6 +367,11 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                 foreach ($productsCost as $arr) {
                     $resolution = $priceProductDao->calcPrice($arr['id_product']);
+
+                    if (isset($resolution['info']))
+                        break;
+
+                    $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
                 }
             }
         }
@@ -385,6 +394,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $productsDao,
     $FilesDao,
     $productsCostDao,
+    $generalCostProductsDao,
     $priceProductDao
 ) {
     session_start();
@@ -399,7 +409,11 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         $FilesDao->imageProduct($dataProduct['idProduct'], $id_company);
 
     $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
-    $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
+
+    if ($products == null)
+        $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
+    if (isset($products['totalPrice']))
+        $products = $generalCostProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
 
     if ($products == null)
         $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');

@@ -44,6 +44,9 @@ class CostMinuteDao
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
+
+            $error = array('info' => true, 'message' => $message);
+            return $error;
         }
     }
 }

@@ -2,6 +2,7 @@
 
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\PriceProductDao;
 
@@ -9,6 +10,7 @@ $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
+$generalCostProductsDao = new GeneralCostProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -65,7 +67,13 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addMaterials', function (Request $request, Response $response, $args) use ($materialsDao, $generalMaterialsDao) {
+$app->post('/addMaterials', function (Request $request, Response $response, $args) use (
+    $materialsDao,
+    $costMaterialsDao,
+    $generalMaterialsDao,
+    $priceProductDao,
+    $generalCostProductsDao
+) {
     session_start();
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -96,6 +104,17 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 $materials[$i]['idMaterial'] = $material['id_material'];
                 $resolution = $materialsDao->updateMaterialsByCompany($materials[$i], $id_company);
             }
+            if ($resolution != null) break;
+
+            $dataProducts = $costMaterialsDao->findProductByMaterial($materials[$i]['idMaterial'], $id_company);
+
+            foreach ($dataProducts as $arr) {
+                $resolution = $priceProductDao->calcPrice($arr['id_product']);
+
+                if (isset($resolution['info'])) break;
+
+                $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+            }
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Materia Prima Importada correctamente');
@@ -110,7 +129,8 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 $app->post('/updateMaterials', function (Request $request, Response $response, $args) use (
     $materialsDao,
     $costMaterialsDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -119,12 +139,30 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
     // Calcular precio total materias
-    $costMaterials = $costMaterialsDao->calcCostMaterialsByRawMaterial($dataMaterial, $id_company);
+    if ($materials == null) {
+        $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);
+
+        foreach ($dataProducts as $arr) {
+            $arr = $costMaterialsDao->calcCostMaterial($arr, $id_company);
+
+            $materials = $costMaterialsDao->updateCostMaterials($arr, $id_company);
+        }
+    }
 
     // Calcular precio
-    $priceProduct = $priceProductDao->calcPriceByMaterial($dataMaterial['idMaterial'], $id_company);
+    if ($materials == null) {
+        $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);
 
-    if ($materials == null && $costMaterials == null && $priceProduct == null)
+        foreach ($dataProducts as $arr) {
+            $materials = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($materials['info'])) break;
+
+            $materials = $generalCostProductsDao->updatePrice($arr['id_product'], $materials['totalPrice']);
+        }
+    }
+
+    if ($materials == null)
         $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
     else if (isset($materials['info']))
         $resp = array('info' => true, 'message' => $materials['message']);

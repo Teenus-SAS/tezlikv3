@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MinuteDepreciationDao;
@@ -15,6 +16,7 @@ $lastDataDao = new LastDataDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
+$generalCostProductsDao = new GeneralCostProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -91,7 +93,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $lastDataDao,
     $minuteDepreciationDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -135,17 +138,26 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                 $machines[$i]['idMachine'] = $machine['id_machine'];
                 $resolution = $machinesDao->updateMachine($machines[$i]);
                 // Calcular costo indirecto
-                $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($machines[$i], $id_company);
+                if ($resolution != null) break;
+                $resolution = $indirectCostDao->calcCostIndirectCostByMachine($machines[$i], $id_company);
 
                 // Calcular precio products_costs
-                $priceProduct = $priceProductDao->calcPriceByMachine($machines[$i]['idMachine'], $id_company);
+                if ($resolution != null) break;
+
+                $dataProducts = $indirectCostDao->findProductByMachine($machines[$i]['idMachine'], $id_company);
+
+                foreach ($dataProducts as $arr) {
+                    $resolution = $priceProductDao->calcPrice($arr['id_product']);
+
+                    if (isset($resolution['info'])) break;
+
+                    $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                }
             }
             // Calcular depreciacion por minuto
             $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationImportedByMachine($machines[$i]['idMachine'], $id_company);
         }
-        if (
-            $resolution == null && $minuteDepreciation == null
-        )
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Maquina Importada correctamente');
         else if ($resolution['info'] == 'true')
             $resp = $resp = array('info' => true, 'message' => 'No pueden existir máquinas con el mismo nombre. Modifiquelas y vuelva a intentarlo');
@@ -164,7 +176,8 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $convertDataDao,
     $minuteDepreciationDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -175,18 +188,26 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $machines = $machinesDao->updateMachine($dataMachine);
 
     // Calcular depreciacion por minuto
-    $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['idMachine'], $id_company);
+    if ($machines == null)
+        $machines = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['idMachine'], $id_company);
 
     // Calcular costo indirecto
-    $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);
+    if ($machines == null)
+        $machines = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);
 
     // Calcular precio products_costs
-    $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine['idMachine'], $id_company);
+    if ($machines == null) {
+        $dataProducts = $indirectCostDao->findProductByMachine($dataMachine['idMachine'], $id_company);
 
-    if (
-        $machines == null && $minuteDepreciation == null &&
-        $indirectCost == null && $priceProduct == null
-    )
+        foreach ($dataProducts as $arr) {
+            $machines = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($machines['info'])) break;
+
+            $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+        }
+    }
+    if ($machines == null)
         $resp = array('success' => true, 'message' => 'Maquina actualizada correctamente');
     else if (isset($machines['info']))
         $resp = array('info' => true, 'message' => $machines['message']);
@@ -203,7 +224,8 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 $app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
     $generalMachinesDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -211,15 +233,26 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
     $machines = $generalMachinesDao->deleteMachine($dataMachine['idMachine']);
 
-    if ($machines == null) {
-        // Calcular costo indirecto
-        $indirectCost = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);
-        // Calcular precio products_costs
-        $priceProduct = $priceProductDao->calcPriceByMachine($dataMachine['idMachine'], $id_company);
+    // Calcular costo indirecto
+    if ($machines == null)
+        $machines = $indirectCostDao->calcCostIndirectCostByMachine($dataMachine, $id_company);
 
-        if ($indirectCost == null && $priceProduct == null)
-            $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');
-    } else if (isset($machines['info']))
+    // Calcular precio products_costs
+    if ($machines == null) {
+        $dataProducts = $indirectCostDao->findProductByMachine($dataMachine['idMachine'], $id_company);
+
+        foreach ($dataProducts as $arr) {
+            $machines = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($machines['info'])) break;
+
+            $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+        }
+    }
+
+    if ($machines == null)
+        $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');
+    else if (isset($machines['info']))
         $resp = array('info' => true, 'message' => $machines['message']);
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar la maquina, existe información asociada a él');

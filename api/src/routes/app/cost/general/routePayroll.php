@@ -3,6 +3,7 @@
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\PayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ValueMinuteDao;
@@ -13,6 +14,7 @@ $convertDataDao = new ConvertDataDao();
 $processDao = new GeneralProcessDao();
 $costWorkforceDao = new CostWorkforceDao();
 $priceProductDao = new PriceProductDao();
+$generalCostProductsDao = new GeneralCostProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -77,7 +79,15 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPayroll', function (Request $request, Response $response) use ($payrollDao, $convertDataDao, $valueMinuteDao, $processDao, $costWorkforceDao, $priceProductDao) {
+$app->post('/addPayroll', function (Request $request, Response $response) use (
+    $payrollDao,
+    $convertDataDao,
+    $valueMinuteDao,
+    $processDao,
+    $costWorkforceDao,
+    $priceProductDao,
+    $generalCostProductsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
@@ -118,13 +128,25 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
                 $payroll[$i]['idPayroll'] = $findPayroll['id_payroll'];
                 $resolution = $payrollDao->updatePayroll($payroll[$i]);
                 // Calcular costo nomina
-                $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($payroll[$i], $id_company);
+                if ($resolution != null) break;
+                $resolution = $costWorkforceDao->calcCostPayrollByPayroll($payroll[$i], $id_company);
                 // Calcular precio products_costs
-                $priceProduct = $priceProductDao->calcPriceByPayroll($payroll[$i]['idProcess'], $id_company);
+                if ($resolution != null) break;
+                $dataProducts = $costWorkforceDao->findProductByProcess($payroll[$i]['idProcess'], $id_company);
+
+                foreach ($dataProducts as $arr) {
+                    $resolution = $priceProductDao->calcPrice($arr['id_product']);
+
+                    if (isset($resolution['info'])) break;
+
+                    $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                }
             }
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Nomina importada correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
@@ -133,7 +155,14 @@ $app->post('/addPayroll', function (Request $request, Response $response) use ($
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePayroll', function (Request $request, Response $response, $args) use ($payrollDao, $convertDataDao, $valueMinuteDao, $costWorkforceDao, $priceProductDao) {
+$app->post('/updatePayroll', function (Request $request, Response $response, $args) use (
+    $payrollDao,
+    $convertDataDao,
+    $valueMinuteDao,
+    $costWorkforceDao,
+    $priceProductDao,
+    $generalCostProductsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
@@ -141,16 +170,26 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
     $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
-
     $payroll = $payrollDao->updatePayroll($dataPayroll);
 
     // Calcular costo nomina
-    $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($dataPayroll, $id_company);
+    if ($payroll == null)
+        $payroll = $costWorkforceDao->calcCostPayrollByPayroll($dataPayroll, $id_company);
 
     // Calcular precio products_costs
-    $priceProduct = $priceProductDao->calcPriceByPayroll($dataPayroll['idProcess'], $id_company);
+    if ($payroll == null) {
+        $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
 
-    if ($payroll == null && $costWorkforce == null && $priceProduct == null)
+        foreach ($dataProducts as $arr) {
+            $payroll = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($payroll['info'])) break;
+
+            $payroll = $generalCostProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+        }
+    }
+
+    if ($payroll == null)
         $resp = array('success' => true, 'message' => 'Nomina actualizada correctamente');
     else if (isset($payroll['info']))
         $resp = array('info' => true, 'message' => $payroll['message']);
@@ -161,22 +200,39 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deletePayroll', function (Request $request, Response $response, $args) use ($payrollDao, $costWorkforceDao, $priceProductDao) {
+$app->post('/deletePayroll', function (Request $request, Response $response, $args) use (
+    $payrollDao,
+    $costWorkforceDao,
+    $priceProductDao,
+    $generalCostProductsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
 
     $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);
 
-    if ($payroll == null) {
+    if ($payroll == null)
         // Calcular costo nomina
-        $costWorkforce = $costWorkforceDao->calcCostPayrollByPayroll($dataPayroll, $id_company);
+        $payroll = $costWorkforceDao->calcCostPayrollByPayroll($dataPayroll, $id_company);
 
-        // Calcular precio products_costs
-        $priceProduct = $priceProductDao->calcPriceByPayroll($dataPayroll['idProcess'], $id_company);
-        if ($costWorkforce == null && $priceProduct == null)
-            $resp = array('success' => true, 'message' => 'Nomina eliminada correctamente');
-    } else
+    // Calcular precio products_costs
+    if ($payroll == null) {
+        $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
+
+        foreach ($dataProducts as $arr) {
+            $payroll = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($payroll['info'])) break;
+
+            $payroll = $generalCostProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+        }
+    }
+    if ($payroll == null)
+        $resp = array('success' => true, 'message' => 'Nomina eliminada correctamente');
+    else if (isset($payroll['info']))
+        $resp = array('info' => true, 'message' => $payroll['message']);
+    else
         $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, existe información asociada a ella');
 
     $response->getBody()->write(json_encode($resp));

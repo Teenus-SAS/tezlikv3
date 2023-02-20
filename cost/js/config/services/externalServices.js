@@ -64,7 +64,7 @@ $(document).ready(function () {
   checkDataServices = async (url, idService) => {
     let idProduct = parseInt($('#selectNameProduct').val());
     let service = $('#service').val();
-    let cost = parseInt($('#costService').val());
+    let cost = $('#costService').val();
 
     cost = parseFloat(strReplaceNumber(cost));
 

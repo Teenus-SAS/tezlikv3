@@ -65,7 +65,8 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 $app->post('/addExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
     $productsDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -77,9 +78,13 @@ $app->post('/addExternalService', function (Request $request, Response $response
         $externalServices = $externalServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
 
         // Calcular precio del producto
-        $priceProduct = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+        if ($externalServices == null)
+            $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-        if ($externalServices == null && $priceProduct == null)
+        if (isset($externalServices['totalPrice']))
+            $externalServices = $generalCostProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+
+        if ($externalServices == null)
             $resp = array('success' => true, 'message' => 'Servicio externo ingresado correctamente');
         else if (isset($externalServices['info']))
             $resp = array('info' => true, 'message' => $externalServices['message']);
@@ -103,10 +108,17 @@ $app->post('/addExternalService', function (Request $request, Response $response
             }
 
             // Calcular precio del producto
-            $priceProduct = $priceProductDao->calcPrice($externalService[$i]['idProduct']);
+            $resolution = $priceProductDao->calcPrice($externalService[$i]['idProduct']);
+
+            if (isset($resolution['info']))
+                break;
+
+            $resolution = $generalCostProductsDao->updatePrice($externalService[$i]['idProduct'], $resolution['totalPrice']);
         }
-        if ($resolution == null && $priceProduct == null)
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Servicio externo importado correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
@@ -117,16 +129,21 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     $dataExternalService = $request->getParsedBody();
 
     $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
 
     // Calcular precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+    if ($externalServices == null)
+        $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-    if ($externalServices == null && $priceProduct == null)
+    if (isset($externalServices['totalPrice']))
+        $externalServices = $generalCostProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+
+    if ($externalServices == null)
         $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
     else if (isset($externalServices['info']))
         $resp = array('info' => true, 'message' => $externalServices['message']);
@@ -139,16 +156,21 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
 $app->post('/deleteExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     $dataExternalService = $request->getParsedBody();
 
     $externalServices = $externalServicesDao->deleteExternalService($dataExternalService['idService']);
 
     // Calcular precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+    if ($externalServices == null)
+        $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-    if ($externalServices == null && $priceProduct == null)
+    if (isset($externalServices['totalPrice']))
+        $externalServices = $generalCostProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+
+    if ($externalServices == null)
         $resp = array('success' => true, 'message' => 'Servicio externo eliminado correctamente');
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el servicio externo, existe información asociada a él');

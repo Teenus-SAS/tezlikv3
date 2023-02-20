@@ -67,6 +67,19 @@ class GeneralCostProductsDao
         return $products;
     }
 
+    // Modificar precio
+    public function updatePrice($idProduct, $totalPrice)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("UPDATE products_costs SET price = :price WHERE id_product = :id_product");
+        $stmt->execute([
+            'price' => $totalPrice,
+            'id_product' => $idProduct
+        ]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    }
 
     public function activeOrInactiveProducts($id_product, $active)
     {

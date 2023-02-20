@@ -112,7 +112,8 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $machinesDao,
     $costWorkforceDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -125,18 +126,21 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
         $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
 
         /* Calcular costo nomina */
-        $costPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
+        if ($productProcess == null)
+            $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
 
         /* Calcular costo indirecto */
-        $indirectCost = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
+        if ($productProcess == null)
+            $productProcess = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
 
         // Calcular Precio del producto
-        $priceProduct = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+        if ($productProcess == null)
+            $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
 
-        if (
-            $productProcess == null && $costPayroll == null &&
-            $indirectCost == null && $priceProduct == null
-        )
+        if (isset($productProcess['totalPrice']))
+            $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+
+        if ($productProcess == null)
             $resp = array('success' => true, 'message' => 'Proceso asignado correctamente');
         elseif ($productProcess == 1)
             $resp = array('error' => true, 'message' => 'El Proceso ya se encuentra en la Base de Datos');
@@ -189,19 +193,24 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             }
 
             /* Calcular costo nomina */
-            $costPayroll = $costWorkforceDao->calcCostPayroll($productProcess[$i], $id_company);
+            if ($resolution == null)
+                $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i], $id_company);
 
             /* Calcular costo indirecto */
-            $indirectCost = $indirectCostDao->calcCostIndirectCost($productProcess[$i], $id_company);
+            if ($resolution == null)
+                $resolution = $indirectCostDao->calcCostIndirectCost($productProcess[$i], $id_company);
 
             // Calcular Precio del producto
-            $priceProduct = $priceProductDao->calcPrice($productProcess[$i]['idProduct']);
+            if ($resolution == null)
+                $resolution = $priceProductDao->calcPrice($productProcess[$i]['idProduct']);
+
+            if (isset($resolution['info']))
+                break;
+
+            $resolution = $generalCostProductsDao->updatePrice($dataProductProcess[$i]['idProduct'], $resolution['totalPrice']);
         }
 
-        if (
-            $resolution == null && $costPayroll == null &&
-            $indirectCost == null && $priceProduct == null
-        )
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Proceso importado correctamente');
         else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
@@ -216,7 +225,8 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $convertDataDao,
     $costWorkforceDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -226,18 +236,20 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
     /* Calcular costo nomina */
-    $costPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
+    if ($productProcess == null)
+        $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
 
     /* Calcular costo indirecto */
-    $indirectCost = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
+    if ($productProcess == null)
+        $productProcess = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
 
     // Calcular Precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+    if ($productProcess == null)
+        $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+    if (isset($productProcess['totalPrice']))
+        $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
 
-    if (
-        $productProcess == null && $costPayroll == null &&
-        $indirectCost == null && $priceProduct == null
-    )
+    if ($productProcess == null)
         $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
     else if (isset($productProcess['info']))
         $resp = array('info' => true, 'message' => $productProcess['message']);
@@ -252,7 +264,8 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $productsProcessDao,
     $costWorkforceDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -261,18 +274,20 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $product = $productsProcessDao->deleteProductProcess($dataProductProcess);
 
     /* Calcular costo nomina */
-    $costPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
+    if ($product == null)
+        $product = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
 
     /* Calcular costo indirecto */
-    $indirectCost = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
+    if ($product == null)
+        $product = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
 
     // Calcular Precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+    if ($product == null)
+        $product = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+    if (isset($product['totalPrice']))
+        $product = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
 
-    if (
-        $product == null && $costPayroll == null &&
-        $indirectCost == null && $priceProduct == null
-    )
+    if ($product == null)
         $resp = array('success' => true, 'message' => 'Proceso eliminado correctamente');
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el proceso asignado, existe información asociada a él');

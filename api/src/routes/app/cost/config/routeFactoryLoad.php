@@ -2,6 +2,7 @@
 
 use tezlikv3\dao\FactoryLoadDao;
 use tezlikv3\dao\CostMinuteDao;
+use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
@@ -13,6 +14,7 @@ $machinesDao = new GeneralMachinesDao();
 $costMinuteDao = new CostMinuteDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
+$generalCostProductsDao = new GeneralCostProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -76,7 +78,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     $machinesDao,
     $costMinuteDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -91,22 +94,31 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
         $dataFactoryLoad['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
 
         // Calcular costo por minuto
-        $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
+        if ($factoryLoad == null)
+            $factoryLoad = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
 
         // Calcular costo indirecto
-        $indirectCost = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
+        if ($factoryLoad == null)
+            $factoryLoad = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
 
         // Calcular Precio products_costs
-        $priceProduct = $priceProductDao->calcPriceByMachine($dataFactoryLoad['idMachine'], $id_company);
+        if ($factoryLoad == null) {
+            $dataProducts = $indirectCostDao->findProductByMachine($dataFactoryLoad['idMachine'], $id_company);
 
-        if (
-            $factoryLoad == null && $costMinute == null &&
-            $indirectCost == null && $priceProduct == null
-        )
+            foreach ($dataProducts as $arr) {
+                $machines = $priceProductDao->calcPrice($arr['id_product']);
+
+                if (isset($machines['info'])) break;
+
+                $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+            }
+        }
+
+        if ($factoryLoad == null)
             $resp = array('success' => true, 'message' => 'Carga fabril creada correctamente');
         else if (isset($factoryLoad['info']))
             $resp = array('info' => true, 'message' => $factoryLoad['message']);
-        else if ($costMinute == 1)
+        else if ($factoryLoad == 1)
             $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
@@ -124,20 +136,31 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
             $factoryLoad[$i]['idManufacturingLoad'] = $lastFactoryLoad['id_manufacturing_load'];
 
             // Calcular costo por minuto
-            $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($factoryLoad[$i], $id_company);
+            if ($resolution != null) break;
+
+            $resolution = $costMinuteDao->calcCostMinuteByFactoryLoad($factoryLoad[$i], $id_company);
 
             // Calcular costo indirecto
-            $indirectCost = $indirectCostDao->calcCostIndirectCostByFactoryLoad($factoryLoad[$i], $id_company);
+            if ($resolution != null) break;
+
+            $resolution = $indirectCostDao->calcCostIndirectCostByFactoryLoad($factoryLoad[$i], $id_company);
 
             // Calcular Precio products_costs
-            $priceProduct = $priceProductDao->calcPriceByMachine($factoryLoad[$i]['idMachine'], $id_company);
+            if ($resolution != null) break;
+
+            $dataProducts = $indirectCostDao->findProductByMachine($factoryLoad[$i]['idMachine'], $id_company);
+
+            foreach ($dataProducts as $arr) {
+                $resolution = $priceProductDao->calcPrice($arr['id_product']);
+
+                if (isset($resolution['info'])) break;
+
+                $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+            }
         }
-        if (
-            $resolution == null && $costMinute == null &&
-            $indirectCost == null && $priceProduct == null
-        )
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Carga fabril importada correctamente');
-        else if ($costMinute == 1)
+        else if ($resolution == 1)
             $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
@@ -150,7 +173,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     $factoryloadDao,
     $costMinuteDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -159,22 +183,32 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     $factoryLoad = $factoryloadDao->updateFactoryLoad($dataFactoryLoad);
 
     // Calcular costo por minuto
-    $costMinute = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
+    if ($factoryLoad == null)
+        $factoryLoad = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
 
     // Calcular costo indirecto
-    $indirectCost = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
+    if ($factoryLoad == null)
+        $factoryLoad = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
 
     // Calcular Precio products_costs
-    $priceProduct = $priceProductDao->calcPriceByMachine($dataFactoryLoad['idMachine'], $id_company);
+    if ($factoryLoad == null) {
+        $dataProducts = $indirectCostDao->findProductByMachine($dataFactoryLoad['idMachine'], $id_company);
 
-    if (
-        $factoryLoad == null && $costMinute == null &&
-        $indirectCost == null && $priceProduct == null
-    )
+        foreach ($dataProducts as $arr) {
+            $factoryLoad = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($factoryLoad['info'])) break;
+
+            $factoryLoad = $generalCostProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+        }
+    }
+
+
+    if ($factoryLoad == null)
         $resp = array('success' => true, 'message' => 'Carga fabril actualizada correctamente');
     else if (isset($factoryLoad['info']))
         $resp = array('info' => true, 'message' => $factoryLoad['message']);
-    else if ($costMinute == 1)
+    else if ($factoryLoad == 1)
         $resp = array('error' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
@@ -186,7 +220,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
 $app->post('/deleteFactoryLoad', function (Request $request, Response $response, $args) use (
     $factoryloadDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -195,12 +230,23 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
     $factoryLoad = $factoryloadDao->deleteFactoryLoad($dataFactoryLoad);
 
     // Calcular costo indirecto
-    $indirectCost = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
+    if ($factoryLoad == null)
+        $factoryLoad = $indirectCostDao->calcCostIndirectCostByFactoryLoad($dataFactoryLoad, $id_company);
 
     // Calcular Precio products_costs
-    $priceProduct = $priceProductDao->calcPriceByMachine($dataFactoryLoad['idMachine'], $id_company);
+    if ($factoryLoad == null) {
+        $dataProducts = $indirectCostDao->findProductByMachine($dataFactoryLoad['idMachine'], $id_company);
 
-    if ($factoryLoad == null && $indirectCost == null && $priceProduct == null)
+        foreach ($dataProducts as $arr) {
+            $factoryLoad = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($factoryLoad['info'])) break;
+
+            $factoryLoad = $generalCostProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+        }
+    }
+
+    if ($factoryLoad == null)
         $resp = array('success' => true, 'message' => 'Carga fabril eliminada correctamente');
     else
         $resp = array('error' => true, 'message' => 'No se pudo eliminar la carga fabril, existe información asociada a ella');

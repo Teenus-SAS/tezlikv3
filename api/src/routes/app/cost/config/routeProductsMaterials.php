@@ -99,7 +99,8 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
     $productsDao,
     $materialsDao,
     $costMaterialsDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -112,12 +113,19 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
 
         $productMaterials = $productsMaterialsDao->insertProductsMaterialsByCompany($dataProductMaterial, $id_company);
         //Metodo calcular precio total materias
-        $costMaterials = $costMaterialsDao->calcCostMaterial($dataProductMaterial['idProduct'], $id_company);
+        if ($productMaterials == null) {
+            $dataProductMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+
+            $productMaterials = $costMaterialsDao->updateCostMaterials($dataProductMaterial, $id_company);
+        }
 
         // Calcular Precio del producto
-        $priceProduct = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+        if ($productMaterials == null)
+            $productMaterials = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+        if (isset($productMaterials['totalPrice']))
+            $productMaterials = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $dataProductMaterial['totalPrice']);
 
-        if ($productMaterials == null && $costMaterials == null && $priceProduct == null)
+        if ($productMaterials == null)
             $resp = array('success' => true, 'message' => 'Materia prima asignada correctamente');
         else if (isset($productMaterials['info']))
             $resp = array('info' => true, 'message' => $productMaterials['message']);
@@ -146,12 +154,22 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             }
 
             //Metodo calcular precio total materias
-            $costMaterials = $costMaterialsDao->calcCostMaterial($productMaterials[$i]['idProduct'], $id_company);
+            if ($resolution != null) break;
+
+            $productMaterials[$i] = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
+
+            $resolution = $costMaterialsDao->updateCostMaterials($productMaterials[$i], $id_company);
 
             // Calcular Precio del producto
-            $priceProduct = $priceProductDao->calcPrice($productMaterials[$i]['idProduct']);
+            if ($resolution != null) break;
+            $resolution = $priceProductDao->calcPrice($productMaterials[$i]['idProduct']);
+
+            if (isset($resolution['info']))
+                break;
+
+            $resolution = $generalCostProductsDao->updatePrice($productMaterials[$i]['idProduct'], $resolution['totalPrice']);
         }
-        if ($resolution == null && $costMaterials == null && $priceProduct == null)
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Materia prima importada correctamente');
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importada la información. Intente nuevamente');
@@ -164,7 +182,8 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     $productsMaterialsDao,
     $convertDataDao,
     $costMaterialsDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -174,12 +193,19 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
 
     //Metodo calcular precio total materias
-    $costMaterials = $costMaterialsDao->calcCostMaterial($dataProductMaterial['idProduct'], $id_company);
+    if ($productMaterials == null) {
+        $dataProductMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+
+        $productMaterials = $costMaterialsDao->updateCostMaterials($dataProductMaterial, $id_company);
+    }
 
     // Calcular Precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+    if ($productMaterials == null)
+        $productMaterials = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+    if (isset($productMaterials['totalPrice']))
+        $productMaterials = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $productMaterials['totalPrice']);
 
-    if ($productMaterials == null && $costMaterials == null && $priceProduct == null)
+    if ($productMaterials == null)
         $resp = array('success' => true, 'message' => 'Materia prima actualizada correctamente');
     else if (isset($productMaterials['info']))
         $resp = array('info' => true, 'message' => $productMaterials['message']);
@@ -193,7 +219,8 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
 $app->post('/deleteProductMaterial', function (Request $request, Response $response, $args) use (
     $productsMaterialsDao,
     $costMaterialsDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -202,12 +229,19 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
     $product = $productsMaterialsDao->deleteProductMaterial($dataProductMaterial);
 
     //Metodo calcular precio total materias
-    $costMaterials = $costMaterialsDao->calcCostMaterial($dataProductMaterial['idProduct'], $id_company);
+    if ($product == null) {
+        $dataProductMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+
+        $product = $costMaterialsDao->updateCostMaterials($dataProductMaterial, $id_company);
+    }
 
     // Calcular Precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+    if ($product == null)
+        $product = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
+    if (isset($product['totalPrice']))
+        $product = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $product['totalPrice']);
 
-    if ($product == null && $costMaterials == null && $priceProduct == null)
+    if ($product == null)
         $resp = array('success' => true, 'message' => 'Materia prima eliminada correctamente');
 
     else

@@ -17,11 +17,12 @@ class PriceProductDao
     }
 
     // Calcular precio del producto
-    public function findTotalPrice($idProduct)
+    public function calcPrice($idProduct)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT
+        try {
+            $stmt = $connection->prepare("SELECT
                                             (((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = pc.id_product)) 
                                             / (1 - IFNULL(er.expense_recover, 0) / 100)) / (1 - (IFNULL(pc.profitability, 0) /100))) / (1 - (IFNULL(pc.commission_sale, 0) / 100)) AS totalPrice 
                                       FROM products_costs pc
@@ -29,78 +30,14 @@ class PriceProductDao
                                         LEFT JOIN expenses_distribution ed ON ed.id_product = pc.id_product
                                         LEFT JOIN expenses_recover er ON er.id_product = pc.id_product
                                       WHERE pc.id_product = :id_product");
-        $stmt->execute(['id_product' => $idProduct]);
-        $dataPrice = $stmt->fetch($connection::FETCH_ASSOC);
+            $stmt->execute(['id_product' => $idProduct]);
+            $dataPrice = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            $dataPrice = array('info' => true, 'message' => $message);
+        }
 
         return $dataPrice;
-    }
-
-    // Modificar precio
-    public function updatePrice($idProduct, $totalPrice)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("UPDATE products_costs SET price = :price WHERE id_product = :id_product");
-        $stmt->execute([
-            'price' => $totalPrice,
-            'id_product' => $idProduct
-        ]);
-
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    }
-
-    // Calcular precio General
-    public function calcPrice($idProduct)
-    {
-        $dataPrice = $this->findTotalPrice($idProduct);
-        $this->updatePrice($idProduct, $dataPrice['totalPrice']);
-    }
-
-    // Calcular precio por Maquina
-    public function calcPriceByMachine($idMachine, $id_company)
-    {
-        $machine = new IndirectCostDao();
-        $dataProduct = $machine->findProductByMachine($idMachine, $id_company);
-
-        for ($i = 0; $i < sizeof($dataProduct); $i++) {
-            $dataPrice = $this->findTotalPrice($dataProduct[$i]['id_product']);
-
-            if ($dataPrice) {
-                // No existe el producto asociado a la tabla products_cost";
-                $this->updatePrice($dataProduct[$i]['id_product'], $dataPrice['totalPrice']);
-            }
-        }
-    }
-
-    // Calcular precio por Materia Prima
-    public function calcPriceByMaterial($idMaterial, $id_company)
-    {
-        $material = new CostMaterialsDao();
-        $dataProduct = $material->findProductByMaterial($idMaterial, $id_company);
-
-        if (!empty($dataProduct)) {
-            // No hay ningun producto asociado a esa materia prima
-            for ($i = 0; $i < sizeof($dataProduct); $i++) {
-                $dataPrice = $this->findTotalPrice($dataProduct[$i]['id_product']);
-                $this->updatePrice($dataProduct[$i]['id_product'], $dataPrice['totalPrice']);
-            }
-        }
-    }
-
-    // Calcular precio por Nomina
-    public function calcPriceByPayroll($idProcess, $id_company)
-    {
-        $process = new CostWorkforceDao();
-        $dataProduct = $process->findProductByProcess($idProcess, $id_company);
-
-        for ($i = 0; $i < sizeof($dataProduct); $i++) {
-            // Calcular precio del producto
-            $dataPrice = $this->findTotalPrice($dataProduct[$i]['id_product']);
-
-            if ($dataPrice) {
-                // No existe el producto asociado a la tabla products_cost";
-                $this->updatePrice($dataProduct[$i]['id_product'], $dataPrice['totalPrice']);
-            }
-        }
     }
 }

@@ -3,6 +3,7 @@
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\TotalExpenseDao;
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
 
@@ -11,6 +12,7 @@ $productsDao = new GeneralProductsDao();
 $totalExpenseDao = new TotalExpenseDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
+$generalCostProductsDao = new GeneralCostProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -76,7 +78,8 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     $expensesDistributionDao,
     $productsDao,
     $assignableExpenseDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -87,11 +90,17 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     if ($dataExpensesDistributions > 1) {
         $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
         /* Calcular gasto asignable */
-        $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
-        // Calcular Precio del producto
-        $priceProduct = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+        if ($expensesDistribution == null)
+            $expensesDistribution = $assignableExpenseDao->calcAssignableExpense($id_company);
 
-        if ($expensesDistribution == null && $priceProduct == null && $assignableExpense == null)
+        // Calcular Precio del producto
+        if ($expensesDistribution == null)
+            $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+
+        if (isset($expensesDistribution['totalPrice']))
+            $expensesDistribution = $generalCostProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+
+        if ($expensesDistribution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
         else if (isset($expensesDistribution['info']))
             $resp = array('info' => true, 'message' => $expensesDistribution['message']);
@@ -113,15 +122,22 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
             }
             /* Calcular gasto asignable */
-            $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
+            if ($resolution != null) break;
+            $resolution = $assignableExpenseDao->calcAssignableExpense($id_company);
 
             // Calcular Precio del producto
-            $priceProduct = $priceProductDao->calcPrice($expensesDistribution[$i]['selectNameProduct']);
+            if ($resolution != null) break;
+            $resolution = $priceProductDao->calcPrice($expensesDistribution[$i]['selectNameProduct']);
+
+            if ($resolution != null) break;
+
+            $resolution = $generalCostProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $resolution['totalPrice']);
         }
 
-
-        if ($resolution == null && $priceProduct == null && $assignableExpense == null)
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto importada correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
@@ -133,7 +149,8 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 $app->post('/updateExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
     $assignableExpenseDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -141,12 +158,17 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
     $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution);
     // Calcular gasto asignable
-    $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
+    if ($expensesDistribution == null)
+        $expensesDistribution = $assignableExpenseDao->calcAssignableExpense($id_company);
 
     // Calcular Precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+    if ($expensesDistribution == null)
+        $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
-    if ($expensesDistribution == null && $assignableExpense == null && $priceProduct == null)
+    if (isset($expensesDistribution['totalPrice']))
+        $expensesDistribution = $generalCostProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+
+    if ($expensesDistribution == null)
         $resp = array('success' => true, 'message' => 'Distribución de gasto actualizada correctamente');
     else if (isset($expensesDistribution['info']))
         $resp = array('info' => true, 'message' => $expensesDistribution['message']);
@@ -160,7 +182,8 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 $app->post('/deleteExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
     $assignableExpenseDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCostProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -168,12 +191,17 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
     $expensesDistribution = $expensesDistributionDao->deleteExpensesDistribution($dataExpensesDistribution);
     // Calcular gasto asignable
-    $assignableExpense = $assignableExpenseDao->calcAssignableExpense($id_company);
+    if ($expensesDistribution == null)
+        $expensesDistribution = $assignableExpenseDao->calcAssignableExpense($id_company);
 
     // Calcular Precio del producto
-    $priceProduct = $priceProductDao->calcPrice($dataExpensesDistribution['selectNameProduct']);
+    if ($expensesDistribution == null)
+        $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['selectNameProduct']);
 
-    if ($expensesDistribution == null && $assignableExpense == null && $priceProduct == null)
+    if (isset($expensesDistribution['totalPrice']))
+        $expensesDistribution = $generalCostProductsDao->updatePrice($dataExpensesDistribution['selectNameProduct'], $expensesDistribution['totalPrice']);
+
+    if ($expensesDistribution == null)
         $resp = array('success' => true, 'message' => 'Distribucion de gasto eliminado correctamente');
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el gasto, existe información asociada a él');

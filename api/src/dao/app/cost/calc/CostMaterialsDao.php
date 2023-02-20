@@ -30,33 +30,57 @@ class CostMaterialsDao
     }
 
     // Buscar costo total de la materia prima y modificar en products_costs
-    public function findTotalCostAndModify($idProduct, $id_company)
+    public function calcCostMaterial($dataMaterials, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT SUM(pm.quantity * m.cost) as cost 
+        try {
+            $stmt = $connection->prepare("SELECT SUM(pm.quantity * m.cost) as cost 
                                         FROM products_materials pm 
                                         INNER JOIN materials m ON pm.id_material = m.id_material 
                                         WHERE pm.id_company = :id_company AND pm.id_product = :id_product");
-        $stmt->execute(['id_company' => $id_company, 'id_product' => $idProduct]);
-        $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
+            $stmt->execute([
+                'id_company' => $id_company,
+                'id_product' => $dataMaterials['idProduct']
+            ]);
+            $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
 
-        $stmt = $connection->prepare("UPDATE products_costs SET cost_materials = :materials
-                                         WHERE id_product = :id_product AND id_company = :id_company");
-        $stmt->execute([
-            'materials' => $costMaterialsProduct['cost'],
-            'id_product' => $idProduct,
-            'id_company' => $id_company
-        ]);
+            $dataMaterials['cost'] = $costMaterialsProduct['cost'];
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $costMaterialsProduct = array('info' => true, 'message' => $message);
+        }
+
+        return $costMaterialsProduct;
     }
 
+    public function updateCostMaterials($dataMaterials, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products_costs SET cost_materials = :materials
+                                         WHERE id_product = :id_product AND id_company = :id_company");
+            $stmt->execute([
+                'materials' => $dataMaterials['cost'],
+                'id_product' => $dataMaterials['idProduct'],
+                'id_company' => $id_company
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+    /*
     // General
     public function calcCostMaterial($idProduct, $id_company)
     {
         $this->findTotalCostAndModify($idProduct, $id_company);
     }
 
-    /* Al modificar materia prima */
+    // Al modificar materia prima
     public function calcCostMaterialsByRawMaterial($dataMaterials, $id_company)
     {
         $dataProduct = $this->findProductByMaterial($dataMaterials['idMaterial'], $id_company);
@@ -64,7 +88,6 @@ class CostMaterialsDao
         for ($i = 0; $i < sizeof($dataProduct); $i++) {
             $this->findTotalCostAndModify($dataProduct[$i]['id_product'], $id_company);
         }
-
-        //$this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
+    */
 }
