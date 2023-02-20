@@ -33,7 +33,9 @@ class invCategoriesDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT * FROM plan_categories WHERE type_category = :type_category");
-        $stmt->execute(['type_category' => ucfirst(strtolower(trim($typeCategory)))]);
+        $stmt->execute([
+            'type_category' => strtoupper(trim($typeCategory))
+        ]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -47,7 +49,9 @@ class invCategoriesDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT id_category FROM plan_categories WHERE category = :category");
-        $stmt->execute(['category' => ucfirst(strtolower(trim($dataCategory['category'])))]);
+        $stmt->execute([
+            'category' => strtoupper(trim($dataCategory['category']))
+        ]);
         $findCategory = $stmt->fetch($connection::FETCH_ASSOC);
         return $findCategory;
     }
@@ -62,7 +66,7 @@ class invCategoriesDao
         try {
             $stmt = $connection->prepare("INSERT INTO plan_categories (category, type_category) VALUES (:category, :type_category)");
             $stmt->execute([
-                'category' => ucfirst(strtolower(trim($dataCategory['category']))),
+                'category' => strtoupper(trim($dataCategory['category'])),
                 'type_category' => $dataCategory['typeCategory']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -87,7 +91,7 @@ class invCategoriesDao
             $stmt = $connection->prepare("UPDATE plan_categories SET category = :category, type_category = :type_category 
                                           WHERE id_category = :id_category");
             $stmt->execute([
-                'category' => ucfirst(strtolower(trim($dataCategory['category']))),
+                'category' => strtoupper(trim($dataCategory['category'])),
                 'type_category' => $dataCategory['typeCategory'],
                 'id_category' => $dataCategory['idCategory'],
             ]);

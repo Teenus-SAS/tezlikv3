@@ -27,7 +27,7 @@ class GeneralProductsDao
                                   AND id_company = :id_company");
         $stmt->execute([
             'reference' => trim($dataProduct['referenceProduct']),
-            'product' => ucfirst(strtolower(trim($dataProduct['product']))),
+            'product' => strtoupper(trim($dataProduct['product'])),
             'id_company' => $id_company
         ]);
         $findProduct = $stmt->fetch($connection::FETCH_ASSOC);

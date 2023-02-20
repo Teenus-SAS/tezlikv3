@@ -40,7 +40,7 @@ class PayrollDao
     $stmt = $connection->prepare("SELECT id_payroll FROM payroll
                                   WHERE employee = :employee AND id_process = :id_process AND id_company = :id_company");
     $stmt->execute([
-      'employee' => ucfirst(strtolower(trim($dataPayroll['employee']))),
+      'employee' => strtoupper(trim($dataPayroll['employee'])),
       'id_process' => trim($dataPayroll['idProcess']),
       'id_company' => $id_company
     ]);
@@ -62,7 +62,7 @@ class PayrollDao
                                             :working_days_month, :hours_day, :factor_benefit, :salary_net, :type_contract, :minute_value)");
       $stmt->execute([
 
-        'id_company' => $id_company,                                      'employee' => ucwords(trim($dataPayroll['employee'])),
+        'id_company' => $id_company,                                      'employee' => strtoupper(trim($dataPayroll['employee'])),
         'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
         'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
         'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
@@ -96,7 +96,7 @@ class PayrollDao
                                     WHERE id_payroll = :id_payroll");
       $stmt->execute([
 
-        'id_payroll' => trim($dataPayroll['idPayroll']),                  'employee' => ucwords(trim($dataPayroll['employee'])),
+        'id_payroll' => trim($dataPayroll['idPayroll']),                  'employee' => strtoupper(trim($dataPayroll['employee'])),
         'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
         'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
         'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),

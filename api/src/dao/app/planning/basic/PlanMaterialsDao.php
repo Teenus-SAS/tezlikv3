@@ -33,8 +33,8 @@ class PlanMaterialsDao
       $stmt->execute([
         'id_company' => $id_company,
         'reference' => trim($dataMaterial['refRawMaterial']),
-        'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
-        'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
+        'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
+        'unit' => strtoupper(trim($dataMaterial['unityRawMaterial'])),
         'quantity' => $quantity,
         'category' => $dataMaterial['category']
       ]);
@@ -66,8 +66,8 @@ class PlanMaterialsDao
       $stmt->execute([
         'id_material' => $dataMaterial['idMaterial'],
         'reference' => trim($dataMaterial['refRawMaterial']),
-        'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
-        'unit' => ucfirst(strtolower(trim($dataMaterial['unityRawMaterial']))),
+        'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
+        'unit' => strtoupper(trim($dataMaterial['unityRawMaterial'])),
         'quantity' => $quantity,
         'category' => $dataMaterial['category']
       ]);

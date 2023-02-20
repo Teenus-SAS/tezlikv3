@@ -43,7 +43,7 @@ class ProductsInProcessDao
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product
                                       FROM products p
                                       INNER JOIN plan_categories c ON c.id_category = p.category
-                                      WHERE c.category LIKE '%en proceso'");
+                                      WHERE c.category LIKE '%EN PROCESO'");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

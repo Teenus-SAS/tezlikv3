@@ -84,7 +84,7 @@ class UnitSalesDao
                                           WHERE id_unit_sales = :id_unit_sales");
             $stmt->execute([
                 'id_unit_sales' => $dataSale['idSale'],             'jun' => $dataSale['june'],
-                'id_product' => $dataSale['idProduct'],     'jul' => $dataSale['july'],
+                'id_product' => $dataSale['idProduct'],             'jul' => $dataSale['july'],
                 'year' => $year,                                    'aug' => $dataSale['august'],
                 'jan' => $dataSale['january'],                      'sept' => $dataSale['september'],
                 'feb' => $dataSale['february'],                     'oct' => $dataSale['october'],

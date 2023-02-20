@@ -37,7 +37,7 @@ class InvMoldsDao
                                       WHERE reference = :reference AND mold = :mold AND id_company = :id_company");
         $stmt->execute([
             'reference' => $dataMold['referenceMold'],
-            'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
+            'mold' => strtoupper(trim($dataMold['mold'])),
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -54,7 +54,7 @@ class InvMoldsDao
                                           VALUES (:reference, :mold, :id_company, :assembly_time, :assembly_production, :cavity, :cavity_available)");
             $stmt->execute([
                 'reference' => $dataMold['referenceMold'],
-                'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
+                'mold' => strtoupper(trim($dataMold['mold'])),
                 'id_company' => $id_company,
                 'assembly_time' => $dataMold['assemblyTime'],
                 'assembly_production' => $dataMold['assemblyProduction'],
@@ -81,7 +81,7 @@ class InvMoldsDao
             $stmt->execute([
                 'id_mold' => $dataMold['idMold'],
                 'reference' => $dataMold['referenceMold'],
-                'mold' => ucfirst(strtolower(trim($dataMold['mold']))),
+                'mold' => strtoupper(trim($dataMold['mold'])),
                 'assembly_time' => $dataMold['assemblyTime'],
                 'assembly_production' => $dataMold['assemblyProduction'],
                 'cavity' => $dataMold['cavity'],

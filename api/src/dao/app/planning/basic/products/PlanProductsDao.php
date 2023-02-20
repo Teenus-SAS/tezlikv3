@@ -42,7 +42,7 @@ class PlanProductsDao
                                       VALUES(:id_company, :reference, :product, :id_mold, :quantity, :category)");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
-        'product' => ucfirst(strtolower(trim($dataProduct['product']))),
+        'product' => strtoupper(trim($dataProduct['product'])),
         'id_mold' => $dataProduct['idMold'],
         'id_company' => $id_company,
         'quantity' => $dataProduct['quantity'],
@@ -69,7 +69,7 @@ class PlanProductsDao
                                     WHERE id_product = :id_product AND id_company = :id_company");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
-        'product' => ucfirst(strtolower(trim($dataProduct['product']))),
+        'product' => strtoupper(trim($dataProduct['product'])),
         'id_mold' => $dataProduct['idMold'],
         'id_company' => $id_company,
         'quantity' => $dataProduct['quantity'],

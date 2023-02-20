@@ -55,25 +55,4 @@ class PricesDao
     $price = $stmt->fetch($connection::FETCH_ASSOC);
     return $price;
   }
-
-  // Convertir precio COP a USD
-  /* public function calcPriceByUSD($dataProduct, $id_company)
-  {
-
-    setlocale(LC_MONETARY, 'en_US');
-    $price = money_format('%i', $dataProduct['price']);
-
-
-    $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("");
-    $stmt->execute([
-      'price_usd' => $price,
-      'id_product' => $dataProduct['idProduct'],
-      'id_company' => $id_company
-    ]);
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-    $price = $stmt->fetch($connection::FETCH_ASSOC);
-    return $price;
-  } */
 }

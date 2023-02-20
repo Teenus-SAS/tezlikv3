@@ -40,7 +40,7 @@ class ExternalServicesDao
                                       WHERE id_product = :id_product AND name_service = :name_service AND id_company = :id_company");
         $stmt->execute([
             'id_product' => $dataExternalService['idProduct'],
-            'name_service' => ucfirst(strtolower(trim($dataExternalService['service']))),
+            'name_service' => strtoupper(trim($dataExternalService['service'])),
             'id_company' => $id_company
         ]);
         $findExternalService = $stmt->fetch($connection::FETCH_ASSOC);
@@ -57,7 +57,7 @@ class ExternalServicesDao
                                           VALUES(:name_service, :cost, :id_product, :id_company)");
             $stmt->execute([
                 'id_product' => $dataExternalService['idProduct'],
-                'name_service' => ucfirst(strtolower(trim($dataExternalService['service']))),
+                'name_service' => strtoupper(trim($dataExternalService['service'])),
                 'cost' => $costService,
                 'id_company' => $id_company
             ]);
@@ -81,7 +81,7 @@ class ExternalServicesDao
                                           WHERE id_service = :id_service");
             $stmt->execute([
                 'id_product' => $dataExternalService['idProduct'],
-                'name_service' => ucfirst(strtolower(trim($dataExternalService['service']))),
+                'name_service' => strtoupper(trim($dataExternalService['service'])),
                 'cost' => $costService,
                 'id_service' => $dataExternalService['idService']
             ]);

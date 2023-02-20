@@ -36,7 +36,7 @@ class GeneralProcessDao
         $stmt = $connection->prepare("SELECT id_process FROM process
                                   WHERE process = :process AND id_company = :id_company");
         $stmt->execute([
-            'process' => ucfirst(strtolower(trim($dataProcess['process']))),
+            'process' => strtoupper(trim($dataProcess['process'])),
             'id_company' => $id_company
         ]);
         $findProcess = $stmt->fetch($connection::FETCH_ASSOC);
@@ -51,7 +51,7 @@ class GeneralProcessDao
             $stmt = $connection->prepare("INSERT INTO process (id_company ,process) VALUES (:id_company ,:process)");
             $stmt->execute([
                 'id_company'  => $id_company,
-                'process' => ucfirst(strtolower(trim($dataProcess['process'])))
+                'process' => strtoupper(trim($dataProcess['process']))
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -72,7 +72,7 @@ class GeneralProcessDao
         try {
             $stmt = $connection->prepare("UPDATE process SET process = :process WHERE id_process = :id_process");
             $stmt->execute([
-                'process' => ucfirst(strtolower(trim($dataProcess['process']))),
+                'process' => strtoupper(trim($dataProcess['process'])),
                 'id_process' => $dataProcess['idProcess'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

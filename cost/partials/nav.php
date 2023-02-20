@@ -44,10 +44,24 @@
                         </li>
                     <?php } ?>
 
+                    <li class="nav-item dropdown tools">
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-box-arrow-up-right mr-1"></i> Exportar
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/cost/prices-usd">
+                                <i class="bi bi-currency-dollar mr-1"></i>
+                                <span> Lista de Precios USD</span>
+                                <i class="bx bx-chevron-right"></i>
+                            </a>
+                        </div>
+                    </li>
+
                     <?php if ($_SESSION['tool'] == 1 && $_SESSION['plan_cost_tool'] == 1) { ?>
                         <li class="nav-item dropdown tools">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bx bx-layer mr-1"></i> Herramientas
+                                <i class="bi bi-tools mr-1"></i> Herramientas
                                 <i class="bx bx-chevron-down"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -59,7 +73,6 @@
                             </div>
                         </li>
                     <?php } ?>
-
                 </ul>
             </div>
         </nav>

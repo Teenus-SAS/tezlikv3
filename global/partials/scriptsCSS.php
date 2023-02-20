@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="/assets/css/styles.css" />
 <link rel="stylesheet" href="/assets/css/personalizestyle.css" />
 <!-- ================== END APP CSS ================== -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css">
 <!-- ================== BEGIN POLYFILLS  ================== -->

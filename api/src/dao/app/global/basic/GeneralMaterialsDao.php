@@ -40,7 +40,7 @@ class GeneralMaterialsDao
                                     AND id_company = :id_company");
         $stmt->execute([
             'reference' => trim($dataMaterial['refRawMaterial']),
-            'material' => ucfirst(strtolower(trim($dataMaterial['nameRawMaterial']))),
+            'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
             'id_company' => $id_company,
         ]);
         $findMaterial = $stmt->fetch($connection::FETCH_ASSOC);
