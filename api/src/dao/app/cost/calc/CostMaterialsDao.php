@@ -48,10 +48,10 @@ class CostMaterialsDao
             $dataMaterials['cost'] = $costMaterialsProduct['cost'];
         } catch (\Exception $e) {
             $message = $e->getMessage();
-            $costMaterialsProduct = array('info' => true, 'message' => $message);
+            $dataMaterials = array('info' => true, 'message' => $message);
         }
 
-        return $costMaterialsProduct;
+        return $dataMaterials;
     }
 
     public function updateCostMaterials($dataMaterials, $id_company)

@@ -126,12 +126,22 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
         $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
 
         /* Calcular costo nomina */
-        if ($productProcess == null)
-            $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
+        if ($productProcess == null) {
+            $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+            $productProcess = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
+        }
 
-        /* Calcular costo indirecto */
-        if ($productProcess == null)
-            $productProcess = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
+        // Calcular costo indirecto
+        if ($productProcess == null) {
+            // Buscar la maquina asociada al producto
+            $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+
+            // Calcular costo indirecto
+            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine, $id_company);
+
+            // Modificar campo
+            $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+        }
 
         // Calcular Precio del producto
         if ($productProcess == null)
@@ -193,12 +203,21 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             }
 
             /* Calcular costo nomina */
-            if ($resolution == null)
-                $resolution = $costWorkforceDao->calcCostPayroll($productProcess[$i], $id_company);
+            if ($resolution == null) {
+                $dataPayroll = $costWorkforceDao->calcCostPayroll($productProcess[$i]['idProduct'], $id_company);
+
+                $resolution = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $productProcess[$i]['idProduct'], $id_company);
+            }
 
             /* Calcular costo indirecto */
-            if ($resolution == null)
-                $resolution = $indirectCostDao->calcCostIndirectCost($productProcess[$i], $id_company);
+            if ($resolution == null) {
+                // Buscar la maquina asociada al producto
+                $dataProductMachine = $indirectCostDao->findMachineByProduct($productProcess[$i]['idProduct'], $id_company);
+                // Calcular costo indirecto
+                $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                // Actualizar campo
+                $resolution = $indirectCostDao->updateCostIndirectCost($indirectCost, $productProcess[$i]['idProduct'], $id_company);
+            }
 
             // Calcular Precio del producto
             if ($resolution == null)
@@ -236,12 +255,20 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
     /* Calcular costo nomina */
-    if ($productProcess == null)
-        $productProcess = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
+    if ($productProcess == null) {
+        $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+        $productProcess = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
+    }
 
     /* Calcular costo indirecto */
-    if ($productProcess == null)
-        $productProcess = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
+    if ($productProcess == null) {
+        // Buscar la maquina asociada al producto
+        $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+        // Calcular costo indirecto
+        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+        // Actualizar campo
+        $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+    }
 
     // Calcular Precio del producto
     if ($productProcess == null)
@@ -274,12 +301,20 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $product = $productsProcessDao->deleteProductProcess($dataProductProcess);
 
     /* Calcular costo nomina */
-    if ($product == null)
-        $product = $costWorkforceDao->calcCostPayroll($dataProductProcess, $id_company);
+    if ($product == null) {
+        $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+        $product = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
+    }
 
     /* Calcular costo indirecto */
-    if ($product == null)
-        $product = $indirectCostDao->calcCostIndirectCost($dataProductProcess, $id_company);
+    if ($product == null) {
+        // Buscar la maquina asociada al producto
+        $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+        // Calcular costo indirecto
+        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+        // Actualizar campo
+        $product = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+    }
 
     // Calcular Precio del producto
     if ($product == null)

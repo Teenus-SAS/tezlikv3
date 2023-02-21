@@ -49,7 +49,7 @@ $(document).ready(function () {
     $('#btnAssignExpenses').html('Actualizar');
 
     let row = $(this).parent().parent()[0];
-    let data = tblExpenseRecover.rows(row).data()[0];
+    let data = tblExpensesDistribution.fnGetData(row);
 
     sessionStorage.setItem(
       'id_expenses_distribution',
@@ -108,7 +108,8 @@ $(document).ready(function () {
 
   deleteExpenseDistribution = () => {
     let row = $(this.activeElement).parent().parent()[0];
-    let data = tblExpenseRecover.rows(row).data()[0];
+    let data = tblExpensesDistribution.fnGetData(row);
+
     let id_expenses_distribution = data.id_expenses_distribution;
 
     let idProduct = data.id_product;

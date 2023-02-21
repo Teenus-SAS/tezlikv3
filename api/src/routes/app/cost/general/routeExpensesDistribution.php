@@ -90,8 +90,24 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     if ($dataExpensesDistributions > 1) {
         $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
         /* Calcular gasto asignable */
-        if ($expensesDistribution == null)
-            $expensesDistribution = $assignableExpenseDao->calcAssignableExpense($id_company);
+        if ($expensesDistribution == null) {
+            // Consulta unidades vendidades y volumenes de venta por producto
+            $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+            // Calcular el total de unidades vendidas y volumen de ventas
+            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+            // Obtener el total de gastos
+            $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+            }
+        }
 
         // Calcular Precio del producto
         if ($expensesDistribution == null)
@@ -121,9 +137,25 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $expensesDistribution[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
                 $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
             }
-            /* Calcular gasto asignable */
             if ($resolution != null) break;
-            $resolution = $assignableExpenseDao->calcAssignableExpense($id_company);
+
+            /* Calcular gasto asignable */
+            // Consulta unidades vendidades y volumenes de venta por producto
+            $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+            // Calcular el total de unidades vendidas y volumen de ventas
+            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+            // Obtener el total de gastos
+            $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+            }
 
             // Calcular Precio del producto
             if ($resolution != null) break;
@@ -158,8 +190,24 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
     $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution);
     // Calcular gasto asignable
-    if ($expensesDistribution == null)
-        $expensesDistribution = $assignableExpenseDao->calcAssignableExpense($id_company);
+    if ($expensesDistribution == null) {
+        // Consulta unidades vendidades y volumenes de venta por producto
+        $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+        // Calcular el total de unidades vendidas y volumen de ventas
+        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+        // Obtener el total de gastos
+        $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+        foreach ($unitVol as $arr) {
+            if (isset($resolution['info'])) break;
+            // Calcular gasto asignable
+            $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+            // Actualizar gasto asignable
+            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+        }
+    }
 
     // Calcular Precio del producto
     if ($expensesDistribution == null)
@@ -191,8 +239,24 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
     $expensesDistribution = $expensesDistributionDao->deleteExpensesDistribution($dataExpensesDistribution);
     // Calcular gasto asignable
-    if ($expensesDistribution == null)
-        $expensesDistribution = $assignableExpenseDao->calcAssignableExpense($id_company);
+    if ($expensesDistribution == null) {
+        // Consulta unidades vendidades y volumenes de venta por producto
+        $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+        // Calcular el total de unidades vendidas y volumen de ventas
+        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+        // Obtener el total de gastos
+        $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+        foreach ($unitVol as $arr) {
+            if (isset($resolution['info'])) break;
+            // Calcular gasto asignable
+            $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+            // Actualizar gasto asignable
+            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+        }
+    }
 
     // Calcular Precio del producto
     if ($expensesDistribution == null)

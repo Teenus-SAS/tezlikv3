@@ -16,49 +16,83 @@ class AssignableExpenseDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function calcAssignableExpense($id_company)
+    // Consulta unidades vendidades y volumenes de venta por producto
+    public function findAllExpensesDistribution($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        /* Consulta unidades vendidades y volumenes de venta por producto */
+        try {
+            $stmt = $connection->prepare("SELECT * FROM expenses_distribution WHERE id_company = :id_company");
+            $stmt->execute(['id_company' => $id_company]);
+            $unitVol = $stmt->fetchAll($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $unitVol = array('info' => true, 'message' => $message);
+        }
+        return $unitVol;
+    }
 
-        $stmt = $connection->prepare("SELECT *
-                                      FROM expenses_distribution 
-                                      WHERE id_company = :id_company;");
-        $stmt->execute(['id_company' => $id_company]);
-        $UnitVol = $stmt->fetchAll($connection::FETCH_ASSOC);
+    // Calcular el total de unidades vendidas y volumen de ventas
+    public function findTotalUnitsVol($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
 
-        /* Calcular el total de unidades vendidas y volumen de ventas */
+        try {
+            $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
+                                      FROM expenses_distribution WHERE id_company = :id_company");
+            $stmt->execute(['id_company' => $id_company]);
+            $totalUnitVol = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $totalUnitVol = array('info' => true, 'message' => $message);
+        }
+        return $totalUnitVol;
+    }
 
-        $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
-                                      FROM expenses_distribution WHERE id_company = :id_company;");
-        $stmt->execute(['id_company' => $id_company]);
-        $totalUnitVol = $stmt->fetch($connection::FETCH_ASSOC);
+    // Obtener el total de gastos
+    public function findTotalExpense($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
 
-        /* Obtener el total de gastos */
+        try {
+            $stmt = $connection->prepare("SELECT total_expense FROM general_data WHERE id_company = :id_company");
+            $stmt->execute(['id_company' => $id_company]);
+            $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $totalExpense = array('info' => true, 'message' => $message);
+        }
+        return $totalExpense;
+    }
 
-        $stmt = $connection->prepare("SELECT total_expense 
-                                      FROM general_data 
-                                      WHERE id_company = :id_company;");
-        $stmt->execute(['id_company' => $id_company]);
-        $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
+    // Calcula el gasto asignable
+    public function calcAssignableExpense($unitVol, $totalUnitVol, $totalExpense)
+    {
+        $percentageUnitSolds =  $unitVol['units_sold'] / $totalUnitVol['units_sold'];
+        $percentageVolSolds = $unitVol['turnover'] / $totalUnitVol['turnover'];
+        $average = ($percentageUnitSolds + $percentageVolSolds) / 2;
 
-        for ($i = 0; $i < sizeof($UnitVol); $i++) {
-            /* Calcula el gasto asignable */
-            $percentageUnitSolds =  $UnitVol[$i]['units_sold'] / $totalUnitVol['units_sold'];
-            $percentageVolSolds = $UnitVol[$i]['turnover'] / $totalUnitVol['turnover'];
-            $average = ($percentageUnitSolds + $percentageVolSolds) / 2;
+        $averageExpense = $average * $totalExpense['total_expense'];
+        $assignableExpense = $averageExpense / $unitVol['units_sold'];
 
-            $averageExpense = $average * $totalExpense['total_expense'];
-            $assignableExpense = $averageExpense / $UnitVol[$i]['units_sold'];
+        return $assignableExpense;
+    }
 
-            /* Actualizar gasto asignable */
-            $stmt = $connection->prepare("UPDATE expenses_distribution SET assignable_expense = :assignable_expense
-                                      WHERE id_product = :id_product");
+    // Actualizar gasto asignable
+    public function updateAssignableExpense($idProduct, $assignableExpense)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE expenses_distribution SET assignable_expense = :assignable_expense WHERE id_product = :id_product");
             $stmt->execute([
-                'id_product' => $UnitVol[$i]['id_product'],
+                'id_product' => $idProduct,
                 'assignable_expense' => $assignableExpense
             ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
         }
     }
 }

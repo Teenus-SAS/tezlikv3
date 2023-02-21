@@ -344,22 +344,45 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
             if ($resolution == null) {
                 //Metodo calcular precio total materias
-                $dataProduct = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
+                $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
 
-                $resolution = $costMaterialsDao->updateCostMaterials($dataProduct, $id_company);
+                $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
             }
 
-            if ($resolution == null)
+            if ($resolution == null) {
                 // Calcular costo nomina
-                $resolution = $costWorkforceDao->calcCostPayroll($dataProduct, $id_company);
+                $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProduct['idProduct'], $id_company);
 
-            if ($resolution == null)
+                $resolution = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
+            }
+
+            if ($resolution == null) {
+                // Buscar la maquina asociada al producto
+                $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProduct['idProduct'], $id_company);
                 // Calcular costo indirecto
-                $resolution = $indirectCostDao->calcCostIndirectCost($dataProduct, $id_company);
+                $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                // Actualizar campo
+                $resolution = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
+            }
 
-            if ($resolution == null)
-                // Calcular gasto asignable
-                $resolution =  $assignableExpenseDao->calcAssignableExpense($id_company);
+            if ($resolution == null) {
+                // Consulta unidades vendidades y volumenes de venta por producto
+                $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+                // Calcular el total de unidades vendidas y volumen de ventas
+                $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+                // Obtener el total de gastos
+                $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+                foreach ($unitVol as $arr) {
+                    if (isset($resolution['info'])) break;
+                    // Calcular gasto asignable
+                    $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                    // Actualizar gasto asignable
+                    $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+                }
+            }
 
             if ($resolution == null) {
                 // Calcular Precio de los productos

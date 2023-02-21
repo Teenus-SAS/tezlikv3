@@ -114,16 +114,16 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
         $productMaterials = $productsMaterialsDao->insertProductsMaterialsByCompany($dataProductMaterial, $id_company);
         //Metodo calcular precio total materias
         if ($productMaterials == null) {
-            $dataProductMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+            $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
-            $productMaterials = $costMaterialsDao->updateCostMaterials($dataProductMaterial, $id_company);
+            $productMaterials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
         }
 
         // Calcular Precio del producto
         if ($productMaterials == null)
             $productMaterials = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
         if (isset($productMaterials['totalPrice']))
-            $productMaterials = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $dataProductMaterial['totalPrice']);
+            $productMaterials = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $productMaterials['totalPrice']);
 
         if ($productMaterials == null)
             $resp = array('success' => true, 'message' => 'Materia prima asignada correctamente');
@@ -156,9 +156,9 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             //Metodo calcular precio total materias
             if ($resolution != null) break;
 
-            $productMaterials[$i] = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
+            $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
 
-            $resolution = $costMaterialsDao->updateCostMaterials($productMaterials[$i], $id_company);
+            $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
 
             // Calcular Precio del producto
             if ($resolution != null) break;
@@ -194,9 +194,9 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
 
     //Metodo calcular precio total materias
     if ($productMaterials == null) {
-        $dataProductMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+        $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
-        $productMaterials = $costMaterialsDao->updateCostMaterials($dataProductMaterial, $id_company);
+        $productMaterials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
     }
 
     // Calcular Precio del producto
@@ -230,9 +230,9 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
 
     //Metodo calcular precio total materias
     if ($product == null) {
-        $dataProductMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+        $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
-        $product = $costMaterialsDao->updateCostMaterials($dataProductMaterial, $id_company);
+        $product = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
     }
 
     // Calcular Precio del producto

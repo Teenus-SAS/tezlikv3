@@ -31,7 +31,7 @@ class CostWorkforceDao
     }
 
     // Buscar costo de nomina y modificar en products_costs
-    public function findCostPayrollAndModify($dataPayroll, $id_company)
+    public function calcCostPayroll($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
@@ -40,30 +40,26 @@ class CostWorkforceDao
                                         INNER JOIN payroll p ON p.id_process = pp.id_process 
                                         WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
             $stmt->execute([
-                'id_product' => $dataPayroll['idProduct'],
+                'id_product' => $idProduct,
                 'id_company' => $id_company
             ]);
             $payroll = $stmt->fetch($connection::FETCH_ASSOC);
-
-            $dataPayroll['costPayroll'] = $payroll['cost'];
         } catch (\Exception $e) {
             $message = $e->getMessage();
-
-            $dataPayroll = array('info' => true, 'message' => $message);
-            return $dataPayroll;
+            $payroll = array('info' => true, 'message' => $message);
         }
-        return $dataPayroll;
+        return $payroll;
     }
 
-    public function updateCostWorkforce($dataPayroll, $id_company)
+    public function updateCostWorkforce($costPayroll, $idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
             $stmt = $connection->prepare("UPDATE products_costs SET cost_workforce = :workforce WHERE id_product = :id_product AND id_company = :id_company");
             $stmt->execute([
-                'workforce' => $dataPayroll['costPayroll'],
-                'id_product' => $dataPayroll['idProduct'],
+                'workforce' => $costPayroll,
+                'id_product' => $idProduct,
                 'id_company' => $id_company
             ]);
         } catch (\Exception $e) {
@@ -73,22 +69,4 @@ class CostWorkforceDao
             return $error;
         }
     }
-
-    /*
-    // General
-    public function calcCostPayroll($dataProductProcess, $id_company)
-    {
-        $this->findCostPayrollAndModify($dataProductProcess['idProduct'], $id_company);
-    }
-
-    // Al modificar la nomina
-    public function calcCostPayrollByPayroll($dataPayroll, $id_company)
-    {
-        $dataProduct = $this->findProductByProcess($dataPayroll['idProcess'], $id_company);
-
-        for ($i = 0; $i < sizeof($dataProduct); $i++) {
-            $this->findCostPayrollAndModify($dataProduct[$i]['id_product'], $id_company);
-        }
-    }
-    */
 }
