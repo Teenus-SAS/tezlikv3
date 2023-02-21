@@ -84,4 +84,11 @@ class PriceUSDDao
 
         return $standardDeviation;
     }
+
+    public function calcDollarCoverage($actualUSD, $standardDeviation, $numDeviation)
+    {
+        $dollarCoverage = $actualUSD - ($standardDeviation * $numDeviation);
+
+        return $dollarCoverage;
+    }
 }

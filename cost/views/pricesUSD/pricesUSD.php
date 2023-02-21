@@ -90,8 +90,8 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
     <script src="/global/js/global/orderData.js"></script>
-    <script src="/cost/js/pricesUSD/configPricesUSD.js"></script>
     <script src="/cost/js/pricesUSD/tblpricesUSD.js"></script>
+    <script src="/cost/js/pricesUSD/configPricesUSD.js"></script>
 </body>
 
 </html>

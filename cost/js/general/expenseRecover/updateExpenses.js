@@ -27,7 +27,7 @@ $(document).ready(function () {
       if ($(`#${id}`).is(':checked')) {
         let data = sessionStorage.getItem('dataExpensesRecover');
         data = JSON.parse(data);
-        data = setDataRowRecover(data, this.id);
+        data = setDataRowRecover(data, idExpenseRecover);
 
         let expense = {
           idExpenseRecover: idExpenseRecover,
