@@ -36,7 +36,7 @@ class QuantityUsersDao
     public function quantityUsersCreated($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT COUNT(*) FROM users WHERE id_company = :id_company;");
+        $stmt = $connection->prepare("SELECT COUNT(*) AS quantity_users FROM users WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $quantity_users_created = $stmt->fetch($connection::FETCH_ASSOC);
 

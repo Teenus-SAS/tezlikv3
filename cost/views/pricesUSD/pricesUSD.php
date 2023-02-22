@@ -48,11 +48,14 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <!-- <div class="col-sm-7 col-xl-6">
+                            <div class="col-sm-7 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-primary" id="btnCreateMachine">Análisis de Precios</button>
+                                    <div class="col-sm-4" style="margin-bottom:20px">
+                                        <label class="mb-1 font-weight-bold text-dark">Desviación Estándar</label>
+                                        <input type="text" class="form-control text-center" name="deviation" id="deviation" value="3">
+                                    </div>
                                 </div>
-                            </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +93,7 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
     <script src="/global/js/global/orderData.js"></script>
-    <script src="/cost/js/pricesUSD/tblpricesUSD.js"></script>
+    <script src="/cost/js/pricesUSD/tblPricesUSD.js"></script>
     <script src="/cost/js/pricesUSD/configPricesUSD.js"></script>
 </body>
 

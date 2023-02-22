@@ -46,17 +46,17 @@ class PlanAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("UPDATE plans_access SET cant_products = :cant_products, cost_price= :cost_price, cost_analysis_material= :cost_analysis_material, cost_tool= :cost_tool, cost_quote = :cost_quote, cost_economy_scale = :cost_economy_scale,
-                                                 plan_inventory = :plan_inventory, plan_order= :plan_order, plan_program= :plan_program, plan_load= :plan_load, plan_explosion_of_material= :plan_explosion_of_material, plan_office= :plan_office
+            $stmt = $connection->prepare("UPDATE plans_access SET cant_products = :cant_products, cost_price= :cost_price, cost_price_usd= :cost_price_usd, cost_analysis_material= :cost_analysis_material, cost_support= :cost_support, cost_quote = :cost_quote, cost_economy_scale = :cost_economy_scale, 
+                                                                  plan_inventory = :plan_inventory, plan_order= :plan_order, plan_program= :plan_program, plan_load= :plan_load, plan_explosion_of_material= :plan_explosion_of_material, plan_office= :plan_office
                                           WHERE id_plan= :id_plan");
             $stmt->execute([
-                'id_plan' => $dataPlan['idPlan'],                               'plan_inventory' => $dataPlan['inventories'],
-                'cant_products' => $dataPlan['cantProducts'],                   'plan_order' => $dataPlan['orders'],
-                'cost_price' => $dataPlan['prices'],                            'plan_program' => $dataPlan['programming'],
+                'id_plan' => $dataPlan['idPlan'],                               'cost_economy_scale' => $dataPlan['economyScale'],
+                'cant_products' => $dataPlan['cantProducts'],                   'plan_inventory' => $dataPlan['inventories'],
+                'cost_price' => $dataPlan['prices'],                            'plan_order' => $dataPlan['orders'],
+                'cost_price_usd' => $dataPlan['pricesUSD'],                         'plan_program' => $dataPlan['programming'],
                 'cost_analysis_material' => $dataPlan['analysisRawMaterials'],  'plan_load' => $dataPlan['loads'],
-                'cost_tool' => $dataPlan['tools'],                              'plan_explosion_of_material' => $dataPlan['explosionOfMaterials'],
-                'cost_quote' => $dataPlan['quotes'],                            'plan_office' =>  $dataPlan['offices'],
-                'cost_economy_scale' => $dataPlan['economyScale']
+                'cost_support' => $dataPlan['support'],                              'plan_explosion_of_material' => $dataPlan['explosionOfMaterials'],
+                'cost_quote' => $dataPlan['quotes'],                            'plan_office' =>  $dataPlan['offices']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

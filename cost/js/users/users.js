@@ -103,10 +103,11 @@ $(document).ready(function () {
       quoteCompany: data.quote_company,
       quoteContact: data.quote_contact,
       prices: data.price,
+      pricesUSD: data.price_usd,
       analysisMaterials: data.analysis_material,
-      tools: data.tool,
-      quotes: data.quote,
       economyScale: data.economy_scale,
+      quotes: data.quote,
+      support: data.support,
     };
 
     let i = 1;
@@ -168,10 +169,11 @@ $(document).ready(function () {
       quoteCompany: 0,
       quoteContact: 0,
       price: 0,
+      priceUSD: 0,
       analysisMaterial: 0,
-      tool: 0,
-      quote: 0,
       economyScale: 0,
+      quote: 0,
+      support: 0,
     };
 
     $.each(access, (index, value) => {

@@ -50,11 +50,8 @@ class UsersDao
     return $users;
   }
 
-  public function findUser()
+  public function findUser($email)
   {
-    session_start();
-    $email = $_SESSION['email'];
-
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT * FROM users u WHERE email = :email");
     $stmt->execute(['email' => $email]);
@@ -65,24 +62,24 @@ class UsersDao
     return $user;
   }
 
-  public function saveUser($dataUser, $id_company)
+  public function saveUser($dataUser, $pass, $id_company)
   {
-    $newPassDao = new GenerateCodeDao();
+    /*$newPassDao = new GenerateCodeDao();
     $email = new SendMakeEmailDao();
-    $connection = Connection::getInstance()->getConnection();
-
+    
     $stmt = $connection->prepare("SELECT id_user FROM users WHERE email = :email");
     $stmt->execute(['email' => trim($dataUser['emailUser'])]);
     $rows = $stmt->fetch($connection::FETCH_ASSOC);
-
+    
     if ($rows > 0) {
       return 1;
-    } else {
+    } else { 
       $newPass = $newPassDao->GenerateCode();
       // Se envia email con usuario(email) y contraseña
       $email->SendEmailPassword($dataUser['emailUser'], $newPass);
-      $pass = password_hash($newPass, PASSWORD_DEFAULT);
-
+      $pass = password_hash($newPass, PASSWORD_DEFAULT); */
+    $connection = Connection::getInstance()->getConnection();
+    try {
       $stmt = $connection->prepare("INSERT INTO users (firstname, lastname, email, password, id_company, active) 
                                     VALUES(:firstname, :lastname, :email, :pass, :id_company, :active)");
       $stmt->execute([
@@ -93,8 +90,12 @@ class UsersDao
         'id_company' => $id_company,
         'active' => 1
       ]);
+      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+      $error = array('info' => true, 'message' => $message);
+      return $error;
     }
-    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
   }
 
   public function updateUser($dataUser, $pathAvatar)
@@ -139,17 +140,5 @@ class UsersDao
       $error = array('info' => true, 'message' => $message);
       return $error;
     }
-
-    // $connection = Connection::getInstance()->getConnection();
-
-    // $stmt = $connection->prepare("SELECT * FROM users");
-    // $stmt->execute();
-    // $rows = $stmt->rowCount();
-
-    // if ($rows > 1) {
-    //   $stmt = $connection->prepare("DELETE FROM users WHERE id_user = :id");
-    //   $stmt->execute(['id' => $dataUser['idUser']]);
-    //   $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-    // }
   }
 }

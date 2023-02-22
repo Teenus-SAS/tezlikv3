@@ -1,11 +1,13 @@
 <?php
 
 use tezlikv3\dao\GenerateCodeDao;
+use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\UserAdminDao;
 
 $userAdminDao = new UserAdminDao();
 $newPassDao = new GenerateCodeDao();
+$makeEmailDao = new SendMakeEmailDao();
 $emailDao = new SendEmailDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,7 +29,15 @@ $app->get('/userAdmin', function (Request $request, Response $response, $args) u
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addUserAdmin', function (Request $request, Response $response, $args) use ($userAdminDao, $newPassDao, $emailDao) {
+$app->post('/addUserAdmin', function (Request $request, Response $response, $args) use (
+    $userAdminDao,
+    $newPassDao,
+    $makeEmailDao,
+    $emailDao
+) {
+    session_start();
+    $email = $_SESSION['name'];
+    $name = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();
 
     if (empty($dataUserAdmin['firstname']) || empty($dataUserAdmin['lastname']) || empty($dataUserAdmin['email']))
@@ -36,8 +46,11 @@ $app->post('/addUserAdmin', function (Request $request, Response $response, $arg
         $newPass = $newPassDao->GenerateCode();
 
         // Se envia email con usuario(email) y contraseña
-        $emailDao->SendEmailPassword($dataUserAdmin['email'], $newPass);
+        $dataEmail =  $makeEmailDao->SendEmailPassword($dataUserAdmin['email'], $newPass);
 
+        $email = $emailDao->sendEmail($dataEmail, $email, $name);
+
+        // if ($email == null)
         $userAdmin = $userAdminDao->insertUserAdmin($dataUserAdmin, $newPass);
 
         if ($userAdmin == null)

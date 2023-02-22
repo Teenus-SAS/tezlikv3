@@ -5,9 +5,15 @@ use tezlikv3\dao\UsersDao;
 use tezlikv3\dao\QuantityUsersDao;
 //Acceso de usuario
 use tezlikv3\dao\CostUserAccessDao;
+use tezlikv3\dao\GenerateCodeDao;
 use tezlikv3\dao\PlanningUserAccessDao;
+use tezlikv3\dao\SendEmailDao;
+use tezlikv3\dao\SendMakeEmailDao;
 
 $userDao = new UsersDao();
+$generateCodeDao = new GenerateCodeDao();
+$makeEmailDao = new SendMakeEmailDao();
+$sendEmailDao = new SendEmailDao();
 $quantityUsersDao = new QuantityUsersDao();
 $costAccessUserDao = new CostUserAccessDao();
 $planningAccessUserDao = new PlanningUserAccessDao();
@@ -26,14 +32,24 @@ $app->get('/users', function (Request $request, Response $response, $args) use (
 });
 
 $app->get('/user', function (Request $request, Response $response, $args) use ($userDao) {
-    $users = $userDao->findUser();
+    session_start();
+    $email = $_SESSION['email'];
+    $users = $userDao->findUser($email);
     $response->getBody()->write(json_encode($users, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 /* Insertar usuario */
 
-$app->post('/addUser', function (Request $request, Response $response, $args) use ($userDao, $quantityUsersDao, $costAccessUserDao, $planningAccessUserDao) {
+$app->post('/addUser', function (Request $request, Response $response, $args) use (
+    $userDao,
+    $generateCodeDao,
+    $makeEmailDao,
+    $sendEmailDao,
+    $quantityUsersDao,
+    $costAccessUserDao,
+    $planningAccessUserDao
+) {
     session_start();
     //data
     $dataUser = $request->getParsedBody();
@@ -47,7 +63,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     $quantityCreatedUsers = $quantityUsersDao->quantityUsersCreated($id_company);
 
 
-    if ($quantityAllowsUsers >= $quantityCreatedUsers)
+    if ($quantityAllowsUsers['quantity_user'] <= $quantityCreatedUsers['quantity_users'])
         $resp = array('error' => true, 'message' => 'Cantidad de usuarios maxima alcanzada');
     else {
         if (empty($dataUser['nameUser']) && empty($dataUser['lastnameUser']) && empty($dataUser['emailUser'])) {
@@ -55,15 +71,36 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
             exit();
         }
 
-        /* Almacena el usuario */
-        $users = $userDao->saveUser($dataUser, $id_company);
+        $users = $userDao->findUser($dataUser['emailUser']);
 
-        if ($users == null) {
-            /* Almacena los accesos */
-            if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
-            if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
-            !isset($usersAccess) ? $usersAccess = null : $usersAccess;
-        }
+        if ($users == false) {
+            $email = $_SESSION['email'];
+            $name = $_SESSION['name'];
+
+            $newPass = $generateCodeDao->GenerateCode();
+
+            // Se envia email con usuario(email) y contraseña
+            $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
+
+            $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
+
+            // if ($sendEmail == null) {
+            $pass = password_hash($newPass, PASSWORD_DEFAULT);
+
+            /* Almacena el usuario */
+            $users = $userDao->saveUser($dataUser, $pass, $id_company);
+            // }
+
+            if ($users == null) {
+                $user = $userDao->findUser($dataUser['emailUser']);
+                $dataUser['idUser'] = $user['id_user'];
+
+                /* Almacena los accesos */
+                if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
+                !isset($usersAccess) ? $usersAccess = null : $usersAccess;
+            }
+        } else $users = 1;
 
 
         if ($users == 1) {
@@ -73,8 +110,6 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
         } else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
         }
-        // if ($users == 3)
-        //     $resp = array('success' => true, 'message' => 'Usuario actualizado correctamente');
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

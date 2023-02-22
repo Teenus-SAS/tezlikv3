@@ -80,6 +80,16 @@ $(document).ready(function () {
           },
         },
         {
+          title: 'Precios USD',
+          data: 'cost_price_usd',
+          className: 'uniqueClassName',
+          render: function (data, type, row) {
+            return data == 1
+              ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+              : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          },
+        },
+        {
           title: 'Analisis Materia Prima',
           data: 'cost_analysis_material',
           className: 'uniqueClassName',
@@ -90,8 +100,8 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Herramientas',
-          data: 'cost_tool',
+          title: 'Economia De Escala',
+          data: 'cost_economy_scale',
           className: 'uniqueClassName',
           render: function (data, type, row) {
             return data == 1
@@ -99,6 +109,7 @@ $(document).ready(function () {
               : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
           },
         },
+
         {
           title: 'Cotizaciones',
           data: 'cost_quote',
@@ -110,8 +121,8 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Economia De Escala',
-          data: 'cost_economy_scale',
+          title: 'Soporte',
+          data: 'cost_support',
           className: 'uniqueClassName',
           render: function (data, type, row) {
             return data == 1

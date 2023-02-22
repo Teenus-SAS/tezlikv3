@@ -102,10 +102,11 @@ $(document).ready(function () {
     let acces = {
       //costos
       prices: data.cost_price,
+      pricesUSD: data.cost_price_usd,
       analysisMaterials: data.cost_analysis_material,
-      tools: data.cost_tool,
-      quotes: data.cost_quote,
       economyScale: data.cost_economy_scale,
+      quotes: data.cost_quote,
+      support: data.cost_support,
 
       //Planeacion
       inventories: data.plan_inventory,
@@ -135,10 +136,11 @@ $(document).ready(function () {
 
     let access = {
       prices: 0,
+      pricesUSD: 0,
       analysisRawMaterials: 0,
-      tools: 0,
-      quotes: 0,
       economyScale: 0,
+      quotes: 0,
+      support: 0,
       inventories: 0,
       orders: 0,
       programming: 0,

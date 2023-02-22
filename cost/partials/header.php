@@ -1,7 +1,7 @@
 <header id="page-topbar" class="topbar-header">
     <div class="navbar-header">
         <div class="left-bar">
-            <div class="navbar-brand-box">
+            <div class="d-flex justify-content-center">
                 <a href="/cost" class="logo logo-dark">
                     <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
                     <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
