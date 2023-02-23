@@ -2,15 +2,24 @@
 <header id="page-topbar" class="topbar-header">
     <div class="navbar-header">
         <div class="left-bar">
-            <div class="navbar-brand-box">
-                <a href="/cost" class="logo logo-dark">
-                    <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
-                    <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
-                </a>
-                <a href="/cost" class="logo logo-light">
-                    <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
-                    <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Lettstart Admin"></span>
-                </a>
+            <div class="d-flex justify-content-center">
+                <div class="d-lg-none">
+                    <a href="/planning" class="logo logo-dark">
+                        <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
+                    </a>
+                    <a href="/planning" class="logo logo-light">
+                        <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
+                    </a>
+                </div>
+
+                <div class="d-none d-lg-block">
+                    <a href="/planning" class="logo logo-dark">
+                        <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
+                    </a>
+                    <a href="/planning" class="logo logo-light">
+                        <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Lettstart Admin"></span>
+                    </a>
+                </div>
             </div>
             <a class="navbar-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" data-target="#topnav-menu-content" aria-expanded="false">
                 <span></span>
@@ -19,12 +28,6 @@
             </a>
         </div>
         <div class="right-bar">
-            <!-- <form class="app-search mr-2 d-none d-lg-block">
-                <div class="search-box position-relative">
-                    <input type="text" placeholder="Search..." class="form-control">
-                    <span class="bx bx-search"></span>
-                </div>
-            </form> -->
             <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
                     <i class="bx bx-cog bx-spin" style="font-size: 2em;"></i>
@@ -114,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-inline-flex ml-0 ml-sm-2 d-lg-none dropdown">
+            <div class="d-none d-lg-block ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-search-dropdown" aria-expanded="false" class="btn header-item notify-icon">
                     <i class="bx bx-search"></i>
                 </button>

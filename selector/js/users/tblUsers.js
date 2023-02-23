@@ -164,8 +164,18 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Precios',
+          title: 'Precios COP',
           data: 'price',
+          className: 'uniqueClassName',
+          render: function (data, type, row) {
+            return data == 1
+              ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+              : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          },
+        },
+        {
+          title: 'Precios USD',
+          data: 'price_usd',
           className: 'uniqueClassName',
           render: function (data, type, row) {
             return data == 1
@@ -184,8 +194,28 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Herramientas',
-          data: 'tool',
+          title: 'Economia De Escala',
+          data: 'economy_scale',
+          className: 'uniqueClassName',
+          render: function (data, type, row) {
+            return data == 1
+              ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+              : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          },
+        },
+        {
+          title: 'Cotización',
+          data: 'quote',
+          className: 'uniqueClassName',
+          render: function (data, type, row) {
+            return data == 1
+              ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+              : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          },
+        },
+        {
+          title: 'Soporte',
+          data: 'support',
           className: 'uniqueClassName',
           render: function (data, type, row) {
             return data == 1

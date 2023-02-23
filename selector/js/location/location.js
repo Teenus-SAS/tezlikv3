@@ -8,11 +8,11 @@ $(document).ready(function () {
     id = this.id;
 
     if (id == 1) {
-      location = '../../cost/';
+      href = '../../cost/';
     } else {
-      location = '../../planning/';
+      href = '../../planning/';
     }
 
-    location.href = r.location;
+    location.href = href;
   });
 });

@@ -74,14 +74,14 @@ $app->post('/updatePlanningUserAccess', function (Request $request, Response $re
 
     $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
 
-    if (isset($dataUserAccess['idUser']))
-        $user = $dataUserAccess;
-    else {
-        $user = $lastDataDao->findLastInsertedUser($id_company);
-    }
+    // if (isset($dataUserAccess['idUser']))
+    //     $user = $dataUserAccess;
+    // else {
+    //     $user = $lastDataDao->findLastInsertedUser($id_company);
+    // }
 
     /* Modificar accesos */
-    $generalUAccessDao->setGeneralAccess($user['idUser']);
+    $generalUAccessDao->setGeneralAccess($dataUserAccess['idUser']);
 
     if ($userAccess == null)
         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');
@@ -95,25 +95,3 @@ $app->post('/updatePlanningUserAccess', function (Request $request, Response $re
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
-
-// $app->post('/updatePlanningUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
-//     session_start();
-//     $dataUserAccess = $request->getParsedBody();
-//     $idUser = $_SESSION['idUser'];
-
-//     if ($dataUserAccess['idUser'] != $idUser) {
-
-//         $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
-//         if ($userAccess == null)
-//             $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');
-//         else
-//             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-//     } else {
-//         $dataUserAccess['user'] = 1;
-//         $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
-//         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente, no puede quitar permisos de usuario.');
-//     }
-
-//     $response->getBody()->write(json_encode($resp));
-//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-// });

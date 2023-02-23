@@ -143,11 +143,12 @@ $(document).ready(function () {
       quotePaymentMethod: data.quote_payment_method,
       quoteCompany: data.quote_company,
       quoteContact: data.quote_contact,
-      price: data.analysis_material,
-      analysisMaterial: data.price,
-      tool: data.tool,
+      price: data.price,
+      priceUSD: data.price_usd,
+      analysisMaterial: data.analysis_material,
+      economyScale: data.cost_economy_scale,
       quote: data.quote,
-      economyScale: data.economy_scale,
+      support: data.support,
 
       //Planeacion
       createMold: data.create_mold,
@@ -194,7 +195,7 @@ $(document).ready(function () {
     dataUser = setCheckBoxes(dataUser);
 
     $.post(
-      '/api/updatePlanningUserAccess',
+      '/api/updateUserAccess',
       dataUser,
       function (data, textStatus, jqXHR) {
         message(data);
@@ -225,10 +226,11 @@ $(document).ready(function () {
       quoteCompany: 0,
       quoteContact: 0,
       price: 0,
-      analysisMaterial: 0,
-      tool: 0,
-      quote: 0,
+      priceUSD: 0,
       economyScale: 0,
+      analysisMaterial: 0,
+      quote: 0,
+      support: 0,
 
       //Planeacion
       createMold: 0,

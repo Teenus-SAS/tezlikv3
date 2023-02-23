@@ -2,14 +2,22 @@
     <div class="navbar-header">
         <div class="left-bar">
             <div class="d-flex justify-content-center">
-                <a href="/cost" class="logo logo-dark">
-                    <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
-                    <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
-                </a>
-                <a href="/cost" class="logo logo-light">
-                    <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
-                    <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Lettstart Admin"></span>
-                </a>
+                <div class="d-lg-none">
+                    <a href="/cost" class="logo logo-dark">
+                        <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
+                    </a>
+                    <a href="/cost" class="logo logo-light">
+                        <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
+                    </a>
+                </div>
+                <div class="d-none d-lg-block">
+                    <a href="/cost" class="logo logo-dark">
+                        <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
+                    </a>
+                    <a href="/cost" class="logo logo-light">
+                        <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Lettstart Admin"></span>
+                    </a>
+                </div>
             </div>
             <a class="navbar-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" data-target="#topnav-menu-content" aria-expanded="false">
                 <span></span>
@@ -134,42 +142,14 @@
                                             <?php } ?>
                                         </ul>
                                     </div>
-                                    <!-- <div class="col-md-3" id="navCostSetting">
-                                    <h5 class="font-size-14 font-weight-600">Configuración</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
-
-                                        <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
-
-                                        <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
-
-                                        <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
-                                    </ul>
-                                </div> -->
-                                    <!-- <div class="col-md-3" id="navCostGeneral">
-                                    <h5 class="font-size-14 font-weight-600">General</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
-
-                                        <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
-
-                                        <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
-
-                                    </ul>
-                                </div>
-                                <div class="col-md-3" id="navCostAdmin">
-                                    <h5 class="font-size-14 font-weight-600">Administrador</h5>
-                                    <ul class="list-unstyled megamenu-list">
-                                        <li class="users"><a href="/cost/users">Usuarios</a></li>
-                                    </ul>
-                                </div> -->
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             <?php } ?>
-            <div class="d-inline-flex ml-0 ml-sm-2 d-lg-none dropdown">
+
+            <div class="d-none d-lg-block ml-0 ml-sm-2 dropdown ">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-search-dropdown" aria-expanded="false" class="btn header-item notify-icon">
                     <i class="bx bx-search"></i>
                 </button>
@@ -184,30 +164,6 @@
                     </form>
                 </div>
             </div>
-
-            <!-- <div class="d-none d-lg-inline-flex ml-2 dropdown">
-                <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-app-dropdown" aria-expanded="false" class="btn header-item notify-icon">
-                    <i class="bx bx-customize"></i>
-                </button>
-                <div aria-labelledby="page-header-app-dropdown" class="dropdown-menu-lg dropdown-menu-right dropdown-menu">
-                    <div class="px-lg-2">
-                        <div class="row no-gutters">
-                            <div class="col">
-                                <a href="javascript: void(0);" class="dropdown-icon-item">
-                                    <img src="/selector/assets/img/cost.png" alt="cost">
-                                    <span>Costos</span>
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="javascript: void(0);" class="dropdown-icon-item">
-                                    <img src="/selector/assets/img/time-planning.png" alt="planning">
-                                    <span>Planeación</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
 
             <div class="d-none d-lg-inline-flex ml-2">
                 <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">

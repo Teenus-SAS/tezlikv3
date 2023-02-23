@@ -962,8 +962,9 @@ small {
 
 /*# sourceMappingURL=metisMenu.css.map */
 
+
 .logo-sm {
-  display: none;
+  display: block;
 }
 
 .logo-sm img {
