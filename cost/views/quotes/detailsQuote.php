@@ -82,77 +82,79 @@ if (sizeof($_SESSION) == 0)
 
 						<div id="invoice">
 							<div class="invoice overflow-auto">
-								<div style="min-width: 600px;">
-									<div class="row">
-										<div class="col">
-											<a href="javascript:;">
-												<img id="logo" src="" width="200" alt="">
-											</a>
-										</div>
-										<div class="col company-details">
-											<h2 class="name" id="company">
-											</h2>
-											<div id="address"></div>
-											<div id="phone"></div>
-											<div id="city"></div>
-										</div>
-									</div>
-									<div class="row contacts">
-										<div class="col invoice-to">
-											<div class="text-gray-light">Cotizado a:</div>
-											<h2 id="qCompany"></h2>
-											<div id="contactName"></div>
-											<div id="contactPhone"></div>
-											<div id="contactEmail">
+								<main>
+									<div style="min-width: 600px;">
+										<div class="row">
+											<div class="col">
+												<a href="javascript:;">
+													<img id="logo" src="" width="200" alt="">
+												</a>
+											</div>
+											<div class="col company-details">
+												<h2 class="name" id="company">
+												</h2>
+												<div id="address"></div>
+												<div id="phone"></div>
+												<div id="city"></div>
 											</div>
 										</div>
-										<div class="col invoice-details">
-											<h1 id="idQuote"></h1>
-											<div id="dateQuote"></div>
-											<!-- <div class="date">Due Date: 30/10/2018</div> -->
+										<div class="row contacts">
+											<div class="col invoice-to">
+												<div class="text-gray-light">Cotizado a:</div>
+												<h2 id="qCompany"></h2>
+												<div id="contactName"></div>
+												<div id="contactPhone"></div>
+												<div id="contactEmail">
+												</div>
+											</div>
+											<div class="col invoice-details">
+												<h1 id="idQuote"></h1>
+												<div id="dateQuote"></div>
+												<!-- <div class="date">Due Date: 30/10/2018</div> -->
+											</div>
 										</div>
+										<table>
+											<thead>
+												<tr>
+													<th>#</th>
+													<th class="text-left">Referencia</th>
+													<th class="text-left">Descripción</th>
+													<th class="text-center">Cantidad</th>
+													<th class="text-center">Precio</th>
+													<th class="text-center">Descuento</th>
+													<th class="text-center">Total</th>
+												</tr>
+											</thead>
+											<tbody id="tblQuotesProductsBody">
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="4"></td>
+													<td colspan="2">SUBTOTAL</td>
+													<td id="subtotal"></td>
+												</tr>
+												<tr>
+													<td colspan="4"></td>
+													<td colspan="2">IVA 19%</td>
+													<td id="iva"></td>
+												</tr>
+												<tr>
+													<td colspan="4"></td>
+													<td colspan="2" style="color: #8DAC18;"><b>TOTAL</b></td>
+													<td id="total" style="color: #8DAC18;"><b></b></td>
+												</tr>
+											</tfoot>
+										</table>
+										<div class="notices" id="qDescription">
+										</div>
+										<br>
+										<div class="notices py-5">
+											<h3>Observaciones Generales:</h3>
+											<div id="observation"></div>
+										</div>
+										<div style="width: 100%;text-align: center;color: #777;border-top: 1px solid #aaa;padding: 8px 0;" id="qFooter"></div>
 									</div>
-									<table>
-										<thead>
-											<tr>
-												<th>#</th>
-												<th class="text-left">Referencia</th>
-												<th class="text-left">Descripción</th>
-												<th class="text-center">Cantidad</th>
-												<th class="text-center">Precio</th>
-												<th class="text-center">Descuento</th>
-												<th class="text-center">Total</th>
-											</tr>
-										</thead>
-										<tbody id="tblQuotesProductsBody">
-										</tbody>
-										<tfoot>
-											<tr>
-												<td colspan="4"></td>
-												<td colspan="2">SUBTOTAL</td>
-												<td id="subtotal"></td>
-											</tr>
-											<tr>
-												<td colspan="4"></td>
-												<td colspan="2">IVA 19%</td>
-												<td id="iva"></td>
-											</tr>
-											<tr>
-												<td colspan="4"></td>
-												<td colspan="2" style="color: #8DAC18;"><b>TOTAL</b></td>
-												<td id="total" style="color: #8DAC18;"><b></b></td>
-											</tr>
-										</tfoot>
-									</table>
-									<div class="notices" id="qDescription">
-									</div>
-									<br>
-									<div class="notices py-5">
-										<h3>Observaciones Generales:</h3>
-										<div id="observation"></div>
-									</div>
-									<div style="width: 100%;text-align: center;color: #777;border-top: 1px solid #aaa;padding: 8px 0;" id="qFooter"></div>
-								</div>
+								</main>
 							</div>
 						</div>
 					</div>
