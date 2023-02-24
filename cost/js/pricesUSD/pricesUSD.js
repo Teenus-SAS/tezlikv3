@@ -34,6 +34,6 @@ $(document).ready(function () {
     }
   };
 
-  getUSDData(3);
+  getUSDData(0);
   getCurrentDollar();
 });

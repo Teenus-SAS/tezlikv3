@@ -45,14 +45,14 @@ $(document).ready(function () {
           return `<img src="${data}" alt="" style="width:50px;border-radius:100px">`;
         },
       },
-      {
-        title: 'Acciones',
-        data: 'id_product',
-        className: 'uniqueClassName',
-        render: function (data) {
-          return `<a href="/cost/details-prices" <i id="${data}" class="mdi mdi-playlist-check seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>`;
-        },
-      },
+      // {
+      //   title: 'Acciones',
+      //   data: 'id_product',
+      //   className: 'uniqueClassName',
+      //   render: function (data) {
+      //     return `<a href="/cost/details-prices" <i id="${data}" class="mdi mdi-playlist-check seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>`;
+      //   },
+      // },
     ],
     rowCallback: function (row, data, index) {
       if (data.details_product == 0) {

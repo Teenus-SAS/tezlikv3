@@ -89,18 +89,17 @@ class PriceUSDDao
         return $dollarCoverage;
     }
 
-    public function updateLastDollarCoverage($dollarCoverage, $numDeviation, $date, $id_company)
+    public function updateLastDollarCoverage($dollarCoverage, $numDeviation, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE companies_licenses SET coverage = :coverage, deviation = :deviation, date_coverage = :date_coverage 
+            $stmt = $connection->prepare("UPDATE companies_licenses SET coverage = :coverage, deviation = :deviation 
                                           WHERE id_company = :id_company");
             $stmt->execute([
                 'id_company' => $id_company,
-                'date_coverage' => $date,
-                'coverage' => $dollarCoverage,
-                'deviation' => $numDeviation
+                'deviation' => $numDeviation,
+                'coverage' => $dollarCoverage
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();
