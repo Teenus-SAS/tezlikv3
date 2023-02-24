@@ -16,6 +16,18 @@ class TrmDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllHistoricalTrm()
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM historical_trm");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $historicalTrm = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $historicalTrm;
+    }
+
     public function getActualTrm($actualDate)
     {
         try {

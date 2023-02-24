@@ -34,13 +34,13 @@ class PriceUSDDao
         }
     }
 
-    public function calcPriceUSDandModify($dataProduct, $price, $id_company)
+    public function calcPriceUSDandModify($dataProduct, $coverage, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
             // Calculo
-            $priceUsd = floatval($dataProduct['price']) / $price['average_trm'];
+            $priceUsd = floatval($dataProduct['price']) / $coverage;
 
             // Actualizar
             $stmt = $connection->prepare("UPDATE products_costs SET price_usd = :price_usd WHERE id_product = :id_product AND id_company = :id_company");
@@ -65,7 +65,7 @@ class PriceUSDDao
         $sum = 0;
 
         foreach ($dataProduct as $arr) {
-            $sum += floatval($arr['price_usd']);
+            $sum += floatval($arr['value_trm']);
         }
 
         $average = $sum / $count;
@@ -74,7 +74,7 @@ class PriceUSDDao
 
         // (Promedio - valor) elevado a la 2
         foreach ($dataProduct as $arr) {
-            $sum += pow(($average - floatval($arr['price_usd'])), 2);
+            $sum += pow(($average - floatval($arr['value_trm'])), 2);
         }
 
         $standardDeviation = pow(($sum / ($count - 1)), 0.5);
@@ -82,9 +82,9 @@ class PriceUSDDao
         return $standardDeviation;
     }
 
-    public function calcDollarCoverage($actualUSD, $standardDeviation, $numDeviation)
+    public function calcDollarCoverage($averageTrm, $standardDeviation, $numDeviation)
     {
-        $dollarCoverage = $actualUSD - ($standardDeviation * $numDeviation);
+        $dollarCoverage = $averageTrm - ($standardDeviation * $numDeviation);
 
         return $dollarCoverage;
     }

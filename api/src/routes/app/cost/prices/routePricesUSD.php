@@ -69,28 +69,24 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
         // Calcular Promedio TRM
         $price = $pricesUSDDao->calcAverageTrm();
 
+        // Obtener trm historico
+        $historicalTrm = $trmDao->findAllHistoricalTrm();
+
+        // Calcular desviacion estandar
+        $standardDeviation = $pricesUSDDao->calcStandardDeviation($historicalTrm);
+
+        // Calcular valor de cobertura
+        $coverage = $pricesUSDDao->calcDollarCoverage($price['average_trm'], $standardDeviation, $deviation);
+
         // Obtener productos
         $products = $productsCostDao->findAllProductsCost($id_company);
 
         for ($i = 0; $i < sizeof($products); $i++) {
             // Calcular precio USD y modificar
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $price, $id_company);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $coverage, $id_company);
 
             if (isset($resolution['info'])) break;
         }
-
-        // Obtener productos actualizados
-        $products = $productsCostDao->findAllProductsCost($id_company);
-
-        // Calcular desviacion estandar
-        $standardDeviation = $pricesUSDDao->calcStandardDeviation($products);
-
-        // Obtener trm actual
-        $date = date('Y-m-d');
-        $price = $trmDao->getActualTrm($date);
-
-        // Calcular valor de cobertura
-        $coverage = $pricesUSDDao->calcDollarCoverage($price, $standardDeviation, $deviation);
 
         // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
         $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $deviation, $id_company);
