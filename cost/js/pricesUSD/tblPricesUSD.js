@@ -33,7 +33,7 @@ $(document).ready(function () {
         title: 'Precio',
         data: 'price_usd',
         className: 'classCenter',
-        render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+        render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
       },
       {
         title: 'Img',

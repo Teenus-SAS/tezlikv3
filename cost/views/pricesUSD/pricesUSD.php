@@ -48,12 +48,18 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
-                                    <div class="col-sm-4" style="margin-bottom:20px">
-                                        <label class="mb-1 font-weight-bold text-dark">Desviación Estándar</label>
-                                        <input type="text" class="form-control text-center" name="deviation" id="deviation" value="3">
-                                    </div>
+                            <div class="col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
+                                    <label class="mb-1 font-weight-bold text-dark">Dolar Hoy</label>
+                                    <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" readonly>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <label class="mb-1 font-weight-bold text-dark">Cobertura</label>
+                                    <input type="text" class="form-control text-center" name="valueCoverage" id="valueCoverage" readonly>
+                                </div>
+                                <div class="col-xs-2">
+                                    <label class="mb-1 font-weight-bold text-dark">Desviación Estándar</label>
+                                    <input type="text" class="form-control text-center" name="deviation" id="deviation" value="3">
                                 </div>
                             </div>
                         </div>

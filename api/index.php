@@ -90,6 +90,7 @@ require_once('../api/src/routes/app/login/routepassUser.php');
 
 // Prices
 require_once('../api/src/routes/app/cost/prices/routePrices.php');
+require_once('../api/src/routes/app/cost/prices/routePricesUSD.php');
 
 // Tools
 require_once('../api/src/routes/app/cost/tools/routeSupport.php');

@@ -34,6 +34,21 @@ class TrmDao
         }
     }
 
+    public function insertActualTrm($date, $price)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("INSERT INTO historical_trm (date_trm, value_trm) VALUES (:date_trm, :value_trm)");
+            $stmt->execute([
+                'date_trm' => $date,
+                'value_trm' => $price
+            ]);
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function deleteFirstTrm()
     {
         $connection = Connection::getInstance()->getConnection();
