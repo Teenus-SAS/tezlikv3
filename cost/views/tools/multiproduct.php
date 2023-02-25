@@ -73,7 +73,21 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblMultiproducts">
-
+                                                <thead>
+                                                    <tr>
+                                                        <th>Producto</th>
+                                                        <th>No Unidades Vendidas</th>
+                                                        <th>Precio</th>
+                                                        <th>Costo Variable</th>
+                                                        <th>Costo Fijos</th>
+                                                        <th>Participacion</th>
+                                                        <th>Margen De Contribucion</th>
+                                                        <th>Promedio Ponderado</th>
+                                                        <th>Unidades A Vender</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblMultiproductsBody"></tbody>
+                                                <tfoot></tfoot>
                                             </table>
                                         </div>
                                     </div>
