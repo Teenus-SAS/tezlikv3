@@ -21,6 +21,12 @@ $(document).ready(function () {
     let data = await searchData(`/api/priceUSD/${num}`);
 
     if (data.success) {
+      $('#exchangeCoverage').val(
+        `$ ${data.exchangeCoverage.toLocaleString(undefined, {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`
+      );
       $('#valueCoverage').val(
         `$ ${data.coverage.toLocaleString(undefined, {
           minimumFractionDigits: 2,

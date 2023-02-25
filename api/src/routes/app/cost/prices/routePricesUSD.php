@@ -88,12 +88,19 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
             if (isset($resolution['info'])) break;
         }
 
+        // Obtener trm actual
+        $date = date('Y-m-d');
+        $price = $trmDao->getActualTrm($date);
+
+        // Covertura Cambiaria
+        $exchangeCoverage = $price - $coverage;
+
         // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
         $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $deviation, $id_company);
     }
 
     if (isset($resolution) == null)
-        $resp = array('success' => true, 'coverage' => $coverage, 'deviation' => $deviation);
+        $resp = array('success' => true, 'coverage' => $coverage, 'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage);
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

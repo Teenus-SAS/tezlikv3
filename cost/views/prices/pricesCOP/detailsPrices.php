@@ -20,17 +20,17 @@ if (sizeof($_SESSION) == 0)
     <title>Tezlik - Cost | Details Prices</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
-        <?php include_once dirname(dirname(__DIR__)) . '/partials/header.php'; ?>
+        <?php include_once dirname(dirname(dirname(__DIR__))) . '/partials/header.php'; ?>
 
         <!-- Begin Left Navigation -->
-        <?php include_once dirname(dirname(__DIR__)) . '/partials/nav.php'; ?>
+        <?php include_once dirname(dirname(dirname(__DIR__))) . '/partials/nav.php'; ?>
 
         <!-- Begin main content -->
         <div class="main-content">
@@ -332,14 +332,14 @@ if (sizeof($_SESSION) == 0)
             <!-- Main content end -->
 
             <!-- Footer -->
-            <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+            <?php include_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
         </div>
         <!-- Page End -->
 
-        <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+        <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
 
         <script src="/global/js/global/orderData.js"></script>
-        <script src="/cost/js/analysis/prices/configPrices.js"></script>
+        <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
         <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
         <script src="/cost/js/dashboard/calcDataCost.js"></script>
         <script src="/cost/js/dashboard/graphicsProduct.js"></script>

@@ -30,14 +30,15 @@ get('/admin/profile', '/admin/views/perfil/perfil.php');
 
 //Navbar
 get('/cost', '/cost/index.php');
-get('/cost/prices', '/cost/views/analysis/prices.php');
-get('/cost/details-prices', '/cost/views/analysis/detailsPrices.php');
-get('/cost/analysis-materials', '/cost/views/analysis/materials.php');
+get('/cost/prices', '/cost/views/prices/pricesCOP/prices.php');
+get('/cost/details-prices', '/cost/views/prices/pricesCOP/detailsPrices.php');
+get('/cost/analysis-materials', '/cost/views/tools/materials.php');
+get('/cost/multiproduct', '/cost/views/tools/multiproduct.php');
 get('/cost/support', '/cost/views/support/emailSupport.php');
 get('/cost/quotes', '/cost/views/quotes/quotes.php');
-get('/cost/prices-usd', '/cost/views/pricesUSD/pricesUSD.php');
+get('/cost/prices-usd', '/cost/views/prices/pricesUSD/pricesUSD.php');
 get('/cost/details-quote', '/cost/views/quotes/detailsQuote.php');
-get('/cost/economyScale', '/cost/views/economyScale/economyScale.php');
+get('/cost/economyScale', '/cost/views/tools/economyScale.php');
 get('/cost/profile', '/cost/views/perfil/perfil.php');
 get('/cost/configuration', '/cost/views/perfil/configuracion.php');
 //Header

@@ -48,9 +48,6 @@ require_once('../api/src/routes/app/cost/quotes/routeCompanies.php');
 require_once('../api/src/routes/app/cost/quotes/routeContacts.php');
 require_once('../api/src/routes/app/cost/quotes/routePaymentMethods.php');
 
-// Analysis
-require_once('../api/src/routes/app/cost/analysis/routeReviewRawMaterials.php');
-
 // Basic
 require_once('../api/src/routes/app/cost/basic/routeProcess.php');
 require_once('../api/src/routes/app/cost/basic/routeMachines.php');
@@ -92,11 +89,14 @@ require_once('../api/src/routes/app/login/routepassUser.php');
 require_once('../api/src/routes/app/cost/prices/routePrices.php');
 require_once('../api/src/routes/app/cost/prices/routePricesUSD.php');
 
-// Tools
-require_once('../api/src/routes/app/cost/tools/routeSupport.php');
+// support
+require_once('../api/src/routes/app/cost/support/routeSupport.php');
 
-// Economy Scales
-require_once('../api/src/routes/app/cost/economyScale/routeEconomyScale.php');
+// Tools
+require_once('../api/src/routes/app/cost/tools/routeEconomyScale.php');
+require_once('../api/src/routes/app/cost/tools/routeReviewRawMaterials.php');
+require_once('../api/src/routes/app/cost/tools/routeMultiproducts.php');
+
 
 // User Access
 require_once('../api/src/routes/app/cost/userAccess/routeUserAccess.php');

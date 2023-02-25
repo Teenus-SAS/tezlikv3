@@ -20,6 +20,8 @@ $app->get('/licenses', function (Request $request, Response $response, $args) us
 
 $app->post('/addLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
     $dataLicense = $request->getParsedBody();
+    empty($dataLicense['plan']) ? $dataLicense['plan'] = 4 : $dataLicense['plan'];
+
     $license = $companiesLicenseDao->addLicense($dataLicense, $dataLicense['company']);
 
     if ($license == null)

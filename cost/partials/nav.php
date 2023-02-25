@@ -54,6 +54,10 @@
                                         <i class="bx bx-chevron-down"></i>
                                     </a>
                                 <?php } ?>
+                                <a class="dropdown-item" href="/cost/multiproduct">
+                                    <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
+                                    <i class="bx bx-chevron-down"></i>
+                                </a>
                             </div>
                         </li>
                     <?php } ?>
