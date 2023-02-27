@@ -40,7 +40,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-title-box">
                     <div class="container-fluid">
                         <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
+                            <div class="col-sm-4 col-xl-4">
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Precios USD</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
@@ -48,18 +48,18 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-xl-6 form-inline justify-content-sm-end">
+                            <div class="col-xl-8 form-inline justify-content-sm-end">
                                 <div class="col-xs-2 mr-2">
                                     <label class="mb-1 font-weight-bold text-dark">Dolar Hoy</label>
                                     <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" readonly>
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2">
-                                    <label class="mb-1 font-weight-bold text-dark">Cobertura Cambiaria</label>
-                                    <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" readonly>
+                                    <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+                                    <input type="text" class="form-control text-center" name="valueCoverage" id="valueCoverage" readonly>
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2">
-                                    <label class="mb-1 font-weight-bold text-dark">Cobertura</label>
-                                    <input type="text" class="form-control text-center" name="valueCoverage" id="valueCoverage" readonly>
+                                    <label class="mb-1 font-weight-bold text-dark">Cobertura Cambiaria</label>
+                                    <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" readonly>
                                 </div>
                                 <div class="col-xs-2">
                                     <label class="mb-1 font-weight-bold text-dark">Desviación Estándar</label>
