@@ -72,22 +72,32 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblMultiproducts">
+                                            <table class="table table-striped text-center" id="tblMultiproducts">
                                                 <thead>
                                                     <tr>
-                                                        <th>Producto</th>
+                                                        <th style="width: 350px">Producto</th>
                                                         <th>No Unidades Vendidas</th>
-                                                        <th>Precio</th>
-                                                        <th>Costo Variable</th>
-                                                        <th>Costo Fijos</th>
-                                                        <th>Participacion</th>
+                                                        <th style="width: 150px;">Precio</th>
+                                                        <th style="width: 150px;">Costo Variable</th>
+                                                        <th style="width: 150px;">Participacion</th>
                                                         <th>Margen De Contribucion</th>
                                                         <th>Promedio Ponderado</th>
                                                         <th>Unidades A Vender</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tblMultiproductsBody"></tbody>
-                                                <tfoot></tfoot>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td>Total:</td>
+                                                        <td id="totalSoldsUnits"></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td id="totalParticipation"></td>
+                                                        <td></td>
+                                                        <td id="totalAverages"></td>
+                                                        <td></td>
+                                                    </tr>
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>
@@ -120,6 +130,7 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
     <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
+    <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
     <script src="/cost/js/tools/multiproduct/graphicMultiProducts.js"></script>
 </body>
 

@@ -57,7 +57,7 @@ if (sizeof($_SESSION) == 0)
                     <div class="col-lg-6 mx-auto">
                         <!-- <h1 class="display-5 fw-bold">Escoja un sitio al cual desee navegar</h1> -->
 
-                        <div style="display: flex;">
+                        <div style="display: flex;" href="javascript:;">
                             <div class="card mr-3" style="width: 18rem;">
                                 <img src="/selector/assets/img/cost.png" class="card-img-top btnLocation" alt="cost" style="width:80%; margin:auto;" id="1">
                                 <div class="card-body">
@@ -67,7 +67,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
 
-                            <div class="card" style="width: 18rem;">
+                            <div class="card" style="width: 18rem;" href="javascript:;">
                                 <img src="/selector/assets/img/time-planning.png" class="card-img-top btnLocation" alt="planning" style="width:80%; margin:auto;" id="2">
                                 <div class="card-body">
                                     <h5 class="card-title">Planeación</h5>
