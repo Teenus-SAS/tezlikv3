@@ -28,6 +28,18 @@ class TrmDao
         return $historicalTrm;
     }
 
+    public function findLastInsertedTrm()
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(date_trm) AS date_trm FROM historical_trm");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $historicalTrm = $stmt->fetch($connection::FETCH_ASSOC);
+        return $historicalTrm;
+    }
+
     public function getActualTrm($actualDate)
     {
         try {

@@ -13,7 +13,6 @@ $licenceCompanyDao = new LicenseCompanyDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-
 /* Consultar dolar actual */
 
 $app->get('/currentDollar', function (Request $request, Response $response, $args) use ($trmDao) {
@@ -28,22 +27,28 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 $app->get('/updateHitoricalTRM', function (Request $request, Response $response, $args) use ($trmDao) {
     // Obtener trm actual
     $date = date('Y-m-d');
-    $price = $trmDao->getActualTrm($date);
 
-    // Insertar
-    $resolution = $trmDao->insertActualTrm($date, $price);
+    $historicalTrm = $trmDao->findLastInsertedTrm();
 
-    // Eliminar primer registro del historico
-    if ($resolution == null)
-        $resolution = $trmDao->deleteFirstTrm();
+    if ($historicalTrm['date_trm'] == $date)
+        $resp = 1;
+    else {
+        $price = $trmDao->getActualTrm($date);
 
-    if ($resolution == null)
-        $resp = array('success' => true, 'message' => 'Historico de los ultimos 2 años modificado correctamente');
-    else if (isset($resolution['info']))
-        $resp = array('info' => true, 'message' => $resolution['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error al modificar la información. Intente nuevamente');
+        // Insertar
+        $resolution = $trmDao->insertActualTrm($date, $price);
 
+        // Eliminar primer registro del historico
+        if ($resolution == null)
+            $resolution = $trmDao->deleteFirstTrm();
+
+        if ($resolution == null)
+            $resp = array('success' => true, 'message' => 'Historico de los ultimos 2 años modificado correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error al modificar la información. Intente nuevamente');
+    }
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

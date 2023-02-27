@@ -1,11 +1,17 @@
 $(document).ready(function () {
   $(document).on('click keyup', '.soldUnits', function () {
     try {
+      let id = this.id;
+      let row = id.slice(9, id.length);
+      $(`.row-${row}`).html('');
+
       for (let i = 0; i < data.length; i++) {
         let unit = parseInt($(`#soldUnit-${i}`).val());
 
         if (unit > 0) {
           unit = parseInt(unit);
+
+          data[i]['soldUnit'] = unit;
 
           let totalUnitsSold = sumTotalSoldUnits();
 
@@ -40,6 +46,7 @@ $(document).ready(function () {
 
           // Calcular unidades a vender
           let unitsToSold = participation / 100 / totalUnits;
+          data[i]['unitsToSold'] = unitsToSold;
           $(`#unitTo-${i}`).html(
             unitsToSold.toLocaleString('es-CO', {
               minimumFractionDigits: 0,

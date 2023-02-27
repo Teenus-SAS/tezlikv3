@@ -10,9 +10,4 @@ calcHistoricalTrm = async () => {
   }
 };
 
-let date = new Date();
-
-let hours = date.getHours();
-let minutes = date.getMinutes();
-
-if (hours == 0 && minutes == 0) calcHistoricalTrm();
+calcHistoricalTrm();

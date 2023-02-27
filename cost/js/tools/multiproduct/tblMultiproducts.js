@@ -30,12 +30,12 @@ $(document).ready(function () {
             maximumFractionDigits: 0,
           }
         )}</td>
-          <td id="part-${i}"></td>
+          <td id="part-${i}" class="row-${i}"></td>
           <td id="cont-${i}">$ ${marginContribution.toLocaleString('es-CO', {
           maximumFractionDigits: 0,
         })}</td>
-          <td id="aver-${i}"></td>
-          <td id="unitTo-${i}"></td>
+          <td id="aver-${i}" class="row-${i}"></td>
+          <td id="unitTo-${i}" class="row-${i}"></td>
         </tr>`
       );
     }
