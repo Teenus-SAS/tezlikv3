@@ -1,6 +1,11 @@
 $(document).ready(function () {
   var myChart;
 
+  var anchura = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
+
   $('#btnShowGraphic').click(function (e) {
     e.preventDefault();
 
@@ -13,7 +18,9 @@ $(document).ready(function () {
   loadGraphicMultiproducts = () => {
     let product = [];
 
-    data.length > 10 ? (count = 10) : (count = data.length);
+    anchura <= 480 ? (length = 5) : (length = data.length);
+
+    data.length > length ? (count = length) : (count = 10);
 
     for (let i = 0; i < count; i++) {
       product.push({
