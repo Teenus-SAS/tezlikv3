@@ -38,21 +38,30 @@ $(document).ready(function () {
               maximumFractionDigits: 2,
             })
           );
+        }
 
-          let totalAverages = sumTotalAverages();
+        for (let i = 0; i < data.length; i++) {
+          let unit = parseInt($(`#soldUnit-${i}`).val());
 
-          // Calcular total Unidades
-          let totalUnits = data[i].cost_fixed / totalAverages;
+          if (unit > 0) {
+            let totalAverages = sumTotalAverages();
 
-          // Calcular unidades a vender
-          let unitsToSold = participation / 100 / totalUnits;
-          data[i]['unitsToSold'] = unitsToSold;
-          $(`#unitTo-${i}`).html(
-            unitsToSold.toLocaleString('es-CO', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })
-          );
+            // Calcular total Unidades
+            let totalUnits = sumTotalCostsFixed / totalAverages;
+
+            // Calcular unidades a vender
+            let unitsToSold = (data[i]['participation'] / 100) * totalUnits;
+            data[i]['unitsToSold'] = unitsToSold;
+            $(`#unitTo-${i}`).html(
+              unitsToSold.toLocaleString('es-CO', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+              })
+            );
+
+            let percentage = (unit / unitsToSold) * 100;
+            data[i]['percentage'] = percentage;
+          }
         }
       }
     } catch (error) {

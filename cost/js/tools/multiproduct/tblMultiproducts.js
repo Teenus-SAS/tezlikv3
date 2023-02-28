@@ -11,7 +11,13 @@ $(document).ready(function () {
 
     let tblMultiproductsBody = document.getElementById('tblMultiproductsBody');
 
+    sumTotalCostsFixed = 0;
     for (let i = 0; i < data.length; i++) {
+      sumTotalCostsFixed += data[i].cost_fixed;
+
+      data[i]['soldUnit'] = 0;
+      data[i]['unitsToSold'] = 0;
+
       let marginContribution = data[i].price - data[i].variable_cost;
 
       tblMultiproductsBody.insertAdjacentHTML(

@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  var myChart;
+
   $('#btnShowGraphic').click(function (e) {
     e.preventDefault();
 
@@ -14,18 +16,15 @@ $(document).ready(function () {
     data.length > 10 ? (count = 10) : (count = data.length);
 
     for (let i = 0; i < count; i++) {
-      data[i].soldUnit == undefined || !data[i].soldUnit
-        ? (soldUnits = 0)
-        : (soldUnits = data[i].soldUnit);
-
-      data[i].unitsToSold == undefined || !data[i].unitsToSold
-        ? (unitsToSold = 0)
-        : (unitsToSold = data[i].unitsToSold);
-
       product.push({
         name: data[i].product,
-        soldUnits: soldUnits,
-        unitsToSold: unitsToSold,
+        soldUnits: data[i].soldUnit.toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        }),
+        unitsToSold: data[i].unitsToSold.toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        }),
+        percentage: data[i].percentage,
       });
     }
 
@@ -36,29 +35,44 @@ $(document).ready(function () {
     let nameProduct = [];
     let soldUnits = [];
     let unitsToSold = [];
+    let color = [];
 
     for (let i = 0; i < count; i++) {
       nameProduct.push(product[i].name);
       soldUnits.push(product[i].soldUnits);
       unitsToSold.push(product[i].unitsToSold);
+
+      if (product[i].percentage >= 1 && product[i].percentage <= 50)
+        color.push('red');
+      else if (product[i].percentage > 50 && product[i].percentage <= 80)
+        color.push('yellow');
+      else if (product[i].percentage > 80 && product[i].percentage <= 90)
+        color.push('blue');
+      else color.push('green');
     }
+
+    myChart ? myChart.destroy() : myChart;
 
     ctx = document.getElementById('chartMultiproducts').getContext('2d');
     myChart = new Chart(ctx, {
+      plugins: [ChartDataLabels],
       type: 'bar',
       data: {
         labels: nameProduct,
+        formatter: function (value, context) {
+          return context.chart.data.labels[context.dataIndex];
+        },
         datasets: [
           {
             label: 'N° de unidades vendidas',
             data: soldUnits,
-            backgroundColor: 'red',
+            backgroundColor: color,
             borderWidth: 1,
           },
           {
             label: 'Unidades a vender',
             data: unitsToSold,
-            backgroundColor: 'blue',
+            backgroundColor: 'orange',
             borderWidth: 1,
           },
         ],
@@ -73,6 +87,7 @@ $(document).ready(function () {
           },
         },
         plugins: {
+          responsive: true,
           legend: {
             display: false,
           },
