@@ -81,6 +81,32 @@ $(document).ready(function () {
           },
         },
       ],
+      footerCallback: function (row, data, start, end, display) {
+        subtotal = this.api()
+          .column(4)
+          .data()
+          .reduce(function (a, b) {
+            return parseInt(a) + parseInt(b);
+          }, 0);
+
+        $(this.api().column(4).footer()).html(
+          new Intl.NumberFormat('en-US').format(subtotal)
+        );
+
+        total = this.api()
+          .column(5)
+          .data()
+          .reduce(function (a, b) {
+            return parseInt(a) + parseInt(b);
+          }, 0);
+
+        $(this.api().column(5).footer()).html(
+          new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          }).format(total)
+        );
+      },
     });
   };
 });

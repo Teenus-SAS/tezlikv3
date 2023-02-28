@@ -20,9 +20,7 @@ $(document).ready(function () {
 
     anchura <= 480 ? (length = 5) : (length = data.length);
 
-    data.length > length ? (count = length) : (count = 10);
-
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < data.length; i++) {
       product.push({
         name: data[i].product,
         soldUnits: data[i].soldUnit.toLocaleString('es-CO', {
@@ -43,6 +41,8 @@ $(document).ready(function () {
     let soldUnits = [];
     let unitsToSold = [];
     let color = [];
+
+    data.length > length ? (count = length) : (count = 10);
 
     for (let i = 0; i < count; i++) {
       nameProduct.push(product[i].name);

@@ -6,6 +6,12 @@ $(document).ready(function () {
       $(`.row-${row}`).html('');
 
       for (let i = 0; i < data.length; i++) {
+        data[i]['soldUnit'] = 0;
+        data[i]['participation'] = 0;
+        data[i]['average'] = 0;
+        data[i]['unitsToSold'] = 0;
+        data[i]['percentage'] = 0;
+
         let unit = parseInt($(`#soldUnit-${i}`).val());
 
         if (unit > 0) {
