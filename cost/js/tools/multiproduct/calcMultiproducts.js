@@ -182,7 +182,7 @@ $(document).ready(function () {
 
     $('#totalSumUnits').html(
       totalSumUnits.toLocaleString('es-CO', {
-        maximumFractionDigits: 0,
+        maximumFractionDigits: 2,
       })
     );
   };
