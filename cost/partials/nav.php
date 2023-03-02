@@ -54,10 +54,12 @@
                                         <i class="bx bx-chevron-down"></i>
                                     </a>
                                 <?php } ?>
-                                <a class="dropdown-item" href="/cost/multiproduct">
-                                    <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
-                                    <i class="bx bx-chevron-down"></i>
-                                </a>
+                                <?php if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { ?>
+                                    <a class="dropdown-item" href="/cost/multiproduct">
+                                        <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
+                                        <i class="bx bx-chevron-down"></i>
+                                    </a>
+                                <?php } ?>
                             </div>
                         </li>
                     <?php } ?>

@@ -1,7 +1,29 @@
 $(document).ready(function () {
+  /* Ingresar asignacion de gasto manual */
+  $(document).on('keyup', '#expenseAssignation', function () {
+    $('.general').val('');
+    $('.general').html('');
+
+    expenseAsignation = this.value;
+
+    expenseAsignation = parseFloat(strReplaceNumber(expenseAsignation));
+
+    $('#expenses').html(
+      `$ ${expenseAsignation.toLocaleString('es-CO', {
+        maximumFractionDigits: 0,
+      })}`
+    );
+  });
+
   $(document).on('click keyup', '.soldUnits', function () {
     try {
       let id = this.id;
+      if (expenseAsignation == 0 || isNaN(expenseAsignation)) {
+        toastr.error('Ingrese gasto general');
+        $(`#${id}`).val('');
+        return false;
+      }
+
       let row = id.slice(9, id.length);
       $(`.row-${row}`).html('');
 
@@ -53,7 +75,7 @@ $(document).ready(function () {
             let totalAverages = sumTotalAverages();
 
             // Calcular total Unidades
-            let totalUnits = sumTotalCostsFixed / totalAverages;
+            totalUnits = expenseAsignation / totalAverages;
 
             // Calcular unidades a vender
             let unitsToSold = (data[i]['participation'] / 100) * totalUnits;
@@ -69,6 +91,14 @@ $(document).ready(function () {
             data[i]['percentage'] = percentage;
           }
         }
+
+        $('#totalUnits').html(
+          totalUnits.toLocaleString('es-CO', {
+            maximumFractionDigits: 2,
+          })
+        );
+
+        sumTotalUnits();
       }
     } catch (error) {
       console.log(error);
@@ -134,5 +164,26 @@ $(document).ready(function () {
     );
 
     return totalAverages;
+  };
+
+  /* Sumar total unidades a vender */
+  sumTotalUnits = () => {
+    let totalSumUnits = 0;
+
+    for (let i = 0; i < data.length; i++) {
+      let unitsToSold = data[i].unitsToSold;
+
+      unitsToSold == '' || unitsToSold == undefined
+        ? (unitsToSold = 0)
+        : unitsToSold;
+
+      totalSumUnits += unitsToSold;
+    }
+
+    $('#totalSumUnits').html(
+      totalSumUnits.toLocaleString('es-CO', {
+        maximumFractionDigits: 0,
+      })
+    );
   };
 });

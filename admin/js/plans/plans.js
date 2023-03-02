@@ -104,6 +104,7 @@ $(document).ready(function () {
       prices: data.cost_price,
       analysisMaterials: data.cost_analysis_material,
       economyScale: data.cost_economy_scale,
+      multiproduct: data.cost_multiproduct,
       quotes: data.cost_quote,
       support: data.cost_support,
 
@@ -137,6 +138,7 @@ $(document).ready(function () {
       prices: 0,
       analysisRawMaterials: 0,
       economyScale: 0,
+      multiproduct: 0,
       quotes: 0,
       support: 0,
       inventories: 0,

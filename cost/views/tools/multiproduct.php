@@ -65,10 +65,38 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <!-- Row 5 -->
                         <div class="row">
-                            <div class="col-12 cardTblMultiproducts">
+                            <div class="col-12 cardTblBreakeven">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title">Multiproductos</h5>
+                                        <h5 class="col-sm-10 card-title">Punto De Equilibrio</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped text-center">
+                                            <thead>
+                                                <tr>
+                                                    <th>Gastos</th>
+                                                    <th>Total Unidades</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td id="expenses"></td>
+                                                    <td id="totalUnits"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 cardTblMultiproducts">
+                                <div class="card">
+                                    <div class="card-header row">
+                                        <h5 class="col-sm-10 card-title">Multiproductos</h5>
+                                        <div class="col-sm-2 floating-label enable-floating-label show-label form-inline justify-content-sm-end cardExpenseAssignation" style="display: none;">
+                                            <input type="text" class="form-control text-center number" id="expenseAssignation">
+                                            <label for="">Asignar Gastos</label>
+                                        </div>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -95,7 +123,7 @@ if (sizeof($_SESSION) == 0)
                                                         <td id="totalParticipation"></td>
                                                         <td></td>
                                                         <td id="totalAverages"></td>
-                                                        <td></td>
+                                                        <td id="totalSumUnits"></td>
                                                     </tr>
                                                 </tfoot>
                                             </table>

@@ -147,6 +147,7 @@ $(document).ready(function () {
       priceUSD: data.price_usd,
       analysisMaterial: data.analysis_material,
       economyScale: data.cost_economy_scale,
+      multiproduct: data.multiproduct,
       quote: data.quote,
       support: data.support,
 
@@ -228,6 +229,7 @@ $(document).ready(function () {
       price: 0,
       priceUSD: 0,
       economyScale: 0,
+      multiproduct: 0,
       analysisMaterial: 0,
       quote: 0,
       support: 0,
@@ -313,7 +315,6 @@ $(document).ready(function () {
       $('.cardAccessPlanning').hide();
       $('#createUserAccess').modal('hide');
       $('#formCreateUser').trigger('reset');
-      // $('#formCreateAccessUser').trigger('reset')
       updateTable();
       toastr.success(data.message);
       return false;

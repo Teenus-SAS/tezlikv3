@@ -151,40 +151,45 @@
                                             <div class="col-12 col-lg-12">
                                                 <label for=""><b>Menú Navegación:</b></label>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="checkbox checkbox-success checkbox-circle">
+
+                                            <div class="col-sm-3 pb-2">Precios
+                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-16" name="prices" type="checkbox">
                                                     <label for="checkbox-16">Precios COP</label>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                <div class="mb-2 checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-17" name="pricesUSD" type="checkbox">
                                                     <label for="checkbox-17">Precios USD</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="checkbox checkbox-success checkbox-circle">
+
+
+
+                                            <div class="col-sm-3">Herramientas
+                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-18" name="analysisRawMaterials" type="checkbox">
                                                     <label for="checkbox-18">Analisis Materia Prima</label>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-19" name="economySclae" type="checkbox">
-                                                    <label for="checkbox-19">Economia de Escala</label>
+                                                    <input id="checkbox-19" name="economyScale" type="checkbox">
+                                                    <label for="checkbox-19">Economia De Escala</label>
+                                                </div>
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-20" name="multiproduct" type="checkbox">
+                                                    <label for="checkbox-20">Pto De Equilibrio Multiproducto</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+
+                                            <div class="mt-4 col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-20" name="quotes" type="checkbox">
-                                                    <label for="checkbox-20">Cotización</label>
+                                                    <input id="checkbox-21" name="quotes" type="checkbox">
+                                                    <label for="checkbox-21">Cotización</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4 pb-3">
+                                            <div class="mt-4 col-sm-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-21" name="support" type="checkbox">
-                                                    <label for="checkbox-21">Soporte</label>
+                                                    <input id="checkbox-22" name="tools" type="checkbox">
+                                                    <label for="checkbox-22">Soporte</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -201,69 +206,69 @@
 
                                             <div class="col-sm-3 pb-2">Básico
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-22" name="molds" type="checkbox">
-                                                    <label for="checkbox-22">Moldes</label>
+                                                    <input id="checkbox-23" name="molds" type="checkbox">
+                                                    <label for="checkbox-23">Moldes</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-23" name="planningCreateProduct" type="checkbox">
-                                                    <label for="checkbox-23">Productos</label>
+                                                    <input id="checkbox-24" name="planningCreateProduct" type="checkbox">
+                                                    <label for="checkbox-24">Productos</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-24" name="planningCreateMaterials" type="checkbox">
-                                                    <label for="checkbox-24">Materiales</label>
+                                                    <input id="checkbox-25" name="planningCreateMaterials" type="checkbox">
+                                                    <label for="checkbox-25">Materiales</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-25" name="planningCreateMachines" type="checkbox">
-                                                    <label for="checkbox-25">Máquinas</label>
+                                                    <input id="checkbox-26" name="planningCreateMachines" type="checkbox">
+                                                    <label for="checkbox-26">Máquinas</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-26" name="planningCreateProcess" type="checkbox">
-                                                    <label for="checkbox-26">Procesos</label>
+                                                    <input id="checkbox-27" name="planningCreateProcess" type="checkbox">
+                                                    <label for="checkbox-27">Procesos</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3 pb-2">
                                                 Configuración
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-27" name="productMaterials" type="checkbox">
-                                                    <label for="checkbox-27">Ficha Técnica Materiales</label>
+                                                    <input id="checkbox-28" name="productMaterials" type="checkbox">
+                                                    <label for="checkbox-28">Ficha Técnica Materiales</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-28" name="productProcess" type="checkbox">
-                                                    <label for="checkbox-28">Ficha Técnica Procesos</label>
+                                                    <input id="checkbox-29" name="productProcess" type="checkbox">
+                                                    <label for="checkbox-29">Ficha Técnica Procesos</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-29" name="planningMachine" type="checkbox">
-                                                    <label for="checkbox-29">Programación Maquina</label>
+                                                    <input id="checkbox-30" name="planningMachine" type="checkbox">
+                                                    <label for="checkbox-30">Programación Maquina</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-30" name="planCiclesMachine" type="checkbox">
-                                                    <label for="checkbox-30">Plan Ciclos Maquina</label>
+                                                    <input id="checkbox-31" name="planCiclesMachine" type="checkbox">
+                                                    <label for="checkbox-31">Plan Ciclos Maquina</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-3 pb-2">
                                                 Configuración General
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-31" name="invCategories" type="checkbox">
-                                                    <label for="checkbox-31">Categorias</label>
+                                                    <input id="checkbox-32" name="invCategories" type="checkbox">
+                                                    <label for="checkbox-32">Categorias</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-32" name="sales" type="checkbox">
-                                                    <label for="checkbox-32">Ventas</label>
+                                                    <input id="checkbox-33" name="sales" type="checkbox">
+                                                    <label for="checkbox-33">Ventas</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-2 pb-3">
                                                 Administracion
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-33" name="user" type="checkbox">
-                                                    <label for="checkbox-33">Usuarios</label>
+                                                    <input id="checkbox-34" name="user" type="checkbox">
+                                                    <label for="checkbox-34">Usuarios</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-34" name="sales" type="checkbox">
-                                                    <label for="checkbox-34">Clientes</label>
+                                                    <input id="checkbox-35" name="sales" type="checkbox">
+                                                    <label for="checkbox-35">Clientes</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-35" name="orderTypes" type="checkbox">
-                                                    <label for="checkbox-35">Tipos Pedidos</label>
+                                                    <input id="checkbox-36" name="orderTypes" type="checkbox">
+                                                    <label for="checkbox-36">Tipos Pedidos</label>
                                                 </div>
                                             </div>
 
@@ -272,38 +277,38 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-36" name="inventories" type="checkbox">
-                                                    <label for="checkbox-36">Inventarios</label>
+                                                    <input id="checkbox-37" name="inventories" type="checkbox">
+                                                    <label for="checkbox-37">Inventarios</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-37" name="orders" type="checkbox">
-                                                    <label for="checkbox-37">Pedidos</label>
+                                                    <input id="checkbox-38" name="orders" type="checkbox">
+                                                    <label for="checkbox-38">Pedidos</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-38" name="programming" type="checkbox">
-                                                    <label for="checkbox-38">Programación</label>
+                                                    <input id="checkbox-39" name="programming" type="checkbox">
+                                                    <label for="checkbox-39">Programación</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-39" name="loads" type="checkbox">
-                                                    <label for="checkbox-39">Cargues</label>
+                                                    <input id="checkbox-40" name="loads" type="checkbox">
+                                                    <label for="checkbox-40">Cargues</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-40" name="explosionOfMaterials" type="checkbox">
-                                                    <label for="checkbox-40">Explosión de Materiales</label>
+                                                    <input id="checkbox-41" name="explosionOfMaterials" type="checkbox">
+                                                    <label for="checkbox-41">Explosión de Materiales</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-41" name="offices" type="checkbox">
-                                                    <label for="checkbox-41">Despachos</label>
+                                                    <input id="checkbox-42" name="offices" type="checkbox">
+                                                    <label for="checkbox-42">Despachos</label>
                                                 </div>
                                             </div>
                                         </div>

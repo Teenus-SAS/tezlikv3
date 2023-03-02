@@ -99,7 +99,16 @@ $(document).ready(function () {
               : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
           },
         },
-
+        {
+          title: 'Pto De Equilibrio Multiproducto',
+          data: 'cost_multiproduct',
+          className: 'uniqueClassName',
+          render: function (data, type, row) {
+            return data == 1
+              ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+              : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          },
+        },
         {
           title: 'Cotizaciones',
           data: 'cost_quote',

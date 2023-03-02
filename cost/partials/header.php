@@ -90,7 +90,10 @@
                                             <?php if ($_SESSION['payroll_load'] == 1) { ?>
                                                 <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
                                             <?php } ?>
-                                            <?php if ($_SESSION['expense'] == 1) { ?>
+                                            <?php if (
+                                                $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
+                                                && $_SESSION['plan_cost_multiproduct'] == 1
+                                            ) { ?>
                                                 <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['expense_distribution'] == 1) { ?>

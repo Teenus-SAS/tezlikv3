@@ -3,6 +3,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('.cardGraphicMultiproducts').hide(800);
+    $('.cardTblBreakeven').show(800);
     $('.cardTblMultiproducts').show(800);
   });
 
@@ -11,10 +12,16 @@ $(document).ready(function () {
 
     let tblMultiproductsBody = document.getElementById('tblMultiproductsBody');
 
-    sumTotalCostsFixed = 0;
-    for (let i = 0; i < data.length; i++) {
-      sumTotalCostsFixed += data[i].cost_fixed;
+    expenseAsignation = data[0].expense;
 
+    if (expenseAsignation == 0) $('.cardExpenseAssignation').show(800);
+    else
+      $('#expenses').html(
+        `$ ${expenseAsignation.toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        })}`
+      );
+    for (let i = 0; i < data.length; i++) {
       data[i]['soldUnit'] = 0;
       data[i]['unitsToSold'] = 0;
 
@@ -25,7 +32,7 @@ $(document).ready(function () {
         `<tr>
           <td>${data[i].product}</td>
           <td>
-            <input type="number" class="form-control text-center soldUnits" id="soldUnit-${i}">
+            <input type="number" class="form-control text-center general soldUnits" id="soldUnit-${i}">
           </td>
           <td id="price-${i}">$ ${data[i].price.toLocaleString('es-CO', {
           maximumFractionDigits: 0,
@@ -36,12 +43,12 @@ $(document).ready(function () {
             maximumFractionDigits: 0,
           }
         )}</td>
-          <td id="part-${i}" class="row-${i}"></td>
+          <td id="part-${i}" class="row-${i} general"></td>
           <td id="cont-${i}">$ ${marginContribution.toLocaleString('es-CO', {
           maximumFractionDigits: 0,
         })}</td>
-          <td id="aver-${i}" class="row-${i}"></td>
-          <td id="unitTo-${i}" class="row-${i}"></td>
+          <td id="aver-${i}" class="row-${i} general"></td>
+          <td id="unitTo-${i}" class="row-${i} general"></td>
         </tr>`
       );
     }

@@ -10,6 +10,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('.cardTblMultiproducts').hide(800);
+    $('.cardTblBreakeven').hide(800);
     $('.cardGraphicMultiproducts').show(800);
 
     loadGraphicMultiproducts();

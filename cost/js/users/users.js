@@ -106,6 +106,7 @@ $(document).ready(function () {
       pricesUSD: data.price_usd,
       analysisMaterials: data.analysis_material,
       economyScale: data.economy_scale,
+      multiproduct: data.multiproduct,
       quotes: data.quote,
       support: data.support,
     };
@@ -172,6 +173,7 @@ $(document).ready(function () {
       priceUSD: 0,
       analysisMaterial: 0,
       economyScale: 0,
+      multiproduct: 0,
       quote: 0,
       support: 0,
     };
