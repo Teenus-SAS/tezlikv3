@@ -160,7 +160,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
     <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
     <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
-    <script src="/cost/js/tools/multiproduct/graphicMultiProducts.js"></script>
+    <script src="/cost/js/tools/multiproduct/graphicMultiproducts.js"></script>
 </body>
 
 </html>
