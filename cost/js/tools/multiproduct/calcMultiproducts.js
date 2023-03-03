@@ -8,8 +8,10 @@ $(document).ready(function () {
 
     expenseAsignation = parseFloat(strReplaceNumber(expenseAsignation));
 
+    let expenses = expenseAsignation + sumTotalCostFixed;
+
     $('#expenses').html(
-      `$ ${expenseAsignation.toLocaleString('es-CO', {
+      `$ ${expenses.toLocaleString('es-CO', {
         maximumFractionDigits: 0,
       })}`
     );
@@ -27,26 +29,25 @@ $(document).ready(function () {
       let row = id.slice(9, id.length);
       $(`.row-${row}`).html('');
 
-      for (let i = 0; i < data.length; i++) {
-        data[i]['soldUnit'] = 0;
-        data[i]['participation'] = 0;
-        data[i]['average'] = 0;
-        data[i]['unitsToSold'] = 0;
-        data[i]['percentage'] = 0;
+      for (let i = 0; i < multiproducts.length; i++) {
+        multiproducts[i]['expense'] = expenseAsignation;
+        multiproducts[i]['participation'] = 0;
+        multiproducts[i]['average'] = 0;
+        multiproducts[i]['percentage'] = 0;
 
         let unit = parseInt($(`#soldUnit-${i}`).val());
 
         if (unit > 0) {
           unit = parseInt(unit);
 
-          data[i]['soldUnit'] = unit;
+          multiproducts[i]['soldUnit'] = unit;
 
           let totalUnitsSold = sumTotalSoldUnits();
 
           // Calcular porcentaje de participacion
           let participation = (unit / totalUnitsSold) * 100;
 
-          data[i]['participation'] = participation;
+          multiproducts[i]['participation'] = participation;
           $(`#part-${i}`).html(
             `${participation.toLocaleString('es-CO', {
               minimumFractionDigits: 2,
@@ -57,9 +58,10 @@ $(document).ready(function () {
 
           // Calculo promedio ponderado
           let average =
-            (data[i].price - data[i].variable_cost) * (participation / 100);
+            (multiproducts[i].price - multiproducts[i].variable_cost) *
+            (participation / 100);
 
-          data[i]['average'] = average;
+          multiproducts[i]['average'] = average;
           $(`#aver-${i}`).html(
             average.toLocaleString('es-CO', {
               minimumFractionDigits: 2,
@@ -68,18 +70,20 @@ $(document).ready(function () {
           );
         }
 
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < multiproducts.length; i++) {
           let unit = parseInt($(`#soldUnit-${i}`).val());
 
           if (unit > 0) {
             let totalAverages = sumTotalAverages();
 
             // Calcular total Unidades
-            totalUnits = expenseAsignation / totalAverages;
+            totalUnits =
+              (expenseAsignation + sumTotalCostFixed) / totalAverages;
 
             // Calcular unidades a vender
-            let unitsToSold = (data[i]['participation'] / 100) * totalUnits;
-            data[i]['unitsToSold'] = unitsToSold;
+            let unitsToSold =
+              (multiproducts[i]['participation'] / 100) * totalUnits;
+            multiproducts[i]['unitsToSold'] = unitsToSold;
             $(`#unitTo-${i}`).html(
               unitsToSold.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
@@ -88,10 +92,13 @@ $(document).ready(function () {
             );
 
             let percentage = (unit / unitsToSold) * 100;
-            data[i]['percentage'] = percentage;
+            multiproducts[i]['percentage'] = percentage;
           }
         }
+      }
 
+      if (this.value == '' || !this.value) return false;
+      else {
         $('#totalUnits').html(
           totalUnits.toLocaleString('es-CO', {
             maximumFractionDigits: 2,
@@ -99,6 +106,8 @@ $(document).ready(function () {
         );
 
         sumTotalUnits();
+
+        saveMultiproducts(multiproducts);
       }
     } catch (error) {
       console.log(error);
@@ -109,7 +118,7 @@ $(document).ready(function () {
   sumTotalSoldUnits = () => {
     let totalSoldsUnits = 0;
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < multiproducts.length; i++) {
       let unit = $(`#soldUnit-${i}`).val();
 
       unit == '' || unit == undefined ? (unit = 0) : unit;
@@ -126,8 +135,8 @@ $(document).ready(function () {
   sumTotalParticipation = () => {
     let totalParticipation = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      let participation = data[i].participation;
+    for (let i = 0; i < multiproducts.length; i++) {
+      let participation = multiproducts[i].participation;
 
       participation == '' || participation == undefined
         ? (participation = 0)
@@ -148,8 +157,8 @@ $(document).ready(function () {
   sumTotalAverages = () => {
     let totalAverages = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      let average = data[i].average;
+    for (let i = 0; i < multiproducts.length; i++) {
+      let average = multiproducts[i].average;
 
       average == '' || average == undefined ? (average = 0) : average;
 
@@ -170,8 +179,8 @@ $(document).ready(function () {
   sumTotalUnits = () => {
     let totalSumUnits = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      let unitsToSold = data[i].unitsToSold;
+    for (let i = 0; i < multiproducts.length; i++) {
+      let unitsToSold = multiproducts[i].unitsToSold;
 
       unitsToSold == '' || unitsToSold == undefined
         ? (unitsToSold = 0)
