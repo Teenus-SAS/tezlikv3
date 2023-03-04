@@ -25,10 +25,9 @@
                 <span></span>
                 <span></span>
             </a>
-
         </div>
         <div class="right-bar">
-            <div class="dropdown-mega dropdown d-none d-lg-block ml-2">
+            <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
                     <i class="bx bx-cog bx-spin" style="font-size: 2em;"></i>
                 </a>
@@ -41,7 +40,8 @@
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="users"><a href="/admin/users-admins">Usuarios</a></li>
                                         <li class="plans"><a href="/admin/plans">Planes</a></li>
-                                        <!-- <li class="licenses"><a href="/admin/companies-licences">pruebas licencias</a></li> -->
+                                        <li class="magnitudes"><a href="/admin/magnitudes">Magnitudes</a></li>
+                                        <li class="units"><a href="/admin/units">Unidades</a></li>
                                     </ul>
                                 </div>
                             </div>

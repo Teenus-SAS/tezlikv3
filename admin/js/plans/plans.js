@@ -152,6 +152,7 @@ $(document).ready(function () {
     $.each(access, (index, value) => {
       if ($(`#checkbox-${i}`).is(':checked')) dataPlan[`${index}`] = 1;
       else dataPlan[`${index}`] = 0;
+      i++;
     });
 
     return dataPlan;
