@@ -31,7 +31,7 @@ class MaterialsDao
         'id_company' => $id_company,
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
-        'unit' => strtoupper(trim($dataMaterial['unityRawMaterial'])),
+        'unit' => $dataMaterial['unit'],
         'cost' => $costRawMaterial
       ]);
 
@@ -62,7 +62,7 @@ class MaterialsDao
         'id_material' => $dataMaterial['idMaterial'],
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
-        'unit' => strtoupper(trim($dataMaterial['unityRawMaterial'])),
+        'unit' => $dataMaterial['unit'],
         'cost' => $costRawMaterial,
         'id_company' => $id_company
       ]);

@@ -45,7 +45,8 @@ $(document).ready(function () {
 
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
-    $('#unityRawMaterial').val(data.unit);
+    $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
+    $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
     let cost = data.cost;
 
@@ -69,7 +70,7 @@ $(document).ready(function () {
   checkDataMaterial = async (url, idMaterial) => {
     let ref = $('#refRawMaterial').val();
     let material = $('#nameRawMaterial').val();
-    let unity = $('#unityRawMaterial').val();
+    let unity = $('#unit').val();
     let cost = $('#costRawMaterial').val();
 
     if (

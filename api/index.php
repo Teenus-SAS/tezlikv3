@@ -38,6 +38,11 @@ require_once('../api/src/routes/admin/users/routeCloseSessionUsers.php');
 require_once('../api/src/routes/admin/users/routeUserAdmin.php');
 require_once('../api/src/routes/app/login/routeInactiveUser.php');
 
+// Units
+require_once('../api/src/routes/admin/units/routeUnits.php');
+// Magnitudes
+require_once('../api/src/routes/admin/magnitude/routeMagnitude.php');
+
 // Dashboard
 require_once('../api/src/routes/admin/dashboard/routeDashboardGeneral.php');
 

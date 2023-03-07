@@ -64,20 +64,6 @@ class UsersDao
 
   public function saveUser($dataUser, $pass, $id_company)
   {
-    /*$newPassDao = new GenerateCodeDao();
-    $email = new SendMakeEmailDao();
-    
-    $stmt = $connection->prepare("SELECT id_user FROM users WHERE email = :email");
-    $stmt->execute(['email' => trim($dataUser['emailUser'])]);
-    $rows = $stmt->fetch($connection::FETCH_ASSOC);
-    
-    if ($rows > 0) {
-      return 1;
-    } else { 
-      $newPass = $newPassDao->GenerateCode();
-      // Se envia email con usuario(email) y contraseña
-      $email->SendEmailPassword($dataUser['emailUser'], $newPass);
-      $pass = password_hash($newPass, PASSWORD_DEFAULT); */
     $connection = Connection::getInstance()->getConnection();
     try {
       $stmt = $connection->prepare("INSERT INTO users (firstname, lastname, email, password, id_company, active) 

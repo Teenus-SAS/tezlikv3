@@ -30,7 +30,8 @@ $(document).ready(function () {
           return {
             refRawMaterial: item.referencia,
             nameRawMaterial: item.material,
-            unityRawMaterial: item.unidad,
+            magnitude: item.magnitud,
+            abbreviation: item.unidad,
             costRawMaterial: item.costo,
           };
         });

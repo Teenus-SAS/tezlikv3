@@ -19,18 +19,18 @@ $(document).ready(function () {
   loadGraphicMultiproducts = () => {
     let product = [];
 
-    anchura <= 480 ? (length = 5) : (length = data.length);
+    anchura <= 480 ? (length = 5) : (length = multiproducts.length);
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < multiproducts.length; i++) {
       product.push({
-        name: data[i].product,
-        soldUnits: data[i].soldUnit.toLocaleString('es-CO', {
+        name: multiproducts[i].product,
+        soldUnits: multiproducts[i].soldUnit.toLocaleString('es-CO', {
           maximumFractionDigits: 0,
         }),
-        unitsToSold: data[i].unitsToSold.toLocaleString('es-CO', {
+        unitsToSold: multiproducts[i].unitsToSold.toLocaleString('es-CO', {
           maximumFractionDigits: 0,
         }),
-        percentage: data[i].percentage,
+        percentage: multiproducts[i].percentage,
       });
     }
 
@@ -43,7 +43,7 @@ $(document).ready(function () {
     let unitsToSold = [];
     let color = [];
 
-    data.length > length ? (count = length) : (count = 10);
+    multiproducts.length > length ? (count = length) : (count = 10);
 
     for (let i = 0; i < count; i++) {
       nameProduct.push(product[i].name);

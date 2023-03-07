@@ -57,7 +57,7 @@ $(document).ready(function () {
     expenseAsignation = multiproducts[0].expense;
 
     repeat = false;
-    $.each(existingMultiproducts, function (i, value) {
+    $.each(existingMultiproducts, function (e, value) {
       expenseAsignation = value.expense;
 
       for (i = 0; i < multiproducts.length; i++) {
@@ -69,7 +69,7 @@ $(document).ready(function () {
       }
     });
 
-    if (repeat == true) $(`#soldUnit-${i}`).click();
+    if (repeat == true) $('#soldUnit-0').click();
 
     if (expenseAsignation == 0 || repeat == true) {
       $('.cardExpenseAssignation').show(800);

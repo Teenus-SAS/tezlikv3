@@ -16,6 +16,19 @@ class PlanMaterialsDao
     $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
   }
 
+  public function findAllMaterialsByCompany($id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+    $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company ORDER BY material ASC");
+    $stmt->execute(['id_company' => $id_company]);
+
+    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
+    $this->logger->notice("materials", array('materials' => $materials));
+    return $materials;
+  }
+
   /* Insertar materia prima */
   public function insertMaterialsByCompany($dataMaterial, $id_company)
   {

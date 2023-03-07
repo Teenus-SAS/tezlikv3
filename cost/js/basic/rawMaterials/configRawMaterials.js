@@ -1,26 +1,57 @@
 $(document).ready(function () {
-  sessionStorage.removeItem('dataMaterials');
-  $('.cardRawMaterials').hide();
+  /* Cargar data materia prima */
+  loadDataMaterial = async () => {
+    sessionStorage.removeItem('dataMaterials');
+    let data = await searchData('/api/materials');
 
-  $('#btnNewMaterial').click(function (e) {
-    e.preventDefault();
-    $('.cardRawMaterials').toggle(800);
+    let dataMaterials = JSON.stringify(data);
+    sessionStorage.setItem('dataMaterials', dataMaterials);
+
+    let $select = $(`#material`);
+    $select.empty();
+    $select.append(`<option disabled selected>Seleccionar</option>`);
+    $.each(data, function (i, value) {
+      $select.append(
+        `<option value = ${value.id_material}> ${value.material} </option>`
+      );
+    });
+  };
+
+  /* Cargar unidades */
+  loadUnits = async () => {
+    let data = await searchData('/api/units');
+
+    let $select = $(`#units`);
+    $select.empty();
+    $select.append(`<option disabled selected>Seleccionar</option>`);
+    $.each(data, function (i, value) {
+      $select.append(
+        `<option value = ${value.id_unit}> ${value.unit} </option>`
+      );
+    });
+  };
+
+  /* Cargar unidades por magnitud */
+  $(document).on('change', '#magnitudes', function () {
+    let value = this.value;
+
+    $('#units').empty();
+    loadUnitsByMagnitude(value);
   });
 
-  $.ajax({
-    url: '/api/materials',
-    success: function (r) {
-      let dataMaterials = JSON.stringify(r);
-      sessionStorage.setItem('dataMaterials', dataMaterials);
+  loadUnitsByMagnitude = async (id_magnitude) => {
+    let data = await searchData(`/api/units/${id_magnitude}`);
 
-      let $select = $(`#material`);
-      $select.empty();
-      $select.append(`<option disabled selected>Seleccionar</option>`);
-      $.each(r, function (i, value) {
-        $select.append(
-          `<option value = ${value.id_material}> ${value.material} </option>`
-        );
-      });
-    },
-  });
+    let $select = $(`#units`);
+
+    $select.append(`<option disabled selected>Seleccionar</option>`);
+    $.each(data, function (i, value) {
+      $select.append(
+        `<option value = ${value.id_unit}> ${value.unit} </option>`
+      );
+    });
+  };
+
+  loadDataMaterial();
+  loadUnits();
 });

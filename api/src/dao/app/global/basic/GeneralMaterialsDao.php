@@ -19,7 +19,12 @@ class GeneralMaterialsDao
     public function findAllMaterialsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM materials WHERE id_company = :id_company ORDER BY material ASC");
+        $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, mg.id_magnitude, mg.magnitude, 
+                                             u.id_unit, u.abbreviation, m.cost, m.category, m.quantity
+                                      FROM materials m
+                                          INNER JOIN units u ON u.id_unit = m.unit
+                                          INNER JOIN magnitudes mg ON mg.id_magnitude = u.id_magnitude
+                                      WHERE m.id_company = :id_company ORDER BY m.material ASC");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

@@ -42,15 +42,15 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Usuarios</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Unidades</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Creación de Usuario</li>
+                                        <li class="breadcrumb-item active">Creación De Unidades</li>
                                     </ol>
                                 </div>
                             </div>
                             <div class="col-sm-7 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-warning" id="btnNewUnit">Nuevo Usuario</button>
+                                    <button class="btn btn-warning" id="btnNewUnit">Nueva Unidad</button>
                                 </div>
                             </div>
                         </div>
@@ -66,19 +66,19 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateUnit">
                                             <div class="form-row">
                                                 <div class="col-sm-4">
-                                                    <input type="text" class="form-control" name="firstname" id="firstname">
-                                                    <label for="">Nombres</label>
+                                                    <label>Magnitud</label>
+                                                    <select class="form-control" name="magnitude" id="magnitudes"></select>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <label for="">Apellidos</label>
-                                                    <input type="text" class="form-control" name="lastname" id="lastname">
+                                                    <label for="">Unidad</label>
+                                                    <input type="text" class="form-control" name="unit" id="unit">
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <label for="">Correo</label>
-                                                    <input type="email" class="form-control" name="email" id="email">
+                                                <div class="col-sm-2">
+                                                    <label for="">Abreviatura</label>
+                                                    <input type="text" class="form-control" name="abbreviation" id="abbreviation">
                                                 </div>
-                                                <div style="margin-top:32px;">
-                                                    <button class="btn btn-success" id="btnCreateUnit">Crear Usuario</button>
+                                                <div class="col-sm-2" style="margin-top:32px;">
+                                                    <button class="btn btn-success" id="btnCreateUnit">Crear Unidad</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -119,8 +119,9 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <!-- <script src="/admin/js/users/tblUnitsAdmins.js"></script>
-    <script src="/admin/js/users/usersAdmins.js"></script> -->
+    <script src="/global/js/global/configMagnitudes.js"></script>
+    <script src="/admin/js/units/tblUnits.js"></script>
+    <script src="/admin/js/units/units.js"></script>
 </body>
 
 </html>

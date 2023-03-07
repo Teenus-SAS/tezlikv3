@@ -30,8 +30,13 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
+        title: 'Magnitud',
+        data: 'magnitude',
+        className: 'classCenter',
+      },
+      {
         title: 'Unidad',
-        data: 'unit',
+        data: 'abbreviation',
         className: 'classCenter',
       },
       {

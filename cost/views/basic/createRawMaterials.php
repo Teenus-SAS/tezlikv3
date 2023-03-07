@@ -68,16 +68,20 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form class="col-12" id="formCreateMaterial">
                                             <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
                                                     <label for="">Referencia</label>
                                                 </div>
-                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
                                                     <label for="">Nombre Materia Prima</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <input type="text" class="form-control text-center" id="unityRawMaterial" name="unityRawMaterial">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <select class="form-control" id="magnitudes" name="magnitude"></select>
+                                                    <label for="">Magnitud</label>
+                                                </div>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <select class="form-control" id="units" name="unit"></select>
                                                     <label for="">Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
@@ -154,6 +158,8 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
+    <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
+    <script src="/global/js/global/configMagnitudes.js"></script>
     <script src="/cost/js/basic/rawMaterials/tblRawMaterials.js"></script>
     <script src="/cost/js/basic/rawMaterials/rawMaterials.js"></script>
     <script src="../global/js/import/import.js"></script>

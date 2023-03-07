@@ -4,10 +4,14 @@ use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
+use tezlikv3\Dao\MagnitudesDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\dao\UnitsDao;
 
 $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
+$magnitudesDao = new MagnitudesDao();
+$unitsDao = new UnitsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
 $generalCostProductsDao = new GeneralCostProductsDao();
@@ -27,7 +31,9 @@ $app->get('/materials', function (Request $request, Response $response, $args) u
 
 /* Consultar Materias prima importada */
 $app->post('/materialsDataValidation', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao
+    $generalMaterialsDao,
+    $magnitudesDao,
+    $unitsDao
 ) {
     $dataMaterial = $request->getParsedBody();
 
@@ -41,9 +47,29 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
         $materials = $dataMaterial['importMaterials'];
 
         for ($i = 0; $i < sizeof($materials); $i++) {
+
+            // Consultar magnitud
+            $magnitude = $magnitudesDao->findMagnitude($materials[$i]);
+
+            if (!$magnitude) {
+                $i = $i + 1;
+                $dataImportMaterial = array('error' => true, 'message' => "Magnitud no existe en la base de datos. Fila: $i");
+                break;
+            }
+
+            $materials[$i]['idMagnitude'] = $magnitude['id_magnitude'];
+
+            // Consultar unidad
+            $unit = $unitsDao->findUnit($materials[$i]);
+
+            if (!$unit) {
+                $i = $i + 1;
+                $dataImportMaterial = array('error' => true, 'message' => "Unidad no existe en la base de datos. Fila: $i");
+                break;
+            }
+
             if (
-                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) ||
-                empty($materials[$i]['unityRawMaterial']) || $materials[$i]['costRawMaterial'] == ''
+                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || $materials[$i]['costRawMaterial'] == ''
             ) {
                 $i = $i + 1;
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
@@ -69,6 +95,8 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
 $app->post('/addMaterials', function (Request $request, Response $response, $args) use (
     $materialsDao,
+    $magnitudesDao,
+    $unitsDao,
     $costMaterialsDao,
     $generalMaterialsDao,
     $priceProductDao,
@@ -94,6 +122,14 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
         for ($i = 0; $i < sizeof($materials); $i++) {
 
+            // Consultar magnitud
+            $magnitude = $magnitudesDao->findMagnitude($materials[$i]);
+            $materials[$i]['idMagnitude'] = $magnitude['id_magnitude'];
+
+            // Consultar unidad
+            $unit = $unitsDao->findUnit($materials[$i]);
+            $materials[$i]['unit'] = $unit['id_unit'];
+
             $materials[$i]['costRawMaterial'] = str_replace('.', ',', $materials[$i]['costRawMaterial']);
 
             $material = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
@@ -103,17 +139,18 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             else {
                 $materials[$i]['idMaterial'] = $material['id_material'];
                 $resolution = $materialsDao->updateMaterialsByCompany($materials[$i], $id_company);
-            }
-            if ($resolution != null) break;
 
-            $dataProducts = $costMaterialsDao->findProductByMaterial($materials[$i]['idMaterial'], $id_company);
+                if ($resolution != null) break;
 
-            foreach ($dataProducts as $arr) {
-                $resolution = $priceProductDao->calcPrice($arr['id_product']);
+                $dataProducts = $costMaterialsDao->findProductByMaterial($materials[$i]['idMaterial'], $id_company);
 
-                if (isset($resolution['info'])) break;
+                foreach ($dataProducts as $arr) {
+                    $resolution = $priceProductDao->calcPrice($arr['id_product']);
 
-                $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    if (isset($resolution['info'])) break;
+
+                    $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                }
             }
         }
         if ($resolution == null)

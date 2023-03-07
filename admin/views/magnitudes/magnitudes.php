@@ -64,12 +64,12 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="formCreateMagnitude">
-                                            <div class="form-row">
+                                            <div class="form-row justify-content-around">
                                                 <div class="col-sm-8">
                                                     <label for="">Nombre</label>
                                                     <input type="text" class="form-control" name="magnitude" id="magnitude">
                                                 </div>
-                                                <div style="margin-top:32px;">
+                                                <div class="col-sm-4" style="margin-top:32px;">
                                                     <button class="btn btn-success" id="btnCreateMagnitude">Crear Magnitud</button>
                                                 </div>
                                             </div>
@@ -111,8 +111,8 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <!-- <script src="/admin/js/users/tblMagnitudesAdmins.js"></script>
-    <script src="/admin/js/users/usersAdmins.js"></script> -->
+    <script src="/admin/js/magnitudes/tblMagnitudes.js"></script>
+    <script src="/admin/js/magnitudes/magnitudes.js"></script>
 </body>
 
 </html>
