@@ -13,4 +13,11 @@ $(document).ready(function () {
     });
   };
   loadDataMagnitudes();
+
+  /* Cargar unidades por magnitud */
+  $(document).on('change', '#magnitudes', function () {
+    let value = this.value;
+
+    loadUnitsByMagnitude(value);
+  });
 });

@@ -30,16 +30,17 @@ class CostMaterialsDao
     }
 
     // Buscar costo total de la materia prima y modificar en products_costs
-    public function calcCostMaterial($dataMaterials, $id_company)
+    public function calcCostMaterial($dataMaterials, $quantity, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT SUM(pm.quantity * m.cost) as cost 
+            $stmt = $connection->prepare("SELECT SUM(:quantity * m.cost) as cost 
                                         FROM products_materials pm 
                                         INNER JOIN materials m ON pm.id_material = m.id_material 
                                         WHERE pm.id_company = :id_company AND pm.id_product = :id_product");
             $stmt->execute([
+                'quantity' => $quantity,
                 'id_company' => $id_company,
                 'id_product' => $dataMaterials['idProduct']
             ]);
@@ -73,21 +74,4 @@ class CostMaterialsDao
             return $error;
         }
     }
-    /*
-    // General
-    public function calcCostMaterial($idProduct, $id_company)
-    {
-        $this->findTotalCostAndModify($idProduct, $id_company);
-    }
-
-    // Al modificar materia prima
-    public function calcCostMaterialsByRawMaterial($dataMaterials, $id_company)
-    {
-        $dataProduct = $this->findProductByMaterial($dataMaterials['idMaterial'], $id_company);
-
-        for ($i = 0; $i < sizeof($dataProduct); $i++) {
-            $this->findTotalCostAndModify($dataProduct[$i]['id_product'], $id_company);
-        }
-    }
-    */
 }

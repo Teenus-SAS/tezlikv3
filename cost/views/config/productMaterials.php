@@ -91,19 +91,25 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pb-0">
                                         <form id="formAddMaterials">
                                             <div class="form-row">
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Materia Prima</label>
                                                     <select class="form-control" name="material" id="material"></select>
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <select class="form-control" id="magnitudes" name="magnitude"></select>
+                                                    <label for="">Magnitud</label>
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <select class="form-control" id="units" name="unit">
+                                                        <option disabled selected>Seleccionar</option>
+                                                    </select>
+                                                    <label for="">Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Cantidad</label>
                                                     <input class="form-control text-center number" type="text" name="quantity" id="quantity">
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label for="">Unidad</label>
-                                                    <input class="form-control text-center number" type="text" name="unity" id="unity" disabled>
-                                                </div>
-                                                <div class="col-xs-2 mt-1">
+                                                <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
                                                 </div>
                                             </div>
@@ -179,6 +185,8 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
+    <script src="/global/js/global/configMagnitudes.js"></script>
+    <script src="/global/js/global/configUnits.js"></script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/global/js/global/orderData.js"></script>

@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\Dao\ConversionUnitsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\ExpenseRecoverDao;
@@ -16,6 +17,7 @@ use tezlikv3\dao\GeneralProductsMaterialsDao;
 use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\FilesDao;
+use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\ProductsDao;
@@ -32,6 +34,8 @@ $productsCostDao = new ProductsCostDao();
 $priceProductDao = new PriceProductDao();
 $productsQuantityDao = new ProductsQuantityDao();
 $productsMaterialsDao = new GeneralProductsMaterialsDao();
+$materialsDao = new GeneralMaterialsDao();
+$conversionUnitsDao = new ConversionUnitsDao();
 $generalPMaterialsDao = new CostProductMaterialsDao();
 $productsProcessDao = new GeneralProductsProcessDao();
 $generalPProcessDao = new CostProductProcessDao();
@@ -236,6 +240,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $generalCostProductsDao,
     $productsQuantityDao,
     $productsMaterialsDao,
+    $conversionUnitsDao,
+    $materialsDao,
     $generalPMaterialsDao,
     $productsProcessDao,
     $generalPProcessDao,
@@ -330,21 +336,40 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 }
             }
 
-            // if ($resolution == null) {
-            //     // Copiar data expenses_recover
-            //     $oldProduct = $generalExpenseRecoverDao->findExpenseRecoverByIdProduct($dataProduct);
-            //     $arr = array();
+            if ($resolution == null) {
+                // Copiar data expenses_recover
+                $oldProduct = $generalExpenseRecoverDao->findExpenseRecoverByIdProduct($dataProduct);
+                $arr = array();
 
-            //     if ($oldProduct != false) {
-            //         $arr['idProduct'] = $dataProduct['idProduct'];
-            //         $arr['percentage'] = $oldProduct['expense_recover'];
-            //         $resolution = $expensesRecoverDao->insertRecoverExpenseByCompany($arr, $id_company);
-            //     }
-            // }
+                if ($oldProduct != false) {
+                    $arr['idProduct'] = $dataProduct['idProduct'];
+                    $arr['percentage'] = $oldProduct['expense_recover'];
+                    $resolution = $expensesRecoverDao->insertRecoverExpenseByCompany($arr, $id_company);
+
+                    isset($resolution['info']) ? $resolution = null : $resolution;
+                }
+            }
 
             if ($resolution == null) {
+                $productsMaterials = $productsMaterialsDao->findAllProductsmaterials($dataProduct['idProduct'], $id_company);
+
+                $totalQuantity = 0;
+
+                foreach ($productsMaterials as $arr) {
+                    if ($resolution != null) break;
+
+                    // Obtener materia prima
+                    $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+
+                    // Convertir unidades
+                    $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+
+                    !$quantity ? $quantity = 0 : $quantity;
+
+                    $totalQuantity += $quantity;
+                }
                 //Metodo calcular precio total materias
-                $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
+                $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);
 
                 $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
             }

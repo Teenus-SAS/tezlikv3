@@ -22,7 +22,8 @@ class UnitsDao
 
         $stmt = $connection->prepare("SELECT u.id_unit, m.id_magnitude, m.magnitude, u.unit, u.abbreviation
                                       FROM units u
-                                        INNER JOIN magnitudes m ON m.id_magnitude = u.id_magnitude");
+                                        INNER JOIN magnitudes m ON m.id_magnitude = u.id_magnitude
+                                      ORDER BY m.magnitude ASC");
         $stmt->execute();
 
         $units = $stmt->fetchAll($connection::FETCH_ASSOC);

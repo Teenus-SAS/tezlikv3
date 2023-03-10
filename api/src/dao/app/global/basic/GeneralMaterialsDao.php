@@ -41,11 +41,29 @@ class GeneralMaterialsDao
 
         $stmt = $connection->prepare("SELECT id_material FROM materials 
                                     WHERE reference = :reference 
-                                    AND material = :material 
+                                    OR material = :material 
                                     AND id_company = :id_company");
         $stmt->execute([
             'reference' => trim($dataMaterial['refRawMaterial']),
             'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
+            'id_company' => $id_company,
+        ]);
+        $findMaterial = $stmt->fetch($connection::FETCH_ASSOC);
+        return $findMaterial;
+    }
+
+    public function findMaterialAndUnits($id_material, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, mg.id_magnitude, mg.magnitude, 
+                                             u.id_unit, u.abbreviation, m.cost, m.category, m.quantity
+                                      FROM materials m
+                                        INNER JOIN units u ON u.id_unit = m.unit
+                                        INNER JOIN magnitudes mg ON mg.id_magnitude = u.id_magnitude
+                                      WHERE m.id_material = :id_material AND id_company = :id_company");
+        $stmt->execute([
+            'id_material' => $id_material,
             'id_company' => $id_company,
         ]);
         $findMaterial = $stmt->fetch($connection::FETCH_ASSOC);

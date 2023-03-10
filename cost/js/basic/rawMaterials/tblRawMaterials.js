@@ -40,6 +40,7 @@ $(document).ready(function () {
         className: 'classCenter',
       },
       {
+        width: '80px',
         title: 'Precio',
         data: 'cost',
         className: 'classRight',

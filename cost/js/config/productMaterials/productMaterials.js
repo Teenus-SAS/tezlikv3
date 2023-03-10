@@ -28,7 +28,7 @@ $(document).ready(function () {
     idProduct = $('#selectNameProduct').val();
   });
 
-  /* Adicionar unidad de materia prima */
+  /* Adicionar unidad de materia prima 
 
   $('#material').change(function (e) {
     e.preventDefault();
@@ -42,11 +42,14 @@ $(document).ready(function () {
 
     for (i = 0; i < dataMaterials.length; i++) {
       if (id == dataMaterials[i]['id_material']) {
-        $('#unity').val(dataMaterials[i].unit);
+        $(`#units option[value=${dataMaterials[i].id_unit}]`).prop(
+          'selected',
+          true
+        );
         break;
       }
     }
-  });
+  }); */
 
   /* Adicionar nueva materia prima */
 
@@ -81,11 +84,12 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product_material', data.id_product_material);
     $(`#material option[value=${data.id_material}]`).prop('selected', true);
 
+    $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
+    $(`#units option[value=${data.id_unit}]`).prop('selected', true);
+
     let quantity = `${data.quantity}`;
 
     $('#quantity').val(quantity.replace('.', ','));
-
-    $('#unity').val(data.unit);
 
     $('html, body').animate(
       {
@@ -98,10 +102,11 @@ $(document).ready(function () {
   /* Revision data Productos materiales */
   checkDataProductsMaterials = async (url, idProductMaterial) => {
     let ref = parseInt($('#material').val());
+    let unit = parseInt($('#units').val());
     let quan = $('#quantity').val();
     idProduct = parseInt($('#selectNameProduct').val());
 
-    let data = ref * idProduct;
+    let data = ref * unit * idProduct;
 
     if (!data || quan == '') {
       toastr.error('Ingrese todos los campos');

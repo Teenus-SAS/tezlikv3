@@ -19,7 +19,7 @@ $(
       mouseMove = new Date();
       inactividad(function () {
         fetchindata();
-      }, 800);
+      }, 1600);
     });
 
     var inactividad = function (callback, seconds) {

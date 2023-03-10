@@ -92,7 +92,10 @@ class DashboardGeneralDao
         $connection = Connection::getInstance()->getConnection();
 
         // Contar todos los productos
-        $stmt = $connection->prepare("SELECT COUNT(product) products FROM products WHERE id_company = :id_company AND active = 1");
+        $stmt = $connection->prepare("SELECT COUNT(p.product) AS products
+                                      FROM products p
+                                        INNER JOIN products_costs pc ON pc.id_product = p.id_product
+                                      WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
         $quantityProducts = $stmt->fetch($connection::FETCH_ASSOC);
 
@@ -136,7 +139,10 @@ class DashboardGeneralDao
         $connection = Connection::getInstance()->getConnection();
 
         // Contar todos los productos
-        $stmt = $connection->prepare("SELECT COUNT(material) materials FROM materials WHERE id_company = :id_company;");
+        $stmt = $connection->prepare("SELECT COUNT(m.material) AS materials 
+                                      FROM materials m
+                                        INNER JOIN units u ON u.id_unit = m.unit
+                                      WHERE m.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $quantityMaterials = $stmt->fetch($connection::FETCH_ASSOC);
 
@@ -144,17 +150,4 @@ class DashboardGeneralDao
         $this->logger->notice("expenseValue", array('expenseValue' => $quantityMaterials));
         return $quantityMaterials;
     }
-
-    /* Obtener rentabilidad y precio productos
-    public function findProfitabilityAndPriceProducts($id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT profitability, price FROM `products_costs` 
-                                      WHERE id_company = :id_company ORDER BY `products_costs`.`profitability` DESC");
-        $stmt->execute(['id_company' => $id_company]);
-        $productsCost = $stmt->fetchAll($connection::FETCH_ASSOC);
-
-        return $productsCost;
-    }*/
 }

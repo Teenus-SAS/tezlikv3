@@ -81,7 +81,9 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Magnitud</label>
                                                 </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <select class="form-control" id="units" name="unit"></select>
+                                                    <select class="form-control" id="units" name="unit">
+                                                        <option disabled selected>Seleccionar</option>
+                                                    </select>
                                                     <label for="">Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
@@ -158,8 +160,8 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script src="/global/js/global/configMagnitudes.js"></script>
+    <script src="/global/js/global/configUnits.js"></script>
     <script src="/cost/js/basic/rawMaterials/tblRawMaterials.js"></script>
     <script src="/cost/js/basic/rawMaterials/rawMaterials.js"></script>
     <script src="../global/js/import/import.js"></script>

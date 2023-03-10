@@ -31,6 +31,8 @@ $(document).ready(function () {
             product: item.producto,
             refRawMaterial: item.referencia_material,
             nameRawMaterial: item.material,
+            magnitude: item.magnitud,
+            abbreviation: item.unidad,
             quantity: item.cantidad,
           };
         });
