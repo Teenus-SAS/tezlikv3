@@ -20,7 +20,7 @@ class MagnitudesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM magnitudes");
+        $stmt = $connection->prepare("SELECT * FROM convert_magnitudes");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -32,7 +32,7 @@ class MagnitudesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM magnitudes WHERE magnitude = :magnitude");
+        $stmt = $connection->prepare("SELECT * FROM convert_magnitudes WHERE magnitude = :magnitude");
         $stmt->execute([
             'magnitude' => strtoupper(trim($dataMagnitude['magnitude']))
         ]);
@@ -47,7 +47,7 @@ class MagnitudesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO magnitudes (magnitude) VALUES (:magnitude)");
+            $stmt = $connection->prepare("INSERT INTO convert_magnitudes (magnitude) VALUES (:magnitude)");
             $stmt->execute([
                 'magnitude' => strtoupper(trim($dataMagnitude['magnitude']))
             ]);
@@ -67,7 +67,7 @@ class MagnitudesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE magnitudes SET magnitude = :magnitude WHERE id_magnitude = :id_magnitude");
+            $stmt = $connection->prepare("UPDATE convert_magnitudes SET magnitude = :magnitude WHERE id_magnitude = :id_magnitude");
             $stmt->execute([
                 'id_magnitude' => $dataMagnitude['idMagnitude'],
                 'magnitude' => strtoupper(trim($dataMagnitude['magnitude']))
@@ -88,14 +88,14 @@ class MagnitudesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT * FROM magnitudes WHERE id_magnitude = :id_magnitude");
+            $stmt = $connection->prepare("SELECT * FROM convert_magnitudes WHERE id_magnitude = :id_magnitude");
             $stmt->execute([
                 'id_magnitude' => $id_magnitude
             ]);
             $row = $stmt->rowCount();
 
             if ($row > 0) {
-                $stmt = $connection->prepare("DELETE FROM magnitudes WHERE id_magnitude = :id_magnitude");
+                $stmt = $connection->prepare("DELETE FROM convert_magnitudes WHERE id_magnitude = :id_magnitude");
                 $stmt->execute([
                     'id_magnitude' => $id_magnitude
                 ]);

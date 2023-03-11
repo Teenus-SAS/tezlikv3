@@ -132,7 +132,7 @@
                             <div class="col-sm-9">
                                 <div class="row" id="nav">
                                     <div class="col-md-3" id="navCostQuotesBasics">
-                                        <h5 class="font-size-14 font-weight-600">Básico</h5>
+                                        <h5 class="font-size-14 font-weight-600">Cotización</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['quote_payment_method'] == 1) { ?>
                                                 <li class="paymentMethods"><a href="/cost/payment-methods">Metodos de Pago</a></li>
