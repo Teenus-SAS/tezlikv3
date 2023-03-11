@@ -3,10 +3,12 @@
 use tezlikv3\dao\UserInactiveTimeDao;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use tezlikv3\dao\LastLoginDao;
 use tezlikv3\dao\StatusActiveUserDao;
 
 $userInactiveTimeDao = new UserInactiveTimeDao();
 $statusActiveUserDao = new StatusActiveUserDao();
+$lastLoginDao = new LastLoginDao();
 
 /* Validar session activa */
 
@@ -17,6 +19,17 @@ $app->get('/checkSessionUser', function (Request $request, Response $response, $
     $userInactiveTime == 1 ? $userInactiveTime = 0 : $userInactiveTime = $userInactiveTime['session_active'];
 
     $response->getBody()->write(json_encode($userInactiveTime));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/checkLastLoginUsers', function (Request $request, Response $response, $args) use ($lastLoginDao) {
+    $users = $lastLoginDao->FindTimeActiveUsers('users');
+    $admins = $lastLoginDao->FindTimeActiveUsers('admins');
+
+    if ($users == null && $admins == null)
+        $resp = array('success' => true, 'message' => 'Se verificaron los usuarios correctamente');
+
+    $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 

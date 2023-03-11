@@ -38,4 +38,19 @@ class LastLoginDao
             return $error;
         }
     }
+
+    /* public function FindTimeActiveUsers($table)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE `:name_table` SET session_active = 0 
+                                          WHERE session_active = 1 AND TIMESTAMPDIFF(MINUTE, last_login, NOW()) > 60");
+            $stmt->execute(['name_table' => $table]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }*/
 }

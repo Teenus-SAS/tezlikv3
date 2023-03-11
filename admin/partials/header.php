@@ -40,6 +40,11 @@
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="users"><a href="/admin/users-admins">Usuarios</a></li>
                                         <li class="plans"><a href="/admin/plans">Planes</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-3" id="navConversion">
+                                    <h5 class="font-size-14 font-weight-600">Conversiones</h5>
+                                    <ul class="list-unstyled megamenu-list">
                                         <li class="magnitudes"><a href="/admin/magnitudes">Magnitudes</a></li>
                                         <li class="units"><a href="/admin/units">Unidades</a></li>
                                     </ul>
