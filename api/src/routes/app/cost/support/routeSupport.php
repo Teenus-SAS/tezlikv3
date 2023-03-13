@@ -17,9 +17,9 @@ $app->post('/sendEmailSupport', function (Request $request, Response $response, 
     if (empty($dataSupport['subject']) || empty($dataSupport['message'])) {
         $resp = array('error' => true, 'message' => 'Porfavor ingrese todos los campos');
     } else {
-        $dataSupport = $sendMakeEmailDao->sendEmailSupport($dataSupport, $email);
+        $dataEmail = $sendMakeEmailDao->sendEmailSupport($dataSupport, $email);
 
-        $support = $sendEmailDao->sendEmail($dataSupport, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
+        $support = $sendEmailDao->sendEmail($dataEmail, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
 
         if ($support == null)
             $resp = array('success' => true, 'message' => 'Email enviado correctamente. Nos comunicaremos muy p ronto');

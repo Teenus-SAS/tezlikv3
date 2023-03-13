@@ -43,7 +43,7 @@ $(document).ready(function () {
     let unitsToSold = [];
     let color = [];
 
-    multiproducts.length > length ? (count = length) : (count = 10);
+    multiproducts.length >= length ? (count = length) : (count = 10);
 
     for (let i = 0; i < count; i++) {
       nameProduct.push(product[i].name);

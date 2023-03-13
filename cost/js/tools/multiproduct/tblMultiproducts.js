@@ -56,23 +56,30 @@ $(document).ready(function () {
     existingMultiproducts = data.existingMultiproducts;
     expenseAsignation = multiproducts[0].expense;
 
-    repeat = false;
-    $.each(existingMultiproducts, function (e, value) {
-      expenseAsignation = value.expense;
+    if (expenseAsignation == 0) {
+      repeat = false;
+      $.each(existingMultiproducts, function (e, value) {
+        expenseAsignation = value.expense;
 
-      for (i = 0; i < multiproducts.length; i++) {
-        if (multiproducts[i].id_product == value.id_product) {
-          repeat = true;
+        for (i = 0; i < multiproducts.length; i++) {
+          if (multiproducts[i].id_product == value.id_product) {
+            repeat = true;
 
-          if (value.units_sold > 0) $(`#soldUnit-${i}`).val(value.units_sold);
+            if (value.units_sold > 0) $(`#soldUnit-${i}`).val(value.units_sold);
+          }
         }
-      }
-    });
+      });
 
-    if (repeat == true) $('#soldUnit-0').click();
+      if (repeat == true) $('#soldUnit-0').click();
 
-    if (expenseAsignation == 0 || repeat == true) {
       $('.cardExpenseAssignation').show(800);
+      if (expenseAsignation > 0)
+        $('#expenseAssignation').val(
+          expenseAsignation.toLocaleString('es-CO', {
+            maximumFractionDigits: 0,
+          })
+        );
+
       $('#expenses').html(
         `$ ${(expenseAsignation + sumTotalCostFixed).toLocaleString('es-CO', {
           maximumFractionDigits: 0,

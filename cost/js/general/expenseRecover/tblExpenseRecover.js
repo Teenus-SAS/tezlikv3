@@ -13,7 +13,7 @@ $(document).ready(function () {
       `<thead>
         <tr>
           <th class="uniqueClassName">
-            <label>Seleccionar Todos</label>
+            <label>Seleccionar Todos</label><br>
             <input class="form-control-updated checkExpense" type="checkbox" id="all">
           </th>
           <th class="uniqueClassName">No.</th>

@@ -18,7 +18,6 @@ $(
     $(document).mousemove(function () {
       mouseMove = new Date();
       inactividad(function () {
-        let date = new Date();
         fetchindata();
       }, 800);
     });

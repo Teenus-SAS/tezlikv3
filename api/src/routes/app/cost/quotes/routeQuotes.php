@@ -187,9 +187,9 @@ $app->post('/sendQuote', function (Request $request, Response $response, $args) 
 
     $file = $FilesDao->uploadPDFQuote($id_company);
 
-    $dataQuote = $sendMakeEmailDao->SendEmailQuote($dataQuote, $email, $file);
+    $dataEmail = $sendMakeEmailDao->SendEmailQuote($dataQuote, $email, $file);
 
-    $resolution = $sendEmailDao->sendEmail($dataQuote, $email, $name);
+    $resolution = $sendEmailDao->sendEmail($dataEmail, $email, $name);
 
     if ($resolution == null)
         $resolution = $generalQuotesDao->updateFlagQuote($dataQuote);
