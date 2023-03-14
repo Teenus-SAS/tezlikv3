@@ -67,7 +67,7 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12 cardTblBreakeven">
                                 <div class="card">
-                                    <div class="card-header">
+                                    <div class="card-header row">
                                         <h5 class="col-sm-10 card-title">Punto De Equilibrio</h5>
                                         <div class="col-sm-2 floating-label enable-floating-label show-label form-inline justify-content-sm-end cardExpenseAssignation" style="display: none;">
                                             <input type="text" class="form-control text-center number" id="expenseAssignation">

@@ -17,7 +17,7 @@ if (sizeof($_SESSION) == 0)
     <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
     <meta name="author" content="MatrrDigital">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Analysis Materials</title>
+    <title>Tezlik - Cost | Analysis Materials - Products</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
@@ -42,7 +42,7 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Materias Primas</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Productos</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
                                         <li class="breadcrumb-item active">Análisis de Materias Primas</li>
                                     </ol>
@@ -177,10 +177,10 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
-    <script src="/cost/js/tools/materials/tblmaterials.js"></script>
-    <script src="/cost/js/tools/materials/tblAnalysisMaterials.js"></script>
-    <script src="/cost/js/tools/materials/calcAnalysisMaterials.js"></script>
-    <script src="/cost/js/tools/materials/materials.js"></script>
+    <script src="/cost/js/analysisMaterials/products/tblmaterials.js"></script>
+    <script src="/cost/js/analysisMaterials/products/tblAnalysisMaterials.js"></script>
+    <script src="/cost/js/analysisMaterials/products/calcAnalysisMaterials.js"></script>
+    <script src="/cost/js/analysisMaterials/products/materials.js"></script>
 </body>
 
 </html>

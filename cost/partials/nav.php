@@ -6,7 +6,7 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="/cost">
                             <i class="bx bxs-dashboard mr-1"></i> Dashboards
-                            <i class="bx bx-chevron-down"></i>
+                            <i class="bx bx-chevron-right"></i>
                         </a>
                     </li>
 
@@ -35,6 +35,25 @@
                         </li>
                     <?php } ?>
 
+                    <?php if ($_SESSION['analysis_material'] == 1 || $_SESSION['plan_cost_analysis_material'] == 1) { ?>
+                        <li class="nav-item dropdown tools">
+                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-card-heading mr-1"></i> Análisis Materia Prima
+                                <i class="bx bx-chevron-down"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/cost/analysis-materials-product">
+                                    <i class="bi bi-graph-up mr-1"></i> Producto
+                                    <i class="bx bx-chevron-right"></i>
+                                </a>
+                                <a class="dropdown-item" href="/cost/analysis-materials-lot">
+                                    <i class="bi bi-graph-down mr-1"></i> Lote
+                                    <i class="bx bx-chevron-right"></i>
+                                </a>
+                            </div>
+                        </li>
+                    <?php } ?>
+
                     <?php if ($_SESSION['analysis_material'] == 1 || $_SESSION['cost_economy_scale'] == 1) { ?>
                         <li class="nav-item dropdown tools">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,22 +61,16 @@
                                 <i class="bx bx-chevron-down"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <?php if ($_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1) { ?>
-                                    <a class="dropdown-item" href="/cost/analysis-materials">
-                                        <i class="bx bx-tone mr-1"></i> Análisis Materia Prima
-                                        <i class="bx bx-chevron-down"></i>
-                                    </a>
-                                <?php } ?>
                                 <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/economyScale">
                                         <i class="bx bx-dollar-circle mr-1"></i> Economias de Escala
-                                        <i class="bx bx-chevron-down"></i>
+                                        <i class="bx bx-chevron-right"></i>
                                     </a>
                                 <?php } ?>
                                 <?php if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/multiproduct">
                                         <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
-                                        <i class="bx bx-chevron-down"></i>
+                                        <i class="bx bx-chevron-right"></i>
                                     </a>
                                 <?php } ?>
                             </div>
@@ -69,7 +82,7 @@
                         <li class="nav-item quotes">
                             <a class="nav-link" href="/cost/quotes">
                                 <i class="bx bx-columns mr-1"></i> Cotizar
-                                <i class="bx bx-chevron-down"></i>
+                                <i class="bx bx-chevron-right"></i>
                             </a>
                         </li>
                     <?php } ?>

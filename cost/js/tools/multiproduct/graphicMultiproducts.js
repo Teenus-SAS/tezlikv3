@@ -1,6 +1,21 @@
 $(document).ready(function () {
   var myChart;
 
+  dynamicColors = () => {
+    let letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+
+    for (var i = 0; i < 6; i++)
+      color += letters[Math.floor(Math.random() * 16)];
+    return color;
+  };
+
+  getRandomColor = (a) => {
+    let color = [];
+    for (i = 0; i < a; i++) color.push(dynamicColors());
+    return color;
+  };
+
   var anchura = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
@@ -74,7 +89,7 @@ $(document).ready(function () {
           {
             label: 'N° de unidades vendidas',
             data: soldUnits,
-            backgroundColor: color,
+            backgroundColor: getRandomColor(10),
             borderWidth: 1,
           },
           {
