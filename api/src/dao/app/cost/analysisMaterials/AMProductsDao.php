@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class ReviewRawMaterialsDao
+class AMProductsDao
 {
     private $logger;
 
@@ -21,12 +21,14 @@ class ReviewRawMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT pm.id_product_material, m.id_material, m.reference, m.material, CONCAT(FORMAT(pm.quantity,2,'de_DE'), ' ', m.unit) AS quantity, m.cost, (pm.quantity*m.cost) AS unityCost,((pm.quantity*m.cost)/ 
-                                                 (SELECT SUM(pm.quantity*m.cost) FROM products_materials pm INNER JOIN materials m ON m.id_material = pm.id_material WHERE pm.id_product = p.id_product AND pm.id_company = p.id_company))*100 AS participation 
-                                          FROM products p
+            $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, p.reference AS reference_product, p.product, m.id_material, m.reference, m.material, CONCAT(FORMAT(pm.quantity, 2, 'de_DE'), ' ', u.abbreviation) AS quantity, 
+                                                 m.cost, (pm.quantity*m.cost) AS unityCost,((pm.quantity*m.cost)/ (SELECT SUM(pm.quantity*m.cost) FROM products_materials pm INNER JOIN materials m ON m.id_material = pm.id_material WHERE pm.id_product = p.id_product AND pm.id_company = p.id_company))*100 AS participation 
+                                          FROM products p 
                                             INNER JOIN products_materials pm ON pm.id_product = p.id_product
                                             INNER JOIN materials m ON m.id_material = pm.id_material
-                                          WHERE pm.id_product = :id_product AND pm.id_company = :id_company ORDER BY `participation` DESC");
+                                            INNER JOIN convert_units u ON u.id_unit = pm.id_unit
+                                          WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
+                                          ORDER BY `participation` DESC");
             $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
             $productsRawmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
         } catch (\Exception $e) {

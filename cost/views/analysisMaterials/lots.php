@@ -114,28 +114,8 @@ if (sizeof($_SESSION) == 0)
                                                 <label>Ahorro Anual</label>
                                             </div>
                                         </div>
-                                        <div class="alert alert-success mt-3" role="alert">
-                                            Cantidad de Materias primas que consumen el 80% del valor del costo
-                                        </div>
                                         <div class="table-responsive">
                                             <table class="table table-striped text-center" id="tblAnalysisMaterials">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">No.</th>
-                                                        <th scope="col">Participación</th>
-                                                        <th scope="col">Materia Prima</th>
-                                                        <th scope="col">Cantidad</th>
-                                                        <th scope="col">Precio Actual</th>
-                                                        <th scope="col">Precio a Negociar</th>
-                                                        <th scope="col">Porcentaje</th>
-                                                        <th scope="col">Costo Unidad</th>
-                                                        <th scope="col">Costo Total</th>
-                                                        <th scope="col">Costo Proyectado</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody class="colMaterials">
-                                                </tbody>
-                                                <tfoot></tfoot>
                                             </table>
                                         </div>
                                     </div>

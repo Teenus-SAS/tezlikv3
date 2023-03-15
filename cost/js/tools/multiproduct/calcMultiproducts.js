@@ -15,6 +15,8 @@ $(document).ready(function () {
         maximumFractionDigits: 0,
       })}`
     );
+
+    $('#soldUnit-0').click();
   });
 
   $(document).on('click keyup', '.soldUnits', function () {

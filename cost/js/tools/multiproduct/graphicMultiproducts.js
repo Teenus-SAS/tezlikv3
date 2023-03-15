@@ -34,8 +34,6 @@ $(document).ready(function () {
   loadGraphicMultiproducts = () => {
     let product = [];
 
-    anchura <= 480 ? (length = 5) : (length = multiproducts.length);
-
     for (let i = 0; i < multiproducts.length; i++) {
       product.push({
         name: multiproducts[i].product,
@@ -58,6 +56,7 @@ $(document).ready(function () {
     let unitsToSold = [];
     let color = [];
 
+    anchura <= 480 ? (length = 5) : (length = 10);
     multiproducts.length >= length ? (count = length) : (count = 10);
 
     for (let i = 0; i < count; i++) {
@@ -89,7 +88,7 @@ $(document).ready(function () {
           {
             label: 'N° de unidades vendidas',
             data: soldUnits,
-            backgroundColor: getRandomColor(10),
+            backgroundColor: getRandomColor(count),
             borderWidth: 1,
           },
           {

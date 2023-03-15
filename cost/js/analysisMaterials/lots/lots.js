@@ -1,19 +1,18 @@
 $(document).ready(function () {
-  let products = [];
+  products = [];
   $('.cardAddLot').hide();
 
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
-    $('#selectNameProduct option').removeAttr('selected');
+    // $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
   });
 
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
-    $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
   });
 
@@ -23,6 +22,8 @@ $(document).ready(function () {
     $('.cardAddLot').hide(800);
     $('.cardRawMaterialsAnalysis').show(800);
     $('.cardTableProducts').hide(800);
+
+    setTimeout(setCSSTbl, 1000);
   });
 
   $('#btnProductsLoaded').click(function (e) {
@@ -32,6 +33,8 @@ $(document).ready(function () {
     $('.cardRawMaterialsAnalysis').hide(800);
     $('.cardAddLot').show(800);
     $('.cardTableProducts').show(800);
+
+    setTimeout(setCSSTbl, 1000);
   });
 
   $('#btnAddLot').click(function (e) {
@@ -63,5 +66,13 @@ $(document).ready(function () {
     $('.cardAddLot').hide(800);
 
     loadTblProducts(products);
+
+    dataMaterials.push(idProduct);
+    loadTblAnalysisMaterials(dataMaterials);
   });
+
+  function setCSSTbl() {
+    $('#tblAnalysisMaterials').css('width', '100%');
+    $('#tblProducts').css('width', '100%');
+  }
 });

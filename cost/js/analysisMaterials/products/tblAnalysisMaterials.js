@@ -46,9 +46,7 @@ $(document).ready(function () {
           })}</th>
                           <th id="totalCost-${i + 1}"></th>
                           <th id="projectedCost-${i + 1}"></th>
-                        </tr>
-                
-                       <script src="../../global/js/global/number.js"></script>`
+                        </tr>`
         );
         participation = participation + data[i].participation;
       }

@@ -97,9 +97,11 @@ require_once('../api/src/routes/app/cost/prices/routePricesUSD.php');
 // support
 require_once('../api/src/routes/app/cost/support/routeSupport.php');
 
+// Analysis
+require_once('../api/src/routes/app/cost/analysisMaterials/routeProducts.php');
+require_once('../api/src/routes/app/cost/analysisMaterials/routeLots.php');
 // Tools
 require_once('../api/src/routes/app/cost/tools/routeEconomyScale.php');
-require_once('../api/src/routes/app/cost/tools/routeReviewRawMaterials.php');
 require_once('../api/src/routes/app/cost/tools/routeMultiproducts.php');
 
 
