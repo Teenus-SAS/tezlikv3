@@ -53,44 +53,38 @@ $(document).ready(function () {
       );
     }
 
-    existingMultiproducts = data.existingMultiproducts;
     expenseAsignation = multiproducts[0].expense;
 
-    if (expenseAsignation == 0) {
-      repeat = false;
-      $.each(existingMultiproducts, function (e, value) {
-        expenseAsignation = value.expense;
+    if (expenseAsignation == 0) $('.cardExpenseAssignation').show(800);
 
-        for (i = 0; i < multiproducts.length; i++) {
-          if (multiproducts[i].id_product == value.id_product) {
-            repeat = true;
+    existingMultiproducts = data.existingMultiproducts;
+    repeat = false;
+    $.each(existingMultiproducts, function (e, value) {
+      if (expenseAsignation == 0) expenseAsignation = value.expense;
 
-            if (value.units_sold > 0) $(`#soldUnit-${i}`).val(value.units_sold);
-          }
+      for (i = 0; i < multiproducts.length; i++) {
+        if (multiproducts[i].id_product == value.id_product) {
+          repeat = true;
+
+          if (value.units_sold > 0) $(`#soldUnit-${i}`).val(value.units_sold);
         }
-      });
+      }
+    });
 
-      if (repeat == true) $('#soldUnit-0').click();
+    if (repeat == true) $('#soldUnit-0').click();
 
-      $('.cardExpenseAssignation').show(800);
-      if (expenseAsignation > 0)
-        $('#expenseAssignation').val(
-          expenseAsignation.toLocaleString('es-CO', {
-            maximumFractionDigits: 0,
-          })
-        );
-
-      $('#expenses').html(
-        `$ ${(expenseAsignation + sumTotalCostFixed).toLocaleString('es-CO', {
+    if (expenseAsignation > 0)
+      $('#expenseAssignation').val(
+        expenseAsignation.toLocaleString('es-CO', {
           maximumFractionDigits: 0,
-        })}`
+        })
       );
-    } else
-      $('#expenses').html(
-        `$ ${(expenseAsignation + sumTotalCostFixed).toLocaleString('es-CO', {
-          maximumFractionDigits: 0,
-        })}`
-      );
+
+    $('#expenses').html(
+      `$ ${(expenseAsignation + sumTotalCostFixed).toLocaleString('es-CO', {
+        maximumFractionDigits: 0,
+      })}`
+    );
 
     $('#tblMultiproducts').dataTable({
       pageLength: 50,

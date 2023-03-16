@@ -1,7 +1,8 @@
 $(document).ready(function () {
+  let totalUnits = 0;
   /* Ingresar asignacion de gasto manual */
   $(document).on('keyup', '#expenseAssignation', function () {
-    $('.general').val('');
+    // $('.general').val('');
     $('.general').html('');
 
     expenseAsignation = this.value;
@@ -31,18 +32,19 @@ $(document).ready(function () {
       let row = id.slice(9, id.length);
       $(`.row-${row}`).html('');
 
-      for (let i = 0; i < multiproducts.length; i++) {
-        multiproducts[i]['expense'] = expenseAsignation;
-        multiproducts[i]['participation'] = 0;
-        multiproducts[i]['average'] = 0;
-        multiproducts[i]['percentage'] = 0;
+      let dataMultiproducts = [];
 
-        let unit = parseInt($(`#soldUnit-${i}`).val());
+      for (let i = 0; i < multiproducts.length; i++) {
+        unit = $(`#soldUnit-${i}`).val();
 
         if (unit > 0) {
-          unit = parseInt(unit);
+          multi = {};
 
-          multiproducts[i]['soldUnit'] = unit;
+          multi.id_product = multiproducts[i]['id_product'];
+          multi.soldUnit = unit;
+          multi.expense = expenseAsignation;
+
+          dataMultiproducts.push(multi);
 
           let totalUnitsSold = sumTotalSoldUnits();
 
@@ -71,46 +73,45 @@ $(document).ready(function () {
             })
           );
         }
+      }
 
-        for (let i = 0; i < multiproducts.length; i++) {
-          let unit = parseInt($(`#soldUnit-${i}`).val());
+      for (let i = 0; i < multiproducts.length; i++) {
+        let unit = parseInt($(`#soldUnit-${i}`).val());
 
-          if (unit > 0) {
-            let totalAverages = sumTotalAverages();
+        if (unit > 0) {
+          let totalAverages = sumTotalAverages();
 
-            // Calcular total Unidades
-            totalUnits =
-              (expenseAsignation + sumTotalCostFixed) / totalAverages;
+          // Calcular total Unidades
+          totalUnits = (expenseAsignation + sumTotalCostFixed) / totalAverages;
 
-            // Calcular unidades a vender
-            let unitsToSold =
-              (multiproducts[i]['participation'] / 100) * totalUnits;
-            multiproducts[i]['unitsToSold'] = unitsToSold;
-            $(`#unitTo-${i}`).html(
-              unitsToSold.toLocaleString('es-CO', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0,
-              })
-            );
+          // Calcular unidades a vender
+          let unitsToSold =
+            (multiproducts[i]['participation'] / 100) * totalUnits;
+          multiproducts[i]['unitsToSold'] = unitsToSold;
+          $(`#unitTo-${i}`).html(
+            unitsToSold.toLocaleString('es-CO', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })
+          );
 
-            let percentage = (unit / unitsToSold) * 100;
-            multiproducts[i]['percentage'] = percentage;
-          }
+          let percentage = (unit / unitsToSold) * 100;
+          multiproducts[i]['percentage'] = percentage;
         }
       }
 
-      if (this.value == '' || !this.value) return false;
-      else {
-        $('#totalUnits').html(
-          totalUnits.toLocaleString('es-CO', {
-            maximumFractionDigits: 2,
-          })
-        );
+      // if (this.value == '' || !this.value) return false;
+      // else {
+      $('#totalUnits').html(
+        totalUnits.toLocaleString('es-CO', {
+          maximumFractionDigits: 2,
+        })
+      );
 
-        sumTotalUnits();
+      sumTotalUnits();
 
-        saveMultiproducts(multiproducts);
-      }
+      saveMultiproducts(dataMultiproducts);
+      // }
     } catch (error) {
       console.log(error);
     }

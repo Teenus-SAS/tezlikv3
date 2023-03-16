@@ -49,11 +49,11 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 py-2">
-                                    <button class="btn btn-warning" id="btnRawMaterialsAnalysis">Analisar Materias Primas</button>
-                                </div>
                                 <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-info ml-3" id="btnProductsLoaded">Productos Cargados</button>
+                                </div>
+                                <div class="col-xs-2 py-2">
+                                    <button class="btn btn-warning" id="btnRawMaterialsAnalysis">Analizar Materias Primas</button>
                                 </div>
                             </div>
                         </div>

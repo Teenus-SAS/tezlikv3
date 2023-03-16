@@ -59,6 +59,13 @@ $(document).ready(function () {
     product.name = $('#selectNameProduct :selected').text().trim();
     product.units = units;
 
+    for (let i = 0; i < products.length; i++) {
+      if (idProduct == products[i].idProduct) {
+        products.slice(i);
+        break;
+      }
+    }
+
     products.push(product);
 
     toastr.success('Producto adicionado correctamente');
