@@ -35,7 +35,8 @@ $(document).ready(function () {
       let dataMultiproducts = [];
 
       for (let i = 0; i < multiproducts.length; i++) {
-        unit = $(`#soldUnit-${i}`).val();
+        // unit = $(`#soldUnit-${i}`).val();
+        unit = multiproducts[i].soldUnit;
 
         if (unit > 0) {
           multi = {};
@@ -76,7 +77,8 @@ $(document).ready(function () {
       }
 
       for (let i = 0; i < multiproducts.length; i++) {
-        let unit = parseInt($(`#soldUnit-${i}`).val());
+        // let unit = parseInt($(`#soldUnit-${i}`).val());
+        let unit = multiproducts[i].soldUnit;
 
         if (unit > 0) {
           let totalAverages = sumTotalAverages();
@@ -122,7 +124,8 @@ $(document).ready(function () {
     let totalSoldsUnits = 0;
 
     for (let i = 0; i < multiproducts.length; i++) {
-      let unit = $(`#soldUnit-${i}`).val();
+      // let unit = $(`#soldUnit-${i}`).val();
+      let unit = multiproducts[i].soldUnit;
 
       unit == '' || unit == undefined ? (unit = 0) : unit;
 

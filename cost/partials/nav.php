@@ -16,7 +16,7 @@
                                 <i class="bi bi-cash mr-1"></i> Precios
                                 <i class="bx bx-chevron-down"></i>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                 <?php if ($_SESSION['price'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/prices">
                                         <i class="bi bi-currency-dollar mr-1"></i>
@@ -31,36 +31,40 @@
                                         <i class="bx bx-chevron-right"></i>
                                     </a>
                                 <?php } ?>
-                            </div>
+                            </ul>
                         </li>
                     <?php } ?>
 
-                    <?php if ($_SESSION['analysis_material'] == 1 || $_SESSION['plan_cost_analysis_material'] == 1) { ?>
-                        <li class="nav-item dropdown tools">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-card-heading mr-1"></i> Análisis Materia Prima
-                                <i class="bx bx-chevron-down"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="/cost/analysis-materials-product">
-                                    <i class="bi bi-graph-up mr-1"></i> Producto
-                                    <i class="bx bx-chevron-right"></i>
-                                </a>
-                                <a class="dropdown-item" href="/cost/analysis-materials-lot">
-                                    <i class="bi bi-graph-down mr-1"></i> Lote
-                                    <i class="bx bx-chevron-right"></i>
-                                </a>
-                            </div>
-                        </li>
-                    <?php } ?>
-
-                    <?php if ($_SESSION['analysis_material'] == 1 || $_SESSION['cost_economy_scale'] == 1) { ?>
+                    <?php if (
+                        $_SESSION['analysis_material'] == 1 || $_SESSION['plan_cost_analysis_material'] == 1 ||
+                        $_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1 ||
+                        $_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1
+                    ) { ?>
                         <li class="nav-item dropdown tools">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-tools mr-1"></i> Herramientas
                                 <i class="bx bx-chevron-down"></i>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <?php if ($_SESSION['analysis_material'] == 1 || $_SESSION['plan_cost_analysis_material'] == 1) { ?>
+                                    <li class="dropdown-submenu" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
+                                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="bi bi-card-heading mr-1"></i> Análisis Materia Prima
+                                            <i class="bx bx-chevron-down"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <a class="dropdown-item" href="/cost/analysis-materials-product">
+                                                <i class="bi bi-graph-up mr-1"></i> Producto
+                                                <i class="bx bx-chevron-right"></i>
+                                            </a>
+                                            <a class="dropdown-item" href="/cost/analysis-materials-lot">
+                                                <i class="bi bi-graph-down mr-1"></i> Lote
+                                                <i class="bx bx-chevron-right"></i>
+                                            </a>
+                                        </ul>
+                                    </li>
+                                <?php } ?>
+
                                 <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/economyScale">
                                         <i class="bx bx-dollar-circle mr-1"></i> Economias de Escala
@@ -73,7 +77,7 @@
                                         <i class="bx bx-chevron-right"></i>
                                     </a>
                                 <?php } ?>
-                            </div>
+                            </ul>
                         </li>
                     <?php } ?>
 
@@ -101,3 +105,60 @@
         </nav>
     </div>
 </div>
+<!-- <div class="horizontal-topnav shadow-sm">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <a class="navbar-brand pb-2" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Dropdown </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="http://google.com">Google</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Submenu</a></li>
+                                    <li><a class="dropdown-item" href="#">Submenu0</a></li>
+                                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Submenu 1</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Subsubmenu1</a></li>
+                                            <li><a class="dropdown-item" href="#">Subsubmenu1</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" href="#">Submenu 2</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">Subsubmenu2</a></li>
+                                            <li><a class="dropdown-item" href="#">Subsubmenu2</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div> -->

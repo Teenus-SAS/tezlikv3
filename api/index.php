@@ -43,6 +43,9 @@ require_once('../api/src/routes/admin/units/routeUnits.php');
 // Magnitudes
 require_once('../api/src/routes/admin/magnitude/routeMagnitude.php');
 
+// Binnacle
+require_once('../api/src/routes/admin/binnacle/routeBinnacle.php');
+
 // Dashboard
 require_once('../api/src/routes/admin/dashboard/routeDashboardGeneral.php');
 
@@ -97,12 +100,11 @@ require_once('../api/src/routes/app/cost/prices/routePricesUSD.php');
 // support
 require_once('../api/src/routes/app/cost/support/routeSupport.php');
 
-// Analysis
-require_once('../api/src/routes/app/cost/analysisMaterials/routeProducts.php');
-require_once('../api/src/routes/app/cost/analysisMaterials/routeLots.php');
 // Tools
 require_once('../api/src/routes/app/cost/tools/routeEconomyScale.php');
 require_once('../api/src/routes/app/cost/tools/routeMultiproducts.php');
+require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeProducts.php');
+require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeLots.php');
 
 
 // User Access

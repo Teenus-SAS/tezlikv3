@@ -24,6 +24,7 @@ $(document).ready(function () {
   $('#btnShowGraphic').click(function (e) {
     e.preventDefault();
 
+    $('.cardImportMultiproducts').hide(800);
     $('.cardTblMultiproducts').hide(800);
     $('.cardTblBreakeven').hide(800);
     $('.cardGraphicMultiproducts').show(800);
@@ -57,7 +58,9 @@ $(document).ready(function () {
     let color = [];
 
     anchura <= 480 ? (length = 5) : (length = 10);
-    multiproducts.length >= length ? (count = length) : (count = 10);
+    multiproducts.length >= length
+      ? (count = length)
+      : (count = multiproducts.length);
 
     for (let i = 0; i < count; i++) {
       nameProduct.push(product[i].name);

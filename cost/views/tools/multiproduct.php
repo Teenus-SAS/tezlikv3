@@ -7,6 +7,8 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
+<?php require_once dirname(dirname(__DIR__)) . '/modals/importMultiproducts.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -55,7 +57,35 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-secondary" id="btnShowGraphic">Grafica</button>
                                 </div>
+                                <div class="col-xs-2 py-2">
+                                    <button class="btn btn-info" id="btnImportNewMultiproducts">Importar Multiproductos</button>
+                                </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 mb-5 cardImportMultiproducts">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <form class="col-12" id="formImportMultiproducts" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row">
+                                            <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                <input class=" form-control" type="file" id="fileMultiproducts" accept=".xls,.xlsx">
+                                                <label for="formFile" class="form-label"> Importar Multiproductos</label>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-success" id="btnImportMultiproducts">Importar</button>
+                                            </div>
+                                            <div class="col-xs-2" style="margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsMultiproducts">Descarga Formato</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -161,6 +191,9 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
     <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
     <script src="/cost/js/tools/multiproduct/graphicMultiproducts.js"></script>
+    <script src="/global/js/import/file.js"></script>
+    <script src="/global/js/import/import.js"></script>
+    <script src="/cost/js/tools/multiproduct/importMultiproducts.js"></script>
 </body>
 
 </html>

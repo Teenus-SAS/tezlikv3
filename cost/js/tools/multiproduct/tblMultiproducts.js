@@ -2,12 +2,14 @@ $(document).ready(function () {
   $('#btnShowTbl').click(function (e) {
     e.preventDefault();
 
+    $('.cardImportMultiproducts').hide(800);
     $('.cardGraphicMultiproducts').hide(800);
     $('.cardTblBreakeven').show(800);
     $('.cardTblMultiproducts').show(800);
   });
 
   loadTblMultiproducts = async () => {
+    $('#tblMultiproductsBody').empty();
     data = await searchData('/api/multiproducts');
 
     multiproducts = data.multiproducts;
@@ -66,7 +68,10 @@ $(document).ready(function () {
         if (multiproducts[i].id_product == value.id_product) {
           repeat = true;
 
-          if (value.units_sold > 0) $(`#soldUnit-${i}`).val(value.units_sold);
+          if (value.units_sold > 0) {
+            $(`#soldUnit-${i}`).val(value.units_sold);
+            multiproducts[i].soldUnit = value.units_sold;
+          }
         }
       }
     });
@@ -87,6 +92,7 @@ $(document).ready(function () {
     );
 
     $('#tblMultiproducts').dataTable({
+      destroy: true,
       pageLength: 50,
       autoWidth: true,
     });

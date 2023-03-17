@@ -24,6 +24,7 @@ get('/admin/users', '/admin/views/users/users.php');
 get('/admin/plans', '/admin/views/plans/plans.php');
 get('/admin/magnitudes', '/admin/views/magnitudes/magnitudes.php');
 get('/admin/units', '/admin/views/units/units.php');
+get('/admin/binnacle', '/admin/views/binnacle/binnacle.php');
 get('/admin/profile', '/admin/views/perfil/perfil.php');
 
 
@@ -33,8 +34,8 @@ get('/admin/profile', '/admin/views/perfil/perfil.php');
 get('/cost', '/cost/index.php');
 get('/cost/prices', '/cost/views/prices/pricesCOP/prices.php');
 get('/cost/details-prices', '/cost/views/prices/pricesCOP/detailsPrices.php');
-get('/cost/analysis-materials-product', '/cost/views/analysisMaterials/products.php');
-get('/cost/analysis-materials-lot', '/cost/views/analysisMaterials/lots.php');
+get('/cost/analysis-materials-product', '/cost/views/tools/analysisMaterials/products.php');
+get('/cost/analysis-materials-lot', '/cost/views/tools/analysisMaterials/lots.php');
 get('/cost/multiproduct', '/cost/views/tools/multiproduct.php');
 get('/cost/support', '/cost/views/support/emailSupport.php');
 get('/cost/quotes', '/cost/views/quotes/quotes.php');

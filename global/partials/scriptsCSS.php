@@ -116,3 +116,20 @@
 
    /*Profile Pic End*/
 </style>
+
+<!-- Navbar submenu -->
+<style type="text/css">
+   .dropdown-submenu {
+      position: relative;
+   }
+
+   .dropdown-submenu .dropdown-menu {
+      top: 10%;
+      left: 100%;
+      margin-top: -1px;
+   }
+
+   .navbar-nav li:hover>ul.dropdown-menu {
+      display: block;
+   }
+</style>

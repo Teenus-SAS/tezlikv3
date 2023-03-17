@@ -1,15 +1,18 @@
 <?php
 
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\MultiproductsDao;
 
 $multiproductsDao = new MultiproductsDao();
+$productsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/multiproducts', function (Request $request, Response $response, $args) use ($multiproductsDao) {
-    session_start();
-    $id_company = $_SESSION['id_company'];
+    // session_start();
+    // $id_company = $_SESSION['id_company'];
+    $id_company = 1;
 
     $multiproducts = $multiproductsDao->findAllMultiproducts($id_company);
 
@@ -22,20 +25,88 @@ $app->get('/multiproducts', function (Request $request, Response $response, $arg
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addMultiproduct', function (Request $request, Response $response, $args) use ($multiproductsDao) {
+$app->post('/multiproductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao) {
+    $dataMultiproducts = $request->getParsedBody();
+
+    if (isset($dataMultiproducts)) {
+        session_start();
+        $id_company = $_SESSION['id_company'];
+
+        $multiproducts = $dataMultiproducts['importMultiproducts'];
+
+        $status = true;
+
+        if (empty($multiproducts[0]['expense']))
+            $dataImportMultiproducts = array('error' => true, 'message' => 'Ingrese el campo de gasto');
+        else {
+            for ($i = 0; $i < sizeof($multiproducts); $i++) {
+                if (
+                    empty($multiproducts[$i]['referenceProduct']) || empty($multiproducts[$i]['product']) ||
+                    empty($multiproducts[$i]['soldUnit'])
+                ) {
+                    $status = false;
+                    $i = $i + 1;
+                    $dataImportMultiproducts = array('error' => true, 'message' => "Campos vacios. Fila: $i");
+                    break;
+                }
+
+                // Obtener id producto
+                $product = $productsDao->findProduct($multiproducts[$i], $id_company);
+
+                if (!$product) {
+                    $status = false;
+                    $i = $i + 1;
+                    $dataImportMultiproducts = array('error' => true, 'message' => "Producto no existe en la base de datos. Fila $i");
+                    break;
+                }
+            }
+            if ($status == true)
+                $dataImportMultiproducts = $multiproducts;
+        }
+    } else
+        $dataImportMultiproducts = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($dataImportMultiproducts, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+
+
+$app->post('/addMultiproduct', function (Request $request, Response $response, $args) use (
+    $multiproductsDao,
+    $productsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
 
-    $product = $dataProduct['data'];
 
-    for ($i = 0; $i < sizeof($product); $i++) {
-        $multiproducts = $multiproductsDao->findMultiproduct($product[$i]['id_product']);
+    if (isset($dataProduct['data'])) {
+        $product = $dataProduct['data'];
+        for ($i = 0; $i < sizeof($product); $i++) {
+            $multiproducts = $multiproductsDao->findMultiproduct($product[$i]['id_product']);
 
-        if (!$multiproducts)
-            $resolution = $multiproductsDao->insertMultiproductByCompany($product[$i], $id_company);
-        else
-            $resolution = $multiproductsDao->updateMultiProduct($product[$i]);
+            if (!$multiproducts)
+                $resolution = $multiproductsDao->insertMultiproductByCompany($product[$i], $id_company);
+            else
+                $resolution = $multiproductsDao->updateMultiProduct($product[$i]);
+        }
+    } else {
+        $multiproducts = $dataProduct['importMultiproducts'];
+
+        for ($i = 0; $i < sizeof($multiproducts); $i++) {
+            // Obtener id producto
+            $product = $productsDao->findProduct($multiproducts[$i], $id_company);
+            $multiproducts[$i]['id_product'] = $product['id_product'];
+            $multiproducts[$i]['expense'] = $multiproducts[0]['expense'];
+
+            $product = $multiproductsDao->findMultiproduct($multiproducts[$i]['id_product']);
+
+            if (!$product)
+                $resolution = $multiproductsDao->insertMultiproductByCompany($multiproducts[$i], $id_company);
+            else
+                $resolution = $multiproductsDao->updateMultiProduct($multiproducts[$i]);
+        }
     }
 
     if ($resolution == null)
