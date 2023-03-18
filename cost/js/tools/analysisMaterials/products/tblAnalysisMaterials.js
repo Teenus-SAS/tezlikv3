@@ -18,9 +18,7 @@ $(document).ready(function () {
       $('.empty').hide();
       $('.colMaterials').empty();
 
-      let participation = 0;
-
-      for (i = 0; participation <= 80; i++) {
+      for (i = 0; data.length; i++) {
         //<th id="reference-${i + 1}">${r[i].reference}</th>
         $('.colMaterials').append(
           `<tr class="col${i + 1} text-center" id="col${i + 1}">
@@ -48,7 +46,6 @@ $(document).ready(function () {
                           <th id="projectedCost-${i + 1}"></th>
                         </tr>`
         );
-        participation = participation + data[i].participation;
       }
     }
     count = i;

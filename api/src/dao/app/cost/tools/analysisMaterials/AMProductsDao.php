@@ -31,6 +31,15 @@ class AMProductsDao
                                           ORDER BY `participation` DESC");
             $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
             $productsRawmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+            $participation = 0;
+
+            for ($i = 0; $i < sizeof($productsRawmaterials); $i++) {
+                if ($participation <= 80) {
+                    $data[$i] = $productsRawmaterials[$i];
+                    $participation += $productsRawmaterials[$i]['participation'];
+                } else break;
+            }
         } catch (\Exception $e) {
             if ($e->getCode() == 42000)
                 $error = array('info' => true, 'message' => 'No hay ninguna relacion con el producto');
@@ -42,6 +51,6 @@ class AMProductsDao
         }
 
         $this->logger->notice("products", array('products' => $productsRawmaterials));
-        return $productsRawmaterials;
+        return $data;
     }
 }

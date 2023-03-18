@@ -1,5 +1,5 @@
 <div class="modal fade" id="modifyExpensesRecover" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Modificar Gastos</h5>
@@ -11,7 +11,7 @@
                 <div class="page-content-wrapper">
                     <div class="container-fluid">
                         <div class="vertical-app-tabs" id="rootwizard">
-                            <div class="col-sm-6">
+                            <div class="col-12">
                                 <label for="">Porcentaje de recuperación</label>
                                 <input type="number" class="form-control text-center" id="percentageRecover">
                             </div>

@@ -1,6 +1,7 @@
 $(document).ready(function () {
   products = [];
   $('.cardAddLot').hide();
+  totalUnits = 0;
 
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
@@ -22,6 +23,9 @@ $(document).ready(function () {
     $('.cardAddLot').hide(800);
     $('.cardRawMaterialsAnalysis').show(800);
     $('.cardTableProducts').hide(800);
+
+    if (totalUnits > 0)
+      $('#totalUnits').val(totalUnits.toLocaleString('es-CO'));
 
     setTimeout(setCSSTbl, 1000);
   });
@@ -61,21 +65,28 @@ $(document).ready(function () {
 
     for (let i = 0; i < products.length; i++) {
       if (idProduct == products[i].idProduct) {
-        products.slice(i);
+        products.splice(i--, 1);
+        break;
+      }
+    }
+    products.push(product);
+
+    loadTblProducts(products);
+
+    for (let i = 0; i < dataMaterials.length; i++) {
+      if (idProduct == dataMaterials[i]) {
+        dataMaterials.splice(i--, 1);
         break;
       }
     }
 
-    products.push(product);
+    dataMaterials.push(idProduct);
+
+    loadTblAnalysisMaterials(dataMaterials);
 
     toastr.success('Producto adicionado correctamente');
     $('#formAddLot').trigger('reset');
     $('.cardAddLot').hide(800);
-
-    loadTblProducts(products);
-
-    dataMaterials.push(idProduct);
-    loadTblAnalysisMaterials(dataMaterials);
   });
 
   function setCSSTbl() {

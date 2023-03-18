@@ -10,9 +10,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/multiproducts', function (Request $request, Response $response, $args) use ($multiproductsDao) {
-    // session_start();
-    // $id_company = $_SESSION['id_company'];
-    $id_company = 1;
+    session_start();
+    $id_company = $_SESSION['id_company'];
 
     $multiproducts = $multiproductsDao->findAllMultiproducts($id_company);
 

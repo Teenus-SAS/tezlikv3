@@ -104,7 +104,10 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="card-body">
                                         <div class="form-row">
-
+                                            <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <input class="form-control text-center" id="totalUnits" style="width: 200px;" readonly />
+                                                <label>Unidades a Fabricar</label>
+                                            </div>
                                             <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <input class="form-control text-center" id="monthlySavings" style="width: 200px;" readonly />
                                                 <label>Ahorro Mensual</label>
@@ -113,6 +116,9 @@ if (sizeof($_SESSION) == 0)
                                                 <input class="form-control text-center" id="annualSavings" style="width: 200px;" readonly />
                                                 <label>Ahorro Anual</label>
                                             </div>
+                                        </div>
+                                        <div class="alert alert-success mt-3" role="alert">
+                                            Cantidad de Materias primas que consumen el 80% del valor del costo
                                         </div>
                                         <div class="table-responsive">
                                             <table class="table table-striped text-center" id="tblAnalysisMaterials">

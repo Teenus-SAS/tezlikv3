@@ -12,7 +12,7 @@ $(document).ready(function () {
       console.error(error);
     }
 
-    tblAnalysisMaterials = $('#tblAnalysisMaterials').dataTable({
+    $('#tblAnalysisMaterials').dataTable({
       destroy: true,
       pageLength: 20,
       data: dataAnalysisMaterials,
@@ -115,7 +115,7 @@ $(document).ready(function () {
       rowGroup: {
         dataSrc: function (row) {
           return `
-            <th class="text-center" colspan="5" style="font-weight: bold;"> ${row.reference_product} </th>
+            <th class="text-center" colspan="5" style="font-weight: bold;"> ${row.reference_product}</th>
             <th class="text-center" colspan="5" style="font-weight: bold;"> ${row.product} </th>
           `;
         },

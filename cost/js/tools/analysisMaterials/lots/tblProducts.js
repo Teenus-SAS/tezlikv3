@@ -34,7 +34,7 @@ $(document).ready(function () {
         },
       ],
       footerCallback: function (row, data, start, end, display) {
-        total = this.api()
+        totalUnits = this.api()
           .column(3)
           .data()
           .reduce(function (a, b) {
@@ -42,7 +42,7 @@ $(document).ready(function () {
           }, 0);
 
         $(this.api().column(3).footer()).html(
-          new Intl.NumberFormat('es-CO').format(total)
+          new Intl.NumberFormat('es-CO').format(totalUnits)
         );
       },
     });

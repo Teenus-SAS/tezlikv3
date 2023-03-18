@@ -25,7 +25,7 @@ $(document).ready(function () {
 
     for (let i = 0; i < products.length; i++) {
       if (dataAnalysisMaterials[row].id_product == products[i].idProduct) {
-        unitsmanufacturated = products[i].units;
+        unitsmanufacturated = totalUnits;
         break;
       }
     }
