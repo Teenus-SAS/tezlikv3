@@ -18,7 +18,6 @@ $(document).ready(function () {
     sessionStorage.removeItem('id_expense_recover');
 
     $('#percentage').val('');
-    loadDataProducts();
   });
 
   $('#btnExpenseRecover').click(function (e) {
