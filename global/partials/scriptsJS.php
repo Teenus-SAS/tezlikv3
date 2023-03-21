@@ -18,7 +18,7 @@
 
 <!-- page JS -->
 <script src="/assets/js/app.js"></script>
-<script src="/global/js/global/sessionUser.js"></script>
+<!-- <script src="/global/js/global/sessionUser.js"></script> -->
 <script src="/cost/js/trm/trm.js"></script>
 
 <!-- Datatables -->

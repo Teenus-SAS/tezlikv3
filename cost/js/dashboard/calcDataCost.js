@@ -6,11 +6,13 @@ $(document).ready(function () {
       parseFloat(data.cost_indirect_cost) +
       parseFloat(data.services);
 
-    costTotal = cost / (1 - data.expense_recover / 100);
-
-    data.expense_recover == 0
-      ? (expense = data.assignable_expense)
-      : (expense = costTotal * (data.expense_recover / 100));
+    if (flag_expense == 0 || flag_expense == 1) {
+      expense = data.assignable_expense;
+      costTotal = cost + data.expense_recover;
+    } else if (flag_expense == 2) {
+      costTotal = cost / (1 - data.expense_recover / 100);
+      expense = costTotal * (data.expense_recover / 100);
+    }
 
     pPrice = costTotal / (1 - data.profitability / 100);
 

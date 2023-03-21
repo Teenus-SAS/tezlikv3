@@ -43,10 +43,7 @@ generalIndicators = (data, expenseRecover) => {
   /* Gastos generales */
   let totalExpense = 0;
 
-  if (
-    expenseRecover.percentageExpense == undefined ||
-    !expenseRecover.percentageExpense
-  ) {
+  if (flag_expense == 1 || flag_expense == 0) {
     for (i = 0; i < 3; i++) {
       totalExpense = totalExpense + data[i].expenseCount;
     }

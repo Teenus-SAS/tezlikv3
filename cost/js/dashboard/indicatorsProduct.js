@@ -141,7 +141,9 @@ $(document).ready(function () {
       })}`
     );
 
-    $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
+    if (flag_expense == 1)
+      $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
+
     $('#payAssignableExpenses').html(
       `$ ${dataCost.expense.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
