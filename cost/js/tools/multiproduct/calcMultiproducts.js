@@ -31,6 +31,7 @@ $(document).ready(function () {
 
       let row = id.slice(9, id.length);
       $(`.row-${row}`).html('');
+      multiproducts[row].soldUnit = this.value;
 
       let dataMultiproducts = [];
 

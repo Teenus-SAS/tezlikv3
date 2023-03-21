@@ -1,6 +1,5 @@
 $(document).ready(function () {
   products = [];
-  $('.cardAddLot').hide();
   totalUnits = 0;
 
   /* Seleccion producto */
@@ -17,11 +16,26 @@ $(document).ready(function () {
     $(`#refProduct option[value=${id}]`).prop('selected', true);
   });
 
+  /* Productos Cargados */
+  $('#btnProductsLoaded').click(function (e) {
+    e.preventDefault();
+
+    $('#formAddLot').trigger('reset');
+    $('.cardRawMaterialsAnalysis').hide(800);
+    $('.cardTableRawMaterials').hide(800);
+    $('.cardAddLot').show(800);
+    $('.cardTableProducts').show(800);
+
+    setTimeout(setCSSTbl(), 1000);
+  });
+
+  /* Analizar Materias Primas */
   $('#btnRawMaterialsAnalysis').click(function (e) {
     e.preventDefault();
 
     $('.cardAddLot').hide(800);
     $('.cardRawMaterialsAnalysis').show(800);
+    $('.cardTableRawMaterials').hide(800);
     $('.cardTableProducts').hide(800);
 
     if (totalUnits > 0)
@@ -30,16 +44,23 @@ $(document).ready(function () {
     setTimeout(setCSSTbl, 1000);
   });
 
-  $('#btnProductsLoaded').click(function (e) {
+  /* Materia Prima Consolidada*/
+  $('#btnConsolidatedMP').click(function (e) {
     e.preventDefault();
 
-    $('#formAddLot').trigger('reset');
     $('.cardRawMaterialsAnalysis').hide(800);
-    $('.cardAddLot').show(800);
-    $('.cardTableProducts').show(800);
+    $('.cardTableRawMaterials').show(800);
+    $('.cardAddLot').hide(800);
+    $('.cardTableProducts').hide(800);
 
-    setTimeout(setCSSTbl, 1000);
+    setTimeout(setCSSTbl(), 1000);
   });
+
+  function setCSSTbl() {
+    $('#tblAnalysisMaterials').css('width', '100%');
+    $('#tblProducts').css('width', '100%');
+    $('#tblMaterials').css('width', '100%');
+  }
 
   $('#btnAddLot').click(function (e) {
     e.preventDefault();
@@ -82,15 +103,10 @@ $(document).ready(function () {
 
     dataMaterials.push(idProduct);
 
-    loadTblAnalysisMaterials(dataMaterials);
+    fetchData(dataMaterials);
 
     toastr.success('Producto adicionado correctamente');
     $('#formAddLot').trigger('reset');
     $('.cardAddLot').hide(800);
   });
-
-  function setCSSTbl() {
-    $('#tblAnalysisMaterials').css('width', '100%');
-    $('#tblProducts').css('width', '100%');
-  }
 });

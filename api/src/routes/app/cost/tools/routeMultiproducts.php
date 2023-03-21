@@ -24,7 +24,10 @@ $app->get('/multiproducts', function (Request $request, Response $response, $arg
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/multiproductsDataValidation', function (Request $request, Response $response, $args) use ($productsDao) {
+$app->post('/multiproductsDataValidation', function (Request $request, Response $response, $args) use (
+    $productsDao,
+    $multiproductsDao
+) {
     $dataMultiproducts = $request->getParsedBody();
 
     if (isset($dataMultiproducts)) {
@@ -33,11 +36,16 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
 
         $multiproducts = $dataMultiproducts['importMultiproducts'];
 
-        $status = true;
+        $existingMultiproducts = $multiproductsDao->findAllExistingMultiproducts($id_company);
+
+        if (sizeof($existingMultiproducts) > 0)
+            $multiproducts[0]['expense'] = $existingMultiproducts[0]['expense'];
+
 
         if (empty($multiproducts[0]['expense']))
             $dataImportMultiproducts = array('error' => true, 'message' => 'Ingrese el campo de gasto');
         else {
+            $status = true;
             for ($i = 0; $i < sizeof($multiproducts); $i++) {
                 if (
                     empty($multiproducts[$i]['referenceProduct']) || empty($multiproducts[$i]['product']) ||
@@ -94,6 +102,12 @@ $app->post('/addMultiproduct', function (Request $request, Response $response, $
         $multiproducts = $dataProduct['importMultiproducts'];
 
         for ($i = 0; $i < sizeof($multiproducts); $i++) {
+            // Obtener gasto
+            $existingMultiproducts = $multiproductsDao->findAllExistingMultiproducts($id_company);
+
+            if (sizeof($existingMultiproducts) > 0)
+                $multiproducts[0]['expense'] = $existingMultiproducts[0]['expense'];
+
             // Obtener id producto
             $product = $productsDao->findProduct($multiproducts[$i], $id_company);
             $multiproducts[$i]['id_product'] = $product['id_product'];

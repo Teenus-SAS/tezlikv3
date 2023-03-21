@@ -11,8 +11,21 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $reviewRawMaterials = $AMProductsDao->productsRawMaterials($args['idProduct'], $id_company);
+    $productsRawmaterials = $AMProductsDao->findAllProductsRawMaterials($args['idProduct'], $id_company);
 
-    $response->getBody()->write(json_encode($reviewRawMaterials, JSON_NUMERIC_CHECK));
+    $data80MP = [];
+    $participation = 0;
+
+    for ($i = 0; $i < sizeof($productsRawmaterials); $i++) {
+        if ($participation <= 80) {
+            $data80MP[$i] = $productsRawmaterials[$i];
+            $participation += $productsRawmaterials[$i]['participation'];
+        } else break;
+    }
+
+    $data['allRawMaterials'] = $productsRawmaterials;
+    $data['80RawMaterials'] = $data80MP;
+
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

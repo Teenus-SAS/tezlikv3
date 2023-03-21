@@ -30,8 +30,8 @@ $(document).ready(function () {
     if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
     else {
-      loadtableMaterials(data);
-      loadTableRawMaterialsAnalisys(data);
+      loadtableMaterials(data['allRawMaterials']);
+      loadTableRawMaterialsAnalisys(data['80RawMaterials']);
     }
   };
 
@@ -55,7 +55,7 @@ $(document).ready(function () {
         },
         {
           title: 'Referencia',
-          data: 'reference',
+          data: 'reference_material',
           className: 'uniqueClassName',
         },
         {

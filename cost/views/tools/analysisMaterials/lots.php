@@ -52,15 +52,18 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-info ml-3" id="btnProductsLoaded">Productos Cargados</button>
                                 </div>
-                                <div class="col-xs-2 py-2">
+                                <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-warning" id="btnRawMaterialsAnalysis">Analizar Materias Primas</button>
+                                </div>
+                                <div class="col-xs-2 py-2">
+                                    <button class="btn btn-dark" id="btnConsolidatedMP">Consolidado MP</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardAddLot">
+                <div class="page-content-wrapper mt--45 mb-5 cardAddLot" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -97,7 +100,28 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <!-- Row 5 -->
                         <div class="row">
-                            <div class="col-12 cardRawMaterialsAnalysis">
+                            <div class="col-12 cardTableProducts">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Productos</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="tblProducts">
+                                                <tfoot>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>Total: </th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 cardRawMaterialsAnalysis" style="display:none;">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Análisis Materia Prima</h5>
@@ -127,22 +151,29 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 cardTableProducts">
+
+                            <div class="col-12 cardTableRawMaterials" style="display:none;">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title">Productos</h5>
+                                        <h5 class="card-title">Materias Primas</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblProducts">
-                                                <tfoot>
+                                            <table class="table table-striped" id="tblMaterials">
+                                                <tbody></tbody>
+                                                <!-- <tfoot>
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
-                                                        <th>Total: </th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>Total:</th>
+                                                        <th></th>
+                                                        <th></th>
                                                     </tr>
-                                                </tfoot>
+                                                </tfoot> -->
                                             </table>
                                         </div>
                                     </div>

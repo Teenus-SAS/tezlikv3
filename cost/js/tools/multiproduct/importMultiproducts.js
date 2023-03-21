@@ -117,4 +117,22 @@ $(document).ready(function () {
       },
     });
   });
+
+  /* Descargar formato XLSX */
+  $('#btnDownloadImportsMultiproducts').click(function (e) {
+    e.preventDefault();
+
+    let url = 'assets/formatsXlsx/Multiproductos.xlsx';
+
+    let link = document.createElement('a');
+
+    link.target = '_blank';
+
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    delete link;
+  });
 });

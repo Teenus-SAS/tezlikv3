@@ -18,7 +18,7 @@ $(document).ready(function () {
       $('.empty').hide();
       $('.colMaterials').empty();
 
-      for (i = 0; data.length; i++) {
+      for (i = 0; i < data.length; i++) {
         //<th id="reference-${i + 1}">${r[i].reference}</th>
         $('.colMaterials').append(
           `<tr class="col${i + 1} text-center" id="col${i + 1}">

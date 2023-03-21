@@ -16,12 +16,12 @@ class AMProductsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function productsRawMaterials($idProduct, $id_company)
+    public function findAllProductsRawMaterials($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, p.reference AS reference_product, p.product, m.id_material, m.reference, m.material, CONCAT(FORMAT(pm.quantity, 2, 'de_DE'), ' ', u.abbreviation) AS quantity, 
+            $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, p.reference AS reference_product, p.product, m.id_material, m.reference AS reference_material, m.material, CONCAT(FORMAT(pm.quantity, 2, 'de_DE'), ' ', u.abbreviation) AS quantity, 
                                                  m.cost, (pm.quantity*m.cost) AS unityCost,((pm.quantity*m.cost)/ (SELECT SUM(pm.quantity*m.cost) FROM products_materials pm INNER JOIN materials m ON m.id_material = pm.id_material WHERE pm.id_product = p.id_product AND pm.id_company = p.id_company))*100 AS participation 
                                           FROM products p 
                                             INNER JOIN products_materials pm ON pm.id_product = p.id_product
@@ -31,15 +31,6 @@ class AMProductsDao
                                           ORDER BY `participation` DESC");
             $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
             $productsRawmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
-
-            $participation = 0;
-
-            for ($i = 0; $i < sizeof($productsRawmaterials); $i++) {
-                if ($participation <= 80) {
-                    $data[$i] = $productsRawmaterials[$i];
-                    $participation += $productsRawmaterials[$i]['participation'];
-                } else break;
-            }
         } catch (\Exception $e) {
             if ($e->getCode() == 42000)
                 $error = array('info' => true, 'message' => 'No hay ninguna relacion con el producto');
@@ -49,8 +40,7 @@ class AMProductsDao
             }
             return $error;
         }
-
         $this->logger->notice("products", array('products' => $productsRawmaterials));
-        return $data;
+        return $productsRawmaterials;
     }
 }

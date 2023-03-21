@@ -9,6 +9,10 @@ $(document).ready(function () {
   });
 
   loadTblMultiproducts = async () => {
+    if ($.fn.dataTable.isDataTable('#tblMultiproducts')) {
+      $('#tblMultiproducts').DataTable().destroy();
+    }
+
     $('#tblMultiproductsBody').empty();
     data = await searchData('/api/multiproducts');
 
@@ -70,13 +74,14 @@ $(document).ready(function () {
 
           if (value.units_sold > 0) {
             $(`#soldUnit-${i}`).val(value.units_sold);
+            row = i;
             multiproducts[i].soldUnit = value.units_sold;
           }
         }
       }
     });
 
-    if (repeat == true) $('#soldUnit-0').click();
+    if (repeat == true) $(`#soldUnit-${row}`).click();
 
     if (expenseAsignation > 0)
       $('#expenseAssignation').val(
@@ -92,7 +97,6 @@ $(document).ready(function () {
     );
 
     $('#tblMultiproducts').dataTable({
-      destroy: true,
       pageLength: 50,
       autoWidth: true,
     });
