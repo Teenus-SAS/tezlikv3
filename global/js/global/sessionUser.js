@@ -11,28 +11,23 @@ $(
       window.onbeforeunload = null;
     });
 
-    /* Tiempo de inactividad */
+    // Tiempo de inactividad
+    (function () {
+      var minutes = true;
+      var interval = minutes ? 60000 : 1000;
+      var IDLE_TIMEOUT = 10;
+      var idleCounter = 0;
 
-    var interval, mouseMove;
+      document.onmousemove = document.onkeypress = function () {
+        idleCounter = 0;
+      };
 
-    $(document).mousemove(function () {
-      mouseMove = new Date();
-      inactividad(function () {
-        fetchindata();
-      }, 800);
-    });
-
-    var inactividad = function (callback, seconds) {
-      clearInterval(interval);
-      interval = setInterval(function () {
-        var now = new Date();
-        var diff = (now.getTime() - mouseMove.getTime()) / 1000;
-        if (diff >= seconds) {
-          clearInterval(interval);
-          callback();
+      window.setInterval(function () {
+        if (++idleCounter >= IDLE_TIMEOUT) {
+          fetchindata();
         }
-      }, 200);
-    };
+      }, interval);
+    })();
   })(jQuery)
 );
 
