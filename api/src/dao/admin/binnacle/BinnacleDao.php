@@ -20,7 +20,7 @@ class BinnacleDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM binnacle");
+        $stmt = $connection->prepare("SELECT * FROM binnacle WHERE date_binnacle = CURRENT_DATE;");
         $stmt->execute();
 
         $binnacle = $stmt->fetchAll($connection::FETCH_ASSOC);

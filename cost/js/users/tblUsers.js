@@ -1,5 +1,8 @@
 $(document).ready(function () {
+  let visible;
   /* Cargue tabla de Proyectos */
+
+  price_usd == 1 ? (visible = true) : (visible = false);
 
   tblUsers = $('#tblUsers').dataTable({
     pageLength: 50,
@@ -194,6 +197,7 @@ $(document).ready(function () {
         title: 'Precios USD',
         data: 'price_usd',
         className: 'uniqueClassName',
+        visible: visible,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'

@@ -344,7 +344,7 @@ if (sizeof($_SESSION) == 0)
             <script src="/global/js/global/orderData.js"></script>
             <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
             <script>
-                flag_expense = "<?php $_SESSION['flag_expense'] ?>"
+                flag_expense = "<?= $_SESSION['flag_expense'] ?>"
             </script>
             <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
             <script src="/cost/js/dashboard/calcDataCost.js"></script>

@@ -73,7 +73,12 @@ $(document).ready(function () {
       totalCost = totalCost + minuteValue[i];
     }
 
-    $('#totalCostWorkforce').html(`$ ${totalCost.toFixed(1)}`);
+    $('#totalCostWorkforce').html(
+      `$ ${totalCost.toLocaleString('es-CO', {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      })}`
+    );
 
     const cmc = document.getElementById('chartWorkForceGeneral');
 
@@ -121,7 +126,11 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              let percentage =
+                ((value * 100) / sum).toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) + '%';
               // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
@@ -149,7 +158,12 @@ $(document).ready(function () {
       totalCostMinute = totalCostMinute + costMinute[i];
     }
 
-    $('#factoryLoadCost').html(totalCostMinute.toFixed(2));
+    $('#factoryLoadCost').html(
+      totalCostMinute.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
 
     const cmc = document.getElementById('chartFactoryLoadCost');
     const chartFactoryLoadCost = new Chart(cmc, {
@@ -181,7 +195,11 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              let percentage =
+                ((value * 100) / sum).toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) + '%';
               // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
@@ -240,7 +258,11 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              let percentage =
+                ((value * 100) / sum).toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) + '%';
               // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },

@@ -322,7 +322,7 @@ if (sizeof($_SESSION) == 0)
 
         <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
         <script>
-            flag_expense = "<?php $_SESSION['flag_expense'] ?>"
+            flag_expense = "<?= $_SESSION['flag_expense'] ?>"
         </script>
         <script src="js/dashboard/indicatorsGeneral.js"></script>
         <script src="js/dashboard/calcDataCost.js"></script>

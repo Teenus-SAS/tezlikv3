@@ -141,7 +141,7 @@ $(document).ready(function () {
       })}`
     );
 
-    if (flag_expense == 1)
+    if (flag_expense == 2)
       $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
 
     $('#payAssignableExpenses').html(

@@ -4,7 +4,7 @@ $(document).ready(function () {
       result = await $.ajax({
         url: '/api/checkLastLoginUsers',
       });
-      console.log(result);
+      // console.log(result);
     } catch (error) {
       console.log(error);
     }
