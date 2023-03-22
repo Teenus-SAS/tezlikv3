@@ -1,6 +1,5 @@
 <?php
 
-
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/vendor/autoload.php';
@@ -50,6 +49,9 @@ require_once('../api/src/routes/admin/binnacle/routeBinnacle.php');
 require_once('../api/src/routes/admin/dashboard/routeDashboardGeneral.php');
 
 /* App Cost */
+// Trm
+require_once('../api/src/routes/app/cost/trm/routeTrm.php');
+
 // Quotes
 require_once('../api/src/routes/app/cost/quotes/routeQuotes.php');
 require_once('../api/src/routes/app/cost/quotes/routeCompanies.php');

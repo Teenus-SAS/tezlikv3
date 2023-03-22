@@ -23,36 +23,6 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* Modificar TRM historico Diario */
-$app->get('/updateHitoricalTRM', function (Request $request, Response $response, $args) use ($trmDao) {
-    // Obtener trm actual
-    $date = date('Y-m-d');
-
-    $historicalTrm = $trmDao->findLastInsertedTrm();
-
-    if ($historicalTrm['date_trm'] == $date)
-        $resp = 1;
-    else {
-        $price = $trmDao->getActualTrm($date);
-
-        // Insertar
-        $resolution = $trmDao->insertActualTrm($date, $price);
-
-        // Eliminar primer registro del historico
-        if ($resolution == null)
-            $resolution = $trmDao->deleteFirstTrm();
-
-        if ($resolution == null)
-            $resp = array('success' => true, 'message' => 'Historico de los ultimos 2 años modificado correctamente');
-        else if (isset($resolution['info']))
-            $resp = array('info' => true, 'message' => $resolution['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error al modificar la información. Intente nuevamente');
-    }
-    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
 /* Calcular valor de cobertura */
 $app->get('/priceUSD/{deviation}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
