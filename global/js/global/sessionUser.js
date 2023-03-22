@@ -11,7 +11,7 @@ $(
       window.onbeforeunload = null;
     });
 
-    /* Tiempo de inactividad 
+    /* Tiempo de inactividad */
 
     var interval, mouseMove;
 
@@ -32,22 +32,7 @@ $(
           callback();
         }
       }, 200);
-    }; */
-
-    let currSeconds = 0;
-
-    setInterval(timerIncrement, 1000);
-
-    $(this).mousemove((currSeconds = 0));
-    $(this).keypress((currSeconds = 0));
-
-    function timerIncrement() {
-      currSeconds = currSeconds + 1;
-
-      if (currSeconds == 600) {
-        fetchindata();
-      }
-    }
+    };
   })(jQuery)
 );
 
