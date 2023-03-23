@@ -39,7 +39,7 @@ class SendEmailDao extends PHPMailer
             $mail->Port          = $_ENV["smtpPort"];
 
             //Recipients
-            $mail->setFrom($email, null, null);
+            $mail->setFrom($email, $name, '');
             $mail->FromName = $name;
 
             // Destinatario

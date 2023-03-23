@@ -135,6 +135,21 @@ class CostUserAccessDao
         }
     }
 
+    public function insertNewUserAccess($dataUser)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $connection = Connection::getInstance()->getConnection();
+            $stmt = $connection->prepare("INSERT INTO cost_users_access (id_user) VALUES (:id_user)");
+            $stmt->execute(['id_user' => $dataUser['idUser']]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     public function deleteUserAccess($dataUser)
     {
         $connection = Connection::getInstance()->getConnection();

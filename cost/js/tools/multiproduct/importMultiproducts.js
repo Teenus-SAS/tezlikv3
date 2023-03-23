@@ -34,7 +34,6 @@ $(document).ready(function () {
             referenceProduct: item.referencia,
             product: item.producto,
             soldUnit: item.unidades_vendidas,
-            expense: item.gastos,
           };
         });
         checkMultiproducts(multiproductsToImport);
@@ -56,7 +55,13 @@ $(document).ready(function () {
         }
 
         try {
-          $('#importExpense').val(resp[0].expense.toLocaleString('es-CO'));
+          if (resp[0].expense > 0) {
+            $('#importExpense').val(resp[0].expense.toLocaleString('es-CO'));
+            $('#importExpense').prop('disabled', true);
+          } else {
+            $('#importExpense').val();
+            $('#importExpense').prop('disabled', false);
+          }
 
           let tblMultiproductsImportBody = document.getElementById(
             'multiproductsImportBody'
@@ -97,6 +102,12 @@ $(document).ready(function () {
 
   $('#btnImportProducts').click(function (e) {
     e.preventDefault();
+
+    let expenseAsignation = parseFloat(
+      strReplaceNumber($('#importExpense').val())
+    );
+
+    multiproductsToImport[0].expense = expenseAsignation;
 
     $.ajax({
       type: 'POST',

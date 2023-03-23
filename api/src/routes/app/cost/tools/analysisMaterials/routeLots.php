@@ -12,25 +12,20 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
     $id_company = $_SESSION['id_company'];
 
     $lots = $request->getParsedBody();
-    $dataAllMP = [];
     $data80MP = [];
 
-    foreach ($lots['data'] as $arr => $value) {
-        $reviewRawMaterials = $AMProductsDao->findAllProductsRawMaterials($value, $id_company);
+    $reviewRawMaterials = $AMProductsDao->findConsolidatedRawMaterialsByProduct($lots, $id_company);
 
-        $dataAllMP = array_merge($dataAllMP, $reviewRawMaterials);
+    $participation = 0;
 
-        $participation = 0;
-
-        for ($i = 0; $i < sizeof($reviewRawMaterials); $i++) {
-            if ($participation <= 80) {
-                $arr80MP[$i] = $reviewRawMaterials[$i];
-                $participation += $reviewRawMaterials[$i]['participation'];
-            } else break;
-        }
-        $data80MP = array_merge($data80MP, $arr80MP);
+    for ($i = 0; $i < sizeof($reviewRawMaterials); $i++) {
+        if ($participation <= 80) {
+            $arr80MP[$i] = $reviewRawMaterials[$i];
+            $participation += $reviewRawMaterials[$i]['participation'];
+        } else break;
     }
-    $data['allRawMaterials'] = $dataAllMP;
+    $data80MP = array_merge($data80MP, $arr80MP);
+    $data['allRawMaterials'] = $reviewRawMaterials;
     $data['80RawMaterials'] = $data80MP;
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));

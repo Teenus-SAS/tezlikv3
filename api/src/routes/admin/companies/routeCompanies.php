@@ -36,7 +36,7 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
     if (sizeof($_FILES) > 0) {
         $FilesDao->logoCompany($lastId['idCompany']);
     }
-    /*Agregar datos a companies licenses*/
+    /*Agregar datos a companies licenses */
     $company = $companiesLicDao->addLicense($dataCompany, $lastId['idCompany']);
 
 

@@ -41,35 +41,34 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
         if (sizeof($existingMultiproducts) > 0)
             $multiproducts[0]['expense'] = $existingMultiproducts[0]['expense'];
 
+        else
+            $multiproducts[0]['expense'] = 0;
 
-        if (empty($multiproducts[0]['expense']))
-            $dataImportMultiproducts = array('error' => true, 'message' => 'Ingrese el campo de gasto');
-        else {
-            $status = true;
-            for ($i = 0; $i < sizeof($multiproducts); $i++) {
-                if (
-                    empty($multiproducts[$i]['referenceProduct']) || empty($multiproducts[$i]['product']) ||
-                    empty($multiproducts[$i]['soldUnit'])
-                ) {
-                    $status = false;
-                    $i = $i + 1;
-                    $dataImportMultiproducts = array('error' => true, 'message' => "Campos vacios. Fila: $i");
-                    break;
-                }
 
-                // Obtener id producto
-                $product = $productsDao->findProduct($multiproducts[$i], $id_company);
-
-                if (!$product) {
-                    $status = false;
-                    $i = $i + 1;
-                    $dataImportMultiproducts = array('error' => true, 'message' => "Producto no existe en la base de datos. Fila $i");
-                    break;
-                }
+        $status = true;
+        for ($i = 0; $i < sizeof($multiproducts); $i++) {
+            if (
+                empty($multiproducts[$i]['referenceProduct']) || empty($multiproducts[$i]['product']) ||
+                empty($multiproducts[$i]['soldUnit'])
+            ) {
+                $status = false;
+                $i = $i + 1;
+                $dataImportMultiproducts = array('error' => true, 'message' => "Campos vacios. Fila: $i");
+                break;
             }
-            if ($status == true)
-                $dataImportMultiproducts = $multiproducts;
+
+            // Obtener id producto
+            $product = $productsDao->findProduct($multiproducts[$i], $id_company);
+
+            if (!$product) {
+                $status = false;
+                $i = $i + 1;
+                $dataImportMultiproducts = array('error' => true, 'message' => "Producto no existe en la base de datos. Fila $i");
+                break;
+            }
         }
+        if ($status == true)
+            $dataImportMultiproducts = $multiproducts;
     } else
         $dataImportMultiproducts = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 
@@ -102,12 +101,6 @@ $app->post('/addMultiproduct', function (Request $request, Response $response, $
         $multiproducts = $dataProduct['importMultiproducts'];
 
         for ($i = 0; $i < sizeof($multiproducts); $i++) {
-            // Obtener gasto
-            $existingMultiproducts = $multiproductsDao->findAllExistingMultiproducts($id_company);
-
-            if (sizeof($existingMultiproducts) > 0)
-                $multiproducts[0]['expense'] = $existingMultiproducts[0]['expense'];
-
             // Obtener id producto
             $product = $productsDao->findProduct($multiproducts[$i], $id_company);
             $multiproducts[$i]['id_product'] = $product['id_product'];

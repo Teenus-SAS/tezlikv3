@@ -36,16 +36,6 @@ $(document).ready(function () {
         },
         {
           title: 'Referencia',
-          data: 'reference_product',
-          visible: false,
-        },
-        {
-          title: 'Producto',
-          data: 'product',
-          visible: false,
-        },
-        {
-          title: 'Referencia',
           data: 'reference_material',
           className: 'uniqueClassName',
         },
@@ -78,19 +68,7 @@ $(document).ready(function () {
           render: $.fn.dataTable.render.number('.', ',', 2, '', '%'),
         },
       ],
-      rowGroup: {
-        dataSrc: function (row) {
-          return `
-            <th class="text-center" colspan="3" style="font-weight: bold;"> ${row.reference_product}</th>
-            <th class="text-center" colspan="4" style="font-weight: bold;"> ${row.product} </th>
-          `;
-        },
-        startRender: function (rows, group) {
-          return $('<tr/>').append(group);
-        },
-        className: 'odd',
-      },
-      /* footerCallback: function (row, data, start, end, display) {
+      footerCallback: function (row, data, start, end, display) {
         total = this.api()
           .column(7)
           .data()
@@ -112,7 +90,7 @@ $(document).ready(function () {
           }, 0);
 
         $(this.api().column(8).footer()).html(`${subTotal.toFixed(0)} %`);
-      }, */
+      },
     });
   };
 
@@ -135,16 +113,6 @@ $(document).ready(function () {
           render: function (data, type, full, meta) {
             return meta.row + 1;
           },
-        },
-        {
-          title: 'Referencia',
-          data: 'reference_product',
-          visible: false,
-        },
-        {
-          title: 'Producto',
-          data: 'product',
-          visible: false,
         },
         {
           title: 'Participación',
@@ -220,18 +188,6 @@ $(document).ready(function () {
           },
         },
       ],
-      rowGroup: {
-        dataSrc: function (row) {
-          return `
-            <th class="text-center" colspan="5" style="font-weight: bold;"> ${row.reference_product}</th>
-            <th class="text-center" colspan="5" style="font-weight: bold;"> ${row.product} </th>
-          `;
-        },
-        startRender: function (rows, group) {
-          return $('<tr/>').append(group);
-        },
-        className: 'odd',
-      },
     });
   };
 });

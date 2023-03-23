@@ -84,12 +84,12 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
             $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
 
-            if ($sendEmail == null) {
-                $pass = password_hash($newPass, PASSWORD_DEFAULT);
+            // if ($sendEmail == null) {
+            $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
-                /* Almacena el usuario */
-                $users = $userDao->saveUser($dataUser, $pass, $id_company);
-            }
+            /* Almacena el usuario */
+            $users = $userDao->saveUser($dataUser, $pass, $id_company);
+            // }
 
             if ($users == null) {
                 $user = $userDao->findUser($dataUser['emailUser']);
@@ -97,8 +97,11 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
                 /* Almacena los accesos */
                 if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
-                if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
-                !isset($usersAccess) ? $usersAccess = null : $usersAccess;
+                else if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
+                else {
+                    $usersAccess = $costAccessUserDao->insertNewUserAccess($dataUser);
+                    $usersAccess = $planningAccessUserDao->insertNewUserAccess($dataUser);
+                }
             }
         } else $users = 1;
 
