@@ -68,29 +68,29 @@ $(document).ready(function () {
           render: $.fn.dataTable.render.number('.', ',', 2, '', '%'),
         },
       ],
-      footerCallback: function (row, data, start, end, display) {
-        total = this.api()
-          .column(7)
-          .data()
-          .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
-          }, 0);
+      // footerCallback: function (row, data, start, end, display) {
+      //   total = this.api()
+      //     .column(5)
+      //     .data()
+      //     .reduce(function (a, b) {
+      //       return parseInt(a) + parseInt(b);
+      //     }, 0);
 
-        $(this.api().column(7).footer()).html(
-          new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(total)
-        );
-        subTotal = this.api()
-          .column(8)
-          .data()
-          .reduce(function (a, b) {
-            return a + b;
-          }, 0);
+      //   $(this.api().column(5).footer()).html(
+      //     new Intl.NumberFormat('en-US', {
+      //       style: 'currency',
+      //       currency: 'USD',
+      //     }).format(total)
+      //   );
+      //   subTotal = this.api()
+      //     .column(6)
+      //     .data()
+      //     .reduce(function (a, b) {
+      //       return a + b;
+      //     }, 0);
 
-        $(this.api().column(8).footer()).html(`${subTotal.toFixed(0)} %`);
-      },
+      //   $(this.api().column(6).footer()).html(`${subTotal.toFixed(0)} %`);
+      // },
     });
   };
 

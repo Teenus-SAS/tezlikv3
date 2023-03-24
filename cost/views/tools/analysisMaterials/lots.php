@@ -167,8 +167,6 @@ if (sizeof($_SESSION) == 0)
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
-                                                        <th></th>
-                                                        <th></th>
                                                         <th>Total:</th>
                                                         <th></th>
                                                         <th></th>

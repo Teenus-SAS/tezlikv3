@@ -133,13 +133,13 @@ if (sizeof($_SESSION) == 0)
                                                                 </td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="font-weight-bold">Total Ingresos</td>
-                                                                <td class="text-center general" id="totalRevenue-0"></td>
-                                                                <td class="text-center general" id="totalRevenue-1"></td>
-                                                                <td class="text-center general" id="totalRevenue-2"></td>
-                                                                <td class="text-center general" id="totalRevenue-3"></td>
-                                                                <td class="text-center general" id="totalRevenue-4"></td>
-                                                                <td class="text-center general" id="totalRevenue-5"></td>
+                                                                <td class="font-weight-bold" style="color: black;">Total Ingresos</td>
+                                                                <td class="font-weight-bold text-center general" id="totalRevenue-0" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="totalRevenue-1" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="totalRevenue-2" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="totalRevenue-3" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="totalRevenue-4" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="totalRevenue-5" style="color: black;"></td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Costos Fijos</td>
@@ -160,13 +160,13 @@ if (sizeof($_SESSION) == 0)
                                                                 <td class="text-center general" id="variableCosts-5"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="font-weight-bold">Total Costos y Gastos</td>
-                                                                <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-0"></td>
-                                                                <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-1"></td>
-                                                                <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-2"></td>
-                                                                <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-3"></td>
-                                                                <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-4"></td>
-                                                                <td class="text-center totalCostsAndExpenses general" id="totalCostsAndExpenses-5"></td>
+                                                                <td class="font-weight-bold" style="color: black;">Total Costos y Gastos</td>
+                                                                <td class="font-weight-bold text-center totalCostsAndExpenses general" style="color: black;" id="totalCostsAndExpenses-0"></td>
+                                                                <td class="font-weight-bold text-center totalCostsAndExpenses general" style="color: black;" id="totalCostsAndExpenses-1"></td>
+                                                                <td class="font-weight-bold text-center totalCostsAndExpenses general" style="color: black;" id="totalCostsAndExpenses-2"></td>
+                                                                <td class="font-weight-bold text-center totalCostsAndExpenses general" style="color: black;" id="totalCostsAndExpenses-3"></td>
+                                                                <td class="font-weight-bold text-center totalCostsAndExpenses general" style="color: black;" id="totalCostsAndExpenses-4"></td>
+                                                                <td class="font-weight-bold text-center totalCostsAndExpenses general" style="color: black;" id="totalCostsAndExpenses-5"></td>
                                                             </tr>
                                                             <tr>
                                                                 <td class="font-weight-bold">Costo Por Unidad</td>
@@ -196,13 +196,13 @@ if (sizeof($_SESSION) == 0)
                                                                 <td class="text-center general" id="netUtility-5"></td>
                                                             </tr>
                                                             <tr>
-                                                                <td class="font-weight-bold">Margen de Utilidad</td>
-                                                                <td class="text-center general" id="percentage-0" style="color: black;"></td>
-                                                                <td class="text-center general" id="percentage-1" style="color: black;"></td>
-                                                                <td class="text-center general" id="percentage-2" style="color: black;"></td>
-                                                                <td class="text-center general" id="percentage-3" style="color: black;"></td>
-                                                                <td class="text-center general" id="percentage-4" style="color: black;"></td>
-                                                                <td class="text-center general" id="percentage-5" style="color: black;"></td>
+                                                                <td class="font-weight-bold" style="color: black;">Margen de Utilidad</td>
+                                                                <td class="font-weight-bold text-center general" id="percentage-0" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="percentage-1" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="percentage-2" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="percentage-3" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="percentage-4" style="color: black;"></td>
+                                                                <td class="font-weight-bold text-center general" id="percentage-5" style="color: black;"></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

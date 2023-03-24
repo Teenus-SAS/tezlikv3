@@ -14,7 +14,7 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
     $lots = $request->getParsedBody();
     $data80MP = [];
 
-    $reviewRawMaterials = $AMProductsDao->findConsolidatedRawMaterialsByProduct($lots, $id_company);
+    $reviewRawMaterials = $AMProductsDao->findConsolidatedRawMaterialsByProduct($lots['data'], $id_company);
 
     $participation = 0;
 
