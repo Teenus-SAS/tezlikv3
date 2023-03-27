@@ -29,7 +29,7 @@ class CostMaterialsDao
         return $dataProduct;
     }
 
-    // Buscar costo total de la materia prima y modificar en products_costs
+    /* Buscar costo total de la materia prima y modificar en products_costs
     public function calcCostMaterial($dataMaterials, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -52,31 +52,32 @@ class CostMaterialsDao
         }
 
         return $dataMaterials;
+    } */
+
+    public function calcCostMaterial($dataMaterials, $quantity, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT SUM(:quantity * m.cost) as cost 
+                                        FROM products_materials pm 
+                                        INNER JOIN materials m ON pm.id_material = m.id_material 
+                                        WHERE pm.id_company = :id_company AND pm.id_product = :id_product");
+            $stmt->execute([
+                'quantity' => $quantity,
+                'id_company' => $id_company,
+                'id_product' => $dataMaterials['idProduct']
+            ]);
+            $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
+
+            $dataMaterials['cost'] = $costMaterialsProduct['cost'];
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $dataMaterials = array('info' => true, 'message' => $message);
+        }
+
+        return $dataMaterials;
     }
-    // public function calcCostMaterial($dataMaterials, $quantity, $id_company)
-    // {
-    //     $connection = Connection::getInstance()->getConnection();
-
-    //     try {
-    //         $stmt = $connection->prepare("SELECT SUM(:quantity * m.cost) as cost 
-    //                                     FROM products_materials pm 
-    //                                     INNER JOIN materials m ON pm.id_material = m.id_material 
-    //                                     WHERE pm.id_company = :id_company AND pm.id_product = :id_product");
-    //         $stmt->execute([
-    //             'quantity' => $quantity,
-    //             'id_company' => $id_company,
-    //             'id_product' => $dataMaterials['idProduct']
-    //         ]);
-    //         $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
-
-    //         $dataMaterials['cost'] = $costMaterialsProduct['cost'];
-    //     } catch (\Exception $e) {
-    //         $message = $e->getMessage();
-    //         $dataMaterials = array('info' => true, 'message' => $message);
-    //     }
-
-    //     return $dataMaterials;
-    // }
 
     public function updateCostMaterials($dataMaterials, $id_company)
     {

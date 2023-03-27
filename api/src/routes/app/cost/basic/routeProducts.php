@@ -352,26 +352,26 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
             }
 
             if ($resolution == null) {
-                // $productsMaterials = $productsMaterialsDao->findAllProductsmaterials($dataProduct['idProduct'], $id_company);
+                $productsMaterials = $productsMaterialsDao->findAllProductsmaterials($dataProduct['idProduct'], $id_company);
 
-                // $totalQuantity = 0;
+                $totalQuantity = 0;
 
-                // foreach ($productsMaterials as $arr) {
-                //     if ($resolution != null) break;
+                foreach ($productsMaterials as $arr) {
+                    if ($resolution != null) break;
 
-                //     // Obtener materia prima
-                //     $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+                    // Obtener materia prima
+                    $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-                //     // Convertir unidades
-                //     $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+                    // Convertir unidades
+                    $quantity = $conversionUnitsDao->convertUnits($material, $arr);
 
-                //     !$quantity ? $quantity = 0 : $quantity;
+                    !$quantity ? $quantity = 0 : $quantity;
+                    $materialsDao->updateCostProductMaterial($arr, $quantity);
 
-                //     $totalQuantity += $quantity;
-                // }
-                // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);
-                //Metodo calcular precio total materias
-                $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
+                    $totalQuantity += $quantity;
+                }
+                // Metodo calcular precio total materias
+                $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);
 
                 $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
             }

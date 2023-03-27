@@ -1,7 +1,6 @@
 $(document).ready(function () {
   let idProduct;
   let dataProductMaterial = {};
-  let dataMaterials = {};
 
   /* Ocultar panel crear producto */
 
@@ -15,22 +14,16 @@ $(document).ready(function () {
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').toggle(800);
     $('#btnAddMaterials').html('Asignar');
+    $('#units').empty();
 
     sessionStorage.removeItem('id_product_material');
 
     $('#formAddMaterials').trigger('reset');
   });
 
-  /* Seleccionar producto */
+  /* Adicionar unidad de materia prima */
 
-  $('#selectNameProduct').change(function (e) {
-    e.preventDefault();
-    idProduct = $('#selectNameProduct').val();
-  });
-
-  /* Adicionar unidad de materia prima 
-
-  $('#material').change(function (e) {
+  $('#material').change(async function (e) {
     e.preventDefault();
     let id = this.value;
 
@@ -41,15 +34,19 @@ $(document).ready(function () {
     }
 
     for (i = 0; i < dataMaterials.length; i++) {
-      if (id == dataMaterials[i]['id_material']) {
-        $(`#units option[value=${dataMaterials[i].id_unit}]`).prop(
-          'selected',
-          true
-        );
-        break;
+      if (id == dataMaterials[i].id_material) {
+        let id_magnitude = dataMaterials[i].id_magnitude;
+        await loadUnitsByMagnitude(id_magnitude);
       }
     }
-  }); */
+  });
+
+  /* Seleccionar producto */
+
+  $('#selectNameProduct').change(function (e) {
+    e.preventDefault();
+    idProduct = $('#selectNameProduct').val();
+  });
 
   /* Adicionar nueva materia prima */
 
@@ -73,10 +70,11 @@ $(document).ready(function () {
 
   /* Actualizar productos materials */
 
-  $(document).on('click', '.updateMaterials', function (e) {
+  $(document).on('click', '.updateMaterials', async function (e) {
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').show(800);
     $('#btnAddMaterials').html('Actualizar');
+    $('#units').empty();
 
     let row = $(this).parent().parent()[0];
     let data = tblConfigMaterials.fnGetData(row);
@@ -85,6 +83,7 @@ $(document).ready(function () {
     $(`#material option[value=${data.id_material}]`).prop('selected', true);
 
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
+    await loadUnitsByMagnitude(data.id_magnitude);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
     let quantity = `${data.quantity}`;

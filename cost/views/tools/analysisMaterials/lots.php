@@ -161,7 +161,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblMaterials">
                                                 <tbody></tbody>
-                                                <!-- <tfoot>
+                                                <tfoot>
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
@@ -171,7 +171,7 @@ if (sizeof($_SESSION) == 0)
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
-                                                </tfoot> -->
+                                                </tfoot>
                                             </table>
                                         </div>
                                     </div>

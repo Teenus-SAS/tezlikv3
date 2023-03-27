@@ -148,26 +148,29 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
         //Metodo calcular precio total materias
         if ($productMaterials == null) {
             // Consultar todos los datos del producto
-            // $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
+            $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
 
-            // $totalQuantity = 0;
+            $totalQuantity = 0;
 
-            // foreach ($products as $arr) {
-            //     // Obtener materia prima
-            //     $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+            foreach ($products as $arr) {
+                // Obtener materia prima
+                $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-            //     // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
+                // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
 
-            //     // Convertir unidades
-            //     $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+                // Convertir unidades
+                $quantity = $conversionUnitsDao->convertUnits($material, $arr);
 
-            //     !$quantity ? $quantity = 0 : $quantity;
+                !$quantity ? $quantity = 0 : $quantity;
 
-            //     $totalQuantity += $quantity;
-            // }
-            // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
+                // Modificar costo
+                $materialsDao->updateCostProductMaterial($arr, $quantity);
 
-            $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+                $totalQuantity += $quantity;
+            }
+            $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
+
+            // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
             $productMaterials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
         }
@@ -218,26 +221,28 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             if ($resolution != null) break;
 
             // Consultar todos los datos del producto
-            // $products = $productsMaterialsDao->findAllProductsmaterials($productMaterials[$i]['idProduct'], $id_company);
+            $products = $productsMaterialsDao->findAllProductsmaterials($productMaterials[$i]['idProduct'], $id_company);
 
-            // $totalQuantity = 0;
+            $totalQuantity = 0;
 
-            // foreach ($products as $arr) {
-            //     // Obtener materia prima
-            //     $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+            foreach ($products as $arr) {
+                // Obtener materia prima
+                $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-            //     // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
+                // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
 
-            //     // Convertir unidades
-            //     $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+                // Convertir unidades
+                $quantity = $conversionUnitsDao->convertUnits($material, $arr);
 
-            //     !$quantity ? $quantity = 0 : $quantity;
+                !$quantity ? $quantity = 0 : $quantity;
 
-            //     $totalQuantity += $quantity;
-            // }
-            // $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $totalQuantity, $id_company);
+                $materialsDao->updateCostProductMaterial($arr, $quantity);
 
-            $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
+                $totalQuantity += $quantity;
+            }
+            $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $totalQuantity, $id_company);
+
+            // $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
 
             $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
 
@@ -278,25 +283,26 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     //Metodo calcular precio total materias
     if ($productMaterials == null) {
         // Consultar todos los datos del producto
-        // $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
+        $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
 
-        // $totalQuantity = 0;
+        $totalQuantity = 0;
 
-        // foreach ($products as $arr) {
-        //     Obtener materia prima
-        //     $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+        foreach ($products as $arr) {
+            // Obtener materia prima
+            $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-        //     Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
+            // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
 
-        //     Convertir unidades
-        //     $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+            // Convertir unidades
+            $quantity = $conversionUnitsDao->convertUnits($material, $arr);
 
-        //     !$quantity ? $quantity = 0 : $quantity;
+            !$quantity ? $quantity = 0 : $quantity;
 
-        //     $totalQuantity += $quantity;
-        // }
-        // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
-        $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+            $materialsDao->updateCostProductMaterial($arr, $quantity);
+
+            $totalQuantity += $quantity;
+        }
+        $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
 
         $productMaterials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
     }
@@ -336,26 +342,28 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
     if ($product == null) {
 
         // Consultar todos los datos del producto
-        // $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
+        $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
 
-        // $totalQuantity = 0;
+        $totalQuantity = 0;
 
-        // foreach ($products as $arr) {
-        //     // Obtener materia prima
-        //     $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+        foreach ($products as $arr) {
+            // Obtener materia prima
+            $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-        //     // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
+            // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
 
-        //     // Convertir unidades
-        //     $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+            // Convertir unidades
+            $quantity = $conversionUnitsDao->convertUnits($material, $arr);
 
-        //     !$quantity ? $quantity = 0 : $quantity;
+            !$quantity ? $quantity = 0 : $quantity;
 
-        //     $totalQuantity += $quantity;
-        // }
-        // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
+            $materialsDao->updateCostProductMaterial($arr, $quantity);
 
-        $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
+            $totalQuantity += $quantity;
+        }
+        $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
+
+        // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
         $product = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
     }

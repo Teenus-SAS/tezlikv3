@@ -70,6 +70,30 @@ class GeneralMaterialsDao
         return $findMaterial;
     }
 
+    /* Modificar Costo Ficha Tecnica */
+    public function updateCostProductMaterial($dataMaterial, $quantity)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $cost = $quantity * $dataMaterial['cost'];
+
+            $stmt = $connection->prepare("UPDATE products_materials SET cost = :cost WHERE id_product_material = :id_product_material");
+            $stmt->execute([
+                'cost' => $cost,
+                'id_product_material' => $dataMaterial['id_product_material']
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            if ($e->getCode() == 23000)
+                $message = 'Esta materia prima no se puede eliminar, esta configurada a un producto';
+
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     public function deleteMaterial($id_material)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -66,7 +66,7 @@ $(document).ready(function () {
         },
         {
           title: 'Precio Unitario',
-          data: 'cost',
+          data: 'cost_product_material',
           className: 'classCenter',
           render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
         },

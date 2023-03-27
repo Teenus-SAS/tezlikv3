@@ -16,13 +16,22 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
 
     $reviewRawMaterials = $AMProductsDao->findConsolidatedRawMaterialsByProduct($lots['data'], $id_company);
 
-    $participation = 0;
+    $totalUnits = 0;
 
     for ($i = 0; $i < sizeof($reviewRawMaterials); $i++) {
+        $totalUnits += $reviewRawMaterials[$i]['unityCost'];
+    }
+
+    $participation = 0;
+    for ($i = 0; $i < sizeof($reviewRawMaterials); $i++) {
+        /* Calculo participacion */
+        $reviewRawMaterials[$i]['participation'] = ($reviewRawMaterials[$i]['unityCost'] / $totalUnits) * 100;
         if ($participation <= 80) {
+
             $arr80MP[$i] = $reviewRawMaterials[$i];
+
             $participation += $reviewRawMaterials[$i]['participation'];
-        } else break;
+        }
     }
     $data80MP = array_merge($data80MP, $arr80MP);
     $data['allRawMaterials'] = $reviewRawMaterials;

@@ -11,6 +11,7 @@ $(document).ready(function () {
     $('.cardImportMaterials').hide(800);
     $('.cardRawMaterials').toggle(800);
     $('#btnCreateMaterial').html('Crear');
+    $('#units').empty();
 
     sessionStorage.removeItem('id_material');
 
@@ -32,8 +33,9 @@ $(document).ready(function () {
 
   /* Actualizar materia prima */
 
-  $(document).on('click', '.updateRawMaterials', function (e) {
+  $(document).on('click', '.updateRawMaterials', async function (e) {
     $('.cardImportMaterials').hide(800);
+    $('#units').empty();
     $('.cardRawMaterials').show(800);
     $('#btnCreateMaterial').html('Actualizar');
 
@@ -42,10 +44,10 @@ $(document).ready(function () {
 
     let row = $(this).parent().parent()[0];
     let data = tblRawMaterials.fnGetData(row);
-
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
+    await loadUnitsByMagnitude(data.id_magnitude);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
     let cost = data.cost;
@@ -65,7 +67,6 @@ $(document).ready(function () {
       1000
     );
   });
-
   /* Revision data materia prima */
   checkDataMaterial = async (url, idMaterial) => {
     let ref = $('#refRawMaterial').val();

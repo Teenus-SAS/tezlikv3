@@ -191,24 +191,25 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
             if ($j['id_product'] = !0) {
                 // Calcular precio total materias
                 // Consultar todos los datos del producto
-                // $productsMaterial = $productMaterialsDao->findAllProductsmaterials($j['id_product'], $id_company);
+                $productsMaterial = $productMaterialsDao->findAllProductsmaterials($j['id_product'], $id_company);
 
-                // $totalQuantity = 0;
+                $totalQuantity = 0;
 
-                // foreach ($productsMaterial as $k) {
-                //     // Obtener materia prima
-                //     $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);
+                foreach ($productsMaterial as $k) {
+                    // Obtener materia prima
+                    $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);
 
-                //     // Convertir unidades
-                //     $quantity = $conversionUnitsDao->convertUnits($material, $k);
+                    // Convertir unidades
+                    $quantity = $conversionUnitsDao->convertUnits($material, $k);
 
-                //     !$quantity ? $quantity = 0 : $quantity;
+                    !$quantity ? $quantity = 0 : $quantity;
+                    $generalMaterialsDao->updateCostProductMaterial($k, $quantity);
 
-                //     $totalQuantity += $quantity;
-                // }
-                // $j = $costMaterialsDao->calcCostMaterial($j, $totalQuantity, $id_company);
+                    $totalQuantity += $quantity;
+                }
                 $j['idProduct'] = $j['id_product'];
-                $j = $costMaterialsDao->calcCostMaterial($j, $id_company);
+                $j = $costMaterialsDao->calcCostMaterial($j, $totalQuantity, $id_company);
+                // $j = $costMaterialsDao->calcCostMaterial($j, $id_company);
 
                 $materials = $costMaterialsDao->updateCostMaterials($j, $id_company);
 

@@ -26,7 +26,7 @@ class ConversionUnitsDao
 
             $arr = [];
 
-            if ($unitProductMaterial != $unitMaterial) {
+            if ($unitProductMaterial != $unitMaterial || $unitMaterial != 'UND') {
 
                 switch ($magnitude) {
                     case 'LONGITUD':
@@ -70,10 +70,10 @@ class ConversionUnitsDao
                         );
                         break;
                     case 'VOLUMEN':
-                        break;
                         $arr['L'] = array('M3' => array('value' => 1000000, 'op' => '/'), 'ML' => array('value' => 1000, 'op' => '/'));
                         $arr['M3'] = array('L' => array('value' => 1000000, 'op' => '*'), 'ML' => array('value' => 1000, 'op' => '*'));
                         $arr['ML'] = array('L' => array('value' => 1000, 'op' => '*'), 'M3' => array('value' => 1000, 'op' => '/'));
+                        break;
                     case 'AREA':
                         $arr['M2'] = array('FT2' => array('value' => 10.76, 'op' => '/'), 'INCH2' => array('value' => 1550, 'op' => '/'));
                         $arr['FT2'] = array('M2' => array('value' => 10.76, 'op' => '*'), 'INCH2' => array('value' => 144, 'op' => '/'));
