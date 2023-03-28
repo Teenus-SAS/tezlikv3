@@ -40,7 +40,7 @@ class TrmDao
         return $historicalTrm;
     }
 
-    public function getActualTrm($actualDate)
+    public function getTrm($date)
     {
         try {
             $soap = new \SoapClient("https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL", array(
@@ -48,7 +48,7 @@ class TrmDao
                 'trace' => 1,
                 "location" => "http://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService",
             ));
-            $response = $soap->queryTCRM(array('tcrmQueryAssociatedDate' => $actualDate));
+            $response = $soap->queryTCRM(array('tcrmQueryAssociatedDate' => $date));
             $response = $response->return;
             if ($response->success) {
                 return $response->value;
@@ -58,7 +58,7 @@ class TrmDao
         }
     }
 
-    public function insertActualTrm($date, $price)
+    public function insertTrm($date, $price)
     {
         $connection = Connection::getInstance()->getConnection();
 

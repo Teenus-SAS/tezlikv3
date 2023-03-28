@@ -8,18 +8,25 @@ $trmDao = new TrmDao();
 function UpdateLastTrm($trmDao)
 {
     $date = date('Y-m-d');
-    // Obtener trm actual
-    $price = $trmDao->getActualTrm($date);
 
-    // Insertar
-    $resolution = $trmDao->insertActualTrm($date, $price);
+    $lastTrm = $trmDao->findLastInsertedTrm();
+    while ($lastTrm['date_trm'] < $date) {
+        if ($lastTrm['date_trm'] < $date) {
+            $lastTrm = $trmDao->findLastInsertedTrm();
 
-    // Eliminar primer registro del historico
-    if ($resolution == null)
-        $resolution = $trmDao->deleteFirstTrm();
+            $date_trm = date('Y-m-d', strtotime($lastTrm['date_trm'] . ' +1 day'));
+
+            // Obtener trm
+            $price = $trmDao->getTrm($date_trm);
+
+            // Insertar
+            $resolution = $trmDao->insertTrm($date_trm, $price);
+
+            // Eliminar primer registro del historico
+            if ($resolution == null)
+                $resolution = $trmDao->deleteFirstTrm();
+        } else break;
+    }
 }
 
-date_default_timezone_set('America/Bogota');
-$hour = date('H:i');
-if ($hour == '00:01')
-    UpdateLastTrm($trmDao);
+UpdateLastTrm($trmDao);

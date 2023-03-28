@@ -16,17 +16,17 @@ class ConversionUnitsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function convertUnits($dataMaterial, $dataProductMaterial)
+    public function convertUnits($dataMaterial, $dataProductMaterial, $quantity)
     {
         try {
             $magnitude = strtoupper(trim($dataProductMaterial['magnitude']));
             $unitProductMaterial = strtoupper(trim($dataProductMaterial['abbreviation']));
             $unitMaterial = $dataMaterial['abbreviation'];
-            $quantity = $dataProductMaterial['quantity'];
+            // $quantity = $dataProductMaterial['quantity'];
 
             $arr = [];
 
-            if ($unitProductMaterial != $unitMaterial || $unitMaterial != 'UND') {
+            if ($unitProductMaterial != $unitMaterial && $magnitude != 'UNIDAD') {
 
                 switch ($magnitude) {
                     case 'LONGITUD':

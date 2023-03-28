@@ -156,21 +156,20 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                 // Obtener materia prima
                 $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-                // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
-
                 // Convertir unidades
-                $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+                $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-                !$quantity ? $quantity = 0 : $quantity;
+                !$quantities ? $quantities = 0 : $quantities;
+
+                $totalQuantity += $quantities;
+
+                // Convertir una unidad
+                // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
                 // Modificar costo
-                $materialsDao->updateCostProductMaterial($arr, $quantity);
-
-                $totalQuantity += $quantity;
+                $materialsDao->updateCostProductMaterial($arr, $quantities);
             }
             $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
-
-            // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
             $productMaterials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
         }
@@ -229,20 +228,20 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                 // Obtener materia prima
                 $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-                // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
-
                 // Convertir unidades
-                $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+                $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-                !$quantity ? $quantity = 0 : $quantity;
+                !$quantities ? $quantities = 0 : $quantities;
 
-                $materialsDao->updateCostProductMaterial($arr, $quantity);
+                $totalQuantity += $quantities;
 
-                $totalQuantity += $quantity;
+                // Convertir una unidad
+                // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+
+                // Modificar costo
+                $materialsDao->updateCostProductMaterial($arr, $quantities);
             }
             $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $totalQuantity, $id_company);
-
-            // $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
 
             $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
 
@@ -291,16 +290,18 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
             // Obtener materia prima
             $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-            // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
-
             // Convertir unidades
-            $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+            $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-            !$quantity ? $quantity = 0 : $quantity;
+            !$quantities ? $quantities = 0 : $quantities;
 
-            $materialsDao->updateCostProductMaterial($arr, $quantity);
+            $totalQuantity += $quantities;
 
-            $totalQuantity += $quantity;
+            // Convertir una unidad
+            // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+
+            // Modificar costo
+            $materialsDao->updateCostProductMaterial($arr, $quantities);
         }
         $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
 
@@ -350,20 +351,20 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
             // Obtener materia prima
             $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
 
-            // Obtener ficha tecnica materiales  $productMaterial = $productsMaterialsDao->findProductMaterialAndUnits($dataProductMaterial['idProduct'], $material['id_material']);
-
             // Convertir unidades
-            $quantity = $conversionUnitsDao->convertUnits($material, $arr);
+            $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-            !$quantity ? $quantity = 0 : $quantity;
+            !$quantities ? $quantities = 0 : $quantities;
 
-            $materialsDao->updateCostProductMaterial($arr, $quantity);
+            $totalQuantity += $quantities;
 
-            $totalQuantity += $quantity;
+            // Convertir una unidad
+            // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+
+            // Modificar costo
+            $materialsDao->updateCostProductMaterial($arr, $quantities);
         }
         $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
-
-        // $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
         $product = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
     }

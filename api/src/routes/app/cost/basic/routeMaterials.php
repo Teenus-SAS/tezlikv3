@@ -188,7 +188,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
         $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);
 
         foreach ($dataProducts as $j) {
-            if ($j['id_product'] = !0) {
+            if ($j['id_product'] != 0) {
                 // Calcular precio total materias
                 // Consultar todos los datos del producto
                 $productsMaterial = $productMaterialsDao->findAllProductsmaterials($j['id_product'], $id_company);
@@ -200,16 +200,20 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                     $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);
 
                     // Convertir unidades
-                    $quantity = $conversionUnitsDao->convertUnits($material, $k);
+                    $quantities = $conversionUnitsDao->convertUnits($material, $k, $k['quantity']);
 
-                    !$quantity ? $quantity = 0 : $quantity;
-                    $generalMaterialsDao->updateCostProductMaterial($k, $quantity);
+                    !$quantities ? $quantities = 0 : $quantities;
 
-                    $totalQuantity += $quantity;
+                    $totalQuantity += $quantities;
+
+                    // Convertir una unidad
+                    // $quantity = $conversionUnitsDao->convertUnits($material, $k, 1);
+
+                    // Modificar costo
+                    $generalMaterialsDao->updateCostProductMaterial($k, $quantities);
                 }
                 $j['idProduct'] = $j['id_product'];
                 $j = $costMaterialsDao->calcCostMaterial($j, $totalQuantity, $id_company);
-                // $j = $costMaterialsDao->calcCostMaterial($j, $id_company);
 
                 $materials = $costMaterialsDao->updateCostMaterials($j, $id_company);
 

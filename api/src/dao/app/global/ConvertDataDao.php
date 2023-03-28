@@ -16,26 +16,6 @@ class ConvertDataDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    // public function strReplace($data)
-    // {
-    //     $arr = array();
-    //     foreach ($data as $key => $value) {
-    //         $arr["$key"] = str_replace('.', '', $value);
-    //     }
-
-    //     return $arr;
-    // }
-
-    // public function strReplaceDecimals($data)
-    // {
-    //     $arr = array();
-    //     foreach ($data as $key => $value) {
-    //         $arr["$key"] = str_replace(',', '.', $value);
-    //     }
-
-    //     return $arr;
-    // }
-
     /* Maquinas */
     public function strReplaceMachines($dataMachine)
     {

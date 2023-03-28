@@ -30,7 +30,7 @@ $(document).ready(function () {
                           <th id="quantity-${i + 1}">${data[i].quantity}</th>
                           <th id="currentPrice-${i + 1}">$ ${data[
             i
-          ].cost.toLocaleString('es-CO', {
+          ].cost_product_material.toLocaleString('es-CO', {
             maximumFractionDigits: 0,
           })}</th>
                           <th><input class="form-control numberCalc negotiatePrice text-center" type="text" id="${

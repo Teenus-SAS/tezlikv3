@@ -66,9 +66,17 @@ $(document).ready(function () {
         },
         {
           title: 'Precio Unitario',
-          data: 'cost_product_material',
+          data: null,
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
+          render: function (data) {
+            data.cost_product_material == 0
+              ? (cost = data.cost)
+              : (cost = data.cost_product_material);
+
+            return `$ ${cost.toLocaleString('es-CO', {
+              maximumFractionDigits: 2,
+            })}`;
+          },
         },
         {
           title: 'Acciones',
@@ -97,6 +105,10 @@ $(document).ready(function () {
           .column(5)
           .data()
           .reduce(function (a, b) {
+            b.cost_product_material == 0
+              ? (b = b.cost)
+              : (b = b.cost_product_material);
+
             return parseInt(a) + parseInt(b);
           }, 0);
 
