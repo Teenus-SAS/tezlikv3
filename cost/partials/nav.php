@@ -14,21 +14,19 @@
                         <li class="nav-item dropdown tools">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-cash mr-1"></i> Precios
-                                <i class="bx bx-chevron-down"></i>
+                                <i class="bx bx-chevron-right"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                 <?php if ($_SESSION['price'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/prices">
-                                        <i class="bi bi-currency-dollar mr-1"></i>
-                                        <span> Lista de Precios COP</span>
-                                        <i class="bx bx-chevron-right"></i>
+                                        <span> Lista de Precios <i class="bi bi-currency-dollar mr-1"></i> COP</span>
+                                        <!-- <i class="bx bx-chevron-right"></i> -->
                                     </a>
                                 <?php } ?>
                                 <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/prices-usd">
-                                        <i class="bi bi-currency-dollar mr-1"></i>
-                                        <span> Lista de Precios USD</span>
-                                        <i class="bx bx-chevron-right"></i>
+                                        <span> Lista de Precios <i class="bi bi-currency-dollar mr-1"></i> USD</span>
+                                        <!-- <i class="bx bx-chevron-right"></i> -->
                                     </a>
                                 <?php } ?>
                             </ul>
@@ -43,23 +41,23 @@
                         <li class="nav-item dropdown tools">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-tools mr-1"></i> Herramientas
-                                <i class="bx bx-chevron-down"></i>
+                                <i class="bx bx-chevron-right"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <?php if ($_SESSION['analysis_material'] == 1 || $_SESSION['plan_cost_analysis_material'] == 1) { ?>
                                     <li class="dropdown-submenu" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                         <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="bi bi-card-heading mr-1"></i> Análisis Materia Prima
-                                            <i class="bx bx-chevron-down"></i>
+                                            <i class="bx bx-chevron-right"></i>
                                         </a>
                                         <ul class="dropdown-menu">
                                             <a class="dropdown-item" href="/cost/analysis-materials-product">
                                                 <i class="bi bi-graph-up mr-1"></i> Producto
-                                                <i class="bx bx-chevron-right"></i>
+                                                <!-- <i class="bx bx-chevron-right"></i> -->
                                             </a>
                                             <a class="dropdown-item" href="/cost/analysis-materials-lot">
                                                 <i class="bi bi-graph-down mr-1"></i> Lote
-                                                <i class="bx bx-chevron-right"></i>
+                                                <!-- <i class="bx bx-chevron-right"></i> -->
                                             </a>
                                         </ul>
                                     </li>
