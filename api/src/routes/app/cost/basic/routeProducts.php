@@ -369,10 +369,10 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                     $totalQuantity += $quantities;
 
                     // Convertir una unidad
-                    // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+                    $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
                     // Modificar costo
-                    $materialsDao->updateCostProductMaterial($arr, $quantities);
+                    $materialsDao->updateCostProductMaterial($arr, $quantity);
                 }
                 // Metodo calcular precio total materias
                 $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);

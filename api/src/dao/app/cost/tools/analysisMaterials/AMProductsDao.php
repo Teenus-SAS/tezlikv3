@@ -28,7 +28,7 @@ class AMProductsDao
                                             INNER JOIN materials m ON m.id_material = pm.id_material
                                             INNER JOIN convert_units u ON u.id_unit = pm.id_unit
                                           WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
-                                          ORDER BY `participation` DESC");
+                                          ORDER BY `participation` ASC");
             $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
             $productsRawmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
         } catch (\Exception $e) {

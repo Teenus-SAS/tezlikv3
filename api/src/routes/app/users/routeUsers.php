@@ -96,12 +96,11 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                 $dataUser['idUser'] = $user['id_user'];
 
                 /* Almacena los accesos */
-                if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                if (isset($dataUser['factoryLoad']) && isset($dataUser['programsMachine'])) {
+                    $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                    $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
+                } else if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
                 else if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
-                else {
-                    $usersAccess = $costAccessUserDao->insertNewUserAccess($dataUser);
-                    $usersAccess = $planningAccessUserDao->insertNewUserAccess($dataUser);
-                }
             }
         } else $users = 1;
 

@@ -44,6 +44,7 @@ $(document).ready(function () {
       dataUser['nameUser'] = firstname;
       dataUser['lastnameUser'] = lastname;
       dataUser['emailUser'] = email;
+      dataUser['company'] = company;
 
       dataUser['costCreateProducts'] = 1;
       dataUser['costCreateMaterials'] = 1;

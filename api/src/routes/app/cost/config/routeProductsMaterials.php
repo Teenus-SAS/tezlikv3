@@ -164,10 +164,10 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                 $totalQuantity += $quantities;
 
                 // Convertir una unidad
-                // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+                $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
                 // Modificar costo
-                $materialsDao->updateCostProductMaterial($arr, $quantities);
+                $materialsDao->updateCostProductMaterial($arr, $quantity);
             }
             $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
 
@@ -236,10 +236,10 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                 $totalQuantity += $quantities;
 
                 // Convertir una unidad
-                // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+                $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
                 // Modificar costo
-                $materialsDao->updateCostProductMaterial($arr, $quantities);
+                $materialsDao->updateCostProductMaterial($arr, $quantity);
             }
             $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $totalQuantity, $id_company);
 
@@ -298,10 +298,10 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
             $totalQuantity += $quantities;
 
             // Convertir una unidad
-            // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+            $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
             // Modificar costo
-            $materialsDao->updateCostProductMaterial($arr, $quantities);
+            $materialsDao->updateCostProductMaterial($arr, $quantity);
         }
         $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
 
@@ -359,10 +359,10 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
             $totalQuantity += $quantities;
 
             // Convertir una unidad
-            // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+            $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
             // Modificar costo
-            $materialsDao->updateCostProductMaterial($arr, $quantities);
+            $materialsDao->updateCostProductMaterial($arr, $quantity);
         }
         $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $totalQuantity, $id_company);
 

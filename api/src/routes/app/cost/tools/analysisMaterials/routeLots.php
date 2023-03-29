@@ -12,7 +12,6 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
     $id_company = $_SESSION['id_company'];
 
     $lots = $request->getParsedBody();
-    $data80MP = [];
 
     $reviewRawMaterials = $AMLotsDao->findConsolidatedRawMaterialsByProduct($lots['data'], $id_company);
 
@@ -22,12 +21,15 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
 
     $reviewRawMaterials = $AMLotsDao->orderDataMaterial($reviewRawMaterials);
 
+    $data80MP = [];
+    $arr80MP = [];
+
     $participation = 0;
     for ($i = 0; $i < sizeof($reviewRawMaterials); $i++) {
         $participation += $reviewRawMaterials[$i]['participation'];
         if ($participation <= 80) {
             $arr80MP[$i] = $reviewRawMaterials[$i];
-        } else break;
+        }
     }
     $data80MP = array_merge($data80MP, $arr80MP);
     $data['allRawMaterials'] = $reviewRawMaterials;

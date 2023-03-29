@@ -74,7 +74,7 @@ class AMLotsDao
             $participation[$key]  = $row['participation'];
         }
 
-        array_multisort($participation, SORT_DESC, $dataMaterial);
+        array_multisort($participation, SORT_ASC, $dataMaterial);
 
         return $dataMaterial;
     }

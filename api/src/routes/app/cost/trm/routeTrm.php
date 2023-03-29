@@ -5,7 +5,7 @@ use tezlikv3\Dao\TrmDao;
 $trmDao = new TrmDao();
 
 // Modificar TRM historico Diario 
-function UpdateLastTrm($trmDao)
+function updateLastTrm($trmDao)
 {
     $date = date('Y-m-d');
 
@@ -32,6 +32,5 @@ function UpdateLastTrm($trmDao)
 date_default_timezone_set('America/Bogota');
 $today = date("H:i");
 
-
 if ($today == '00:00')
-    UpdateLastTrm($trmDao);
+    updateLastTrm($trmDao);
