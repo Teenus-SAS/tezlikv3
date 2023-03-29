@@ -29,4 +29,9 @@ function UpdateLastTrm($trmDao)
     }
 }
 
-UpdateLastTrm($trmDao);
+date_default_timezone_set('America/Bogota');
+$today = date("H:i");
+
+
+if ($today == '00:00')
+    UpdateLastTrm($trmDao);
