@@ -13,18 +13,24 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
 
     $productsRawmaterials = $AMProductsDao->findAllProductsRawMaterials($args['idProduct'], $id_company);
 
-    $data80MP = [];
-    $participation = 0;
 
-    for ($i = 0; $i < sizeof($productsRawmaterials); $i++) {
-        if ($participation <= 80) {
-            $data80MP[$i] = $productsRawmaterials[$i];
+    if (isset($productsRawmaterials['info']))
+        $data = $productsRawmaterials;
+    else {
+        $data80MP = [];
+        $arr80MP = [];
+
+        $participation = 0;
+        for ($i = 0; $i < sizeof($productsRawmaterials); $i++) {
             $participation += $productsRawmaterials[$i]['participation'];
-        } else break;
-    }
+            if ($participation <= 80) {
+                $arr80MP[$i] = $productsRawmaterials[$i];
+            }
+        }
 
-    $data['allRawMaterials'] = $productsRawmaterials;
-    $data['80RawMaterials'] = $data80MP;
+        $data['allRawMaterials'] = $productsRawmaterials;
+        $data['80RawMaterials'] = $data80MP;
+    }
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
