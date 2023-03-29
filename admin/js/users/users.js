@@ -46,48 +46,7 @@ $(document).ready(function () {
       dataUser['emailUser'] = email;
       dataUser['company'] = company;
 
-      dataUser['costCreateProducts'] = 1;
-      dataUser['costCreateMaterials'] = 1;
-      dataUser['costCreateMachines'] = 1;
-      dataUser['costCreateProcess'] = 1;
-      dataUser['costProductMaterials'] = 1;
-      dataUser['costProductProcess'] = 1;
-      dataUser['factoryLoad'] = 1;
-      dataUser['externalService'] = 1;
-      dataUser['payrollLoad'] = 1;
-      dataUser['expense'] = 1;
-      dataUser['expenseDistribution'] = 1;
-      dataUser['costUser'] = 1;
-      dataUser['quotePaymentMethod'] = 1;
-      dataUser['quoteCompany'] = 1;
-      dataUser['quoteContact'] = 1;
-      dataUser['price'] = 1;
-      dataUser['priceUSD'] = 1;
-      dataUser['analysisMaterial'] = 1;
-      dataUser['economyScale'] = 1;
-      dataUser['multiproduct'] = 1;
-      dataUser['quote'] = 1;
-      dataUser['support'] = 1;
-      dataUser['createMold'] = 1;
-      dataUser['planningCreateProduct'] = 1;
-      dataUser['planningCreateMaterial'] = 1;
-      dataUser['planningCreateMachine'] = 1;
-      dataUser['planningCreateProcess'] = 1;
-      dataUser['planningProductsMaterial'] = 1;
-      dataUser['planningProductsProcess'] = 1;
-      dataUser['programsMachine'] = 1;
-      dataUser['ciclesMachine'] = 1;
-      dataUser['invCategory'] = 1;
-      dataUser['sale'] = 1;
-      dataUser['plannigUser'] = 1;
-      dataUser['client'] = 1;
-      dataUser['ordersType'] = 1;
-      dataUser['inventory'] = 1;
-      dataUser['order'] = 1;
-      dataUser['program'] = 1;
-      dataUser['load'] = 1;
-      dataUser['explosionOfMaterial'] = 1;
-      dataUser['office'] = 1;
+      dataUser = setDataUserAccess(dataUser);
 
       $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
         message(data);
@@ -147,6 +106,8 @@ $(document).ready(function () {
     dataUser['idUser'] = data.id_user;
     dataUser['email'] = data.email;
 
+    dataUser = setDataUserAccess(dataUser);
+
     bootbox.confirm({
       title: 'Eliminar',
       message:
@@ -173,6 +134,53 @@ $(document).ready(function () {
         }
       },
     });
+  };
+
+  setDataUserAccess = (dataUser) => {
+    dataUser['costCreateProducts'] = 1;
+    dataUser['costCreateMaterials'] = 1;
+    dataUser['costCreateMachines'] = 1;
+    dataUser['costCreateProcess'] = 1;
+    dataUser['costProductMaterials'] = 1;
+    dataUser['costProductProcess'] = 1;
+    dataUser['factoryLoad'] = 1;
+    dataUser['externalService'] = 1;
+    dataUser['payrollLoad'] = 1;
+    dataUser['expense'] = 1;
+    dataUser['expenseDistribution'] = 1;
+    dataUser['costUser'] = 1;
+    dataUser['quotePaymentMethod'] = 1;
+    dataUser['quoteCompany'] = 1;
+    dataUser['quoteContact'] = 1;
+    dataUser['price'] = 1;
+    dataUser['priceUSD'] = 1;
+    dataUser['analysisMaterial'] = 1;
+    dataUser['economyScale'] = 1;
+    dataUser['multiproduct'] = 1;
+    dataUser['quote'] = 1;
+    dataUser['support'] = 1;
+    dataUser['createMold'] = 1;
+    dataUser['planningCreateProduct'] = 1;
+    dataUser['planningCreateMaterial'] = 1;
+    dataUser['planningCreateMachine'] = 1;
+    dataUser['planningCreateProcess'] = 1;
+    dataUser['planningProductsMaterial'] = 1;
+    dataUser['planningProductsProcess'] = 1;
+    dataUser['programsMachine'] = 1;
+    dataUser['ciclesMachine'] = 1;
+    dataUser['invCategory'] = 1;
+    dataUser['sale'] = 1;
+    dataUser['plannigUser'] = 1;
+    dataUser['client'] = 1;
+    dataUser['ordersType'] = 1;
+    dataUser['inventory'] = 1;
+    dataUser['order'] = 1;
+    dataUser['program'] = 1;
+    dataUser['load'] = 1;
+    dataUser['explosionOfMaterial'] = 1;
+    dataUser['office'] = 1;
+
+    return dataUser;
   };
 
   /* Mensaje de exito */
