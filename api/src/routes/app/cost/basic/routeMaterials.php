@@ -52,6 +52,14 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
         for ($i = 0; $i < sizeof($materials); $i++) {
 
+            $material = $generalMaterialsDao->findMaterialByReference($materials[$i], $id_company);
+
+            if ($material > 0) {
+                $i = $i + 1;
+                $dataImportMaterial = array('info' => true, 'message' => "La referencia ya existe. Ingrese una nueva referencia.<br>Fila:$i");
+                break;
+            }
+
             // Consultar magnitud
             $magnitude = $magnitudesDao->findMagnitude($materials[$i]);
 
@@ -113,14 +121,21 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     $dataMaterials = sizeof($dataMaterial);
 
     if ($dataMaterials > 1) {
-        $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
-        if ($materials == null)
-            $resp = array('success' => true, 'message' => 'Materia Prima creada correctamente');
-        else if (isset($materials['info']))
-            $resp = array('info' => true, 'message' => $materials['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+        $material = $generalMaterialsDao->findMaterialByReference($dataMaterial, $id_company);
+
+        if ($material > 0) {
+            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+        } else {
+            $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
+
+            if ($materials == null)
+                $resp = array('success' => true, 'message' => 'Materia Prima creada correctamente');
+            else if (isset($materials['info']))
+                $resp = array('info' => true, 'message' => $materials['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+        }
     } else {
         $materials = $dataMaterial['importMaterials'];
 
@@ -182,57 +197,63 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 
-    $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
+    $material = $generalMaterialsDao->findMaterialByReference($dataMaterial, $id_company);
 
-    if ($materials == null) {
-        $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);
+    if ($material > 0) {
+        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+    } else {
+        $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
-        foreach ($dataProducts as $j) {
-            if ($j['id_product'] != 0) {
-                // Calcular precio total materias
-                // Consultar todos los datos del producto
-                $productsMaterial = $productMaterialsDao->findAllProductsmaterials($j['id_product'], $id_company);
+        if ($materials == null) {
+            $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);
 
-                $totalQuantity = 0;
+            foreach ($dataProducts as $j) {
+                if ($j['id_product'] != 0) {
+                    // Calcular precio total materias
+                    // Consultar todos los datos del producto
+                    $productsMaterial = $productMaterialsDao->findAllProductsmaterials($j['id_product'], $id_company);
 
-                foreach ($productsMaterial as $k) {
-                    // Obtener materia prima
-                    $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);
+                    $totalQuantity = 0;
 
-                    // Convertir unidades
-                    $quantities = $conversionUnitsDao->convertUnits($material, $k, $k['quantity']);
+                    foreach ($productsMaterial as $k) {
+                        // Obtener materia prima
+                        $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);
 
-                    !$quantities ? $quantities = 0 : $quantities;
+                        // Convertir unidades
+                        $quantities = $conversionUnitsDao->convertUnits($material, $k, $k['quantity']);
 
-                    $totalQuantity += $quantities;
+                        !$quantities ? $quantities = 0 : $quantities;
 
-                    // Convertir una unidad
-                    $quantity = $conversionUnitsDao->convertUnits($material, $k, 1);
+                        $totalQuantity += $quantities;
 
-                    // Modificar costo
-                    $generalMaterialsDao->updateCostProductMaterial($k, $quantity);
+                        // Convertir una unidad
+                        $quantity = $conversionUnitsDao->convertUnits($material, $k, 1);
+
+                        // Modificar costo
+                        $generalMaterialsDao->updateCostProductMaterial($k, $quantity);
+                    }
+                    $j['idProduct'] = $j['id_product'];
+                    $j = $costMaterialsDao->calcCostMaterial($j, $totalQuantity, $id_company);
+
+                    $materials = $costMaterialsDao->updateCostMaterials($j, $id_company);
+
+                    // Calcular precio
+                    $materials = $priceProductDao->calcPrice($j['id_product']);
+
+                    if (isset($materials['info'])) break;
+
+                    $materials = $generalCostProductsDao->updatePrice($j['id_product'], $materials['totalPrice']);
                 }
-                $j['idProduct'] = $j['id_product'];
-                $j = $costMaterialsDao->calcCostMaterial($j, $totalQuantity, $id_company);
-
-                $materials = $costMaterialsDao->updateCostMaterials($j, $id_company);
-
-                // Calcular precio
-                $materials = $priceProductDao->calcPrice($j['id_product']);
-
-                if (isset($materials['info'])) break;
-
-                $materials = $generalCostProductsDao->updatePrice($j['id_product'], $materials['totalPrice']);
             }
         }
-    }
 
-    if ($materials == null)
-        $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
-    else if (isset($materials['info']))
-        $resp = array('info' => true, 'message' => $materials['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        if ($materials == null)
+            $resp = array('success' => true, 'message' => 'Materia Prima actualizada correctamente');
+        else if (isset($materials['info']))
+            $resp = array('info' => true, 'message' => $materials['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    }
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

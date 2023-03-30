@@ -47,7 +47,7 @@ class UnitsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM convert_units WHERE id_magnitude = :id_magnitude AND unit LIKE '%:unit'");
+        $stmt = $connection->prepare("SELECT * FROM convert_units WHERE id_magnitude = :id_magnitude AND unit = :unit");
         $stmt->execute([
             'id_magnitude' => $dataUnit['idMagnitude'],
             'unit' => strtoupper(trim($dataUnit['unit']))
