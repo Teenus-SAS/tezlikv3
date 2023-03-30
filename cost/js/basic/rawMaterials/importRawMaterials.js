@@ -31,7 +31,7 @@ $(document).ready(function () {
             refRawMaterial: item.referencia,
             nameRawMaterial: item.material,
             magnitude: item.magnitud,
-            abbreviation: item.unidad,
+            unit: item.unidad,
             costRawMaterial: item.costo,
           };
         });

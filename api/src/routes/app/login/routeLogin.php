@@ -93,13 +93,14 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         // Guardar accesos de usario 
         $userAccessDao->setGeneralAccess($user['id_user']);
 
-        // Validar licencia 
+        /* Validar licencia 
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
             $location = '../../selector/';
         else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)
             $location = '../../cost/';
         else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1)
-            $location = '../../planning/';
+            $location = '../../planning/'; */
+        $location = '../../cost/';
     } else {
         /* Nueva session admin*/
         session_start();
@@ -109,8 +110,6 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION['name'] = $user['firstname'];
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['email'] = $user['email'];
-        //$_SESSION['rol'] = $user["id_rols"];
-        //$_SESSION['id_company'] = $user['id_company'];
         $_SESSION['avatar'] = $user['avatar'];
         $_SESSION["time"] = microtime(true);
 

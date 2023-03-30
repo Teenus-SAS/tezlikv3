@@ -67,15 +67,4 @@ class AMLotsDao
 
         return $dataMaterial;
     }
-
-    public function orderDataMaterial($dataMaterial)
-    {
-        foreach ($dataMaterial as $key => $row) {
-            $participation[$key]  = $row['participation'];
-        }
-
-        array_multisort($participation, SORT_ASC, $dataMaterial);
-
-        return $dataMaterial;
-    }
 }

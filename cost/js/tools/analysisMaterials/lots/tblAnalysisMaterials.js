@@ -141,7 +141,8 @@ $(document).ready(function () {
         },
         {
           title: 'Precio Actual',
-          data: 'cost_product_material',
+          // data: 'cost_product_material',
+          data: 'cost',
           className: 'uniqueClassName',
           render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
         },

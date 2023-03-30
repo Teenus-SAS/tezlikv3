@@ -10,7 +10,7 @@ $(document).ready(function () {
     if (data.length == 0) {
       $('.colMaterials').append(`
                     <tr class="col">
-                        <th class="text-center" colspan="9">Ningún dato disponible en esta tabla =(</th>
+                        <th class="text-center" colspan="10">Ningún dato disponible en esta tabla =(</th>
                     </tr>
                   `);
       return false;
@@ -30,7 +30,7 @@ $(document).ready(function () {
                           <th id="quantity-${i + 1}">${data[i].quantity}</th>
                           <th id="currentPrice-${i + 1}">$ ${data[
             i
-          ].cost_product_material.toLocaleString('es-CO', {
+          ].cost.toLocaleString('es-CO', {
             maximumFractionDigits: 0,
           })}</th>
                           <th><input class="form-control numberCalc negotiatePrice text-center" type="text" id="${

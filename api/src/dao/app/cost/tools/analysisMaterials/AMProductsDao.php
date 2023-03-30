@@ -43,4 +43,15 @@ class AMProductsDao
         $this->logger->notice("products", array('products' => $productsRawmaterials));
         return $productsRawmaterials;
     }
+
+    public function orderDataMaterial($dataMaterial)
+    {
+        foreach ($dataMaterial as $key => $row) {
+            $participation[$key]  = $row['participation'];
+        }
+
+        array_multisort($participation, SORT_DESC, $dataMaterial);
+
+        return $dataMaterial;
+    }
 }
