@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </div>
-            <div class="d-none d-lg-block ml-0 ml-sm-2 dropdown">
+            <!-- <div class="d-none d-lg-block ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-search-dropdown" aria-expanded="false" class="btn header-item notify-icon">
                     <i class="bx bx-search"></i>
                 </button>
@@ -69,7 +69,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> -->
             <div class="d-none d-lg-inline-flex ml-2">
                 <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">
                     <i class="bx bx-fullscreen"></i>

@@ -104,20 +104,25 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
     if ($dataMachines > 1) {
         $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
-        $machines = $machinesDao->insertMachinesByCompany($dataMachine, $id_company);
 
-        if ($machines == null) {
-            $lastMachine = $lastDataDao->lastInsertedMachineId($id_company);
+        $findMachine = $generalMachinesDao->findMachine($dataMachine, $id_company);
 
-            // Calcular depreciacion por minuto
-            $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($lastMachine['id_machine'], $id_company);
+        if ($findMachine == false) {
+            $machines = $machinesDao->insertMachinesByCompany($dataMachine, $id_company);
+            if ($machines == null) {
+                $lastMachine = $lastDataDao->lastInsertedMachineId($id_company);
 
-            if ($minuteDepreciation == null)
-                $resp = array('success' => true, 'message' => 'Maquina creada correctamente');
-        } else if (isset($machines['info']))
-            $resp = array('info' => true, 'message' => $machines['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+                // Calcular depreciacion por minuto
+                $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($lastMachine['id_machine'], $id_company);
+
+                if ($minuteDepreciation == null)
+                    $resp = array('success' => true, 'message' => 'Maquina creada correctamente');
+            } else if (isset($machines['info']))
+                $resp = array('info' => true, 'message' => $machines['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+        } else
+            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
     } else {
         $machines = $dataMachine['importMachines'];
 
@@ -183,6 +188,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 /* Actualizar Maquina */
 $app->post('/updateMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
+    $generalMachinesDao,
     $convertDataDao,
     $minuteDepreciationDao,
     $indirectCostDao,
@@ -195,44 +201,49 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
 
-    $machines = $machinesDao->updateMachine($dataMachine);
+    $machine = $generalMachinesDao->findMachine($dataMachine, $id_company);
 
-    // Calcular depreciacion por minuto
-    if ($machines == null)
-        $machines = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['idMachine'], $id_company);
+    if ($machine['id_machine'] == $dataMachine['idMachine']) {
+        $machines = $machinesDao->updateMachine($dataMachine);
 
-    if ($machines == null) {
-        // Buscar producto por idMachine
-        $dataProducts = $indirectCostDao->findProductByMachine($dataMachine['idMachine'], $id_company);
+        // Calcular depreciacion por minuto
+        if ($machines == null)
+            $machines = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['idMachine'], $id_company);
 
-        foreach ($dataProducts as $arr) {
-            if (isset($machines['info'])) break;
-            /* Costo Indirecto */
-            // Buscar la maquina asociada al producto
-            $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
-            // Calcular costo indirecto
-            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-            // Actualizar campo
-            $machines = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+        if ($machines == null) {
+            // Buscar producto por idMachine
+            $dataProducts = $indirectCostDao->findProductByMachine($dataMachine['idMachine'], $id_company);
 
-            if (isset($machines['info'])) break;
+            foreach ($dataProducts as $arr) {
+                if (isset($machines['info'])) break;
+                /* Costo Indirecto */
+                // Buscar la maquina asociada al producto
+                $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+                // Calcular costo indirecto
+                $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                // Actualizar campo
+                $machines = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
-            /* Precio Producto */
-            // Calcular precio products_costs
-            $machines = $priceProductDao->calcPrice($arr['id_product']);
+                if (isset($machines['info'])) break;
 
-            if (isset($machines['info'])) break;
+                /* Precio Producto */
+                // Calcular precio products_costs
+                $machines = $priceProductDao->calcPrice($arr['id_product']);
+                $machines == false ? $machines['totalPrice'] = 0 : $machines;
 
-            $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                if (isset($machines['info'])) break;
+
+                $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+            }
         }
-    }
-    if ($machines == null)
-        $resp = array('success' => true, 'message' => 'Maquina actualizada correctamente');
-    else if (isset($machines['info']))
-        $resp = array('info' => true, 'message' => $machines['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-
+        if ($machines == null)
+            $resp = array('success' => true, 'message' => 'Maquina actualizada correctamente');
+        else if (isset($machines['info']))
+            $resp = array('info' => true, 'message' => $machines['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    } else
+        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

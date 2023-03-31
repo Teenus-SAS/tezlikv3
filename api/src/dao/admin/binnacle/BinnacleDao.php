@@ -20,7 +20,10 @@ class BinnacleDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM binnacle WHERE date_binnacle = CURRENT_DATE;");
+        $stmt = $connection->prepare("SELECT u.firstname, u.lastname, u.email, b.date_binnacle, b.activity_performed, b.actual_information, b.previous_information 
+                                      FROM binnacle b 
+                                        INNER JOIN users u ON b.id_user = u.id_user 
+                                      ORDER BY b.date_binnacle DESC");
         $stmt->execute();
 
         $binnacle = $stmt->fetchAll($connection::FETCH_ASSOC);

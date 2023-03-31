@@ -32,5 +32,5 @@ function updateLastTrm($trmDao)
 date_default_timezone_set('America/Bogota');
 $today = date("H:i");
 
-if ($today == '00:00')
+if ($today == '00:01')
     updateLastTrm($trmDao);

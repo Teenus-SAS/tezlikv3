@@ -140,19 +140,11 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
                 $dataImportProduct = array('error' => true, 'message' => "La rentabilidad y comision debe ser menor al 100%, fila: $i");
                 break;
             } else {
-                $product = $generalProductsDao->findProductByReference($products[$i], $id_company);
-
-                if ($product > 0) {
-                    $i = $i + 1;
-                    $dataImportProduct = array('info' => true, 'message' => "La referencia ya existe. Ingrese una nueva referencia.<br>Fila:$i");
-                    break;
-                } else {
-                    $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
-                    if (!$findProduct) $insert = $insert + 1;
-                    else $update = $update + 1;
-                    $dataImportProduct['insert'] = $insert;
-                    $dataImportProduct['update'] = $update;
-                }
+                $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
+                if (!$findProduct) $insert = $insert + 1;
+                else $update = $update + 1;
+                $dataImportProduct['insert'] = $insert;
+                $dataImportProduct['update'] = $update;
             }
         }
     } else
@@ -182,11 +174,9 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
         $dataProducts = sizeof($dataProduct);
 
         if ($dataProducts > 1) {
-            $product = $generalProductsDao->findProductByReference($dataProduct, $id_company);
+            $product = $generalProductsDao->findProduct($dataProduct, $id_company);
 
-            if ($product > 0)
-                $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
-            else {
+            if (sizeof($product) == 0) {
                 //INGRESA id_company, referencia, producto. BD
                 $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
@@ -208,7 +198,8 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                     $resp = array('info' => true, 'message' => $products['message']);
                 else
                     $resp = array('error' => true, 'message' => 'Ocurrió un error mientras ingresaba la información. Intente nuevamente');
-            }
+            } else
+                $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
         } else {
             $products = $dataProduct['importProducts'];
 
@@ -283,11 +274,9 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
     if ($product['quantity'] < $product['cant_products']) {
 
-        $product = $generalProductsDao->findProductByReference($dataProduct, $id_company);
+        $product = $generalProductsDao->findProduct($dataProduct, $id_company);
 
-        if ($product > 0)
-            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
-        else {
+        if (sizeof($product) == 0) {
             //INGRESA id_company, referencia, producto. BD
             $resolution = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
@@ -456,10 +445,10 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 $resp = array('info' => true, 'message' => $resolution['message']);
             else
                 $resp = array('error' => true, 'message' => 'Ocurrió un error mientras copiaba la información. Intente nuevamente');
-        }
+        } else
+            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
     } else
         $resp = array('error' => true, 'message' => 'Llegaste al limite de tu plan. Comunicate con tu administrador y sube de categoria para obtener más espacio');
-
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -480,9 +469,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     $product = $generalProductsDao->findProduct($dataProduct, $id_company);
 
-    if (sizeof($product) >= 2)
-        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
-    else {
+    if ($product['id_product'] == $dataProduct['idProduct']) {
         // Actualizar Datos, Imagen y Calcular Precio del producto
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
@@ -502,8 +489,8 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
             $resp = array('info' => true, 'message' => $products['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
-
+    } else
+        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
