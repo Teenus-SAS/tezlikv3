@@ -35,7 +35,7 @@ class SendMakeEmailDao
     public function SendEmailPassword($email, $password)
     {
         // the message
-        $msg = "Hola, <br><br>
+        $msg = `Hola, <br><br>
         Recientemente solicitó recordar su contraseña por lo que para mayor seguridad creamos una nueva. Para ingresar a Tezlik puede hacerlo con: <br><br>
         <ul>
             <li>Nombre de usuario: $email</li>
@@ -48,7 +48,7 @@ class SendMakeEmailDao
     
         Saludos,<br><br>
     
-        Equipo de Soporte Tezlik";
+        Equipo de Soporte Tezlik`;
 
         $resp = array('to' => array($email), 'pdf' => null, 'subject' => 'Nuevo Password', 'body' => $msg, 'ccHeader' => null);
         return $resp;
