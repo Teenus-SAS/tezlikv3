@@ -140,11 +140,19 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
                 $dataImportProduct = array('error' => true, 'message' => "La rentabilidad y comision debe ser menor al 100%, fila: $i");
                 break;
             } else {
-                $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
-                if (!$findProduct) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportProduct['insert'] = $insert;
-                $dataImportProduct['update'] = $update;
+                $product = $generalProductsDao->findProductByReference($products[$i], $id_company);
+
+                if ($product > 0) {
+                    $i = $i + 1;
+                    $dataImportProduct = array('info' => true, 'message' => "La referencia ya existe. Ingrese una nueva referencia.<br>Fila:$i");
+                    break;
+                } else {
+                    $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
+                    if (!$findProduct) $insert = $insert + 1;
+                    else $update = $update + 1;
+                    $dataImportProduct['insert'] = $insert;
+                    $dataImportProduct['update'] = $update;
+                }
             }
         }
     } else
@@ -174,27 +182,33 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
         $dataProducts = sizeof($dataProduct);
 
         if ($dataProducts > 1) {
-            //INGRESA id_company, referencia, producto. BD
-            $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
+            $product = $generalProductsDao->findProductByReference($dataProduct, $id_company);
 
-            if ($products == null) {
-                //ULTIMO REGISTRO DE ID, EL MÁS ALTO
-                $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
+            if ($product > 0)
+                $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+            else {
+                //INGRESA id_company, referencia, producto. BD
+                $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
-                if (sizeof($_FILES) > 0)
-                    $FilesDao->imageProduct($lastProductId['id_product'], $id_company);
+                if ($products == null) {
+                    //ULTIMO REGISTRO DE ID, EL MÁS ALTO
+                    $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
-                //AGREGA ULTIMO ID A DATA
-                $dataProduct['idProduct'] = $lastProductId['id_product'];
-                $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
+                    if (sizeof($_FILES) > 0)
+                        $FilesDao->imageProduct($lastProductId['id_product'], $id_company);
+
+                    //AGREGA ULTIMO ID A DATA
+                    $dataProduct['idProduct'] = $lastProductId['id_product'];
+                    $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
+                }
+
+                if ($products == null &&  $productsCost == null)
+                    $resp = array('success' => true, 'message' => 'Producto creado correctamente');
+                else if (isset($products['info']))
+                    $resp = array('info' => true, 'message' => $products['message']);
+                else
+                    $resp = array('error' => true, 'message' => 'Ocurrió un error mientras ingresaba la información. Intente nuevamente');
             }
-
-            if ($products == null &&  $productsCost == null)
-                $resp = array('success' => true, 'message' => 'Producto creado correctamente');
-            else if (isset($products['info']))
-                $resp = array('info' => true, 'message' => $products['message']);
-            else
-                $resp = array('error' => true, 'message' => 'Ocurrió un error mientras ingresaba la información. Intente nuevamente');
         } else {
             $products = $dataProduct['importProducts'];
 
@@ -237,6 +251,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $productsDao,
     $lastDataDao,
     $productsCostDao,
+    $generalProductsDao,
     $generalCostProductsDao,
     $productsQuantityDao,
     $productsMaterialsDao,
@@ -268,174 +283,180 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
     if ($product['quantity'] < $product['cant_products']) {
 
-        //INGRESA id_company, referencia, producto. BD
-        $resolution = $productsDao->insertProductByCompany($dataProduct, $id_company);
+        $product = $generalProductsDao->findProductByReference($dataProduct, $id_company);
 
-        if ($resolution == null)
-            //ULTIMO REGISTRO DE ID, EL MÁS ALTO
-            $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
+        if ($product > 0)
+            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+        else {
+            //INGRESA id_company, referencia, producto. BD
+            $resolution = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
-        if (isset($lastProductId)) {
-            //AGREGA ULTIMO ID A DATA
-            $dataProduct['idProduct'] = $lastProductId['id_product'];
-            $resolution = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
-        }
+            if ($resolution == null)
+                //ULTIMO REGISTRO DE ID, EL MÁS ALTO
+                $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
-        if ($resolution == null) {
-            // Copiar data products_materials
-            $oldProduct = $generalPMaterialsDao->findProductMaterialByIdProduct($dataProduct);
-
-            foreach ($oldProduct as $arr) {
-                $arr['idProduct'] = $dataProduct['idProduct'];
-                $arr['material'] = $arr['id_material'];
-                $arr['unit'] = $arr['id_unit'];
-                $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($arr, $id_company);
+            if (isset($lastProductId)) {
+                //AGREGA ULTIMO ID A DATA
+                $dataProduct['idProduct'] = $lastProductId['id_product'];
+                $resolution = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
             }
 
             if ($resolution == null) {
-                // Copiar data products_process
-                $oldProduct = $generalPProcessDao->findProductProcessByIdProduct($dataProduct);
-
-                $arr = array();
+                // Copiar data products_materials
+                $oldProduct = $generalPMaterialsDao->findProductMaterialByIdProduct($dataProduct);
 
                 foreach ($oldProduct as $arr) {
                     $arr['idProduct'] = $dataProduct['idProduct'];
-                    $arr['idProcess'] = $arr['id_process'];
-                    $arr['idMachine'] = $arr['id_machine'];
-                    $arr['enlistmentTime'] = $arr['enlistment_time'];
-                    $arr['operationTime'] = $arr['operation_time'];
+                    $arr['material'] = $arr['id_material'];
+                    $arr['unit'] = $arr['id_unit'];
+                    $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($arr, $id_company);
+                }
 
-                    $resolution = $productsProcessDao->insertProductsProcessByCompany($arr, $id_company);
+                if ($resolution == null) {
+                    // Copiar data products_process
+                    $oldProduct = $generalPProcessDao->findProductProcessByIdProduct($dataProduct);
+
+                    $arr = array();
+
+                    foreach ($oldProduct as $arr) {
+                        $arr['idProduct'] = $dataProduct['idProduct'];
+                        $arr['idProcess'] = $arr['id_process'];
+                        $arr['idMachine'] = $arr['id_machine'];
+                        $arr['enlistmentTime'] = $arr['enlistment_time'];
+                        $arr['operationTime'] = $arr['operation_time'];
+
+                        $resolution = $productsProcessDao->insertProductsProcessByCompany($arr, $id_company);
+                    }
+                }
+
+                if ($resolution == null) {
+                    // Copiar data external_services
+                    $oldProduct = $generalServicesDao->findExternalServiceByIdProduct($dataProduct);
+
+                    $arr = array();
+
+                    foreach ($oldProduct as $arr) {
+                        $arr['costService'] = $arr['cost'];
+                        $arr['service'] = $arr['name_service'];
+                        $arr['idProduct'] = $dataProduct['idProduct'];
+
+                        $resolution = $externalServicesDao->insertExternalServicesByCompany($arr, $id_company);
+                    }
+                }
+
+                if ($resolution == null) {
+                    // Copiar data expenses_distribution
+                    $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct, $id_company);
+                    $arr = array();
+
+                    if ($oldProduct != false) {
+                        $arr['selectNameProduct'] = $dataProduct['idProduct'];
+                        $arr['unitsSold'] = $oldProduct['units_sold'];
+                        $arr['turnover'] = $oldProduct['turnover'];
+                        $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
+                    }
+                }
+
+                if ($resolution == null) {
+                    // Copiar data expenses_recover
+                    $oldProduct = $generalExpenseRecoverDao->findExpenseRecoverByIdProduct($dataProduct);
+                    $arr = array();
+
+                    if ($oldProduct != false) {
+                        $arr['idProduct'] = $dataProduct['idProduct'];
+                        $arr['percentage'] = $oldProduct['expense_recover'];
+                        $resolution = $expensesRecoverDao->insertRecoverExpenseByCompany($arr, $id_company);
+
+                        isset($resolution['info']) ? $resolution = null : $resolution;
+                    }
+                }
+
+                if ($resolution == null) {
+                    $productsMaterials = $productsMaterialsDao->findAllProductsmaterials($dataProduct['idProduct'], $id_company);
+
+                    $totalQuantity = 0;
+
+                    foreach ($productsMaterials as $arr) {
+                        if ($resolution != null) break;
+                        // Obtener materia prima
+                        $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+
+                        // Convertir unidades
+                        $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
+
+                        !$quantities ? $quantities = 0 : $quantities;
+
+                        $totalQuantity += $quantities;
+
+                        // Convertir una unidad
+                        $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+
+                        // Modificar costo
+                        $materialsDao->updateCostProductMaterial($arr, $quantity);
+                    }
+                    // Metodo calcular precio total materias
+                    $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);
+
+                    $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
+                }
+
+                if ($resolution == null) {
+                    // Calcular costo nomina
+                    $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProduct['idProduct'], $id_company);
+
+                    $resolution = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
+                }
+
+                if ($resolution == null) {
+                    // Buscar la maquina asociada al producto
+                    $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProduct['idProduct'], $id_company);
+                    // Calcular costo indirecto
+                    $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                    // Actualizar campo
+                    $resolution = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
+                }
+
+                if ($resolution == null) {
+                    // Consulta unidades vendidades y volumenes de venta por producto
+                    $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+                    // Calcular el total de unidades vendidas y volumen de ventas
+                    $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+                    // Obtener el total de gastos
+                    $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+                    foreach ($unitVol as $arr) {
+                        if (isset($resolution['info'])) break;
+                        // Calcular gasto asignable
+                        $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                        // Actualizar gasto asignable
+                        $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+                    }
+                }
+
+                if ($resolution == null) {
+                    // Calcular Precio de los productos
+                    $productsCost = $productsCostDao->findAllProductsCost($id_company);
+
+                    foreach ($productsCost as $arr) {
+                        $resolution = $priceProductDao->calcPrice($arr['id_product']);
+
+                        if (isset($resolution['info']))
+                            break;
+
+                        $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    }
                 }
             }
 
-            if ($resolution == null) {
-                // Copiar data external_services
-                $oldProduct = $generalServicesDao->findExternalServiceByIdProduct($dataProduct);
-
-                $arr = array();
-
-                foreach ($oldProduct as $arr) {
-                    $arr['costService'] = $arr['cost'];
-                    $arr['service'] = $arr['name_service'];
-                    $arr['idProduct'] = $dataProduct['idProduct'];
-
-                    $resolution = $externalServicesDao->insertExternalServicesByCompany($arr, $id_company);
-                }
-            }
-
-            if ($resolution == null) {
-                // Copiar data expenses_distribution
-                $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct, $id_company);
-                $arr = array();
-
-                if ($oldProduct != false) {
-                    $arr['selectNameProduct'] = $dataProduct['idProduct'];
-                    $arr['unitsSold'] = $oldProduct['units_sold'];
-                    $arr['turnover'] = $oldProduct['turnover'];
-                    $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
-                }
-            }
-
-            if ($resolution == null) {
-                // Copiar data expenses_recover
-                $oldProduct = $generalExpenseRecoverDao->findExpenseRecoverByIdProduct($dataProduct);
-                $arr = array();
-
-                if ($oldProduct != false) {
-                    $arr['idProduct'] = $dataProduct['idProduct'];
-                    $arr['percentage'] = $oldProduct['expense_recover'];
-                    $resolution = $expensesRecoverDao->insertRecoverExpenseByCompany($arr, $id_company);
-
-                    isset($resolution['info']) ? $resolution = null : $resolution;
-                }
-            }
-
-            if ($resolution == null) {
-                $productsMaterials = $productsMaterialsDao->findAllProductsmaterials($dataProduct['idProduct'], $id_company);
-
-                $totalQuantity = 0;
-
-                foreach ($productsMaterials as $arr) {
-                    if ($resolution != null) break;
-                    // Obtener materia prima
-                    $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
-
-                    // Convertir unidades
-                    $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
-
-                    !$quantities ? $quantities = 0 : $quantities;
-
-                    $totalQuantity += $quantities;
-
-                    // Convertir una unidad
-                    $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
-
-                    // Modificar costo
-                    $materialsDao->updateCostProductMaterial($arr, $quantity);
-                }
-                // Metodo calcular precio total materias
-                $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);
-
-                $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
-            }
-
-            if ($resolution == null) {
-                // Calcular costo nomina
-                $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProduct['idProduct'], $id_company);
-
-                $resolution = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
-            }
-
-            if ($resolution == null) {
-                // Buscar la maquina asociada al producto
-                $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProduct['idProduct'], $id_company);
-                // Calcular costo indirecto
-                $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                // Actualizar campo
-                $resolution = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
-            }
-
-            if ($resolution == null) {
-                // Consulta unidades vendidades y volumenes de venta por producto
-                $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
-
-                // Calcular el total de unidades vendidas y volumen de ventas
-                $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
-
-                // Obtener el total de gastos
-                $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
-
-                foreach ($unitVol as $arr) {
-                    if (isset($resolution['info'])) break;
-                    // Calcular gasto asignable
-                    $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-                    // Actualizar gasto asignable
-                    $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
-                }
-            }
-
-            if ($resolution == null) {
-                // Calcular Precio de los productos
-                $productsCost = $productsCostDao->findAllProductsCost($id_company);
-
-                foreach ($productsCost as $arr) {
-                    $resolution = $priceProductDao->calcPrice($arr['id_product']);
-
-                    if (isset($resolution['info']))
-                        break;
-
-                    $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
-                }
-            }
+            if ($resolution == null)
+                $resp = array('success' => true, 'message' => 'Producto copiado correctamente');
+            else if (isset($resolution['info']))
+                $resp = array('info' => true, 'message' => $resolution['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrió un error mientras copiaba la información. Intente nuevamente');
         }
-
-        if ($resolution == null)
-            $resp = array('success' => true, 'message' => 'Producto copiado correctamente');
-        else if (isset($resolution['info']))
-            $resp = array('info' => true, 'message' => $resolution['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrió un error mientras copiaba la información. Intente nuevamente');
     } else
         $resp = array('error' => true, 'message' => 'Llegaste al limite de tu plan. Comunicate con tu administrador y sube de categoria para obtener más espacio');
 
@@ -448,6 +469,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $productsDao,
     $FilesDao,
     $productsCostDao,
+    $generalProductsDao,
     $generalCostProductsDao,
     $priceProductDao
 ) {
@@ -456,25 +478,31 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     $dataProduct = $request->getParsedBody();
 
-    // Actualizar Datos, Imagen y Calcular Precio del producto
-    $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
+    $product = $generalProductsDao->findProduct($dataProduct, $id_company);
 
-    if (sizeof($_FILES) > 0)
-        $FilesDao->imageProduct($dataProduct['idProduct'], $id_company);
+    if (sizeof($product) >= 2)
+        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+    else {
+        // Actualizar Datos, Imagen y Calcular Precio del producto
+        $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 
-    $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
+        if (sizeof($_FILES) > 0)
+            $FilesDao->imageProduct($dataProduct['idProduct'], $id_company);
 
-    if ($products == null)
-        $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
-    if (isset($products['totalPrice']))
-        $products = $generalCostProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
+        $products = $productsCostDao->updateProductsCostByCompany($dataProduct);
 
-    if ($products == null)
-        $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
-    else if (isset($products['info']))
-        $resp = array('info' => true, 'message' => $products['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        if ($products == null)
+            $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
+        if (isset($products['totalPrice']))
+            $products = $generalCostProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
+
+        if ($products == null)
+            $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
+        else if (isset($products['info']))
+            $resp = array('info' => true, 'message' => $products['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    }
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

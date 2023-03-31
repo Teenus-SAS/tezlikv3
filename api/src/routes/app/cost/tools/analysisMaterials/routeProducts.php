@@ -17,6 +17,9 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
     if (isset($productsRawmaterials['info']))
         $data = $productsRawmaterials;
     else {
+        if (sizeof($productsRawmaterials) > 0)
+            $productsRawmaterials = $AMProductsDao->orderDataMaterial($productsRawmaterials);
+
         $data80MP = [];
         $arr80MP = [];
 
@@ -28,6 +31,7 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
             }
         }
 
+        $data80MP = array_merge($data80MP, $arr80MP);
         $data['allRawMaterials'] = $productsRawmaterials;
         $data['80RawMaterials'] = $data80MP;
     }

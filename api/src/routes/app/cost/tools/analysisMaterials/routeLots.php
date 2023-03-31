@@ -1,13 +1,18 @@
 <?php
 
 use tezlikv3\dao\AMLotsDao;
+use tezlikv3\dao\AMProductsDao;
 
 $AMLotsDao = new AMLotsDao();
+$AMProductsDao = new AMProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->post('/rawMaterialsLots', function (Request $request, Response $response, $args) use ($AMLotsDao) {
+$app->post('/rawMaterialsLots', function (Request $request, Response $response, $args) use (
+    $AMLotsDao,
+    $AMProductsDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -23,7 +28,7 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
         $reviewRawMaterials = $AMLotsDao->calcAndSetParticipation($reviewRawMaterials, $totalUnits);
 
         if (sizeof($reviewRawMaterials) > 0)
-            $reviewRawMaterials = $AMLotsDao->orderDataMaterial($reviewRawMaterials);
+            $reviewRawMaterials = $AMProductsDao->orderDataMaterial($reviewRawMaterials);
 
         $data80MP = [];
         $arr80MP = [];

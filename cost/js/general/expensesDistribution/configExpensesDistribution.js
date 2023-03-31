@@ -1,9 +1,14 @@
 $(document).ready(function () {
   getExpense = async () => {
-    data = await searchData('/api/expenseTotal');
+    let data = await searchData('/api/expenseTotal');
+
+    data.total_expense == undefined || !data.total_expense
+      ? (total_expense = 0)
+      : (total_expense = data.total_expense);
+
     /* Carga gasto total */
     $('#expensesToDistribution').val(
-      `$ ${data.total_expense.toLocaleString('es-CO')}`
+      `$ ${total_expense.toLocaleString('es-CO')}`
     );
     $('#expensesToDistribution').prop('disabled', true);
 
