@@ -22,7 +22,7 @@ class BinnacleDao
 
         $stmt = $connection->prepare("SELECT u.firstname, u.lastname, u.email, b.date_binnacle, b.activity_performed, b.actual_information, b.previous_information 
                                       FROM binnacle b 
-                                        INNER JOIN users u ON b.id_user = u.id_user 
+                                        INNER JOIN users u ON b.id_user = u.user 
                                       ORDER BY b.date_binnacle DESC");
         $stmt->execute();
 
