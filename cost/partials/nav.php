@@ -19,14 +19,12 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                 <?php if ($_SESSION['price'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/prices">
-                                        <span> Lista de Precios <i class="bi bi-currency-dollar mr-1"></i> COP</span>
-                                        <!-- <i class="bx bx-chevron-right"></i> -->
+                                        <span> Lista de Precios <i class="bi bi-currency-dollar"></i>COP</span>
                                     </a>
                                 <?php } ?>
                                 <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/prices-usd">
-                                        <span> Lista de Precios <i class="bi bi-currency-dollar mr-1"></i> USD</span>
-                                        <!-- <i class="bx bx-chevron-right"></i> -->
+                                        <span> Lista de Precios <i class="bi bi-currency-dollar"></i>USD</span>
                                     </a>
                                 <?php } ?>
                             </ul>

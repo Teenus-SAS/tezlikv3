@@ -215,10 +215,10 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                         $totalQuantity += $quantities;
 
                         // Convertir una unidad
-                        $quantity = $conversionUnitsDao->convertUnits($material, $k, 1);
+                        // $quantity = $conversionUnitsDao->convertUnits($material, $k, 1);
 
                         // Modificar costo
-                        $generalMaterialsDao->updateCostProductMaterial($k, $quantity);
+                        $generalMaterialsDao->updateCostProductMaterial($k, $quantities);
                     }
                     $j['idProduct'] = $j['id_product'];
                     $j = $costMaterialsDao->calcCostMaterial($j, $totalQuantity, $id_company);

@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 $app->get('/currentDollar', function (Request $request, Response $response, $args) use ($trmDao) {
     $date = date('Y-m-d');
 
-    $price = $trmDao->getActualTrm($date);
+    $price = $trmDao->getTrm($date);
     $response->getBody()->write(json_encode($price, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -65,7 +65,7 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
 
         // Obtener trm actual
         $date = date('Y-m-d');
-        $price = $trmDao->getActualTrm($date);
+        $price = $trmDao->getTrm($date);
 
         // Covertura Cambiaria
         $exchangeCoverage = $price - $coverage;

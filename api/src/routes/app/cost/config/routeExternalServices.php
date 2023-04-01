@@ -75,21 +75,26 @@ $app->post('/addExternalService', function (Request $request, Response $response
     $dataExternalServices = sizeof($dataExternalService);
 
     if ($dataExternalServices > 1) {
-        $externalServices = $externalServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
 
-        // Calcular precio del producto
-        if ($externalServices == null)
-            $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+        $externalService = $externalServicesDao->findExternalService($dataExternalService, $id_company);
 
-        if (isset($externalServices['totalPrice']))
-            $externalServices = $generalCostProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+        if (!$externalService) {
+            $externalServices = $externalServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
+            // Calcular precio del producto
+            if ($externalServices == null)
+                $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-        if ($externalServices == null)
-            $resp = array('success' => true, 'message' => 'Servicio externo ingresado correctamente');
-        else if (isset($externalServices['info']))
-            $resp = array('info' => true, 'message' => $externalServices['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+            if (isset($externalServices['totalPrice']))
+                $externalServices = $generalCostProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+
+            if ($externalServices == null)
+                $resp = array('success' => true, 'message' => 'Servicio externo ingresado correctamente');
+            else if (isset($externalServices['info']))
+                $resp = array('info' => true, 'message' => $externalServices['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+        } else
+            $resp = array('info' => true, 'message' => 'Servicio duplicado. Ingrese una nuevo servicio');
     } else {
         $externalService = $dataExternalService['importExternalService'];
 
@@ -132,24 +137,30 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
     $priceProductDao,
     $generalCostProductsDao
 ) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
     $dataExternalService = $request->getParsedBody();
 
-    $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
+    $externalService = $externalServicesDao->findExternalService($dataExternalService, $id_company);
+    if (isset($externalService['id_service']) == 0 || $dataExternalService['idService'] || !$externalService) {
+        $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
 
-    // Calcular precio del producto
-    if ($externalServices == null)
-        $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+        // Calcular precio del producto
+        if ($externalServices == null)
+            $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-    if (isset($externalServices['totalPrice']))
-        $externalServices = $generalCostProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+        if (isset($externalServices['totalPrice']))
+            $externalServices = $generalCostProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
 
-    if ($externalServices == null)
-        $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
-    else if (isset($externalServices['info']))
-        $resp = array('info' => true, 'message' => $externalServices['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-
+        if ($externalServices == null)
+            $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
+        else if (isset($externalServices['info']))
+            $resp = array('info' => true, 'message' => $externalServices['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    } else
+        $resp = array('info' => true, 'message' => 'Servicio duplicado. Ingrese una nuevo servicio');
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
