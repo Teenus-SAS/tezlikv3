@@ -190,7 +190,7 @@ $(document).ready(function () {
       $('#formCreateUser').trigger('reset');
       updateTable();
       toastr.success(data.message);
-      console.log(data.pass);
+      // console.log(data.pass);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
