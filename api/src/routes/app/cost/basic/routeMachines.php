@@ -203,7 +203,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     $machine = $generalMachinesDao->findMachine($dataMachine, $id_company);
 
-    if ($machine['id_machine'] == $dataMachine['idMachine']) {
+    if (isset($machine['id_machine']) == $dataMachine['idMachine'] || !$machine) {
         $machines = $machinesDao->updateMachine($dataMachine);
 
         // Calcular depreciacion por minuto

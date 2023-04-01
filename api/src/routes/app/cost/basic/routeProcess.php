@@ -55,17 +55,21 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
     $dataProcess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
-    //$countProcess = sizeof($dataProcess);
-
     if (empty($dataProcess['importProcess'])) {
-        $process = $processDao->insertProcessByCompany($dataProcess, $id_company);
 
-        if ($process == null)
-            $resp = array('success' => true, 'message' => 'Proceso creado correctamente');
-        else if (isset($process['info']))
-            $resp = array('info' => true, 'message' => $process['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+        $process = $processDao->findProcess($dataProcess, $id_company);
+
+        if (!$process) {
+            $process = $processDao->insertProcessByCompany($dataProcess, $id_company);
+
+            if ($process == null)
+                $resp = array('success' => true, 'message' => 'Proceso creado correctamente');
+            else if (isset($process['info']))
+                $resp = array('info' => true, 'message' => $process['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+        } else
+            $resp = array('info' => true, 'message' => 'Proceso duplicado. Ingrese una nuevo proceso');
     } else {
         $process = $dataProcess['importProcess'];
 
@@ -89,16 +93,23 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
 });
 
 $app->post('/updateProcess', function (Request $request, Response $response, $args) use ($processDao) {
+    session_start();
     $dataProcess = $request->getParsedBody();
+    $id_company = $_SESSION['id_company'];
 
-    $process = $processDao->updateProcess($dataProcess);
+    $process = $processDao->findProcess($dataProcess, $id_company);
 
-    if ($process == null)
-        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
-    else if (isset($process['info']))
-        $resp = array('info' => true, 'message' => $process['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    if (isset($process['id_process']) == $dataProcess['idProcess'] || !$process) {
+        $process = $processDao->updateProcess($dataProcess);
+
+        if ($process == null)
+            $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+        else if (isset($process['info']))
+            $resp = array('info' => true, 'message' => $process['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    } else
+        $resp = array('info' => true, 'message' => 'Proceso duplicado. Ingrese una nuevo proceso');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

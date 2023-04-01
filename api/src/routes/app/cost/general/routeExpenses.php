@@ -100,14 +100,19 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $dataExpenses = sizeof($dataExpense);
 
     if ($dataExpenses > 1) {
-        $expenses = $expensesDao->insertExpensesByCompany($dataExpense, $id_company);
+        $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
-        if ($expenses == null)
-            $resp = array('success' => true, 'message' => 'Gasto creado correctamente');
-        else if (isset($expenses['info']))
-            $resp = array('info' => true, 'message' => $expenses['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+        if (!$expense) {
+            $expenses = $expensesDao->insertExpensesByCompany($dataExpense, $id_company);
+
+            if ($expenses == null)
+                $resp = array('success' => true, 'message' => 'Gasto creado correctamente');
+            else if (isset($expenses['info']))
+                $resp = array('info' => true, 'message' => $expenses['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+        } else
+            $resp = array('info' => true, 'message' => 'No. Cuenta duplicada. Ingrese un nuevo No. Cuenta');
     } else {
         $expense = $dataExpense['importExpense'];
 
@@ -143,17 +148,22 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
     $dataExpense = $request->getParsedBody();
 
-    $expenses = $expensesDao->updateExpenses($dataExpense);
+    $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
-    // Calcular total del gasto
-    $totalExpense = $totalExpenseDao->insertUpdateTotalExpense($id_company);
+    if (isset($expense['id_expense']) == $dataExpense['idExpense'] || !$expense) {
+        $expenses = $expensesDao->updateExpenses($dataExpense);
 
-    if ($expenses == null && $totalExpense == null)
-        $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');
-    else if (isset($expenses['info']))
-        $resp = array('info' => true, 'message' => $expenses['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        // Calcular total del gasto
+        $totalExpense = $totalExpenseDao->insertUpdateTotalExpense($id_company);
+
+        if ($expenses == null && $totalExpense == null)
+            $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');
+        else if (isset($expenses['info']))
+            $resp = array('info' => true, 'message' => $expenses['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    } else
+        $resp = array('info' => true, 'message' => 'No. Cuenta duplicada. Ingrese un nuevo No. Cuenta');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

@@ -66,14 +66,15 @@ class UsersDao
   {
     $connection = Connection::getInstance()->getConnection();
     try {
-      $stmt = $connection->prepare("INSERT INTO users (firstname, lastname, email, password, id_company, active) 
-                                    VALUES(:firstname, :lastname, :email, :pass, :id_company, :active)");
+      $stmt = $connection->prepare("INSERT INTO users (firstname, lastname, email, password, id_company, id_rols, active) 
+                                    VALUES(:firstname, :lastname, :email, :pass, :id_company, :id_rols, :active)");
       $stmt->execute([
         'firstname' => ucwords(strtolower(trim($dataUser['nameUser']))),
         'lastname' => ucwords(strtolower(trim($dataUser['lastnameUser']))),
         'email' => trim($dataUser['emailUser']),
         'pass' => $pass,
         'id_company' => $id_company,
+        'id_rols' => 2,
         'active' => 1
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

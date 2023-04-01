@@ -23,6 +23,14 @@ $(document).ready(function () {
 
   $('#btnAssignExpenses').click(function (e) {
     e.preventDefault();
+
+    let expensesToDistribution = $('#expensesToDistribution').val();
+
+    if (expensesToDistribution == '$ 0' || !expensesToDistribution) {
+      toastr.error('Asigne un gasto primero antes de distribuir');
+      return false;
+    }
+
     let idExpensesDistribution = sessionStorage.getItem(
       'id_expenses_distribution'
     );

@@ -107,7 +107,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
         if ($users == 1) {
             $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');
         } elseif ($users == null && $usersAccess == null) {
-            $resp = array('success' => true, 'message' => 'Usuario creado correctamente'/*, 'pass' => $newPass*/);
+            $resp = array('success' => true, 'message' => 'Usuario creado correctamente', 'pass' => $newPass);
         } else {
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
         }
