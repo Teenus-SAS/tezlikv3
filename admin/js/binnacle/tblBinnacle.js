@@ -21,8 +21,13 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Usuario',
-        data: 'user',
+        title: 'Nombre',
+        data: 'firstname',
+        className: 'uniqueClassName',
+      },
+      {
+        title: 'Apellido',
+        data: 'lastname',
         className: 'uniqueClassName',
       },
       {

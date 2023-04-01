@@ -51,15 +51,6 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
         $materials = $dataMaterial['importMaterials'];
 
         for ($i = 0; $i < sizeof($materials); $i++) {
-
-            $material = $generalMaterialsDao->findMaterialByReference($materials[$i], $id_company);
-
-            if ($material > 0) {
-                $i = $i + 1;
-                $dataImportMaterial = array('info' => true, 'message' => "La referencia ya existe. Ingrese una nueva referencia.<br>Fila:$i");
-                break;
-            }
-
             // Consultar magnitud
             $magnitude = $magnitudesDao->findMagnitude($materials[$i]);
 
@@ -122,11 +113,9 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
     if ($dataMaterials > 1) {
 
-        $material = $generalMaterialsDao->findMaterialByReference($dataMaterial, $id_company);
+        $material = $generalMaterialsDao->findMaterial($dataMaterial, $id_company);
 
-        if ($material > 0) {
-            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
-        } else {
+        if (sizeof($material) == 0) {
             $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
             if ($materials == null)
@@ -135,7 +124,8 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 $resp = array('info' => true, 'message' => $materials['message']);
             else
                 $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
-        }
+        } else
+            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
     } else {
         $materials = $dataMaterial['importMaterials'];
 
@@ -197,11 +187,9 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 
-    $material = $generalMaterialsDao->findMaterialByReference($dataMaterial, $id_company);
+    $material = $generalMaterialsDao->findMaterial($dataMaterial, $id_company);
 
-    if ($material > 0) {
-        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
-    } else {
+    if ($material['id_material'] == $dataMaterial['idMaterial']) {
         $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
         if ($materials == null) {
@@ -253,7 +241,8 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
             $resp = array('info' => true, 'message' => $materials['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    }
+    } else
+        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

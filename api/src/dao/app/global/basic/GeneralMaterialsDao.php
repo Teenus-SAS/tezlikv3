@@ -52,21 +52,6 @@ class GeneralMaterialsDao
         return $findMaterial;
     }
 
-    public function findMaterialByReference($dataMaterial, $id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT id_material FROM materials 
-                                    WHERE reference = :reference
-                                    AND id_company = :id_company");
-        $stmt->execute([
-            'reference' => trim($dataMaterial['refRawMaterial']),
-            'id_company' => $id_company,
-        ]);
-        $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $materials;
-    }
-
     public function findMaterialAndUnits($id_material, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();

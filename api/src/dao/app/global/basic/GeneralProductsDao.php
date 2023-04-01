@@ -34,21 +34,6 @@ class GeneralProductsDao
         return $findProduct;
     }
 
-    public function findProductByReference($dataProduct, $id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT * FROM products
-                                  WHERE reference = :reference 
-                                  AND id_company = :id_company");
-        $stmt->execute([
-            'reference' => trim($dataProduct['referenceProduct']),
-            'id_company' => $id_company
-        ]);
-        $findProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $findProduct;
-    }
-
     public function deleteProduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();
