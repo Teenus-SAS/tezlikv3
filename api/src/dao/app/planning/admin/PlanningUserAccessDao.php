@@ -20,10 +20,10 @@ class PlanningUserAccessDao
     public function findAllUsersAccess($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $rol = $_SESSION['rol'];
+        // $rol = $_SESSION['rol'];
 
-        if ($rol == 2) {
-            $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_material, 0) AS create_material, 
+        // if ($rol == 2) {
+        $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_mold, 0) AS create_mold, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_material, 0) AS create_material, 
                                                  IFNULL(usa.create_machine, 0) AS create_machine, IFNULL(usa.create_process, 0) AS create_process, IFNULL(usa.products_material, 0) AS products_material, IFNULL(usa.products_process, 0) AS products_process, 
                                                  IFNULL(usa.programs_machine, 0) AS programs_machine, IFNULL(usa.cicles_machine, 0) AS cicles_machine, IFNULL(usa.inv_category, 0) AS inv_category, IFNULL(usa.sale, 0) AS sale, 
                                                  IFNULL(usa.user, 0) AS user, IFNULL(usa.client, 0) AS client, IFNULL(usa.orders_type, 0) AS orders_type, IFNULL(usa.inventory, 0) AS inventory, IFNULL(usa.plan_order, 0) AS plan_order, 
@@ -31,12 +31,12 @@ class PlanningUserAccessDao
                                           FROM users us
                                             LEFT JOIN planning_user_access usa ON usa.id_user = us.id_user 
                                           WHERE us.id_company = :id_company");
-            $stmt->execute(['id_company' => $id_company]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-            $users = $stmt->fetchAll($connection::FETCH_ASSOC);
-            $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
-            return $users;
-        }
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $users = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("usuarios Obtenidos", array('usuarios' => $users));
+        return $users;
+        // }
     }
 
     public function findUserAccess($id_company, $id_user)

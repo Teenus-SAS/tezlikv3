@@ -143,7 +143,10 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
     $dataExternalService = $request->getParsedBody();
 
     $externalService = $externalServicesDao->findExternalService($dataExternalService, $id_company);
-    if (isset($externalService['id_service']) == 0 || $dataExternalService['idService'] || !$externalService) {
+
+    !isset($externalService['id_service']) ? $externalService['id_service'] = 0 : $externalService;
+
+    if ($externalService['id_service'] == $dataExternalService['idService'] || $externalService['id_service'] == 0) {
         $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
 
         // Calcular precio del producto

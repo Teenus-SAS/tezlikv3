@@ -99,7 +99,9 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
 
     $process = $processDao->findProcess($dataProcess, $id_company);
 
-    if (isset($process['id_process']) == $dataProcess['idProcess'] || !$process) {
+    !isset($process['id_process']) ? $process['id_process'] = 0 : $process;
+
+    if ($process['id_process'] == $dataProcess['idProcess'] || $process['id_process'] == 0) {
         $process = $processDao->updateProcess($dataProcess);
 
         if ($process == null)

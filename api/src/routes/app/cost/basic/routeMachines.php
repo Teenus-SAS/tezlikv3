@@ -122,7 +122,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
             else
                 $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
         } else
-            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+            $resp = array('info' => true, 'message' => 'Nombre de maquina ya existe. Ingrese una nuevo nombre');
     } else {
         $machines = $dataMachine['importMachines'];
 
@@ -203,7 +203,9 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     $machine = $generalMachinesDao->findMachine($dataMachine, $id_company);
 
-    if (isset($machine['id_machine']) == $dataMachine['idMachine'] || !$machine) {
+    !isset($machine['id_machine']) ? $machine['id_machine'] = 0 : $machine;
+
+    if ($machine['id_machine'] == $dataMachine['idMachine'] || $machine['id_machine'] == 0) {
         $machines = $machinesDao->updateMachine($dataMachine);
 
         // Calcular depreciacion por minuto
@@ -243,7 +245,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     } else
-        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+        $resp = array('info' => true, 'message' => 'Nombre de maquina ya existe. Ingrese una nuevo nombre');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

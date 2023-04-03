@@ -122,43 +122,49 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $dataProductsProcess = sizeof($dataProductProcess);
 
     if ($dataProductsProcess > 1) {
-        $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
-        $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
 
-        /* Calcular costo nomina */
-        if ($productProcess == null) {
-            $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
-            $productProcess = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
-        }
+        $productProcess = $productsProcessDao->findProductProcess($dataProductProcess, $id_company);
 
-        // Calcular costo indirecto
-        if ($productProcess == null) {
-            // Buscar la maquina asociada al producto
-            $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+        if (!$productProcess) {
+            $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
+            $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
+
+            /* Calcular costo nomina */
+            if ($productProcess == null) {
+                $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+                $productProcess = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
+            }
 
             // Calcular costo indirecto
-            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine, $id_company);
+            if ($productProcess == null) {
+                // Buscar la maquina asociada al producto
+                $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
 
-            // Modificar campo
-            $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
-        }
+                // Calcular costo indirecto
+                $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine, $id_company);
 
-        // Calcular Precio del producto
-        if ($productProcess == null)
-            $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+                // Modificar campo
+                $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+            }
 
-        if (isset($productProcess['totalPrice']))
-            $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+            // Calcular Precio del producto
+            if ($productProcess == null)
+                $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
 
-        if ($productProcess == null)
-            $resp = array('success' => true, 'message' => 'Proceso asignado correctamente');
-        elseif ($productProcess == 1)
-            $resp = array('error' => true, 'message' => 'El Proceso ya se encuentra en la Base de Datos');
-        else if (isset($productProcess['info']))
-            $resp = array('info' => true, 'message' => $productProcess['message']);
-        else {
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras asignaba la información. Intente nuevamente');
-        }
+            if (isset($productProcess['totalPrice']))
+                $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+
+            if ($productProcess == null)
+                $resp = array('success' => true, 'message' => 'Proceso asignado correctamente');
+            elseif ($productProcess == 1)
+                $resp = array('error' => true, 'message' => 'El Proceso ya se encuentra en la Base de Datos');
+            else if (isset($productProcess['info']))
+                $resp = array('info' => true, 'message' => $productProcess['message']);
+            else {
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras asignaba la información. Intente nuevamente');
+            }
+        } else
+            $resp = array('info' => true, 'message' => 'Proceso ya existente. Ingrese otro proceso');
     } else {
         $productProcess = $dataProductProcess['importProductsProcess'];
 
@@ -251,37 +257,44 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
 
-    $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
-    $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
+    $productProcess = $productsProcessDao->findProductProcess($dataProductProcess, $id_company);
 
-    /* Calcular costo nomina */
-    if ($productProcess == null) {
-        $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
-        $productProcess = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
-    }
+    !isset($productProcess['id_product_process']) ? $productProcess['id_product_process'] = 0 : $productProcess;
 
-    /* Calcular costo indirecto */
-    if ($productProcess == null) {
-        // Buscar la maquina asociada al producto
-        $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
-        // Calcular costo indirecto
-        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-        // Actualizar campo
-        $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
-    }
+    if ($productProcess['id_product_process'] == $dataProductProcess['idProductProcess'] || !$productProcess) {
+        $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
+        $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
-    // Calcular Precio del producto
-    if ($productProcess == null)
-        $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
-    if (isset($productProcess['totalPrice']))
-        $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+        /* Calcular costo nomina */
+        if ($productProcess == null) {
+            $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+            $productProcess = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
+        }
 
-    if ($productProcess == null)
-        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
-    else if (isset($productProcess['info']))
-        $resp = array('info' => true, 'message' => $productProcess['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        /* Calcular costo indirecto */
+        if ($productProcess == null) {
+            // Buscar la maquina asociada al producto
+            $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+            // Calcular costo indirecto
+            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+            // Actualizar campo
+            $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+        }
+
+        // Calcular Precio del producto
+        if ($productProcess == null)
+            $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+        if (isset($productProcess['totalPrice']))
+            $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+
+        if ($productProcess == null)
+            $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+        else if (isset($productProcess['info']))
+            $resp = array('info' => true, 'message' => $productProcess['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    } else
+        $resp = array('info' => true, 'message' => 'Proceso ya existente. Ingrese otro proceso');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

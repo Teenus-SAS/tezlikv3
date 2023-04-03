@@ -34,15 +34,16 @@ class GeneralProductsMaterialsDao
     }
 
     // Consultar si existe el product_material en la BD
-    public function findProductMaterial($dataProductMaterial)
+    public function findProductMaterial($dataProductMaterial, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT id_product_material FROM products_materials
-                                      WHERE id_product = :id_product AND id_material = :id_material");
+                                      WHERE id_product = :id_product AND id_material = :id_material AND id_company = :id_company");
         $stmt->execute([
             'id_product' => $dataProductMaterial['idProduct'],
-            'id_material' => $dataProductMaterial['material']
+            'id_material' => $dataProductMaterial['material'],
+            'id_company' => $id_company
         ]);
         $findProductMaterial = $stmt->fetch($connection::FETCH_ASSOC);
         return $findProductMaterial;

@@ -34,14 +34,19 @@ class ProductsCostDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("INSERT INTO products_costs(id_product, id_company, profitability, commission_sale) 
+        try {
+            $stmt = $connection->prepare("INSERT INTO products_costs(id_product, id_company, profitability, commission_sale) 
                                         VALUES (:id_product, :id_company, :profitability, :commission_sale)");
-        $stmt->execute([
-            'id_product' => trim($dataProduct['idProduct']),
-            'id_company' => $id_company,
-            'profitability' => trim($dataProduct['profitability']),
-            'commission_sale' => trim($dataProduct['commissionSale'])
-        ]);
+            $stmt->execute([
+                'id_product' => trim($dataProduct['idProduct']),
+                'id_company' => $id_company,
+                'profitability' => trim($dataProduct['profitability']),
+                'commission_sale' => trim($dataProduct['commissionSale'])
+            ]);
+        } catch (\Exception $e) {
+            $error = array('info' => true, 'message' => $e->getMessage());
+            return $error;
+        }
     }
     /* Actualizar products_costs */
     public function updateProductsCostByCompany($dataProduct)

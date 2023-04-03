@@ -77,7 +77,7 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
                 break;
             } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
+            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
             if (!$findProductsMaterials) $insert = $insert + 1;
             else $update = $update + 1;
             $dataImportProductsMaterials['insert'] = $insert;
@@ -125,7 +125,7 @@ $app->post('/addPlanProductsMaterials', function (Request $request, Response $re
             $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
             $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i]);
+            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
 
             $productMaterials[$i] = $convertDataDao->strReplaceProductsMaterials($productMaterials[$i]);
 
