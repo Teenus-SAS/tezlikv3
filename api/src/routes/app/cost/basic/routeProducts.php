@@ -176,7 +176,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
         if ($dataProducts > 1) {
             $product = $generalProductsDao->findProduct($dataProduct, $id_company);
 
-            if (sizeof($product) == 0) {
+            if (!$product) {
                 //INGRESA id_company, referencia, producto. BD
                 $products = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
@@ -276,7 +276,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
         $product = $generalProductsDao->findProduct($dataProduct, $id_company);
 
-        if (sizeof($product) == 0) {
+        if (!$product) {
             //INGRESA id_company, referencia, producto. BD
             $resolution = $productsDao->insertProductByCompany($dataProduct, $id_company);
 
@@ -378,10 +378,10 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         $totalQuantity += $quantities;
 
                         // Convertir una unidad
-                        $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
+                        // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
                         // Modificar costo
-                        $materialsDao->updateCostProductMaterial($arr, $quantity);
+                        $materialsDao->updateCostProductMaterial($arr, $quantities);
                     }
                     // Metodo calcular precio total materias
                     $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);
@@ -469,7 +469,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     $product = $generalProductsDao->findProduct($dataProduct, $id_company);
 
-    if ($product['id_product'] == $dataProduct['idProduct']) {
+    if ($product['id_product'] == $dataProduct['idProduct'] || !$product) {
         // Actualizar Datos, Imagen y Calcular Precio del producto
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 

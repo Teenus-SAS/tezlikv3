@@ -115,7 +115,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
         $material = $generalMaterialsDao->findMaterial($dataMaterial, $id_company);
 
-        if (sizeof($material) == 0) {
+        if (!$material) {
             $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
             if ($materials == null)
@@ -189,7 +189,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
     $material = $generalMaterialsDao->findMaterial($dataMaterial, $id_company);
 
-    if ($material['id_material'] == $dataMaterial['idMaterial']) {
+    if (isset($material['id_material']) == $dataMaterial['idMaterial'] || !$material) {
         $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
         if ($materials == null) {
@@ -215,10 +215,10 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                         $totalQuantity += $quantities;
 
                         // Convertir una unidad
-                        $quantity = $conversionUnitsDao->convertUnits($material, $k, 1);
+                        // $quantity = $conversionUnitsDao->convertUnits($material, $k, 1);
 
                         // Modificar costo
-                        $generalMaterialsDao->updateCostProductMaterial($k, $quantity);
+                        $generalMaterialsDao->updateCostProductMaterial($k, $quantities);
                     }
                     $j['idProduct'] = $j['id_product'];
                     $j = $costMaterialsDao->calcCostMaterial($j, $totalQuantity, $id_company);

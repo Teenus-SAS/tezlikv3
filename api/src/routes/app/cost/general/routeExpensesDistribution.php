@@ -161,7 +161,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             if ($resolution != null) break;
             $resolution = $priceProductDao->calcPrice($expensesDistribution[$i]['selectNameProduct']);
 
-            if ($resolution != null) break;
+            if (!isset($resolution['totalPrice'])) break;
 
             $resolution = $generalCostProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $resolution['totalPrice']);
         }

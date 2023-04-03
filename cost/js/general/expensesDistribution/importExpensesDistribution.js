@@ -19,6 +19,14 @@ $(document).ready(function () {
   $('#btnImportExpenses').click(function (e) {
     e.preventDefault();
 
+    let expensesToDistribution = $('#expensesToDistribution').val();
+
+    if (expensesToDistribution == '$ 0' || !expensesToDistribution) {
+      $('#fileExpenses').val('');
+      toastr.error('Asigne un gasto primero antes de distribuir');
+      return false;
+    }
+
     let file = $('#fileExpenses').val();
 
     if (!file) {

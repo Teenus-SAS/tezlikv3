@@ -65,8 +65,6 @@ class ExpensesDao
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();
-      if ($e->getCode() == 23000)
-        $message = 'No. Cuenta duplicada. Ingrese un nuevo No. Cuenta';
       $error = array('info' => true, 'message' => $message);
       return $error;
     }
