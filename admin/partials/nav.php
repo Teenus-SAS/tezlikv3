@@ -29,6 +29,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item trm">
+                        <a class="nav-link" href="/admin/historical-trm">
+                            <i class="bi bi-currency-dollar mr-1"></i> Trm Historico
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+
                     <li class="nav-item notification">
                         <a class="nav-link" href="/admin/users-log">
                             <i class="bx bxs-group mr-1"></i> Sesiones Activas

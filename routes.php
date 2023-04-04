@@ -14,6 +14,7 @@ get('/reset-pass', '/global/views/login/reset-password.php');
 get('/admin', '/admin/index.php');
 get('/admin/companies', '/admin/views/companies/companies.php');
 get('/admin/companies-licences', '/admin/views/companies/companiesLicenses.php');
+get('/admin/historical-trm', '/admin/views/trm/historicalTrm.php');
 get('/admin/users-log', '/admin/views/users/usersLog.php');
 get('/admin/puc', '/admin/views/puc/puc.php');
 get('/admin/notifications', '/admin/views/notifications/notifications.php');

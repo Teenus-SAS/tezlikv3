@@ -10,22 +10,26 @@ function updateLastTrm($trmDao)
     $date = date('Y-m-d');
 
     $lastTrm = $trmDao->findLastInsertedTrm();
-    while ($lastTrm['date_trm'] < $date) {
-        if ($lastTrm['date_trm'] < $date) {
-            $lastTrm = $trmDao->findLastInsertedTrm();
 
-            $date_trm = date('Y-m-d', strtotime($lastTrm['date_trm'] . ' +1 day'));
+    $dateTrm = $lastTrm['date_trm'];
 
-            // Obtener trm
-            $price = $trmDao->getTrm($date_trm);
+    while ($dateTrm < $date) {
+        $lastTrm = $trmDao->findLastInsertedTrm();
+        $dateTrm = $lastTrm['date_trm'];
 
-            // Insertar
-            $resolution = $trmDao->insertTrm($date_trm, $price);
+        $date_trm = date('Y-m-d', strtotime($lastTrm['date_trm'] . ' +1 day'));
 
-            // Eliminar primer registro del historico
-            if ($resolution == null)
-                $resolution = $trmDao->deleteFirstTrm();
-        } else break;
+        if ($date_trm > $date) break;
+
+        // Obtener trm
+        $price = $trmDao->getTrm($date_trm);
+
+        // Insertar
+        $resolution = $trmDao->insertTrm($date_trm, $price);
+
+        // Eliminar primer registro del historico
+        if ($resolution == null)
+            $resolution = $trmDao->deleteFirstTrm();
     }
 }
 

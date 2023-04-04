@@ -37,6 +37,9 @@ require_once('../api/src/routes/admin/users/routeCloseSessionUsers.php');
 require_once('../api/src/routes/admin/users/routeUserAdmin.php');
 require_once('../api/src/routes/app/login/routeInactiveUser.php');
 
+// Trm
+require_once('../api/src/routes/admin/trm/routeTrm.php');
+
 // Units
 require_once('../api/src/routes/admin/units/routeUnits.php');
 // Magnitudes
