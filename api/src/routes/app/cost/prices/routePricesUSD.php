@@ -2,12 +2,12 @@
 
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\Dao\PriceUSDDao;
-use tezlikv3\dao\ProductsCostDao;
+use tezlikv3\dao\ProductsDao;
 use tezlikv3\Dao\TrmDao;
 
 $trmDao = new TrmDao();
 $pricesUSDDao = new PriceUSDDao();
-$productsCostDao = new ProductsCostDao();
+$productsDao = new ProductsDao();
 $licenceCompanyDao = new LicenseCompanyDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,7 +27,7 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 $app->get('/priceUSD/{deviation}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
     $pricesUSDDao,
-    $productsCostDao,
+    $productsDao,
     $trmDao
 ) {
     session_start();
@@ -54,7 +54,7 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
         $coverage = $pricesUSDDao->calcDollarCoverage($price['average_trm'], $standardDeviation, $deviation);
 
         // Obtener productos
-        $products = $productsCostDao->findAllProductsCost($id_company);
+        $products = $productsDao->findAllProductsByCompany($id_company);
 
         for ($i = 0; $i < sizeof($products); $i++) {
             // Calcular precio USD y modificar

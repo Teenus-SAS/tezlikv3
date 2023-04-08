@@ -39,8 +39,8 @@ if (sizeof($_SESSION) == 0)
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
+                        <div class="row align-items-center" id="headerTrm">
+                            <div class="col-sm-5 col-xl-6" id="title">
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Trm Historico</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
@@ -48,7 +48,7 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
+                            <div class="col-sm-6 cardBotton">
                                 <div class="form-inline justify-content-sm-end">
                                     <button class="btn btn-warning" id="btnLoadTrm">Cargar Trm</button>
                                 </div>

@@ -11,13 +11,28 @@ $(document).ready(function () {
   };
 
   /* Calcular valor de cobertura ingresando numero de desviación */
-  $(document).on('blur', '#deviation', function (e) {
+  $(document).on('keyup', '#deviation', function (e) {
     let num = this.value;
+
+    if (num == '' || !num) {
+      toast.error('Ingrese numero de desviacion');
+      return false;
+    }
 
     getUSDData(num);
   });
 
   getUSDData = async (num) => {
+    $('.USDInputs').hide(400);
+
+    let USDHeader = document.getElementById('USDHeader');
+    USDHeader.insertAdjacentHTML(
+      'beforeend',
+      `<div class="spinner-border text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>`
+    );
+
     let data = await searchData(`/api/priceUSD/${num}`);
 
     if (data.success) {
@@ -34,6 +49,9 @@ $(document).ready(function () {
         })}`
       );
       $('#deviation').val(data.deviation);
+
+      $('.spinner-border').remove();
+      $('.USDInputs').show(400);
 
       $('#tblPricesUSD').DataTable().clear();
       $('#tblPricesUSD').DataTable().ajax.reload();

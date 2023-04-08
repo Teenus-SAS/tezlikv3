@@ -25,7 +25,6 @@ if (sizeof($_SESSION) == 0)
 
 
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
-
 	<style>
 		@media print {
 			.invoice table th {
@@ -91,13 +90,13 @@ if (sizeof($_SESSION) == 0)
 												</a>
 											</div>
 											<div class="col company-details">
-												<h2 class="name" id="company">
-												</h2>
+												<!-- <h2 class="name" id="company"></h2> -->
 												<div id="address"></div>
 												<div id="phone"></div>
 												<div id="city"></div>
 											</div>
 										</div>
+										<hr>
 										<div class="row contacts">
 											<div class="col invoice-to">
 												<div class="text-gray-light">Cotizado a:</div>
