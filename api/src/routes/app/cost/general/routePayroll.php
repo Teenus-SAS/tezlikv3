@@ -95,6 +95,9 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $dataPayrolls = sizeof($dataPayroll);
 
     if ($dataPayrolls > 1) {
+        if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1) $dataPayroll['factor'] = 38.35;
+        if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
+
         $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
         $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
@@ -116,6 +119,8 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
             $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
 
+            if ($payroll[$i]['typeFactor'] == 'Nomina' || $payroll[$i]['typeFactor'] == 1) $payroll[$i]['factor'] = 38.35;
+            if ($payroll[$i]['typeFactor'] == 'Servicios' || $payroll[$i]['typeFactor'] == 2) $payroll[$i]['factor'] = 0;
             empty($payroll[$i]['extraTime']) ? $payroll[$i]['extraTime'] = 0 : $payroll[$i]['extraTime'];
             empty($payroll[$i]['bonification']) ? $payroll[$i]['bonification'] = 0 : $payroll[$i]['bonification'];
 
@@ -171,6 +176,9 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
+
+    if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1) $dataPayroll['factor'] = 38.35;
+    if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
 
     $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
     $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);

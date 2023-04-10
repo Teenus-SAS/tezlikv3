@@ -52,8 +52,8 @@ class PayrollDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1) $dataPayroll['factor'] = 38.35;
-    if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
+    // if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1) $dataPayroll['factor'] = 38.35;
+    // if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
 
     try {
       $stmt = $connection->prepare("INSERT INTO payroll (id_company, id_process, employee, salary, transport, extra_time, bonification, endowment,
@@ -83,11 +83,6 @@ class PayrollDao
   public function updatePayroll($dataPayroll)
   {
     $connection = Connection::getInstance()->getConnection();
-
-    if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1)
-      $dataPayroll['factor'] = 38.35;
-    if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2)
-      $dataPayroll['factor'] = 0;
 
     try {
       $stmt = $connection->prepare("UPDATE payroll SET employee=:employee, id_process=:id_process, salary=:salary, transport=:transport, extra_time=:extra_time,
