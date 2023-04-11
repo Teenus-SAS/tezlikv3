@@ -54,7 +54,7 @@ class TrmDao
                 return $response->value;
             }
         } catch (\Exception $e) {
-            return $e->getMessage();
+            return array('info' => true);
         }
     }
 

@@ -31,8 +31,13 @@ $(document).ready(function () {
       updateTable();
       toastr.success(data.message);
       return false;
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
+    } else if (data.error == true) {
+      toastr.error(data.message);
+    } else if (data.info == true) {
+      updateTable();
+      toastr.info(data.message);
+      return false;
+    }
   };
 
   function updateTable() {

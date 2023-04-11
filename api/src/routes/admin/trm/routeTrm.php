@@ -20,26 +20,29 @@ $app->get('/loadLastsTrm', function (Request $request, Response $response, $args
 
     $dateTrm = $lastTrm['date_trm'];
 
-    while ($dateTrm < $date) {
+    for ($dateTrm; $dateTrm <= $date;) {
         $lastTrm = $trmDao->findLastInsertedTrm();
-        $dateTrm = $lastTrm['date_trm'];
 
-        $date_trm = date('Y-m-d', strtotime($lastTrm['date_trm'] . ' +1 day'));
-
-        if ($date_trm > $date) break;
+        $dateTrm = date('Y-m-d', strtotime($lastTrm['date_trm'] . ' +1 day'));
+        if ($dateTrm > $date) break;
 
         // Obtener trm
-        $price = $trmDao->getTrm($date_trm);
+        $price = $trmDao->getTrm($dateTrm);
+
+        if (isset($price['info'])) break;
 
         // Insertar
-        $resolution = $trmDao->insertTrm($date_trm, $price);
+        $resolution = $trmDao->insertTrm($dateTrm, $price);
 
         // Eliminar primer registro del historico
         if ($resolution == null)
             $resolution = $trmDao->deleteFirstTrm();
     }
 
-    $resp = array('success' => true, 'message' => 'Trm cargado correctamente');
+    if (isset($price['info']))
+        $resp = array('info' => true, 'message' => 'Error al ingresar al historico de trm. Intente nuevamente');
+    else
+        $resp = array('success' => true, 'message' => 'Trm cargado correctamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
