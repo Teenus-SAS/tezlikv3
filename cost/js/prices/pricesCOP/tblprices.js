@@ -40,9 +40,10 @@ $(document).ready(function () {
         data: 'img',
         className: 'uniqueClassName',
         render: (data, type, row) => {
-          data ? data : (data = '');
-          ('use strict');
-          return `<img src="${data}" alt="" style="width:50px;border-radius:100px">`;
+          data == '' || !data
+            ? (txt = '')
+            : (txt = `<img src="${data}" alt="" style="width:50%;border-radius:100px">`);
+          return txt;
         },
       },
       {

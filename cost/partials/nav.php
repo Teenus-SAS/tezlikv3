@@ -32,9 +32,8 @@
                             </ul>
                         </li>
                     <?php } ?>
-
                     <?php if (
-                        $_SESSION['analysis_material'] == 1 || $_SESSION['plan_cost_analysis_material'] == 1 ||
+                        $_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1 ||
                         $_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1 ||
                         $_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1
                     ) { ?>
@@ -44,7 +43,7 @@
                                 <i class="bx bx-chevron-right"></i>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <?php if ($_SESSION['analysis_material'] == 1 || $_SESSION['plan_cost_analysis_material'] == 1) { ?>
+                                <?php if ($_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1) { ?>
                                     <li class="dropdown-submenu" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                         <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <i class="bi bi-card-heading mr-1"></i>Análisis Materia Prima
@@ -53,11 +52,9 @@
                                         <ul class="dropdown-menu">
                                             <a class="dropdown-item" href="/cost/analysis-materials-product">
                                                 <i class="bi bi-graph-up mr-1"></i> Producto
-                                                <!-- <i class="bx bx-chevron-right"></i> -->
                                             </a>
                                             <a class="dropdown-item" href="/cost/analysis-materials-lot">
                                                 <i class="bi bi-graph-down mr-1"></i> Lote
-                                                <!-- <i class="bx bx-chevron-right"></i> -->
                                             </a>
                                         </ul>
                                     </li>
@@ -66,20 +63,16 @@
                                 <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/economyScale">
                                         <i class="bx bx-dollar-circle mr-1"></i> Economias de Escala
-                                        <!-- <i class="bx bx-chevron-right"></i> -->
                                     </a>
                                 <?php } ?>
                                 <?php if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/multiproduct">
                                         <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
-                                        <!-- <i class="bx bx-chevron-right"></i> -->
                                     </a>
                                 <?php } ?>
                             </ul>
                         </li>
                     <?php } ?>
-
-
                     <?php if ($_SESSION['quotes'] == 1 && $_SESSION['plan_cost_quote'] == 1) { ?>
                         <li class="nav-item quotes">
                             <a class="nav-link" href="/cost/quotes">

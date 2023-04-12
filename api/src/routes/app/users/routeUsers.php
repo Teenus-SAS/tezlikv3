@@ -65,42 +65,35 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     else {
         if (empty($dataUser['nameUser']) && empty($dataUser['lastnameUser']) && empty($dataUser['emailUser'])) {
             $resp = array('error' => true, 'message' => 'Complete todos los datos');
-            exit();
-        }
+        } else {
+            $users = $userDao->findUser($dataUser['emailUser']);
 
-        $users = $userDao->findUser($dataUser['emailUser']);
+            if ($users == false) {
+                $email = $_SESSION['email'];
+                $name = $_SESSION['name'];
 
-        if ($users == false) {
-            $email = $_SESSION['email'];
-            $name = $_SESSION['name'];
+                $newPass = $generateCodeDao->GenerateCode();
 
-            $newPass = $generateCodeDao->GenerateCode();
+                // Se envia email con usuario(email) y contraseña
+                $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
 
-            // Se envia email con usuario(email) y contraseña
-            $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
+                $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
 
-            $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
+                if (!$sendEmail['info']) {
+                    $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
-            // if ($sendEmail == null) {
-            $pass = password_hash($newPass, PASSWORD_DEFAULT);
+                    /* Almacena el usuario */
+                    $users = $userDao->saveUser($dataUser, $pass, $id_company);
+                }
 
-            /* Almacena el usuario */
-            $users = $userDao->saveUser($dataUser, $pass, $id_company);
-            // }
+                if ($users == null) {
+                    $user = $userDao->findUser($dataUser['emailUser']);
+                    $dataUser['idUser'] = $user['id_user'];
 
-            if ($users == null) {
-                $user = $userDao->findUser($dataUser['emailUser']);
-                $dataUser['idUser'] = $user['id_user'];
-
-                /* Almacena los accesos 
-                if (isset($dataUser['factoryLoad']) && isset($dataUser['programsMachine'])) {
                     $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
-                    $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
-                } else if (isset($dataUser['factoryLoad'])) */
-                $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
-                // else if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
-            }
-        } else $users = 1;
+                }
+            } else $users = 1;
+        }
 
         if ($users == 1) {
             $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');

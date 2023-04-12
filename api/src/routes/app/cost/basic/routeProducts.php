@@ -210,7 +210,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                 if (!$product) {
                     $resolution = $productsDao->insertProductByCompany($products[$i], $id_company);
 
-                    if ($resolution = null) {
+                    if ($resolution == null) {
                         $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
                         $products[$i]['idProduct'] = $lastProductId['id_product'];
