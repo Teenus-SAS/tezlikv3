@@ -121,8 +121,7 @@ require_once('../api/src/routes/app/users/routeUsers.php');
 require_once('../api/src/routes/app/users/routeQuantityUsers.php');
 require_once('../api/src/routes/app/users/routeUsersStatus.php');
 
-
-/* App Planning */
+/* App Planning 
 // Basic
 require_once('../api/src/routes/app/planning/basic/routeInvMolds.php');
 require_once('../api/src/routes/app/planning/basic/routeMachines.php');
@@ -152,6 +151,6 @@ require_once('../api/src/routes/app/planning/order/routeOrders.php');
 // Programa
 require_once('../api/src/routes/app/planning/program/routeProgramming.php');
 require_once('../api/src/routes/app/planning/program/routeConsolidated.php');
-
+*/
 
 $app->run();
