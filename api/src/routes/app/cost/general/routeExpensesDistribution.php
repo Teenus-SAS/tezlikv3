@@ -3,7 +3,6 @@
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\TotalExpenseDao;
 use tezlikv3\dao\AssignableExpenseDao;
-use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
 
@@ -12,7 +11,7 @@ $productsDao = new GeneralProductsDao();
 $totalExpenseDao = new TotalExpenseDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
-$generalCostProductsDao = new GeneralCostProductsDao();
+$generalProductsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -79,7 +78,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     $productsDao,
     $assignableExpenseDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -114,7 +113,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
         if (isset($expensesDistribution['totalPrice']))
-            $expensesDistribution = $generalCostProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+            $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
 
         if ($expensesDistribution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
@@ -163,7 +162,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
             if (!isset($resolution['totalPrice'])) break;
 
-            $resolution = $generalCostProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $resolution['totalPrice']);
+            $resolution = $generalProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $resolution['totalPrice']);
         }
 
         if ($resolution == null)
@@ -182,7 +181,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $expensesDistributionDao,
     $assignableExpenseDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -214,7 +213,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
     if (isset($expensesDistribution['totalPrice']))
-        $expensesDistribution = $generalCostProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+        $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
 
     if ($expensesDistribution == null)
         $resp = array('success' => true, 'message' => 'Distribución de gasto actualizada correctamente');
@@ -231,7 +230,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     $expensesDistributionDao,
     $assignableExpenseDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -263,7 +262,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
         $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['selectNameProduct']);
 
     if (isset($expensesDistribution['totalPrice']))
-        $expensesDistribution = $generalCostProductsDao->updatePrice($dataExpensesDistribution['selectNameProduct'], $expensesDistribution['totalPrice']);
+        $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['selectNameProduct'], $expensesDistribution['totalPrice']);
 
     if ($expensesDistribution == null)
         $resp = array('success' => true, 'message' => 'Distribucion de gasto eliminado correctamente');

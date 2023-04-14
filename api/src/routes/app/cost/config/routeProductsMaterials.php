@@ -5,12 +5,12 @@ use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\GeneralProductsMaterialsDao;
+use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\Dao\MagnitudesDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\UnitsDao;
 
-$productsMaterialsDao = new GeneralProductsMaterialsDao();
+$productsMaterialsDao = new ProductsMaterialsDao();
 $magnitudesDao = new MagnitudesDao();
 $unitsDao = new UnitsDao();
 $convertDataDao = new ConvertDataDao();
@@ -133,7 +133,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
     $conversionUnitsDao,
     $costMaterialsDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -182,7 +182,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             if ($productMaterials == null)
                 $productMaterials = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
             if (isset($productMaterials['totalPrice']))
-                $productMaterials = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $productMaterials['totalPrice']);
+                $productMaterials = $GeneralProductsDao->updatePrice($dataProductMaterial['idProduct'], $productMaterials['totalPrice']);
 
             if ($productMaterials == null)
                 $resp = array('success' => true, 'message' => 'Materia prima asignada correctamente');
@@ -258,7 +258,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             if (isset($resolution['info']))
                 break;
 
-            $resolution = $generalCostProductsDao->updatePrice($productMaterials[$i]['idProduct'], $resolution['totalPrice']);
+            $resolution = $GeneralProductsDao->updatePrice($productMaterials[$i]['idProduct'], $resolution['totalPrice']);
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Materia prima importada correctamente');
@@ -276,7 +276,7 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     $conversionUnitsDao,
     $costMaterialsDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -323,7 +323,7 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
         if ($productMaterials == null)
             $productMaterials = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
         if (isset($productMaterials['totalPrice']))
-            $productMaterials = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $productMaterials['totalPrice']);
+            $productMaterials = $GeneralProductsDao->updatePrice($dataProductMaterial['idProduct'], $productMaterials['totalPrice']);
 
         if ($productMaterials == null)
             $resp = array('success' => true, 'message' => 'Materia prima actualizada correctamente');
@@ -344,7 +344,7 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
     $materialsDao,
     $conversionUnitsDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -386,7 +386,7 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
     if ($product == null)
         $product = $priceProductDao->calcPrice($dataProductMaterial['idProduct']);
     if (isset($product['totalPrice']))
-        $product = $generalCostProductsDao->updatePrice($dataProductMaterial['idProduct'], $product['totalPrice']);
+        $product = $GeneralProductsDao->updatePrice($dataProductMaterial['idProduct'], $product['totalPrice']);
 
     if ($product == null)
         $resp = array('success' => true, 'message' => 'Materia prima eliminada correctamente');

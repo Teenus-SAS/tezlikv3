@@ -1,8 +1,10 @@
 <?php
 
 use tezlikv3\dao\GeneralProcessDao;
+use tezlikv3\dao\ProcessDao;
 
-$processDao = new GeneralProcessDao();
+$processDao = new ProcessDao();
+$generalProcessDao = new GeneralProcessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,7 +19,7 @@ $app->get('/process', function (Request $request, Response $response, $args) use
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/processDataValidation', function (Request $request, Response $response, $args) use ($processDao) {
+$app->post('/processDataValidation', function (Request $request, Response $response, $args) use ($generalProcessDao) {
     $dataProcess = $request->getParsedBody();
 
     if (isset($dataProcess)) {
@@ -36,7 +38,7 @@ $app->post('/processDataValidation', function (Request $request, Response $respo
                 $dataImportProcess = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
             } else {
-                $findProcess = $processDao->findProcess($process[$i], $id_company);
+                $findProcess = $generalProcessDao->findProcess($process[$i], $id_company);
                 if (!$findProcess) $insert = $insert + 1;
                 else $update = $update + 1;
                 $dataImportProcess['insert'] = $insert;
@@ -50,14 +52,17 @@ $app->post('/processDataValidation', function (Request $request, Response $respo
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addProcess', function (Request $request, Response $response, $args) use ($processDao) {
+$app->post('/addProcess', function (Request $request, Response $response, $args) use (
+    $processDao,
+    $generalProcessDao
+) {
     session_start();
     $dataProcess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
     if (empty($dataProcess['importProcess'])) {
 
-        $process = $processDao->findProcess($dataProcess, $id_company);
+        $process = $generalProcessDao->findProcess($dataProcess, $id_company);
 
         if (!$process) {
             $process = $processDao->insertProcessByCompany($dataProcess, $id_company);
@@ -74,7 +79,7 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
         $process = $dataProcess['importProcess'];
 
         for ($i = 0; $i < sizeof($process); $i++) {
-            $findProcess = $processDao->findProcess($process[$i], $id_company);
+            $findProcess = $generalProcessDao->findProcess($process[$i], $id_company);
             if (!$findProcess)
                 $resolution = $processDao->insertProcessByCompany($process[$i], $id_company);
             else {
@@ -92,12 +97,15 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateProcess', function (Request $request, Response $response, $args) use ($processDao) {
+$app->post('/updateProcess', function (Request $request, Response $response, $args) use (
+    $processDao,
+    $generalProcessDao
+) {
     session_start();
     $dataProcess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
-    $process = $processDao->findProcess($dataProcess, $id_company);
+    $process = $generalProcessDao->findProcess($dataProcess, $id_company);
 
     !isset($process['id_process']) ? $process['id_process'] = 0 : $process;
 

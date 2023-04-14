@@ -67,6 +67,7 @@ $(document).ready(function () {
       1000
     );
   });
+
   /* Revision data materia prima */
   checkDataMaterial = async (url, idMaterial) => {
     let ref = $('#refRawMaterial').val();

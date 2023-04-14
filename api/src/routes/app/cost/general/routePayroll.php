@@ -3,7 +3,7 @@
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\PayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
-use tezlikv3\dao\GeneralCostProductsDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ValueMinuteDao;
@@ -14,7 +14,7 @@ $convertDataDao = new ConvertDataDao();
 $processDao = new GeneralProcessDao();
 $costWorkforceDao = new CostWorkforceDao();
 $priceProductDao = new PriceProductDao();
-$generalCostProductsDao = new GeneralCostProductsDao();
+$GeneralProductsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -86,7 +86,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $processDao,
     $costWorkforceDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -149,7 +149,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
                     if (isset($resolution['info'])) break;
 
-                    $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    $resolution = $GeneralProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
                 }
             }
         }
@@ -171,7 +171,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $valueMinuteDao,
     $costWorkforceDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -204,7 +204,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
             if (isset($payroll['info'])) break;
 
-            $payroll = $generalCostProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+            $payroll = $GeneralProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
         }
     }
 
@@ -223,7 +223,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $payrollDao,
     $costWorkforceDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -248,7 +248,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
             if (isset($payroll['info'])) break;
 
-            $payroll = $generalCostProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+            $payroll = $GeneralProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
         }
     }
     if ($payroll == null)

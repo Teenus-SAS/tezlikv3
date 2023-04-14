@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\FactoryLoadDao;
 use tezlikv3\dao\CostMinuteDao;
-use tezlikv3\dao\GeneralCostProductsDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
@@ -14,7 +14,7 @@ $machinesDao = new GeneralMachinesDao();
 $costMinuteDao = new CostMinuteDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
-$generalCostProductsDao = new GeneralCostProductsDao();
+$GeneralProductsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -79,7 +79,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     $costMinuteDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -118,7 +118,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
                 if (isset($machines['info'])) break;
 
-                $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
             }
         }
 
@@ -169,7 +169,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
                 if (isset($resolution['info'])) break;
 
-                $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                $resolution = $GeneralProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
             }
         }
         if ($resolution == null)
@@ -188,7 +188,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     $costMinuteDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -220,7 +220,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
 
             if (isset($factoryLoad['info'])) break;
 
-            $factoryLoad = $generalCostProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+            $factoryLoad = $GeneralProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
         }
     }
 
@@ -242,7 +242,7 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
     $factoryloadDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -270,7 +270,7 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
 
             if (isset($factoryLoad['info'])) break;
 
-            $factoryLoad = $generalCostProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+            $factoryLoad = $GeneralProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
         }
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
-use tezlikv3\dao\GeneralCostProductsDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MinuteDepreciationDao;
@@ -16,7 +16,7 @@ $lastDataDao = new LastDataDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
-$generalCostProductsDao = new GeneralCostProductsDao();
+$GeneralProductsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -94,7 +94,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $minuteDepreciationDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -166,7 +166,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                     if (isset($resolution['info'])) break;
 
-                    $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    $resolution = $GeneralProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
                 }
             }
             // Calcular depreciacion por minuto
@@ -193,7 +193,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $minuteDepreciationDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -235,7 +235,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
                 if (isset($machines['info'])) break;
 
-                $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
             }
         }
         if ($machines == null)
@@ -254,16 +254,16 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
 /* Eliminar Maquina */
 $app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
-    $generalMachinesDao,
+    $machinesDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
 
-    $machines = $generalMachinesDao->deleteMachine($dataMachine['idMachine']);
+    $machines = $machinesDao->deleteMachine($dataMachine['idMachine']);
 
     if ($machines == null) {
         // Buscar producto por idMachine
@@ -287,7 +287,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
             if (isset($machines['info'])) break;
 
-            $machines = $generalCostProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+            $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
         }
     }
 

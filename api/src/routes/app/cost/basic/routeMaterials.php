@@ -3,22 +3,22 @@
 use tezlikv3\Dao\ConversionUnitsDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
-use tezlikv3\dao\GeneralCostProductsDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
-use tezlikv3\dao\GeneralProductsMaterialsDao;
+use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\Dao\MagnitudesDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\UnitsDao;
 
 $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
-$productMaterialsDao = new GeneralProductsMaterialsDao();
+$productMaterialsDao = new ProductsMaterialsDao();
 $magnitudesDao = new MagnitudesDao();
 $unitsDao = new UnitsDao();
 $conversionUnitsDao = new ConversionUnitsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
-$generalCostProductsDao = new GeneralCostProductsDao();
+$GeneralProductsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -103,7 +103,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     $costMaterialsDao,
     $generalMaterialsDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $dataMaterial = $request->getParsedBody();
@@ -159,7 +159,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                         if (isset($resolution['info'])) break;
 
-                        $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                        $resolution = $GeneralProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
                     }
                 }
             }
@@ -181,7 +181,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $costMaterialsDao,
     $conversionUnitsDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -232,7 +232,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
                     if (isset($materials['info'])) break;
 
-                    $materials = $generalCostProductsDao->updatePrice($j['id_product'], $materials['totalPrice']);
+                    $materials = $GeneralProductsDao->updatePrice($j['id_product'], $materials['totalPrice']);
                 }
             }
         }

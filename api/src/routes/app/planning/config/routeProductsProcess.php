@@ -4,10 +4,10 @@ use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\GeneralProductsProcessDao;
+use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\MinimumStockDao;
 
-$productsProcessDao = new GeneralProductsProcessDao();
+$productsProcessDao = new ProductsProcessDao();
 $productsDao = new GeneralProductsDao();
 $convertDataDao = new ConvertDataDao();
 $processDao = new GeneralProcessDao();

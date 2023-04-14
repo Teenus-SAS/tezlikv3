@@ -85,7 +85,7 @@ class ConvertDataDao
         return $dataQuote;
     }
 
-    /* Moldes */
+    /* Moldes 
     public function strReplaceMold($dataMold)
     {
         $dataMold['assemblyTime'] = str_replace('.', '', $dataMold['assemblyTime']);
@@ -100,7 +100,7 @@ class ConvertDataDao
         return $dataMold;
     }
 
-    /* Pedidos */
+    // Pedidos 
     public function changeDateOrder($dataOrder)
     {
         $date = str_replace('/', '-', $dataOrder['dateOrder']);
@@ -111,5 +111,5 @@ class ConvertDataDao
         $dataOrder['maxDate'] = date('Y-m-d', strtotime($maxDate));
 
         return $dataOrder;
-    }
+    } */
 }

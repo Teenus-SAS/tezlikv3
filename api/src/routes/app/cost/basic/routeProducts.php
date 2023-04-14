@@ -7,17 +7,16 @@ use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\ExpenseRecoverDao;
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
-use tezlikv3\dao\GeneralCostProductsDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\GeneralExpenseDistributionDao;
-use tezlikv3\dao\CostProductMaterialsDao;
-use tezlikv3\dao\CostProductProcessDao;
-use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\GeneralProductsMaterialsDao;
+use tezlikv3\dao\GeneralProductMaterialsDao;
 use tezlikv3\dao\GeneralProductsProcessDao;
+use tezlikv3\dao\ProductsMaterialsDao;
+use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\GeneralMaterialsDao;
+use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\ProductsDao;
@@ -27,18 +26,17 @@ use tezlikv3\dao\ProductsQuantityDao;
 
 $productsDao = new ProductsDao();
 $generalProductsDao = new GeneralProductsDao();
-$generalCostProductsDao = new GeneralCostProductsDao();
 $lastDataDao = new LastDataDao();
 $FilesDao = new FilesDao();
 $productsCostDao = new ProductsCostDao();
 $priceProductDao = new PriceProductDao();
 $productsQuantityDao = new ProductsQuantityDao();
-$productsMaterialsDao = new GeneralProductsMaterialsDao();
+$productsMaterialsDao = new ProductsMaterialsDao();
 $materialsDao = new GeneralMaterialsDao();
 $conversionUnitsDao = new ConversionUnitsDao();
-$generalPMaterialsDao = new CostProductMaterialsDao();
-$productsProcessDao = new GeneralProductsProcessDao();
-$generalPProcessDao = new CostProductProcessDao();
+$generalPMaterialsDao = new GeneralProductMaterialsDao();
+$productsProcessDao = new ProductsProcessDao();
+$generalPProcessDao = new GeneralProductsProcessDao();
 $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
@@ -68,9 +66,9 @@ $app->get('/products', function (Request $request, Response $response, $args) us
 
 /* Consultar productos CRM */
 $app->get('/productsCRM', function (Request $request, Response $response, $args) use (
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
-    $products = $generalCostProductsDao->findAllProductsByCRM(1);
+    $products = $GeneralProductsDao->findAllProductsByCRM(1);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -88,21 +86,21 @@ $app->get('/productsLimit', function (Request $request, Response $response, $arg
 });
 
 $app->get('/inactivesProducts', function (Request $request, Response $response, $args) use (
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $generalCostProductsDao->findAllInactivesProducts($id_company);
+    $products = $GeneralProductsDao->findAllInactivesProducts($id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->get('/productCost/{id_product}', function (Request $request, Response $response, $args) use (
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $generalCostProductsDao->findProductCost($args['id_product'], $id_company);
+    $products = $GeneralProductsDao->findProductCost($args['id_product'], $id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -243,7 +241,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $lastDataDao,
     $productsCostDao,
     $generalProductsDao,
-    $generalCostProductsDao,
+    $GeneralProductsDao,
     $productsQuantityDao,
     $productsMaterialsDao,
     $conversionUnitsDao,
@@ -434,7 +432,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         if (isset($resolution['info']))
                             break;
 
-                        $resolution = $generalCostProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                        $resolution = $GeneralProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
                     }
                 }
             }
@@ -459,7 +457,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $FilesDao,
     $productsCostDao,
     $generalProductsDao,
-    $generalCostProductsDao,
+    $GeneralProductsDao,
     $priceProductDao
 ) {
     session_start();
@@ -483,7 +481,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         if ($products == null)
             $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
         if (isset($products['totalPrice']))
-            $products = $generalCostProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
+            $products = $GeneralProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
@@ -504,7 +502,7 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $generalExpenseDistributionDao,
     $generalExpenseRecoverDao,
     $productsCostDao,
-    $generalProductsDao
+    $productsDao
 ) {
     $dataProduct = $request->getParsedBody();
 
@@ -514,7 +512,7 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $expensesDistribution = $generalExpenseDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
     $expensesRecover = $generalExpenseRecoverDao->deleteRecoverExpenseByProduct($dataProduct);
     $productsCost = $productsCostDao->deleteProductsCost($dataProduct);
-    $product = $generalProductsDao->deleteProduct($dataProduct['idProduct']);
+    $product = $productsDao->deleteProduct($dataProduct['idProduct']);
 
     if (
         $product == null && $productsCost == null && $productsMaterials == null && $productsProcess == null &&
@@ -531,8 +529,8 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 });
 
 /* Inactivar Producto */
-$app->get('/inactiveProducts/{id_product}', function (Request $request, Response $response, $args) use ($generalCostProductsDao) {
-    $product = $generalCostProductsDao->activeOrInactiveProducts($args['id_product'], 0);
+$app->get('/inactiveProducts/{id_product}', function (Request $request, Response $response, $args) use ($GeneralProductsDao) {
+    $product = $GeneralProductsDao->activeOrInactiveProducts($args['id_product'], 0);
 
     if ($product == null)
         $resp = array('success' => true, 'message' => 'Producto inactivado correctamente');
@@ -546,13 +544,13 @@ $app->get('/inactiveProducts/{id_product}', function (Request $request, Response
 });
 
 /* Activar Productos */
-$app->post('/activeProducts', function (Request $request, Response $response, $args) use ($generalCostProductsDao) {
+$app->post('/activeProducts', function (Request $request, Response $response, $args) use ($GeneralProductsDao) {
     $dataProducts = $request->getParsedBody();
 
     $products = $dataProducts['data'];
 
     for ($i = 0; $i < sizeof($products); $i++) {
-        $resolution = $generalCostProductsDao->activeOrInactiveProducts($products[$i]['idProduct'], 1);
+        $resolution = $GeneralProductsDao->activeOrInactiveProducts($products[$i]['idProduct'], 1);
     }
 
     if ($resolution == null)

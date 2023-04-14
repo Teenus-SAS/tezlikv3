@@ -3,9 +3,9 @@
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\GeneralProductsMaterialsDao;
+use tezlikv3\dao\ProductsMaterialsDao;
 
-$productsMaterialsDao = new GeneralProductsMaterialsDao();
+$productsMaterialsDao = new ProductsMaterialsDao();
 $convertDataDao = new ConvertDataDao();
 $productsDao = new GeneralProductsDao();
 $materialsDao = new GeneralMaterialsDao();

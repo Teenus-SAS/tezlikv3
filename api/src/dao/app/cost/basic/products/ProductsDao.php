@@ -76,4 +76,27 @@ class ProductsDao
       return $error;
     }
   }
+
+  public function deleteProduct($id_product)
+  {
+    $connection = Connection::getInstance()->getConnection();
+
+    try {
+      $stmt = $connection->prepare("SELECT * FROM products WHERE id_product = :id_product");
+      $stmt->execute(['id_product' => $id_product]);
+      $rows = $stmt->rowCount();
+
+      if ($rows > 0) {
+        $stmt = $connection->prepare("DELETE FROM products WHERE id_product = :id_product");
+        $stmt->execute(['id_product' => $id_product]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+      }
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+      if ($e->getCode() == 23000)
+        $message = 'No es posible eliminar, el producto esta asociado a cotización';
+      $error = array('info' => true, 'message' => $message);
+      return $error;
+    }
+  }
 }

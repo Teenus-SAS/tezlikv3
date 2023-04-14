@@ -1,5 +1,5 @@
 <?php
-
+/*
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\PlanMachinesDao;
 
@@ -9,7 +9,7 @@ $generalMachinesDao = new GeneralMachinesDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-/* Consulta todos */
+// Consulta todos
 
 $app->get('/planMachines', function (Request $request, Response $response, $args) use ($machinesDao) {
     session_start();
@@ -19,7 +19,7 @@ $app->get('/planMachines', function (Request $request, Response $response, $args
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* Consultar Maquinas importadas */
+// Consultar Maquinas importadas
 $app->post('/planMachinesDataValidation', function (Request $request, Response $response, $args) use (
     $generalMachinesDao
 ) {
@@ -56,7 +56,7 @@ $app->post('/planMachinesDataValidation', function (Request $request, Response $
 });
 
 
-/* Agregar Maquinas */
+// Agregar Maquinas
 $app->post('/addPlanMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
     $generalMachinesDao
@@ -101,7 +101,7 @@ $app->post('/addPlanMachines', function (Request $request, Response $response, $
 });
 
 
-/* Actualizar Maquina */
+// Actualizar Maquina
 $app->post('/updatePlanMachines', function (Request $request, Response $response, $args) use ($machinesDao) {
     $dataMachine = $request->getParsedBody();
 
@@ -123,7 +123,7 @@ $app->post('/updatePlanMachines', function (Request $request, Response $response
 });
 
 
-/* Eliminar Maquina */
+// Eliminar Maquina
 $app->get('/deletePlanMachine/{id_machine}', function (Request $request, Response $response, $args) use ($generalMachinesDao) {
     $machines = $generalMachinesDao->deleteMachine($args['id_machine']);
 
@@ -134,3 +134,4 @@ $app->get('/deletePlanMachine/{id_machine}', function (Request $request, Respons
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
 });
+*/

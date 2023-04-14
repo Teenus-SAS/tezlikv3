@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class GeneralProcessDao
+class ProcessDao
 {
     private $logger;
 
@@ -27,20 +27,6 @@ class GeneralProcessDao
         $process = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("process", array('process' => $process));
         return $process;
-    }
-
-    public function findProcess($dataProcess, $id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT id_process FROM process
-                                  WHERE process = :process AND id_company = :id_company");
-        $stmt->execute([
-            'process' => strtoupper(trim($dataProcess['process'])),
-            'id_company' => $id_company
-        ]);
-        $findProcess = $stmt->fetch($connection::FETCH_ASSOC);
-        return $findProcess;
     }
 
     public function insertProcessByCompany($dataProcess, $id_company)

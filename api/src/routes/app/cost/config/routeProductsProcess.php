@@ -5,11 +5,11 @@ use tezlikv3\dao\ProcessPayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\GeneralProductsDao;
-use tezlikv3\dao\GeneralProductsProcessDao;
+use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\Dao\PriceProductDao;
 
-$productsProcessDao = new GeneralProductsProcessDao();
+$productsProcessDao = new ProductsProcessDao();
 $convertDataDao = new ConvertDataDao();
 $productsDao = new GeneralProductsDao();
 $processPayrollDao = new ProcessPayrollDao();
@@ -113,7 +113,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -152,7 +152,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
 
             if (isset($productProcess['totalPrice']))
-                $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+                $productProcess = $GeneralProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
 
             if ($productProcess == null)
                 $resp = array('success' => true, 'message' => 'Proceso asignado correctamente');
@@ -232,7 +232,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             if (isset($resolution['info']))
                 break;
 
-            $resolution = $generalCostProductsDao->updatePrice($dataProductProcess[$i]['idProduct'], $resolution['totalPrice']);
+            $resolution = $GeneralProductsDao->updatePrice($dataProductProcess[$i]['idProduct'], $resolution['totalPrice']);
         }
 
         if ($resolution == null)
@@ -251,7 +251,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -285,7 +285,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
         if ($productProcess == null)
             $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
         if (isset($productProcess['totalPrice']))
-            $productProcess = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+            $productProcess = $GeneralProductsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
 
         if ($productProcess == null)
             $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
@@ -305,7 +305,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -333,7 +333,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     if ($product == null)
         $product = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
     if (isset($product['totalPrice']))
-        $product = $generalCostProductsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
+        $product = $GeneralProductsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
 
     if ($product == null)
         $resp = array('success' => true, 'message' => 'Proceso eliminado correctamente');

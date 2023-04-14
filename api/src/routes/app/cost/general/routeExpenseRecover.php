@@ -1,16 +1,15 @@
 <?php
 
 use tezlikv3\dao\ExpenseRecoverDao;
-use tezlikv3\dao\GeneralCostProductsDao;
-use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\PriceProductDao;
 
 $expenseRecoverDao = new ExpenseRecoverDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
-$generalCostProductsDao = new GeneralCostProductsDao();
+$generalProductsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -80,7 +79,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
     $expenseRecoverDao,
     $productsDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -96,7 +95,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
             $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
         if (isset($expenseRecover['totalPrice']))
-            $expenseRecover = $generalCostProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+            $expenseRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
 
         if ($expensesRecover == null)
             $resp = array('success' => true, 'message' => 'Gasto guardado correctamente');
@@ -125,7 +124,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
             if (isset($resolution['info']))
                 break;
 
-            $resolution = $generalCostProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $resolution['totalPrice']);
+            $resolution = $generalProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $resolution['totalPrice']);
         }
 
         if ($resolution == null)
@@ -140,7 +139,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 $app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use (
     $expenseRecoverDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $generalProductsDao
 ) {
     $dataExpense = $request->getParsedBody();
 
@@ -153,7 +152,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
             $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
         if (isset($expenseRecover['totalPrice']))
-            $expenseRecover = $generalCostProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+            $expenseRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
 
         if ($expensesRecover == null)
             $resp = array('success' => true, 'message' => 'Gasto modificado correctamente');
@@ -176,7 +175,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                 $resolution = $priceProductDao->calcPrice($expensesRecover[$i]['idProduct']);
             else break;
 
-            $resolution = $generalCostProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $resolution['totalPrice']);
+            $resolution = $generalProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $resolution['totalPrice']);
         }
 
         if ($resolution == null)
@@ -193,7 +192,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 $app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use (
     $expenseRecoverDao,
     $priceProductDao,
-    $generalCostProductsDao
+    $generalProductsDao
 ) {
     $dataExpense = $request->getParsedBody();
 
@@ -203,7 +202,7 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
         $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
     if (isset($expenseRecover['totalPrice']))
-        $expenseRecover = $generalCostProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+        $expenseRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
 
     if ($expensesRecover == null)
         $resp = array('success' => true, 'message' => 'Gasto eliminado correctamente');
