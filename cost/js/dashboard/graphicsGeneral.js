@@ -92,26 +92,13 @@ $(document).ready(function () {
         },
         datasets: [
           {
-            //label: process,
             data: minuteValue,
             backgroundColor: getRandomColor(data.length),
-            //borderColor: [],
             borderWidth: 1,
           },
         ],
       },
       options: {
-        // scales: {
-        //   yAxes: [
-        //     {
-        //       display: true,
-        //       ticks: {
-        //         min: 0,
-        //         max: 100,
-        //       },
-        //     },
-        //   ],
-        // },
         tooltips: {
           enabled: false,
         },
@@ -200,7 +187,6 @@ $(document).ready(function () {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }) + '%';
-              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
             color: 'white',
@@ -263,7 +249,6 @@ $(document).ready(function () {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 }) + '%';
-              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
               return percentage;
             },
             color: 'white',

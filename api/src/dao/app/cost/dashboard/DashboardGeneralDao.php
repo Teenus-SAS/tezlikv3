@@ -99,7 +99,6 @@ class DashboardGeneralDao
     $stmt->execute(['id_company' => $id_company]);
     $quantityProducts = $stmt->fetch($connection::FETCH_ASSOC);
 
-
     for ($i = 1; $i < 4; $i++) {
       $stmt = $connection->prepare("SELECT p.number_count, SUM(ex.expense_value) AS expenseCount
                                       FROM expenses ex

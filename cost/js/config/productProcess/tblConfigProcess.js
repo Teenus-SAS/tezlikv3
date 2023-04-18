@@ -46,13 +46,6 @@ $(document).ready(function () {
         {
           title: 'Máquina',
           data: 'machine',
-          render: function (data, type, row) {
-            if (data === null) {
-              return 'Proceso Manual';
-            } else {
-              return data;
-            }
-          },
         },
         {
           title: 'Tiempo Alistamiento (min)',
