@@ -16,9 +16,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consultar dolar actual */
 
 $app->get('/currentDollar', function (Request $request, Response $response, $args) use ($trmDao) {
-    $date = date('Y-m-d');
-
-    $price = $trmDao->getTrm($date);
+    $price = $trmDao->getLastTrm();
     $response->getBody()->write(json_encode($price, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -64,11 +62,10 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
         }
 
         // Obtener trm actual
-        $date = date('Y-m-d');
-        $price = $trmDao->getTrm($date);
+        $actualTrm = $trmDao->getLastTrm();
 
         // Covertura Cambiaria
-        $exchangeCoverage = $price - $coverage;
+        $exchangeCoverage = $actualTrm[0]['valor'] - $coverage;
 
         // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
         $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $deviation, $id_company);

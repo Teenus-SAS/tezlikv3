@@ -113,9 +113,10 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
     if ($dataMaterials > 1) {
 
-        $material = $generalMaterialsDao->findMaterial($dataMaterial, $id_company);
+        $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
         if (!$material) {
+
             $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
             if ($materials == null)
@@ -125,7 +126,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             else
                 $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
         } else
-            $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+            $resp = array('info' => true, 'message' => 'La materia prima ya existe. Ingrese una nueva');
     } else {
         $materials = $dataMaterial['importMaterials'];
 
@@ -187,7 +188,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 
-    $material = $generalMaterialsDao->findMaterial($dataMaterial, $id_company);
+    $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
     !isset($material['id_material']) ? $material['id_material'] = 0 : $material;
 
@@ -244,7 +245,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
     } else
-        $resp = array('info' => true, 'message' => 'La referencia ya existe. Ingrese una nueva referencia');
+        $resp = array('info' => true, 'message' => 'La materia prima ya existe. Ingrese una nueva');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

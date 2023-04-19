@@ -1,5 +1,5 @@
 <?php
-/*
+
 use tezlikv3\Dao\TrmDao;
 
 $trmDao = new TrmDao();
@@ -8,18 +8,22 @@ $trmDao = new TrmDao();
 function updateLastTrm($trmDao)
 {
     try {
-
         $resp = $trmDao->deleteAllHistoricalTrm();
 
         if ($resp == null) {
             $historicalTrm = $trmDao->getAllHistoricalTrm();
 
             foreach ($historicalTrm as $arr) {
-                $date = $arr['vigenciadesde'];
-                $value = $arr['valor'];
-                $resp = $trmDao->insertTrm($date, $value);
+                $first_date = $arr['vigenciadesde'];
+                $last_date = $arr['vigenciahasta'];
 
-                if (isset($resp['info'])) break;
+                for ($date = $first_date; $date <= $last_date;) {
+                    $resp = $trmDao->insertTrm($date, $arr['valor']);
+
+                    if (isset($resp['info'])) break;
+
+                    $date = date('Y-m-d', strtotime($date . ' +1 day'));
+                }
             }
         }
     } catch (\Exception $e) {
@@ -32,4 +36,3 @@ $lastTrm = $trmDao->findLastInsertedTrm();
 
 if ($date > $lastTrm['date_trm'])
     updateLastTrm($trmDao);
-*/

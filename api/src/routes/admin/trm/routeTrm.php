@@ -14,29 +14,23 @@ $app->get('/historicalTrm', function (Request $request, Response $response, $arg
 });
 
 $app->get('/loadLastsTrm', function (Request $request, Response $response, $args) use ($trmDao) {
-    $date = date('Y-m-d');
+    $resp = $trmDao->deleteAllHistoricalTrm();
 
-    $lastTrm = $trmDao->findLastInsertedTrm();
+    if ($resp == null) {
+        $historicalTrm = $trmDao->getAllHistoricalTrm();
 
-    $dateTrm = $lastTrm['date_trm'];
+        foreach ($historicalTrm as $arr) {
+            $first_date = $arr['vigenciadesde'];
+            $last_date = $arr['vigenciahasta'];
 
-    for ($dateTrm; $dateTrm <= $date;) {
-        $lastTrm = $trmDao->findLastInsertedTrm();
+            for ($date = $first_date; $date <= $last_date;) {
+                $resp = $trmDao->insertTrm($date, $arr['valor']);
 
-        $dateTrm = date('Y-m-d', strtotime($lastTrm['date_trm'] . ' +1 day'));
-        if ($dateTrm > $date) break;
+                if (isset($resp['info'])) break;
 
-        // Obtener trm
-        $price = $trmDao->getTrm('queryTCRM', ['tcrmQueryAssociatedDate' => $dateTrm]);
-
-        if (isset($price['info'])) break;
-
-        // Insertar
-        $resolution = $trmDao->insertTrm($dateTrm, $price);
-
-        // Eliminar primer registro del historico
-        if ($resolution == null)
-            $resolution = $trmDao->deleteFirstTrm();
+                $date = date('Y-m-d', strtotime($date . ' +1 day'));
+            }
+        }
     }
 
     if (isset($price['info']))

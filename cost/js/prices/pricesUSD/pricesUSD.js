@@ -1,9 +1,9 @@
 $(document).ready(function () {
   getCurrentDollar = async () => {
-    let dollar = await searchData('/api/currentDollar');
+    let actualTrm = await searchData('/api/currentDollar');
 
     $('#valueDollar').val(
-      `$ ${dollar.toLocaleString(undefined, {
+      `$ ${actualTrm[0]['valor'].toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}`

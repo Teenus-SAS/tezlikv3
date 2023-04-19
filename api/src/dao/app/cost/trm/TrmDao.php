@@ -40,46 +40,17 @@ class TrmDao
         return $historicalTrm;
     }
 
-    public function getTrm($method, $params)
+    public function getLastTrm()
     {
-        $wsdl = 'https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService?WSDL';
-        $options = array(
-            'uri' => 'http://schemas.xmlsoap.org/soap/envelope/',
-            'actor' => 'http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/',
-            'style' => SOAP_RPC,
-            'use' => SOAP_ENCODED,
-            'soap_version' => SOAP_1_1, //version 1 obligatorio
-            'cache_wsdl' => WSDL_CACHE_NONE,
-            'connection_timeout' => 5,
-            'trace' => true,
-            'encoding' => 'UTF-8',
-            'exceptions' => false,
-            'location' => 'https://www.superfinanciera.gov.co/SuperfinancieraWebServiceTRM/TCRMServicesWebService/TCRMServicesWebService', //endpoint
-            'typemap' =>
-            [ //namespace
-                "type_ns"  => "http://action.trm.services.generic.action.superfinanciera.nexura.sc.com.co/",
-                "type_name" => "WebServiceTRMReference.TCRMServicesInterface",
-                "to_xml"  => "some_funktion_name"
-            ],
-            'stream_context' => stream_context_create([
-                'ssl' => [
-                    'verify_peer' => false,
-                    'verify_peer_name' => false,
-                    'allow_self_signed' => true
-                ]
-            ])
-            //'proxy_port'     => 8080,
-            //'local_cert' => '/www/cer_superfinanciera.cer'
-        );
-        $nroError = '';
-        $msjError = '';
-        $result = '';
         try {
-            $soap = new \SoapClient($wsdl, $options);
-            $data = $soap->$method($params);
-            return $data->return;
-        } catch (\SoapFault $e) {
-            return array('info' => true, 'message' => (string)$e->faultcode . (string)$e->getMessage());
+            $url = 'https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&$order=vigenciahasta%20DESC';
+
+            $json = file_get_contents($url);
+            $historicalTrm = json_decode($json, true);
+
+            return $historicalTrm;
+        } catch (\Exception $e) {
+            return array('info' => true);
         }
     }
 
@@ -89,7 +60,8 @@ class TrmDao
             $url = 'https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=480&$order=vigenciahasta%20DESC';
 
             $json = file_get_contents($url);
-            $historicalTrm = json_decode($json);
+            $historicalTrm = json_decode($json, true);
+
 
             return $historicalTrm;
         } catch (\Exception $e) {
