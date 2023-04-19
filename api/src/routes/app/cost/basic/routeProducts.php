@@ -361,7 +361,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 if ($resolution == null) {
                     $productsMaterials = $productsMaterialsDao->findAllProductsmaterials($dataProduct['idProduct'], $id_company);
 
-                    $totalQuantity = 0;
+                    // $totalQuantity = 0;
 
                     foreach ($productsMaterials as $arr) {
                         if ($resolution != null) break;
@@ -371,9 +371,9 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         // Convertir unidades
                         $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-                        !$quantities ? $quantities = 0 : $quantities;
+                        // !$quantities ? $quantities = 0 : $quantities;
 
-                        $totalQuantity += $quantities;
+                        // $totalQuantity += $quantities;
 
                         // Convertir una unidad
                         // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
@@ -382,7 +382,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         $materialsDao->updateCostProductMaterial($arr, $quantities);
                     }
                     // Metodo calcular precio total materias
-                    $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $totalQuantity, $id_company);
+                    $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
 
                     $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
                 }

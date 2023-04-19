@@ -16,14 +16,12 @@ class TotalExpenseDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findTotalExpenseByCompany()
+    public function findTotalExpenseByCompany($id_company)
     {
-        session_start();
-        $id_company = $_SESSION['id_company'];
 
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT total_expense FROM general_data
-                                      WHERE id_company = :id_company;");
+                                      WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

@@ -29,17 +29,16 @@ class CostMaterialsDao
         return $dataProduct;
     }
 
-    public function calcCostMaterial($dataMaterials, $quantity, $id_company)
+    public function calcCostMaterial($dataMaterials, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT IFNULL(SUM(:quantity * IFNULL(m.cost, 0)), 0) as cost 
+            $stmt = $connection->prepare("SELECT IFNULL(SUM(pm.quantity * IFNULL(m.cost, 0)), 0) as cost 
                                         FROM products_materials pm 
                                         LEFT JOIN materials m ON pm.id_material = m.id_material 
                                         WHERE pm.id_company = :id_company AND pm.id_product = :id_product");
             $stmt->execute([
-                'quantity' => $quantity,
                 'id_company' => $id_company,
                 'id_product' => $dataMaterials['idProduct']
             ]);

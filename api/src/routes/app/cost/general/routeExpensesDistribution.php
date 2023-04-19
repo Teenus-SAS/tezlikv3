@@ -25,13 +25,16 @@ $app->get('/expensesDistribution', function (Request $request, Response $respons
 });
 
 $app->get('/expenseTotal', function (Request $request, Response $response, $args) use ($totalExpenseDao) {
-    $totalExpense = $totalExpenseDao->findTotalExpenseByCompany();
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $totalExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
     $response->getBody()->write(json_encode($totalExpense, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/expenseDistributionDataValidation', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
+    $totalExpenseDao,
     $productsDao
 ) {
     $dataExpensesDistribution = $request->getParsedBody();
@@ -46,6 +49,14 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
         $expensesDistribution = $dataExpensesDistribution['importExpense'];
 
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
+
+            $expenseTotal = $totalExpenseDao->findTotalExpenseByCompany($id_company);
+
+            if (empty($expenseTotal) || !$expenseTotal) {
+                $dataImportExpenseDistribution = array('error' => true, 'message' => 'Asigne un gasto primero antes de distribuir');
+                break;
+            }
+
             if (empty($expensesDistribution[$i]['unitsSold']) || empty($expensesDistribution[$i]['turnover'])) {
                 $i = $i + 1;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");

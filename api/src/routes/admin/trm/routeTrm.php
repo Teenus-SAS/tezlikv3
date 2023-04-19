@@ -27,7 +27,7 @@ $app->get('/loadLastsTrm', function (Request $request, Response $response, $args
         if ($dateTrm > $date) break;
 
         // Obtener trm
-        $price = $trmDao->getTrm($dateTrm);
+        $price = $trmDao->getTrm('queryTCRM', ['tcrmQueryAssociatedDate' => $dateTrm]);
 
         if (isset($price['info'])) break;
 
@@ -40,7 +40,7 @@ $app->get('/loadLastsTrm', function (Request $request, Response $response, $args
     }
 
     if (isset($price['info']))
-        $resp = array('info' => true, 'message' => 'Error al ingresar al historico de trm. Intente nuevamente');
+        $resp = array('info' => true, 'message' => $price['message']);
     else
         $resp = array('success' => true, 'message' => 'Trm cargado correctamente');
 
