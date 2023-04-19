@@ -32,3 +32,4 @@ $lastTrm = $trmDao->findLastInsertedTrm();
 
 if ($date > $lastTrm['date_trm'])
     updateLastTrm($trmDao);
+*/
