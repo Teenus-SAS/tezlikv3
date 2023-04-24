@@ -90,7 +90,8 @@ if (sizeof($_SESSION) == 0)
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
     <script>
-        price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>"
+        price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
     </script>
     <script src="../cost/js/users/tblUsers.js"></script>
     <script src="../cost/js/users/users.js"></script>
