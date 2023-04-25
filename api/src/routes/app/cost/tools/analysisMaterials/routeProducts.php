@@ -13,7 +13,6 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
 
     $productsRawmaterials = $AMProductsDao->findAllProductsRawMaterials($args['idProduct'], $id_company);
 
-
     if (isset($productsRawmaterials['info']))
         $data = $productsRawmaterials;
     else {

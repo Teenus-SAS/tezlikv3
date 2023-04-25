@@ -158,29 +158,32 @@
                                                     <input id="checkbox-19" name="economyScale" type="checkbox">
                                                     <label for="checkbox-19">Economia De Escala</label>
                                                 </div>
-                                                <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
-                                                    <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-22" name="multiproduct" type="checkbox">
-                                                        <label for="checkbox-22">Pto De Equilibrio Multiproducto</label>
+                                                <?php if ($_SESSION['plan_cost_multiproduct'] == 0) { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
+                                                    <?php } ?>
+                                                    <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
+                                                        <div class="checkbox checkbox-success checkbox-circle">
+                                                        <?php } ?>
+                                                        <input id="checkbox-20" name="multiproduct" type="checkbox">
+                                                        <label for="checkbox-20">Pto De Equilibrio Multiproducto</label>
+                                                        </div>
                                                     </div>
-                                                <?php } ?>
-                                            </div>
 
-                                            <div class="mt-4 col-sm-3">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-20" name="quotes" type="checkbox">
-                                                    <label for="checkbox-20">Cotización</label>
-                                                </div>
+                                                    <div class="mt-4 col-sm-3">
+                                                        <div class="checkbox checkbox-success checkbox-circle">
+                                                            <input id="checkbox-21" name="quotes" type="checkbox">
+                                                            <label for="checkbox-21">Cotización</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-4 col-sm-3">
+                                                        <div class="checkbox checkbox-success checkbox-circle">
+                                                            <input id="checkbox-22" name="tools" type="checkbox">
+                                                            <label for="checkbox-22">Soporte</label>
+                                                        </div>
+                                                    </div>
                                             </div>
-                                            <div class="mt-4 col-sm-3">
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-21" name="tools" type="checkbox">
-                                                    <label for="checkbox-21">Soporte</label>
-                                                </div>
-                                            </div>
+                                            <hr>
                                         </div>
-                                        <hr>
-                                    </div>
                                 </form>
                             </div>
                         </div>

@@ -106,14 +106,10 @@ $(document).ready(function () {
       pricesUSD: data.price_usd,
       analysisMaterials: data.analysis_material,
       economyScale: data.economy_scale,
+      multiproduct: data.multiproduct,
       quotes: data.quote,
       support: data.support,
     };
-
-    if (plan_cost_multiproduct == 1)
-      access.push({
-        multiproduct: data.multiproduct,
-      });
 
     let i = 1;
 
@@ -177,13 +173,10 @@ $(document).ready(function () {
       priceUSD: 0,
       analysisMaterial: 0,
       economyScale: 0,
+      multiproduct: 0,
       quote: 0,
       support: 0,
     };
-    if (plan_cost_multiproduct == 1)
-      access.push({
-        multiproduct: 0,
-      });
 
     $.each(access, (index, value) => {
       if ($(`#checkbox-${i}`).is(':checked')) dataUser[`${index}`] = 1;
