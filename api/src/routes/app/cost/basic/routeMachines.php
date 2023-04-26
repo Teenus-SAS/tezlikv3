@@ -231,13 +231,15 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                 if (isset($machines['info'])) break;
 
                 /* Precio Producto */
+                $data = [];
                 // Calcular precio products_costs
                 $machines = $priceProductDao->calcPrice($arr['id_product']);
-                $machines == false ? $machines['totalPrice'] = 0 : $machines;
+
+                !is_array($machines) ? $data['totalPrice'] = 0 : $data = $machines;
 
                 if (isset($machines['info'])) break;
 
-                $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             }
         }
         if ($machines == null)
