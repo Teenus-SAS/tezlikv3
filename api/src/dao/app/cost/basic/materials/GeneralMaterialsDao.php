@@ -65,6 +65,9 @@ class GeneralMaterialsDao
             'id_company' => $id_company,
         ]);
         $findMaterial = $stmt->fetch($connection::FETCH_ASSOC);
+
+        !is_array($findMaterial) ? $findMaterial['id_material'] = 0 : $findMaterial;
+
         return $findMaterial;
     }
 

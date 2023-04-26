@@ -203,8 +203,6 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     $machine = $generalMachinesDao->findMachine($dataMachine, $id_company);
 
-    !is_array($machine) ? $machine['id_machine'] = 0 : $machine;
-
     if ($machine['id_machine'] == $dataMachine['idMachine'] || $machine['id_machine'] == 0) {
         $machines = $machinesDao->updateMachine($dataMachine);
 

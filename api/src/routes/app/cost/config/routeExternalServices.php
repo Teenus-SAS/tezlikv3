@@ -144,8 +144,6 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
     $externalService = $externalServicesDao->findExternalService($dataExternalService, $id_company);
 
-    !is_array($externalService) ? $externalService['id_service'] = 0 : $externalService;
-
     if ($externalService['id_service'] == $dataExternalService['idService'] || $externalService['id_service'] == 0) {
         $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
 

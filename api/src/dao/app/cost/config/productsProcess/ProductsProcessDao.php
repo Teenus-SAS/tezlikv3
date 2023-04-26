@@ -48,6 +48,8 @@ class ProductsProcessDao
         ]);
         $findProductProcess = $stmt->fetch($connection::FETCH_ASSOC);
 
+        !is_array($findProductProcess) ? $findProductProcess['id_product_process'] = 0 : $findProductProcess;
+
         return $findProductProcess;
     }
 

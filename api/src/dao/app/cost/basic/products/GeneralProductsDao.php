@@ -49,6 +49,9 @@ class GeneralProductsDao
             'id_company' => $id_company
         ]);
         $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
+
+        !is_array($findProduct) ? $findProduct['id_product'] = 0 : $findProduct;
+
         return $findProduct;
     }
 

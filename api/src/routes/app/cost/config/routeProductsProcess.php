@@ -259,8 +259,6 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 
     $productProcess = $productsProcessDao->findProductProcess($dataProductProcess, $id_company);
 
-    !is_array($productProcess) ? $productProcess['id_product_process'] = 0 : $productProcess;
-
     if ($productProcess['id_product_process'] == $dataProductProcess['idProductProcess'] || !$productProcess) {
         $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
         $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
