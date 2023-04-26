@@ -284,7 +284,7 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
 
     $productMaterials = $productsMaterialsDao->findProductMaterial($dataProductMaterial, $id_company);
 
-    !isset($productMaterials['id_productMaterial']) ? $productMaterials['id_productMaterial'] = 0 : $productMaterials;
+    !is_array($productMaterials) ? $productMaterials['id_productMaterial'] = 0 : $productMaterials;
 
     if ($productMaterials['id_product_material'] == $dataProductMaterial['idProductMaterial'] || $productMaterials['id_productMaterial'] == 0) {
         $dataProductMaterial = $convertDataDao->strReplaceProductsMaterials($dataProductMaterial);

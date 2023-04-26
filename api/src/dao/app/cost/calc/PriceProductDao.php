@@ -23,13 +23,14 @@ class PriceProductDao
 
         try {
             $stmt = $connection->prepare("SELECT
-                                                (((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = pc.id_product)) 
+                                                (((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product)) 
                                                 / (1 - IFNULL(er.expense_recover, 0) / 100)) / (1 - (IFNULL(pc.profitability, 0) /100))) / (1 - (IFNULL(pc.commission_sale, 0) / 100)) AS totalPrice 
-                                          FROM products_costs pc
-                                            LEFT JOIN services s ON s.id_product = pc.id_product
-                                            LEFT JOIN expenses_distribution ed ON ed.id_product = pc.id_product
-                                            LEFT JOIN expenses_recover er ON er.id_product = pc.id_product
-                                          WHERE pc.id_product = :id_product");
+                                          FROM products p
+                                            LEFT JOIN products_costs pc ON pc.id_product = p.id_product
+                                            LEFT JOIN services s ON s.id_product = p.id_product
+                                            LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                            LEFT JOIN expenses_recover er ON er.id_product = p.id_product
+                                          WHERE p.id_product = :id_product");
             $stmt->execute(['id_product' => $idProduct]);
             $dataPrice = $stmt->fetch($connection::FETCH_ASSOC);
         } catch (\Exception $e) {

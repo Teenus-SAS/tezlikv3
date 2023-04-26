@@ -150,7 +150,9 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
 
     $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
-    if (isset($expense['id_expense']) == $dataExpense['idExpense'] || !$expense) {
+    !is_array($expense) ? $expense['id_expense'] = 0 : $expense;
+
+    if ($expense['id_expense'] == $dataExpense['idExpense'] || $expense['id_expense'] == 0) {
         $expenses = $expensesDao->updateExpenses($dataExpense);
 
         // Calcular total del gasto

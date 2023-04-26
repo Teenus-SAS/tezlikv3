@@ -190,7 +190,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
     $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
-    !isset($material['id_material']) ? $material['id_material'] = 0 : $material;
+    !is_array($material) ? $material['id_material'] = 0 : $material;
 
     if ($material['id_material'] == $dataMaterial['idMaterial'] || $material['id_material'] == 0) {
         $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);

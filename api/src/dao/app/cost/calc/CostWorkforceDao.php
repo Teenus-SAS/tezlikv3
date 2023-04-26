@@ -23,6 +23,7 @@ class CostWorkforceDao
 
         $stmt = $connection->prepare("SELECT pp.id_product
                                       FROM products_process pp
+                                        INNER JOIN products p ON p.id_product = pp.id_product
                                       WHERE pp.id_process = :id_process AND pp.id_company = :id_company");
         $stmt->execute(['id_process' => $idProcess, 'id_company' => $id_company]);
         $dataProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
