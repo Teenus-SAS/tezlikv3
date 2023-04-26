@@ -188,9 +188,13 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 
+    $data = [];
+
     $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
-    if ($material['id_material'] == $dataMaterial['idMaterial'] || $material['id_material'] == 0) {
+    !is_array($material) ? $data['id_material'] = 0 : $data = $material;
+
+    if ($data['id_material'] == $dataMaterial['idMaterial'] || $data['id_material'] == 0) {
         $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
         if ($materials == null) {

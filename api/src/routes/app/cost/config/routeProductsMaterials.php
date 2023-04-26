@@ -282,9 +282,13 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
     $id_company = $_SESSION['id_company'];
     $dataProductMaterial = $request->getParsedBody();
 
+    $data = [];
+
     $productMaterials = $productsMaterialsDao->findProductMaterial($dataProductMaterial, $id_company);
 
-    if ($productMaterials['id_product_material'] == $dataProductMaterial['idProductMaterial'] || $productMaterials['id_productMaterial'] == 0) {
+    !is_array($productMaterials) ? $data['id_productMaterial'] = 0 : $data = $productMaterials;
+
+    if ($data['id_product_material'] == $dataProductMaterial['idProductMaterial'] || $data['id_productMaterial'] == 0) {
         $dataProductMaterial = $convertDataDao->strReplaceProductsMaterials($dataProductMaterial);
         $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
 

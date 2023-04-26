@@ -27,9 +27,6 @@ class GeneralProcessDao
             'id_company' => $id_company
         ]);
         $findProcess = $stmt->fetch($connection::FETCH_ASSOC);
-
-        !is_array($findProcess) ? $findProcess['id_process'] = 0 : $findProcess;
-
         return $findProcess;
     }
 }

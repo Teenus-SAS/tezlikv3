@@ -105,9 +105,13 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
     $dataProcess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
+    $data = [];
+
     $process = $generalProcessDao->findProcess($dataProcess, $id_company);
 
-    if ($process['id_process'] == $dataProcess['idProcess'] || $process['id_process'] == 0) {
+    !is_array($process) ? $data['id_process'] = 0 : $data = $process;
+
+    if ($data['id_process'] == $dataProcess['idProcess'] || $data['id_process'] == 0) {
         $process = $processDao->updateProcess($dataProcess);
 
         if ($process == null)

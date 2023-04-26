@@ -148,9 +148,13 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
     $dataExpense = $request->getParsedBody();
 
+    $data = [];
+
     $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
-    if ($expense['id_expense'] == $dataExpense['idExpense'] || $expense['id_expense'] == 0) {
+    !is_array($expense) ? $data['id_expense'] = 0 : $data = $expense;
+
+    if ($data['id_expense'] == $dataExpense['idExpense'] || $data['id_expense'] == 0) {
         $expenses = $expensesDao->updateExpenses($dataExpense);
 
         // Calcular total del gasto

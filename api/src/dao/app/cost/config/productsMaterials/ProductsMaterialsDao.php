@@ -47,9 +47,6 @@ class ProductsMaterialsDao
             'id_company' => $id_company
         ]);
         $findProductMaterial = $stmt->fetch($connection::FETCH_ASSOC);
-
-        !is_array($findProductMaterial) ? $findProductMaterial['id_productMaterial'] = 0 : $findProductMaterial;
-
         return $findProductMaterial;
     }
 

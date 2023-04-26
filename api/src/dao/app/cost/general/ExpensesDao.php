@@ -45,9 +45,6 @@ class ExpensesDao
       'id_company' => $id_company
     ]);
     $findExpense = $stmt->fetch($connection::FETCH_ASSOC);
-
-    !is_array($findExpense) ? $findExpense['id_expense'] = 0 : $findExpense;
-
     return $findExpense;
   }
 

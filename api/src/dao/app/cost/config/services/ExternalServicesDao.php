@@ -45,8 +45,6 @@ class ExternalServicesDao
         ]);
         $findExternalService = $stmt->fetch($connection::FETCH_ASSOC);
 
-        !is_array($findExternalService) ? $findExternalService['id_service'] = 0 : $findExternalService;
-
         return $findExternalService;
     }
 

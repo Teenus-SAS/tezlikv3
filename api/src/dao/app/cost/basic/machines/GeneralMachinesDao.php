@@ -28,9 +28,6 @@ class GeneralMachinesDao
             'id_company' => $id_company
         ]);
         $findMachine = $stmt->fetch($connection::FETCH_ASSOC);
-
-        !is_array($findMachine) ? $findMachine['id_machine'] = 0 : $findMachine;
-
         return $findMachine;
     }
 }

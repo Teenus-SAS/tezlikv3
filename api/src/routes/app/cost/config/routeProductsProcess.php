@@ -257,9 +257,13 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $id_company = $_SESSION['id_company'];
     $dataProductProcess = $request->getParsedBody();
 
+    $data = [];
+
     $productProcess = $productsProcessDao->findProductProcess($dataProductProcess, $id_company);
 
-    if ($productProcess['id_product_process'] == $dataProductProcess['idProductProcess'] || !$productProcess) {
+    !is_array($productProcess) ? $data['id_product_process'] = 0 : $data = $productProcess;
+
+    if ($data['id_product_process'] == $dataProductProcess['idProductProcess'] || $data['id_product_process'] == 0) {
         $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
         $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
