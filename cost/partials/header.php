@@ -92,7 +92,7 @@
                                             <?php } ?>
                                             <?php if (
                                                 $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
-                                                && $_SESSION['plan_cost_multiproduct'] == 1 && $_SESSION['flag_expense'] != 2
+                                                || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2
                                             ) { ?>
                                                 <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
                                             <?php } ?>

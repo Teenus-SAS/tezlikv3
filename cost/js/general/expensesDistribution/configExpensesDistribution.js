@@ -68,7 +68,7 @@ $(document).ready(function () {
     }
     if (option == 2) {
       $('.cardCheckExpense').show(800);
-      $('.generalExpenses').hide();
+      // $('.generalExpenses').hide();
       $('.distributionExpenses').html('Recuperación de Gastos');
       $('.cardBtnExpenseRecover').show(800);
       $('.cardBtnImportExpenses').show(800);
