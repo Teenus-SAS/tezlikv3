@@ -44,7 +44,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Precios USD</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Análisis de Precios USD</li>
+                                        <li class="breadcrumb-item active">La cobertura cambiaria es una estrategia que consiste en protegerse contra el riesgo de las fluctuaciónes del tipo de cambio entre dos monedas.</li>
                                     </ol>
                                 </div>
                             </div>
