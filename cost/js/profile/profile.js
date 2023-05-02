@@ -12,6 +12,19 @@ $(document).ready(function () {
     $('#position').val(data.position);
     $('#email').val(data.email);
     if (data.avatar) avatar.src = data.avatar;
+
+    /* Cargar data compañia */
+    data = await searchData('/api/company');
+
+    $('#idCompany').val(data[0].id_company);
+    $('#state').val(data[0].state);
+    $('#company').val(data[0].company);
+    $('#nit').val(data[0].nit);
+    $('#city').val(data[0].city);
+    $('#country').val(data[0].country);
+    $('#phone').val(data[0].telephone);
+    $('#address').val(data[0].address);
+    $('#logo').prop('src', data[0].logo);
   };
 
   loadProfile();
@@ -22,14 +35,37 @@ $(document).ready(function () {
 
     let firstname = $('#firstname').val();
     let lastname = $('#lastname').val();
-    sessionStorage.setItem('name', firstname);
-    sessionStorage.setItem('lastname', lastname);
+
+    let company = $('#company').val();
+    let nit = $('#nit').val();
+    let city = $('#city').val();
+    let country = $('#country').val();
+    let phone = $('#phone').val();
+    let address = $('#address').val();
 
     let password = $('#password').val();
     let conPassword = $('#conPassword').val();
 
-    if (!firstname || firstname == '' || !lastname || lastname == '') {
-      toastr.error('Ingrese todos los campos');
+    if (
+      !firstname ||
+      firstname == '' ||
+      !lastname ||
+      lastname == '' ||
+      company == '' ||
+      nit == '' ||
+      city == '' ||
+      country == '' ||
+      phone == '' ||
+      address == ''
+    ) {
+      let generalInputs = document.getElementsByClassName('general');
+
+      for (let i = 0; i < generalInputs.length; i++) {
+        if (generalInputs[i].value == '')
+          generalInputs[i].style.border = '2px solid red';
+      }
+
+      toastr.error('No puede dejar espacios vacios');
       return false;
     }
 
@@ -62,19 +98,16 @@ $(document).ready(function () {
   /* Cargar notificación */
   message = (data) => {
     if (data.success == true) {
-      let firstname = sessionStorage.getItem('name');
-      let lastname = sessionStorage.getItem('lastname');
-
-      sessionStorage.removeItem('name');
-      sessionStorage.removeItem('lastname');
-
-      if (data.avatar) hAvatar.src = data.avatar;
-      $('.userName').html(`${firstname} ${lastname}`);
-      $('#email').prop('disabled', true);
+      $('.general').css('border', '');
 
       toastr.success(data.message);
+      setTimeout(reloadPage, 2000);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
+
+  function reloadPage() {
+    window.location.reload();
+  }
 });

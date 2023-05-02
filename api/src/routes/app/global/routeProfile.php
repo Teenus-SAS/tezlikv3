@@ -1,17 +1,19 @@
 <?php
 
 use tezlikv3\dao\AutenticationUserDao;
+use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\ProfileDao;
 
 $profileDao = new ProfileDao();
 $FilesDao = new FilesDao();
 $usersDao = new AutenticationUserDao();
+$companyDao = new CompaniesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->post('/updateProfile', function (Request $request, Response $response, $args) use ($profileDao, $FilesDao, $usersDao) {
+$app->post('/updateProfile', function (Request $request, Response $response, $args) use ($profileDao, $FilesDao, $usersDao, $companyDao) {
     session_start();
     $dataUser = $request->getParsedBody();
 
@@ -21,11 +23,16 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
     } else {
         $id_company = $_SESSION['id_company'];
         $profile = $profileDao->updateProfile($dataUser);
-        if (sizeof($_FILES) > 0) {
-            if (isset($_FILES['avatar']))
-                $FilesDao->avatarUser($dataUser['idUser'], $id_company);
-            if (isset($_FILES['logo']))
-                $FilesDao->logoCompany($id_company);
+
+        if ($profile == null) {
+            $profile = $companyDao->updateCompany($dataUser);
+
+            if (sizeof($_FILES) > 0) {
+                if (isset($_FILES['avatar']))
+                    $FilesDao->avatarUser($dataUser['idUser'], $id_company);
+                if (isset($_FILES['logo']))
+                    $FilesDao->logoCompany($id_company);
+            }
         }
     }
 
@@ -36,7 +43,7 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['avatar'] = $user['avatar'];
 
-        $resp = array('success' => true, 'message' => 'Perfil actualizado correctamente', 'avatar' => $user['avatar']);
+        $resp = array('success' => true, 'message' => 'Perfil actualizado correctamente');
     } else if (isset($profile['info']))
         $resp = array('info' => true, 'message' => $profile['message']);
     else

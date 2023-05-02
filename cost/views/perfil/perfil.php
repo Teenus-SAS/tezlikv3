@@ -37,85 +37,88 @@ if (sizeof($_SESSION) == 0)
             <!-- Content -->
             <div class="page-content">
                 <div class="container py-5">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-body text-center">
-                                    <div class="picture-container">
-                                        <div class="picture">
-                                            <img id="avatar" src="" class="img-fluid" style="width: 100px;" />
-                                            <input class="form-control" type="file" id="formFile">
+                    <form id="formSaveProfile">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-body text-center">
+                                        <div class="picture-container">
+                                            <div class="picture">
+                                                <img id="avatar" src="" class="img-fluid" style="width: 100px;" />
+                                                <input class="form-control" type="file" id="formFile">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <h5 class="my-3" id="profileName"></h5>
-                                </div>
-                            </div>
-                            <div class="card companyData">
-                                <div class="card-body">
-                                    <div class="picture-container mb-4">
-                                        <div class="pictureC">
-                                            <img id="logo" src="" class="img-fluid" style="width: 400px;" />
-                                            <input class="form-control" type="file" id="formFileC">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <p class="font-weight-bold mb-0">Compañia</p>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <p class="text-muted mb-0" id="company"></p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <p class="font-weight-bold mb-0">NIT</p>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <p class="text-muted mb-0" id="nit"></p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <p class="font-weight-bold mb-0">Ciudad</p>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <p class="text-muted mb-0" id="city"></p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <p class="font-weight-bold mb-0">Pais</p>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <p class="text-muted mb-0" id="country"></p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <p class="font-weight-bold mb-0">Telefono</p>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <p class="text-muted mb-0" id="phone"></p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <p class="font-weight-bold mb-0">Dirección</p>
-                                        </div>
-                                        <div class="col-sm-8">
-                                            <p class="text-muted mb-0" id="address"></p>
-                                        </div>
+                                        <h5 class="my-3" id="profileName"></h5>
                                     </div>
                                 </div>
+                                <div class="card companyData">
+                                    <div class="card-body">
+                                        <input type="" id="state" name="companyState" hidden>
+                                        <input type="" id="idCompany" name="idCompany" hidden>
+
+                                        <div class="picture-container mb-4">
+                                            <div class="pictureC">
+                                                <img id="logo" src="" class="img-fluid" style="width: 400px;" />
+                                                <input class="form-control" type="file" id="formFileC">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p class="font-weight-bold mb-0">Compañia</p>
+                                            </div>
+                                            <div class="col-sm-8 mb-0">
+                                                <input class="form-control text-center general" type="text" id="company" name="company">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p class="font-weight-bold mb-0">NIT</p>
+                                            </div>
+                                            <div class="col-sm-8 mb-0">
+                                                <input class="form-control text-center general" type="number" id="nit" name="companyNIT">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p class="font-weight-bold mb-0">Ciudad</p>
+                                            </div>
+                                            <div class="col-sm-8 mb-0">
+                                                <input class="form-control text-center general" type="text" id="city" name="companyCity">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p class="font-weight-bold mb-0">Pais</p>
+                                            </div>
+                                            <div class="col-sm-8 mb-0">
+                                                <input class="form-control text-center general" type="text" id="country" name="companyCountry">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p class="font-weight-bold mb-0">Telefono</p>
+                                            </div>
+                                            <div class="col-sm-8 mb-0">
+                                                <input class="form-control text-center general" type="number" id="phone" name="companyTel">
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <p class="font-weight-bold mb-0">Dirección</p>
+                                            </div>
+                                            <div class="col-sm-8 mb-0">
+                                                <textarea class="form-control text-center general" id="address" name="companyAddress"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-8">
-                            <form id="formSaveProfile">
+                            <div class="col-lg-8">
                                 <div class="card mb-4">
                                     <div class="card-body">
                                         <div class="row">
@@ -124,7 +127,7 @@ if (sizeof($_SESSION) == 0)
                                                 <label class="form-label">Nombres *</label>
                                             </div>
                                             <div class="col-sm-5">
-                                                <input type="text" class="form-control text-center firstname" placeholder="" aria-label="First name" id="firstname" name="nameUser">
+                                                <input type="text" class="form-control text-center firstname general" placeholder="" aria-label="First name" id="firstname" name="nameUser">
                                             </div>
                                         </div>
                                         <hr>
@@ -133,7 +136,7 @@ if (sizeof($_SESSION) == 0)
                                                 <label class="form-label">Apellidos *</label>
                                             </div>
                                             <div class="col-sm-5">
-                                                <input type="text" class="form-control text-center" placeholder="" aria-label="Last name" id="lastname" name="lastnameUser">
+                                                <input type="text" class="form-control text-center general" placeholder="" aria-label="Last name" id="lastname" name="lastnameUser">
                                             </div>
                                         </div>
                                         <hr>
@@ -178,9 +181,10 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -193,8 +197,6 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <!-- <script src="/global/js/global/searchData.js"></script> -->
-    <script src="/global/js/global/companyData.js"></script>
     <script src="/global/js/global/loadImg.js"></script>
     <script src="/cost/js/profile/profile.js"></script>
 </body>

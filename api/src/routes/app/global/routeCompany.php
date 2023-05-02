@@ -1,8 +1,6 @@
 <?php
 
 use tezlikv3\dao\CompanyDao;
-use tezlikv3\dao\UsersDao;
-use tezlikv3\dao\licenseCompanyDao;
 
 $companyDao = new CompanyDao();
 
@@ -17,7 +15,14 @@ $app->get('/company', function (Request $request, Response $response, $args) use
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addCompany', function (Request $request, Response $response, $args) use ($companyDao) {
+/*$app->post('/addCompany', function (Request $request, Response $response, $args) use (
+    $companyDao,
+    $userDao,
+    $licenseCompanyDao,
+    $generateCodeDao,
+    $makeEmailDao,
+    $sendEmailDao
+) {
     $data = $request->getParsedBody();
 
     if (
@@ -27,12 +32,21 @@ $app->post('/addCompany', function (Request $request, Response $response, $args)
     )
         $resp = array('error' => true, 'message' => 'Ingrese los todos datos');
     else {
-
-        $userDao = new UsersDao();
-        $licenseCompanyDao = new LicenseCompanyDao();
-
         $id_company = $companyDao->insertCompany($data);
-        $userDao->saveUser($data, $id_company);
+
+        $newPass = $generateCodeDao->GenerateCode();
+
+        // Se envia email con usuario(email) y contraseña
+        $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
+
+        $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
+
+        if (!$sendEmail['info']) {
+            $pass = password_hash($newPass, PASSWORD_DEFAULT);
+
+            // Almacena el usuario
+            $users = $userDao->saveUser($dataUser, $pass, $id_company);
+        }
         $licenseCompany = $licenseCompanyDao->insertLicenseCompanyByCompany($data, $id_company);
 
         if ($licenseCompany == null)
@@ -62,7 +76,7 @@ $app->post('/updateCompany', function (Request $request, Response $response, $ar
     }
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+}); 
 
 $app->get('/deleteCompany/{id_company}', function (Request $request, Response $response, $args) use ($companyDao) {
     $company = $companyDao->deleteCompany($args['id_company']);
@@ -73,4 +87,4 @@ $app->get('/deleteCompany/{id_company}', function (Request $request, Response $r
         $resp = array('error' => true, 'message' => 'No es posible eliminar la compañia, existe información asociada a ella');
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
-});
+}); */
