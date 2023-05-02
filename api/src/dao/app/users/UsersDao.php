@@ -85,6 +85,28 @@ class UsersDao
     }
   }
 
+  // Insertar nuevo usuario solo con email 
+  public function saveUserOnlyEmail($email, $pass, $id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+    try {
+      $stmt = $connection->prepare("INSERT INTO users (email, password, id_company, id_rols, active) 
+                                    VALUES(:email, :pass, :id_company, :id_rols, :active)");
+      $stmt->execute([
+        'email' => trim($email),
+        'pass' => $pass,
+        'id_company' => $id_company,
+        'id_rols' => 2,
+        'active' => 1
+      ]);
+      $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    } catch (\Exception $e) {
+      $message = $e->getMessage();
+      $error = array('info' => true, 'message' => $message);
+      return $error;
+    }
+  }
+
   public function updateUser($dataUser, $pathAvatar)
   {
     $connection = Connection::getInstance()->getConnection();

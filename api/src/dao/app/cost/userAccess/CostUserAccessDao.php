@@ -91,6 +91,35 @@ class CostUserAccessDao
         }
     }
 
+    public function setDataUserAccessDemo($id_user)
+    {
+        $dataUser['idUser'] = $id_user;
+        $dataUser['costUser'] = 1;
+        $dataUser['costCreateProducts'] = 1;
+        $dataUser['economyScale'] = 1;
+        $dataUser['costCreateMaterials'] = 1;
+        $dataUser['multiproduct'] = 1;
+        $dataUser['costCreateMachines'] = 1;
+        $dataUser['quotePaymentMethod'] = 1;
+        $dataUser['costCreateProcess'] = 1;
+        $dataUser['quoteCompany'] = 1;
+        $dataUser['costProductMaterials'] = 1;
+        $dataUser['quoteContact'] = 1;
+        $dataUser['costProductProcess'] = 1;
+        $dataUser['price'] = 1;
+        $dataUser['factoryLoad'] = 1;
+        $dataUser['priceUSD'] = 1;
+        $dataUser['externalService'] = 1;
+        $dataUser['analysisMaterial'] = 1;
+        $dataUser['payrollLoad'] = 1;
+        $dataUser['support'] = 1;
+        $dataUser['expense'] = 1;
+        $dataUser['quote'] = 1;
+        $dataUser['expenseDistribution'] = 1;
+
+        return $dataUser;
+    }
+
     public function updateUserAccessByUsers($dataUser)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -1,11 +1,14 @@
 <?php
 
+use tezlikv3\dao\CompaniesDao;
+use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\UsersDao;
 // Cantidad de usuarios
 use tezlikv3\dao\QuantityUsersDao;
 //Acceso de usuario
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GenerateCodeDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\SendMakeEmailDao;
 
@@ -15,6 +18,9 @@ $makeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
 $quantityUsersDao = new QuantityUsersDao();
 $costAccessUserDao = new CostUserAccessDao();
+$companyDao = new CompaniesDao();
+$companiesLicenseDao = new CompaniesLicenseDao();
+$lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -37,7 +43,7 @@ $app->get('/user', function (Request $request, Response $response, $args) use ($
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* Insertar usuario */
+// Insertar usuario
 
 $app->post('/addUser', function (Request $request, Response $response, $args) use (
     $userDao,
@@ -84,13 +90,13 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
                     /* Almacena el usuario */
                     $users = $userDao->saveUser($dataUser, $pass, $id_company);
-                }
 
-                if ($users == null) {
-                    $user = $userDao->findUser($dataUser['emailUser']);
-                    $dataUser['idUser'] = $user['id_user'];
+                    if ($users == null) {
+                        $user = $userDao->findUser($dataUser['emailUser']);
+                        $dataUser['idUser'] = $user['id_user'];
 
-                    $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                        $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                    }
                 }
             } else $users = 1;
         }
@@ -107,53 +113,79 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+// Nuevo Usuario y Compañia Demo a traves de Web Teenus
+$app->get('/newUserAndCompany/{email}', function (Request $request, Response $response, $args) use (
+    $userDao,
+    $generateCodeDao,
+    $costAccessUserDao,
+    $companyDao,
+    $companiesLicenseDao,
+    $lastDataDao,
+    $makeEmailDao,
+    $sendEmailDao
+) {
+    $resp = $userDao->findUser($args['email']);
+
+    if ($resp == false) {
+        // Creacion compañia
+        $resp = $companyDao->addCompanyDemo();
+
+        if ($resp == null)
+            $lastId = $lastDataDao->findLastCompany();
+        if ($resp == null) {
+            /* Agregar datos a companies licenses */
+            $dataCompany['license_start'] = '';
+            $resp = $companiesLicenseDao->addLicense($dataCompany, $lastId['idCompany']);
+        }
+
+        // Creacion de usuario
+        $newPass = $generateCodeDao->GenerateCode();
+
+        // Se envia email con usuario(email) y contraseña
+        $dataEmail = $makeEmailDao->SendEmailPassword($args['email'], $newPass);
+
+        $resp = $sendEmailDao->sendEmail($dataEmail, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
+
+        // if (!$resp['info']) {
+        $pass = password_hash($newPass, PASSWORD_DEFAULT);
+
+        /* Almacena el usuario */
+        $resp = $userDao->saveUserOnlyEmail($args['email'], $pass, $lastId['idCompany']);
+
+        if ($resp == null) {
+            $user = $userDao->findUser($args['email']);
+            $dataUser = $costAccessUserDao->setDataUserAccessDemo($user['id_user']);
+
+            $resp = $costAccessUserDao->insertUserAccessByUser($dataUser);
+        }
+        // }
+    } else $resp = 1;
+
+    if ($resp == 1) {
+        $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');
+    } elseif ($resp == null) {
+        $resp = array('success' => true, 'message' => 'Usuario creado correctamente');
+    } elseif (isset($resp['info'])) {
+        $resp = array('info' => true, 'message' => $resp['message']);
+    } else {
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+    }
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao, $costAccessUserDao) {
     session_start();
     $dataUser = $request->getParsedBody();
 
     !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
 
-    // $files = $request->getUploadedFiles();
-
     if (empty($dataUser['nameUser']) && empty($dataUser['lastnameUser'])) {
         $resp = array('error' => true, 'message' => 'Ingrese sus Nombres y Apellidos completos');
     } else {
-        // if (empty($dataUser['avatar'])) {
         $users = $userDao->updateUser($dataUser, null);
-        /* Actualizar los accesos 
-            if (isset($dataUser['factoryLoad']))*/
         $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
-        // if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->insertUserAccessByUser($dataUser);
-        // !isset($usersAccess) ? $usersAccess = null : $usersAccess;
-        /*  } else {
-            foreach ($files as $file) {
-                $name = $file->getClientFilename();
-                $name = explode(".", $name);
-                $ext = array_pop($name);
-                $ext = strtolower($ext);
-                if (empty($ext)) {
-                    $path = null;
-                } else {
-                    if (!in_array($ext, ["jpeg", "jpg", "png"])) {
-                        $resp = array('error' => true, 'message' => 'La imagen cargada no es valida');
-                        $response->getBody()->write(json_encode($resp));
-                        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-                    } else {
-                        $file->moveTo("../app/assets/images/avatars/" . $name[0] . '.' . $ext);
-                        $path = "../../../app/assets/images/avatars/" . $name[0] . '.' . $ext;
-                        $users = $userDao->updateUser($dataUser, $path);
-                        // Actualizar los accesos
-                        if (isset($dataUser['factoryLoad'])) $usersAccess = $costAccessUserDao->updateUserAccessByUsers($dataUser);
-                        if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->updateUserAccessByUsers($dataUser);
-                        // Creacion carpeta de la img
-                        $path = "../../../app/assets/images/avatars/44";
-                        if (!file_exists($path)) {
-                            mkdir($path, 0777, true);
-                        }
-                    }
-                }
-            } 
-        } */
     }
     if ($users == null && $usersAccess == null)
         $resp = array('success' => true, 'message' => 'Usuario actualizado correctamente');
@@ -171,9 +203,6 @@ $app->post('/deleteUser', function (Request $request, Response $response, $args)
 
     if ($dataUser['idUser'] != $idUser) {
         $usersAccess = $costAccessUserDao->deleteUserAccess($dataUser);
-        /*if (isset($dataUser['factoryLoad'])) 
-        if (isset($dataUser['programsMachine'])) $usersAccess = $planningAccessUserDao->deleteUserAccess($dataUser);
-        !isset($usersAccess) ? $usersAccess = null : $usersAccess; */
 
         if ($usersAccess == null)
             $users = $userDao->deleteUser($dataUser);

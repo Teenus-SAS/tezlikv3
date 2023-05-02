@@ -68,6 +68,22 @@ class CompaniesDao
         }
     }
 
+    // Agregar Empresa Demo
+    public function addCompanyDemo()
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("INSERT INTO companies (company) VALUES (:company)");
+            $stmt->execute(['company' => 'Demo']);
+
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     //Actualizar Empresa
     public function updateCompany($dataCompany)
     {

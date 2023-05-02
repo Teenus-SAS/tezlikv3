@@ -52,7 +52,7 @@ class CompaniesLicenseDao
                     'license_end' => $licenseEnd,
                     'quantity_user' => 1,
                     'license_status' => 1,
-                    'plan' => 4,
+                    'plan' => 1,
                     'cost' => 1,
                     'planning' => 1
                 ]);
