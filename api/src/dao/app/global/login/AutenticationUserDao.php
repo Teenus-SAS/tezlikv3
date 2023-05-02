@@ -27,7 +27,8 @@ class AutenticationUserDao
       $stmt = $connection->prepare("SELECT * FROM admins WHERE email = :email");
       $stmt->execute(['email' => $dataUser]);
       $user = $stmt->fetch($connection::FETCH_ASSOC);
-      $user['rol'] = 'admin';
+      if ($user)
+        $user['rol'] = 'admin';
     }
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

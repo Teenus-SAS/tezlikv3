@@ -164,7 +164,7 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
     if ($resp == 1) {
         $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');
     } elseif ($resp == null) {
-        $resp = array('success' => true, 'message' => 'Usuario creado correctamente');
+        $resp = array('success' => true, 'message' => 'Usuario creado correctamente', 'pass' => $newPass);
     } elseif (isset($resp['info'])) {
         $resp = array('info' => true, 'message' => $resp['message']);
     } else {
