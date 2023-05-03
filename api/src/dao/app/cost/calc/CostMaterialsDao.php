@@ -36,10 +36,10 @@ class CostMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT IFNULL(SUM(pm.quantity * IFNULL(m.cost, 0)), 0) as cost 
-                                        FROM products_materials pm 
-                                        LEFT JOIN materials m ON pm.id_material = m.id_material 
-                                        WHERE pm.id_company = :id_company AND pm.id_product = :id_product");
+            $stmt = $connection->prepare("SELECT SUM(pm.cost) as cost 
+                                        FROM materials m 
+                                        INNER JOIN products_materials pm ON pm.id_material = m.id_material 
+                                        WHERE m.id_company = :id_company AND pm.id_product = :id_product");
             $stmt->execute([
                 'id_company' => $id_company,
                 'id_product' => $dataMaterials['idProduct']
