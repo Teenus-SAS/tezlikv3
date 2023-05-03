@@ -44,8 +44,8 @@ class CompaniesLicenseDao
                 $licenseStart = date('Y-m-d');
                 $licenseEnd = date("Y-m-d", strtotime($licenseStart . "+ 30 day"));
 
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost, planning)
-                                              VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost, :planning)");
+                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost, planning, cost_price_usd)
+                                              VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost, :planning, :cost_price_usd)");
                 $stmt->execute([
                     'id_company' => $id_company,
                     'license_start' => $licenseStart,
@@ -54,7 +54,8 @@ class CompaniesLicenseDao
                     'license_status' => 1,
                     'plan' => 1,
                     'cost' => 1,
-                    'planning' => 1
+                    'planning' => 1,
+                    'cost_price_usd' => 1
                 ]);
             } else {
                 $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost_price_usd)
