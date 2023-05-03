@@ -124,53 +124,59 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
     $makeEmailDao,
     $sendEmailDao
 ) {
-    $resp = $userDao->findUser($args['email']);
+    try {
+        $resolution = [];
 
-    if ($resp == false) {
-        // Creacion compañia
-        $resp = $companyDao->addCompanyDemo();
+        $resolution = $userDao->findUser($args['email']);
 
-        if ($resp == null)
-            $lastId = $lastDataDao->findLastCompany();
-        if ($resp == null) {
-            /* Agregar datos a companies licenses */
-            $dataCompany['license_start'] = '';
-            $resp = $companiesLicenseDao->addLicense($dataCompany, $lastId['idCompany']);
+        if ($resolution == false) {
+            // Creacion compañia
+            $resolution = $companyDao->addCompanyDemo();
+
+            if ($resolution == null)
+                $lastId = $lastDataDao->findLastCompany();
+            if ($resolution == null) {
+                /* Agregar datos a companies licenses */
+                $dataCompany['license_start'] = '';
+                $resolution = $companiesLicenseDao->addLicense($dataCompany, $lastId['idCompany']);
+            }
+
+            // Creacion de usuario
+            $newPass = $generateCodeDao->GenerateCode();
+
+            // Se envia email con usuario(email) y contraseña
+            $dataEmail = $makeEmailDao->SendEmailPassword($args['email'], $newPass);
+
+            $resolution = $sendEmailDao->sendEmail($dataEmail, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
+
+            // if (!$resolution['info']) {
+            $pass = password_hash($newPass, PASSWORD_DEFAULT);
+
+            /* Almacena el usuario */
+            $resolution = $userDao->saveUserOnlyEmail($args['email'], $pass, $lastId['idCompany']);
+
+            if ($resolution == null) {
+                $user = $userDao->findUser($args['email']);
+                $dataUser = $costAccessUserDao->setDataUserAccessDemo($user['id_user']);
+
+                $resolution = $costAccessUserDao->insertUserAccessByUser($dataUser);
+            }
+            // }
+        } else $resolution = 1;
+
+        if ($resolution == 1) {
+            $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');
+        } elseif ($resolution == null) {
+            $resp = array('success' => true, 'message' => 'Usuario creado correctamente', 'pass' => $newPass);
+        } elseif (isset($resolution['info'])) {
+            $resp = array('info' => true, 'message' => $resolution['message']);
+        } else {
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
         }
-
-        // Creacion de usuario
-        $newPass = $generateCodeDao->GenerateCode();
-
-        // Se envia email con usuario(email) y contraseña
-        $dataEmail = $makeEmailDao->SendEmailPassword($args['email'], $newPass);
-
-        $resp = $sendEmailDao->sendEmail($dataEmail, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
-
-        // if (!$resp['info']) {
-        $pass = password_hash($newPass, PASSWORD_DEFAULT);
-
-        /* Almacena el usuario */
-        $resp = $userDao->saveUserOnlyEmail($args['email'], $pass, $lastId['idCompany']);
-
-        if ($resp == null) {
-            $user = $userDao->findUser($args['email']);
-            $dataUser = $costAccessUserDao->setDataUserAccessDemo($user['id_user']);
-
-            $resp = $costAccessUserDao->insertUserAccessByUser($dataUser);
-        }
-        // }
-    } else $resp = 1;
-
-    if ($resp == 1) {
-        $resp = array('error' => true, 'message' => 'El email ya se encuentra registrado. Intente con uno nuevo');
-    } elseif ($resp == null) {
-        $resp = array('success' => true, 'message' => 'Usuario creado correctamente', 'pass' => $newPass);
-    } elseif (isset($resp['info'])) {
-        $resp = array('info' => true, 'message' => $resp['message']);
-    } else {
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+    } catch (\Exception $e) {
+        $message = $e->getMessage();
+        $resp = array('info' => true, 'message' => $message);
     }
-
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

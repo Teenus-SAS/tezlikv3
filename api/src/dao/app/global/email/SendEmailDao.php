@@ -60,7 +60,7 @@ class SendEmailDao extends PHPMailer
             $mail->IsHTML(true);
             $mail->CharSet = 'UTF-8';
             $mail->Subject = $dataEmail['subject'];
-            $mail->Body    = sprintf($dataEmail['body']);
+            $mail->Body    = $dataEmail['body'];
 
             // Asunto del correo
             if ($dataEmail['ccHeader'] != null)

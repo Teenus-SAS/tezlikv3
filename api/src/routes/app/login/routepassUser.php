@@ -48,7 +48,7 @@ $app->post('/forgotPassword', function (Request $request, Response $response, $a
     if ($passwordTemp == null)
         $resp = array('success' => true, 'message' => 'La contraseña fue enviada al email suministrado exitosamente');
     else {
-        $dataEmail = $sendMakeEmailDao->SendEmailPassword($email, $passwordTemp);
+        $dataEmail = $sendMakeEmailDao->SendEmailForgotPassword($email, $passwordTemp);
         $email =  $sendEmailDao->SendEmail($dataEmail, 'soporteTezlik@tezliksoftware.com.co', 'SoporteTezlik');
 
         if ($email == null)

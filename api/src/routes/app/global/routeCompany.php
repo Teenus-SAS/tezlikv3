@@ -37,7 +37,7 @@ $app->get('/company', function (Request $request, Response $response, $args) use
         $newPass = $generateCodeDao->GenerateCode();
 
         // Se envia email con usuario(email) y contraseña
-        $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
+        $dataEmail = $makeEmailDao->SendEmailForgotPassword($dataUser['emailUser'], $newPass);
 
         $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
 

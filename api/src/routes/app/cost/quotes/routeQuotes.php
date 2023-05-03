@@ -24,7 +24,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consultar Todos */
 
 $app->get('/quotes', function (Request $request, Response $response, $args) use ($quotesDao) {
-    $quotes = $quotesDao->findAllQuotes();
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $quotes = $quotesDao->findAllQuotes($id_company);
     $response->getBody()->write(json_encode($quotes, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -36,6 +39,8 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
     $lastDataDao,
     $convertDataDao
 ) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $quote = $quotesDao->findQuote($args['id_quote']);
 
     $dataQuote['company'] = $quote['id_company'];
@@ -47,7 +52,7 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
     $dataQuote['observation'] = $quote['observation'];
     // $dataQuote['products'] = $products;
 
-    $respquote = $quotesDao->insertQuote($dataQuote);
+    $respquote = $quotesDao->insertQuote($dataQuote, $id_company);
 
     $products = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
 
@@ -93,9 +98,11 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
     $generalQuotesDao,
     $convertDataDao
 ) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataQuote = $request->getParsedBody();
 
-    $quote = $quotesDao->insertQuote($dataQuote);
+    $quote = $quotesDao->insertQuote($dataQuote, $id_company);
 
     if ($quote == null) {
         /* Obtener id cotizacion */

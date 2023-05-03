@@ -105,4 +105,21 @@ class CompaniesLicenseDao
             return $error;
         }
     }
+
+    public function deleteCompanyDemo()
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("DELETE cl, c
+                                          FROM companies_licenses cl
+                                            INNER JOIN companies c ON c.id_company = cl.id_company
+                                          WHERE c.company = 'Demo' AND cl.license_end < CURRENT_DATE");
+            $stmt->execute();
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 }
