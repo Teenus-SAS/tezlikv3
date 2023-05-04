@@ -8,38 +8,49 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="page-content-wrapper mt-5">
+                <div class="page-content-wrapper mt-2">
                     <div class="container-fluid">
                         <div class="form-row cardGeneralBtnsSimulator">
-                            <div class="col-sm-4">
-                                <button type="button" class="btn btn-outline-secondary"> Productos</button>
-                            </div>
-                            <div class="col-sm-4">
-                                <button type="button" class="btn btn-outline-secondary"> Maquinas</button>
-                            </div>
-                            <div class="col-sm-4 mb-4">
-                                <button type="button" class="btn btn-outline-secondary"> Materias Prima</button>
-                            </div>
-                            <div class="col-sm-6">
-                                <button type="button" class="btn btn-outline-secondary"> F. Tecnica Materia Prima</button>
-                            </div>
-                            <div class="col-sm-6 mb-4">
-                                <button type="button" class="btn btn-outline-secondary"> F. Tecnica Procesos</button>
-                            </div>
-                            <div class="col-sm-6">
-                                <button type="button" class="btn btn-outline-secondary"> Carga Fabril</button>
-                            </div>
-                            <div class="col-sm-6 mb-4">
-                                <button type="button" class="btn btn-outline-secondary"> Servicios Externos</button>
-                            </div>
-                            <div class="col-sm-6">
-                                <button type="button" class="btn btn-outline-secondary"> Nomina</button>
-                            </div>
-                            <div class="col-sm-6 mb-4">
-                                <button type="button" class="btn btn-outline-secondary"> Distribucion de Gastos</button>
-                            </div>
-                            <div class="col-sm">
-                                <button type="button" class="btn btn-outline-secondary"> Recuperacion Gastos</button>
+                            <div class="pos-f-t">
+                                <div class="collapse" id="navbarToggleExternalContent">
+                                    <div class="bg-light p-4">
+                                        <!-- <div class="col-sm-4"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="1"> Productos</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-4"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="2"> Maquinas</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-4"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="3"> Materias Prima</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-6"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="4"> F. Tecnica Materia Prima</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-6 mb-4"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="5"> F. Tecnica Procesos</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-6"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="6"> Carga Fabril</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-6 mb-4"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="7"> Servicios Externos</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-6"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="8"> Nomina</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm-6 mb-4"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="9"> Distribucion de Gastos</button>
+                                        <!-- </div> -->
+                                        <!-- <div class="col-sm"> -->
+                                        <button type="button" class="btn btn-outline-secondary" value="10"> Recuperacion Gastos</button>
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                                <nav class="navbar navbar-light bg-light">
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                                        <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                </nav>
                             </div>
                         </div>
 
@@ -50,7 +61,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Referencia</th>
-                                            <th>Cost</th>
+                                            <th>Costo</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tblInactiveProductsBody"></tbody>

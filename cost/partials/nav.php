@@ -1,5 +1,3 @@
-<?php require_once dirname(__DIR__) . '/modals/modalSimulator.php'; ?>
-
 <div class="horizontal-topnav shadow-sm">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg topnav-menu">
@@ -74,7 +72,7 @@
                                 <?php } ?>
                                 <?php // if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { 
                                 ?>
-                                <a class="dropdown-item" href="javascript:;" data-toggle="modal" data-target="#modalSimulator">
+                                <a class="dropdown-item" href="/cost/simulator">
                                     <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
                                 </a>
                                 <?php //} 

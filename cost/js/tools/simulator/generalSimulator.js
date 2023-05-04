@@ -1,28 +1,48 @@
 $(document).ready(function () {
-  /* Cargar nombre de producto */
-  $('#product').change(function (e) {
+  /* Modal Simulador */
+  $('#btnSimulate').click(function (e) {
     e.preventDefault();
 
-    let id = this.value;
+    let product = $('#product').val();
 
-    let data = sessionStorage.getItem('dataProducts');
-    data = JSON.parse(data);
-    let img = '';
-
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].id_product == id) {
-        img = data[i].img;
-        break;
-      }
+    if (!product) {
+      toastr.error('Seleccione un producto antes de simular');
+      return false;
     }
 
-    let nameproduct = $('#product option:selected').text().trim();
+    $('#modalSimulator').modal('show');
+  });
 
-    $('#nameProduct').html(nameproduct);
+  $('.cardTableSimulator').hide();
+  $('.cardGeneralBtnsSimulator').show();
 
-    if (img)
-      $('.imageProduct').html(`
-      <img src="${img}" class="mx-auto d-block" style="width:60px;border-radius:100px">
-    `);
+  $(document).on('click', '.bt-outline-secondary', async function () {
+    let op = this.value;
+    let url;
+
+    switch (op) {
+      case 1:
+        url = '/api/products';
+      case 2:
+        url = '/api/machines';
+      case 3:
+        url = '/api/materials';
+      case 4:
+        url = '/api/productsMaterials/${idProduct}';
+      case 5:
+        url = '/api/productsProcess/${idProduct}';
+      case 6:
+        url = '/api/factoryLoad';
+      case 7:
+        url = '/api/externalServices/${idProducts}';
+      case 8:
+        url = '/api/payroll';
+      case 9:
+        url = '/api/expensesDistribution';
+      case 10:
+        url = '/api/expensesRecover';
+    }
+
+    let data = await searchData(url);
   });
 });
