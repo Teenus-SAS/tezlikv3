@@ -62,7 +62,7 @@ if (sizeof($_SESSION) == 0)
                                     <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" readonly>
                                 </div>
                                 <div class="col-xs-2 USDInputs">
-                                    <label class="mb-1 font-weight-bold text-dark">Desviación Estándar</label>
+                                    <label class="mb-1 font-weight-bold text-dark">Correción TRM</label>
                                     <input type="text" class="form-control text-center" name="deviation" id="deviation">
                                 </div>
                             </div>
