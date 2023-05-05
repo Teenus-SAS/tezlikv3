@@ -54,7 +54,7 @@ class UsersDao
   {
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT * FROM users u WHERE email = :email");
-    $stmt->execute(['email' => $email]);
+    $stmt->execute(['email' => trim($email)]);
     $user = $stmt->fetch($connection::FETCH_ASSOC);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
