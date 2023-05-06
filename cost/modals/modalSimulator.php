@@ -39,12 +39,16 @@
                                         <div class="col-sm-6 mb-2">
                                             <button type="button" class="btn btn-outline-secondary" value="8"> Nomina</button>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <button type="button" class="btn btn-outline-secondary" value="9"> Distribucion de Gastos</button>
-                                        </div>
-                                        <div class="col-sm">
-                                            <button type="button" class="btn btn-outline-secondary" value="10"> Recuperacion Gastos</button>
-                                        </div>
+                                        <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                            <div class="col-sm-6">
+                                                <button type="button" class="btn btn-outline-secondary" value="9"> Distribucion de Gastos</button>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                            <div class="col-sm">
+                                                <button type="button" class="btn btn-outline-secondary" value="10"> Recuperacion Gastos</button>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
                                 <nav class="navbar navbar-light bg-light form-row">
@@ -55,57 +59,82 @@
                             </div>
                         </div>
 
-                        <!-- <table class="table table-responsive table-hover">
-                            <thead>
-                                <tr>
-                                    <th>Column</th>
-                                    <th>Column</th>
-                                    <th>Column</th>
-                                    <th>Column</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="clickable" data-toggle="collapse" id="row1" data-target=".row1">
-                                    <td><i class="glyphicon glyphicon-plus"></i></td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr class="collapse row1">
-                                    <td>- child row</td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr class="collapse row1">
-                                    <td>- child row</td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr class="clickable" data-toggle="collapse" id="row2" data-target=".row2">
-                                    <td><i class="glyphicon glyphicon-plus"></i></td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                    <td>data</td>
-                                </tr>
-                                <tr class="collapse row2">
-                                    <td>- child row</td>
-                                    <td>data 2</td>
-                                    <td>data 2</td>
-                                    <td>data 2</td>
-                                </tr>
-                                <tr class="collapse row2">
-                                    <td>- child row</td>
-                                    <td>data 2</td>
-                                    <td>data 2</td>
-                                    <td>data 2</td>
-                                </tr>
-                            </tbody>
-                        </table> -->
-                        <div class="col-md-12 col-lg-12 cardTableSimulator">
+                        <!-- Productos -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorProducts" style="display:none;">
                             <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulator" style="width: 100%;">
+                                <table class="table table-striped" id="tblSimulatorProducts" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Materia Prima -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorMaterials" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorMaterials" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Maquinas -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorMachines" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorMachines" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Productos Materiales -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorProductsMaterials" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorProductsMaterials" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Productos Procesos -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorProductsProcess" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorProductsProcess" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Carga Fabril -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorFactoryLoad" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorFactoryLoad" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Nomina -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorPayroll" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorPayroll" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Servicios Externos -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorServices" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorServices" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Distribucion de Gastos -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorExpensesDistribution" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorExpensesDistribution" style="width: 380px;">
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Recuperacion de Gastos -->
+                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorExpensesRecover" style="display:none;">
+                            <div class="table-responsive">
+                                <table class="table table-striped" id="tblSimulatorExpensesRecover" style="width: 380px;">
                                 </table>
                             </div>
                         </div>

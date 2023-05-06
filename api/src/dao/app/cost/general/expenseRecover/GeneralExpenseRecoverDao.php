@@ -27,13 +27,16 @@ class GeneralExpenseRecoverDao
     //     return $products;
     // }
 
-    public function findExpenseRecoverByIdProduct($dataExpense)
+    public function findExpenseRecoverByIdProduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM expenses_recover WHERE id_product = :id_product");
+        $stmt = $connection->prepare("SELECT p.reference, p.product, er.id_expense_recover, er.id_product, er.id_company, er.expense_recover
+                                      FROM expenses_recover er
+                                        INNER JOIN products p ON p.id_product = er.id_product
+                                      WHERE p.id_product = :id_product");
         $stmt->execute([
-            'id_product' => trim($dataExpense['idOldProduct']),
+            'id_product' => $id_product,
         ]);
         $expenseRecover = $stmt->fetch($connection::FETCH_ASSOC);
         return $expenseRecover;

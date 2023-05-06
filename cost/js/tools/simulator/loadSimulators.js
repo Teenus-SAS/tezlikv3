@@ -6,8 +6,19 @@ $(document).ready(function () {
     let data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
 
     await setDataDashboard(data.products[0]);
+
     await loadTblSimulatorProducts(data.products);
-    // await loadTblSimulatorMaterials(data.materials);
+    await loadTblSimulatorMachines(data.productsProcess);
+    await loadTblSimulatorMaterials(data.materials);
+    await loadTblSimulatorProductsMaterials(data.materials);
+    await loadTblSimulatorProductsProcess(data.productsProcess);
+    await loadTblSimulatorFactoryLoad(data.factoryLoad);
+    await loadTblSimulatorExternalServices(data.externalServices);
+    // await loadTblSimulatorPayroll(data.payroll);
+
+    // if (flag_expense == 1 || flag_expense == 0)
+    //   await loadTblSimulatorExpenseDistribution(data.expensesDistribution);
+    // else await loadTblSimulatorExpenseRecover(data.expenseRecover);
   });
 
   setDataDashboard = (data) => {

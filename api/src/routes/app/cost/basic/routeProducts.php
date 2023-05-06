@@ -333,7 +333,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                 if ($resolution == null) {
                     // Copiar data expenses_distribution
-                    $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct, $id_company);
+                    $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct['idOldProduct'], $id_company);
                     $arr = array();
 
                     if ($oldProduct != false) {
@@ -346,7 +346,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                 if ($resolution == null) {
                     // Copiar data expenses_recover
-                    $oldProduct = $generalExpenseRecoverDao->findExpenseRecoverByIdProduct($dataProduct);
+                    $oldProduct = $generalExpenseRecoverDao->findExpenseRecoverByIdProduct($dataProduct['idOldProduct']);
                     $arr = array();
 
                     if ($oldProduct != false) {

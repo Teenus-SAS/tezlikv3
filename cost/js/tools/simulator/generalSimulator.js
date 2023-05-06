@@ -12,6 +12,7 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardTableSimulator').hide();
     $('#modalSimulator').modal('show');
   });
 
@@ -26,7 +27,44 @@ $(document).ready(function () {
     navbarToggleExternalContent.classList.remove('show');
   });
 
-  $(document).on('click', '.btn-outline-secondary', async function () {
-    $('.cardTableSimulator').show(800);
+  $(document).on('click', '.btn-outline-secondary', function () {
+    $('.cardTableSimulator').hide();
+
+    let op = this.value;
+
+    switch (op) {
+      case '1':
+        card = 'cardTableSimulatorProducts';
+        break;
+      case '2':
+        card = 'cardTableSimulatorMachines';
+        break;
+      case '3':
+        card = 'cardTableSimulatorMaterials';
+        break;
+      case '4':
+        card = 'cardTableSimulatorProductsMaterials';
+        break;
+      case '5':
+        card = 'cardTableSimulatorProductsProcess';
+        break;
+      case '6':
+        card = 'cardTableSimulatorFactoryLoad';
+        break;
+      case '7':
+        card = 'cardTableSimulatorPayroll';
+        break;
+      case '8':
+        card = 'cardTableSimulatorServices';
+        break;
+      case '9':
+        card = 'cardTableSimulatorExpensesDistribution';
+        break;
+      case '10':
+        card = 'cardTableSimulatorExpensesRecover';
+        break;
+    }
+
+    $(`.${card}`).show(800);
   });
 });
