@@ -51,7 +51,7 @@ $(document).ready(function () {
         render: (data, type, row) => {
           data ? data : (data = '');
           ('use strict');
-          return `<img src="${data}" alt="" style="width:50%;border-radius:100px">`;
+          return `<img src="${data}" alt="" style="width:50px;border-radius:100px">`;
         },
       },
       {

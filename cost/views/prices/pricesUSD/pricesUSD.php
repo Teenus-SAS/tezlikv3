@@ -63,7 +63,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-xs-2 USDInputs">
                                     <label class="mb-1 font-weight-bold text-dark">Desviación Estándar</label>
-                                    <input type="text" class="form-control text-center" name="deviation" id="deviation">
+                                    <input type="number" class="form-control text-center" name="deviation" id="deviation">
                                 </div>
                             </div>
                         </div>

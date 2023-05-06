@@ -11,11 +11,11 @@ $(document).ready(function () {
   };
 
   /* Calcular valor de cobertura ingresando numero de desviación */
-  $(document).on('keyup', '#deviation', function (e) {
-    let num = this.value;
+  $(document).on('blur', '#deviation', function (e) {
+    let num = parseFloat(this.value);
 
     if (num == '' || !num) {
-      toast.error('Ingrese numero de desviacion');
+      toastr.error('Ingrese numero valido de desviacion');
       return false;
     }
 
