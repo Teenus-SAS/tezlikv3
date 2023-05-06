@@ -43,12 +43,15 @@ $(document).ready(function () {
       },
       {
         title: 'Acciones',
-        data: 'id_material',
+        data: null,
         className: 'uniqueClassName',
         render: function (data) {
+          if (data.status == 0) icon = 'fa-solid fa-trash-xmark';
+          else icon = 'fa-solid fa-trash-check';
+
           return `
-                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateRawMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
-                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+                <a href="javascript:;" <i id="${data.id_material}" class="bx bx-edit-alt updateRawMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i id="${data.id_material}" class="${icon}" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
         },
       },
     ],
