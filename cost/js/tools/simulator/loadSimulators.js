@@ -3,36 +3,9 @@ $(document).ready(function () {
   $('#product').change(async function (e) {
     e.preventDefault();
 
-    let data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
+    data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
 
     await setDataDashboard(data.products[0]);
-
-    await loadTblSimulatorProducts(data.products);
-    await loadTblSimulatorMachines(data.productsProcess);
-    await loadTblSimulatorMaterials(data.materials);
-    await loadTblSimulatorProductsMaterials(data.materials);
-    await loadTblSimulatorProductsProcess(data.productsProcess);
-    await loadTblSimulatorFactoryLoad(data.factoryLoad);
-    await loadTblSimulatorExternalServices(data.externalServices);
-    await loadTblSimulatorPayroll(data.payroll);
-
-    if (flag_expense == 1 || flag_expense == 0)
-      await loadTblSimulatorDistribution(data.expensesDistribution);
-    else await loadTblSimulatorRecover(data.expenseRecover);
-
-    setInterval(() => {
-      let tables = document.getElementsByClassName(
-        'dataTables_scrollHeadInner'
-      );
-
-      for (let i = 0; i < tables.length; i++) {
-        let attr = tables[i].firstElementChild;
-        attr.style.width = '380px';
-      }
-
-      // table = document.getElementById('tblSimulatorProducts_wrapper');
-      // atrr = table.firstElementChild.firstElementChild
-    }, 1000);
   });
 
   setDataDashboard = (data) => {
