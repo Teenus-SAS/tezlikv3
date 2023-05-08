@@ -3,7 +3,9 @@ $(document).ready(function () {
   $('#product').change(async function (e) {
     e.preventDefault();
 
-    data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
+    let data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
+
+    dataSimulator = data;
 
     await setDataDashboard(data.products[0]);
   });

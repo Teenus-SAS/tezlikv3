@@ -35,43 +35,43 @@ $(document).ready(function () {
     switch (op) {
       case '1':
         card = 'cardTableSimulatorProducts';
-        await loadTblSimulatorProducts(data.products);
+        await loadTblSimulatorProducts(dataSimulator.products);
         break;
       case '2':
         card = 'cardTableSimulatorMachines';
-        await loadTblSimulatorMachines(data.productsProcess);
+        await loadTblSimulatorMachines(dataSimulator.productsProcess);
         break;
       case '3':
         card = 'cardTableSimulatorMaterials';
-        await loadTblSimulatorMaterials(data.materials);
+        await loadTblSimulatorMaterials(dataSimulator.materials);
         break;
       case '4':
         card = 'cardTableSimulatorProductsMaterials';
-        await loadTblSimulatorProductsMaterials(data.materials);
+        await loadTblSimulatorProductsMaterials(dataSimulator.materials);
         break;
       case '5':
         card = 'cardTableSimulatorProductsProcess';
-        await loadTblSimulatorProductsProcess(data.productsProcess);
+        await loadTblSimulatorProductsProcess(dataSimulator.productsProcess);
         break;
       case '6':
         card = 'cardTableSimulatorFactoryLoad';
-        await loadTblSimulatorFactoryLoad(data.factoryLoad);
+        await loadTblSimulatorFactoryLoad(dataSimulator.factoryLoad);
         break;
       case '7':
         card = 'cardTableSimulatorServices';
-        await loadTblSimulatorExternalServices(data.externalServices);
+        await loadTblSimulatorExternalServices(dataSimulator.externalServices);
         break;
       case '8':
         card = 'cardTableSimulatorPayroll';
-        await loadTblSimulatorPayroll(data.payroll);
+        await loadTblSimulatorPayroll(dataSimulator.payroll);
         break;
       case '9':
         card = 'cardTableSimulatorExpensesDistribution';
-        await loadTblSimulatorDistribution(data.expensesDistribution);
+        await loadTblSimulatorDistribution(dataSimulator.expensesDistribution);
         break;
       case '10':
         card = 'cardTableSimulatorExpensesRecover';
-        await loadTblSimulatorRecover(data.expenseRecover);
+        await loadTblSimulatorRecover(dataSimulator.expenseRecover);
         break;
     }
 
@@ -87,5 +87,9 @@ $(document).ready(function () {
     }, 1000);
 
     $(`.${card}`).show(800);
+  });
+
+  $('#btnSaveSimulator').click(function (e) {
+    e.preventDefault();
   });
 });

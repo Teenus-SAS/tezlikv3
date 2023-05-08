@@ -143,7 +143,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default closeModalSimulator">Cerrar</button>
-                <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                <button type="button" class="btn btn-primary" id="btnSaveSimulator">Guardar Cambios</button>
             </div>
         </div>
     </div>
