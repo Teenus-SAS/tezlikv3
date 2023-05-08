@@ -30,19 +30,6 @@ $(document).ready(function () {
         },
       ],
     });
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[0].firstElementChild;
-        attr.style.width = '380px';
-
-        // table = document.getElementById('tblSimulatorProducts_wrapper');
-        // atrr = table.firstElementChild.firstElementChild
-      }, 1000);
   };
 
   function formatProducts(d) {
@@ -114,16 +101,6 @@ $(document).ready(function () {
         },
       ],
     });
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[1].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
   };
 
   function formatMachines(d) {
@@ -203,16 +180,6 @@ $(document).ready(function () {
         },
       ],
     });
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[2].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
   };
 
   function formatMaterials(d) {
@@ -276,16 +243,6 @@ $(document).ready(function () {
         },
       ],
     });
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[3].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
   };
 
   function formatProductsMaterials(d) {
@@ -352,16 +309,6 @@ $(document).ready(function () {
         },
       ],
     });
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[4].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
   };
 
   function formatProductsProcess(d) {
@@ -429,16 +376,6 @@ $(document).ready(function () {
         },
       ],
     });
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[5].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
   };
 
   function formatFactoryLoad(d) {
@@ -469,52 +406,165 @@ $(document).ready(function () {
 
   /* Servicios Externos */
   loadTblSimulatorExternalServices = (data) => {
-    tblSimulatorExternalServices = $('#tblSimulatorExternalServices').DataTable(
-      {
-        destroy: true,
-        scrollY: '150px',
-        scrollCollapse: true,
-        paging: false,
-        data: data,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+    tblSimulatorServices = $('#tblSimulatorServices').DataTable({
+      destroy: true,
+      scrollY: '150px',
+      scrollCollapse: true,
+      paging: false,
+      data: data,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      columns: [
+        {
+          className: 'dt-control external_services',
+          orderable: false,
+          data: null,
+          defaultContent: '',
         },
-        columns: [
-          {
-            className: 'dt-control external_services',
-            orderable: false,
-            data: null,
-            defaultContent: '',
+        {
+          title: 'Servicio',
+          data: 'name_service',
+          className: 'uniqueClassName',
+        },
+        {
+          title: 'Costo',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<input type="number" class="text-center form-control" value="${data.cost}">`;
           },
-          {
-            title: 'Servicio',
-            data: 'name_service',
-            className: 'uniqueClassName',
-          },
-          {
-            title: 'Costo',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data) {
-              return `<input type="number" class="text-center form-control" value="${data.cost}">`;
-            },
-          },
-        ],
-      }
-    );
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[6].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
+        },
+      ],
+    });
   };
 
   /* Nomina */
+  loadTblSimulatorPayroll = (data) => {
+    tblSimulatorPayroll = $('#tblSimulatorPayroll').DataTable({
+      destroy: true,
+      scrollY: '150px',
+      scrollCollapse: true,
+      paging: false,
+      data: data,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      columns: [
+        {
+          className: 'dt-control payroll',
+          orderable: false,
+          data: null,
+          defaultContent: '',
+        },
+        {
+          title: 'Empleado',
+          data: 'employee',
+          className: 'uniqueClassName',
+        },
+        {
+          title: 'Salario',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<input type="number" class="text-center form-control" value="${data.salary}">`;
+          },
+        },
+      ],
+    });
+  };
+
+  function formatPayroll(d) {
+    let options;
+    if (d.type_contract == 'Nomina') {
+      options = `<option selected value="1">Nómina</option>
+                 <option value="2">Servicios</option>
+                 <option value="3">Calculo Manual</option>`;
+    } else if (d.type_contract == 'Servicios') {
+      options = `<option value="1">Nómina</option>
+                 <option selected value="2">Servicios</option>
+                 <option value="3">Calculo Manual</option>`;
+    } else if (d.type_contract == 'Manual') {
+      options = `<option value="1">Nómina</option>
+                 <option value="2">Servicios</option>
+                 <option selected value="3">Calculo Manual</option>`;
+    }
+
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;"> 
+            <tr>
+                <th>Proceso:</th>
+                <td>
+                  ${d.process}
+                </td>
+            </tr>
+            <tr>
+                <th>Transporte:</th>
+                <td>
+                  <input type="number" class="text-center form-control" value="${d.transport}">
+                </td>
+            </tr>
+            <tr>
+                <th>Dotaciones:</th>
+                <td>
+                  <input type="number" class="text-center form-control" value="${d.endowment}">
+                </td>
+            </tr>
+            <tr>
+                <th>Horas Extras:</th>
+                <td>
+                  <input type="number" class="text-center form-control" value="${d.extra_time}">
+                </td>
+            </tr>
+            <tr>
+                <th>Otros Ingresos:</th>
+                <td>
+                  <input type="number" class="text-center form-control" value="${d.bonification}">
+                </td>
+            </tr>
+            <tr>
+                <th>Horas Trabajo x Día:</th>
+                <td>
+                  <input type="number" class="text-center form-control" value="${d.hours_day}">
+                </td>
+            </tr>
+            <tr>
+                <th>Dias Trabajo x Mes:</th>
+                <td>
+                  <input type="number" class="text-center form-control" value="${d.working_days_month}">
+                </td>
+            </tr>
+            <tr>
+                <th>Tipo Nómina:</th>
+                <td>
+                  <select id="typeFactor" name="typeFactor" type="number" class="form-control">
+                    <option disabled value="0">Seleccionar</option>
+                    ${options}
+                  </select>
+                </td>
+            </tr>
+            <tr>
+                <th>Factor:</th>
+                <td>
+                  <input type="number" class="text-center form-control" value="${d.factor_benefit}">
+                </td>
+            </tr>
+        </table>`;
+  }
+
+  $(document).on('click', '.payroll', function () {
+    var tr = $(this).closest('tr');
+    var row = tblSimulatorPayroll.row(tr);
+
+    if (row.child.isShown()) {
+      // This row is already open - close it
+      row.child.hide();
+      tr.removeClass('shown');
+    } else {
+      // Open this row
+      row.child(formatPayroll(row.data())).show();
+      tr.addClass('shown');
+    }
+  });
 
   /* Distribucion de Gastos */
   loadTblSimulatorDistribution = (data) => {
@@ -554,19 +604,9 @@ $(document).ready(function () {
         ],
       }
     );
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[7].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
   };
 
-  /* Recuperacion de Gastos */ tblSimulatorExpensesRecover;
+  /* Recuperacion de Gastos */
   loadTblSimulatorRecover = (data) => {
     tblSimulatorExpensesRecover = $('#tblSimulatorExpensesRecover').DataTable({
       destroy: true,
@@ -594,15 +634,5 @@ $(document).ready(function () {
         },
       ],
     });
-
-    if (data.length > 0)
-      setInterval(() => {
-        let tables = document.getElementsByClassName(
-          'dataTables_scrollHeadInner'
-        );
-
-        let attr = tables[8].firstElementChild;
-        attr.style.width = '380px';
-      }, 1000);
   };
 });

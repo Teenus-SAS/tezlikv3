@@ -52,10 +52,10 @@ $(document).ready(function () {
         card = 'cardTableSimulatorFactoryLoad';
         break;
       case '7':
-        card = 'cardTableSimulatorPayroll';
+        card = 'cardTableSimulatorServices';
         break;
       case '8':
-        card = 'cardTableSimulatorServices';
+        card = 'cardTableSimulatorPayroll';
         break;
       case '9':
         card = 'cardTableSimulatorExpensesDistribution';

@@ -14,11 +14,25 @@ $(document).ready(function () {
     await loadTblSimulatorProductsProcess(data.productsProcess);
     await loadTblSimulatorFactoryLoad(data.factoryLoad);
     await loadTblSimulatorExternalServices(data.externalServices);
-    // await loadTblSimulatorPayroll(data.payroll);
+    await loadTblSimulatorPayroll(data.payroll);
 
-    // if (flag_expense == 1 || flag_expense == 0)
-    //   await loadTblSimulatorExpenseDistribution(data.expensesDistribution);
-    // else await loadTblSimulatorExpenseRecover(data.expenseRecover);
+    if (flag_expense == 1 || flag_expense == 0)
+      await loadTblSimulatorDistribution(data.expensesDistribution);
+    else await loadTblSimulatorRecover(data.expenseRecover);
+
+    setInterval(() => {
+      let tables = document.getElementsByClassName(
+        'dataTables_scrollHeadInner'
+      );
+
+      for (let i = 0; i < tables.length; i++) {
+        let attr = tables[i].firstElementChild;
+        attr.style.width = '380px';
+      }
+
+      // table = document.getElementById('tblSimulatorProducts_wrapper');
+      // atrr = table.firstElementChild.firstElementChild
+    }, 1000);
   });
 
   setDataDashboard = (data) => {
