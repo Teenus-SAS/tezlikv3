@@ -66,17 +66,9 @@ $(document).ready(function () {
         },
         {
           title: 'Precio Unitario',
-          data: null,
+          data: 'cost_product_material',
           className: 'classCenter',
-          render: function (data) {
-            data.cost_product_material == 0
-              ? (cost = data.cost)
-              : (cost = data.cost_product_material);
-
-            return `$ ${cost.toLocaleString('es-CO', {
-              maximumFractionDigits: 2,
-            })}`;
-          },
+          render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
         },
         {
           title: 'Acciones',
@@ -90,33 +82,26 @@ $(document).ready(function () {
         },
       ],
       footerCallback: function (row, data, start, end, display) {
-        subtotal = this.api()
-          .column(4)
-          .data()
-          .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
-          }, 0);
+        let quantity = 0;
+        let cost = 0;
+
+        for (let i = 0; i < data.length; i++) {
+          quantity += data[i].quantity;
+          cost += data[i].cost_product_material;
+        }
 
         $(this.api().column(4).footer()).html(
-          new Intl.NumberFormat('en-US').format(subtotal)
+          quantity.toLocaleString('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
         );
 
-        total = this.api()
-          .column(5)
-          .data()
-          .reduce(function (a, b) {
-            b.cost_product_material == 0
-              ? (b = b.cost)
-              : (b = b.cost_product_material);
-
-            return parseInt(a) + parseInt(b);
-          }, 0);
-
         $(this.api().column(5).footer()).html(
-          new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(total)
+          `$ ${cost.toLocaleString('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`
         );
       },
     });
