@@ -25,37 +25,39 @@ if (sizeof($_SESSION) == 0)
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
     <!-- Modal Rigth side -->
     <style type="text/css">
-        .come-from-modal.right .modal-dialog {
-            position: fixed;
-            margin: auto;
-            width: 700px;
-            height: 100%;
-            -webkit-transform: translate3d(0%, 0, 0);
-            -ms-transform: translate3d(0%, 0, 0);
-            -o-transform: translate3d(0%, 0, 0);
-            transform: translate3d(0%, 0, 0);
-        }
+        @media (min-width: 1281px) {
+            .come-from-modal.right .modal-dialog {
+                position: fixed;
+                margin: auto;
+                width: 700px;
+                height: 100%;
+                -webkit-transform: translate3d(0%, 0, 0);
+                -ms-transform: translate3d(0%, 0, 0);
+                -o-transform: translate3d(0%, 0, 0);
+                transform: translate3d(0%, 0, 0);
+            }
 
-        .come-from-modal.right .modal-content {
-            height: 100%;
-            overflow-y: auto;
-            border-radius: 0px;
-        }
+            .come-from-modal.right .modal-content {
+                height: 100%;
+                overflow-y: auto;
+                border-radius: 0px;
+            }
 
-        .come-from-modal.right .modal-body {
-            padding: 15px 15px 80px;
-        }
+            .come-from-modal.right .modal-body {
+                padding: 15px 15px 80px;
+            }
 
-        .come-from-modal.right.fade .modal-dialog {
-            right: 0;
-            -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-            -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-            -o-transition: opacity 0.3s linear, right 0.3s ease-out;
-            transition: opacity 0.3s linear, right 0.3s ease-out;
-        }
+            .come-from-modal.right.fade .modal-dialog {
+                right: 0;
+                -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+                -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+                -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+                transition: opacity 0.3s linear, right 0.3s ease-out;
+            }
 
-        .come-from-modal.right.fade.in .modal-dialog {
-            right: 0;
+            .come-from-modal.right.fade.in .modal-dialog {
+                right: 0;
+            }
         }
     </style>
 </head>
@@ -83,9 +85,9 @@ if (sizeof($_SESSION) == 0)
                                         <div class="col-sm-6 d-flex align-items-center">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
-                                        <div class="col-sm-2 py-4 imageProduct">
+                                        <div class="col-sm-2 imageProduct">
                                         </div>
-                                        <div class="col-sm-4 mb-3 d-flex align-items-center">
+                                        <div class="col-sm-4 d-flex align-items-center">
                                             <select id="product" class="form-control selectNameProduct"></select>
                                         </div>
                                         <div class="col-sm-12 mb-3 form-inline justify-content-sm-end">
@@ -338,6 +340,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/tools/simulator/loadSimulators.js"></script>
     <script src="/cost/js/tools/simulator/generalSimulator.js"></script>
+    <script src="/cost/js/tools/simulator/tblSimulator.js"></script>
 </body>
 
 </html>

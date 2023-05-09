@@ -5,28 +5,34 @@ $(document).ready(function () {
 
     let data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
 
-    $('#nameProduct').html(data[0].product);
+    dataSimulator = data;
+
+    await setDataDashboard(data.products[0]);
+  });
+
+  setDataDashboard = (data) => {
+    $('#nameProduct').html(data.product);
 
     $('.imageProduct').html(`
-      <img src="${data[0].img}" class="mx-auto d-block" style="width:60px;border-radius:100px">
+      <img src="${data.img}" class="mx-auto d-block" style="width:60px;border-radius:100px">
     `);
 
-    dataCost = getDataCost(data[0]);
+    dataCost = getDataCost(data);
 
     $('.rawMaterial').html(
-      `$ ${data[0].cost_materials.toLocaleString('es-CO', {
+      `$ ${data.cost_materials.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
     $('.workforce').html(
-      `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
+      `$ ${data.cost_workforce.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
     $('.indirectCost').html(
-      `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
+      `$ ${data.cost_indirect_cost.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
@@ -39,10 +45,9 @@ $(document).ready(function () {
       })}`
     );
 
-    percentRawMaterial = (data[0].cost_materials / dataCost.costTotal) * 100;
-    percentWorkforce = (data[0].cost_workforce / dataCost.costTotal) * 100;
-    percentIndirectCost =
-      (data[0].cost_indirect_cost / dataCost.costTotal) * 100;
+    percentRawMaterial = (data.cost_materials / dataCost.costTotal) * 100;
+    percentWorkforce = (data.cost_workforce / dataCost.costTotal) * 100;
+    percentIndirectCost = (data.cost_indirect_cost / dataCost.costTotal) * 100;
     percentAssignableExpenses = (dataCost.expense / dataCost.costTotal) * 100;
 
     $('.percentRawMaterial').html(`${percentRawMaterial.toFixed(0)} %`);
@@ -65,33 +70,33 @@ $(document).ready(function () {
       })}`
     );
     $('.payRawMaterial').html(
-      `$ ${data[0].cost_materials.toLocaleString('es-CO', {
+      `$ ${data.cost_materials.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
     $('.payWorkforce').html(
-      `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
+      `$ ${data.cost_workforce.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
     $('.payIndirectCost').html(
-      `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
+      `$ ${data.cost_indirect_cost.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
 
     $('.services').html(
-      `$ ${data[0].services.toLocaleString('es-CO', {
+      `$ ${data.services.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
 
     if (flag_expense == 2)
-      $('.expenses').html(`Gastos (${data[0].expense_recover}%)`);
+      $('.expenses').html(`Gastos (${data.expense_recover}%)`);
 
     $('.payAssignableExpenses').html(
       `$ ${dataCost.expense.toLocaleString('es-CO', {
@@ -100,21 +105,21 @@ $(document).ready(function () {
       })}`
     );
 
-    $('.commission').html(`Comisión Vts (${data[0].commission_sale}%)`);
+    $('.commission').html(`Comisión Vts (${data.commission_sale}%)`);
     $('.commisionSale').html(
       `$ ${Math.round(dataCost.costCommissionSale).toLocaleString('es-CO')}`
     );
 
-    $('.profit').html(`Rentabilidad (${data[0].profitability}%)`);
+    $('.profit').html(`Rentabilidad (${data.profitability}%)`);
     $('.profitability').html(
       `$ ${Math.round(dataCost.costProfitability).toLocaleString('es-CO')}`
     );
 
     $('.salesPrice').html(
-      `$ ${data[0].price.toLocaleString('es-CO', {
+      `$ ${data.price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       })}`
     );
-  });
+  };
 });

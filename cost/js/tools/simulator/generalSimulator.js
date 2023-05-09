@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  $('.cardTableSimulator').hide();
+
   /* Modal Simulador */
   $('#btnSimulate').click(function (e) {
     e.preventDefault();
@@ -10,39 +12,84 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardTableSimulator').hide();
     $('#modalSimulator').modal('show');
   });
 
-  $('.cardTableSimulator').hide();
-  $('.cardGeneralBtnsSimulator').show();
+  $('.closeModalSimulator').click(function (e) {
+    e.preventDefault();
 
-  $(document).on('click', '.bt-outline-secondary', async function () {
+    let navbarToggleExternalContent = document.getElementById(
+      'navbarToggleExternalContent'
+    );
+
+    $('#modalSimulator').modal('hide');
+    navbarToggleExternalContent.classList.remove('show');
+  });
+
+  $(document).on('click', '.btn-outline-secondary', async function () {
+    $('.cardTableSimulator').hide();
+
     let op = this.value;
-    let url;
 
     switch (op) {
-      case 1:
-        url = '/api/products';
-      case 2:
-        url = '/api/machines';
-      case 3:
-        url = '/api/materials';
-      case 4:
-        url = '/api/productsMaterials/${idProduct}';
-      case 5:
-        url = '/api/productsProcess/${idProduct}';
-      case 6:
-        url = '/api/factoryLoad';
-      case 7:
-        url = '/api/externalServices/${idProducts}';
-      case 8:
-        url = '/api/payroll';
-      case 9:
-        url = '/api/expensesDistribution';
-      case 10:
-        url = '/api/expensesRecover';
+      case '1':
+        card = 'cardTableSimulatorProducts';
+        await loadTblSimulatorProducts(dataSimulator.products);
+        break;
+      case '2':
+        card = 'cardTableSimulatorMachines';
+        await loadTblSimulatorMachines(dataSimulator.productsProcess);
+        break;
+      case '3':
+        card = 'cardTableSimulatorMaterials';
+        await loadTblSimulatorMaterials(dataSimulator.materials);
+        break;
+      case '4':
+        card = 'cardTableSimulatorProductsMaterials';
+        await loadTblSimulatorProductsMaterials(dataSimulator.materials);
+        break;
+      case '5':
+        card = 'cardTableSimulatorProductsProcess';
+        await loadTblSimulatorProductsProcess(dataSimulator.productsProcess);
+        break;
+      case '6':
+        card = 'cardTableSimulatorFactoryLoad';
+        await loadTblSimulatorFactoryLoad(dataSimulator.factoryLoad);
+        break;
+      case '7':
+        card = 'cardTableSimulatorServices';
+        await loadTblSimulatorExternalServices(dataSimulator.externalServices);
+        break;
+      case '8':
+        card = 'cardTableSimulatorPayroll';
+        await loadTblSimulatorPayroll(dataSimulator.payroll);
+        break;
+      case '9':
+        card = 'cardTableSimulatorExpensesDistribution';
+        await loadTblSimulatorDistribution(dataSimulator.expensesDistribution);
+        break;
+      case '10':
+        card = 'cardTableSimulatorExpensesRecover';
+        await loadTblSimulatorRecover(dataSimulator.expenseRecover);
+        break;
     }
 
-    let data = await searchData(url);
+    setInterval(() => {
+      let tables = document.getElementsByClassName(
+        'dataTables_scrollHeadInner'
+      );
+
+      for (let i = 0; i < tables.length; i++) {
+        let attr = tables[i].firstElementChild;
+        attr.style.width = '380px';
+      }
+    }, 1000);
+
+    $(`.${card}`).show(800);
+  });
+
+  $('#btnSaveSimulator').click(function (e) {
+    e.preventDefault();
   });
 });

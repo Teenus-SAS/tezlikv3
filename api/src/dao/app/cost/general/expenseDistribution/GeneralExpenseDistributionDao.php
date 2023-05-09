@@ -17,13 +17,17 @@ class GeneralExpenseDistributionDao
     }
 
     /* Consultar data expenses_distribution */
-    public function findExpenseDistributionByIdProduct($dataExpensesDistribution)
+    public function findExpenseDistributionByIdProduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM expenses_distribution WHERE id_product = :id_product");
+        $stmt = $connection->prepare("SELECT p.reference, p.product, ed.id_expenses_distribution, ed.id_product, 
+                                             ed.id_company, ed.units_sold, ed.turnover, ed.assignable_expense
+                                      FROM expenses_distribution ed
+                                        INNER JOIN products p ON p.id_product = ed.id_product
+                                      WHERE ed.id_product = :id_product");
         $stmt->execute([
-            'id_product' => trim($dataExpensesDistribution['idOldProduct'])
+            'id_product' => $id_product
         ]);
         $findExpenseDistribution = $stmt->fetch($connection::FETCH_ASSOC);
         return $findExpenseDistribution;
