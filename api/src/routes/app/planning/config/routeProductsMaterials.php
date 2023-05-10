@@ -19,7 +19,7 @@ $app->get('/planProductsMaterials/{idProduct}', function (Request $request, Resp
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productMaterials = $productsMaterialsDao->findAllProductsmaterials($args['idProduct'], $id_company);
+    $productMaterials = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($args['idProduct'], $id_company);
 
     $response->getBody()->write(json_encode($productMaterials, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

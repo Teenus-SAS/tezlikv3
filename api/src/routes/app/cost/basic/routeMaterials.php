@@ -204,7 +204,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                 if ($j['id_product'] != 0) {
                     // Calcular precio total materias
                     // Consultar todos los datos del producto
-                    $productsMaterial = $productMaterialsDao->findAllProductsmaterials($j['id_product'], $id_company);
+                    $productsMaterial = $productMaterialsDao->findAllProductsmaterialsByIdProduct($j['id_product'], $id_company);
 
                     // $totalQuantity = 0;
 

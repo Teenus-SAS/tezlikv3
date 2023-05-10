@@ -16,6 +16,18 @@ class GeneralServicesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllExternalServices($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT sx.id_service, p.reference, sx.name_service, sx.cost, sx.id_product 
+                                        FROM services sx INNER JOIN products p ON sx.id_product = p.id_product 
+                                        WHERE sx.id_company = :id_company;");
+        $stmt->execute(['id_company' => $id_company]);
+        $externalservices = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $externalservices));
+        return $externalservices;
+    }
+
     // Consultar el servicio en BD
     public function findExternalServiceByIdProduct($dataExternalService)
     {

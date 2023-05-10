@@ -16,7 +16,7 @@ class ExternalServicesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllExternalServices($id_product)
+    public function findAllExternalServicesByIdProduct($id_product)
     {
         session_start();
         $id_company = $_SESSION['id_company'];
