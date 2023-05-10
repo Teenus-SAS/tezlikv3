@@ -72,9 +72,9 @@
                                 <?php } ?>
                                 <?php // if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { 
                                 ?>
-                                <a class="dropdown-item" href="/cost/simulator">
+                                <!-- <a class="dropdown-item" href="/cost/simulator">
                                     <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
-                                </a>
+                                </a> -->
                                 <?php //} 
                                 ?>
                             </ul>
