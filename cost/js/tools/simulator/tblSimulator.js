@@ -33,7 +33,7 @@ $(document).ready(function () {
   };
 
   function formatProducts(d) {
-    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;">
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Producto:</td>
                 <td>${d.product}</td>
@@ -104,7 +104,7 @@ $(document).ready(function () {
   };
 
   function formatMachines(d) {
-    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;">
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Valor Residual:</td>
                 <td>
@@ -183,7 +183,7 @@ $(document).ready(function () {
   };
 
   function formatMaterials(d) {
-    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;">
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Material:</td>
                 <td>${d.material}</td>
@@ -246,7 +246,7 @@ $(document).ready(function () {
   };
 
   function formatProductsMaterials(d) {
-    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;">
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Material:</td>
                 <td>${d.material}</td>
@@ -312,7 +312,7 @@ $(document).ready(function () {
   };
 
   function formatProductsProcess(d) {
-    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;"> 
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Tiempo de Enlistamiento:</th>
                 <td>
@@ -379,7 +379,7 @@ $(document).ready(function () {
   };
 
   function formatFactoryLoad(d) {
-    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;"> 
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Descripcion:</th>
                 <td>
@@ -490,7 +490,7 @@ $(document).ready(function () {
                  <option selected value="3">Calculo Manual</option>`;
     }
 
-    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-10px;"> 
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Proceso:</th>
                 <td>
