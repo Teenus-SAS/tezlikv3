@@ -167,7 +167,7 @@ if (sizeof($_SESSION) == 0)
                                                             <h6 class="mb-0 pl-3 text-right " id="services">$</h6>
                                                             <p class="mb-2" style="color:darkcyan" id="expenses">Gastos</p>
                                                             <h6 class="mb-0 pl-3 text-right" id="payAssignableExpenses"></h6>
-                                                            <p class="mb-2" style="color:darkcyan" id="commission">Comisión Vts</p>
+                                                            <p class="mb-2" style="color:darkcyan" id="commission">Comisión Vta</p>
                                                             <h6 class="mb-0 pl-3 text-right" id="commisionSale"></h6>
                                                             <p class="mb-2" style="color:darkcyan" id="profit">Rentabilidad</p>
                                                             <h6 class="mb-0 pl-3 text-right" id="profitability"></h6>
@@ -349,6 +349,8 @@ if (sizeof($_SESSION) == 0)
             <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
             <script src="/cost/js/dashboard/calcDataCost.js"></script>
             <script src="/cost/js/dashboard/graphicsProduct.js"></script>
+        </div>
+    </div>
 </body>
 
 </html>
