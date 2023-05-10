@@ -20,7 +20,7 @@ class DashboardProductsDao
     public function findCostAnalysisByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.product, pc.cost_materials, pc.cost_workforce, IFNULL(ed.assignable_expense, 0) AS assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, pc.cost_indirect_cost, 
+        $stmt = $connection->prepare("SELECT p.id_product , p.reference, p.product, pc.cost_materials, pc.cost_workforce, IFNULL(ed.assignable_expense, 0) AS assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, pc.cost_indirect_cost, 
                                                 pc.profitability, IFNULL(ed.units_sold, 0) units_sold, IFNULL(ed.turnover, 0) AS turnover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, pc.commission_sale, pc.price, p.img
                                         FROM products_costs pc
                                         INNER JOIN products p ON p.id_product = pc.id_product
@@ -39,9 +39,11 @@ class DashboardProductsDao
     public function findProductProcessByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime
+        $stmt = $connection->prepare("SELECT pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime, pp.enlistment_time, pp.operation_time,
+                                             m.machine, m.cost AS cost_machine, m.years_depreciation, m.residual_value, m.years_depreciation, m.hours_machine, m.days_machine
                                       FROM products_process pp 
-                                      INNER JOIN process pc ON pc.id_process = pp.id_process
+                                        INNER JOIN process pc ON pc.id_process = pp.id_process
+                                        INNER JOIN machines m ON m.id_machine = pp.id_machine
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
         $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
 
@@ -55,9 +57,8 @@ class DashboardProductsDao
     public function findCostWorkforceByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) 
-                                                            FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
-                                                            WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process), 0) AS workforce		
+        $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
+                                             WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process), 0) AS workforce	
                                       FROM process p
                                       INNER JOIN products_process pp ON pp.id_process = p.id_process
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
@@ -73,9 +74,11 @@ class DashboardProductsDao
     public function findCostRawMaterialsByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT m.material, (pm.quantity * m.cost) AS totalCostMaterial
+        $stmt = $connection->prepare("SELECT m.reference, m.material, (pm.quantity * m.cost) AS totalCostMaterial, m.cost AS cost_material, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
+                                             INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials
                                       FROM products_materials pm
-                                      INNER JOIN materials m ON m.id_material = pm.id_material
+                                        INNER JOIN materials m ON m.id_material = pm.id_material
+                                        INNER JOIN convert_units cu ON cu.id_unit = m.unit
                                       WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
                                       ORDER BY totalCostMaterial DESC");
         $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);

@@ -43,6 +43,7 @@ get('/cost/quotes', '/cost/views/quotes/quotes.php');
 get('/cost/prices-usd', '/cost/views/prices/pricesUSD/pricesUSD.php');
 get('/cost/details-quote', '/cost/views/quotes/detailsQuote.php');
 get('/cost/economyScale', '/cost/views/tools/economyScale.php');
+get('/cost/simulator', '/cost/views/tools/simulator.php');
 get('/cost/profile', '/cost/views/perfil/perfil.php');
 get('/cost/configuration', '/cost/views/perfil/configuracion.php');
 //Header
@@ -69,7 +70,7 @@ get('/cost/payment-methods', '/cost/views/quotes/paymentMethods.php');
 //Admin
 get('/cost/users', '/cost/views/users/users.php');
 
-/* PLANNING */
+/* PLANNING 
 get('/planning', '/planning/index.php');
 get('/planning/inventory', '/planning/views/inventory/inventory.php');
 get('/planning/orders', '/planning/views/orders/orders.php');
@@ -96,7 +97,7 @@ get('/planning/users', '/planning/views/admin/users.php');
 get('/planning/profile', '/planning/views/perfil/perfil.php');
 
 
-/* SELECTOR */
+ SELECTOR 
 get('/selector', '/selector/index.php');
 get('/selector/profile', '/selector/views/perfil/perfil.php');
-get('/selector/users', '/selector/views/users/users.php');
+get('/selector/users', '/selector/views/users/users.php'); */
