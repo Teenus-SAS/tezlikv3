@@ -359,7 +359,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 }
 
                 if ($resolution == null) {
-                    $productsMaterials = $productsMaterialsDao->findAllProductsmaterials($dataProduct['idProduct'], $id_company);
+                    $productsMaterials = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($dataProduct['idProduct'], $id_company);
 
                     // $totalQuantity = 0;
 

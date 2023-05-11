@@ -104,15 +104,19 @@
                                                     <li class="distributionExpenses"><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
                                                 <?php } ?>
                                             <?php } ?>
-
                                         </ul>
                                     </div>
                                 <?php } ?>
-                                <?php if ($_SESSION['cost_user'] != 0) { ?>
+                                <?php if ($_SESSION['cost_user'] != 0 || $_SESSION['cost_backup'] != 0) { ?>
                                     <div class="col-md-3" id="navCostAdmin">
                                         <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                         <ul class="list-unstyled megamenu-list">
-                                            <li class="users"><a href="/cost/users">Usuarios</a></li>
+                                            <?php if ($_SESSION['cost_backup'] == 1) { ?>
+                                                <li class="backup"><a href="javascript:;">Backup</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['cost_user'] == 1) { ?>
+                                                <li class="users"><a href="/cost/users">Usuarios</a></li>
+                                            <?php } ?>
                                         </ul>
                                     </div>
                                 <?php } ?>

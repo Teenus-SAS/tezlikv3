@@ -16,7 +16,7 @@ class ProductsProcessDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllProductsprocess($idProduct, $id_company)
+    public function findAllProductsprocessByIdProduct($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pp.id_process, pp.id_machine, pp.id_product_process,
