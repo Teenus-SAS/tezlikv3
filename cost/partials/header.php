@@ -111,11 +111,11 @@
                                     <div class="col-md-3" id="navCostAdmin">
                                         <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                         <ul class="list-unstyled megamenu-list">
-                                            <?php if ($_SESSION['cost_user'] == 1) { ?>
-                                                <li class="users"><a href="/cost/users">Usuarios</a></li>
-                                            <?php } ?>
                                             <?php if ($_SESSION['cost_backup'] == 1) { ?>
                                                 <li class="backup"><a href="javascript:;">Backup</a></li>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['cost_user'] == 1) { ?>
+                                                <li class="users"><a href="/cost/users">Usuarios</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>

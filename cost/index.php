@@ -26,6 +26,11 @@ if (sizeof($_SESSION) == 0)
 <body class="horizontal-navbar">
     <!-- Begin Page -->
     <div class="page-wrapper">
+        <!-- Loader -->
+        <div class="loading">
+            <div class="loader"></div>
+        </div>
+
         <!-- Begin Header -->
         <?php include_once (__DIR__) . '/partials/header.php'; ?>
 

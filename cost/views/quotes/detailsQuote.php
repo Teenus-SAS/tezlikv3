@@ -66,6 +66,11 @@ if (sizeof($_SESSION) == 0)
 
 		<!-- Begin main content -->
 		<div class="main-content">
+			<!-- Loader -->
+			<div class="loading">
+				<div class="loader"></div>
+			</div>
+
 			<!-- Content -->
 			<div class="page-content" style="margin-bottom:0px">
 				<div class="card">

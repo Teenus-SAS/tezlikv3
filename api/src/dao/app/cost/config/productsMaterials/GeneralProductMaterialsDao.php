@@ -19,9 +19,8 @@ class GeneralProductMaterialsDao
     public function findAllProductsmaterials($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_material, m.reference, m.material, mg.id_magnitude, 
-                                             mg.magnitude, u.id_unit, u.unit, u.abbreviation, pm.quantity, m.cost, pm.cost AS cost_product_material 
-                                      FROM products p 
+        $stmt = $connection->prepare("SELECT p.reference AS reference_product, p.product, m.reference AS reference_material, m.material, mg.magnitude, u.unit, u.abbreviation, pm.quantity, m.cost AS cost_material, pm.cost AS cost_product_material 
+                                      FROM products p
                                         INNER JOIN products_materials pm ON pm.id_product = p.id_product
                                         INNER JOIN materials m ON m.id_material = pm.id_material
                                         INNER JOIN convert_units u ON u.id_unit = pm.id_unit
