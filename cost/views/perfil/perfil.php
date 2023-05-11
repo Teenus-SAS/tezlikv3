@@ -34,6 +34,11 @@ if (sizeof($_SESSION) == 0)
 
         <!-- Begin main content -->
         <div class="main-content">
+            <!-- Loader -->
+            <div class="loading">
+                <div class="loader"></div>
+            </div>
+
             <!-- Content -->
             <div class="page-content">
                 <div class="container py-5">
