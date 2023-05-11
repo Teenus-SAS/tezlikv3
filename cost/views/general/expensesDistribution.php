@@ -226,8 +226,14 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
     <script src="/cost/js/general/expenseRecover/updateExpenses.js"></script>
     <script src="/global/js/global/orderData.js"></script>
-    <!-- <script src="/cost/js/general/expenseRecover/configProducts.js"></script> -->
-    <script src="/cost/js/basic/products/configProducts.js"></script>
+    <?php if ($_SESSION['flag_expense'] == 1) { ?>
+        <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>
+    <?php } ?>
+
+    <?php if ($_SESSION['flag_expense'] == 2) { ?>
+        <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
+    <?php } ?>
+    <!-- <script src="/cost/js/basic/products/configProducts.js"></script> -->
     <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
     <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
     <script src="/global/js/import/import.js"></script>
