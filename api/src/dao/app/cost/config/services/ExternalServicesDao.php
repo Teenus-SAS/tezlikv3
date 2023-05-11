@@ -18,6 +18,9 @@ class ExternalServicesDao
 
     public function findAllExternalServicesByIdProduct($id_product)
     {
+        session_start();
+        $id_company = $_SESSION['id_company'];
+
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT sx.id_service, p.reference, sx.name_service, sx.cost, sx.id_product 
                                         FROM services sx INNER JOIN products p ON sx.id_product = p.id_product 
