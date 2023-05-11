@@ -16,11 +16,7 @@ class ExternalServicesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-<<<<<<< HEAD
-    public function findAllExternalServices($id_product, $id_company)
-=======
     public function findAllExternalServicesByIdProduct($id_product)
->>>>>>> 7d0a5f4ff61a5e9b9ceba5110f6b9e4bf0b86c75
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT sx.id_service, p.reference, sx.name_service, sx.cost, sx.id_product 

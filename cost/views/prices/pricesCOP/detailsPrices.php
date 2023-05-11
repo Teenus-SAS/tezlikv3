@@ -342,7 +342,8 @@ if (sizeof($_SESSION) == 0)
     </div>
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
 
-<<<<<<< HEAD
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
+
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
     <script>
@@ -351,20 +352,8 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/dashboard/graphicsProduct.js"></script>
-=======
-            <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
-
-            <script src="/global/js/global/orderData.js"></script>
-            <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
-            <script>
-                flag_expense = "<?= $_SESSION['flag_expense'] ?>"
-            </script>
-            <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
-            <script src="/cost/js/dashboard/calcDataCost.js"></script>
-            <script src="/cost/js/dashboard/graphicsProduct.js"></script>
-        </div>
     </div>
->>>>>>> 7d0a5f4ff61a5e9b9ceba5110f6b9e4bf0b86c75
+    </div>
 </body>
 
 </html>
