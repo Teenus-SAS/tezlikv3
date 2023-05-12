@@ -154,6 +154,16 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Backup',
+        data: 'backup',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
         title: 'Metodos de pago',
         data: 'quote_payment_method',
         className: 'uniqueClassName',

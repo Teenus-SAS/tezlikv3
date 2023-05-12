@@ -4,6 +4,7 @@ use tezlikv3\Dao\ConversionUnitsDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
+use tezlikv3\dao\GeneralProductMaterialsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\Dao\MagnitudesDao;
@@ -11,6 +12,7 @@ use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\UnitsDao;
 
 $productsMaterialsDao = new ProductsMaterialsDao();
+$generalProductMaterialsDao = new GeneralProductMaterialsDao();
 $magnitudesDao = new MagnitudesDao();
 $unitsDao = new UnitsDao();
 $convertDataDao = new ConvertDataDao();
@@ -27,7 +29,17 @@ $app->get('/productsMaterials/{idProduct}', function (Request $request, Response
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productMaterials = $productsMaterialsDao->findAllProductsmaterials($args['idProduct'], $id_company);
+    $productMaterials = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($args['idProduct'], $id_company);
+
+    $response->getBody()->write(json_encode($productMaterials, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/allProductsMaterials', function (Request $request, Response $response, $args) use ($generalProductMaterialsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $productMaterials = $generalProductMaterialsDao->findAllProductsmaterials($id_company);
 
     $response->getBody()->write(json_encode($productMaterials, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -152,7 +164,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             //Metodo calcular precio total materias
             if ($productMaterials == null) {
                 // Consultar todos los datos del producto
-                $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
+                $products = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($dataProductMaterial['idProduct'], $id_company);
 
                 // $totalQuantity = 0;
 
@@ -226,7 +238,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             if ($resolution != null) break;
 
             // Consultar todos los datos del producto
-            $products = $productsMaterialsDao->findAllProductsmaterials($productMaterials[$i]['idProduct'], $id_company);
+            $products = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($productMaterials[$i]['idProduct'], $id_company);
 
             // $totalQuantity = 0;
 
@@ -295,7 +307,7 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
         //Metodo calcular precio total materias
         if ($productMaterials == null) {
             // Consultar todos los datos del producto
-            $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
+            $products = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($dataProductMaterial['idProduct'], $id_company);
 
             // $totalQuantity = 0;
 
@@ -358,7 +370,7 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
     if ($product == null) {
 
         // Consultar todos los datos del producto
-        $products = $productsMaterialsDao->findAllProductsmaterials($dataProductMaterial['idProduct'], $id_company);
+        $products = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($dataProductMaterial['idProduct'], $id_company);
 
         // $totalQuantity = 0;
 

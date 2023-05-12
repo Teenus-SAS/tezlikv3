@@ -24,7 +24,7 @@ $app->get('/planProductsProcess/{idProduct}', function (Request $request, Respon
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productProcess = $productsProcessDao->findAllProductsprocess($args['idProduct'], $id_company);
+    $productProcess = $productsProcessDao->findAllProductsprocessByIdProduct($args['idProduct'], $id_company);
     $response->getBody()->write(json_encode($productProcess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

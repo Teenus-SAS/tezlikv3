@@ -5,11 +5,13 @@ use tezlikv3\dao\ProcessPayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\Dao\PriceProductDao;
 
 $productsProcessDao = new ProductsProcessDao();
+$generalProductsProcessDao = new GeneralProductsProcessDao();
 $convertDataDao = new ConvertDataDao();
 $productsDao = new GeneralProductsDao();
 $processPayrollDao = new ProcessPayrollDao();
@@ -26,7 +28,16 @@ $app->get('/productsProcess/{idProduct}', function (Request $request, Response $
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $productProcess = $productsProcessDao->findAllProductsprocess($args['idProduct'], $id_company);
+    $productProcess = $productsProcessDao->findAllProductsprocessByIdProduct($args['idProduct'], $id_company);
+    $response->getBody()->write(json_encode($productProcess, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/allProductsProcess', function (Request $request, Response $response, $args) use ($generalProductsProcessDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $productProcess = $generalProductsProcessDao->findAllProductsprocess($id_company);
     $response->getBody()->write(json_encode($productProcess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

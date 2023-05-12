@@ -16,6 +16,21 @@ class GeneralProductsProcessDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllProductsprocess($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process
+                                  FROM products p 
+                                  INNER JOIN products_process pp ON pp.id_product = p.id_product
+                                  LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
+                                  INNER JOIN process pc ON pc.id_process = pp.id_process
+                                  WHERE p.id_company = :id_company ORDER BY pp.id_machine ASC");
+        $stmt->execute(['id_company' => $id_company]);
+        $productsprocess = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $productsprocess));
+        return $productsprocess;
+    }
+
     // Consultar datos del prodcuto en la BD
     public function findProductProcessByIdProduct($dataProductProcess)
     {

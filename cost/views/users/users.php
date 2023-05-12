@@ -36,6 +36,11 @@ if (sizeof($_SESSION) == 0)
 
         <!-- Begin main content -->
         <div class="main-content">
+            <!-- Loader -->
+            <div class="loading">
+                <div class="loader"></div>
+            </div>
+
             <!-- Content -->
             <div class="page-content">
                 <!-- Page header -->
@@ -92,8 +97,8 @@ if (sizeof($_SESSION) == 0)
     <script>
         price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
     </script>
-    <script src="../cost/js/users/tblUsers.js"></script>
-    <script src="../cost/js/users/users.js"></script>
+    <script src="../cost/js/admin/users/tblUsers.js"></script>
+    <script src="../cost/js/admin/users/users.js"></script>
 </body>
 
 </html>
