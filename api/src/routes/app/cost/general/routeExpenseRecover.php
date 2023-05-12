@@ -23,14 +23,14 @@ $app->get('/expensesRecover', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-// $app->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) use ($generalExpenseRecoverDao) {
-//     session_start();
-//     $id_company = $_SESSION['id_company'];
+$app->get('/expenseRecoverProducts', function (Request $request, Response $response, $args) use ($generalExpenseRecoverDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
 
-//     $products = $generalExpenseRecoverDao->findAllProductsNotInERecover($id_company);
-//     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
-//     return $response->withHeader('Content-Type', 'application/json');
-// });
+    $products = $generalExpenseRecoverDao->findAllProductsNotInERecover($id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 
 $app->post('/expenseRecoverDataValidation', function (Request $request, Response $response, $args) use (
     $expenseRecoverDao,

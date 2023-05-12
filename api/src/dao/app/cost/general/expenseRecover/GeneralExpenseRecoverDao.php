@@ -16,16 +16,16 @@ class GeneralExpenseRecoverDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    // public function findAllProductsNotInERecover($id_company)
-    // {
-    //     $connection = Connection::getInstance()->getConnection();
+    public function findAllProductsNotInERecover($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
 
-    //     $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company
-    //                                   AND p.id_product NOT IN (SELECT id_product FROM expenses_recover WHERE id_product = p.id_product)");
-    //     $stmt->execute(['id_company' => $id_company]);
-    //     $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-    //     return $products;
-    // }
+        $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company
+                                      AND p.id_product NOT IN (SELECT id_product FROM expenses_recover WHERE id_product = p.id_product)");
+        $stmt->execute(['id_company' => $id_company]);
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
 
     public function findExpenseRecoverByIdProduct($id_product)
     {
