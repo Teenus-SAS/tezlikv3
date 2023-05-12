@@ -3,10 +3,12 @@
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\TotalExpenseDao;
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
 
 $expensesDistributionDao = new ExpensesDistributionDao();
+$generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
 $productsDao = new GeneralProductsDao();
 $totalExpenseDao = new TotalExpenseDao();
 $assignableExpenseDao = new AssignableExpenseDao();
@@ -21,6 +23,15 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 $app->get('/expensesDistribution', function (Request $request, Response $response, $args) use ($expensesDistributionDao) {
     $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany();
     $response->getBody()->write(json_encode($expensesDistribution, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/expensesDistributionProducts', function (Request $request, Response $response, $args) use ($generalExpenseDistributionDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $products = $generalExpenseDistributionDao->findAllProductsNotInEDistribution($id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

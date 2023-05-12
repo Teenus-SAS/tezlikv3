@@ -156,12 +156,14 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data, op) => {
+  message = async (data, op) => {
     if (data.success == true) {
       $('.cardExpensesDistribution').hide(800);
       $('.cardExpenseRecover').hide(800);
       $('#formExpensesDistribution').trigger('reset');
       $('#formExpenseRecover').trigger('reset');
+      op == 1 ? await loadExpensesDProducts() : await loadExpensesRProducts();
+
       updateTable(op);
       toastr.success(data.message);
       return false;

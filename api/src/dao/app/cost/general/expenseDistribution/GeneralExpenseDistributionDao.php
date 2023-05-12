@@ -16,6 +16,17 @@ class GeneralExpenseDistributionDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllProductsNotInEDistribution($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company
+                                      AND p.id_product NOT IN (SELECT id_product FROM expenses_distribution WHERE id_product = p.id_product)");
+        $stmt->execute(['id_company' => $id_company]);
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
+
     /* Consultar data expenses_distribution */
     public function findExpenseDistributionByIdProduct($id_product)
     {
