@@ -104,7 +104,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
                         <!-- Row 5 -->
-                        <div class="row">
+                        <div class="row disable-select">
                             <div class="col-12 cardTableProducts">
                                 <div class="card">
                                     <div class="card-header">
