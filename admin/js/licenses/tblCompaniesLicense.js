@@ -60,7 +60,7 @@ $(document).ready(function () {
         render: function (data) {
           if (data == 0) {
             return '';
-          } else if (data === 1) {
+          } else if (data == 1) {
             return 'Premium';
           } else if (data == 2) {
             return 'Pro';
