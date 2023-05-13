@@ -63,6 +63,17 @@ $(document).ready(function () {
       return false;
     }
 
+    let count = $('#idPuc option:selected').text();
+
+    while (count.includes('-')) {
+      count = count.slice(0, -1);
+    }
+
+    if (count.length < 4) {
+      toastr.error('Seleccione un numero de cuenta de 4 digitos');
+      return false;
+    }
+
     let dataExpense = new FormData(formCreateExpenses);
 
     if (idExpense != '' || idExpense != null)
@@ -107,7 +118,6 @@ $(document).ready(function () {
   };
 
   /* Mensaje de exito */
-
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateExpenses').hide(800);
