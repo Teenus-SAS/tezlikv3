@@ -70,7 +70,7 @@ $(document).ready(function () {
     }
 
     if (count.length < 4) {
-      toastr.error('Seleccione un numero de cuenta de 4 digitos');
+      toastr.error('Seleccione una Cuenta');
       return false;
     }
 
