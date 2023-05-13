@@ -99,7 +99,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45 ">
                     <div class="container-fluid">
                         <!-- Row 5 -->
-                        <div class="row">
+                        <div class="row disable-select">
                             <div class="col-12 cardTblBreakeven">
                                 <div class="card">
                                     <div class="card-header row">
@@ -170,10 +170,22 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-lg-12 cardGraphicMultiproducts" style="display:none;">
                                 <div class="card">
                                     <div class="card-header dflex-between-center">
-                                        <h5 class="card-title">Multiproductos</h5>
+                                        <h5 class="card-title">Diagrama de Barras</h5>
                                     </div>
                                     <div class="card-body pt-2">
-                                        <canvas id="chartMultiproducts" style="width: 80%;"></canvas>
+                                        <canvas id="chartMultiproductsBar" style="width: 80%;"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="card">
+                                        <div class="card-header dflex-between-center">
+                                            <h5 class="card-title">Diagrama de Donut</h5>
+                                        </div>
+                                        <div class="card-body pt-2">
+                                            <div class="chart-container">
+                                                <canvas id="chartMultiproductsDonut" style="width: 80%;"></canvas>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

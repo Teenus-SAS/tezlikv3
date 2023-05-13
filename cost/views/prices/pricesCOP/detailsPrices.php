@@ -347,8 +347,6 @@ if (sizeof($_SESSION) == 0)
     </div>
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
 
-    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
-
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
     <script>
@@ -357,8 +355,6 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/dashboard/graphicsProduct.js"></script>
-    </div>
-    </div>
 </body>
 
 </html>

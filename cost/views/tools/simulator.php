@@ -29,7 +29,7 @@ if (sizeof($_SESSION) == 0)
             .come-from-modal.right .modal-dialog {
                 position: fixed;
                 margin: auto;
-                width: 700px;
+                width: 800px;
                 height: 100%;
                 -webkit-transform: translate3d(0%, 0, 0);
                 -ms-transform: translate3d(0%, 0, 0);
@@ -199,7 +199,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <h6 class="mb-0 pl-3 text-right  services">$</h6>
                                                                 <p class="mb-2" style="color:darkcyan expenses">Gastos</p>
                                                                 <h6 class="mb-0 pl-3 text-right payAssignableExpenses"></h6>
-                                                                <p class="mb-2" style="color:darkcyan commission">Comisión Vts</p>
+                                                                <p class="mb-2" style="color:darkcyan commission">Comisión Vta</p>
                                                                 <h6 class="mb-0 pl-3 text-right commisionSale"></h6>
                                                                 <p class="mb-2" style="color:darkcyan profit">Rentabilidad</p>
                                                                 <h6 class="mb-0 pl-3 text-right profitability"></h6>
@@ -306,7 +306,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <h6 class="mb-0 pl-3 text-right  services">$</h6>
                                                                 <p class="mb-2" style="color:darkcyan expenses">Gastos</p>
                                                                 <h6 class="mb-0 pl-3 text-right payAssignableExpenses"></h6>
-                                                                <p class="mb-2" style="color:darkcyan commission">Comisión Vts</p>
+                                                                <p class="mb-2" style="color:darkcyan commission">Comisión Vta</p>
                                                                 <h6 class="mb-0 pl-3 text-right commisionSale"></h6>
                                                                 <p class="mb-2" style="color:darkcyan profit">Rentabilidad</p>
                                                                 <h6 class="mb-0 pl-3 text-right profitability"></h6>

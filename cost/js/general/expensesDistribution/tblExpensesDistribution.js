@@ -72,6 +72,23 @@ $(document).ready(function () {
           },
         },
       ],
+      footerCallback: function (row, data, start, end, display) {
+        let units_sold = 0;
+        let turnover = 0;
+
+        for (let i = 0; i < data.length; i++) {
+          units_sold += data[i].units_sold;
+          turnover += data[i].turnover;
+        }
+
+        $(this.api().column(3).footer()).html(
+          units_sold.toLocaleString('es-CO')
+        );
+
+        $(this.api().column(4).footer()).html(
+          `$ ${turnover.toLocaleString('es-CO')}`
+        );
+      },
     });
   };
 });

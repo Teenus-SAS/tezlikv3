@@ -36,7 +36,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     // Carga fabril
     $factoryLoad = $simulatorDao->findAllFactoryLoadByProduct($args['id_product'], $id_company);
     // Servicios Externos
-    $externalServices = $externalServicesDao->findAllExternalServices($args['id_product'], $id_company);
+    $externalServices = $externalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
     // Nomina
     $payroll = $simulatorDao->findAllPayrollByProduct($args['id_product'], $id_company);
 

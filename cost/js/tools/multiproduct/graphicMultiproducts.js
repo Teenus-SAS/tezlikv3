@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  var myChart;
+  var chartMultiproductsDonut;
+  var chartMultiproductsBar;
 
   dynamicColors = () => {
     let letters = '0123456789ABCDEF'.split('');
@@ -33,7 +34,64 @@ $(document).ready(function () {
   });
 
   loadGraphicMultiproducts = () => {
+    let totalSoldUnits = 0;
+    let totalUnitsToSol = 0;
     let product = [];
+
+    /* Grafica de donut */
+    for (let i = 0; i < multiproducts.length; i++) {
+      totalSoldUnits += parseFloat(multiproducts[i].soldUnit);
+      totalUnitsToSol += parseFloat(multiproducts[i].unitsToSold);
+    }
+
+    product.push(totalSoldUnits);
+    product.push(totalUnitsToSol);
+
+    chartMultiproductsDonut
+      ? chartMultiproductsDonut.destroy()
+      : chartMultiproductsDonut;
+
+    cmo = document.getElementById('chartMultiproductsDonut');
+    chartMultiproductsDonut = new Chart(cmo, {
+      plugins: [ChartDataLabels],
+      type: 'doughnut',
+      data: {
+        labels: ['N° de unidades Vendidas', 'N° de Unidades Por Vender'],
+        datasets: [
+          {
+            data: product,
+            backgroundColor: getRandomColor(2),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false,
+          },
+          datalabels: {
+            formatter: (value, ctx) => {
+              let sum = 0;
+              let dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map((data) => {
+                sum += data;
+              });
+              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              return percentage;
+            },
+            color: 'white',
+            font: {
+              size: '14',
+              weight: 'bold',
+            },
+          },
+        },
+      },
+    });
+
+    /* Grafica de barras */
+    product = [];
 
     for (let i = 0; i < multiproducts.length; i++) {
       product.push({
@@ -76,10 +134,12 @@ $(document).ready(function () {
       else color.push('green');
     }
 
-    myChart ? myChart.destroy() : myChart;
+    chartMultiproductsBar
+      ? chartMultiproductsBar.destroy()
+      : chartMultiproductsBar;
 
-    ctx = document.getElementById('chartMultiproducts').getContext('2d');
-    myChart = new Chart(ctx, {
+    ctx = document.getElementById('chartMultiproductsBar').getContext('2d');
+    chartMultiproductsBar = new Chart(ctx, {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {

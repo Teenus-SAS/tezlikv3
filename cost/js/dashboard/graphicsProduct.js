@@ -364,9 +364,9 @@ $(document).ready(function () {
       type: 'bar',
       data: {
         labels: material,
-        formatter: function (value, context) {
-          return context.chart.data.labels[context.dataIndex];
-        },
+        // formatter: function (value, context) {
+        //   return context.chart.data.labels[context.dataIndex];
+        // },
         datasets: [
           {
             data: totalMaterial,
@@ -390,7 +390,15 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: 'end',
-            formatter: (totalMaterial) => totalMaterial.toLocaleString('es-CO'),
+            formatter: (value, ctx) => {
+              let sum = 0;
+              let dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map((data) => {
+                sum += data;
+              });
+              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              return percentage;
+            },
             color: 'black',
             font: {
               size: '10',

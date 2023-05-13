@@ -13,48 +13,32 @@
                     <div class="container-fluid">
                         <div class="form-row cardGeneralBtnsSimulator mb-5">
                             <div class="pos-f-t">
-                                <div class="collapse" id="navbarToggleExternalContent">
-                                    <div class="form-row bg-light p-4">
-                                        <div class="col-sm mb-2">
-                                            <button type="button" class="btn btn-outline-secondary" value="1"> Productos</button>
-                                        </div>
-                                        <div class="col-sm">
-                                            <button type="button" class="btn btn-outline-secondary" value="2"> Maquinas</button>
-                                        </div>
-                                        <div class="col-sm-6 mb-2">
-                                            <button type="button" class="btn btn-outline-secondary" value="3"> Materias Prima</button>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <button type="button" class="btn btn-outline-secondary" value="4"> F. Tecnica Materia Prima</button>
-                                        </div>
-                                        <div class="col-sm-6 mb-2">
-                                            <button type="button" class="btn btn-outline-secondary" value="5"> F. Tecnica Procesos</button>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <button type="button" class="btn btn-outline-secondary" value="6"> Carga Fabril</button>
-                                        </div>
-                                        <div class="col-sm-6 mb-2">
-                                            <button type="button" class="btn btn-outline-secondary" value="7"> Servicios Externos</button>
-                                        </div>
-                                        <div class="col-sm-6 mb-2">
-                                            <button type="button" class="btn btn-outline-secondary" value="8"> Nomina</button>
-                                        </div>
-                                        <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                            <div class="col-sm-6">
-                                                <button type="button" class="btn btn-outline-secondary" value="9"> Distribucion de Gastos</button>
-                                            </div>
-                                        <?php } ?>
-                                        <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                            <div class="col-sm">
-                                                <button type="button" class="btn btn-outline-secondary" value="10"> Recuperacion Gastos</button>
-                                            </div>
-                                        <?php } ?>
+                                <nav class="navbar navbar-expand-lg navbar-light topnav-menu">
+                                    <div class="collapse navbar-collapse" id="topnav-menu-content">
+                                        <ul class="navbar-nav mr-auto">
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" href="javascript:;" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span class="navbar-toggler-icon"></span>
+                                                </a>
+                                                <ul class="dropdown-menu bg-light" aria-labelledby="navbarDropdown" style="margin-left: 37px; margin-top:-37px; width:300px">
+                                                    <a class="btn btn-outline-light dropdown-item" id="1"> Productos</a>
+                                                    <a class="btn btn-outline-light dropdown-item" id="2"> Maquinas</a>
+                                                    <a class="btn btn-outline-light dropdown-item" id="3"> Materias Prima</a>
+                                                    <a class="btn btn-outline-light dropdown-item" id="4"> F. Tecnica Materia Prima</a>
+                                                    <a class="btn btn-outline-light dropdown-item" id="5"> F. Tecnica Procesos</a>
+                                                    <a class="btn btn-outline-light dropdown-item" id="6"> Carga Fabril</a>
+                                                    <a class="btn btn-outline-light dropdown-item" id="7"> Servicios Externos</a>
+                                                    <a class="btn btn-outline-light dropdown-item" id="8"> Nomina</a>
+                                                    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                        <a class="btn btn-outline-light dropdown-item" id="9"> Distribucion de Gastos</a>
+                                                    <?php } ?>
+                                                    <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                                        <a class="btn btn-outline-light dropdown-item" id="10"> Recuperacion Gastos</a>
+                                                    <?php } ?>
+                                                </ul>
+                                            </li>
+                                        </ul>
                                     </div>
-                                </div>
-                                <nav class="navbar navbar-light bg-light form-row">
-                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                                        <span class="navbar-toggler-icon"></span>
-                                    </button>
                                 </nav>
                             </div>
                         </div>
