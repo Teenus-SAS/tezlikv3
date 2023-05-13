@@ -92,7 +92,7 @@ if (sizeof($_SESSION) == 0)
                                                 <h5>Descripción</h5>
                                             </div>
                                             <div class="col-12 col-lg-12">
-                                                <div class="table-responsive">
+                                                <div class="table-responsive disable-select">
                                                     <table id="tblEconomyScale" class="table table-striped">
                                                         <tbody>
                                                             <tr>

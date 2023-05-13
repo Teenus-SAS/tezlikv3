@@ -19,18 +19,13 @@ $(document).ready(function () {
   $('.closeModalSimulator').click(function (e) {
     e.preventDefault();
 
-    let navbarToggleExternalContent = document.getElementById(
-      'navbarToggleExternalContent'
-    );
-
     $('#modalSimulator').modal('hide');
-    navbarToggleExternalContent.classList.remove('show');
   });
 
-  $(document).on('click', '.btn-outline-secondary', async function () {
+  $(document).on('click', '.btn-outline-light', async function () {
     $('.cardTableSimulator').hide();
 
-    let op = this.value;
+    let op = this.id;
 
     switch (op) {
       case '1':
@@ -74,19 +69,20 @@ $(document).ready(function () {
         await loadTblSimulatorRecover(dataSimulator.expenseRecover);
         break;
     }
+    $(`.${card}`).show(800);
 
-    setInterval(() => {
+    setTimeout(() => {
       let tables = document.getElementsByClassName(
         'dataTables_scrollHeadInner'
       );
 
       for (let i = 0; i < tables.length; i++) {
-        let attr = tables[i].firstElementChild;
-        attr.style.width = '380px';
+        let attr = tables[i];
+        attr.style.width = '100%';
+        attr = tables[i].firstElementChild;
+        attr.style.width = '100%';
       }
     }, 1000);
-
-    $(`.${card}`).show(800);
   });
 
   $('#btnSaveSimulator').click(function (e) {

@@ -93,7 +93,7 @@ if (sizeof($_SESSION) == 0)
                         <!-- Row 5 -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
+                                <div class="card disable-select">
                                     <div class="card-header">
                                         <h5 class="card-title">Metodos de Pago</h5>
                                     </div>

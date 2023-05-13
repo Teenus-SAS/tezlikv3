@@ -198,11 +198,23 @@ if (sizeof($_SESSION) == 0)
                         <!-- Row 5 -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
+                                <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblExpenses">
-
+                                                <?php if ($_SESSION['flag_expense'] == 1) { ?>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th>Total:</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
+                                                <?php } ?>
                                             </table>
                                         </div>
                                     </div>
