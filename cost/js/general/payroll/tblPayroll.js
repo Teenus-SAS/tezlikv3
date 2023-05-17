@@ -58,46 +58,35 @@ $(document).ready(function () {
     ],
 
     footerCallback: function (row, data, start, end, display) {
-      subtotal = this.api()
-        .column(3)
-        .data()
-        .reduce(function (a, b) {
-          return parseInt(a) + parseInt(b);
-        }, 0);
+      let salary = 0;
+      let salary_net = 0;
+      let minute_value = 0;
+
+      for (i = 0; i < display.length; i++) {
+        salary += data[display[i]].salary;
+        salary_net += data[display[i]].salary_net;
+        minute_value += data[display[i]].minute_value;
+      }
 
       $(this.api().column(3).footer()).html(
-        new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(subtotal)
+        `$ ${salary.toLocaleString('es-CO', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`
       );
-
-      total = this.api()
-        .column(4)
-        .data()
-        .reduce(function (a, b) {
-          return parseInt(a) + parseInt(b);
-        }, 0);
 
       $(this.api().column(4).footer()).html(
-        new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(total)
+        `$ ${salary_net.toLocaleString('es-CO', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`
       );
 
-      minTotal = this.api()
-        .column(5)
-        .data()
-        .reduce(function (a, b) {
-          return parseInt(a) + parseInt(b);
-        }, 0);
-
       $(this.api().column(5).footer()).html(
-        new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(minTotal)
+        `$ ${minute_value.toLocaleString('es-CO', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}`
       );
     },
   });

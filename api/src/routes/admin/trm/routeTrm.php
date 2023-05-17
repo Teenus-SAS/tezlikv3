@@ -15,15 +15,26 @@ $app->get('/historicalTrm', function (Request $request, Response $response, $arg
 
 $app->get('/loadLastsTrm', function (Request $request, Response $response, $args) use ($trmDao) {
     $resp = $trmDao->deleteAllHistoricalTrm();
+    $today = date('Y-m-d');
 
     if ($resp == null) {
         $historicalTrm = $trmDao->getAllHistoricalTrm();
 
+        $status = true;
+
         foreach ($historicalTrm as $arr) {
+            if ($status == false) break;
+
             $first_date = $arr['vigenciadesde'];
             $last_date = $arr['vigenciahasta'];
 
             for ($date = $first_date; $date <= $last_date;) {
+                if ($status == false) break;
+
+                $trm_date = date('Y-m-d', strtotime($date . ' +2 years'));
+
+                if ($trm_date == $today) $status = false;
+
                 $resp = $trmDao->insertTrm($date, $arr['valor']);
 
                 if (isset($resp['info'])) break;
@@ -31,6 +42,8 @@ $app->get('/loadLastsTrm', function (Request $request, Response $response, $args
                 $date = date('Y-m-d', strtotime($date . ' +1 day'));
             }
         }
+
+        $trmDao->deleteTrm();
     }
 
     if (isset($price['info']))

@@ -19,7 +19,7 @@ class PucDao
   public function findAllCountsPUC()
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM puc ORDER BY LENGTH(number_count) ASC");
+    $stmt = $connection->prepare("SELECT * FROM puc ORDER BY CAST(SUBSTRING(number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(number_count, 1, 5) AS UNSIGNED);");
     $stmt->execute();
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

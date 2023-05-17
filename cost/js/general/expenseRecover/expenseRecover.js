@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $('.cardExpenseRecover').hide();
 
-  $('#btnNewExpenseRecover').click(function (e) {
+  $('#btnNewExpenseRecover').click(async function (e) {
     e.preventDefault();
     $('.selectNameProduct option').removeAttr('selected');
     $('.refProduct option').removeAttr('selected');
@@ -18,6 +18,7 @@ $(document).ready(function () {
     sessionStorage.removeItem('id_expense_recover');
 
     $('#percentage').val('');
+    await loadExpensesRProducts();
   });
 
   $('#btnExpenseRecover').click(function (e) {
@@ -45,12 +46,15 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_expense_recover', data.id_expense_recover);
 
+    $('#ERRefProduct').empty();
+    $('#ERNameProduct').empty();
+
     $('#ERRefProduct').append(
-      `<option value ="${data.id_product}" selected> ${data.reference} </option>`
+      `<option value = '${data.id_product}'> ${data.reference} </option>`
     );
 
     $('#ERNameProduct').append(
-      `<option value="${data.id_product}" selected> ${data.product} </option>`
+      `<option value ='${data.id_product}'> ${data.product} </option>`
     );
 
     $(`#ERRefProduct`).prop('disabled', true);
