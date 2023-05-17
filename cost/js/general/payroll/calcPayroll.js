@@ -5,8 +5,17 @@ $(document).ready(function () {
     $('#factor').prop('disabled', true);
 
     if (this.value == 0) 'Seleccione una opción';
-    else if (this.value == 1) value = 38.35;
-    else if (this.value == 2) value = 0;
+    else if (this.value == 1) {
+      let dataBenefits = sessionStorage.getItem('dataBenefits');
+      dataBenefits = JSON.parse(dataBenefits);
+
+      for (i = 0; i < dataBenefits.length; i++) {
+        if (dataBenefits[i].id_benefit == 2) {
+        } else percentage += dataBenefits[i].percentage;
+      }
+
+      value = percentage;
+    } else if (this.value == 2) value = 0;
     else if (this.value == 3) {
       $('#factor').prop('disabled', false);
       value = $('#factor').val();
