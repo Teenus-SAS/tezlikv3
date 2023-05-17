@@ -32,4 +32,27 @@ $(document).ready(function () {
       return false;
     }
   });
+
+  $('#risk').change(function (e) {
+    e.preventDefault();
+
+    let id_risk = this.value;
+
+    let dataRisks = sessionStorage.getItem('dataRisks');
+    dataRisks = JSON.parse(dataRisks);
+
+    for (let i = 0; i < dataRisks.length; i++) {
+      if (dataRisks[i].id_risk == id_risk) {
+        percentage = dataRisks[i].percentage;
+        break;
+      }
+    }
+
+    $('#valueRisk').val(
+      percentage.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
+  });
 });

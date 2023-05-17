@@ -41,6 +41,8 @@
                                         <li class="users"><a href="/admin/users-admins">Usuarios</a></li>
                                         <li class="plans"><a href="/admin/plans">Planes</a></li>
                                         <li class="binnacle"><a href="/admin/binnacle">Bitacora</a></li>
+                                        <li class="benefits"><a href="/admin/benefits">Prestaciones</a></li>
+                                        <li class="risks"><a href="/admin/risks">Niveles de Riesgo</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navConversion">

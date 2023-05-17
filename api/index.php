@@ -37,6 +37,12 @@ require_once('../api/src/routes/admin/users/routeCloseSessionUsers.php');
 require_once('../api/src/routes/admin/users/routeUserAdmin.php');
 require_once('../api/src/routes/app/login/routeInactiveUser.php');
 
+// Benefits
+require_once('../api/src/routes/admin/benefits/routeBenefits.php');
+
+// Risks
+require_once('../api/src/routes/admin/risks/routeRisks.php');
+
 // Trm
 require_once('../api/src/routes/admin/trm/routeTrm.php');
 

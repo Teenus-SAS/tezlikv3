@@ -114,11 +114,6 @@
                                             <?php if ($_SESSION['cost_backup'] == 1) { ?>
                                                 <li class="backup"><a href="javascript:;">Backup</a></li>
                                             <?php } ?>
-                                            <?php //if ($_SESSION['cost_backup'] == 1) { 
-                                            ?>
-                                            <li class="benefits"><a href="javascript:;">Prestaciones</a></li>
-                                            <?php //} 
-                                            ?>
                                             <?php if ($_SESSION['cost_user'] == 1) { ?>
                                                 <li class="users"><a href="/cost/users">Usuarios</a></li>
                                             <?php } ?>
