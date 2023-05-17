@@ -2,8 +2,6 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/products',
     success: function (r) {
-      sessionStorage.removeItem('dataProducts');
-
       let $select = $(`.refProduct`);
       $select.empty();
 
