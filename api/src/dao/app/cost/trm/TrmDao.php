@@ -28,12 +28,12 @@ class TrmDao
         return $historicalTrm;
     }
 
-    public function findLastInsertedTrm()
+    public function findLastInsertedTrm($date)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT MAX(date_trm) AS date_trm FROM historical_trm");
-        $stmt->execute();
+        $stmt = $connection->prepare("SELECT * FROM historical_trm WHERE date_trm = :date_trm");
+        $stmt->execute(['date_trm' => $date]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $historicalTrm = $stmt->fetch($connection::FETCH_ASSOC);
@@ -62,7 +62,6 @@ class TrmDao
             $json = file_get_contents($url);
             $historicalTrm = json_decode($json, true);
 
-
             return $historicalTrm;
         } catch (\Exception $e) {
             return array('info' => true);
@@ -84,12 +83,12 @@ class TrmDao
         }
     }
 
-    public function deleteFirstTrm()
+    public function deleteTrm()
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("DELETE FROM historical_trm ORDER BY id_trm ASC LIMIT 1");
+            $stmt = $connection->prepare("DELETE FROM historical_trm WHERE date_trm < DATE_ADD(CURRENT_DATE, INTERVAL -2 YEAR)");
             $stmt->execute();
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

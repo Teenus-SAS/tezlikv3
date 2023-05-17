@@ -68,7 +68,7 @@ get('/cost/contacts', '/cost/views/quotes/contacts.php');
 get('/cost/payment-methods', '/cost/views/quotes/paymentMethods.php');
 
 //Admin
-get('/cost/users', '/cost/views/users/users.php');
+get('/cost/users', '/cost/views/admin/users.php');
 
 /* PLANNING 
 get('/planning', '/planning/index.php');

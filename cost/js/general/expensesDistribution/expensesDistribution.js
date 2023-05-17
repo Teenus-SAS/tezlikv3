@@ -3,8 +3,9 @@ $(document).ready(function () {
   $('.cardExpensesDistribution').hide();
 
   /* Abrir ventana para ingresar el volumen dy unidades de ventas para calcular gastos atribuibles al producto */
-  $('#btnExpensesDistribution').click(function (e) {
+  $('#btnExpensesDistribution').click(async function (e) {
     e.preventDefault();
+
     $('.selectNameProduct option').removeAttr('selected');
     $('.refProduct option').removeAttr('selected');
     $(`.selectNameProduct option[value='0']`).prop('selected', true);
@@ -19,6 +20,7 @@ $(document).ready(function () {
 
     $('#undVendidas').val('');
     $('#volVendidas').val('');
+    await loadExpensesDProducts();
   });
 
   $('#btnAssignExpenses').click(function (e) {
@@ -63,11 +65,17 @@ $(document).ready(function () {
       data.id_expenses_distribution
     );
 
-    $(`#EDNameProduct option:contains(${data.product})`).prop('selected', true);
-    $(`#EDRefProduct option:contains(${data.reference})`).prop(
-      'selected',
-      true
+    $('#EDRefProduct').empty();
+    $('#EDNameProduct').empty();
+
+    $('#EDRefProduct').append(
+      `<option value = '${data.id_product}'> ${data.reference} </option>`
     );
+
+    $('#EDNameProduct').append(
+      `<option value ='${data.id_product}'> ${data.product} </option>`
+    );
+
     $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
     $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));
     $('#expensesToDistribution').val(
