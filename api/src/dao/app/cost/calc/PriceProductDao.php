@@ -24,7 +24,7 @@ class PriceProductDao
         try {
             if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) {
                 $stmt = $connection->prepare("SELECT
-                                                (((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product)) + ed.assignable_expense) 
+                                                (((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product)) + IFNULL(ed.assignable_expense, 0)) 
                                                 / (1 - (IFNULL(pc.profitability, 0) /100))) / (1 - (IFNULL(pc.commission_sale, 0) / 100)) AS totalPrice  
                                                 FROM products p
                                                     LEFT JOIN products_costs pc ON pc.id_product = p.id_product

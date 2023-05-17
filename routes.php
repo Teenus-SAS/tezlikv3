@@ -23,6 +23,8 @@ get('/admin/companies-user', '/admin/views/companies/companyUsers.php');
 get('/admin/users-admins', '/admin/views/users/usersAdmins.php');
 get('/admin/users', '/admin/views/users/users.php');
 get('/admin/plans', '/admin/views/plans/plans.php');
+get('/admin/benefits', '/admin/views/benefits/benefits.php');
+get('/admin/risks', '/admin/views/risks/risks.php');
 get('/admin/magnitudes', '/admin/views/magnitudes/magnitudes.php');
 get('/admin/units', '/admin/views/units/units.php');
 get('/admin/binnacle', '/admin/views/binnacle/binnacle.php');

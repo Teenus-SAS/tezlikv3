@@ -90,8 +90,9 @@ $(document).ready(function () {
 
     let workingHD = $('#workingHoursDay').val();
     let workingDM = $('#workingDaysMonth').val();
+    let valueRisk = parseFloat($('#valueRisk').val());
 
-    let data = process * workingDM * workingHD * salary;
+    let data = process * workingDM * workingHD * salary * valueRisk;
 
     if (isNaN(data) || data <= 0 || employee == '' || factor == '') {
       toastr.error('Ingrese todos los campos');

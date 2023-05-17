@@ -98,6 +98,26 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
+                                            <label for=""><b>Nivel de Riesgo</b></label>
+                                        </div>
+
+                                        <div class="col-12 col-lg-4">
+                                            <div class="form-group floating-label enable-floating-label show-label">
+                                                <select id="risk" name="risk" class="form-control"> </select>
+                                                <label for="risk">Riesgo<span class="text-danger">*</span></label>
+                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-lg-4">
+                                            <div class="form-group floating-label enable-floating-label show-label">
+                                                <input id="valueRisk" name="valueRisk" type="text" class="form-control text-center" readonly>
+                                                <label for="valueRisk">Valor<span class="text-danger">*</span></label>
+                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-lg-12 titlePayroll">
                                             <label for=""><b>Factor Prestacional</b></label>
                                         </div>
 
