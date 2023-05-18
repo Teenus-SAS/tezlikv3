@@ -161,7 +161,7 @@ $(document).ready(function () {
 
     let dataBenefits = sessionStorage.getItem('dataBenefits');
     dataBenefits = JSON.parse(dataBenefits);
-    valueBenefit = 0;
+    valueBenefits = 0;
 
     let typeFactor = $('#typeFactor').val();
 
@@ -175,40 +175,49 @@ $(document).ready(function () {
       }
 
       for (i = 0; i < dataBenefits.length + 1; i++) {
-        if (!dataBenefits[i])
-          valueBenefit += (salary + endowment + extraTime) * (valueRisk / 100);
-        else if (
+        if (!dataBenefits[i]) {
+          let valueBenefit =
+            (salary + endowment + extraTime) * (valueRisk / 100);
+          valueBenefits += valueBenefit;
+        } else if (
           dataBenefits[i].id_benefit == 1 ||
-          dataBenefits[i].id_benefit == 2
-        )
-          valueBenefit +=
+          dataBenefits[i].id_benefit == 3
+        ) {
+          let valueBenefit =
             (salary + endowment + extraTime) *
             (dataBenefits[i].percentage / 100);
-        else if (dataBenefits[i].id_benefit == 3) {
-          if (salary > 1160000 * 10)
-            valueBenefit +=
+          valueBenefits += valueBenefit;
+        } else if (dataBenefits[i].id_benefit == 2) {
+          if (salary > 1160000 * 10) {
+            let valueBenefit =
               (salary + endowment + extraTime) *
               (dataBenefits[i].percentage / 100);
+            valueBenefits += valueBenefit;
+          }
         } else if (
           dataBenefits[i].id_benefit == 4 ||
           dataBenefits[i].id_benefit == 5
-        )
-          valueBenefit +=
+        ) {
+          let valueBenefit =
             (salary + endowment + extraTime + transport) *
             (dataBenefits[i].percentage / 100);
-        else if (dataBenefits[i].id_benefit == 6)
-          valueBenefit +=
+          valueBenefits += valueBenefit;
+        } else if (dataBenefits[i].id_benefit == 6) {
+          let valueBenefit =
             (salary + endowment + transport + extraTime + bonification) *
             (dataBenefits[i].percentage / 100);
-        else if (dataBenefits[i].id_benefit == 7)
-          valueBenefit +=
+          valueBenefits += valueBenefit;
+        } else if (dataBenefits[i].id_benefit == 7) {
+          let valueBenefit =
             (salary + endowment) * (dataBenefits[i].percentage / 100);
+          valueBenefits += valueBenefit;
+        }
       }
     } else {
-      valueRisk = (salary + transport) * (factor / 100);
+      valueBenefits = (salary + transport) * (factor / 100);
     }
 
-    dataPayroll.append('factor', valueBenefit);
+    dataPayroll.append('factor', valueBenefits);
 
     $('#factor').prop('disabled', false);
 
