@@ -9,9 +9,7 @@ $(document).ready(function () {
 
       let $select = $('#risk');
 
-      $select.append(
-        `<option value='0' disabled selected>Seleccionar</option>`
-      );
+      $select.append(`<option value='0' selected>Seleccionar</option>`);
       $.each(r, function (i, value) {
         $select.append(
           `<option value =${value.id_risk}> ${value.risk_level} </option>`

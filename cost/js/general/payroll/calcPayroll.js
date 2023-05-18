@@ -17,11 +17,14 @@ $(document).ready(function () {
 
     $('#factor').prop('disabled', true);
 
+    let percentage = parseFloat(
+      strReplaceNumber(sessionStorage.getItem('percentage'))
+    );
+
     if (this.value == 0) return false;
     else if (this.value == 1) {
       let dataBenefits = sessionStorage.getItem('dataBenefits');
       dataBenefits = JSON.parse(dataBenefits);
-      let percentage = parseFloat(sessionStorage.getItem('percentage'));
 
       for (i = 0; i < dataBenefits.length; i++) {
         if (dataBenefits[i].id_benefit == 2) {
@@ -34,13 +37,30 @@ $(document).ready(function () {
       }
 
       value = percentage.toFixed(2);
-    } else if (this.value == 2) value = 0;
+    } else if (this.value == 2) value = percentage;
     else if (this.value == 3) {
       $('#factor').prop('disabled', false);
       value = $('#factor').val();
     }
 
     $('#factor').val(value);
+  });
+
+  $(document).on('blur', '#factor', function () {
+    let percentage = parseFloat(
+      strReplaceNumber(sessionStorage.getItem('percentage'))
+    );
+
+    let factor = parseFloat(this.value);
+
+    isNaN(factor) ? (factor = 0) : factor;
+
+    $('#factor').val(
+      (percentage + factor).toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
   });
 
   $(document).on('keyup', '#workingHoursDay', function (e) {
@@ -66,24 +86,27 @@ $(document).ready(function () {
 
     let id_risk = this.value;
 
-    let dataRisks = sessionStorage.getItem('dataRisks');
-    dataRisks = JSON.parse(dataRisks);
+    if (id_risk == 0) percentage = 0;
+    else {
+      let dataRisks = sessionStorage.getItem('dataRisks');
+      dataRisks = JSON.parse(dataRisks);
 
-    for (let i = 0; i < dataRisks.length; i++) {
-      if (dataRisks[i].id_risk == id_risk) {
-        percentage = dataRisks[i].percentage;
-        break;
+      for (let i = 0; i < dataRisks.length; i++) {
+        if (dataRisks[i].id_risk == id_risk) {
+          percentage = dataRisks[i].percentage;
+          break;
+        }
       }
+
+      percentage = percentage.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
     }
 
     sessionStorage.setItem('percentage', percentage);
 
-    $('#valueRisk').val(
-      percentage.toLocaleString('es-CO', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })
-    );
+    $('#valueRisk').val(percentage);
 
     $('#typeFactor').change();
   });

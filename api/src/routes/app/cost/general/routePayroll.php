@@ -95,7 +95,6 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $dataPayrolls = sizeof($dataPayroll);
 
     if ($dataPayrolls > 1) {
-        if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
 
         $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
@@ -122,7 +121,6 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
             $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
 
-            if ($payroll[$i]['typeFactor'] == 'Servicios' || $payroll[$i]['typeFactor'] == 2) $payroll[$i]['factor'] = 0;
             empty($payroll[$i]['extraTime']) ? $payroll[$i]['extraTime'] = 0 : $payroll[$i]['extraTime'];
             empty($payroll[$i]['bonification']) ? $payroll[$i]['bonification'] = 0 : $payroll[$i]['bonification'];
 
