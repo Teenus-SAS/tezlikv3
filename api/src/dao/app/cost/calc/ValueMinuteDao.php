@@ -18,6 +18,14 @@ class ValueMinuteDao
 
     public function calcFactorBenefit($dataPayroll)
     {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
     }
 
     public function calculateValueMinuteByTypePayroll($dataPayroll)
