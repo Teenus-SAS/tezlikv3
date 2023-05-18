@@ -36,7 +36,7 @@ class MinuteDepreciationDao
         ]);
     }
 
-    public function calcMinuteDepreciationImportedByMachine($machine, $id_company)
+    /* public function calcMinuteDepreciationImportedByMachine($machine, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -45,7 +45,7 @@ class MinuteDepreciationDao
 
             // Modificar depreciacion por minuto
             $stmt = $connection->prepare("UPDATE machines SET minute_depreciation = :minute_depreciation 
-                                      WHERE machine = :machine AND id_company = :id_company");
+                                      WHERE id_machine = :id_machine AND id_company = :id_company");
             $stmt->execute([
                 'minute_depreciation' => $minute_depreciation,
                 'machine' =>  ucfirst(strtolower($machine['machine'])),
@@ -56,5 +56,5 @@ class MinuteDepreciationDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
-    }
+    } */
 }

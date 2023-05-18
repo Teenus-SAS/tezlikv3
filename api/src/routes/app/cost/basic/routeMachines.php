@@ -54,7 +54,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
             $data = floatval($machines[$i]['costMachine']) * floatval($machines[$i]['depreciationYears']) * floatval($machines[$i]['hoursMachine']) * floatval($machines[$i]['daysMachine']);
 
             if (
-                empty($machines[$i]['machine']) || empty($machines[$i]['cost']) || empty($machines[$i]['yearsDepreciacion']) || $data <= 0 || is_nan($data)
+                empty($machines[$i]['machine']) || empty($machines[$i]['depreciationYears']) || $data <= 0 || is_nan($data)
             ) {
                 $dataImportMachine = array('error' => true, 'message' => 'Ingrese todos los datos');
                 break;
@@ -65,7 +65,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
                 $dataImportMachine = array('error' => true, 'message' => "Las horas de trabajo no pueden ser mayor a 24, fila: $i");
                 break;
             }
-            if ($machines[$i]['daysMachine']) {
+            if ($machines[$i]['daysMachine'] > 31) {
                 $i = $i + 1;
                 $dataImportMachine = array('error' => true, 'message' => "Los dias de trabajo no pueden ser mayor a 31, fila: $i");
                 break;
@@ -135,8 +135,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
             if (!$machine) {
                 $resolution = $machinesDao->insertMachinesByCompany($machines[$i], $id_company);
 
-                if ($resolution['info'] == true)
-                    break;
+                if ($resolution != null) break;
+
                 $lastMachine = $lastDataDao->lastInsertedMachineId($id_company);
                 $machines[$i]['idMachine'] = $lastMachine['id_machine'];
             } else {
@@ -170,7 +170,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                 }
             }
             // Calcular depreciacion por minuto
-            $resolution = $minuteDepreciationDao->calcMinuteDepreciationImportedByMachine($machines[$i]['idMachine'], $id_company);
+            $resolution = $minuteDepreciationDao->calcMinuteDepreciationByMachine($machines[$i]['idMachine'], $id_company);
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Maquina Importada correctamente');
