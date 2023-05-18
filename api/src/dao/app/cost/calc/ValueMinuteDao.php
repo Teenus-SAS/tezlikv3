@@ -28,28 +28,10 @@ class ValueMinuteDao
         }
     }
 
-    public function calculateValueMinuteByTypePayroll($dataPayroll)
-    {
-        /* Calcular salario neto */
-        $salaryNet = (intval($dataPayroll['basicSalary']) + $dataPayroll['transport']) + floatval($dataPayroll['factor']) + $dataPayroll['bonification'] + $dataPayroll['endowment'];
-
-        /* Total horas */
-        $totalHoursMonth = floatval($dataPayroll['workingDaysMonth']) * floatval($dataPayroll['workingHoursDay']);
-        $hourCost = $salaryNet / $totalHoursMonth;
-
-        /* Calcular valor minuto salario */
-        $minuteValue =  $hourCost / 60;
-
-        /* retorna los valores calculados */
-        $dataPayroll['salaryNet'] = $salaryNet;
-        $dataPayroll['minuteValue'] = $minuteValue;
-        return $dataPayroll;
-    }
-
     public function calculateValueMinute($dataPayroll)
     {
         /* Calcular salario neto */
-        $salaryNet = ((intval($dataPayroll['basicSalary']) + $dataPayroll['transport']) * (1 + floatval($dataPayroll['factor']) / 100)) + $dataPayroll['bonification'] + $dataPayroll['endowment'];
+        $salaryNet = (intval($dataPayroll['basicSalary']) + $dataPayroll['transport']) + floatval($dataPayroll['factor']) + $dataPayroll['bonification'] + $dataPayroll['endowment'];
 
         /* Total horas */
         $totalHoursMonth = floatval($dataPayroll['workingDaysMonth']) * floatval($dataPayroll['workingHoursDay']);

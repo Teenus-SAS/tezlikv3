@@ -98,10 +98,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
         $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
-        if ($dataPayroll['typeFactor'] == 1)
-            $dataPayroll = $valueMinuteDao->calculateValueMinuteByTypePayroll($dataPayroll);
-        else
-            $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
         $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
@@ -126,10 +123,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
             $payroll[$i] = $convertDataDao->strReplacePayroll($payroll[$i]);
 
-            if ($payroll[$i]['typeFactor'] == 'Nomina' || $payroll[$i]['typeFactor'] == 1)
-                $dataPayroll = $valueMinuteDao->calculateValueMinuteByTypePayroll($dataPayroll);
-            else
-                $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+            $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
             if (!$findPayroll)
                 $resolution = $payrollDao->insertPayrollByCompany($payroll[$i], $id_company);
@@ -181,14 +175,9 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
 
-    if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
-
     $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
-    if ($dataPayroll['typeFactor'] == 1)
-        $dataPayroll = $valueMinuteDao->calculateValueMinuteByTypePayroll($dataPayroll);
-    else
-        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+    $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
     $payroll = $payrollDao->updatePayroll($dataPayroll);
 

@@ -125,11 +125,13 @@ $(document).ready(function () {
     endowment = parseFloat(strReplaceNumber(endowment));
     extraTime = parseFloat(strReplaceNumber(extraTime));
     bonification = parseFloat(strReplaceNumber(bonification));
+    factor = parseFloat(strReplaceNumber(factor));
 
     isNaN(transport) ? (transport = 0) : transport;
     isNaN(endowment) ? (endowment = 0) : endowment;
     isNaN(extraTime) ? (extraTime = 0) : extraTime;
     isNaN(bonification) ? (bonification = 0) : bonification;
+    isNaN(factor) ? (factor = 0) : factor;
 
     let workingHD = $('#workingHoursDay').val();
     let workingDM = $('#workingDaysMonth').val();
@@ -161,42 +163,49 @@ $(document).ready(function () {
     dataBenefits = JSON.parse(dataBenefits);
     valueBenefit = 0;
 
-    if (bonification > 0) {
-      salary = sessionStorage.getItem('salary');
+    let typeFactor = $('#typeFactor').val();
 
-      if (!salary) salary = $('#basicSalary').val();
+    if (typeFactor == 1 || typeFactor == 2) {
+      if (bonification > 0) {
+        salary = sessionStorage.getItem('salary');
 
-      salary = parseFloat(strReplaceNumber(salary));
-    }
+        if (!salary) salary = $('#basicSalary').val();
 
-    for (i = 0; i < dataBenefits.length + 1; i++) {
-      if (!dataBenefits[i])
-        valueBenefit += (salary + endowment + extraTime) * (valueRisk / 100);
-      else if (
-        dataBenefits[i].id_benefit == 1 ||
-        dataBenefits[i].id_benefit == 2
-      )
-        valueBenefit +=
-          (salary + endowment + extraTime) * (dataBenefits[i].percentage / 100);
-      else if (dataBenefits[i].id_benefit == 3) {
-        if (salary > 1160000 * 10)
+        salary = parseFloat(strReplaceNumber(salary));
+      }
+
+      for (i = 0; i < dataBenefits.length + 1; i++) {
+        if (!dataBenefits[i])
+          valueBenefit += (salary + endowment + extraTime) * (valueRisk / 100);
+        else if (
+          dataBenefits[i].id_benefit == 1 ||
+          dataBenefits[i].id_benefit == 2
+        )
           valueBenefit +=
             (salary + endowment + extraTime) *
             (dataBenefits[i].percentage / 100);
-      } else if (
-        dataBenefits[i].id_benefit == 4 ||
-        dataBenefits[i].id_benefit == 5
-      )
-        valueBenefit +=
-          (salary + endowment + extraTime + transport) *
-          (dataBenefits[i].percentage / 100);
-      else if (dataBenefits[i].id_benefit == 6)
-        valueBenefit +=
-          (salary + endowment + transport + extraTime + bonification) *
-          (dataBenefits[i].percentage / 100);
-      else if (dataBenefits[i].id_benefit == 7)
-        valueBenefit +=
-          (salary + endowment) * (dataBenefits[i].percentage / 100);
+        else if (dataBenefits[i].id_benefit == 3) {
+          if (salary > 1160000 * 10)
+            valueBenefit +=
+              (salary + endowment + extraTime) *
+              (dataBenefits[i].percentage / 100);
+        } else if (
+          dataBenefits[i].id_benefit == 4 ||
+          dataBenefits[i].id_benefit == 5
+        )
+          valueBenefit +=
+            (salary + endowment + extraTime + transport) *
+            (dataBenefits[i].percentage / 100);
+        else if (dataBenefits[i].id_benefit == 6)
+          valueBenefit +=
+            (salary + endowment + transport + extraTime + bonification) *
+            (dataBenefits[i].percentage / 100);
+        else if (dataBenefits[i].id_benefit == 7)
+          valueBenefit +=
+            (salary + endowment) * (dataBenefits[i].percentage / 100);
+      }
+    } else {
+      valueRisk = (salary + transport) * (factor / 100);
     }
 
     dataPayroll.append('factor', valueBenefit);
