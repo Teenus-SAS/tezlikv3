@@ -175,7 +175,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5 class="card-title">Costeo Total</h5>
+                                            <h5 class="card-title">Costeo Total - Actual</h5>
                                         </div>
                                         <div class="card-body p-0">
                                             <ul class="list-group list-group-flush">
@@ -282,7 +282,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5 class="card-title">Costeo Total</h5>
+                                            <h5 class="card-title">Costeo Total - Simulación</h5>
                                         </div>
                                         <div class="card-body p-0">
                                             <ul class="list-group list-group-flush">

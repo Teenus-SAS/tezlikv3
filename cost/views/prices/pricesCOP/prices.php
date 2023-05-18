@@ -47,7 +47,7 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Precios COP</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Precios Venta COP</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
                                         <li class="breadcrumb-item active">Análisis de Precios COP</li>
                                     </ol>

@@ -47,9 +47,9 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-4 col-xl-4">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Precios USD</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Precios Venta USD</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">La cobertura cambiaria es una estrategia que consiste en protegerse contra el riesgo de las fluctuaciónes del tipo de cambio entre dos monedas.</li>
+                                        <li class="breadcrumb-item active">La cobertura cambiaria lo protege contra el riesgo de las fluctuaciónes del tipo de cambio.</li>
                                     </ol>
                                 </div>
                             </div>
@@ -67,8 +67,8 @@ if (sizeof($_SESSION) == 0)
                                     <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" readonly>
                                 </div>
                                 <div class="col-xs-2 USDInputs">
-                                    <label class="mb-1 font-weight-bold text-dark">Desviación Estándar</label>
-                                    <input type="number" class="form-control text-center" name="deviation" id="deviation">
+                                    <label class="mb-1 font-weight-bold text-dark">Correción TRM</label>
+                                    <input type="text" class="form-control text-center" name="deviation" id="deviation">
                                 </div>
                             </div>
                         </div>
