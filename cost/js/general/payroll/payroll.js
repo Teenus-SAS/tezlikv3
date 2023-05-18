@@ -148,6 +148,9 @@ $(document).ready(function () {
 
       if (bonification > 0) {
         salary = sessionStorage.getItem('salary');
+
+        if (!salary) salary = $('#basicSalary').val();
+
         salary = parseFloat(strReplaceNumber(salary));
       }
 

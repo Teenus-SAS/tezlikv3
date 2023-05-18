@@ -98,7 +98,11 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
         if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
 
         $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
-        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+
+        if ($dataPayroll['typeFactor'] == 1)
+            $dataPayroll = $valueMinuteDao->calculateValueMinuteByTypePayroll($dataPayroll);
+        else
+            $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
         $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
@@ -123,7 +127,11 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
             empty($payroll[$i]['bonification']) ? $payroll[$i]['bonification'] = 0 : $payroll[$i]['bonification'];
 
             $payroll[$i] = $convertDataDao->strReplacePayroll($payroll[$i]);
-            $payroll[$i] = $valueMinuteDao->calculateValueMinute($payroll[$i]);
+
+            if ($payroll[$i]['typeFactor'] == 'Nomina' || $payroll[$i]['typeFactor'] == 1)
+                $dataPayroll = $valueMinuteDao->calculateValueMinuteByTypePayroll($dataPayroll);
+            else
+                $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
             if (!$findPayroll)
                 $resolution = $payrollDao->insertPayrollByCompany($payroll[$i], $id_company);
@@ -178,7 +186,11 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
 
     $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
-    $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+
+    if ($dataPayroll['typeFactor'] == 1)
+        $dataPayroll = $valueMinuteDao->calculateValueMinuteByTypePayroll($dataPayroll);
+    else
+        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
     $payroll = $payrollDao->updatePayroll($dataPayroll);
 
