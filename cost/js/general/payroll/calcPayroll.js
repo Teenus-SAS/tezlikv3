@@ -2,6 +2,7 @@ $(document).ready(function () {
   /* Mostrar factor prestacional */
   sessionStorage.removeItem('percentage');
   sessionStorage.removeItem('salary');
+  sessionStorage.removeItem('type_salary');
 
   $(document).on('change', '#typeFactor', function (e) {
     let risk = $('#risk').val();
@@ -25,6 +26,7 @@ $(document).ready(function () {
       for (i = 0; i < dataBenefits.length; i++) {
         if (dataBenefits[i].id_benefit == 2) {
           let salary = sessionStorage.getItem('salary');
+          !salary ? (salary = '0') : salary;
           salary = parseFloat(strReplaceNumber(salary));
 
           if (salary > 1160000 * 10) percentage += dataBenefits[i].percentage;
@@ -92,50 +94,71 @@ $(document).ready(function () {
     let percentage = parseFloat(sessionStorage.getItem('percentage'));
 
     if (percentage) $('#typeFactor').change();
+
+    let type_salary = sessionStorage.getItem('type_salary');
+    if (type_salary) calcTypeSalary(type_salary);
+    else {
+      let basicSalary = parseFloat(strReplaceNumber(this.value));
+      isNaN(basicSalary) ? (basicSalary = 0) : basicSalary;
+      sessionStorage.setItem('salary', basicSalary);
+    }
   });
 
-  // $(document).on('keyup', '#bonification', function () {
-  //   let bonification = this.value;
-  //   let salary = $('#basicSalary').val();
+  $(document).on('blur', '#bonification', function () {
+    let type_salary = sessionStorage.getItem('type_salary');
 
-  //   salary = parseFloat(strReplaceNumber(salary));
-  //   bonification = parseFloat(strReplaceNumber(bonification));
+    if (!type_salary || type_salary == '')
+      bootbox.confirm({
+        title: 'Otros Ingresos',
+        message: 'El valor a ingresar es salarial?',
+        buttons: {
+          confirm: {
+            label: 'Si',
+            className: 'btn-success',
+          },
+          cancel: {
+            label: 'No',
+            className: 'btn-danger',
+          },
+        },
+        callback: function (result) {
+          sessionStorage.removeItem('type_salary');
 
-  //   let data = salary * bonification;
+          if (result == true) {
+            sessionStorage.setItem('type_salary', 1);
+            calcTypeSalary(1);
+          } else {
+            sessionStorage.setItem('type_salary', 0);
+            calcTypeSalary(0);
+          }
 
-  //   if (data <= 0 || isNaN(data)) {
-  //     toastr.error('Ingrese un valor mayor a cero');
-  //     return false;
-  //   }
+          setTimeout(() => {
+            let horizontal_navbar =
+              document.getElementsByClassName('horizontal-navbar');
 
-  //   $('#bonification').prop('readondly', true);
+            horizontal_navbar[0].className = 'horizontal-navbar modal-open';
+            horizontal_navbar[0].style.paddingRight = '17px';
+          }, 500);
+        },
+      });
+    else {
+      calcTypeSalary(type_salary);
+    }
+  });
 
-  //   let sessionSalary = sessionStorage.getItem('salary');
+  calcTypeSalary = (type_salary) => {
+    sessionStorage.removeItem('salary');
 
-  //   if (!sessionSalary || sessionSalary == '')
-  //     bootbox.confirm({
-  //       title: 'Eliminar',
-  //       message: 'El valor a ingresar es salarial?',
-  //       buttons: {
-  //         confirm: {
-  //           label: 'Si',
-  //           className: 'btn-success',
-  //         },
-  //         cancel: {
-  //           label: 'No',
-  //           className: 'btn-danger',
-  //         },
-  //       },
-  //       callback: function (result) {
-  //         sessionStorage.removeItem('salary');
+    let basicSalary = $('#basicSalary').val();
+    basicSalary = parseFloat(strReplaceNumber(basicSalary));
+    isNaN(basicSalary) ? (basicSalary = 0) : basicSalary;
 
-  //         $('#bonification').prop('readondly', false);
+    if (type_salary == 1) {
+      let bonification = $('#bonification').val();
+      bonification = parseFloat(strReplaceNumber(bonification));
+      isNaN(bonification) ? (bonification = 0) : bonification;
 
-  //         if (result == true) {
-  //           sessionStorage.setItem('salary', salary + bonification);
-  //         } else sessionStorage.setItem('salary', salary);
-  //       },
-  //     });
-  //   else $('#bonification').prop('readondly', false);
-  // });
+      sessionStorage.setItem('salary', basicSalary + bonification);
+    } else sessionStorage.setItem('salary', basicSalary);
+  };
 });

@@ -18,6 +18,7 @@ class ValueMinuteDao
 
     public function calculateValueMinute($dataPayroll)
     {
+
         /* Calcular salario neto */
         $salaryNet = (intval($dataPayroll['basicSalary']) + $dataPayroll['transport']) + floatval($dataPayroll['factor']) + $dataPayroll['bonification'] + $dataPayroll['endowment'];
 
