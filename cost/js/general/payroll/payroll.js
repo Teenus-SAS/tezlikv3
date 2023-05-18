@@ -6,6 +6,10 @@ $(document).ready(function () {
   /* Ocultar modal Nueva nomina */
   $('#btnCloseCardPayroll').click(function (e) {
     e.preventDefault();
+    sessionStorage.removeItem('percentage');
+    sessionStorage.removeItem('salary');
+    sessionStorage.removeItem('type_salary');
+
     $('#createPayroll').modal('hide');
   });
 
@@ -59,6 +63,14 @@ $(document).ready(function () {
     $('#workingHoursDay').val(data.hours_day);
     $('#workingDaysMonth').val(data.working_days_month);
 
+    $(`#risk option[value=${data.id_risk}]`).prop('selected', true);
+    $('#valueRisk').val(
+      data.percentage.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
+
     if (data.type_contract == 'Nomina') {
       $(`#typeFactor option[value=1]`).prop('selected', true);
       $('#factor').val(data.factor_benefit);
@@ -84,13 +96,26 @@ $(document).ready(function () {
     let process = $('#idProcess').val();
 
     let salary = $('#basicSalary').val();
+    let transport = $('#transport').val();
+    let endowment = $('#endowment').val();
+    let extraTime = $('#extraTime').val();
+    let bonification = $('#bonification').val();
     let factor = $('#factor').val();
 
     salary = parseFloat(strReplaceNumber(salary));
+    transport = parseFloat(strReplaceNumber(transport));
+    endowment = parseFloat(strReplaceNumber(endowment));
+    extraTime = parseFloat(strReplaceNumber(extraTime));
+    bonification = parseFloat(strReplaceNumber(bonification));
+
+    isNaN(transport) ? (transport = 0) : transport;
+    isNaN(endowment) ? (endowment = 0) : endowment;
+    isNaN(extraTime) ? (extraTime = 0) : extraTime;
+    isNaN(bonification) ? (bonification = 0) : bonification;
 
     let workingHD = $('#workingHoursDay').val();
     let workingDM = $('#workingDaysMonth').val();
-    let valueRisk = parseFloat($('#valueRisk').val());
+    let valueRisk = parseFloat(strReplaceNumber($('#valueRisk').val()));
 
     let data = process * workingDM * workingHD * salary * valueRisk;
 
@@ -106,9 +131,64 @@ $(document).ready(function () {
       return false;
     }
 
-    $('#factor').prop('disabled', false);
-
     let dataPayroll = new FormData(formCreatePayroll);
+
+    dataPayroll.append('transport', transport);
+    dataPayroll.append('endowment', endowment);
+    dataPayroll.append('extraTime', extraTime);
+    dataPayroll.append('bonification', bonification);
+    dataPayroll.append('valueRisk', valueRisk);
+
+    let typeFactor = $('#typeFactor').val();
+
+    if (typeFactor == 1) {
+      let dataBenefits = sessionStorage.getItem('dataBenefits');
+      dataBenefits = JSON.parse(dataBenefits);
+      valueBenefit = 0;
+
+      if (bonification > 0) {
+        salary = sessionStorage.getItem('salary');
+
+        if (!salary) salary = $('#basicSalary').val();
+
+        salary = parseFloat(strReplaceNumber(salary));
+      }
+
+      for (i = 0; i < dataBenefits.length + 1; i++) {
+        if (!dataBenefits[i])
+          valueBenefit += (salary + endowment + extraTime) * (valueRisk / 100);
+        else if (
+          dataBenefits[i].id_benefit == 1 ||
+          dataBenefits[i].id_benefit == 2
+        )
+          valueBenefit +=
+            (salary + endowment + extraTime) *
+            (dataBenefits[i].percentage / 100);
+        else if (dataBenefits[i].id_benefit == 3) {
+          if (salary > 1160000 * 10)
+            valueBenefit +=
+              (salary + endowment + extraTime) *
+              (dataBenefits[i].percentage / 100);
+        } else if (
+          dataBenefits[i].id_benefit == 4 ||
+          dataBenefits[i].id_benefit == 5
+        )
+          valueBenefit +=
+            (salary + endowment + extraTime + transport) *
+            (dataBenefits[i].percentage / 100);
+        else if (dataBenefits[i].id_benefit == 6)
+          valueBenefit +=
+            (salary + endowment + transport + extraTime + bonification) *
+            (dataBenefits[i].percentage / 100);
+        else if (dataBenefits[i].id_benefit == 7)
+          valueBenefit +=
+            (salary + endowment) * (dataBenefits[i].percentage / 100);
+      }
+
+      dataPayroll.append('factor', valueBenefit);
+    } else dataPayroll.append('factor', factor);
+
+    $('#factor').prop('disabled', false);
 
     if (idPayroll != '' || idPayroll != null)
       dataPayroll.append('idPayroll', idPayroll);
@@ -159,6 +239,10 @@ $(document).ready(function () {
 
   message = (data) => {
     if (data.success == true) {
+      sessionStorage.removeItem('percentage');
+      sessionStorage.removeItem('salary');
+      sessionStorage.removeItem('type_salary');
+
       $('#factor').prop('disabled', true);
       $('#createPayroll').modal('hide');
       $('#formCreatePayroll').trigger('reset');

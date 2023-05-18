@@ -19,9 +19,11 @@ class PayrollDao
   public function findAllPayrollByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process 
+    $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, 
+                                         p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, rk.percentage
                                   FROM payroll p 
-                                  INNER JOIN process pp ON p.id_process = pp.id_process
+                                    INNER JOIN process pp ON p.id_process = pp.id_process
+                                    INNER JOIN risks rk ON rk.id_risk = p.id_risk
                                   WHERE p.id_company = :id_company;");
     $stmt->execute(['id_company' => $id_company]);
 
@@ -52,23 +54,20 @@ class PayrollDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    // if ($dataPayroll['typeFactor'] == 'Nomina' || $dataPayroll['typeFactor'] == 1) $dataPayroll['factor'] = 38.35;
-    // if ($dataPayroll['typeFactor'] == 'Servicios' || $dataPayroll['typeFactor'] == 2) $dataPayroll['factor'] = 0;
-
     try {
       $stmt = $connection->prepare("INSERT INTO payroll (id_company, id_process, employee, salary, transport, extra_time, bonification, endowment,
-                                                        working_days_month, hours_day, factor_benefit, salary_net, type_contract, minute_value)
+                                                        working_days_month, hours_day, factor_benefit, id_risk, salary_net, type_contract, minute_value)
                                     VALUES (:id_company, :id_process, :employee, :salary, :transport, :extra_time, :bonification, :endowment,
-                                            :working_days_month, :hours_day, :factor_benefit, :salary_net, :type_contract, :minute_value)");
+                                            :working_days_month, :hours_day, :factor_benefit, :id_risk, :salary_net, :type_contract, :minute_value)");
       $stmt->execute([
-
         'id_company' => $id_company,                                      'employee' => strtoupper(trim($dataPayroll['employee'])),
         'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
         'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
         'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
         'working_days_month' => trim($dataPayroll['workingDaysMonth']),   'hours_day' => trim($dataPayroll['workingHoursDay']),
         'factor_benefit' => trim($dataPayroll['factor']),                 'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
-        'salary_net' => trim($dataPayroll['salaryNet']),             'minute_value' => trim($dataPayroll['minuteValue'])
+        'id_risk' => trim($dataPayroll['risk']),                          'minute_value' => trim($dataPayroll['minuteValue']),
+        'salary_net' => trim($dataPayroll['salaryNet'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -87,17 +86,17 @@ class PayrollDao
     try {
       $stmt = $connection->prepare("UPDATE payroll SET employee=:employee, id_process=:id_process, salary=:salary, transport=:transport, extra_time=:extra_time,
                                             bonification=:bonification, endowment=:endowment, working_days_month=:working_days_month,
-                                            hours_day=:hours_day, factor_benefit=:factor_benefit, salary_net= :salary_net, type_contract=:type_contract, minute_value=:minute_value
+                                            hours_day=:hours_day, factor_benefit=:factor_benefit, id_risk = :id_risk, salary_net= :salary_net, type_contract=:type_contract, minute_value=:minute_value
                                     WHERE id_payroll = :id_payroll");
       $stmt->execute([
-
         'id_payroll' => trim($dataPayroll['idPayroll']),                  'employee' => strtoupper(trim($dataPayroll['employee'])),
         'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
         'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
         'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
         'working_days_month' => trim($dataPayroll['workingDaysMonth']),   'hours_day' => trim($dataPayroll['workingHoursDay']),
         'factor_benefit' => trim($dataPayroll['factor']),                 'type_contract' => ucfirst(strtolower(trim($dataPayroll['typeFactor']))),
-        'salary_net' => trim($dataPayroll['salaryNet']),             'minute_value' => trim($dataPayroll['minuteValue'])
+        'id_risk' => trim($dataPayroll['risk']),                          'minute_value' => trim($dataPayroll['minuteValue']),
+        'salary_net' => trim($dataPayroll['salaryNet']),
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
