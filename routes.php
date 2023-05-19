@@ -43,6 +43,7 @@ get('/cost/multiproduct', '/cost/views/tools/multiproduct.php');
 get('/cost/support', '/cost/views/support/emailSupport.php');
 get('/cost/quotes', '/cost/views/quotes/quotes.php');
 get('/cost/prices-usd', '/cost/views/prices/pricesUSD/pricesUSD.php');
+get('/cost/custom-prices', '/cost/views/prices/customPrices/customPrices.php');
 get('/cost/details-quote', '/cost/views/quotes/detailsQuote.php');
 get('/cost/economyScale', '/cost/views/tools/economyScale.php');
 get('/cost/simulator', '/cost/views/tools/simulator.php');
@@ -63,7 +64,7 @@ get('/cost/external-services', '/cost/views/config/externalServices.php');
 get('/cost/payroll', '/cost/views/general/createPayroll.php');
 get('/cost/general-expenses', '/cost/views/general/expensesAssignation.php');
 get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php');
-get('/cost/price-list', '/cost/views/general/PriceList.php');
+get('/cost/price-list', '/cost/views/general/priceList.php');
 // Quotes
 //basic
 get('/cost/companies', '/cost/views/quotes/companies.php');

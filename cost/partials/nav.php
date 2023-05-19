@@ -29,6 +29,10 @@
                                         <!-- <i class="bx bx-chevron-right"></i> -->
                                     </a>
                                 <?php } ?>
+                                <a class="dropdown-item" href="/cost/custom-prices">
+                                    <span>Lista de Precios Personalizado <i class="bi bi-currency-dollar mr-1"></i></span>
+                                    <!-- <i class="bx bx-chevron-right"></i> -->
+                                </a>
                             </ul>
                         </li>
                     <?php } ?>

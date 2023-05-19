@@ -7,6 +7,7 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -17,20 +18,20 @@ if (sizeof($_SESSION) == 0)
     <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
     <meta name="author" content="MatrrDigital">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Tezlik - Cost | Prices List</title>
+    <title>Tezlik - Cost | Custom Prices</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsCSS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsCSS.php'; ?>
 </head>
 
 <body class="horizontal-navbar">
     <!-- Begin Page -->
     <div class="page-wrapper">
         <!-- Begin Header -->
-        <?php include_once dirname(dirname(__DIR__)) . '/partials/header.php'; ?>
+        <?php include_once dirname(dirname(dirname(__DIR__))) . '/partials/header.php'; ?>
 
         <!-- Begin Left Navigation -->
-        <?php include_once dirname(dirname(__DIR__)) . '/partials/nav.php'; ?>
+        <?php include_once dirname(dirname(dirname(__DIR__))) . '/partials/nav.php'; ?>
 
         <!-- Begin main content -->
         <div class="main-content">
@@ -47,39 +48,47 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Lista de Precios</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Precios Personalizados</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Creación de Lista de Precios</li>
+                                        <li class="breadcrumb-item active">Asignación de Precios Personalizados</li>
                                     </ol>
                                 </div>
                             </div>
                             <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                 <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewPricesList" name="btnNewPricesList">Nueva Lista de Precio</button>
+                                    <button class="btn btn-warning" id="btnNewCustomPrice">Nuevo Precio</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardCreatePricesList">
+                <div class="page-content-wrapper mt--45 mb-5 cardCreateCustomPrices">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <form id="formCreatePricesList">
-                                        <div class="card-body">
+                                    <div class="card-body">
+                                        <form id="formCreateCustomPrices">
                                             <div class="form-row">
-                                                <div class="col-sm-10 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label for="">Nombre</label>
-                                                    <input type="text" class="form-control" id="priceName" name="priceName">
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label">
+                                                    <label for="">Producto</label>
+                                                    <select class="form-control selectNameProduct" name="idProduct" id="idProduct"></select>
                                                 </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-                                                    <button class="btn btn-success" id="btnCreatePricesList">Crear Lista de Precio</button>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                    <label for="">Lista de Precios</label>
+                                                    <select class="form-control" name="idPriceList" id="pricesList"></select>
+                                                </div>
+                                                <div class="col-xs-3 floating-label enable-floating-label show-label">
+                                                    <label for="">Valor</label>
+                                                    <input type="text" class="form-control number text-center" id="customPricesValue" name="customPricesValue">
+                                                </div>
+                                                <div class="col-xs-2 mt-1">
+                                                    <button class="btn btn-primary" id="btnCreateCustomPrice">Asignar Precio</button>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -93,14 +102,9 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card disable-select">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Lista de Precios</h5>
-                                    </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblPricesList">
-
-                                            </table>
+                                            <table class="table table-striped" id="tblCustomPrices"> </table>
                                         </div>
                                     </div>
                                 </div>
@@ -113,14 +117,17 @@ if (sizeof($_SESSION) == 0)
         <!-- Main content end -->
 
         <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
+        <?php include_once  dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="/cost/js/general/priceList/tblPricesList.js"></script>
-    <script src="/cost/js/general/priceList/priceList.js"></script>
+    <script src="/global/js/global/orderData.js"></script>
+    <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/cost/js//general/priceList/configPriceList.js"></script>
+    <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
+    <script src="/cost/js/prices/customPrices/customPrices.js"></script>
 </body>
 
 </html>
