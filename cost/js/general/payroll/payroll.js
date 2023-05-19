@@ -74,31 +74,14 @@ $(document).ready(function () {
     sessionStorage.setItem('percentage', data.percentage);
     sessionStorage.setItem('salary', data.salary);
 
-    if (data.type_contract == 'Nomina') {
+    if (data.type_contract == 'Nomina')
       $(`#typeFactor option[value=1]`).prop('selected', true);
-      $('#factor').val(
-        data.factor_benefit.toLocaleString('es-CO', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      );
-    } else if (data.type_contract == 'Servicios') {
+    else if (data.type_contract == 'Servicios')
       $(`#typeFactor option[value=2]`).prop('selected', true);
-      $('#factor').val(
-        data.factor_benefit.toLocaleString('es-CO', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      );
-    } else if (data.type_contract == 'Manual') {
+    else if (data.type_contract == 'Manual')
       $(`#typeFactor option[value=3]`).prop('selected', true);
-      $('#factor').val(
-        data.factor_benefit.toLocaleString('es-CO', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })
-      );
-    }
+
+    $('#typeFactor').change();
 
     $('html, body').animate(
       {
@@ -137,7 +120,7 @@ $(document).ready(function () {
     let workingDM = $('#workingDaysMonth').val();
     let valueRisk = parseFloat(strReplaceNumber($('#valueRisk').val()));
 
-    let data = process * workingDM * workingHD * salary * valueRisk;
+    let data = process * workingDM * workingHD * salary;
 
     if (isNaN(data) || data <= 0 || employee == '' || factor == '') {
       toastr.error('Ingrese todos los campos');

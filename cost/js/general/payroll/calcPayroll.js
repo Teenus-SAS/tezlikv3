@@ -5,21 +5,9 @@ $(document).ready(function () {
   sessionStorage.removeItem('type_salary');
 
   $(document).on('change', '#typeFactor', function (e) {
-    let risk = $('#risk').val();
-
-    if (risk == '' || !risk) {
-      $('#typeFactor option').removeAttr('selected');
-      $(`#typeFactor option[value='0']`).prop('selected', true);
-
-      toastr.error('Seleccione primero tipo de riesgo');
-      return false;
-    }
-
     $('#factor').prop('disabled', true);
 
-    let percentage = parseFloat(
-      strReplaceNumber(sessionStorage.getItem('percentage'))
-    );
+    let percentage = parseFloat(sessionStorage.getItem('percentage'));
 
     if (this.value == 0) return false;
     else if (this.value == 1) {
@@ -98,7 +86,7 @@ $(document).ready(function () {
         }
       }
 
-      percentage = percentage.toLocaleString('es-CO', {
+      percentage = percentage.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
