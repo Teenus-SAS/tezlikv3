@@ -65,7 +65,7 @@ $(document).ready(function () {
 
     $(`#risk option[value=${data.id_risk}]`).prop('selected', true);
     $('#valueRisk').val(
-      data.percentage.toLocaleString('es-CO', {
+      data.percentage.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
     let workingHD = $('#workingHoursDay').val();
     let workingDM = $('#workingDaysMonth').val();
-    let valueRisk = parseFloat(strReplaceNumber($('#valueRisk').val()));
+    let valueRisk = parseFloat($('#valueRisk').val());
 
     let data = process * workingDM * workingHD * salary;
 
