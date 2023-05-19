@@ -168,13 +168,13 @@ $(document).ready(function () {
         ) {
           let valueBenefit =
             (salary + endowment + extraTime) *
-            (dataBenefits[i].percentage / 100);
+            (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         } else if (dataBenefits[i].id_benefit == 2) {
           if (salary > 1160000 * 10) {
             let valueBenefit =
               (salary + endowment + extraTime) *
-              (dataBenefits[i].percentage / 100);
+              (parseFloat(dataBenefits[i].percentage) / 100);
             valueBenefits += valueBenefit;
           }
         } else if (
@@ -183,16 +183,17 @@ $(document).ready(function () {
         ) {
           let valueBenefit =
             (salary + endowment + extraTime + transport) *
-            (dataBenefits[i].percentage / 100);
+            (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         } else if (dataBenefits[i].id_benefit == 6) {
           let valueBenefit =
             (salary + endowment + transport + extraTime + bonification) *
-            (dataBenefits[i].percentage / 100);
+            (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         } else if (dataBenefits[i].id_benefit == 7) {
           let valueBenefit =
-            (salary + endowment) * (dataBenefits[i].percentage / 100);
+            (salary + endowment) *
+            (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         }
       }

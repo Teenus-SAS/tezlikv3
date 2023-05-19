@@ -20,8 +20,9 @@ $(document).ready(function () {
           !salary ? (salary = '0') : salary;
           salary = parseFloat(strReplaceNumber(salary));
 
-          if (salary > 1160000 * 10) percentage += dataBenefits[i].percentage;
-        } else percentage += dataBenefits[i].percentage;
+          if (salary > 1160000 * 10)
+            percentage += parseFloat(dataBenefits[i].percentage);
+        } else percentage += parseFloat(dataBenefits[i].percentage);
       }
 
       value = percentage.toFixed(2);
@@ -35,9 +36,7 @@ $(document).ready(function () {
   });
 
   $(document).on('blur', '#factor', function () {
-    let percentage = parseFloat(
-      strReplaceNumber(sessionStorage.getItem('percentage'))
-    );
+    let percentage = parseFloat(sessionStorage.getItem('percentage'));
 
     let factor = parseFloat(this.value);
 
@@ -81,7 +80,7 @@ $(document).ready(function () {
 
       for (let i = 0; i < dataRisks.length; i++) {
         if (dataRisks[i].id_risk == id_risk) {
-          percentage = dataRisks[i].percentage;
+          percentage = parseFloat(dataRisks[i].percentage);
           break;
         }
       }
