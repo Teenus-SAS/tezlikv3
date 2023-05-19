@@ -118,7 +118,7 @@ $(document).ready(function () {
 
     let workingHD = $('#workingHoursDay').val();
     let workingDM = $('#workingDaysMonth').val();
-    let valueRisk = parseFloat($('#valueRisk').val());
+    let valueRisk = parseFloat(sessionStorage.getItem('percentage'));
 
     let data = process * workingDM * workingHD * salary;
 
@@ -160,20 +160,20 @@ $(document).ready(function () {
       for (i = 0; i < dataBenefits.length + 1; i++) {
         if (!dataBenefits[i]) {
           let valueBenefit =
-            (salary + endowment + extraTime) * (valueRisk / 100);
+            (salary + bonification + extraTime) * (valueRisk / 100);
           valueBenefits += valueBenefit;
         } else if (
           dataBenefits[i].id_benefit == 1 ||
           dataBenefits[i].id_benefit == 3
         ) {
           let valueBenefit =
-            (salary + endowment + extraTime) *
+            (salary + bonification + extraTime) *
             (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         } else if (dataBenefits[i].id_benefit == 2) {
           if (salary > 1160000 * 10) {
             let valueBenefit =
-              (salary + endowment + extraTime) *
+              (salary + bonification + extraTime) *
               (parseFloat(dataBenefits[i].percentage) / 100);
             valueBenefits += valueBenefit;
           }
@@ -182,17 +182,17 @@ $(document).ready(function () {
           dataBenefits[i].id_benefit == 5
         ) {
           let valueBenefit =
-            (salary + endowment + extraTime + transport) *
+            (salary + bonification + extraTime + transport) *
             (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         } else if (dataBenefits[i].id_benefit == 6) {
           let valueBenefit =
-            (salary + endowment + transport + extraTime + bonification) *
+            (salary + transport + extraTime + bonification) *
             (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         } else if (dataBenefits[i].id_benefit == 7) {
           let valueBenefit =
-            (salary + endowment) *
+            (salary + bonification) *
             (parseFloat(dataBenefits[i].percentage) / 100);
           valueBenefits += valueBenefit;
         }

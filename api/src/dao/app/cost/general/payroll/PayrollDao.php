@@ -24,7 +24,7 @@ class PayrollDao
                                   FROM payroll p 
                                     INNER JOIN process pp ON p.id_process = pp.id_process
                                     LEFT JOIN risks rk ON rk.id_risk = p.id_risk
-                                  WHERE p.id_company = :id_company;
+                                  WHERE p.id_company = :id_company
                                   ORDER BY p.employee ASC");
     $stmt->execute(['id_company' => $id_company]);
 

@@ -50,3 +50,17 @@ $app->post('/updatePriceList', function (Request $request, Response $response, $
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
+
+$app->get('/deletePriceList/{id_price_list}', function (Request $request, Response $response, $args) use ($priceListDao) {
+    $priceList = $priceListDao->deletePriceList($args['id_price_list']);
+
+    if ($priceList == null)
+        $resp = array('success' => true, 'message' => 'Lista de precio eliminada correctamente');
+    else if (isset($priceList['info']))
+        $resp = array('info' => true, 'message' => $priceList['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
