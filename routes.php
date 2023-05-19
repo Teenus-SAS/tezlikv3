@@ -63,6 +63,7 @@ get('/cost/external-services', '/cost/views/config/externalServices.php');
 get('/cost/payroll', '/cost/views/general/createPayroll.php');
 get('/cost/general-expenses', '/cost/views/general/expensesAssignation.php');
 get('/cost/expenses-distribution', '/cost/views/general/expensesDistribution.php');
+get('/cost/price-list', '/cost/views/general/PriceList.php');
 // Quotes
 //basic
 get('/cost/companies', '/cost/views/quotes/companies.php');

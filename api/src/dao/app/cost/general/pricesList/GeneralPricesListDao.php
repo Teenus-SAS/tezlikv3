@@ -20,8 +20,11 @@ class GeneralPricesListDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM price_list WHERE price_name = :price_name AND id_company ");
-        $stmt->execute(['price_name' => trim($dataPrice['namePrice'])]);
+        $stmt = $connection->prepare("SELECT * FROM price_list WHERE price_name = :price_name AND id_company = :id_company");
+        $stmt->execute([
+            'price_name' => strtoupper(trim($dataPrice['priceName'])),
+            'id_company' => $id_company
+        ]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

@@ -38,7 +38,7 @@ class PricesListDao
             $stmt = $connection->prepare("INSERT INTO price_list (id_company, price_name) VALUES (:id_company, :price_name)");
             $stmt->execute([
                 'id_company' => $id_company,
-                'price_name' => $dataPrice['priceName']
+                'price_name' => strtoupper(trim($dataPrice['priceName']))
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -56,7 +56,7 @@ class PricesListDao
         try {
             $stmt = $connection->prepare("UPDATE price_list SET price_name = :price_name WHERE id_price_list = :id_price_list");
             $stmt->execute([
-                'id_price_list' => $dataPrice['idPriceList'],
+                'id_price_list' => strtoupper(trim($dataPrice['idPriceList'])),
                 'price_name' => $dataPrice['priceName']
             ]);
 
