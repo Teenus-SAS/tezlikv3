@@ -51,7 +51,7 @@
                                     </ul>
                                 </div>
                                 <div class="col-md-3" id="navBenefits">
-                                    <h5 class="font-size-14 font-weight-600">chartExpensesByPuc</h5>
+                                    <h5 class="font-size-14 font-weight-600">Prestaciones Sociales</h5>
                                     <ul class="list-unstyled megamenu-list">
                                         <li class="benefits"><a href="/admin/benefits">Prestaciones</a></li>
                                         <li class="risks"><a href="/admin/risks">Niveles de Riesgo</a></li>
