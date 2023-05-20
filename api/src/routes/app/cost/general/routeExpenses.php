@@ -102,6 +102,10 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+
+    // Calcular total del gasto
+    $totalExpenseDao->insertUpdateTotalExpense($id_company);
+
     $dataExpense = $request->getParsedBody();
 
     $dataExpenses = sizeof($dataExpense);
@@ -182,9 +186,6 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
-
-    // Calcular total del gasto
-    $totalExpenseDao->insertUpdateTotalExpense($id_company);
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
