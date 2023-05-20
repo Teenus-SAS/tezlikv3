@@ -234,7 +234,7 @@ $(document).ready(function () {
       },
       options: {
         onClick: function (e) {
-          var elements = chartExpensesGenerals.getElementsAtEventForMode(
+          let elements = chartExpensesGenerals.getElementsAtEventForMode(
             e,
             'nearest',
             { intersect: true },
@@ -242,27 +242,12 @@ $(document).ready(function () {
           );
 
           if (elements && elements.length > 0) {
-            // Obtener el primer elemento seleccionado
-            var activeElement = elements[0];
+            let activeElement = elements[0];
 
-            var datasetIndex = activeElement.datasetIndex;
-            var dataset = chartExpensesGenerals.data.datasets[datasetIndex];
+            let dataIndex = activeElement.index;
+            let dataset = chartExpensesGenerals.data.labels[dataIndex];
 
-            // Verificar si el conjunto de datos tiene datos
-            if (dataset && dataset.data) {
-              // Obtener el índice de los datos seleccionados
-              var dataIndex = activeElement.index;
-
-              // Verificar si el índice es válido
-              if (dataIndex >= 0 && dataIndex < dataset.data.length) {
-                // Obtener los datos de la parte seleccionada
-                var data = dataset.data[dataIndex];
-
-                // Mostrar los datos de la parte seleccionada
-                console.log('Datos seleccionados:', data);
-                return; // Salir de la función para evitar el error adicional
-              }
-            }
+            loadModalExpenses(dataIndex);
           }
         },
         plugins: {

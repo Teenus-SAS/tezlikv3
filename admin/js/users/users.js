@@ -149,6 +149,7 @@ $(document).ready(function () {
     dataUser['expense'] = 1;
     dataUser['expenseDistribution'] = 1;
     dataUser['costUser'] = 1;
+    dataUser['costBackup'] = 1;
     dataUser['quotePaymentMethod'] = 1;
     dataUser['quoteCompany'] = 1;
     dataUser['quoteContact'] = 1;
