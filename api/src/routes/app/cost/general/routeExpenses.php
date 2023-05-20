@@ -52,6 +52,19 @@ $app->get('/expenses', function (Request $request, Response $response, $args) us
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+/* Consulta todos */
+$app->get('/totalExpense', function (Request $request, Response $response, $args) use ($totalExpenseDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    // Calcular total del gasto
+    $totalExpenseDao->insertUpdateTotalExpense($id_company);
+    $response->getBody()->write(json_encode(1, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+
+
 $app->post('/expenseDataValidation', function (Request $request, Response $response, $args) use ($expensesDao, $pucDao) {
     $dataExpense = $request->getParsedBody();
 

@@ -1,5 +1,6 @@
 $(document).ready(function () {
   getExpense = async () => {
+    await searchData('/api/totalExpense');
     let data = await searchData('/api/expenseTotal');
 
     data.total_expense == undefined || !data.total_expense
