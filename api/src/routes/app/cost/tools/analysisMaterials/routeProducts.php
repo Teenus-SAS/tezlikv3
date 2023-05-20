@@ -23,10 +23,16 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
         $arr80MP = [];
 
         $participation = 0;
+
+        $first = false;
+
         for ($i = 0; $i < sizeof($productsRawmaterials); $i++) {
             $participation += $productsRawmaterials[$i]['participation'];
             if ($participation <= 80) {
                 $arr80MP[$i] = $productsRawmaterials[$i];
+            } else if ($i + 1 > sizeof($productsRawmaterials) && $first == false) {
+                $first = true;
+                $participation = 0;
             }
         }
 
