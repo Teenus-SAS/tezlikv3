@@ -21,6 +21,11 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Puc',
+        data: 'puc',
+        visible: false,
+      },
+      {
         title: 'No. Cuenta',
         data: 'number_count',
       },
@@ -46,29 +51,28 @@ $(document).ready(function () {
       },
     ],
 
-    // rowGroup: {
-    //   dataSrc: function (row) {
-    //     return `<th class="text-center" colspan="4" style="font-weight: bold;"> ${row.magnitude} </th>`;
-    //   },
-    //   startRender: function (rows, group) {
-    //     return $('<tr/>').append(group);
-    //   },
-    //   className: 'odd',
-    // },
+    rowGroup: {
+      dataSrc: function (row) {
+        return `<th class="text-center" colspan="5" style="font-weight: bold;"> ${row.puc} </th>`;
+      },
+      startRender: function (rows, group) {
+        return $('<tr/>').append(group);
+      },
+      className: 'odd',
+    },
 
     footerCallback: function (row, data, start, end, display) {
-      total = this.api()
-        .column(3)
-        .data()
-        .reduce(function (a, b) {
-          return parseInt(a) + parseInt(b);
-        }, 0);
+      let expense_value = 0;
 
-      $(this.api().column(3).footer()).html(
-        new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-        }).format(total)
+      for (i = 0; i < display.length; i++) {
+        expense_value += data[display[i]].expense_value;
+      }
+
+      $(this.api().column(4).footer()).html(
+        `$ ${expense_value.toLocaleString('es-CO', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`
       );
     },
   });

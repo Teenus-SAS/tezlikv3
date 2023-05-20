@@ -79,7 +79,7 @@ class ConversionUnitsDao
                         $arr['L'] = array('CM3' => array('value' => 1000, 'op' => '/'), 'M3' => array('value' => 1000, 'op' => '*'), 'ML' => array('value' => 1000, 'op' => '/'));
                         $arr['ML'] = array('CM3' => array('value' => 1, 'op' => '*'), 'M3' => array('value' => 1000000, 'op' => '*', 'L' => array('value' => 1000, 'op' => '*')));
                         break;
-                    case 'AREA':
+                    case 'ÁREA':
                         $arr['DM2'] = array('M2' => array('value' => 100, 'op' => '*'), 'FT2' => array('value' => 9.29, 'op' => '*'), 'INCH2' => array('value' => 15.5, 'op' => '/'));
                         $arr['M2'] = array('DM2' => array('value' => 100, 'op' => '/'), 'FT2' => array('value' => 10.764, 'op' => '/'), 'INCH2' => array('value' => 1550, 'op' => '/'));
                         $arr['FT2'] = array('DM2' => array('value' => 9.29, 'op' => '/'), 'M2' => array('value' => 10.764, 'op' => '*'), 'INCH2' => array('value' => 144, 'op' => '/'));

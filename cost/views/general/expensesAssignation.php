@@ -135,6 +135,7 @@ if (sizeof($_SESSION) == 0)
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
+                                                        <th></th>
                                                         <th class="classRight">Total:</th>
                                                         <th></th>
                                                         <th></th>
