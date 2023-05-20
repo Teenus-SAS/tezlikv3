@@ -333,6 +333,7 @@ if (sizeof($_SESSION) == 0)
         <script src="js/dashboard/indicatorsGeneral.js"></script>
         <script src="js/dashboard/calcDataCost.js"></script>
         <script src="js/dashboard/graphicsGeneral.js"></script>
+    </div>
 </body>
 
 </html>

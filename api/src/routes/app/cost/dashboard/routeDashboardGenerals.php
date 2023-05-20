@@ -41,6 +41,8 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     // Consulta valor del gasto
     $expenseValue = $dashboardGeneralDao->findExpensesDistributionValueByCompany($id_company);
 
+    $expenses = $dashboardGeneralDao->findAllExpensesByPuc($id_company);
+
     // Consulta cantidad materias primas
     $quantityMaterials = $dashboardGeneralDao->findRawMaterialsByCompany($id_company);
 
@@ -50,6 +52,7 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     $generalExpenses['process_minute_value'] = $processMinuteValue;
     $generalExpenses['factory_load_minute_value'] = $factoryLoadMinuteValue;
     $generalExpenses['expense_value'] = $expenseValue;
+    $generalExpenses['expenses'] = $expenses;
     $generalExpenses['expense_recover'] = $expenseRecoverValue;
     $generalExpenses['quantity_materials'] = $quantityMaterials;
 

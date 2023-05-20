@@ -104,7 +104,7 @@ class DashboardGeneralDao
                                       FROM expenses ex
                                       LEFT JOIN puc p ON p.id_puc = ex.id_puc
                                       WHERE ex.id_company = :id_company AND
-                                      p.number_count LIKE '5{$i}%'");
+                                      p.number_count LIKE '5$i%'");
       $stmt->execute(['id_company' => $id_company]);
       $expenseCount = $stmt->fetch($connection::FETCH_ASSOC);
       $expenseValue[$i] =  $expenseCount;
@@ -115,6 +115,22 @@ class DashboardGeneralDao
 
     $this->logger->notice("expenseValue", array('expenseValue' => $expenseValue));
     return $expenseValue;
+  }
+
+  public function findAllExpensesByPuc($id_company)
+  {
+    $connection = Connection::getInstance()->getConnection();
+
+    $stmt = $connection->prepare("SELECT p.number_count, ex.expense_value
+                                  FROM expenses ex
+                                    LEFT JOIN puc p ON p.id_puc = ex.id_puc
+                                  WHERE ex.id_company = :id_company AND p.number_count LIKE '51%' 
+                                  OR p.number_count LIKE '52%' OR p.number_count LIKE '53%'  
+                                  ORDER BY `p`.`number_count` ASC");
+    $stmt->execute(['id_company' => $id_company]);
+    $expenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+    return $expenseCount;
   }
 
   public function findExpensesRecoverValueByCompany($id_company)
