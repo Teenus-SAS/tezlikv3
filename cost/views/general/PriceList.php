@@ -61,7 +61,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
                     </div>
                 </div>
-                <hr>
+
                 <div class="page-content-wrapper mt--45 mb-5 cardCreatePricesList">
                     <div class="container-fluid">
                         <div class="row">
