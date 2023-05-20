@@ -20,18 +20,15 @@
                                 <?php if ($_SESSION['price'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/prices">
                                         <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(COP)</span>
-                                        <!-- <i class="bx bx-chevron-right"></i> -->
                                     </a>
                                 <?php } ?>
                                 <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
                                     <a class="dropdown-item" href="/cost/prices-usd">
                                         <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(USD)</span>
-                                        <!-- <i class="bx bx-chevron-right"></i> -->
                                     </a>
                                 <?php } ?>
                                 <a class="dropdown-item" href="/cost/custom-prices">
-                                    <span>Lista de Precios Personalizado <i class="bi bi-currency-dollar mr-1"></i></span>
-                                    <!-- <i class="bx bx-chevron-right"></i> -->
+                                    <span><i class="bx bx-dollar-circle mr-1"></i>Lista de Precios Personalizado</span>
                                 </a>
                             </ul>
                         </li>

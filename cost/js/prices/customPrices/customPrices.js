@@ -39,7 +39,9 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_custom_price', data.id_custom_price);
 
-    $('#pricesList').val(data.name_pricesList);
+    $(`#idProduct option[value=${data.id_product}]`).prop('selected', true);
+    $(`#pricesList option[value=${data.id_price_list}]`).prop('selected', true);
+
     $('#customPricesValue').val(data.price.toLocaleString('es-CO'));
 
     $('html, body').animate(
@@ -52,15 +54,15 @@ $(document).ready(function () {
 
   /* Revision data servicio */
   checkDataServices = async (url, idCustomPrice) => {
-    let idProduct = parseInt($('#selectNameProduct').val());
+    let idProduct = parseInt($('#idProduct').val());
     let pricesList = $('#pricesList').val();
     let cost = $('#customPricesValue').val();
 
     cost = parseFloat(strReplaceNumber(cost));
 
-    let data = idProduct * cost;
+    let data = idProduct * cost * pricesList;
 
-    if (pricesList == '' || pricesList == 0 || isNaN(data) || data <= 0) {
+    if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -101,7 +103,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `../api/deleteExternalService/${idCustomPrice}`,
+            `../api/deleteCustomPrice/${idCustomPrice}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }

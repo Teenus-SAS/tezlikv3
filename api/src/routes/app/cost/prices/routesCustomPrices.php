@@ -36,7 +36,7 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
     } else
-        $resp = array('info' => true, 'message' => 'Producto con lista de precio ya existente. Ingrese una nuevo precio');
+        $resp = array('info' => true, 'message' => 'Producto con lista de precio ya existente. Ingrese un nuevo precio');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -65,7 +65,7 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
     } else
-        $resp = array('info' => true, 'message' => 'Producto con lista de precio ya existente. Ingrese una nuevo precio');
+        $resp = array('info' => true, 'message' => 'Producto con lista de precio ya existente. Ingrese un nuevo precio');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -75,7 +75,7 @@ $app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Re
     $customPrices = $customPricesDao->deleteCustomPrice($args['id_custom_price']);
 
     if ($customPrices == null)
-        $resp = array('success' => true, 'message' => 'Precio eliminada correctamente');
+        $resp = array('success' => true, 'message' => 'Precio eliminado correctamente');
     else if (isset($customPrices['info']))
         $resp = array('info' => true, 'message' => $customPrices['message']);
     else

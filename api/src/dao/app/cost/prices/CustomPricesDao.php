@@ -20,7 +20,7 @@ class CustomPricesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.product, cp.id_price_list, pl.price_name, cp.price
+        $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.reference, p.product, cp.id_price_list, pl.price_name, cp.price
                                       FROM custom_prices cp
                                         INNER JOIN products p ON p.id_product = cp.id_product
                                         INNER JOIN price_list pl ON pl.id_price_list = cp.id_price_list
@@ -58,7 +58,7 @@ class CustomPricesDao
         $connection = Connection::getInstance()->getConnection();
 
         $price = str_replace('.', '', $dataPrice['customPricesValue']);
-        $price = str_replace(',', '.', $dataPrice['customPricesValue']);
+        $price = str_replace(',', '.', $price);
 
         try {
             $stmt = $connection->prepare("INSERT INTO custom_prices (id_company, id_product, id_price_list, price) 
@@ -83,7 +83,7 @@ class CustomPricesDao
         $connection = Connection::getInstance()->getConnection();
 
         $price = str_replace('.', '', $dataPrice['customPricesValue']);
-        $price = str_replace(',', '.', $dataPrice['customPricesValue']);
+        $price = str_replace(',', '.', $price);
 
         try {
             $stmt = $connection->prepare("UPDATE custom_prices SET id_product = :id_product, id_price_list = :id_price_list, price = :price 
