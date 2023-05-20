@@ -34,10 +34,16 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
         $arr80MP = [];
 
         $participation = 0;
+
+        $first = false;
+
         for ($i = 0; $i < sizeof($reviewRawMaterials); $i++) {
             $participation += $reviewRawMaterials[$i]['participation'];
             if ($participation <= 80) {
                 $arr80MP[$i] = $reviewRawMaterials[$i];
+            } else if ($i + 1 > sizeof($reviewRawMaterials) && $first == false) {
+                $first = true;
+                $participation = 0;
             }
         }
         $data80MP = array_merge($data80MP, $arr80MP);
