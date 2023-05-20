@@ -245,9 +245,9 @@ $(document).ready(function () {
             let activeElement = elements[0];
 
             let dataIndex = activeElement.index;
-            let dataset = chartExpensesGenerals.data.labels[dataIndex];
+            let label = chartExpensesGenerals.data.labels[dataIndex];
 
-            loadModalExpenses(dataIndex);
+            loadModalExpenses(label);
           }
         },
         plugins: {

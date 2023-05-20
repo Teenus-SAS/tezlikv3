@@ -7,6 +7,7 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
+<?php require_once __DIR__ . '/modals/modalExpensesByPuc.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -333,6 +334,7 @@ if (sizeof($_SESSION) == 0)
         <script src="js/dashboard/indicatorsGeneral.js"></script>
         <script src="js/dashboard/calcDataCost.js"></script>
         <script src="js/dashboard/graphicsGeneral.js"></script>
+        <script src="js/dashboard/generalExpenses.js"></script>
     </div>
 </body>
 

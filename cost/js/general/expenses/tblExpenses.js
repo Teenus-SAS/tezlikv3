@@ -46,6 +46,16 @@ $(document).ready(function () {
       },
     ],
 
+    // rowGroup: {
+    //   dataSrc: function (row) {
+    //     return `<th class="text-center" colspan="4" style="font-weight: bold;"> ${row.magnitude} </th>`;
+    //   },
+    //   startRender: function (rows, group) {
+    //     return $('<tr/>').append(group);
+    //   },
+    //   className: 'odd',
+    // },
+
     footerCallback: function (row, data, start, end, display) {
       total = this.api()
         .column(3)

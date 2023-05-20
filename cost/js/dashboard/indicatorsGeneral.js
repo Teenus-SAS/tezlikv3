@@ -13,6 +13,8 @@ $(document).ready(function () {
       graphicGeneralCost(data.expense_value);
       graphicProductCost(data.details_prices);
       generalMaterials(data.quantity_materials);
+
+      dataPucExpenes = data.expenses;
     });
 
   /* Colors */

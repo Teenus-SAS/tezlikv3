@@ -54,30 +54,36 @@ class ConversionUnitsDao
                     case 'MASA':
                         $arr['TN'] = array(
                             'KG' => array('value' => 1000, 'op' => '/'), 'GR' => array('value' => 1000000, 'op' => '/'),
-                            'MG' => array('value' => 1000000000, 'op' => '/')
+                            'MG' => array('value' => 1000000000, 'op' => '/'), 'LB' => array('value' => 2205, 'op' => '/')
                         );
                         $arr['KG'] = array(
                             'TN' => array('value' => 1000, 'op' => '*'), 'GR' => array('value' => 1000, 'op' => '/'),
-                            'MG' => array('value' => 1000000, 'op' => '/')
+                            'MG' => array('value' => 1000000, 'op' => '/'), 'LB' => array('value' => 2.205, 'op' => '/')
                         );
                         $arr['GR'] = array(
                             'TN' => array('value' => 1000000, 'op' => '*'), 'KG' => array('value' => 1000, 'op' => '*'),
-                            'MG' => array('value' => 1000, 'op' => '/')
+                            'MG' => array('value' => 1000, 'op' => '/'), 'LB' => array('value' => 453.6, 'op' => '*')
                         );
                         $arr['MG'] = array(
                             'TN' => array('value' => 1000000000, 'op' => '*'), 'KG' => array('value' => 1000000, 'op' => '*'),
-                            'GR' => array('value' => 1000, 'op' => '*')
+                            'GR' => array('value' => 1000, 'op' => '*'), 'LB' => array('value' => 453600, 'op' => '*')
+                        );
+                        $arr['LB'] = array(
+                            'TN' => array('value' => 2205, 'op' => '*'), 'KG' => array('value' => 2.205, 'op' => '*'),
+                            'GR' => array('value' => 453.6, 'op' => '/'), 'MG' => array('value' => 1000, 'op' => '*')
                         );
                         break;
                     case 'VOLUMEN':
-                        $arr['L'] = array('M3' => array('value' => 1000000, 'op' => '/'), 'ML' => array('value' => 1000, 'op' => '/'));
-                        $arr['M3'] = array('L' => array('value' => 1000000, 'op' => '*'), 'ML' => array('value' => 1000, 'op' => '*'));
-                        $arr['ML'] = array('L' => array('value' => 1000, 'op' => '*'), 'M3' => array('value' => 1000, 'op' => '/'));
+                        $arr['CM3'] = array('M3' => array('value' => 1000000, 'op' => '*'), 'L' => array('value' => 1000, 'op' => '*'), 'ML' => array('value' => 1, 'op' => '*'));
+                        $arr['M3'] = array('CM3' => array('value' => 1000000, 'op' => '/'), 'L' => array('value' => 1000, 'op' => '/'), 'ML' => array('value' => 1000000, 'op' => '/'));
+                        $arr['L'] = array('CM3' => array('value' => 1000, 'op' => '/'), 'M3' => array('value' => 1000, 'op' => '*'), 'ML' => array('value' => 1000, 'op' => '/'));
+                        $arr['ML'] = array('CM3' => array('value' => 1, 'op' => '*'), 'M3' => array('value' => 1000000, 'op' => '*', 'L' => array('value' => 1000, 'op' => '*')));
                         break;
                     case 'AREA':
-                        $arr['M2'] = array('FT2' => array('value' => 10.76, 'op' => '/'), 'INCH2' => array('value' => 1550, 'op' => '/'));
-                        $arr['FT2'] = array('M2' => array('value' => 10.76, 'op' => '*'), 'INCH2' => array('value' => 144, 'op' => '/'));
-                        $arr['INCH2'] = array('M2' => array('value' => 1550, 'op' => '*'), 'FT2' => array('value' => 144, 'op' => '*'));
+                        $arr['DM2'] = array('M2' => array('value' => 100, 'op' => '*'), 'FT2' => array('value' => 9.29, 'op' => '*'), 'INCH2' => array('value' => 15.5, 'op' => '/'));
+                        $arr['M2'] = array('DM2' => array('value' => 100, 'op' => '/'), 'FT2' => array('value' => 10.764, 'op' => '/'), 'INCH2' => array('value' => 1550, 'op' => '/'));
+                        $arr['FT2'] = array('DM2' => array('value' => 9.29, 'op' => '/'), 'M2' => array('value' => 10.764, 'op' => '*'), 'INCH2' => array('value' => 144, 'op' => '/'));
+                        $arr['INCH2'] = array('DM2' => array('value' => 15.5, 'op' => '*'), 'M2' => array('value' => 1550, 'op' => '*'), 'FT2' => array('value' => 144, 'op' => '*'));
                         break;
                 }
 
