@@ -40,10 +40,10 @@ class DashboardProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime, pp.enlistment_time, pp.operation_time,
-                                             m.machine, m.cost AS cost_machine, m.years_depreciation, m.residual_value, m.years_depreciation, m.hours_machine, m.days_machine
+                                             IFNULL(m.machine, 'PROCESO MANUAL') AS machine, IFNULL(m.cost, 0) AS cost_machine, IFNULL(m.years_depreciation, 0) AS years_depreciation, IFNULL(m.residual_value, 0) AS residual_value, IFNULL(m.years_depreciation, 0) AS years_depreciation, IFNULL(m.hours_machine, 0) AS hours_machine, IFNULL(m.days_machine, 0) AS days_machine
                                       FROM products_process pp 
                                         INNER JOIN process pc ON pc.id_process = pp.id_process
-                                        INNER JOIN machines m ON m.id_machine = pp.id_machine
+                                        LEFT JOIN machines m ON m.id_machine = pp.id_machine
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
         $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
 
