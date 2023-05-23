@@ -71,12 +71,13 @@ class MultiproductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO multiproducts(id_company, id_product, units_sold, expense) 
-                                          VALUES (:id_company, :id_product, :units_sold, :expense)");
+            $stmt = $connection->prepare("INSERT INTO multiproducts(id_company, id_product, units_sold, participation, expense) 
+                                          VALUES (:id_company, :id_product, :units_sold, :participation, :expense)");
             $stmt->execute([
                 'id_company' => $id_company,
                 'id_product' => $dataProduct['id_product'],
                 'units_sold' => $dataProduct['soldUnit'],
+                'participation' => $dataProduct['participation'],
                 'expense' => $dataProduct['expense']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -92,11 +93,12 @@ class MultiproductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE multiproducts SET units_sold = :units_sold, expense = :expense 
+            $stmt = $connection->prepare("UPDATE multiproducts SET units_sold = :units_sold, participation = :participation, expense = :expense 
                                           WHERE id_product = :id_product");
             $stmt->execute([
                 'id_product' => $dataProduct['id_product'],
                 'units_sold' => $dataProduct['soldUnit'],
+                'participation' => $dataProduct['participation'],
                 'expense' => $dataProduct['expense']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

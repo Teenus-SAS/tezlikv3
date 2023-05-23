@@ -37,9 +37,9 @@ class CostWorkforceDao
         $connection = Connection::getInstance()->getConnection();
         try {
             $stmt = $connection->prepare("SELECT SUM(p.minute_value * (pp.enlistment_time + pp.operation_time)) AS cost
-                                        FROM products_process pp 
-                                        INNER JOIN payroll p ON p.id_process = pp.id_process 
-                                        WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
+                                          FROM products_process pp 
+                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
             $stmt->execute([
                 'id_product' => $idProduct,
                 'id_company' => $id_company

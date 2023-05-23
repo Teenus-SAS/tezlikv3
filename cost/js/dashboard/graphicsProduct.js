@@ -211,27 +211,15 @@ $(document).ready(function () {
   };
 
   /* Total Tiempos */
-  graphicPromTime = (dataAvTime, dataCostTime) => {
+  graphicPromTime = (dataAvTime) => {
     let timeData = [];
 
-    let totalTime = 0;
-    let totalTimeProm = 0;
+    timeData.push(dataAvTime.enlistment_time, dataAvTime.operation_time);
 
-    for (let i in dataAvTime) {
-      totalTimeProm += dataAvTime[i].enlistment_time;
-      totalTimeProm += dataAvTime[i].operation_time;
-    }
-
-    for (let i in dataCostTime) {
-      totalTime += dataCostTime[i].totalTime;
-    }
-    timeData.push(totalTime);
-    timeData.push(totalTimeProm);
-
-    let total = totalTime + totalTimeProm;
+    let total = dataAvTime.enlistment_time + dataAvTime.operation_time;
 
     $('#manufactPromTime').html(
-      `${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })} min`
+      `${total.toLocaleString('es-CO', { maximumFractionDigits: 2 })} min`
     );
 
     chartTotalTime ? chartTotalTime.destroy() : chartTotalTime;
@@ -241,7 +229,7 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: 'doughnut',
       data: {
-        labels: ['Total Tiempo Procesos', 'Total Tiempo Promedio'],
+        labels: ['Total Tiempo Alistamiento', 'Total Tiempo Operacion'],
         datasets: [
           {
             data: timeData,

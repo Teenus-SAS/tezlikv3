@@ -12,7 +12,7 @@ $(document).ready(function () {
         graphicCostExpenses(data.cost_product);
         graphicCostWorkforce(data.cost_workforce);
         graphicCostTimeProcess(data.cost_time_process);
-        graphicPromTime(data.average_time_process, data.cost_time_process);
+        graphicPromTime(data.average_time_process);
         graphicCompPrices(data.cost_product);
         graphicCostMaterials(data.cost_materials);
       });

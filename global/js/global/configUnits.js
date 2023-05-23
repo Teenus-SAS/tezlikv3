@@ -8,9 +8,13 @@ $(document).ready(function () {
 
     $select.append(`<option disabled selected>Seleccionar</option>`);
     $.each(data, function (i, value) {
-      $select.append(
-        `<option value = ${value.id_unit}> ${value.unit} </option>`
-      );
+      if (value.unit == 'UNIDAD' || value.unit == 'JGO') {
+        $select.empty();
+        $select.append(
+          `<option value ='${value.id_unit}' selected disabled> ${value.unit} </option>`
+        );
+        return false;
+      } else $select.append(`<option value = ${value.id_unit}> ${value.unit} </option>`);
     });
   };
 });

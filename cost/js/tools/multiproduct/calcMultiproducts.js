@@ -40,20 +40,20 @@ $(document).ready(function () {
         unit = multiproducts[i].soldUnit;
 
         if (unit > 0) {
-          multi = {};
-
-          multi.id_product = multiproducts[i]['id_product'];
-          multi.soldUnit = unit;
-          multi.expense = expenseAsignation;
-
-          dataMultiproducts.push(multi);
-
           let totalUnitsSold = sumTotalSoldUnits();
 
           // Calcular porcentaje de participacion
           let participation = (unit / totalUnitsSold) * 100;
 
           multiproducts[i]['participation'] = participation;
+          multi = {};
+
+          multi.id_product = multiproducts[i]['id_product'];
+          multi.soldUnit = unit;
+          multi.expense = expenseAsignation;
+          multi.participation = participation;
+
+          dataMultiproducts.push(multi);
           $(`#part-${i}`).html(
             `${participation.toLocaleString('es-CO', {
               minimumFractionDigits: 2,
