@@ -24,16 +24,11 @@ $app->get('/rawMaterials/{idProduct}', function (Request $request, Response $res
 
         $participation = 0;
 
-        $first = false;
-
         for ($i = 0; $i < sizeof($productsRawmaterials); $i++) {
             $participation += $productsRawmaterials[$i]['participation'];
             if ($participation <= 80) {
                 $arr80MP[$i] = $productsRawmaterials[$i];
-            } else if ($i + 1 > sizeof($productsRawmaterials) && $first == false) {
-                $first = true;
-                $participation = 0;
-            }
+            } else if ($i == 0) $participation = 0;
         }
 
         $data80MP = array_merge($data80MP, $arr80MP);
