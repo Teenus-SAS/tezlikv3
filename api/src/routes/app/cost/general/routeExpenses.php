@@ -4,6 +4,7 @@ use tezlikv3\dao\AssignableExpenseDao;
 use tezlikv3\dao\ExpensesDao;
 use tezlikv3\dao\FlagExpenseDao;
 use tezlikv3\dao\LicenseCompanyDao;
+use tezlikv3\dao\ParticipationExpenseDao;
 use tezlikv3\dao\PucDao;
 use tezlikv3\dao\TotalExpenseDao;
 
@@ -13,6 +14,7 @@ $pucDao = new PucDao();
 $totalExpenseDao = new TotalExpenseDao();
 $licenseCompanyDao = new LicenseCompanyDao();
 $flagExpenseDao = new FlagExpenseDao();
+$participationExpenseDao = new ParticipationExpenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -111,13 +113,11 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $expensesDao,
     $assignableExpenseDao,
     $pucDao,
-    $totalExpenseDao
+    $totalExpenseDao,
+    $participationExpenseDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
-
-    // Calcular total del gasto
-    $totalExpenseDao->insertUpdateTotalExpense($id_company);
 
     $dataExpense = $request->getParsedBody();
 
@@ -200,11 +200,22 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
 
+    // Calcular total del gasto
+    $totalExpenseDao->insertUpdateTotalExpense($id_company);
+
+    // Calcular procentaje de participacion
+    $participationExpenseDao->calcParticipationExpense($id_company);
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateExpenses', function (Request $request, Response $response, $args) use ($expensesDao, $assignableExpenseDao, $totalExpenseDao) {
+$app->post('/updateExpenses', function (Request $request, Response $response, $args) use (
+    $expensesDao,
+    $assignableExpenseDao,
+    $totalExpenseDao,
+    $participationExpenseDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataExpense = $request->getParsedBody();
@@ -240,6 +251,9 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                 $expenses = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
             }
         }
+
+        // Calcular procentaje de participacion
+        $participationExpenseDao->calcParticipationExpense($id_company);
 
         if ($expenses == null)
             $resp = array('success' => true, 'message' => 'Gasto actualizado correctamente');

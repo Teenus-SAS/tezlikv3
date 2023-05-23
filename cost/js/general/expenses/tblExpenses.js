@@ -40,6 +40,17 @@ $(document).ready(function () {
         render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
       },
       {
+        title: 'Porcentaje',
+        data: 'participation',
+        className: 'classRight',
+        render: function (data) {
+          return `${data.toLocaleString('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} %`;
+        },
+      },
+      {
         title: 'Acciones',
         data: 'id_expense',
         className: 'uniqueClassName',
@@ -53,7 +64,7 @@ $(document).ready(function () {
 
     rowGroup: {
       dataSrc: function (row) {
-        return `<th class="text-center" colspan="5" style="font-weight: bold;"> ${row.puc} </th>`;
+        return `<th class="text-center" colspan="6" style="font-weight: bold;"> ${row.puc} </th>`;
       },
       startRender: function (rows, group) {
         return $('<tr/>').append(group);

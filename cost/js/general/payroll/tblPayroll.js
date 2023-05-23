@@ -61,8 +61,15 @@ $(document).ready(function () {
       let salary = 0;
       let salary_net = 0;
       let minute_value = 0;
+      let dataDisplay = [];
 
       for (i = 0; i < display.length; i++) {
+        dataDisplay.push(data[display[i]]);
+      }
+
+      data = eliminarDuplicados(dataDisplay, 'employee');
+
+      for (i = 0; i < data.length; i++) {
         salary += data[display[i]].salary;
         salary_net += data[display[i]].salary_net;
         minute_value += data[display[i]].minute_value;
@@ -90,4 +97,16 @@ $(document).ready(function () {
       );
     },
   });
+
+  function eliminarDuplicados(array, key) {
+    const uniqueValues = {};
+
+    return array.filter((item) => {
+      if (!uniqueValues[item[key]]) {
+        uniqueValues[item[key]] = true;
+        return true;
+      }
+      return false;
+    });
+  }
 });
