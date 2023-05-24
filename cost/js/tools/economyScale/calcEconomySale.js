@@ -32,6 +32,10 @@ $(document).ready(function () {
         this.value == '' ? (unity = '0') : (unity = this.value);
         unity = parseInt(strReplaceNumber(unity));
 
+        // id != 'unity-0'
+        //   ? (unity = parseInt(strReplaceNumber(unity)))
+        //   : (unity = unitys[0]);
+
         let percentage = { 1: 1, 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
         // unitys = [1];
 
@@ -138,12 +142,20 @@ $(document).ready(function () {
           );
 
           // Verificar si el margen de utilidad es negativo
-
-          if (i == 0 && percentage < 0) {
-            let division = totalCostsAndExpense / price;
+          if (i == 0 && percentage >= 0 && percentage < 1) {
+            percentage += profitability;
+            $(`#percentage-${i}`).html(
+              `${percentage.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })} %`
+            );
+          } else if (i == 0 && percentage < 0) {
+            // let division = totalCostsAndExpense / price;
+            let division = totalCostsAndExpense / price + 1;
 
             $(`#unity-${i}`).val(
-              (division + 1).toLocaleString('es-CO', {
+              division.toLocaleString(undefined, {
                 maximumFractionDigits: 0,
               })
             );
