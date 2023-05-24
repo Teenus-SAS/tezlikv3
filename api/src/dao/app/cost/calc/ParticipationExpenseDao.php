@@ -35,8 +35,8 @@ class ParticipationExpenseDao
             $stmt = $connection->prepare("SELECT ex.id_expense, p.number_count, ex.expense_value
                                           FROM expenses ex
                                           LEFT JOIN puc p ON p.id_puc = ex.id_puc
-                                          WHERE ex.id_company = :id_company AND p.number_count LIKE '51%' 
-                                          OR p.number_count LIKE '52%' OR p.number_count LIKE '53%'  
+                                          WHERE ex.id_company = :id_company 
+                                          AND (p.number_count LIKE '51%' OR p.number_count LIKE '52%' OR p.number_count LIKE '53%')  
                                           ORDER BY `p`.`number_count` ASC");
             $stmt->execute(['id_company' => $id_company]);
             $expenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
