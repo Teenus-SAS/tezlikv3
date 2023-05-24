@@ -8,7 +8,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                <canvas id="chartExpensesByPuc" style="width: 100%;"></canvas>
+                <div class="col-lg-10 ml-5">
+                    <div class="chart-container">
+                        <canvas id="chartExpensesByPuc" style="width: 85%;"></canvas>
+
+                        <div class="center-text">
+                            <p class="text-muted mb-1 font-weight-600">Total Gasto </p>
+                            <h4 class="mb-0 font-weight-bold" id="totalExpenseByCount"></h4>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

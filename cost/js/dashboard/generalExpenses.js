@@ -1,7 +1,9 @@
 $(document).ready(function () {
   var chartExpensesByPuc;
 
-  loadModalExpenses = (label) => {
+  loadModalExpenses = (label, value) => {
+    $('#totalExpenseByCount').html(`$ ${value.toLocaleString('es-ES')}`);
+
     let expenses = [];
     let expense = [];
     let expense_value = [];
@@ -26,7 +28,7 @@ $(document).ready(function () {
 
       if (number_count.startsWith(puc))
         expenses.push({
-          number_count: `N° - ${dataPucExpenes[i].number_count}`,
+          number_count: `N° - ${dataPucExpenes[i].number_count} (${dataPucExpenes[i].count})`,
           expense_value: dataPucExpenes[i].expense_value,
         });
     }
@@ -50,7 +52,7 @@ $(document).ready(function () {
 
     chartExpensesByPuc = new Chart(cmc, {
       plugins: [ChartDataLabels],
-      type: 'bar',
+      type: 'doughnut',
       data: {
         labels: expense,
         formatter: function (value, context) {
@@ -65,25 +67,25 @@ $(document).ready(function () {
         ],
       },
       options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-          x: {
-            display: false,
-          },
-        },
         plugins: {
           legend: {
             display: false,
           },
           datalabels: {
-            anchor: 'end',
-            formatter: (expense_value) =>
-              expense_value.toLocaleString('es-CO', {
-                maximumFractionDigits: 0,
-              }),
-            color: 'black',
+            formatter: (value, ctx) => {
+              let sum = 0;
+              let dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map((data) => {
+                sum += data;
+              });
+              let percentage =
+                ((value * 100) / sum).toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) + '%';
+              return percentage;
+            },
+            color: 'white',
             font: {
               size: '12',
               weight: 'normal',

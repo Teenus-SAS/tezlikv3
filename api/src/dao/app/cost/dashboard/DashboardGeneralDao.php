@@ -97,7 +97,7 @@ class DashboardGeneralDao
                                         INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                       WHERE p.id_company = :id_company AND p.active = 1");
     $stmt->execute(['id_company' => $id_company]);
-    $quantityProducts = $stmt->fetch($connection::FETCH_ASSOC);
+    $quantityData = $stmt->fetch($connection::FETCH_ASSOC);
 
     for ($i = 1; $i < 4; $i++) {
       $stmt = $connection->prepare("SELECT p.number_count, SUM(ex.expense_value) AS expenseCount
@@ -109,7 +109,7 @@ class DashboardGeneralDao
       $expenseCount = $stmt->fetch($connection::FETCH_ASSOC);
       $expenseValue[$i] =  $expenseCount;
     }
-    $expenseValue = array_merge($expenseValue, $quantityProducts);
+    $expenseValue = array_merge($expenseValue, $quantityData);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -121,7 +121,7 @@ class DashboardGeneralDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT p.number_count, ex.expense_value
+    $stmt = $connection->prepare("SELECT p.number_count, p.count, ex.expense_value
                                   FROM expenses ex
                                     LEFT JOIN puc p ON p.id_puc = ex.id_puc
                                   WHERE ex.id_company = :id_company AND p.number_count LIKE '51%' 
