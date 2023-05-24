@@ -98,7 +98,7 @@ if (sizeof($_SESSION) == 0)
                                                             <tr>
                                                                 <td class="font-weight-bold">Ventas Mensuales (Unidad)</td>
                                                                 <td>
-                                                                    <input class="form-control text-center general" type="text" id="unity-0" readonly>
+                                                                    <input class="form-control text-center totalRevenue general" type="text" id="unity-0" readonly>
                                                                 </td>
                                                                 <td>
                                                                     <input class="form-control text-center totalRevenue general" type="text" id="unity-1">

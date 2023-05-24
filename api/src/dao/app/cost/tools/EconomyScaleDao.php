@@ -20,11 +20,13 @@ class EconomyScaleDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT pc.cost_workforce + (SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc p ON e.id_puc = p.id_puc WHERE e.id_company = p.id_company 
-                                             AND (p.number_count LIKE '51%' OR p.number_count LIKE '52%' OR p.number_count LIKE '53%')) AS costFixed
-                                          FROM products p
-                                              LEFT JOIN products_costs pc ON pc.id_product = p.id_product
-                                          WHERE p.id_product = :id_product AND p.id_company = :id_company");
+        $stmt = $connection->prepare("SELECT pc.cost_workforce + IFNULL((IF(mp.units_sold IS NULL,(SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON e.id_puc = pu.id_puc WHERE e.id_company = p.id_company 
+                                             AND (pu.number_count LIKE '51%' OR pu.number_count LIKE '52%' OR pu.number_count LIKE '53%')) , (SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON e.id_puc = pu.id_puc 
+                                             WHERE e.id_company = p.id_company AND (pu.number_count LIKE '51%' OR pu.number_count LIKE '52%' OR pu.number_count LIKE '53%')) * (mp.participation / 100))), 0) AS costFixed
+                                      FROM products p
+                                        LEFT JOIN products_costs pc ON pc.id_product = p.id_product
+                                        LEFT JOIN multiproducts mp ON mp.id_product = p.id_product
+                                      WHERE p.id_product = :id_product AND p.id_company = :id_company");
         $stmt->execute([
             'id_product' => $id_product,
             'id_company' => $id_company

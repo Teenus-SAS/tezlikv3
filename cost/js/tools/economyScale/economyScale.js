@@ -27,6 +27,9 @@ $(document).ready(function () {
 
     commission = data.commission;
 
+    // Regla de tres rentabilidad
+    profitability = (data.price * data.profitability) / data.price;
+
     /* Precios */
     $('.price').val(
       data.price.toLocaleString('es-CO', { maximumFractionDigits: 0 })

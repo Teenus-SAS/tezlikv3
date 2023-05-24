@@ -32,7 +32,7 @@ $(document).ready(function () {
         this.value == '' ? (unity = '0') : (unity = this.value);
         unity = parseInt(strReplaceNumber(unity));
 
-        let percentage = { 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
+        let percentage = { 1: 1, 2: 1, 3: 0.5, 4: 0.333333333333333, 5: 0.5 };
         // unitys = [1];
 
         unitys[row] = unity;
@@ -55,14 +55,13 @@ $(document).ready(function () {
           $(`#price-${i + 1}`).val(price.toLocaleString('es-CO'));
         }
       }
+      if (id != 'unity-0') generalCalc(1);
     } catch (error) {
       console.log(error);
     }
-
-    generalCalc(1);
   });
 
-  generalCalc = (op) => {
+  generalCalc = async (op) => {
     try {
       op == 0 ? (count = 0) : (count = 5);
 
@@ -137,6 +136,23 @@ $(document).ready(function () {
               maximumFractionDigits: 2,
             })} %`
           );
+
+          // Verificar si el margen de utilidad es negativo
+
+          if (i == 0 && percentage < 0) {
+            let division = totalCostsAndExpense / price;
+
+            $(`#unity-${i}`).val(
+              (division + 1).toLocaleString('es-CO', {
+                maximumFractionDigits: 0,
+              })
+            );
+
+            unitys[i] = division;
+
+            await $(`#unity-${i}`).blur();
+            i = i - 1;
+          }
         }
       }
     } catch (error) {

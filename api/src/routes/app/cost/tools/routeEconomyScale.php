@@ -18,6 +18,7 @@ $app->get('/calcEconomyScale/{id_product}', function (Request $request, Response
     $variableCosts = $economyScaleDao->findVariableCostByProduct($args['id_product'], $id_company);
 
     $data['price'] = $price['price'];
+    $data['profitability'] = $price['profitability'];
     $data['fixedCost'] = $fixedCosts['costFixed'];
     $data['variableCost'] = $variableCosts['variableCost'];
     $data['commission'] = $variableCosts['commission'];
