@@ -1,6 +1,6 @@
 $(document).ready(function () {
   /* Cargar unidades por magnitud */
-  loadUnitsByMagnitude = async (id_magnitude) => {
+  loadUnitsByMagnitude = async (id_magnitude, op) => {
     let data = await searchData(`/api/units/${id_magnitude}`);
 
     let $select = $(`#units`);
@@ -8,7 +8,7 @@ $(document).ready(function () {
 
     $select.append(`<option disabled selected>Seleccionar</option>`);
     $.each(data, function (i, value) {
-      if (value.unit == 'UNIDAD' || value.unit == 'JGO') {
+      if (value.id_magnitude == '5' && op == 2) {
         $select.empty();
         $select.append(
           `<option value ='${value.id_unit}' selected disabled> ${value.unit} </option>`

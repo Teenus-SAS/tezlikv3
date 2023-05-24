@@ -36,7 +36,7 @@ $(document).ready(function () {
     for (i = 0; i < dataMaterials.length; i++) {
       if (id == dataMaterials[i].id_material) {
         let id_magnitude = dataMaterials[i].id_magnitude;
-        await loadUnitsByMagnitude(id_magnitude);
+        await loadUnitsByMagnitude(id_magnitude, 2);
       }
     }
   });
@@ -83,7 +83,7 @@ $(document).ready(function () {
     $(`#material option[value=${data.id_material}]`).prop('selected', true);
 
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
-    await loadUnitsByMagnitude(data.id_magnitude);
+    await loadUnitsByMagnitude(data.id_magnitude, 2);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
     let quantity = `${data.quantity}`;
