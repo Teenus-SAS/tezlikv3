@@ -46,6 +46,8 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     // Consulta cantidad materias primas
     $quantityMaterials = $dashboardGeneralDao->findRawMaterialsByCompany($id_company);
 
+    $multiproducts = $dashboardGeneralDao->findTotalMultiproducts($id_company);
+
     $generalExpenses['details_prices'] = $prices;
     $generalExpenses['time_process'] = $timeProcess;
     $generalExpenses['average_time_process'] = $averageTimeProcess;
@@ -55,6 +57,7 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     $generalExpenses['expenses'] = $expenses;
     $generalExpenses['expense_recover'] = $expenseRecoverValue;
     $generalExpenses['quantity_materials'] = $quantityMaterials;
+    $generalExpenses['multiproducts'] = $multiproducts;
 
     $response->getBody()->write(json_encode($generalExpenses, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

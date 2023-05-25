@@ -3,7 +3,11 @@ $(document).ready(function () {
     .then((response) => response.text())
     .then((data) => {
       data = JSON.parse(data);
-      generalIndicators(data.expense_value, data.expense_recover);
+      generalIndicators(
+        data.expense_value,
+        data.expense_recover,
+        data.multiproducts
+      );
       averagePrices(data.details_prices);
       generalSales(data.details_prices);
       graphicTimeProcessByProduct(data.time_process);
@@ -35,13 +39,19 @@ $(document).ready(function () {
 
   /* Cantidad de materias primas */
   generalMaterials = (data) => {
-    $('#materials').html(data.materials.toLocaleString('es-ES'));
+    $('#materials').html(data.materials.toLocaleString('es-CO'));
   };
 
   /* Indicadores Generales */
-  generalIndicators = (data, expenseRecover) => {
+  generalIndicators = (data, expenseRecover, multiproducts) => {
     // Cantidad de productos
-    $('#products').html(data.products.toLocaleString('es-ES'));
+    $('#products').html(data.products.toLocaleString('es-CO'));
+    $('#multiproducts').html(
+      multiproducts.totalUnits.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    );
 
     /* Gastos generales */
     let totalExpense = 0;
@@ -50,7 +60,7 @@ $(document).ready(function () {
       for (i = 0; i < 3; i++) {
         totalExpense = totalExpense + data[i].expenseCount;
       }
-      totalExpense = `$ ${Math.round(totalExpense).toLocaleString('es-ES')}`;
+      totalExpense = `$ ${Math.round(totalExpense).toLocaleString('es-CO')}`;
       expenses = 'Gastos Generales';
     } else {
       expenses = `Gastos Generales (Promedio)`;
@@ -143,8 +153,8 @@ $(document).ready(function () {
         turnover = turnover + data[i].turnover;
       }
 
-      $('#productsSold').html(unitsSold.toLocaleString('es-ES'));
-      $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-ES')}`);
+      $('#productsSold').html(unitsSold.toLocaleString('es-CO'));
+      $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-CO')}`);
     } else {
       $('#productsSold').html('0');
       $('#salesRevenue').html(`$ 0`);
