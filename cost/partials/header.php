@@ -181,7 +181,7 @@
 
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-notification-dropdown" aria-expanded="false" class="btn header-item notify-icon position-relative">
-                    <i class="bx bx-bell bx-tada"></i>
+                    <i class="bx bx-bell bx-tada" data-toggle="tooltip" title="Área de Notificaciones"></i>
                     <span class="badge badge-danger badge-pill notify-icon-badge" id="count"></span>
                 </button>
                 <div aria-labelledby="page-header-notification-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu notify-scrollbar" style="max-height:280px; overflow-y: auto;">
