@@ -29,7 +29,7 @@
         <div class="right-bar">
             <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
-                    <i class="bx bx-cog bx-spin" style="font-size: 2em;"></i>
+                    <i class="bx bx-cog bx-spin" style="font-size: 2em;" data-toggle="tooltip" title="Configuración General"></i>
                 </a>
                 <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown">
                     <div class="row">
