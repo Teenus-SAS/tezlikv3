@@ -54,7 +54,7 @@ $(document).ready(function () {
           className: 'classCenter',
         },
         {
-          title: 'Cantidad',
+          title: 'Cantidad Usada',
           data: 'quantity',
           className: 'classCenter',
           render: function (data) {

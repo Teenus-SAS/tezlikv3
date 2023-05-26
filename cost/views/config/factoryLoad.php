@@ -49,7 +49,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Carga Fabril</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Asignación de costos directos relacionados a una máquina</li>
+                                        <li class="breadcrumb-item active">Ingrese los costos adicionales que consume sus máquinas, ejm: Mantenimiento, cambio de partes, entre otros.</li>
                                     </ol>
                                 </div>
                             </div>

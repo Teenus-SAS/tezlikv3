@@ -49,7 +49,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Productos</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Asignación de procesos al producto</li>
+                                        <li class="breadcrumb-item active">Ingrese los tiempos para la fabricacion de sus productos de acuerdo con sus procesos, máquinas o proceso manual necesario</li>
                                     </ol>
                                 </div>
                             </div>
@@ -106,11 +106,11 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="" class="text-center">t.alistamiento (min)</label>
-                                                    <input class="form-control text-center number time" type="text" name="enlistmentTime" id="enlistmentTime">
+                                                    <input class="form-control text-center number time" type="text" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="" class="text-center">t.operacion (min)</label>
-                                                    <input class="form-control text-center number time" type="text" name="operationTime" id="operationTime">
+                                                    <input class="form-control text-center number time" type="text" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label for="" class="text-center">t.total (min)</label>

@@ -29,7 +29,7 @@
         <div class="right-bar">
             <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
-                    <i class="bx bx-cog bx-spin" style="font-size: 2em;"></i>
+                    <i class="bx bx-cog bx-spin" style="font-size: 2em;" data-toggle="tooltip" title="Configuración General"></i>
                 </a>
                 <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown">
                     <div class="row">
@@ -130,7 +130,7 @@
             <?php if ($_SESSION['quote_payment_method'] != 0 || $_SESSION['quote_company'] != 0 || $_SESSION['quote_contact'] != 0) { ?>
                 <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                     <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
-                        <i class="bx bxs-cog bx-spin" style="font-size: 2em;"></i>
+                        <i class="bx bxs-cog bx-spin" style="font-size: 2em;" data-toggle="tooltip" title="Configuración Cotización"></i>
                     </a>
                     <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown" x-placement="bottom-start" style="position: absolute; transform: translate3d(35px, 70px, 0px); top: 0px; left: 0px; will-change: transform;">
                         <div class="row">
@@ -181,7 +181,7 @@
 
             <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
                 <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-notification-dropdown" aria-expanded="false" class="btn header-item notify-icon position-relative">
-                    <i class="bx bx-bell bx-tada"></i>
+                    <i class="bx bx-bell bx-tada" data-toggle="tooltip" title="Área de Notificaciones"></i>
                     <span class="badge badge-danger badge-pill notify-icon-badge" id="count"></span>
                 </button>
                 <div aria-labelledby="page-header-notification-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu notify-scrollbar" style="max-height:280px; overflow-y: auto;">

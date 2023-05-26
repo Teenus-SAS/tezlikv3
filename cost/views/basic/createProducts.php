@@ -94,11 +94,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pt-3">
                                         <div class="form-row">
                                             <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                <input type="number" class="form-control text-center" name="profitability" id="profitability">
+                                                <input type="number" class="form-control text-center" name="profitability" id="profitability" data-toggle="tooltip" title="Ingrese la rentabilidad que desea ganar para la venta del producto">
                                                 <label for="">Rentabilidad(%)</label>
                                             </div>
                                             <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                <input type="number" class="form-control text-center" name="commissionSale" id="commisionSale">
+                                                <input type="number" class="form-control text-center" name="commissionSale" id="commisionSale" data-toggle="tooltip" title="Ingrese la comisión de ventas para sus vendedores, si existe">
                                                 <label for="">Comisión de Ventas(%)</label>
                                             </div>
                                             <div class="col-sm-6 floating-label enable-floating-label show-label drag-area">
