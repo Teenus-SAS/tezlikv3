@@ -93,11 +93,11 @@ if (sizeof($_SESSION) == 0)
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
-                                                    <label for="">Horas de Trabajo</label>
+                                                    <label for="">Horas de Trabajo (día)</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
-                                                    <label for="">Dias de Trabajo</label>
+                                                    <label for="">Dias de Trabajo (Mes)</label>
                                                 </div>
                                                 <div class="col-xs-2" style="margin-bottom:0px;margin-top:5px;">
                                                     <button class="btn btn-success" id="btnCreateMachine">Crear Máquina</button>
