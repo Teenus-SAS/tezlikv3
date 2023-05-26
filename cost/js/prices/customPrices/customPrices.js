@@ -3,16 +3,19 @@ $(document).ready(function () {
   $('.cardCreateCustomPrices').hide();
 
   /* Abrir panel crear servicio  */
-  $('#btnNewCustomPrice').click(function (e) {
+  $('#btnNewCustomPrice').click(async function (e) {
     e.preventDefault();
 
-    $('.cardImportExternalServices').hide(800);
-    $('.cardCreateCustomPrices').toggle(800);
     $('#btnCreateCustomPrice').html('Adicionar');
 
     sessionStorage.removeItem('id_custom_price');
 
     $('#formCreateCustomPrices').trigger('reset');
+    $(`#idProduct`).prop('disabled', false);
+
+    await loadPriceList();
+
+    $('.cardCreateCustomPrices').toggle(800);
   });
 
   /* Adicionar nuevo precio */
@@ -34,15 +37,38 @@ $(document).ready(function () {
     $('.cardCreateCustomPrices').show(800);
     $('#btnCreateCustomPrice').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
-    let data = tblCustomPrices.fnGetData(row);
-
-    sessionStorage.setItem('id_custom_price', data.id_custom_price);
+    let data = combinedData[this.id];
 
     $(`#idProduct option[value=${data.id_product}]`).prop('selected', true);
-    $(`#pricesList option[value=${data.id_price_list}]`).prop('selected', true);
+    $(`#idProduct`).prop('disabled', true);
 
-    $('#customPricesValue').val(data.price.toLocaleString('es-CO'));
+    $('#pricesList').empty();
+
+    $('#pricesList').append('<option disabled selected>Seleccionar</option>');
+
+    for (let i = 0; i < data.id_price_list.length; i++) {
+      $('#pricesList').append(
+        `<option value = ${data.id_price_list[i]}> ${data.price_names[i]} </option>`
+      );
+    }
+
+    $('#pricesList').change(function (e) {
+      e.preventDefault();
+
+      let id_price_list = this.value;
+      let price = 0;
+
+      for (let i = 0; i < data.id_price_list.length; i++) {
+        if (id_price_list == data.id_price_list[i]) {
+          sessionStorage.setItem('id_custom_price', data.id_custom_price[i]);
+
+          price = data.prices[i];
+
+          $('#customPricesValue').val(price.toLocaleString('es-CO'));
+          break;
+        }
+      }
+    });
 
     $('html, body').animate(
       {
@@ -78,14 +104,9 @@ $(document).ready(function () {
     message(resp);
   };
 
-  /* Eliminar servicio */
+  /* Eliminar servicio 
 
-  deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblCustomPrices.fnGetData(row);
-
-    let idCustomPrice = data.id_custom_price;
-
+  deleteFunction = (idCustomPrice) => {
     bootbox.confirm({
       title: 'Eliminar',
       message:
@@ -111,7 +132,7 @@ $(document).ready(function () {
         }
       },
     });
-  };
+  }; */
 
   /* Mensaje de exito */
 
@@ -119,16 +140,9 @@ $(document).ready(function () {
     if (data.success == true) {
       $('.cardCreateCustomPrices').hide(800);
       $('#formCreateCustomPrices').trigger('reset');
-      updateTable();
       toastr.success(data.message);
+      loadTblCustomPrices();
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  function updateTable() {
-    $('#tblCustomPrices').DataTable().clear();
-    $('#tblCustomPrices').DataTable().ajax.reload();
-  }
 });
