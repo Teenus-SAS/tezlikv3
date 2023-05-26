@@ -31,6 +31,10 @@ class ParticipationExpenseDao
             $stmt->execute(['id_company' => $id_company]);
             $sumExpenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
 
+            for ($i = 0; $i < sizeof($sumExpenseCount); $i++) {
+                $count[$sumExpenseCount[$i]['number_count']] = $sumExpenseCount[$i]['total_expense_value'];
+            }
+
             // Calculo de porcentaje
             $stmt = $connection->prepare("SELECT ex.id_expense, p.number_count, ex.expense_value
                                           FROM expenses ex
@@ -46,11 +50,11 @@ class ParticipationExpenseDao
                 $totalExpenseCount = 0;
 
                 if (substr($expenseCount[$i]['number_count'], 0, 2) == '51')
-                    $totalExpenseCount = $sumExpenseCount[0]['total_expense_value'];
+                    $totalExpenseCount = $count['51'];
                 else if (substr($expenseCount[$i]['number_count'], 0, 2) == '52')
-                    $totalExpenseCount = $sumExpenseCount[1]['total_expense_value'];
+                    $totalExpenseCount = $count['52'];
                 else if (substr($expenseCount[$i]['number_count'], 0, 2) == '53')
-                    $totalExpenseCount = $sumExpenseCount[2]['total_expense_value'];
+                    $totalExpenseCount = $count['53'];
 
                 $expenseCount[$i]['participation'] = ($expenseCount[$i]['expense_value'] / $totalExpenseCount) * 100;
 

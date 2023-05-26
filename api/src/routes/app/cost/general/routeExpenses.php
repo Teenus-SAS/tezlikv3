@@ -268,11 +268,14 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $response, $args) use ($expensesDao, $totalExpenseDao) {
+$app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $response, $args) use ($expensesDao, $totalExpenseDao, $participationExpenseDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
     $expenses = $expensesDao->deleteExpenses($args['id_expense']);
+
+    $participationExpenseDao->calcParticipationExpense($id_company);
+
 
     // Calcular total del gasto
     $totalExpense = $totalExpenseDao->insertUpdateTotalExpense($id_company);
