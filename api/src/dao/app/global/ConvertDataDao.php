@@ -58,7 +58,6 @@ class ConvertDataDao
         $bonification = str_replace('.', '', $dataPayroll['bonification']);
         $extraTime = str_replace('.', '', $dataPayroll['extraTime']);
         $endowment = str_replace('.', '', $dataPayroll['endowment']);
-        $factor = str_replace('.', '', $dataPayroll['factor']);
         $factor = str_replace(',', '.', $dataPayroll['factor']);
 
         $transport == '' ? $transport = 0 : $transport;

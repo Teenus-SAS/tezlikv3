@@ -1,11 +1,14 @@
 <?php
 
+use tezlikv3\Dao\BenefitsDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\PayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\FactorBenefitDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\RisksDao;
 use tezlikv3\dao\ValueMinuteDao;
 
 $payrollDao = new PayrollDao();
@@ -15,6 +18,9 @@ $processDao = new GeneralProcessDao();
 $costWorkforceDao = new CostWorkforceDao();
 $priceProductDao = new PriceProductDao();
 $GeneralProductsDao = new GeneralProductsDao();
+$benefitsDao = new BenefitsDao();
+$risksDao = new RisksDao();
+$factorBenefitDao = new FactorBenefitDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -44,7 +50,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
         for ($i = 0; $i < sizeof($payroll); $i++) {
             if (
                 empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) || empty($payroll[$i]['workingDaysMonth']) ||
-                empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor'])/* || empty($payroll[$i]['factor'])*/
+                empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor']) || empty($payroll[$i]['benefit']) || empty($payroll[$i]['riskLevel'])
             ) {
                 $i = $i + 1;
                 $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
@@ -86,7 +92,10 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $processDao,
     $costWorkforceDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $GeneralProductsDao,
+    $benefitsDao,
+    $risksDao,
+    $factorBenefitDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -98,6 +107,12 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
         $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
+        // Calcular factor benefico
+        $dataBenefits = $benefitsDao->findAllBenefits();
+
+        $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
+
+        // Calcular Valor x minuto
         $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
         $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
@@ -112,18 +127,35 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
         $payroll = $dataPayroll['importPayroll'];
 
         for ($i = 0; $i < sizeof($payroll); $i++) {
+            empty($payroll[$i]['endowment']) ? $payroll[$i]['endowment'] = 0 : $payroll[$i]['endowment'];
+            empty($payroll[$i]['extraTime']) ? $payroll[$i]['extraTime'] = 0 : $payroll[$i]['extraTime'];
+            empty($payroll[$i]['bonification']) ? $payroll[$i]['bonification'] = 0 : $payroll[$i]['bonification'];
+            empty($payroll[$i]['factor']) ? $payroll[$i]['factor'] = 0 : $payroll[$i]['factor'];
+
+            $payroll[$i] = $convertDataDao->strReplacePayroll($payroll[$i]);
+
+            // Obtener Data Prestaciones
+            $dataBenefits = $benefitsDao->findAllBenefits();
+
+            // Obtener data segun el nivel de riesgo
+            $dataRisk = $risksDao->findRiskByName($payroll[$i]);
+            $payroll[$i]['valueRisk'] = $dataRisk['percentage'];
+            $payroll[$i]['risk'] = $dataRisk['id_risk'];
+
+            // Verificar salario
+            $payroll[$i]['benefit'] == 'SI' ? $payroll[$i]['salary'] = $payroll[$i]['basicSalary'] + $payroll[$i]['bonification'] :
+                $payroll[$i]['salary'] = $payroll[$i]['basicSalary'];
+
+            // Calcular Factor Prestacional
+            $payroll[$i] = $factorBenefitDao->calcFactorBenefit($dataBenefits, $payroll[$i]);
+
+            $payroll[$i] = $valueMinuteDao->calculateValueMinute($payroll[$i]);
+
             // Obtener idProceso
             $findProcess = $processDao->findProcess($payroll[$i], $id_company);
             $payroll[$i]['idProcess'] = $findProcess['id_process'];
 
             $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
-
-            empty($payroll[$i]['extraTime']) ? $payroll[$i]['extraTime'] = 0 : $payroll[$i]['extraTime'];
-            empty($payroll[$i]['bonification']) ? $payroll[$i]['bonification'] = 0 : $payroll[$i]['bonification'];
-
-            $payroll[$i] = $convertDataDao->strReplacePayroll($payroll[$i]);
-
-            $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
             if (!$findPayroll)
                 $resolution = $payrollDao->insertPayrollByCompany($payroll[$i], $id_company);
@@ -169,7 +201,9 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $valueMinuteDao,
     $costWorkforceDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $GeneralProductsDao,
+    $benefitsDao,
+    $factorBenefitDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -177,6 +211,12 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
     $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
+    // Calcular factor benefico
+    $dataBenefits = $benefitsDao->findAllBenefits();
+
+    $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
+
+    // Calcular Valor x Minuto
     $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
     $payroll = $payrollDao->updatePayroll($dataPayroll);

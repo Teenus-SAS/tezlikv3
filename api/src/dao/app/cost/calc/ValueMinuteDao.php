@@ -16,18 +16,6 @@ class ValueMinuteDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function calcFactorBenefit($dataPayroll)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
-
     public function calculateValueMinute($dataPayroll)
     {
         /* Calcular salario neto */

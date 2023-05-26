@@ -35,8 +35,10 @@ $(document).ready(function () {
             endowment: item.dotaciones,
             extraTime: item.horas_extras,
             bonification: item.otros_ingresos,
+            benefit: item.prestacional,
             workingHoursDay: item.horas_trabajo_x_dia,
             workingDaysMonth: item.dias_trabajo_x_mes,
+            riskLevel: item.tipo_riesgo,
             typeFactor: item.tipo_nomina,
             factor: item.factor,
           };

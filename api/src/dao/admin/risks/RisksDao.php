@@ -27,6 +27,17 @@ class RisksDao
         return $risks;
     }
 
+    public function findRiskByName($dataRisk)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM risks WHERE risk_level = :risk_level");
+        $stmt->execute(['risk_level' => $dataRisk['riskLevel']]);
+
+        $risk = $stmt->fetch($connection::FETCH_ASSOC);
+        return $risk;
+    }
+
     public function updateRisk($dataRisk)
     {
         try {
