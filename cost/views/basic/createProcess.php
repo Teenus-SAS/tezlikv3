@@ -49,7 +49,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Procesos</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Creación de Procesos</li>
+                                        <li class="breadcrumb-item active">Ingrese cada uno de los proceso que sus productos recorren para ser fabricados</li>
                                     </ol>
                                 </div>
                             </div>

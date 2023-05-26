@@ -123,7 +123,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <select id="typeFactor" name="typeFactor" type="number" class="form-control">
+                                                <select id="typeFactor" name="typeFactor" type="number" class="form-control" data-toggle="tooltip" title="Seleccione el tipo de contrato para su colaborador, la plataforma calculara automaticamente las prestaciones sociales">
                                                     <option selected disabled value="0">Seleccionar</option>
                                                     <option value="1">Nómina</option>
                                                     <option value="2">Servicios</option>

@@ -49,7 +49,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Productos</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Asignación de procesos al producto</li>
+                                        <li class="breadcrumb-item active">Ingrese los tiempos para la fabricacion de sus productos de acuerdo con sus procesos, máquinas o proceso manual necesario</li>
                                     </ol>
                                 </div>
                             </div>
