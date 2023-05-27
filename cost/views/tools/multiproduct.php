@@ -85,7 +85,7 @@ if (sizeof($_SESSION) == 0)
                                                 <button type="text" class="btn btn-success" id="btnImportMultiproducts">Importar</button>
                                             </div>
                                             <div class="col-xs-2" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsMultiproducts">Descarga Formato</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadMultiproducts">Descarga Multiproductos</button>
                                             </div>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <table class="table table-striped text-center">
+                                        <table class="table table-striped text-center" id="tblBreakeven">
                                             <thead>
                                                 <tr>
                                                     <th>Gastos</th>
@@ -141,10 +141,10 @@ if (sizeof($_SESSION) == 0)
                                                         <th style="width: 350px">Producto</th>
                                                         <th>No Unidades Vendidas</th>
                                                         <th style="width: 150px;">Precio</th>
-                                                        <th style="width: 150px;">Costo Variable</th>
+                                                        <!-- <th style="width: 150px;">Costo Variable</th> -->
                                                         <th style="width: 150px;">Participacion</th>
                                                         <th>Margen De Contribucion</th>
-                                                        <th>Promedio Ponderado</th>
+                                                        <!-- <th>Promedio Ponderado</th> -->
                                                         <th>Unidades A Vender</th>
                                                     </tr>
                                                 </thead>
@@ -153,11 +153,11 @@ if (sizeof($_SESSION) == 0)
                                                     <tr>
                                                         <td>Total:</td>
                                                         <td id="totalSoldsUnits"></td>
-                                                        <td></td>
+                                                        <!-- <td></td> -->
                                                         <td></td>
                                                         <td id="totalParticipation"></td>
                                                         <td></td>
-                                                        <td id="totalAverages"></td>
+                                                        <!-- <td id="totalAverages"></td> -->
                                                         <td id="totalSumUnits"></td>
                                                     </tr>
                                                 </tfoot>

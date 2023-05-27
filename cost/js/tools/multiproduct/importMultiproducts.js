@@ -130,20 +130,19 @@ $(document).ready(function () {
   });
 
   /* Descargar formato XLSX */
-  $('#btnDownloadImportsMultiproducts').click(function (e) {
+  $('#btnDownloadMultiproducts').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Multiproductos.xlsx';
+    let tblBreakeven = document.getElementById('tblBreakeven');
+    let tblMultiproducts = document.getElementById('tblMultiproducts');
 
-    let link = document.createElement('a');
+    let wb = XLSX.utils.book_new();
 
-    link.target = '_blank';
+    let ws = XLSX.utils.table_to_sheet(tblBreakeven);
+    XLSX.utils.book_append_sheet(wb, ws, 'Punto de Equilibrio');
+    ws = XLSX.utils.table_to_sheet(tblMultiproducts);
+    XLSX.utils.book_append_sheet(wb, ws, 'Multiproductos');
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
-
-    document.body.removeChild(link);
-    delete link;
+    XLSX.writeFile(wb, 'Multiproductos.xlsx');
   });
 });

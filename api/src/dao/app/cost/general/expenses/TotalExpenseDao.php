@@ -44,7 +44,7 @@ class TotalExpenseDao
         /* hallar valor total de los gastos */
 
         $stmt = $connection->prepare("SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
-                                  FROM expenses WHERE id_company = :id_company;");
+                                      FROM expenses WHERE id_company = :id_company;");
         $stmt->execute(['id_company' => $id_company]);
         $total_expense = $stmt->fetch($connection::FETCH_ASSOC);
 

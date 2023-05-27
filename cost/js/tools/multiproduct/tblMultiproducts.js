@@ -44,16 +44,10 @@ $(document).ready(function () {
             maximumFractionDigits: 0,
           }
         )}</td>
-          <td id="variable-${i}">$ ${multiproducts[
-          i
-        ].variable_cost.toLocaleString('es-CO', {
-          maximumFractionDigits: 0,
-        })}</td>
           <td id="part-${i}" class="row-${i} general"></td>
           <td id="cont-${i}">$ ${marginContribution.toLocaleString('es-CO', {
           maximumFractionDigits: 0,
         })}</td>
-          <td id="aver-${i}" class="row-${i} general"></td>
           <td id="unitTo-${i}" class="row-${i} general"></td>
         </tr>`
       );
@@ -72,11 +66,11 @@ $(document).ready(function () {
         if (multiproducts[i].id_product == value.id_product) {
           repeat = true;
 
-          if (value.units_sold > 0) {
-            $(`#soldUnit-${i}`).val(value.units_sold);
-            row = i;
-            multiproducts[i].soldUnit = value.units_sold;
-          }
+          // if (value.units_sold > 0) {
+          $(`#soldUnit-${i}`).val(value.units_sold);
+          row = i;
+          multiproducts[i].soldUnit = value.units_sold;
+          // }
         }
       }
     });

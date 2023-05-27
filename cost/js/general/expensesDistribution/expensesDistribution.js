@@ -78,9 +78,9 @@ $(document).ready(function () {
 
     $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
     $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));
-    $('#expensesToDistribution').val(
-      data.assignable_expense.toLocaleString('es-CO')
-    );
+    // $('#expensesToDistribution').val(
+    //   data.assignable_expense.toLocaleString('es-CO')
+    // );
 
     $('html, body').animate(
       {

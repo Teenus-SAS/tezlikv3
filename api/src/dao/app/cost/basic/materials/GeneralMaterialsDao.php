@@ -41,9 +41,8 @@ class GeneralMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT id_material FROM materials 
-                                    WHERE reference = :reference 
-                                    AND material = :material 
-                                    AND id_company = :id_company");
+                                        WHERE (reference = :reference OR material = :material) 
+                                        AND id_company = :id_company");
         $stmt->execute([
             'reference' => trim($dataMaterial['refRawMaterial']),
             'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),

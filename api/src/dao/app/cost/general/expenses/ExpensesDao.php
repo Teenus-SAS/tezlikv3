@@ -26,7 +26,7 @@ class ExpensesDao
                                          e.id_expense, e.id_puc, p.number_count, p.count, e.participation, e.expense_value 
                                   FROM expenses e 
                                   INNER JOIN puc p ON e.id_puc = p.id_puc 
-                                  WHERE e.id_company = :id_company AND (p.number_count LIKE '51%' OR p.number_count LIKE '52%' OR p.number_count LIKE '53%')
+                                  WHERE e.id_company = :id_company 
                                   ORDER BY CAST(SUBSTRING(p.number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 5) AS UNSIGNED)");
     $stmt->execute(['id_company' => $id_company]);
 
