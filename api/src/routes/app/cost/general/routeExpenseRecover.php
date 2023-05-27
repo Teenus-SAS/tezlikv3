@@ -141,6 +141,8 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
     $priceProductDao,
     $generalProductsDao
 ) {
+    session_start();
+
     $dataExpense = $request->getParsedBody();
 
     $dataExpenses = sizeof($dataExpense);
@@ -194,6 +196,8 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
     $priceProductDao,
     $generalProductsDao
 ) {
+    session_start();
+
     $dataExpense = $request->getParsedBody();
 
     $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);
