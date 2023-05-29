@@ -156,6 +156,7 @@ $(document).ready(function () {
     dataUser['price'] = 1;
     dataUser['priceUSD'] = 1;
     dataUser['analysisMaterial'] = 1;
+    dataUser['simulator'] = 1;
     dataUser['economyScale'] = 1;
     dataUser['multiproduct'] = 1;
     dataUser['quote'] = 1;
