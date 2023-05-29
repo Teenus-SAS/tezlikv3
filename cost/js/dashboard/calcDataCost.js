@@ -15,10 +15,11 @@ $(document).ready(function () {
     }
 
     pPrice = costTotal / (1 - data.profitability / 100);
+    price = pPrice / (1 - data.commission_sale / 100);
 
     costProfitability = pPrice * (data.profitability / 100);
 
-    costCommissionSale = data.price * (data.commission_sale / 100);
+    costCommissionSale = price * (data.commission_sale / 100);
 
     dataCost = {
       cost: cost,
@@ -26,6 +27,7 @@ $(document).ready(function () {
       costCommissionSale: costCommissionSale,
       costProfitability: costProfitability,
       expense: expense,
+      price: price,
     };
 
     return dataCost;

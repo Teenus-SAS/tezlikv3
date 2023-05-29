@@ -1,16 +1,18 @@
 <?php
 
+use tezlikv3\dao\AssignableExpenseDao;
 use tezlikv3\dao\DashboardProductsDao;
+use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
-use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\SimulatorDao;
 
 $dashboardProductsDao = new DashboardProductsDao();
 $simulatorDao = new SimulatorDao();
 $externalServicesDao = new ExternalServicesDao();
-$expensesDistributionDao = new GeneralExpenseDistributionDao();
+$expensesDistributionDao = new ExpensesDistributionDao();
 $expenseRecoverDao = new GeneralExpenseRecoverDao();
+$assignableExpenseDao = new AssignableExpenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -21,6 +23,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     $dashboardProductsDao,
     $expenseRecoverDao,
     $expensesDistributionDao,
+    $assignableExpenseDao,
     $externalServicesDao,
     $simulatorDao
 ) {
@@ -41,8 +44,12 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     $payroll = $simulatorDao->findAllPayrollByProduct($args['id_product'], $id_company);
 
     if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) {
-        $expensesDistribution = $expensesDistributionDao->findExpenseDistributionByIdProduct($args['id_product']);
+        $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+        $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company);
+        // $expensesDistributionByIdProduct = $expensesDistributionDao->findExpenseDistributionByIdProduct($args['id_product']);
         $data['expensesDistribution'] = $expensesDistribution;
+        // $data['expensesDistributionByIdProduct'] = $expensesDistributionByIdProduct;
+        $data['totalExpense'] = $totalExpense['total_expense'];
     } else {
         $expenseRecover = $expenseRecoverDao->findExpenseRecoverByIdProduct($args['id_product']);
         $data['expenseRecover'] = $expenseRecover;

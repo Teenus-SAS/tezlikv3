@@ -1,7 +1,7 @@
 $(document).ready(function () {
   /* Productos */
   loadTblSimulatorProducts = (data) => {
-    tblSimulatorProducts = $('#tblSimulatorProducts').DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -36,18 +36,18 @@ $(document).ready(function () {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Producto:</td>
-                <td>${d.product}</td>
+                <td style="width:400px">${d.product}</td>
             </tr>
             <tr>
                 <th>Comision:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.commission_sale}">
+                  <input type="number" class="text-center form-control inputSimulator 0" id="commission_sale" value="${d.commission_sale}">
                 </td>
             </tr>
             <tr>
                 <th>Rentabilidad:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.profitability}">
+                  <input type="number" class="text-center form-control inputSimulator 0" id="profitability" value="${d.profitability}">
                 </td>
             </tr>
         </table>`;
@@ -55,7 +55,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.products', function () {
     var tr = $(this).closest('tr');
-    var row = tblSimulatorProducts.row(tr);
+    var row = tblSimulator.row(tr);
 
     if (row.child.isShown()) {
       // This row is already open - close it
@@ -70,7 +70,8 @@ $(document).ready(function () {
 
   /* Maquinas */
   loadTblSimulatorMachines = (data) => {
-    tblSimulatorMachines = $('#tblSimulatorMachines').DataTable({
+    data = data.filter((item) => item.machine !== 'PROCESO MANUAL');
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -96,7 +97,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="form-control text-center" value="${data.cost_machine}">`;
+            return `<input type="number" class="form-control text-center inputSimulator id_machine ${data.id_machine}" id="cost_machine" value="${data.cost_machine}">`;
           },
         },
       ],
@@ -107,26 +108,26 @@ $(document).ready(function () {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Valor Residual:</td>
-                <td>
-                  <input type="number" class="form-control text-center" value="${d.residual_value}"
+                <td style="width:400px">
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${d.id_machine}" id="residual_value" value="${d.residual_value}"
                 </td>
             </tr>
             <tr>
                 <th>Años Depreciacion:</th>
                 <td>
-                  <input type="number" class="form-control text-center number" value="${d.years_depreciation}"
+                  <input type="number" class="form-control text-center number inputSimulator id_machine ${d.id_machine}" id="years_depreciation" value="${d.years_depreciation}"
                 </td>
             </tr>
             <tr>
                 <th>Horas de Trabajo:</th>
                 <td>
-                  <input type="number" class="form-control text-center number" value="${d.hours_machine}"
+                  <input type="number" class="form-control text-center number inputSimulator id_machine ${d.id_machine}" id="hours_machine" value="${d.hours_machine}"
                 </td>
             </tr>
             <tr>
                 <th>Dias de Trabajo:</th>
                 <td>
-                  <input type="number" class="form-control text-center number" value="${d.days_machine}"
+                  <input type="number" class="form-control text-center number inputSimulator id_machine ${d.id_machine}" id="days_machine" value="${d.days_machine}"
                 </td>
             </tr>
         </table>`;
@@ -134,7 +135,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.machines', function () {
     var tr = $(this).closest('tr');
-    var row = tblSimulatorMachines.row(tr);
+    var row = tblSimulator.row(tr);
 
     if (row.child.isShown()) {
       // This row is already open - close it
@@ -149,7 +150,7 @@ $(document).ready(function () {
 
   /* Materia Prima */
   loadTblSimulatorMaterials = (data) => {
-    tblSimulatorMaterials = $('#tblSimulatorMaterials').DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -175,7 +176,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="form-control text-center" value="${data.cost_material}">`;
+            return `<input type="number" class="form-control text-center inputSimulator id_material ${data.id_material}" id="cost_material" value="${data.cost_material}">`;
           },
         },
       ],
@@ -186,7 +187,7 @@ $(document).ready(function () {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Material:</td>
-                <td>${d.material}</td>
+                <td style="width:400px">${d.material}</td>
             </tr>
             <tr>
                 <th>Unidad:</th>
@@ -197,7 +198,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.materials', function () {
     var tr = $(this).closest('tr');
-    var row = tblSimulatorMaterials.row(tr);
+    var row = tblSimulator.row(tr);
 
     if (row.child.isShown()) {
       // This row is already open - close it
@@ -212,9 +213,7 @@ $(document).ready(function () {
 
   /* Ficha Tecnica Materiales */
   loadTblSimulatorProductsMaterials = (data) => {
-    tblSimulatorProductsMaterials = $(
-      '#tblSimulatorProductsMaterials'
-    ).DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -249,7 +248,7 @@ $(document).ready(function () {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Material:</td>
-                <td>${d.material}</td>
+                <td style="width:400px">${d.material}</td>
             </tr>
             <tr>
                 <th>Unidad:</th>
@@ -258,7 +257,7 @@ $(document).ready(function () {
             <tr>
                 <th>Cantidad:</th>
                 <td>
-                  <input type="number" class="form-control text-center" value="${d.quantity}">
+                  <input type="number" class="form-control text-center inputSimulator id_product_material ${d.id_product_material}" id="quantity" value="${d.quantity}">
                 </td>
             </tr> 
         </table>`;
@@ -266,7 +265,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.products_materials', function () {
     var tr = $(this).closest('tr');
-    var row = tblSimulatorProductsMaterials.row(tr);
+    var row = tblSimulator.row(tr);
 
     if (row.child.isShown()) {
       // This row is already open - close it
@@ -281,7 +280,7 @@ $(document).ready(function () {
 
   /* Ficha Tecnica Procesos */
   loadTblSimulatorProductsProcess = (data) => {
-    tblSimulatorProductsProcess = $('#tblSimulatorProductsProcess').DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -315,14 +314,14 @@ $(document).ready(function () {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Tiempo de Enlistamiento:</th>
-                <td>
-                  <input type="number" class="form-control text-center" value="${d.enlistment_time}">
+                <td style="width:400px">
+                  <input type="number" class="form-control text-center inputSimulator id_product_process ${d.id_product_process}" id="enlistment_time" value="${d.enlistment_time}">
                 </td>
             </tr> 
             <tr>
                 <th>Tiempo de Operacion:</th>
                 <td>
-                  <input type="number" class="form-control text-center" value="${d.operation_time}">
+                  <input type="number" class="form-control text-center inputSimulator id_product_process ${d.id_product_process}" id="operation_time" value="${d.operation_time}">
                 </td>
             </tr> 
         </table>`;
@@ -330,7 +329,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.products_process', function () {
     var tr = $(this).closest('tr');
-    var row = tblSimulatorProductsProcess.row(tr);
+    var row = tblSimulator.row(tr);
 
     if (row.child.isShown()) {
       // This row is already open - close it
@@ -345,7 +344,7 @@ $(document).ready(function () {
 
   /* Carga Fabril */
   loadTblSimulatorFactoryLoad = (data) => {
-    tblSimulatorFactoryLoad = $('#tblSimulatorFactoryLoad').DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -371,7 +370,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="text-center form-control" value="${data.cost}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_manufacturing_load ${data.id_manufacturing_load}" id="cost" value="${data.cost}">`;
           },
         },
       ],
@@ -382,7 +381,7 @@ $(document).ready(function () {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Descripcion:</th>
-                <td>
+                <td style="width:400px">
                   ${d.input}
                 </td>
             </tr>
@@ -391,7 +390,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.factory_load', function () {
     var tr = $(this).closest('tr');
-    var row = tblSimulatorFactoryLoad.row(tr);
+    var row = tblSimulator.row(tr);
 
     if (row.child.isShown()) {
       // This row is already open - close it
@@ -406,7 +405,7 @@ $(document).ready(function () {
 
   /* Servicios Externos */
   loadTblSimulatorExternalServices = (data) => {
-    tblSimulatorServices = $('#tblSimulatorServices').DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -432,7 +431,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="text-center form-control" value="${data.cost}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_service ${data.id_service}" id="cost" value="${data.cost}">`;
           },
         },
       ],
@@ -441,7 +440,7 @@ $(document).ready(function () {
 
   /* Nomina */
   loadTblSimulatorPayroll = (data) => {
-    tblSimulatorPayroll = $('#tblSimulatorPayroll').DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -467,7 +466,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="text-center form-control" value="${data.salary}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_payroll ${data.id_payroll}" id="salary" value="${data.salary}">`;
           },
         },
       ],
@@ -493,59 +492,59 @@ $(document).ready(function () {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Proceso:</th>
-                <td>
+                <td style="width:400px">
                   ${d.process}
                 </td>
             </tr>
             <tr>
                 <th>Transporte:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.transport}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="transport" value="${d.transport}">
                 </td>
             </tr>
             <tr>
                 <th>Dotaciones:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.endowment}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="endowment" value="${d.endowment}">
                 </td>
             </tr>
             <tr>
                 <th>Horas Extras:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.extra_time}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="extra_time" value="${d.extra_time}">
                 </td>
             </tr>
             <tr>
                 <th>Otros Ingresos:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.bonification}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="bonification" value="${d.bonification}">
                 </td>
             </tr>
             <tr>
                 <th>Horas Trabajo x Día:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.hours_day}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="hours_day" value="${d.hours_day}">
                 </td>
             </tr>
             <tr>
                 <th>Dias Trabajo x Mes:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.working_days_month}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="working_days_month" value="${d.working_days_month}">
                 </td>
             </tr>
             <tr>
                 <th>Tipo Nómina:</th>
                 <td>
-                  <select id="typeFactor" name="typeFactor" type="number" class="form-control">
+                  <selec id="typeFactor" name="typeFactor" type="number" class="form-control ${d.id_payroll}">
                     <option disabled value="0">Seleccionar</option>
                     ${options}
-                  </select>
+                  </selec>
                 </td>
             </tr>
             <tr>
                 <th>Factor:</th>
                 <td>
-                  <input type="number" class="text-center form-control" value="${d.factor_benefit}">
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="factor_benefit" value="${d.factor_benefit}">
                 </td>
             </tr>
         </table>`;
@@ -553,7 +552,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.payroll', function () {
     var tr = $(this).closest('tr');
-    var row = tblSimulatorPayroll.row(tr);
+    var row = tblSimulator.row(tr);
 
     if (row.child.isShown()) {
       // This row is already open - close it
@@ -568,47 +567,45 @@ $(document).ready(function () {
 
   /* Distribucion de Gastos */
   loadTblSimulatorDistribution = (data) => {
-    tblSimulatorDistribution = $('#tblSimulatorExpensesDistribution').DataTable(
-      {
-        destroy: true,
-        scrollY: '150px',
-        scrollCollapse: true,
-        paging: false,
-        data: data,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+    tblSimulator = $('#tblSimulator').DataTable({
+      destroy: true,
+      scrollY: '150px',
+      scrollCollapse: true,
+      paging: false,
+      data: data,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      columns: [
+        {
+          className: 'dt-control',
+          orderable: false,
+          data: null,
+          defaultContent: '',
         },
-        columns: [
-          {
-            className: 'dt-control',
-            orderable: false,
-            data: null,
-            defaultContent: '',
+        {
+          title: 'Unidades Vendidas',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
           },
-          {
-            title: 'Unidades Vendidas',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data) {
-              return `<input type="number" class="text-center form-control" value="${data.units_sold}">`;
-            },
+        },
+        {
+          title: 'Vol de Ventas',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
           },
-          {
-            title: 'Vol de Ventas',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data) {
-              return `<input type="number" class="text-center form-control" value="${data.turnover}">`;
-            },
-          },
-        ],
-      }
-    );
+        },
+      ],
+    });
   };
 
   /* Recuperacion de Gastos */
   loadTblSimulatorRecover = (data) => {
-    tblSimulatorExpensesRecover = $('#tblSimulatorExpensesRecover').DataTable({
+    tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
       scrollCollapse: true,
@@ -629,7 +626,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="text-center form-control" value="${data.expense_recover}">`;
+            return `<input type="number" class="text-center form-control inputSimulator 0" id="expense_recover" value="${data.expense_recover}">`;
           },
         },
       ],

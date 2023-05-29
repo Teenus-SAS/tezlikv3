@@ -21,7 +21,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/expensesDistribution', function (Request $request, Response $response, $args) use ($expensesDistributionDao) {
-    $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany();
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company);
     $response->getBody()->write(json_encode($expensesDistribution, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });

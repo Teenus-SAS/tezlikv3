@@ -16,10 +16,8 @@ class ExpensesDistributionDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllExpensesDistributionByCompany()
+    public function findAllExpensesDistributionByCompany($id_company)
     {
-        session_start();
-        $id_company = $_SESSION['id_company'];
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT me.id_expenses_distribution, p.id_product, p.reference, p.product, me.units_sold, me.turnover, me.assignable_expense 
                                       FROM expenses_distribution me

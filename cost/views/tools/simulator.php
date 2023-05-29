@@ -223,9 +223,9 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media-body">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">M.P</span>
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="percentRawMaterial" style="font-style: initial;"></i>
+                                                        <i class="sim-2 percentRawMaterial" id="percentRawMaterial-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 costProduct rawMaterial"></p>
+                                                    <p class="mb-0 mt-1 sim-2 costProduct" id="rawMaterial-2"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -238,9 +238,9 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media-body">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">M.O</span>
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="percentWorkforce" style="font-style: initial;"></i>
+                                                        <i class="sim-2 percentWorkforce" id="percentWorkforce-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 workforce"></p>
+                                                    <p class="mb-0 mt-1 sim-2 workforce" id="workforce-2"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -253,9 +253,9 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media-body">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">C.I</span>
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="percentIndirectCost" style="font-style: initial;"></i>
+                                                        <i class="sim-2 percentIndirectCost" id="percentIndirectCost-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 number indirectCost"></p>
+                                                    <p class="mb-0 mt-1 number sim-2 indirectCost" id="indirectCost-2"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -268,9 +268,9 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media-body">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gtos</span>
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="percentAssignableExpenses" style="font-style: initial;"></i>
+                                                        <i class="sim-2 percentAssignableExpenses" id="percentAssignableExpenses-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 number assignableExpenses"></p>
+                                                    <p class="mb-0 mt-1 number sim-2 assignableExpenses" id="assignableExpenses-2"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -291,25 +291,25 @@ if (sizeof($_SESSION) == 0)
                                                         <div class="media-body">
                                                             <div style="display: grid;grid-template-columns:1fr 110px">
                                                                 <p class="mb-2" style="color:green">Precio de Venta</p>
-                                                                <h6 class="mb-0 pl-3 text-right salesPrice"></h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 salesPrice" id="salesPrice-2"></h6>
                                                                 <p class="mb-2" style="color:darkcyan">Total Costos</p>
-                                                                <h6 class="mb-0 pl-3 text-right costTotal"></h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 costTotal" id="costTotal-2"></h6>
                                                                 <p class="mb-2" style="color:darkcyan">Costos</p>
-                                                                <h6 class="mb-0 pl-3 text-right cost"></h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 cost" id="cost-2"></h6>
                                                                 <p class="text-muted mb-2 pl-3">Materia Prima</p>
-                                                                <h6 class="mb-0 pl-3 text-right payRawMaterial"></h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 payRawMaterial" id="payRawMaterial-2"></h6>
                                                                 <p class="text-muted mb-2 pl-3">Mano de Obra</p>
-                                                                <h6 class="mb-0 pl-3 text-right payWorkforce">$</h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 payWorkforce" id="payWorkforce-2">$</h6>
                                                                 <p class="text-muted mb-2 pl-3">Costos Indirectos</p>
-                                                                <h6 class="mb-0 pl-3 text-right  payIndirectCost">$</h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 payIndirectCost" id="payIndirectCost-2">$</h6>
                                                                 <p class="text-muted mb-2 pl-3">Servicios Externos</p>
-                                                                <h6 class="mb-0 pl-3 text-right  services">$</h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 services" id="services-2">$</h6>
                                                                 <p class="mb-2" style="color:darkcyan expenses">Gastos</p>
-                                                                <h6 class="mb-0 pl-3 text-right payAssignableExpenses"></h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 payAssignableExpenses" id="payAssignableExpenses-2"></h6>
                                                                 <p class="mb-2" style="color:darkcyan commission">Comisión Vta</p>
-                                                                <h6 class="mb-0 pl-3 text-right commisionSale"></h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 commisionSale" id="commisionSale-2"></h6>
                                                                 <p class="mb-2" style="color:darkcyan profit">Rentabilidad</p>
-                                                                <h6 class="mb-0 pl-3 text-right profitability"></h6>
+                                                                <h6 class="mb-0 pl-3 text-right sim-2 profitability" id="profitability-2"></h6>
                                                             </div>
                                                         </div>
                                                     </div>
