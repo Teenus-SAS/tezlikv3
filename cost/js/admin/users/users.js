@@ -108,6 +108,7 @@ $(document).ready(function () {
       analysisMaterials: data.analysis_material,
       economyScale: data.economy_scale,
       multiproduct: data.multiproduct,
+      simulator: data.simulator,
       quotes: data.quote,
       support: data.support,
     };
@@ -176,6 +177,7 @@ $(document).ready(function () {
       analysisMaterial: 0,
       economyScale: 0,
       multiproduct: 0,
+      simulator: 0,
       quote: 0,
       support: 0,
     };

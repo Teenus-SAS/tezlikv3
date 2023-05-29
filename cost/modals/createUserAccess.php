@@ -171,18 +171,22 @@
                                                         <input id="checkbox-21" name="multiproduct" type="checkbox">
                                                         <label for="checkbox-21">Pto De Equilibrio Multiproducto</label>
                                                         </div>
+                                                        <div class="checkbox checkbox-success checkbox-circle">
+                                                            <input id="checkbox-22" name="simulator" type="checkbox">
+                                                            <label for="checkbox-22">Simulador</label>
+                                                        </div>
                                                     </div>
 
                                                     <div class="mt-4 col-sm-3">
                                                         <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-22" name="quotes" type="checkbox">
-                                                            <label for="checkbox-22">Cotización</label>
+                                                            <input id="checkbox-23" name="quotes" type="checkbox">
+                                                            <label for="checkbox-23">Cotización</label>
                                                         </div>
                                                     </div>
                                                     <div class="mt-4 col-sm-3">
                                                         <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-23" name="tools" type="checkbox">
-                                                            <label for="checkbox-23">Soporte</label>
+                                                            <input id="checkbox-24" name="tools" type="checkbox">
+                                                            <label for="checkbox-24">Soporte</label>
                                                         </div>
                                                     </div>
                                             </div>

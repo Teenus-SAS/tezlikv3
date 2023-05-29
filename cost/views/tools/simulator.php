@@ -341,6 +341,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/tools/simulator/loadSimulators.js"></script>
     <script src="/cost/js/tools/simulator/generalSimulator.js"></script>
     <script src="/cost/js/tools/simulator/tblSimulator.js"></script>
+    <script src="/cost/js/tools/simulator/saveSimulator.js"></script>
 </body>
 
 </html>

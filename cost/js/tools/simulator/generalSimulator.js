@@ -84,8 +84,4 @@ $(document).ready(function () {
       }
     }, 1000);
   });
-
-  $('#btnSaveSimulator').click(function (e) {
-    e.preventDefault();
-  });
 });
