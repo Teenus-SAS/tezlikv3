@@ -71,13 +71,11 @@
                                         <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
                                     </a>
                                 <?php } ?>
-                                <?php // if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { 
-                                ?>
-                                <!-- <a class="dropdown-item" href="/cost/simulator">
-                                    <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
-                                </a> -->
-                                <?php //} 
-                                ?>
+                                <?php if ($_SESSION['simulator'] == 1 && $_SESSION['plan_cost_simulator'] == 1) { ?>
+                                    <a class="dropdown-item" href="/cost/simulator">
+                                        <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
+                                    </a>
+                                <?php } ?>
                             </ul>
                         </li>
                     <?php } ?>
