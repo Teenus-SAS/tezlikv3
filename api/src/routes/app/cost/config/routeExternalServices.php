@@ -14,7 +14,10 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/externalservices/{id_product}', function (Request $request, Response $response, $args) use ($externalServicesDao) {
-    $externalServices = $externalServicesDao->findAllExternalServicesByIdProduct($args['id_product']);
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $externalServices = $externalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
     $response->getBody()->write(json_encode($externalServices, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
