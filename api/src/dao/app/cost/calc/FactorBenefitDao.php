@@ -33,7 +33,7 @@ class FactorBenefitDao
 
                         if ($dataBenefits[$i]['id_benefit'] == '1' || $dataBenefits[$i]['id_benefit'] == '3') {
                             $valueBenefit = ($dataPayroll['salary'] + $dataPayroll['extraTime']) * $benefitPercentage;
-                        } else if ($dataBenefits[$i]['id_benefit'] == '2' && $dataPayroll['salary'] > 1160000 * 10) {
+                        } else if ($dataBenefits[$i]['id_benefit'] == '2' && $dataPayroll['basicSalary'] > 1160000 * 10) {
                             $valueBenefit = ($dataPayroll['salary'] + $dataPayroll['extraTime']) * $benefitPercentage;
                         } else if ($dataBenefits[$i]['id_benefit'] == '4' || $dataBenefits[$i]['id_benefit'] == '5') {
                             $valueBenefit = ($dataPayroll['salary'] + $dataPayroll['extraTime'] + $dataPayroll['transport']) * $benefitPercentage;

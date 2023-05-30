@@ -71,6 +71,10 @@ $(document).ready(function () {
   /* Maquinas */
   loadTblSimulatorMachines = (data) => {
     data = data.filter((item) => item.machine !== 'PROCESO MANUAL');
+    data = data.filter(
+      (obj, index, self) =>
+        index === self.findIndex((o) => o.id_machine === obj.id_machine)
+    );
     tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
@@ -416,10 +420,12 @@ $(document).ready(function () {
       },
       columns: [
         {
-          className: 'dt-control external_services',
-          orderable: false,
+          title: 'No.',
           data: null,
-          defaultContent: '',
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) {
+            return meta.row + 1;
+          },
         },
         {
           title: 'Servicio',
@@ -459,14 +465,14 @@ $(document).ready(function () {
         {
           title: 'Empleado',
           data: 'employee',
-          className: 'uniqueClassName',
+          className: 'uniqueClassName payroll',
         },
         {
           title: 'Salario',
           data: null,
-          className: 'uniqueClassName',
+          className: 'uniqueClassName payroll',
           render: function (data) {
-            return `<input type="number" class="text-center form-control inputSimulator id_payroll ${data.id_payroll}" id="salary" value="${data.salary}">`;
+            return `<input type="number" class="text-center form-control inputSimulator basicSalary id_payroll ${data.id_payroll}" id="salary" value="${data.salary}">`;
           },
         },
       ],
@@ -474,20 +480,29 @@ $(document).ready(function () {
   };
 
   function formatPayroll(d) {
-    let options;
-    if (d.type_contract == 'Nomina') {
-      options = `<option selected value="1">Nómina</option>
-                 <option value="2">Servicios</option>
-                 <option value="3">Calculo Manual</option>`;
-    } else if (d.type_contract == 'Servicios') {
-      options = `<option value="1">Nómina</option>
-                 <option selected value="2">Servicios</option>
-                 <option value="3">Calculo Manual</option>`;
-    } else if (d.type_contract == 'Manual') {
-      options = `<option value="1">Nómina</option>
-                 <option value="2">Servicios</option>
-                 <option selected value="3">Calculo Manual</option>`;
-    }
+    let optionsRisk = `
+      <option value="1" ${d.id_risk == '1' ? 'selected' : ''}>CLASE I</option>
+      <option value="2" ${d.id_risk == '2' ? 'selected' : ''}>CLASE II</option>
+      <option value="3" ${d.id_risk == '3' ? 'selected' : ''}>CLASE III</option>
+      <option value="4" ${d.id_risk == '4' ? 'selected' : ''}>CLASE IV</option>
+      <option value="5" ${d.id_risk == '5' ? 'selected' : ''}>CLASE V</option>
+      <option value="6" ${d.id_risk == '6' ? 'selected' : ''}>CLASE VI</option>
+    `;
+
+    let optionsFactor = `
+    <option value="1" ${
+      d.type_contract === 'Nomina' ? 'selected' : ''
+    }>Nómina</option>
+    <option value="2" ${
+      d.type_contract === 'Servicios' ? 'selected' : ''
+    }>Servicios</option>
+    <option value="3" ${
+      d.type_contract === 'Manual' ? 'selected' : ''
+    }>Cálculo Manual</option>
+    `;
+
+    sessionStorage.setItem('percentage', d.percentage);
+    sessionStorage.setItem('salary', d.salary);
 
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
@@ -523,28 +538,43 @@ $(document).ready(function () {
             <tr>
                 <th>Horas Trabajo x Día:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="hours_day" value="${d.hours_day}">
+                  <input type="number" class="text-center form-control inputSimulator workingHoursDay id_payroll ${d.id_payroll}" id="hours_day" value="${d.hours_day}">
                 </td>
             </tr>
             <tr>
                 <th>Dias Trabajo x Mes:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="working_days_month" value="${d.working_days_month}">
+                  <input type="number" class="text-center form-control inputSimulator workingDaysMonth id_payroll ${d.id_payroll}" id="working_days_month" value="${d.working_days_month}">
                 </td>
+            </tr>
+            <tr>
+              <th>Riesgo:</th>
+              <td>
+                <select id="risk" name="risk" class="form-control ${d.id_payroll}">
+                  <option disabled value="0">Seleccionar</option>
+                  ${optionsRisk}
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <th></th>
+              <td>
+                <input type="text" class="form-control text-center inputSimulator valueRisk id_payroll ${d.id_payroll}" value="${d.percentage}" id="percentage" readonly>
+              </td>
             </tr>
             <tr>
                 <th>Tipo Nómina:</th>
                 <td>
-                  <selec id="typeFactor" name="typeFactor" type="number" class="form-control ${d.id_payroll}">
+                  <select class="form-control inputSimulator typeFactor id_payroll ${d.id_payroll}" id="type_contract">
                     <option disabled value="0">Seleccionar</option>
-                    ${options}
-                  </selec>
+                    ${optionsFactor}
+                  </select>
                 </td>
             </tr>
             <tr>
                 <th>Factor:</th>
                 <td>
-                  <input type="number" class="text-center form-control inputSimulator id_payroll ${d.id_payroll}" id="factor_benefit" value="${d.factor_benefit}">
+                  <input type="number" class="text-center form-control inputSimulator factor id_payroll ${d.id_payroll}" id="factor_benefit">
                 </td>
             </tr>
         </table>`;
@@ -562,6 +592,8 @@ $(document).ready(function () {
       // Open this row
       row.child(formatPayroll(row.data())).show();
       tr.addClass('shown');
+      $('.typeFactor').change();
+      sessionStorage.removeItem('type_salary');
     }
   });
 
@@ -578,17 +610,19 @@ $(document).ready(function () {
       },
       columns: [
         {
-          className: 'dt-control',
-          orderable: false,
+          title: 'No.',
           data: null,
-          defaultContent: '',
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) {
+            return meta.row + 1;
+          },
         },
         {
           title: 'Unidades Vendidas',
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
           },
         },
         {
@@ -596,7 +630,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
-            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
           },
         },
       ],
@@ -616,10 +650,12 @@ $(document).ready(function () {
       },
       columns: [
         {
-          className: 'dt-control',
-          orderable: false,
+          title: 'No.',
           data: null,
-          defaultContent: '',
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) {
+            return meta.row + 1;
+          },
         },
         {
           title: 'Porcentaje',

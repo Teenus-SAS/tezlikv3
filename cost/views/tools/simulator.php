@@ -118,7 +118,7 @@ if (sizeof($_SESSION) == 0)
                                                         <i class="percentRawMaterial" style="font-style: initial;"></i>
                                                     </span>
 
-                                                    <p class="mb-0 mt-1 costProduct rawMaterial"></p>
+                                                    <p class="mb-0 mt-1 rawMaterial"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -194,14 +194,14 @@ if (sizeof($_SESSION) == 0)
                                                                 <p class="text-muted mb-2 pl-3">Mano de Obra</p>
                                                                 <h6 class="mb-0 pl-3 text-right payWorkforce">$</h6>
                                                                 <p class="text-muted mb-2 pl-3">Costos Indirectos</p>
-                                                                <h6 class="mb-0 pl-3 text-right  payIndirectCost">$</h6>
+                                                                <h6 class="mb-0 pl-3 text-right payIndirectCost">$</h6>
                                                                 <p class="text-muted mb-2 pl-3">Servicios Externos</p>
-                                                                <h6 class="mb-0 pl-3 text-right  services">$</h6>
-                                                                <p class="mb-2" style="color:darkcyan expenses">Gastos</p>
+                                                                <h6 class="mb-0 pl-3 text-right services">$</h6>
+                                                                <p class="mb-2 expenses" style="color:darkcyan">Gastos</p>
                                                                 <h6 class="mb-0 pl-3 text-right payAssignableExpenses"></h6>
-                                                                <p class="mb-2" style="color:darkcyan commission">Comisión Vta</p>
+                                                                <p class="mb-2 commission" style="color:darkcyan">Comisión Vta</p>
                                                                 <h6 class="mb-0 pl-3 text-right commisionSale"></h6>
-                                                                <p class="mb-2" style="color:darkcyan profit">Rentabilidad</p>
+                                                                <p class="mb-2 profit" style="color:darkcyan">Rentabilidad</p>
                                                                 <h6 class="mb-0 pl-3 text-right profitability"></h6>
                                                             </div>
                                                         </div>
@@ -225,7 +225,7 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
                                                         <i class="sim-2 percentRawMaterial" id="percentRawMaterial-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 sim-2 costProduct" id="rawMaterial-2"></p>
+                                                    <p class="mb-0 mt-1 sim-2 rawMaterial" id="rawMaterial-2"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -304,11 +304,11 @@ if (sizeof($_SESSION) == 0)
                                                                 <h6 class="mb-0 pl-3 text-right sim-2 payIndirectCost" id="payIndirectCost-2">$</h6>
                                                                 <p class="text-muted mb-2 pl-3">Servicios Externos</p>
                                                                 <h6 class="mb-0 pl-3 text-right sim-2 services" id="services-2">$</h6>
-                                                                <p class="mb-2" style="color:darkcyan expenses">Gastos</p>
+                                                                <p class="mb-2 expenses" style="color:darkcyan">Gastos</p>
                                                                 <h6 class="mb-0 pl-3 text-right sim-2 payAssignableExpenses" id="payAssignableExpenses-2"></h6>
-                                                                <p class="mb-2" style="color:darkcyan commission">Comisión Vta</p>
+                                                                <p class="mb-2 commission" style="color:darkcyan" id="commission-2">Comisión Vta</p>
                                                                 <h6 class="mb-0 pl-3 text-right sim-2 commisionSale" id="commisionSale-2"></h6>
-                                                                <p class="mb-2" style="color:darkcyan profit">Rentabilidad</p>
+                                                                <p class="mb-2 profit" style="color:darkcyan" id="profit-2">Rentabilidad</p>
                                                                 <h6 class="mb-0 pl-3 text-right sim-2 profitability" id="profitability-2"></h6>
                                                             </div>
                                                         </div>
@@ -342,6 +342,10 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/tools/simulator/generalSimulator.js"></script>
     <script src="/cost/js/tools/simulator/tblSimulator.js"></script>
     <script src="/cost/js/tools/simulator/saveSimulator.js"></script>
+    <script src="/global/js/general/calcPayroll.js"></script>
+    <script src="/admin/js/risks/configRisks.js"></script>
+    <script src="/admin/js/benefits/configBenefits.js"></script>
+    <script src="/global/js/global/convertUnits.js"></script>
 </body>
 
 </html>

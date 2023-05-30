@@ -39,7 +39,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="basicSalary" name="basicSalary" type="text" class="form-control text-center number">
+                                                <input id="basicSalary" name="basicSalary" type="text" class="form-control basicSalary text-center number">
                                                 <label for="basicSalary">Salario Básico<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -47,7 +47,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="transport" name="transport" type="text" class="form-control text-center number">
+                                                <input id="transport" name="transport" type="text" class="form-control transport text-center number">
                                                 <label for="transport">Transporte<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -55,7 +55,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="endowment" name="endowment" type="text" class="form-control text-center number">
+                                                <input id="endowment" name="endowment" type="text" class="form-control endowment text-center number">
                                                 <label for="endowment">Dotaciones<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -63,7 +63,7 @@
 
                                         <div class="col-12 col-lg-3">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="extraTime" name="extraTime" type="text" class="form-control text-center number">
+                                                <input id="extraTime" name="extraTime" type="text" class="form-control extraTime text-center number">
                                                 <label for="extraTime">Horas Extras<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -71,7 +71,7 @@
 
                                         <div class="col-12 col-lg-3">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="bonification" name="bonification" type="text" class="form-control text-center number">
+                                                <input id="bonification" name="bonification" type="text" class="form-control bonification text-center number">
                                                 <label for="otherIncome">Otros Ingresos<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -83,7 +83,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="workingHoursDay" name="workingHoursDay" type="number" class="form-control text-center">
+                                                <input id="workingHoursDay" name="workingHoursDay" type="number" class="form-control workingHoursDay text-center">
                                                 <label for="workingHoursDay">Horas Trabajo x Día<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -91,7 +91,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="workingDaysMonth" name="workingDaysMonth" type="number" class="form-control text-center">
+                                                <input id="workingDaysMonth" name="workingDaysMonth" type="number" class="form-control workingDaysMonth text-center">
                                                 <label for="workingDaysMonth">Dias Trabajo x Mes<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -103,7 +103,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <select id="risk" name="risk" class="form-control"> </select>
+                                                <select id="risk" name="risk" class="form-control risk"> </select>
                                                 <label for="risk">Riesgo<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -111,7 +111,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="valueRisk" name="valueRisk" type="text" class="form-control text-center" readonly>
+                                                <input id="valueRisk" name="valueRisk" type="text" class="form-control text-center valueRisk" readonly>
                                                 <label for="valueRisk">Valor<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
@@ -123,7 +123,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <select id="typeFactor" name="typeFactor" type="number" class="form-control" data-toggle="tooltip" title="Seleccione el tipo de contrato para su colaborador, la plataforma calculara automaticamente las prestaciones sociales">
+                                                <select id="typeFactor" name="typeFactor" type="number" class="form-control typeFactor" data-toggle="tooltip" title="Seleccione el tipo de contrato para su colaborador, la plataforma calculara automaticamente las prestaciones sociales">
                                                     <option selected disabled value="0">Seleccionar</option>
                                                     <option value="1">Nómina</option>
                                                     <option value="2">Servicios</option>
@@ -136,7 +136,7 @@
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="factor" name="factor" type="text" class="form-control text-center number">
+                                                <input id="factor" name="factor" type="text" class="form-control text-center number factor">
                                                 <label for="factor">Factor<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>

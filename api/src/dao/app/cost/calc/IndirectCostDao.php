@@ -69,7 +69,7 @@ class IndirectCostDao
             for ($i = 0; $i < sizeof($dataProductMachine); $i++) {
 
                 // Suma el costo por minuto de la carga fabril
-                $stmt = $connection->prepare("SELECT SUM(cost_minute) AS totalCostMinute
+                $stmt = $connection->prepare("SELECT IFNULL(SUM(cost_minute), 0) AS totalCostMinute
                                           FROM manufacturing_load
                                           WHERE id_machine = :id_machine");
                 $stmt->execute(['id_machine' => $dataProductMachine[$i]['id_machine']]);

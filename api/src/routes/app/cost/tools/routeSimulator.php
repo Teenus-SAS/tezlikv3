@@ -46,9 +46,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) {
         $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
         $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company);
-        // $expensesDistributionByIdProduct = $expensesDistributionDao->findExpenseDistributionByIdProduct($args['id_product']);
         $data['expensesDistribution'] = $expensesDistribution;
-        // $data['expensesDistributionByIdProduct'] = $expensesDistributionByIdProduct;
         $data['totalExpense'] = $totalExpense['total_expense'];
     } else {
         $expenseRecover = $expenseRecoverDao->findExpenseRecoverByIdProduct($args['id_product']);
