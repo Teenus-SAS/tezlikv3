@@ -39,8 +39,8 @@ class DashboardProductsDao
     public function findProductProcessByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_machine, pc.id_process, pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime, pp.enlistment_time, pp.operation_time,
-                                             IFNULL(m.machine, 'PROCESO MANUAL') AS machine, IFNULL(m.cost, 0) AS cost_machine, IFNULL(m.years_depreciation, 0) AS years_depreciation, IFNULL(m.residual_value, 0) AS residual_value, IFNULL(m.years_depreciation, 0) AS years_depreciation, IFNULL(m.hours_machine, 0) AS hours_machine, IFNULL(m.days_machine, 0) AS days_machine
+        $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_product, pp.id_machine, pc.id_process, pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime, pp.enlistment_time, pp.operation_time,
+                                             IFNULL(m.machine, 'PROCESO MANUAL') AS machine, IFNULL(m.cost, 0) AS cost_machine, IFNULL(m.years_depreciation, 0) AS years_depreciation, IFNULL(m.residual_value, 0) AS residual_value, IFNULL(m.minute_depreciation, 0) AS minute_depreciation, IFNULL(m.hours_machine, 0) AS hours_machine, IFNULL(m.days_machine, 0) AS days_machine
                                       FROM products_process pp 
                                         INNER JOIN process pc ON pc.id_process = pp.id_process
                                         LEFT JOIN machines m ON m.id_machine = pp.id_machine
@@ -95,7 +95,7 @@ class DashboardProductsDao
     public function findCostRawMaterialsByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
+        $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
                                                 INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials
                                         FROM products_materials pm
                                         INNER JOIN materials m ON m.id_material = pm.id_material

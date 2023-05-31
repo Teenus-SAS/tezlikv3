@@ -105,7 +105,6 @@ $(document).ready(function () {
   };
 
   /* Mensaje de exito */
-
   message = (data) => {
     if (data.success == true) {
       $('.cardCreateProcess').hide(800);

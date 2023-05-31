@@ -53,15 +53,19 @@ class ProductsCostDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("UPDATE products_costs SET profitability = :profitability, commission_sale = :commission_sale
+        try {
+            $stmt = $connection->prepare("UPDATE products_costs SET profitability = :profitability, commission_sale = :commission_sale
                                       WHERE id_product = :id_product");
-        $stmt->execute([
-            'id_product' => trim($dataProduct['idProduct']),
-            'profitability' => trim($dataProduct['profitability']),
-            'commission_sale' => trim($dataProduct['commissionSale'])
-        ]);
-
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            $stmt->execute([
+                'id_product' => trim($dataProduct['idProduct']),
+                'profitability' => trim($dataProduct['profitability']),
+                'commission_sale' => trim($dataProduct['commissionSale'])
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $error = array('info' => true, 'message' => $e->getMessage());
+            return $error;
+        }
     }
 
     public function deleteProductsCost($dataProduct)

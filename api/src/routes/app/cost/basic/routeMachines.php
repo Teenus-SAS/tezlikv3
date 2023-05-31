@@ -113,9 +113,13 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                 $lastMachine = $lastDataDao->lastInsertedMachineId($id_company);
 
                 // Calcular depreciacion por minuto
-                $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($lastMachine['id_machine'], $id_company);
+                $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($lastMachine['id_machine']);
 
-                if ($minuteDepreciation == null)
+                // Modificar depreciacion x minuto
+                $dataMachine['minuteDepreciation'] = $minuteDepreciation;
+                $machine = $minuteDepreciationDao->updateMinuteDepreciation($dataMachine, $id_company);
+
+                if ($machine == null)
                     $resp = array('success' => true, 'message' => 'Maquina creada correctamente');
             } else if (isset($machines['info']))
                 $resp = array('info' => true, 'message' => $machines['message']);
@@ -170,7 +174,10 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                 }
             }
             // Calcular depreciacion por minuto
-            $resolution = $minuteDepreciationDao->calcMinuteDepreciationByMachine($machines[$i]['idMachine'], $id_company);
+            $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($machines[$i]['idMachine']);
+            // Modificar depreciacion x minuto
+            $machines[$i]['minuteDepreciation'] = $minuteDepreciation;
+            $resolution = $minuteDepreciationDao->updateMinuteDepreciation($machines[$i], $id_company);
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Maquina Importada correctamente');
@@ -211,8 +218,12 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
         $machines = $machinesDao->updateMachine($dataMachine);
 
         // Calcular depreciacion por minuto
-        if ($machines == null)
-            $machines = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['idMachine'], $id_company);
+        if ($machines == null) {
+            $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($dataMachine['idMachine']);
+            // Modificar depreciacion x minuto
+            $dataMachine['minuteDepreciation'] = $minuteDepreciation;
+            $machines = $minuteDepreciationDao->updateMinuteDepreciation($dataMachine, $id_company);
+        }
 
         if ($machines == null) {
             // Buscar producto por idMachine

@@ -90,8 +90,14 @@ if (sizeof($_SESSION) == 0)
                                         <div class="col-sm-4 d-flex align-items-center">
                                             <select id="product" class="form-control selectNameProduct"></select>
                                         </div>
-                                        <div class="col-sm-12 mb-3 form-inline justify-content-sm-end">
-                                            <button type="button" class="btn btn-secondary" id="btnSimulate">Simular</button>
+
+                                        <div class="col-sm-12 mb-3 form-inline justify-content-sm-end" id="cardHeader">
+                                            <div class="col-xs-2 mr-2 cardBottons">
+                                                <button type="button" class="btn btn-secondary" id="btnSimulate">Simular</button>
+                                            </div>
+                                            <div class="col-xs-2 py-2 mr-2 cardBottons cardAddSimulator" style="display: none;">
+                                                <button type="button" class="btn btn-primary" id="btnAddSimulator">Guardar Simulacion</button>
+                                            </div>
                                         </div>
                                     </div>
                                     <ol class="breadcrumb mb-3 mb-md-0">

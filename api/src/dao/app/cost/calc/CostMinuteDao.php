@@ -30,18 +30,30 @@ class CostMinuteDao
             ]);
             $dataCostMinute = $stmt->fetch($connection::FETCH_ASSOC);
 
-            if (!isset($dataCostMinute['costMinute']))
-                return 1;
-            else {
-                // Actualizar cost_minute
-                $stmt = $connection->prepare("UPDATE manufacturing_load SET cost_minute = :cost_minute 
-                                            WHERE id_manufacturing_load = :id_manufacturing_load AND id_company = :id_company");
-                $stmt->execute([
-                    'cost_minute' => $dataCostMinute['costMinute'],
-                    'id_manufacturing_load' => $dataFactoryLoad['idManufacturingLoad'],
-                    'id_company' => $id_company
-                ]);
-            }
+            if (isset($dataCostMinute['costMinute']))
+                return $dataCostMinute;
+            else
+                return array('info' => true, 'message' => 'Los campos (dias, horas) de la maquina tienen que ser mayor a cero');
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updateCostMinuteFactoryLoad($dataFactoryLoad, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            // Actualizar cost_minute
+            $stmt = $connection->prepare("UPDATE manufacturing_load SET cost_minute = :cost_minute 
+                                          WHERE id_manufacturing_load = :id_manufacturing_load AND id_company = :id_company");
+            $stmt->execute([
+                'cost_minute' => $dataFactoryLoad['costMinute'],
+                'id_manufacturing_load' => $dataFactoryLoad['idManufacturingLoad'],
+                'id_company' => $id_company
+            ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();
 

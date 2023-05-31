@@ -75,6 +75,7 @@ $(document).ready(function () {
       (obj, index, self) =>
         index === self.findIndex((o) => o.id_machine === obj.id_machine)
     );
+
     tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',

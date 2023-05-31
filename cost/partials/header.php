@@ -65,16 +65,16 @@
                                         <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['cost_products_material'] == 1) { ?>
-                                                <li class="productsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
+                                                <li class=""><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_products_process'] == 1) { ?>
-                                                <li class="productsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
+                                                <li class=""><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['factory_load'] == 1) { ?>
-                                                <li class="factoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
+                                                <li class=""><a href="/cost/factory-load">Carga Fabril</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['external_service'] == 1) { ?>
-                                                <li class="servicesExternal"><a href="/cost/external-services">Servicios Externos</a></li>
+                                                <li class=""><a href="/cost/external-services">Servicios Externos</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
@@ -88,20 +88,20 @@
                                         <h5 class="font-size-14 font-weight-600">General</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['payroll_load'] == 1) { ?>
-                                                <li class="payroll"><a href="/cost/payroll">Carga Nómina</a></li>
+                                                <li class=""><a href="/cost/payroll">Carga Nómina</a></li>
                                             <?php } ?>
                                             <?php if (
                                                 $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
                                                 || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2
                                             ) { ?>
-                                                <li class="generalExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
+                                                <li class=""><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                                                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                    <li class="distributionExpenses"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+                                                    <li class=""><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                    <li class="distributionExpenses"><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
+                                                    <li class=""><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
                                                 <?php } ?>
                                             <?php } ?>
                                             <li class="priceList"><a href="/cost/price-list">Lista de Precios</a></li>

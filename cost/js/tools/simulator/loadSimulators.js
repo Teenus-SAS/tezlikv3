@@ -2,6 +2,7 @@ $(document).ready(function () {
   /* Cargar nombre de producto */
   $('#product').change(async function (e) {
     e.preventDefault();
+    $('.cardAddSimulator').hide(800);
 
     let data = await searchData(`/api/dashboardPricesSimulator/${this.value}`);
 
@@ -127,6 +128,7 @@ $(document).ready(function () {
   setDataDashboardSimulator = (data) => {
     $('.sim-2').html('');
     dataCost = getDataCost(data);
+    dataSimulator.products[0].price = dataCost.price;
 
     $('#rawMaterial-2').html(
       `$ ${data.cost_materials.toLocaleString('es-CO', {

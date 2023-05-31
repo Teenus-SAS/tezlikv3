@@ -25,6 +25,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.btn-outline-light', async function () {
     $('.cardTableSimulator').hide();
+    $('.cardAddSimulator').hide(800);
 
     // dataSimulator = dataBDSimulator;
 
@@ -131,6 +132,9 @@ $(document).ready(function () {
           dataMachine[j].hours_machine /
           60;
 
+        if (dataFactoryLoad[i])
+          dataSimulator.factoryLoad[i].cost_minute = cost_minute;
+
         // Calcular minuto de depreciacion
         minute_depreciation =
           (dataMachine[j].cost_machine - dataMachine[j].residual_value) /
@@ -138,6 +142,8 @@ $(document).ready(function () {
           dataMachine[j].hours_machine /
           dataMachine[j].days_machine /
           60;
+
+        dataSimulator.dataMachine[j].minute_depreciation = minute_depreciation;
 
         // Calcular costo indirecto
         cost_indirect_cost +=

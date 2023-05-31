@@ -16,7 +16,7 @@ class MinuteDepreciationDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function calcMinuteDepreciationByMachine($id_machine, $id_company)
+    public function calcMinuteDepreciationByMachine($id_machine)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -24,37 +24,21 @@ class MinuteDepreciationDao
                                       FROM `machines` 
                                       WHERE id_machine = :id_machine");
         $stmt->execute(['id_machine' => $id_machine]);
-        $dataMachine = $stmt->fetch($connection::FETCH_ASSOC);
+        $machine = $stmt->fetch($connection::FETCH_ASSOC);
 
-        // Modificar depreciacion por minuto
+        return $machine['minute_depreciation'];
+    }
+
+    // Modificar depreciacion por minuto
+    public function updateMinuteDepreciation($dataMachine, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("UPDATE machines SET minute_depreciation = :minute_depreciation 
                                       WHERE id_machine = :id_machine AND id_company = :id_company");
         $stmt->execute([
-            'minute_depreciation' => $dataMachine['minute_depreciation'],
-            'id_machine' => $id_machine,
+            'minute_depreciation' => $dataMachine['minuteDepreciation'],
+            'id_machine' => $dataMachine['idMachine'],
             'id_company' => $id_company
         ]);
     }
-
-    /* public function calcMinuteDepreciationImportedByMachine($machine, $id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $minute_depreciation = ($machine['cost'] - $machine['residualValue']) / ($machine['depreciationYears'] * 12) / $machine['daysMachine'] / $machine['hoursMachine'] / 60;
-
-            // Modificar depreciacion por minuto
-            $stmt = $connection->prepare("UPDATE machines SET minute_depreciation = :minute_depreciation 
-                                      WHERE id_machine = :id_machine AND id_company = :id_company");
-            $stmt->execute([
-                'minute_depreciation' => $minute_depreciation,
-                'machine' =>  ucfirst(strtolower($machine['machine'])),
-                'id_company' => $id_company
-            ]);
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    } */
 }
