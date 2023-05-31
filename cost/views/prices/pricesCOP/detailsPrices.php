@@ -156,26 +156,26 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media">
                                                     <div class="media-body">
                                                         <div style="display: grid;grid-template-columns:1fr 110px">
-                                                            <p class="mb-2" style="color:green">Precio de Venta</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="salesPrice"></h6>
-                                                            <p class="mb-2" style="color:darkcyan">Total Costos</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="costTotal"></h6>
-                                                            <p class="mb-2" style="color:darkcyan">Costos</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="cost"></h6>
-                                                            <p class="text-muted mb-2 pl-3">Materia Prima</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="payRawMaterial"></h6>
-                                                            <p class="text-muted mb-2 pl-3">Mano de Obra</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="payWorkforce">$</h6>
-                                                            <p class="text-muted mb-2 pl-3">Costos Indirectos</p>
-                                                            <h6 class="mb-0 pl-3 text-right " id="payIndirectCost">$</h6>
-                                                            <p class="text-muted mb-2 pl-3">Servicios Externos</p>
-                                                            <h6 class="mb-0 pl-3 text-right " id="services">$</h6>
-                                                            <p class="mb-2" style="color:darkcyan" id="expenses">Gastos</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="payAssignableExpenses"></h6>
-                                                            <p class="mb-2" style="color:darkcyan" id="commission">Comisión Vta</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="commisionSale"></h6>
-                                                            <p class="mb-2" style="color:darkcyan" id="profit">Rentabilidad</p>
-                                                            <h6 class="mb-0 pl-3 text-right" id="profitability"></h6>
+                                                            <p class="mb-2 salesPrice" style="color:green">Precio de Venta</p>
+                                                            <h6 class="mb-0 pl-3 text-right salesPrice" id="salesPrice"></h6>
+                                                            <p class="mb-2 costTotal" style="color:darkcyan">Total Costos</p>
+                                                            <h6 class="mb-0 pl-3 text-right costTotal" id="costTotal"></h6>
+                                                            <p class="mb-2 cost" style="color:darkcyan">Costos</p>
+                                                            <h6 class="mb-0 pl-3 text-right cost" id="cost"></h6>
+                                                            <p class="text-muted mb-2 pl-3 payRawMaterial">Materia Prima</p>
+                                                            <h6 class="mb-0 pl-3 text-right payRawMaterial" id="payRawMaterial"></h6>
+                                                            <p class="text-muted mb-2 pl-3 payWorkforce">Mano de Obra</p>
+                                                            <h6 class="mb-0 pl-3 text-right payWorkforce" id="payWorkforce">$</h6>
+                                                            <p class="text-muted mb-2 pl-3 payIndirectCost">Costos Indirectos</p>
+                                                            <h6 class="mb-0 pl-3 text-right payIndirectCost" id="payIndirectCost">$</h6>
+                                                            <p class="text-muted mb-2 pl-3 services">Servicios Externos</p>
+                                                            <h6 class="mb-0 pl-3 text-right services" id="services">$</h6>
+                                                            <p class="mb-2 expenses" style="color:darkcyan" id="expenses">Gastos</p>
+                                                            <h6 class="mb-0 pl-3 text-right expenses" id="payAssignableExpenses"></h6>
+                                                            <p class="mb-2 commission" style="color:darkcyan" id="commission">Comisión Vta</p>
+                                                            <h6 class="mb-0 pl-3 text-right commission" id="commisionSale"></h6>
+                                                            <p class="mb-2 profit" style="color:darkcyan" id="profit">Rentabilidad</p>
+                                                            <h6 class="mb-0 pl-3 text-right profit" id="profitability"></h6>
                                                         </div>
                                                     </div>
                                                 </div>

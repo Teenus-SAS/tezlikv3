@@ -62,7 +62,7 @@ $(document).ready(function () {
       let salary_net = 0;
       let minute_value = 0;
 
-      for (i = 0; i < data.length; i++) {
+      for (i = 0; i < display.length; i++) {
         salary += data[display[i]].salary;
         salary_net += data[display[i]].salary_net;
         minute_value += data[display[i]].minute_value;

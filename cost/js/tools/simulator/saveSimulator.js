@@ -129,7 +129,7 @@ $(document).ready(function () {
     if (data.success == true) {
       setTimeout(() => {
         window.location.reload();
-      }, 2000);
+      }, 4000);
 
       toastr.success(data.message);
       return false;

@@ -100,9 +100,17 @@ $(document).ready(function () {
   };
 
   /* Costeo Total */
-
   totalCostData = (data) => {
     dataCost = getDataCost(data[0]);
+
+    if (data[0].cost_materials == 0) $('.payRawMaterial').hide();
+    if (data[0].cost_workforce == 0) $('.payWorkforce').hide();
+    if (data[0].cost_indirect_cost == 0) $('.payIndirectCost').hide();
+    if (data[0].services == 0) $('.services').hide();
+    if (dataCost.expense == 0) $('.payAssignableExpenses').hide();
+    if (dataCost.costCommissionSale == 0) $('.commission').hide();
+    if (dataCost.costProfitability == 0) $('.profit').hide();
+
     $('#costTotal').html(
       `$ ${dataCost.costTotal.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
