@@ -104,7 +104,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblCustomPrices"> </table>
+                                            <table class="table text-center table-striped" id="tblCustomPrices"> </table>
                                         </div>
                                     </div>
                                 </div>

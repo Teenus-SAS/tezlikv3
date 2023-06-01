@@ -13,7 +13,7 @@ $(document).ready(function () {
       dataPriceList = JSON.parse(dataPriceList);
 
       for (let i = 0; i < dataPriceList.length; i++) {
-        headers += `<th>${dataPriceList[i].price_name}</th>`;
+        headers += `<th>${dataPriceList[i].price_name}</th><th></th>`;
       }
 
       table.insertAdjacentHTML(
@@ -24,6 +24,7 @@ $(document).ready(function () {
           <th>REFERENCIA</th>
           <th>PRODUCTO</th>
           <th>PRECIO - COSTO</th>
+          <th></th>
           ${headers}
           <th>ACCIONES</th>
         </tr>
@@ -44,6 +45,7 @@ $(document).ready(function () {
           existing.id_price_list.push(current.id_price_list);
           existing.price_names.push(current.price_name);
           existing.prices.push(current.price_custom);
+          existing.profitability_customs.push(current.profitability_custom);
         } else {
           result.push({
             id_custom_price: [current.id_custom_price],
@@ -52,8 +54,10 @@ $(document).ready(function () {
             reference: current.reference,
             product: current.product,
             price_cost: current.price_cost,
+            profitability_price: current.profitability_price,
             price_names: [current.price_name],
             prices: [current.price_custom],
+            profitability_customs: [current.profitability_custom],
           });
         }
 
@@ -71,10 +75,11 @@ $(document).ready(function () {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}</td>
-          ${(tbody = addColsPricesCombines(
-            combinedData[i].prices,
-            dataPriceList
-          ))}
+          <td>${combinedData[i].profitability_price.toLocaleString('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} %</td>
+          ${(tbody = addColsPricesCombines(combinedData[i], dataPriceList))}
           <td>
             <a href="javascript:;" <i id="${i}" class="bx bx-edit-alt updateCustomPrice" data-toggle='tooltip' title='Actualizar Precio' style="font-size: 30px;"></i></a>
           </td>
@@ -86,15 +91,22 @@ $(document).ready(function () {
     }
   };
 
-  addColsPricesCombines = (prices, dataPriceList) => {
+  addColsPricesCombines = (data, dataPriceList) => {
     let tbody = '';
     for (let i = 0; i < dataPriceList.length; i++) {
-      !prices[i] ? (price_custom = 0) : (price_custom = prices[i]);
+      !data.prices[i] ? (price_custom = 0) : (price_custom = data.prices[i]);
+      !data.profitability_customs[i]
+        ? (profitability_custom = 0)
+        : (profitability_custom = data.profitability_customs[i]);
 
       tbody += `<td>$ ${price_custom.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      })}</td>`;
+      })}</td>
+                <td>${profitability_custom.toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })} %</td>`;
     }
 
     return tbody;

@@ -600,42 +600,49 @@ $(document).ready(function () {
 
   /* Distribucion de Gastos */
   loadTblSimulatorDistribution = (data) => {
-    tblSimulator = $('#tblSimulator').DataTable({
-      destroy: true,
-      scrollY: '150px',
-      scrollCollapse: true,
-      paging: false,
-      data: data,
-      language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-      },
-      columns: [
-        {
-          title: 'No.',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data, type, full, meta) {
-            return meta.row + 1;
-          },
+    let status = false;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id_product == dataSimulator.products[0].id_product)
+        status = false;
+    }
+
+    if (status == true)
+      tblSimulator = $('#tblSimulator').DataTable({
+        destroy: true,
+        scrollY: '150px',
+        scrollCollapse: true,
+        paging: false,
+        data: data,
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
         },
-        {
-          title: 'Unidades Vendidas',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data) {
-            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
+        columns: [
+          {
+            title: 'No.',
+            data: null,
+            className: 'uniqueClassName',
+            render: function (data, type, full, meta) {
+              return meta.row + 1;
+            },
           },
-        },
-        {
-          title: 'Vol de Ventas',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data) {
-            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
+          {
+            title: 'Unidades Vendidas',
+            data: null,
+            className: 'uniqueClassName',
+            render: function (data) {
+              return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
+            },
           },
-        },
-      ],
-    });
+          {
+            title: 'Vol de Ventas',
+            data: null,
+            className: 'uniqueClassName',
+            render: function (data) {
+              return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
+            },
+          },
+        ],
+      });
   };
 
   /* Recuperacion de Gastos */

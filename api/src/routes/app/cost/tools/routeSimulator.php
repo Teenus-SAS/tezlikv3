@@ -13,7 +13,6 @@ use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\PayrollDao;
-use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ProductsCostDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;

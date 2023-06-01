@@ -21,17 +21,8 @@ class DashboardGeneralDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT (IF(IFNULL(mp.participation, 0) = 0, 0, ((IFNULL((SELECT SUM(expense_value) FROM expenses WHERE id_company = p.id_company), 0)) + (IFNULL(SUM(((SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll)) + 
-                                          IF(IFNULL(mp.units_sold, 0) = 0, (SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON pu.id_puc = e.id_puc WHERE e.id_company = p.id_company AND (pu.number_count LIKE '51%' OR pu.number_count LIKE '52%' OR pu.number_count LIKE '53%')), 
-                                          ((SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON pu.id_puc = e.id_puc WHERE e.id_company = p.id_company AND (pu.number_count LIKE '51%' OR pu.number_count LIKE '52%' OR pu.number_count LIKE '53%')) * (IFNULL(mp.participation, 0) / 100)))), 0))) 
-                                          / (IFNULL(SUM(((pc.price) -(pc.cost_materials + pc.cost_indirect_cost + ((pc.commission_sale / 100) * pc.price) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product))) * (IFNULL(mp.participation, 0) / 100)), 0)))) AS totalUnits
-                                  FROM products p
-                                  LEFT JOIN products_costs pc ON p.id_product = pc.id_product
-                                  LEFT JOIN multiproducts mp ON mp.id_product = p.id_product
-                                  WHERE p.id_company = :id_company AND p.active = 1;");
-    $stmt->execute([
-      'id_company' => $id_company
-    ]);
+    $stmt = $connection->prepare("SELECT * FROM general_data WHERE id_company = :id_company");
+    $stmt->execute(['id_company' => $id_company]);
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
     $multiproducts = $stmt->fetch($connection::FETCH_ASSOC);

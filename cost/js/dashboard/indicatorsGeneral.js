@@ -47,9 +47,8 @@ $(document).ready(function () {
     // Cantidad de productos
     $('#products').html(data.products.toLocaleString('es-CO'));
     $('#multiproducts').html(
-      multiproducts.totalUnits.toLocaleString('es-CO', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+      multiproducts.total_units.toLocaleString('es-CO', {
+        maximumFractionDigits: 0,
       })
     );
 

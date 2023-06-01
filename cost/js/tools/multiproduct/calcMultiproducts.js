@@ -48,12 +48,13 @@ $(document).ready(function () {
 
         let participation = 0;
 
-        if (unit > 0) {
-          let totalUnitsSold = sumTotalSoldUnits();
+        // if (unit > 0) {
+        let totalUnitsSold = sumTotalSoldUnits();
 
-          // Calcular porcentaje de participacion
-          participation = (unit / totalUnitsSold) * 100;
-        }
+        // Calcular porcentaje de participacion
+        participation = (unit / totalUnitsSold) * 100;
+        isNaN(participation) ? (participation = 0) : participation;
+        // }
         multiproducts[i]['participation'] = participation;
 
         multi.participation = participation;
@@ -106,11 +107,13 @@ $(document).ready(function () {
       // else {
       $('#totalUnits').html(
         totalUnits.toLocaleString('es-CO', {
-          maximumFractionDigits: 2,
+          maximumFractionDigits: 0,
         })
       );
 
       sumTotalUnits();
+
+      dataMultiproducts.totalUnits = totalUnits;
 
       saveMultiproducts(dataMultiproducts);
       // }
@@ -190,7 +193,7 @@ $(document).ready(function () {
 
     $('#totalSumUnits').html(
       totalSumUnits.toLocaleString('es-CO', {
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 0,
       })
     );
   };

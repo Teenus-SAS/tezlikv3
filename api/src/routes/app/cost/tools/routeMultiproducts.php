@@ -86,16 +86,21 @@ $app->post('/addMultiproduct', function (Request $request, Response $response, $
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
 
-
     if (isset($dataProduct['data'])) {
         $product = $dataProduct['data'];
-        for ($i = 0; $i < sizeof($product); $i++) {
-            $multiproducts = $multiproductsDao->findMultiproduct($product[$i]['id_product']);
 
-            if (!$multiproducts)
-                $resolution = $multiproductsDao->insertMultiproductByCompany($product[$i], $id_company);
-            else
-                $resolution = $multiproductsDao->updateMultiProduct($product[$i]);
+        // Modificar total unidades
+        $resolution = $multiproductsDao->updateMultiProduct($product['totalUnits']);
+
+        if ($resolution == null) {
+            for ($i = 0; $i < sizeof($product); $i++) {
+                $multiproducts = $multiproductsDao->findMultiproduct($product[$i]['id_product']);
+
+                if (!$multiproducts)
+                    $resolution = $multiproductsDao->insertMultiproductByCompany($product[$i], $id_company);
+                else
+                    $resolution = $multiproductsDao->updateMultiProduct($product[$i]);
+            }
         }
     } else {
         $multiproducts = $dataProduct['importMultiproducts'];

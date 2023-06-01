@@ -132,17 +132,18 @@ $(document).ready(function () {
   /* Descargar formato XLSX */
   $('#btnDownloadMultiproducts').click(function (e) {
     e.preventDefault();
+    let data = [];
 
-    let tblBreakeven = document.getElementById('tblBreakeven');
-    let tblMultiproducts = document.getElementById('tblMultiproducts');
+    for (let i = 0; i < multiproducts.length; i++) {
+      data.push({
+        Producto: multiproducts[i].product,
+        'No Unidades Vendidas': multiproducts[i].soldUnit,
+      });
+    }
 
     let wb = XLSX.utils.book_new();
-
-    let ws = XLSX.utils.table_to_sheet(tblBreakeven);
-    XLSX.utils.book_append_sheet(wb, ws, 'Punto de Equilibrio');
-    ws = XLSX.utils.table_to_sheet(tblMultiproducts);
+    let ws = XLSX.utils.json_to_sheet(data);
     XLSX.utils.book_append_sheet(wb, ws, 'Multiproductos');
-
-    XLSX.writeFile(wb, 'Multiproductos.xlsx');
+    XLSX.writeFile(wb, 'Pto_Equilibrio.xlsx');
   });
 });
