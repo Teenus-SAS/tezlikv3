@@ -114,11 +114,11 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
-                                                    <label for="undVendidas">Und Vendidas</label>
+                                                    <label for="undVendidas">Und Vendidas (Mes)</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
                                                     <input type="text" class="form-control number text-center" id="volVendidas" name="turnover">
-                                                    <label for="volVendidas">Vol Ventas</label>
+                                                    <label for="volVendidas">Total Ventas (Mes)</label>
                                                 </div>
                                                 <div class="col-xs-2" style="margin-top:12px">
                                                     <button class="btn btn-primary" id="btnAssignExpenses">Asignar</button>

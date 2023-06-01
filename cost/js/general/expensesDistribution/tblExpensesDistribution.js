@@ -44,13 +44,13 @@ $(document).ready(function () {
           data: 'product',
         },
         {
-          title: 'Unidades Vendidas',
+          title: 'Unidades Vendidas (mes)',
           data: 'units_sold',
           className: 'classRight',
           render: $.fn.dataTable.render.number('.', ',', 0, ''),
         },
         {
-          title: 'Volumen de Ventas',
+          title: 'Total Ventas (mes)',
           data: 'turnover',
           className: 'classRight',
           render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
