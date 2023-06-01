@@ -113,7 +113,7 @@ $(document).ready(function () {
 
       sumTotalUnits();
 
-      dataMultiproducts.totalUnits = totalUnits;
+      dataMultiproducts.push(totalUnits);
 
       saveMultiproducts(dataMultiproducts);
       // }

@@ -90,10 +90,10 @@ $app->post('/addMultiproduct', function (Request $request, Response $response, $
         $product = $dataProduct['data'];
 
         // Modificar total unidades
-        $resolution = $multiproductsDao->updateMultiProduct($product['totalUnits']);
+        $resolution = $multiproductsDao->updateTotalUnits($product[sizeof($product) - 1], $id_company);
 
         if ($resolution == null) {
-            for ($i = 0; $i < sizeof($product); $i++) {
+            for ($i = 0; $i < sizeof($product) - 1; $i++) {
                 $multiproducts = $multiproductsDao->findMultiproduct($product[$i]['id_product']);
 
                 if (!$multiproducts)
