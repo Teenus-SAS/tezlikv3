@@ -159,12 +159,20 @@ $(document).ready(function () {
       })}`
     );
 
-    $('#commission').html(`Comisión Vts (${data[0].commission_sale}%)`);
+    $('#commission').html(
+      `Comisión Vts (${data[0].commission_sale.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })}%)`
+    );
     $('#commisionSale').html(
       `$ ${Math.round(dataCost.costCommissionSale).toLocaleString('es-CO')}`
     );
 
-    $('#profit').html(`Rentabilidad (${data[0].profitability}%)`);
+    $('#profit').html(
+      `Rentabilidad (${data[0].profitability.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })}%)`
+    );
     $('#profitability').html(
       `$ ${Math.round(dataCost.costProfitability).toLocaleString('es-CO')}`
     );

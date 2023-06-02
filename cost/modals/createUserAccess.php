@@ -144,12 +144,12 @@
                                                     <label for="checkbox-17">Precios COP</label>
                                                 </div>
                                                 <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
-                                                    <div class="mb-2 checkbox checkbox-success checkbox-circle">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-18" name="pricesUSD" type="checkbox">
                                                         <label for="checkbox-18">Precios USD</label>
                                                     </div>
                                                 <?php } ?>
-                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                <div class="mb-2 checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-19" name="customPrices" type="checkbox">
                                                     <label for="checkbox-19">Precios Personalizados</label>
                                                 </div>
