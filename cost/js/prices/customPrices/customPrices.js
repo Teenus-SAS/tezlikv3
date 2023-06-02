@@ -55,6 +55,7 @@ $(document).ready(function () {
     $('#pricesList').change(function (e) {
       e.preventDefault();
 
+      $('#customPricesValue').val('');
       let id_price_list = this.value;
       let price = 0;
 
