@@ -59,18 +59,17 @@ $(document).ready(function () {
           dataSimulator[cardData.data][i][this.id] = parseFloat(this.value);
 
           if (id == 'id_payroll') {
-            let type_salary = sessionStorage.getItem('type_salary');
+            // let type_salary = sessionStorage.getItem('type_salary');
 
-            if (type_salary) {
-              let payroll = calcSalaryNetSimulator(
-                dataSimulator[cardData.data][i]
-              );
+            // if (type_salary) {
+            let payroll = calcSalaryNetSimulator(
+              dataSimulator[cardData.data][i]
+            );
 
-              dataSimulator[cardData.data][i].factor_benefit = payroll.factor;
-              dataSimulator[cardData.data][i].salary_net = payroll.salary_net;
-              dataSimulator[cardData.data][i].minute_value =
-                payroll.minute_value;
-            }
+            dataSimulator[cardData.data][i].factor_benefit = payroll.factor;
+            dataSimulator[cardData.data][i].salary_net = payroll.salary_net;
+            dataSimulator[cardData.data][i].minute_value = payroll.minute_value;
+            // }
           }
         }
       }
