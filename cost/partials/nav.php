@@ -27,9 +27,11 @@
                                         <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(USD)</span>
                                     </a>
                                 <?php } ?>
-                                <a class="dropdown-item" href="/cost/custom-prices">
-                                    <span><i class="bx bx-dollar-circle mr-1"></i>Lista de Precios Personalizado</span>
-                                </a>
+                                <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
+                                    <a class="dropdown-item" href="/cost/custom-prices">
+                                        <span><i class="bx bx-dollar-circle mr-1"></i>Lista de Precios Personalizado</span>
+                                    </a>
+                                <?php } ?>
                             </ul>
                         </li>
                     <?php } ?>

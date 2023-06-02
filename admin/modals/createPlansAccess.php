@@ -44,8 +44,8 @@
                                                         <label for="checkbox-1">Precios COP (Detalle * Producto)</label>
                                                     </div>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-2" name="pricesUSD" type="checkbox">
-                                                        <label for="checkbox-2">Precios USD</label>
+                                                        <input id="checkbox-2" name="customPrices" type="checkbox">
+                                                        <label for="checkbox-2">Precios Personalizados</label>
                                                     </div>
                                                 </div>
 

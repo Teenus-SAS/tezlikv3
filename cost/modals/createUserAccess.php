@@ -149,18 +149,22 @@
                                                         <label for="checkbox-18">Precios USD</label>
                                                     </div>
                                                 <?php } ?>
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-19" name="customPrices" type="checkbox">
+                                                    <label for="checkbox-19">Precios Personalizados</label>
+                                                </div>
                                             </div>
 
 
 
                                             <div class="col-sm-3">Herramientas
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-19" name="analysisRawMaterials" type="checkbox">
-                                                    <label for="checkbox-19">Analisis Materia Prima</label>
+                                                    <input id="checkbox-20" name="analysisRawMaterials" type="checkbox">
+                                                    <label for="checkbox-20">Analisis Materia Prima</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-20" name="economyScale" type="checkbox">
-                                                    <label for="checkbox-20">Economia De Escala</label>
+                                                    <input id="checkbox-21" name="economyScale" type="checkbox">
+                                                    <label for="checkbox-21">Economia De Escala</label>
                                                 </div>
                                                 <?php if ($_SESSION['plan_cost_multiproduct'] == 0) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
@@ -168,25 +172,25 @@
                                                     <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
                                                         <div class="checkbox checkbox-success checkbox-circle">
                                                         <?php } ?>
-                                                        <input id="checkbox-21" name="multiproduct" type="checkbox">
-                                                        <label for="checkbox-21">Pto De Equilibrio Multiproducto</label>
+                                                        <input id="checkbox-22" name="multiproduct" type="checkbox">
+                                                        <label for="checkbox-22">Pto De Equilibrio Multiproducto</label>
                                                         </div>
                                                         <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-22" name="simulator" type="checkbox">
-                                                            <label for="checkbox-22">Simulador</label>
+                                                            <input id="checkbox-23" name="simulator" type="checkbox">
+                                                            <label for="checkbox-23">Simulador</label>
                                                         </div>
                                                     </div>
 
                                                     <div class="mt-4 col-sm-3">
                                                         <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-23" name="quotes" type="checkbox">
-                                                            <label for="checkbox-23">Cotización</label>
+                                                            <input id="checkbox-24" name="quotes" type="checkbox">
+                                                            <label for="checkbox-24">Cotización</label>
                                                         </div>
                                                     </div>
                                                     <div class="mt-4 col-sm-3">
                                                         <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-24" name="tools" type="checkbox">
-                                                            <label for="checkbox-24">Soporte</label>
+                                                            <input id="checkbox-25" name="tools" type="checkbox">
+                                                            <label for="checkbox-25">Soporte</label>
                                                         </div>
                                                     </div>
                                             </div>
