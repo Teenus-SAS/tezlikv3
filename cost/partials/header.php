@@ -104,7 +104,7 @@
                                                     <li class="aExpensesDistribution"><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
                                                 <?php } ?>
                                             <?php } ?>
-                                            <li class="aPriceList"><a href="/cost/price-list">Lista de Precios</a></li>
+                                            <!-- <li class="priceList"><a href="/cost/price-list">Lista de Precios</a></li> -->
                                         </ul>
                                     </div>
                                 <?php } ?>
