@@ -50,8 +50,8 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Precios USD',
-        data: 'cost_price_usd',
+        title: 'Precios Personalizados',
+        data: 'custom_price',
         className: 'uniqueClassName',
         render: function (data, type, row) {
           return data == 1

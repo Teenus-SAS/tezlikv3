@@ -94,19 +94,24 @@ $(document).ready(function () {
   addColsPricesCombines = (data, dataPriceList) => {
     let tbody = '';
     for (let i = 0; i < dataPriceList.length; i++) {
-      !data.prices[i] ? (price_custom = 0) : (price_custom = data.prices[i]);
-      !data.profitability_customs[i]
-        ? (profitability_custom = 0)
-        : (profitability_custom = data.profitability_customs[i]);
+      !data.prices[i]
+        ? (price_custom = '')
+        : (price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}`);
 
-      tbody += `<td>$ ${price_custom.toLocaleString('es-CO', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      })}</td>
-                <td>${profitability_custom.toLocaleString('es-CO', {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })} %</td>`;
+      !data.profitability_customs[i]
+        ? (profitability_custom = '')
+        : (profitability_custom = `${data.profitability_customs[
+            i
+          ].toLocaleString('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} %`);
+
+      tbody += `<td>${price_custom}</td>
+                <td>${profitability_custom}</td>`;
     }
 
     return tbody;

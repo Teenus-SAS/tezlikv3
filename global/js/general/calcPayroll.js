@@ -85,14 +85,13 @@ $(document).ready(function () {
           break;
         }
       }
+      sessionStorage.setItem('percentage', percentage);
 
       percentage = percentage.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       });
     }
-
-    sessionStorage.setItem('percentage', percentage);
 
     $('.valueRisk').val(percentage);
     $('.valueRisk').click();
@@ -230,7 +229,8 @@ $(document).ready(function () {
       data.transport +
       valueBenefits +
       data.bonification +
-      data.endowment;
+      data.endowment +
+      data.extra_time;
 
     /* Total horas */
     totalHoursMonth = data.working_days_month * data.hours_day;

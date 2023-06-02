@@ -32,7 +32,7 @@ $app->post('/updatePlansAccess', function (Request $request, Response $response,
     if ($plans == null)
         $resp = array('success' => true, 'message' => 'Se modificaron los accesos del plan correctamente');
     else if ($plans['info'] == true)
-        $resp = array('info' => true, 'message' => $plans['info']);
+        $resp = array('info' => true, 'message' => $plans['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
 

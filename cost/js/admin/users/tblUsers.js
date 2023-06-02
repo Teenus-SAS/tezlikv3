@@ -215,6 +215,16 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Precios Personalizados',
+        data: 'custom_price',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
         title: 'Analisis Materia Prima',
         data: 'analysis_material',
         className: 'uniqueClassName',

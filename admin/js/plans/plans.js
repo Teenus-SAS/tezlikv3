@@ -41,7 +41,7 @@ $(document).ready(function () {
 
     let acces = {
       prices: data.cost_price,
-      pricesUSD: data.cost_price_usd,
+      customPrices: data.custom_price,
       analysisMaterials: data.cost_analysis_material,
       economyScale: data.cost_economy_scale,
       multiproduct: data.cost_multiproduct,
@@ -69,7 +69,7 @@ $(document).ready(function () {
 
     let access = {
       prices: 0,
-      pricesUSD: 0,
+      customPrices: 0,
       analysisRawMaterials: 0,
       economyScale: 0,
       multiproduct: 0,
