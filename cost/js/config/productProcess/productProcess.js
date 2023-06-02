@@ -40,8 +40,7 @@ $(document).ready(function () {
     tEnlistment = strReplaceNumber(tEnlistment);
 
     let val = parseFloat(tEnlistment) + parseFloat(tOperation);
-    val = validateNumber(val);
-    $('#totalTime').val(val);
+    $('#totalTime').val(val.toLocaleString('es-CO'));
   });
 
   /* Adicionar nuevo proceso */
@@ -74,11 +73,9 @@ $(document).ready(function () {
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
 
-    let enlistment_time = validateNumber(data.enlistment_time);
-    $('#enlistmentTime').val(enlistment_time);
+    $('#enlistmentTime').val(data.enlistment_time.toLocaleString('es-CO'));
 
-    let operation_time = validateNumber(data.operation_time);
-    $('#operationTime').val(operation_time);
+    $('#operationTime').val(data.operation_time.toLocaleString('es-CO'));
 
     $('#enlistmentTime').click();
 

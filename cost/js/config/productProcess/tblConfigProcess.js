@@ -51,13 +51,17 @@ $(document).ready(function () {
           title: 'Tiempo Alistamiento (min)',
           data: 'enlistment_time',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 2, ''),
+          render: function (data) {
+            return data.toLocaleString('es-CO');
+          },
         },
         {
           title: 'Tiempo Operación  (min)',
           data: 'operation_time',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 2, ''),
+          render: function (data) {
+            return data.toLocaleString('es-CO');
+          },
         },
         {
           title: 'Acciones',
