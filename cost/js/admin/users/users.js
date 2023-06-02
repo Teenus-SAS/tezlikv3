@@ -239,6 +239,9 @@ $(document).ready(function () {
       $('#createUserAccess').modal('hide');
       $('#formCreateUser').trigger('reset');
       updateTable();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);

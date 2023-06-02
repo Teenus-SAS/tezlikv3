@@ -23,7 +23,7 @@ $(document).ready(function () {
     sumTotalCostFixed = 0;
 
     for (let i = 0; i < multiproducts.length; i++) {
-      sumTotalCostFixed += multiproducts[i].cost_fixed;
+      sumTotalCostFixed = multiproducts[i].cost_fixed;
 
       multiproducts[i]['soldUnit'] = 0;
       multiproducts[i]['unitsToSold'] = 0;

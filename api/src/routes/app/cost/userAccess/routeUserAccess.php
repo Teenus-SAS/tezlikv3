@@ -23,7 +23,7 @@ $app->get('/costUsersAccess', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/costUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
+$app->get('/costUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
     session_start();
     $company = $_SESSION['id_company'];
     $id_user = $_SESSION['idUser'];

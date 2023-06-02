@@ -43,16 +43,16 @@
                                         <h5 class="font-size-14 font-weight-600">Básico</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['cost_product'] == 1) { ?>
-                                                <li class="createProducts"><a href="/cost/products">Productos</a></li>
+                                                <li class="aProducts"><a href="/cost/products">Productos</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_material'] == 1) { ?>
-                                                <li class="createMaterials"><a href="/cost/materials">Materia Prima</a></li>
+                                                <li class="aMaterials"><a href="/cost/materials">Materia Prima</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_machine'] == 1) { ?>
-                                                <li class="createMachines"><a href="/cost/machines">Máquinas</a></li>
+                                                <li class="aMachines"><a href="/cost/machines">Máquinas</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_process'] == 1) { ?>
-                                                <li class="createProcess"><a href="/cost/process">Procesos</a></li>
+                                                <li class="aProcess"><a href="/cost/process">Procesos</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
@@ -65,16 +65,16 @@
                                         <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['cost_products_material'] == 1) { ?>
-                                                <li class=""><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
+                                                <li class="aProductsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_products_process'] == 1) { ?>
-                                                <li class=""><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
+                                                <li class="aProductsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['factory_load'] == 1) { ?>
-                                                <li class=""><a href="/cost/factory-load">Carga Fabril</a></li>
+                                                <li class="aFactoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['external_service'] == 1) { ?>
-                                                <li class=""><a href="/cost/external-services">Servicios Externos</a></li>
+                                                <li class="aServices"><a href="/cost/external-services">Servicios Externos</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
@@ -88,23 +88,23 @@
                                         <h5 class="font-size-14 font-weight-600">General</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['payroll_load'] == 1) { ?>
-                                                <li class=""><a href="/cost/payroll">Carga Nómina</a></li>
+                                                <li class="aPayroll"><a href="/cost/payroll">Carga Nómina</a></li>
                                             <?php } ?>
                                             <?php if (
                                                 $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
                                                 || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2
                                             ) { ?>
-                                                <li class=""><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
+                                                <li class="aExpenses"><a href="/cost/general-expenses">Asignación Gastos Generales</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                                                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                    <li class=""><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
+                                                    <li class="aExpensesDistribution"><a href="/cost/expenses-distribution">Distribución de Gastos</a></li>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                    <li class=""><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
+                                                    <li class="aExpensesDistribution"><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
                                                 <?php } ?>
                                             <?php } ?>
-                                            <li class="priceList"><a href="/cost/price-list">Lista de Precios</a></li>
+                                            <li class="aPriceList"><a href="/cost/price-list">Lista de Precios</a></li>
                                         </ul>
                                     </div>
                                 <?php } ?>
@@ -113,10 +113,10 @@
                                         <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['cost_backup'] == 1) { ?>
-                                                <li class="backup"><a href="javascript:;">Backup</a></li>
+                                                <li class="aBackup"><a href="javascript:;">Backup</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_user'] == 1) { ?>
-                                                <li class="users"><a href="/cost/users">Usuarios</a></li>
+                                                <li class="aUsers"><a href="/cost/users">Usuarios</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
@@ -140,13 +140,13 @@
                                         <h5 class="font-size-14 font-weight-600">Cotización</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['quote_payment_method'] == 1) { ?>
-                                                <li class="paymentMethods"><a href="/cost/payment-methods">Metodos de Pago</a></li>
+                                                <li class="aPaymentMethods"><a href="/cost/payment-methods">Metodos de Pago</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['quote_company'] == 1) { ?>
-                                                <li class="companies"><a href="/cost/companies">Empresas</a></li>
+                                                <li class="aCompanies"><a href="/cost/companies">Empresas</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['quote_contact'] == 1) { ?>
-                                                <li class="contacts"><a href="/cost/contacts">Contactos</a></li>
+                                                <li class="aContacts"><a href="/cost/contacts">Contactos</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
