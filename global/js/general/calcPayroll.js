@@ -206,10 +206,10 @@ $(document).ready(function () {
             data.salary > 1160000 * 10
           )
             valueBenefit = (salary + data.extra_time) * percentage;
-          else if (
-            dataBenefits[i].id_benefit == '4' ||
-            dataBenefits[i].id_benefit == '5'
-          )
+          else if (dataBenefits[i].id_benefit == '4')
+            valueBenefit =
+              (salary + data.endowment + data.transport) * percentage;
+          else if (dataBenefits[i].id_benefit == '5')
             valueBenefit =
               (salary + data.extra_time + data.transport) * percentage;
           else if (dataBenefits[i].id_benefit == '6')

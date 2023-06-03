@@ -108,7 +108,7 @@ $(document).ready(function () {
     endowment = parseFloat(strReplaceNumber(endowment));
     extraTime = parseFloat(strReplaceNumber(extraTime));
     bonification = parseFloat(strReplaceNumber(bonification));
-    factor = parseFloat(strReplaceNumber(factor));
+    factor = parseFloat(factor);
 
     isNaN(transport) ? (transport = 0) : transport;
     isNaN(endowment) ? (endowment = 0) : endowment;
