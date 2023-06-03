@@ -1,8 +1,35 @@
 $(document).ready(function () {
-  let visible;
   /* Cargue tabla de Proyectos */
 
-  price_usd == 1 ? (visible = true) : (visible = false);
+  plan_cost_price == 1 ? (plan_cost_price = true) : (plan_cost_price = false);
+
+  price_usd == 1 ? (price_usd = true) : (price_usd = false);
+
+  plan_custom_price == 1
+    ? (plan_custom_price = true)
+    : (plan_custom_price = false);
+
+  plan_cost_analysis_material == 1
+    ? (plan_cost_analysis_material = true)
+    : (plan_cost_analysis_material = false);
+
+  plan_cost_economy_sale == 1
+    ? (plan_cost_economy_sale = true)
+    : (plan_cost_economy_sale = false);
+
+  plan_cost_multiproduct == 1
+    ? (plan_cost_multiproduct = true)
+    : (plan_cost_multiproduct = false);
+
+  plan_cost_simulator == 1
+    ? (plan_cost_simulator = true)
+    : (plan_cost_simulator = false);
+
+  plan_cost_quote == 1 ? (plan_cost_quote = true) : (plan_cost_quote = false);
+
+  plan_cost_support == 1
+    ? (plan_cost_support = true)
+    : (plan_cost_support = false);
 
   tblUsers = $('#tblUsers').dataTable({
     pageLength: 50,
@@ -197,6 +224,7 @@ $(document).ready(function () {
         title: 'Precios',
         data: 'price',
         className: 'uniqueClassName',
+        visible: plan_cost_price,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -207,7 +235,7 @@ $(document).ready(function () {
         title: 'Precios USD',
         data: 'price_usd',
         className: 'uniqueClassName',
-        visible: visible,
+        visible: price_usd,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -218,6 +246,7 @@ $(document).ready(function () {
         title: 'Precios Personalizados',
         data: 'custom_price',
         className: 'uniqueClassName',
+        visible: plan_custom_price,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -228,6 +257,7 @@ $(document).ready(function () {
         title: 'Analisis Materia Prima',
         data: 'analysis_material',
         className: 'uniqueClassName',
+        visible: plan_cost_analysis_material,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -238,6 +268,7 @@ $(document).ready(function () {
         title: 'Simulador',
         data: 'simulator',
         className: 'uniqueClassName',
+        visible: plan_cost_simulator,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -248,6 +279,7 @@ $(document).ready(function () {
         title: 'Economia De Escala',
         data: 'economy_scale',
         className: 'uniqueClassName',
+        visible: plan_cost_economy_sale,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -258,6 +290,7 @@ $(document).ready(function () {
         title: 'Pto De Equilibrio Multiproducto',
         data: 'multiproduct',
         className: 'uniqueClassName',
+        visible: plan_cost_multiproduct,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -268,6 +301,7 @@ $(document).ready(function () {
         title: 'Cotizaciones',
         data: 'quote',
         className: 'uniqueClassName',
+        visible: plan_cost_quote,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
@@ -278,6 +312,7 @@ $(document).ready(function () {
         title: 'Soporte',
         data: 'support',
         className: 'uniqueClassName',
+        visible: plan_cost_support,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'

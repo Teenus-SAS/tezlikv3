@@ -75,6 +75,7 @@ class GeneralUserAccessDao
         $_SESSION['cost_multiproduct'] = $userAccess['cost_multiproduct'];
         $_SESSION['support'] = $userAccess['support'];
         $_SESSION['quotes'] = $userAccess['quote'];
+        $_SESSION['plan_cost_price'] = $userAccess['plan_cost_price'];
         $_SESSION['plan_cost_price_usd'] = $userAccess['plan_cost_price_usd'];
         $_SESSION['plan_cost_analysis_material'] = $userAccess['plan_cost_analysis_material'];
         $_SESSION['plan_cost_simulator'] = $userAccess['plan_cost_simulator'];

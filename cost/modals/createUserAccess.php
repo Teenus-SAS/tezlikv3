@@ -139,63 +139,75 @@
                                             </div>
 
                                             <div class="col-sm-3 pb-2">Precios
-                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-17" name="prices" type="checkbox">
-                                                    <label for="checkbox-17">Precios COP</label>
-                                                </div>
+                                                <?php if ($_SESSION['plan_cost_price'] == 1) { ?>
+                                                    <div class="mt-1 checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-17" name="prices" type="checkbox">
+                                                        <label for="checkbox-17">Precios COP</label>
+                                                    </div>
+                                                <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-18" name="pricesUSD" type="checkbox">
                                                         <label for="checkbox-18">Precios USD</label>
                                                     </div>
                                                 <?php } ?>
-                                                <div class="mb-2 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-19" name="customPrices" type="checkbox">
-                                                    <label for="checkbox-19">Precios Personalizados</label>
-                                                </div>
+
+                                                <?php if ($_SESSION['plan_custom_price'] == 1) { ?>
+                                                    <div class="mb-2 checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-19" name="customPrices" type="checkbox">
+                                                        <label for="checkbox-19">Precios Personalizados</label>
+                                                    </div>
+                                                <?php } ?>
                                             </div>
 
 
 
                                             <div class="col-sm-3">Herramientas
-                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-20" name="analysisRawMaterials" type="checkbox">
-                                                    <label for="checkbox-20">Analisis Materia Prima</label>
-                                                </div>
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-21" name="economyScale" type="checkbox">
-                                                    <label for="checkbox-21">Economia De Escala</label>
-                                                </div>
-                                                <?php if ($_SESSION['plan_cost_multiproduct'] == 0) { ?>
-                                                    <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
-                                                    <?php } ?>
-                                                    <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                        <?php } ?>
+
+                                                <?php if ($_SESSION['plan_cost_analysis_material'] == 1) { ?>
+                                                    <div class="mt-1 checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-20" name="analysisRawMaterials" type="checkbox">
+                                                        <label for="checkbox-20">Analisis Materia Prima</label>
+                                                    </div>
+                                                <?php } ?>
+                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1) { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-21" name="economyScale" type="checkbox">
+                                                        <label for="checkbox-21">Economia De Escala</label>
+                                                    </div>
+                                                <?php } ?>
+                                                <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-22" name="multiproduct" type="checkbox">
                                                         <label for="checkbox-22">Pto De Equilibrio Multiproducto</label>
-                                                        </div>
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-23" name="simulator" type="checkbox">
-                                                            <label for="checkbox-23">Simulador</label>
-                                                        </div>
                                                     </div>
-
-                                                    <div class="mt-4 col-sm-3">
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-24" name="quotes" type="checkbox">
-                                                            <label for="checkbox-24">Cotización</label>
-                                                        </div>
+                                                <?php } ?>
+                                                <?php if ($_SESSION['plan_cost_simulator'] == 1) { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-23" name="simulator" type="checkbox">
+                                                        <label for="checkbox-23">Simulador</label>
                                                     </div>
-                                                    <div class="mt-4 col-sm-3">
-                                                        <div class="checkbox checkbox-success checkbox-circle">
-                                                            <input id="checkbox-25" name="tools" type="checkbox">
-                                                            <label for="checkbox-25">Soporte</label>
-                                                        </div>
-                                                    </div>
+                                                <?php } ?>
                                             </div>
-                                            <hr>
+                                            <?php if ($_SESSION['plan_cost_quote'] == 1) { ?>
+                                                <div class="mt-4 col-sm-3">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-24" name="quotes" type="checkbox">
+                                                        <label for="checkbox-24">Cotización</label>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['plan_cost_support'] == 1) { ?>
+                                                <div class="mt-4 col-sm-3">
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-25" name="tools" type="checkbox">
+                                                        <label for="checkbox-25">Soporte</label>
+                                                    </div>
+                                                </div>
+                                            <?php } ?>
                                         </div>
+                                        <hr>
+                                    </div>
                                 </form>
                             </div>
                         </div>

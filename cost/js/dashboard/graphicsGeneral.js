@@ -113,13 +113,13 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage =
-                ((value * 100) / sum).toLocaleString('es-CO', {
+              let percentage = (value * 100) / sum;
+              if (percentage > 3)
+                return `${percentage.toLocaleString('es-CO', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                }) + '%';
-              // return ctx.chart.data.labels[ctx.dataIndex] + '\n' + percentage;
-              return percentage;
+                })} %`;
+              else return '';
             },
             color: 'white',
             font: {
@@ -182,12 +182,13 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage =
-                ((value * 100) / sum).toLocaleString('es-CO', {
+              let percentage = (value * 100) / sum;
+              if (percentage > 3)
+                return `${percentage.toLocaleString('es-CO', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                }) + '%';
-              return percentage;
+                })} %`;
+              else return '';
             },
             color: 'white',
             font: {
@@ -262,12 +263,13 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage =
-                ((value * 100) / sum).toLocaleString('es-CO', {
+              let percentage = (value * 100) / sum;
+              if (percentage > 3)
+                return `${percentage.toLocaleString('es-CO', {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
-                }) + '%';
-              return percentage;
+                })} %`;
+              else return '';
             },
             color: 'white',
             font: {

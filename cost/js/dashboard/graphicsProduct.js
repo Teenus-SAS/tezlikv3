@@ -134,11 +134,13 @@ $(document).ready(function () {
                 sum += data;
               });
 
-              sum > 0
-                ? (percentage = ((value * 100) / sum).toFixed(2) + '%')
-                : (percentage = 0);
-
-              return percentage;
+              let percentage = (value * 100) / sum;
+              if (percentage > 3)
+                return `${percentage.toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })} %`;
+              else return '';
             },
             color: 'white',
             font: {
@@ -196,8 +198,13 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return percentage;
+              let percentage = (value * 100) / sum;
+              if (percentage > 3)
+                return `${percentage.toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })} %`;
+              else return '';
             },
             color: 'white',
             font: {
@@ -250,8 +257,13 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return percentage;
+              let percentage = (value * 100) / sum;
+              if (percentage > 3)
+                return `${percentage.toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })} %`;
+              else return '';
             },
             color: 'white',
             font: {
@@ -317,8 +329,13 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return percentage;
+              let percentage = (value * 100) / sum;
+              if (percentage > 3)
+                return `${percentage.toLocaleString('es-CO', {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })} %`;
+              else return '';
             },
             color: 'white',
             font: {
@@ -384,8 +401,11 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
-              return percentage;
+              let percentage = (value * 100) / sum;
+              isNaN(percentage) ? (percentage = 0) : percentage;
+              return `${percentage.toLocaleString('es-CO', {
+                maximumFractionDigits: 2,
+              })} %`;
             },
             color: 'black',
             font: {
