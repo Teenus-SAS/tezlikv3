@@ -410,6 +410,27 @@ $(document).ready(function () {
 
   /* Servicios Externos */
   loadTblSimulatorExternalServices = (data) => {
+    $('#cardAddDataSimulator').empty();
+    $('.cardAddDataSimulator').hide();
+
+    let form = document.getElementById('cardAddDataSimulator');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Servicio</label>
+            <input type="text" class="form-control data" id="name_service">
+        </div>
+        <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Costo</label>
+            <input type="number" class="form-control data" id="cost">
+        </div>
+        <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
+          <button class="btn btn-success btnCreateDataSimulator" id="externalServices">Crear Servicio</button>
+        </div>`
+    );
+    $('.cardAddDataSimulator').show(800);
+
     tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',
@@ -601,52 +622,98 @@ $(document).ready(function () {
   /* Distribucion de Gastos */
   loadTblSimulatorDistribution = (data) => {
     let status = false;
+    $('#cardAddDataSimulator').empty();
+    $('.cardAddDataSimulator').hide();
+
     for (let i = 0; i < data.length; i++) {
-      if (data[i].id_product == dataSimulator.products[0].id_product)
-        status = false;
+      if (data[i].id_product == dataSimulator.products[0].id_product) {
+        status = true;
+        data = Array(data[i]);
+        break;
+      }
     }
 
-    if (status == true)
-      tblSimulator = $('#tblSimulator').DataTable({
-        destroy: true,
-        scrollY: '150px',
-        scrollCollapse: true,
-        paging: false,
-        data: data,
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+    if (status == false) {
+      let form = document.getElementById('cardAddDataSimulator');
+
+      form.insertAdjacentHTML(
+        'beforeend',
+        `<div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Und Vendidas (Mes)</label>
+            <input type="number" class="form-control data" id="units_sold">
+        </div>
+        <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Total Ventas (Mes)</label>
+            <input type="number" class="form-control data" id="turnover">
+        </div>
+        <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
+          <button class="btn btn-success btnCreateDataSimulator" id="expensesDistribution">Crear Gasto</button>
+        </div>`
+      );
+      $('.cardAddDataSimulator').show(800);
+      data = [];
+    }
+
+    tblSimulator = $('#tblSimulator').DataTable({
+      destroy: true,
+      scrollY: '150px',
+      scrollCollapse: true,
+      paging: false,
+      data: data,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      columns: [
+        {
+          title: 'No.',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) {
+            return meta.row + 1;
+          },
         },
-        columns: [
-          {
-            title: 'No.',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data, type, full, meta) {
-              return meta.row + 1;
-            },
+        {
+          title: 'Unidades Vendidas',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
           },
-          {
-            title: 'Unidades Vendidas',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data) {
-              return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
-            },
+        },
+        {
+          title: 'Vol de Ventas',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
           },
-          {
-            title: 'Vol de Ventas',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data) {
-              return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
-            },
-          },
-        ],
-      });
+        },
+      ],
+    });
   };
 
   /* Recuperacion de Gastos */
   loadTblSimulatorRecover = (data) => {
+    $('#cardAddDataSimulator').empty();
+    $('.cardAddDataSimulator').hide();
+
+    if (data.length == 0) {
+      let form = document.getElementById('cardAddDataSimulator');
+
+      form.insertAdjacentHTML(
+        'beforeend',
+        `<div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Porcentaje</label>
+            <input type="number" class="form-control data" id="expense_recover">
+        </div>
+        <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
+          <button class="btn btn-success btnCreateDataSimulator" id="expenseRecover">Crear Gasto</button>
+        </div>`
+      );
+
+      $('.cardAddDataSimulator').show(800);
+    }
+
     tblSimulator = $('#tblSimulator').DataTable({
       destroy: true,
       scrollY: '150px',

@@ -219,7 +219,7 @@ $(document).ready(function () {
   calcServices = (data) => {
     let cost = 0;
     for (let i = 0; i < data.length; i++) {
-      cost += data[i].cost;
+      cost += parseInt(data[i].cost);
     }
 
     dataSimulator.products[0].services = cost;

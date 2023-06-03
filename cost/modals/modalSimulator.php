@@ -44,81 +44,21 @@
                         </div>
 
                         <div class="col-md-12 col-lg-12 cardTableSimulator" style="display:none;">
+                            <div class="card cardAddDataSimulator" style="display:none;">
+                                <div class="card-body">
+                                    <form id="formDataSimulator">
+                                        <div class="form-row" id="cardAddDataSimulator">
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                             <div class="table-responsive">
                                 <table class="table table-striped" id="tblSimulator" style="width: 380px;">
                                 </table>
                             </div>
                         </div>
-                        <!--
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorProducts" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorProducts" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
 
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorMaterials" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorMaterials" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorMachines" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorMachines" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorProductsMaterials" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorProductsMaterials" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorProductsProcess" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorProductsProcess" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorFactoryLoad" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorFactoryLoad" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorPayroll" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorPayroll" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorServices" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorServices" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorExpensesDistribution" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorExpensesDistribution" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12 col-lg-12 cardTableSimulator cardTableSimulatorExpensesRecover" style="display:none;">
-                            <div class="table-responsive">
-                                <table class="table table-striped" id="tblSimulatorExpensesRecover" style="width: 380px;">
-                                </table>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>

@@ -1,7 +1,9 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\CostMinuteDao;
+use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\DashboardProductsDao;
 use tezlikv3\dao\ExpenseRecoverDao;
 use tezlikv3\dao\ExpensesDistributionDao;
@@ -9,6 +11,7 @@ use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\FactoryLoadDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\MinuteDepreciationDao;
@@ -36,6 +39,9 @@ $costMinuteDao = new CostMinuteDao();
 $payrollDao = new PayrollDao();
 $expenseRecoverDao = new ExpenseRecoverDao();
 $assignableExpenseDao = new AssignableExpenseDao();
+$costMaterialsDao = new CostMaterialsDao();
+$costWorkforceDao = new CostWorkforceDao();
+$indirectCostDao = new IndirectCostDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -101,7 +107,10 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $expensesDistributionDao,
     $assignableExpenseDao,
     $expenseRecoverDao,
-    $generalProductsDao
+    $generalProductsDao,
+    $costMaterialsDao,
+    $costWorkforceDao,
+    $indirectCostDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -115,10 +124,14 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $products['commissionSale'] = $simulator['products'][0]['commission_sale'];
 
     $resolution = $productsCostDao->updateProductsCostByCompany($products);
-    // Modificar Precio
-    if ($resolution == null)
+    // Modificar 'product_cost'
+    if ($resolution == null) {
         $resolution = $generalProductsDao->updatePrice($products['idProduct'], $simulator['products'][0]['price']);
-
+        $products['cost'] = $simulator['products'][0]['cost_materials'];
+        $resolution = $costMaterialsDao->updateCostMaterials($products, $id_company);
+        $resolution = $costWorkforceDao->updateCostWorkforce($simulator['products'][0]['cost_workforce'], $products['idProduct'], $id_company);
+        $resolution = $indirectCostDao->updateCostIndirectCost($simulator['products'][0]['cost_indirect_cost'], $products['idProduct'], $id_company);
+    }
 
     // Guardar data maquinas
     if ($resolution == null) {
@@ -240,11 +253,14 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
         for ($i = 0; $i < $count; $i++) {
             if (isset($resolution['info'])) break;
             $services[$i]['idProduct'] = $services[$i]['id_product'];
-            $services[$i]['idService'] = $services[$i]['id_service'];
             $services[$i]['service'] = $services[$i]['name_service'];
             $services[$i]['costService'] = $services[$i]['cost'];
+            if (isset($services[$i]['idService'])) {
+                $services[$i]['idService'] = $services[$i]['id_service'];
 
-            $resolution = $externalServicesDao->updateExternalServices($services[$i]);
+                $resolution = $externalServicesDao->updateExternalServices($services[$i]);
+            } else
+                $resolution = $expenseRecoverDao->insertRecoverExpenseByCompany($services[$i], $id_company);
         }
     }
     // Guardar data nomina
@@ -284,11 +300,15 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
 
             for ($i = 0; $i < $count; $i++) {
                 if (isset($resolution['info'])) break;
-                $expensesDistribution[$i]['idExpensesDistribution'] = $expensesDistribution[$i]['id_expenses_distribution'];
                 $expensesDistribution[$i]['selectNameProduct'] = $expensesDistribution[$i]['id_product'];
                 $expensesDistribution[$i]['unitsSold'] = $expensesDistribution[$i]['units_sold'];
+                if (isset($expensesDistribution[$i]['idExpensesDistribution'])) {
+                    $expensesDistribution[$i]['idExpensesDistribution'] = $expensesDistribution[$i]['id_expenses_distribution'];
 
-                $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
+                    $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
+                } else
+                    $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($expensesDistribution[$i], $id_company);
+
                 if (isset($resolution['info'])) break;
 
                 $resolution = $assignableExpenseDao->updateAssignableExpense($expensesDistribution[$i]['id_product'], $expensesDistribution[$i]['assignable_expense']);
@@ -305,9 +325,14 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
 
             for ($i = 0; $i < $count; $i++) {
                 if (isset($resolution['info'])) break;
-                $expenseRecovers[$i]['idExpenseRecover'] = $expenseRecovers[$i]['id_expense_recover'];
+                $expenseRecovers[$i]['idProduct'] = $expenseRecovers[$i]['id_product'];
 
-                $resolution = $expenseRecoverDao->updateRecoverExpense($expenseRecovers[$i]);
+                if (isset($expenseRecovers[$i]['idExpenseRecover'])) {
+                    $expenseRecovers[$i]['idExpenseRecover'] = $expenseRecovers[$i]['id_expense_recover'];
+
+                    $resolution = $expenseRecoverDao->updateRecoverExpense($expenseRecovers[$i]);
+                } else
+                    $resolution = $expenseRecoverDao->insertRecoverExpenseByCompany($expenseRecovers[$i], $id_company);
             }
         }
     }

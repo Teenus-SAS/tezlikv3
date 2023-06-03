@@ -111,10 +111,10 @@ if (sizeof($_SESSION) == 0)
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid form-row">
-                        <div class="col-sm-6" style="padding-right: 80px;">
+                        <div class="col-sm-4" style="padding-right: 80px;">
                             <!-- Widget  -->
                             <div class="row">
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -124,13 +124,13 @@ if (sizeof($_SESSION) == 0)
                                                         <i class="percentRawMaterial" style="font-style: initial;"></i>
                                                     </span>
 
-                                                    <p class="mb-0 mt-1 rawMaterial"></p>
+                                                    <p class="mb-0 mt-1"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -139,13 +139,13 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
                                                         <i class="percentWorkforce" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 workforce"></p>
+                                                    <p class="mb-0 mt-1"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -154,13 +154,13 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
                                                         <i class="percentIndirectCost" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 number indirectCost"></p>
+                                                    <p class="mb-0 mt-1 number"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -169,7 +169,7 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:10px">
                                                         <i class="percentAssignableExpenses" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 number assignableExpenses"></p>
+                                                    <p class="mb-0 mt-1 number"></p>
                                                 </div>
                                             </div>
                                         </div>
@@ -219,10 +219,10 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <!-- Widget  -->
                             <div class="row">
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -231,13 +231,13 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
                                                         <i class="sim-2 percentRawMaterial" id="percentRawMaterial-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 sim-2 rawMaterial" id="rawMaterial-2"></p>
+                                                    <p class="mb-0 mt-1 sim-2"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -246,13 +246,13 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
                                                         <i class="sim-2 percentWorkforce" id="percentWorkforce-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 sim-2 workforce" id="workforce-2"></p>
+                                                    <p class="mb-0 mt-1 sim-2"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -261,13 +261,13 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
                                                         <i class="sim-2 percentIndirectCost" id="percentIndirectCost-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 number sim-2 indirectCost" id="indirectCost-2"></p>
+                                                    <p class="mb-0 mt-1 number sim-2"></p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-xl-3">
+                                <div class="col-md-6 col-xl-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="media align-items-center">
@@ -276,7 +276,7 @@ if (sizeof($_SESSION) == 0)
                                                     <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
                                                         <i class="sim-2 percentAssignableExpenses" id="percentAssignableExpenses-2" style="font-style: initial;"></i>
                                                     </span>
-                                                    <p class="mb-0 mt-1 number sim-2 assignableExpenses" id="assignableExpenses-2"></p>
+                                                    <p class="mb-0 mt-1 number sim-2"></p>
                                                 </div>
                                             </div>
                                         </div>

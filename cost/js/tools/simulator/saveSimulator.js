@@ -59,9 +59,6 @@ $(document).ready(function () {
           dataSimulator[cardData.data][i][this.id] = parseFloat(this.value);
 
           if (id == 'id_payroll') {
-            // let type_salary = sessionStorage.getItem('type_salary');
-
-            // if (type_salary) {
             let payroll = calcSalaryNetSimulator(
               dataSimulator[cardData.data][i]
             );
@@ -69,7 +66,6 @@ $(document).ready(function () {
             dataSimulator[cardData.data][i].factor_benefit = payroll.factor;
             dataSimulator[cardData.data][i].salary_net = payroll.salary_net;
             dataSimulator[cardData.data][i].minute_value = payroll.minute_value;
-            // }
           }
         }
       }
@@ -119,6 +115,30 @@ $(document).ready(function () {
         }
       },
     });
+  });
+
+  $(document).on('click', '.btnCreateDataSimulator', async function () {
+    let form = document.getElementsByClassName('data');
+
+    let data = new Object();
+
+    data.id_product = dataSimulator.products[0].id_product;
+
+    for (let i = 0; i < form.length; i++) {
+      let value = form[i].value;
+
+      if (value == '') {
+        toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      data[form[i].id] = value;
+    }
+
+    toastr.success('Datos agregados correctamente');
+    $('#formDataSimulator').trigger('reset');
+    dataSimulator[cardData.data].push(data);
+    await cardData.loader(dataSimulator[cardData.data]);
   });
 
   message = (data) => {
