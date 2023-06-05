@@ -15,9 +15,11 @@ $(document).ready(function () {
   setDataDashboardGeneral = (data) => {
     $('#nameProduct').html(data.product);
 
-    $('.imageProduct').html(`
-      <img src="${data.img}" class="mx-auto d-block" style="width:60px;border-radius:100px">
-    `);
+    !data.img
+      ? (img = '')
+      : (img = `<img src="${data.img}" class="mx-auto d-block" style="width:60px;border-radius:100px">`);
+
+    $('.imageProduct').html(img);
 
     dataCost = getDataCost(data);
 

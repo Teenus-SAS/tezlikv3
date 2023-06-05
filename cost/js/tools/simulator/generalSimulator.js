@@ -76,6 +76,8 @@ $(document).ready(function () {
       await cardData.loader(dataSimulator[cardData.data]);
     }
 
+    $('#cardAddDataSimulator').empty();
+    $('.cardAddDataSimulator').hide();
     $('.cardTableSimulator').show(800);
 
     setTimeout(() => {

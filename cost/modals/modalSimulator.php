@@ -44,7 +44,7 @@
                         </div>
 
                         <div class="col-md-12 col-lg-12 cardTableSimulator" style="display:none;">
-                            <div class="card cardAddDataSimulator" style="display:none;">
+                            <div class="card cardAddDataSimulator">
                                 <div class="card-body">
                                     <form id="formDataSimulator">
                                         <div class="form-row" id="cardAddDataSimulator">

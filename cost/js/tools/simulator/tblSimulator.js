@@ -30,6 +30,15 @@ $(document).ready(function () {
         },
       ],
     });
+
+    setTimeout(() => {
+      $('.dataTables_filter').css('display', 'none');
+      let products = document.getElementsByClassName('dt-control');
+      var tr = $(products[2]).closest('tr');
+      var row = tblSimulator.row(tr);
+      row.child(formatProducts(row.data())).show();
+      tr.addClass('shown');
+    }, 1000);
   };
 
   function formatProducts(d) {
@@ -410,9 +419,6 @@ $(document).ready(function () {
 
   /* Servicios Externos */
   loadTblSimulatorExternalServices = (data) => {
-    $('#cardAddDataSimulator').empty();
-    $('.cardAddDataSimulator').hide();
-
     let form = document.getElementById('cardAddDataSimulator');
 
     form.insertAdjacentHTML(
@@ -622,8 +628,6 @@ $(document).ready(function () {
   /* Distribucion de Gastos */
   loadTblSimulatorDistribution = (data) => {
     let status = false;
-    $('#cardAddDataSimulator').empty();
-    $('.cardAddDataSimulator').hide();
 
     for (let i = 0; i < data.length; i++) {
       if (data[i].id_product == dataSimulator.products[0].id_product) {
@@ -694,9 +698,6 @@ $(document).ready(function () {
 
   /* Recuperacion de Gastos */
   loadTblSimulatorRecover = (data) => {
-    $('#cardAddDataSimulator').empty();
-    $('.cardAddDataSimulator').hide();
-
     if (data.length == 0) {
       let form = document.getElementById('cardAddDataSimulator');
 

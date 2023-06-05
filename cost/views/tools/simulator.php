@@ -111,74 +111,10 @@ if (sizeof($_SESSION) == 0)
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid form-row">
-                        <div class="col-sm-4" style="padding-right: 80px;">
-                            <!-- Widget  -->
-                            <div class="row">
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">M.P</span>
-                                                    <span class="text-info font-weight-bold" style="font-size: small; margin-left:20px">
-                                                        <i class="percentRawMaterial" style="font-style: initial;"></i>
-                                                    </span>
-
-                                                    <p class="mb-0 mt-1"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">M.O</span>
-                                                    <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="percentWorkforce" style="font-style: initial;"></i>
-                                                    </span>
-                                                    <p class="mb-0 mt-1"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">C.I</span>
-                                                    <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="percentIndirectCost" style="font-style: initial;"></i>
-                                                    </span>
-                                                    <p class="mb-0 mt-1 number"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gtos</span>
-                                                    <span class="text-info font-weight-bold" style="font-size:small; margin-left:10px">
-                                                        <i class="percentAssignableExpenses" style="font-style: initial;"></i>
-                                                    </span>
-                                                    <p class="mb-0 mt-1 number"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-sm-6">
                             <!-- Row 2-->
                             <div class="row align-items-stretch">
-                                <div class="col">
+                                <div class="col-sm-8">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-title">Costeo Total - Actual</h5>
@@ -217,75 +153,74 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materia Prima</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="percentRawMaterial" style="font-style: initial; font-size:18px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mano de Obra</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="percentWorkforce" style="font-style: initial; font-size:18px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Costos Indirectos</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="percentIndirectCost" style="font-style: initial; font-size:18px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gastos</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="percentAssignableExpenses" style="font-style: initial; font-size:18px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-sm-4">
-                            <!-- Widget  -->
-                            <div class="row">
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">M.P</span>
-                                                    <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="sim-2 percentRawMaterial" id="percentRawMaterial-2" style="font-style: initial;"></i>
-                                                    </span>
-                                                    <p class="mb-0 mt-1 sim-2"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">M.O</span>
-                                                    <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="sim-2 percentWorkforce" id="percentWorkforce-2" style="font-style: initial;"></i>
-                                                    </span>
-                                                    <p class="mb-0 mt-1 sim-2"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">C.I</span>
-                                                    <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="sim-2 percentIndirectCost" id="percentIndirectCost-2" style="font-style: initial;"></i>
-                                                    </span>
-                                                    <p class="mb-0 mt-1 number sim-2"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 col-xl-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gtos</span>
-                                                    <span class="text-info font-weight-bold" style="font-size:small; margin-left:20px">
-                                                        <i class="sim-2 percentAssignableExpenses" id="percentAssignableExpenses-2" style="font-style: initial;"></i>
-                                                    </span>
-                                                    <p class="mb-0 mt-1 number sim-2"></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-sm-6">
                             <!-- Row 2-->
                             <div class="row align-items-stretch">
-                                <div class="col">
+                                <div class="col-sm-8">
                                     <div class="card">
                                         <div class="card-header">
                                             <h5 class="card-title">Costeo Total - Simulación</h5>
@@ -321,6 +256,68 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </li>
                                             </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materia Prima</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="sim-2 percentRawMaterial" id="percentRawMaterial-2" style="font-style: initial; font-size:18px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mano de Obra</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="sim-2 percentWorkforce" id="percentWorkforce-2" style="font-style: initial; font-size:18px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Costos Indirectos</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="sim-2 percentIndirectCost" id="percentIndirectCost-2" style="font-style: initial; font-size:18px"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="media align-items-center">
+                                                    <div class="media-body">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gastos</span>
+                                                        <p class="mb-0 mt-1"></p>
+                                                        <span class="text-info font-weight-bold">
+                                                            <i class="sim-2 percentAssignableExpenses" id="percentAssignableExpenses-2" style="font-style: initial; font-size:18px;"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
