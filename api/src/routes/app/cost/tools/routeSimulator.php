@@ -326,6 +326,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
             for ($i = 0; $i < $count; $i++) {
                 if (isset($resolution['info'])) break;
                 $expenseRecovers[$i]['idProduct'] = $expenseRecovers[$i]['id_product'];
+                $expenseRecovers[$i]['percentage'] = $expenseRecovers[$i]['expense_recover'];
 
                 if (isset($expenseRecovers[$i]['idExpenseRecover'])) {
                     $expenseRecovers[$i]['idExpenseRecover'] = $expenseRecovers[$i]['id_expense_recover'];

@@ -26,6 +26,8 @@ $(document).ready(function () {
   $(document).on('click', '.btn-outline-light', async function () {
     $('.cardTableSimulator').hide();
     $('.cardAddSimulator').hide(800);
+    $('#cardAddDataSimulator').empty();
+    $('.cardAddDataSimulator').hide();
 
     // dataSimulator = dataBDSimulator;
 
@@ -76,8 +78,6 @@ $(document).ready(function () {
       await cardData.loader(dataSimulator[cardData.data]);
     }
 
-    $('#cardAddDataSimulator').empty();
-    $('.cardAddDataSimulator').hide();
     $('.cardTableSimulator').show(800);
 
     setTimeout(() => {

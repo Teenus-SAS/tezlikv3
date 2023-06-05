@@ -32,6 +32,7 @@ $(document).ready(function () {
     toastr.success('Datos guardados correctamente');
   });
 
+  /* General */
   $(document).on('click keyup', '.inputSimulator', function () {
     let data = 1 * parseFloat(this.value);
 
@@ -68,6 +69,44 @@ $(document).ready(function () {
             dataSimulator[cardData.data][i].minute_value = payroll.minute_value;
           }
         }
+      }
+    }
+  });
+
+  /* Ficha tecnica procesos */
+  $(document).on('change', '#machines', function () {
+    let key = getLastText(this.className);
+    let text = this.className.split(' ');
+    let id = text[text.length - 2];
+
+    let dataMachines = sessionStorage.getItem('dataMachines');
+
+    dataMachines = JSON.parse(dataMachines);
+
+    for (let i = 0; i < dataMachines.length; i++) {
+      if (dataMachines[i].id_machine == this.value) {
+        dataMachines = dataMachines[i];
+        break;
+      }
+    }
+
+    for (let i = 0; i < dataSimulator[cardData.data].length; i++) {
+      if (dataSimulator[cardData.data][i][id] == key) {
+        dataSimulator[cardData.data][i]['id_machine'] = parseFloat(this.value);
+        dataSimulator[cardData.data][i]['machine'] =
+          this.value == 0 ? 'PROCESO MANUAL' : dataMachines.machine.trim();
+        dataSimulator[cardData.data][i]['cost_machine'] =
+          this.value == 0 ? 0 : parseFloat(dataMachines.cost);
+        dataSimulator[cardData.data][i]['years_depreciation'] =
+          this.value == 0 ? 0 : parseFloat(dataMachines.years_depreciation);
+        dataSimulator[cardData.data][i]['residual_value'] =
+          this.value == 0 ? 0 : parseFloat(dataMachines.residual_value);
+        dataSimulator[cardData.data][i]['minute_depreciation'] =
+          this.value == 0 ? 0 : parseFloat(dataMachines.minute_depreciation);
+        dataSimulator[cardData.data][i]['hours_machine'] =
+          this.value == 0 ? 0 : parseFloat(dataMachines.hours_machine);
+        dataSimulator[cardData.data][i]['days_machine'] =
+          this.value == 0 ? 0 : parseFloat(dataMachines.days_machine);
       }
     }
   });

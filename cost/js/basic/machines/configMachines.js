@@ -12,6 +12,9 @@ $(document).ready(function () {
     type: 'GET',
     url: '/api/machines',
     success: function (r) {
+      let dataMachines = JSON.stringify(r);
+      sessionStorage.setItem('dataMachines', dataMachines);
+
       let $select = $(`#idMachine`);
       $select.empty();
       $select.append(`<option disabled>Seleccionar</option>`);

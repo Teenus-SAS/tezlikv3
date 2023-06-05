@@ -317,8 +317,35 @@ $(document).ready(function () {
         },
         {
           title: 'Maquina',
-          data: 'machine',
+          data: null,
           className: 'uniqueClassName',
+          render: function (data) {
+            let dataMachines = sessionStorage.getItem('dataMachines');
+
+            dataMachines = JSON.parse(dataMachines);
+
+            var options = ``;
+
+            for (var i = 0; i < dataMachines.length; i++) {
+              options += `<option value="${dataMachines[i].id_machine}" ${
+                data.id_machine == dataMachines[i].id_machine ? 'selected' : ''
+              }>
+                ${dataMachines[i].machine}
+              </option>`;
+            }
+
+            var select = `<select class="form-control id_product_process ${
+              data.id_product_process
+            }" id="machines">
+              <option disabled>Seleccionar</option>
+              <option value="0" ${
+                data.id_machine == '0' ? 'selected' : ''
+              }>PROCESO MANUAL</option>
+              ${options}
+            </select>`;
+
+            return select;
+          },
         },
       ],
     });
@@ -632,7 +659,6 @@ $(document).ready(function () {
     for (let i = 0; i < data.length; i++) {
       if (data[i].id_product == dataSimulator.products[0].id_product) {
         status = true;
-        data = Array(data[i]);
         break;
       }
     }
@@ -669,12 +695,15 @@ $(document).ready(function () {
       },
       columns: [
         {
-          title: 'No.',
+          className: 'dt-control distribution',
+          orderable: false,
           data: null,
+          defaultContent: '',
+        },
+        {
+          title: 'Producto',
+          data: 'product',
           className: 'uniqueClassName',
-          render: function (data, type, full, meta) {
-            return meta.row + 1;
-          },
         },
         {
           title: 'Unidades Vendidas',
@@ -684,17 +713,35 @@ $(document).ready(function () {
             return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="units_sold" value="${data.units_sold}">`;
           },
         },
-        {
-          title: 'Vol de Ventas',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data) {
-            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${data.id_expenses_distribution}" id="turnover" value="${data.turnover}">`;
-          },
-        },
       ],
     });
   };
+
+  function formatDistribution(d) {
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
+            <tr>
+                <th>Vol de Ventas:</th>
+                <td style="width:400px">
+                  <input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${d.id_expenses_distribution}" id="turnover" value="${d.turnover}">
+                </td>
+            </tr>
+        </table>`;
+  }
+
+  $(document).on('click', '.distribution', function () {
+    var tr = $(this).closest('tr');
+    var row = tblSimulator.row(tr);
+
+    if (row.child.isShown()) {
+      // This row is already open - close it
+      row.child.hide();
+      tr.removeClass('shown');
+    } else {
+      // Open this row
+      row.child(formatDistribution(row.data())).show();
+      tr.addClass('shown');
+    }
+  });
 
   /* Recuperacion de Gastos */
   loadTblSimulatorRecover = (data) => {

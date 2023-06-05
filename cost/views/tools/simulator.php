@@ -337,6 +337,7 @@ if (sizeof($_SESSION) == 0)
 
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>"
     </script>
