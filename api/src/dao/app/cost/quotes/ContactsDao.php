@@ -22,7 +22,7 @@ class ContactsDao
 
         $stmt = $connection->prepare("SELECT c.id_contact, c.firstname, c.lastname, c.phone, c.phone1, c.email, c.position, qc.id_quote_company, qc.company_name 
                                       FROM quote_customers c
-                                      INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_company");
+                                      INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_quote_company");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -30,15 +30,15 @@ class ContactsDao
         return $contacts;
     }
 
-    public function findAllContactsByCompany($id_company)
+    public function findAllContactsByCompany($id_quote_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT c.id_contact, c.firstname, c.lastname, c.phone, c.phone1, c.email, c.position, qc.id_quote_company, qc.company_name 
                                       FROM quote_customers c
-                                      INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_company
-                                      WHERE c.id_company = :id_company");
-        $stmt->execute(['id_company' => $id_company]);
+                                      INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_quote_company
+                                      WHERE c.id_quote_company = :id_quote_company");
+        $stmt->execute(['id_quote_company' => $id_quote_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $contacts = $stmt->fetchAll($connection::FETCH_ASSOC);
@@ -50,8 +50,8 @@ class ContactsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO quote_customers (firstname, lastname, phone, phone1, email, position, id_company) 
-                                          VALUES (:firstname, :lastname, :phone, :phone1, :email, :position, :id_company)");
+            $stmt = $connection->prepare("INSERT INTO quote_customers (firstname, lastname, phone, phone1, email, position, id_quote_company) 
+                                          VALUES (:firstname, :lastname, :phone, :phone1, :email, :position, :id_quote_company)");
             $stmt->execute([
                 'firstname' => $dataContact['firstname'],
                 'lastname' => $dataContact['lastname'],
@@ -59,7 +59,7 @@ class ContactsDao
                 'phone1' => $dataContact['phone1'],
                 'email' => $dataContact['email'],
                 'position' => $dataContact['position'],
-                'id_company' => $dataContact['idCompany']
+                'id_quote_company' => $dataContact['idCompany']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -76,7 +76,7 @@ class ContactsDao
 
         try {
             $stmt = $connection->prepare("UPDATE quote_customers SET firstname = :firstname, lastname = :lastname, phone = :phone, phone1 = :phone1, 
-                                                                email = :email, position = :position, id_company = :id_company
+                                                                email = :email, position = :position, id_quote_company = :id_quote_company
                                           WHERE id_contact = :id_contact");
             $stmt->execute([
                 'id_contact' => $dataContact['idContact'],
@@ -86,7 +86,7 @@ class ContactsDao
                 'phone1' => $dataContact['phone1'],
                 'email' => $dataContact['email'],
                 'position' => $dataContact['position'],
-                'id_company' => $dataContact['idCompany']
+                'id_quote_company' => $dataContact['idCompany']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

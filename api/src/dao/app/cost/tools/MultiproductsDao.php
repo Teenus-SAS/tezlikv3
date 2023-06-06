@@ -22,7 +22,7 @@ class MultiproductsDao
 
         try {
             $stmt = $connection->prepare("SELECT p.id_product, p.product, pc.price, IFNULL((SELECT SUM(expense_value) FROM expenses WHERE id_company = p.id_company), 0) AS expense, 
-                                                 ((SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT py.salary_net FROM payroll py INNER JOIN products_process pp ON pp.id_process = py.id_process WHERE py.id_company = :id_company GROUP BY employee) AS payroll)) AS cost_fixed,
+                                                 ((SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll)) AS cost_fixed,
                                                  IFNULL(pc.cost_materials + pc.cost_indirect_cost + ((pc.commission_sale / 100) * pc.price) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product), 0) AS variable_cost
                                         FROM products p
                                         INNER JOIN products_costs pc ON p.id_product = pc.id_product

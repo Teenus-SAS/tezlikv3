@@ -56,7 +56,7 @@
                                             <i class="bi bi-card-heading mr-1"></i>Análisis Materia Prima
                                             <i class="bx bx-chevron-right"></i>
                                         </a>
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu1">
                                             <a class="dropdown-item" href="/cost/analysis-materials-product">
                                                 <i class="bi bi-graph-up mr-1"></i> Producto
                                             </a>

@@ -90,8 +90,8 @@ if (sizeof($_SESSION) == 0)
 									<div style="min-width: 600px;">
 										<div class="row">
 											<div class="col">
-												<a href="javascript:;">
-													<img id="logo" src="" width="200" alt="">
+												<a href="javascript:;" id="logo">
+
 												</a>
 											</div>
 											<div class="col company-details">

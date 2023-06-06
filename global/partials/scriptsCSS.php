@@ -124,13 +124,13 @@
       position: relative;
    }
 
-   .dropdown-submenu .dropdown-menu {
+   .dropdown-submenu .dropdown-menu1 {
       top: 10%;
       left: 100%;
       margin-top: -1px;
    }
 
-   .navbar-nav li:hover>ul.dropdown-menu {
+   .navbar-nav li:hover>ul.dropdown-menu1 {
       display: block;
    }
 </style>

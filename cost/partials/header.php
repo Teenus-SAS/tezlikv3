@@ -104,7 +104,9 @@
                                                     <li class="aExpensesDistribution"><a href="/cost/expenses-distribution">Recuperación de Gastos</a></li>
                                                 <?php } ?>
                                             <?php } ?>
-                                            <!-- <li class="priceList"><a href="/cost/price-list">Lista de Precios</a></li> -->
+                                            <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
+                                                <li class="priceList"><a href="/cost/price-list">Lista de Precios</a></li>
+                                            <?php } ?>
                                         </ul>
                                     </div>
                                 <?php } ?>

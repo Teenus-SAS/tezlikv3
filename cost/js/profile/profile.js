@@ -24,7 +24,7 @@ $(document).ready(function () {
     $('#country').val(data[0].country);
     $('#phone').val(data[0].telephone);
     $('#address').val(data[0].address);
-    $('#logo').prop('src', data[0].logo);
+    if (data[0].logo) $('#logo').prop('src', data[0].logo);
   };
 
   loadProfile();

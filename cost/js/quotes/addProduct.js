@@ -50,6 +50,15 @@ $(document).ready(function () {
     $('#quantity').click();
   };
 
+  // $(document).on('change', '#pricesList', function () {
+  //   let data = JSON.parse(sessionStorage.getItem('dataPriceList'));
+
+  //   for (let i = 0; i < data.length; i++) {
+  //     if(data[i].id_price_list)
+
+  //   }
+  // });
+
   /* Calcular precio total */
 
   $(document).on('blur', '#price', function (e) {

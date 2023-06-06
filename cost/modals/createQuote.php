@@ -90,6 +90,10 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
+                                            <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <label for="">Lista de Precios</label>
+                                                <select class="form-control" name="idPriceList" id="pricesList"></select>
+                                            </div>
                                             <div class="col-12 col-lg-3">
                                                 <div class="form-group floating-label enable-floating-label show-label">
                                                     <input class="form-control number text-center calcPrice" type="text" name="quantity" id="quantity">
