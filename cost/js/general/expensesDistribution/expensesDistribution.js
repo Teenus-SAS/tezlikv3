@@ -13,6 +13,9 @@ $(document).ready(function () {
 
     $('.cardImportExpenses').hide(800);
     $('.cardExpenseRecover').hide(800);
+    $('.cardAddNewFamily').hide(800);
+    $('.cardTblFamilies').hide(800);
+    $('.cardTblExpensesDistribution').show(800);
     $('#btnAssignExpenses').html('Asignar');
     $('.cardExpensesDistribution').toggle(800);
 
@@ -167,10 +170,13 @@ $(document).ready(function () {
   message = async (data, op) => {
     if (data.success == true) {
       $('.cardExpensesDistribution').hide(800);
+      $('.formFamily').hide(800);
       $('.cardExpenseRecover').hide(800);
       $('#formExpensesDistribution').trigger('reset');
+      $('#cardAddNewFamily').trigger('reset');
       $('#formExpenseRecover').trigger('reset');
-      op == 1 ? await loadExpensesDProducts() : await loadExpensesRProducts();
+      if (op == 1) await loadExpensesDProducts();
+      else if (op == 2) await loadExpensesRProducts();
 
       updateTable(op);
       toastr.success(data.message);
@@ -182,10 +188,12 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   function updateTable(op) {
-    if ($.fn.dataTable.isDataTable('#tblExpenses')) {
+    if ($.fn.dataTable.isDataTable('#tblExpenses') && op != 3) {
       $('#tblExpenses').DataTable().destroy();
       $('#tblExpenses').empty();
     }
-    op == 1 ? loadTableExpensesDistribution() : loadTableExpenseRecover();
+    if (op == 1) loadTableExpensesDistribution();
+    else if (op == 2) loadTableExpenseRecover();
+    else if (op == 3) loadTableFamilies();
   }
 });

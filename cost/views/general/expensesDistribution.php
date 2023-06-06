@@ -61,6 +61,9 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-secondary" id="btnUpdateExpenses">Modificar Gastos</button>
                                 </div>
                                 <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
+                                    <button class="btn btn-secondary" id="btnAddNewFamily">Nueva Familia</button>
+                                </div>
+                                <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
                                     <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
                                 </div>
                                 <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
@@ -68,6 +71,30 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
                                     <button id="btnImportNewExpenses" class="btn btn-primary"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 mb-5 cardAddNewFamily">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formFamily">
+                                            <div class="form-row">
+                                                <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                    <input type="text" class="form-control" id="family" name="family">
+                                                    <label for="family">Nombre Familia</label>
+                                                </div>
+                                                <div class="col-xs-2" style="margin-top:12px">
+                                                    <button class="btn btn-primary" id="btnSaveFamily">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -197,7 +224,7 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <!-- Row 5 -->
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-12 cardTblExpensesDistribution">
                                 <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -215,6 +242,17 @@ if (sizeof($_SESSION) == 0)
                                                         </tr>
                                                     </tfoot>
                                                 <?php } ?>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 cardTblFamilies" style="display: none;">
+                                <div class="card disable-select">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="tblFamilies">
+
                                             </table>
                                         </div>
                                     </div>
@@ -241,12 +279,13 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/global/orderData.js"></script>
     <?php if ($_SESSION['flag_expense'] == 1) { ?>
         <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>
+        <script src="/cost/js/general/expensesDistribution/family.js"></script>
+        <script src="/cost/js/general/expensesDistribution/tblFamilies.js"></script>
     <?php } ?>
 
     <?php if ($_SESSION['flag_expense'] == 2) { ?>
         <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
     <?php } ?>
-    <!-- <script src="/cost/js/basic/products/configProducts.js"></script> -->
     <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
     <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
     <script src="/global/js/import/import.js"></script>

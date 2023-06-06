@@ -1,0 +1,100 @@
+<?php
+
+namespace tezlikv3\dao;
+
+use tezlikv3\Constants\Constants;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
+
+class FamiliesDao
+{
+    private $logger;
+
+    public function __construct()
+    {
+        $this->logger = new Logger(self::class);
+        $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
+    }
+
+    public function findAllFamiliesByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM families WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $families = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("families", array('families' => $families));
+        return $families;
+    }
+
+    // Consultar si existe distribucion de gasto en BD
+    public function findFamily($dataFamily, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT id_family FROM families WHERE family = :family AND id_company = :id_company");
+        $stmt->execute([
+            'family' => strtoupper(trim($dataFamily['family'])),
+            'id_company' => $id_company
+        ]);
+        $findFamily = $stmt->fetch($connection::FETCH_ASSOC);
+        return $findFamily;
+    }
+
+    public function insertFamilyByCompany($dataFamily, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("INSERT INTO families (family, id_company) VALUES (:family, :id_company)");
+            $stmt->execute([
+
+                'family' => strtoupper(trim($dataFamily['family'])),
+                'id_company' => $id_company,
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            if ($e->getCode() == 23000)
+                $message = 'Familia duplicada. Ingrese una nueva familia';
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    /*
+    public function updateFamily($dataFamily)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE families SET family = :family WHERE id_family = :id_family");
+            $stmt->execute([
+                'id_family' => trim($dataFamily['idFamily']),
+                'family' => trim($dataFamily['family']),
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function deleteFamily($dataFamily)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM families WHERE id_family = :id_family");
+        $stmt->execute(['id_family' => $dataFamily['idFamily']]);
+        $row = $stmt->rowCount();
+
+        if ($row > 0) {
+            $stmt = $connection->prepare("DELETE FROM families WHERE id_family = :id_family");
+            $stmt->execute(['id_family' => $dataFamily['idFamily']]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        }
+    } */
+}
