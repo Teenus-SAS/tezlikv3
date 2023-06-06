@@ -255,7 +255,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
             $services[$i]['idProduct'] = $services[$i]['id_product'];
             $services[$i]['service'] = $services[$i]['name_service'];
             $services[$i]['costService'] = $services[$i]['cost'];
-            if (isset($services[$i]['idService'])) {
+            if (isset($services[$i]['id_service'])) {
                 $services[$i]['idService'] = $services[$i]['id_service'];
 
                 $resolution = $externalServicesDao->updateExternalServices($services[$i]);
@@ -289,8 +289,9 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
             $resolution = $payrollDao->updatePayroll($payroll[$i]);
         }
     }
-    if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { // Guardar data distribucion de gastos
-        if ($resolution == null) {
+
+    if ($resolution == null) {
+        if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { // Guardar data distribucion de gastos
             if (!isset($simulator['expensesDistribution']))
                 $count = 0;
             else {
@@ -302,7 +303,8 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                 if (isset($resolution['info'])) break;
                 $expensesDistribution[$i]['selectNameProduct'] = $expensesDistribution[$i]['id_product'];
                 $expensesDistribution[$i]['unitsSold'] = $expensesDistribution[$i]['units_sold'];
-                if (isset($expensesDistribution[$i]['idExpensesDistribution'])) {
+
+                if (isset($expensesDistribution[$i]['id_expenses_distribution'])) {
                     $expensesDistribution[$i]['idExpensesDistribution'] = $expensesDistribution[$i]['id_expenses_distribution'];
 
                     $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
@@ -313,9 +315,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
 
                 $resolution = $assignableExpenseDao->updateAssignableExpense($expensesDistribution[$i]['id_product'], $expensesDistribution[$i]['assignable_expense']);
             }
-        }
-    } else { // Guardar data recuperacion de gastos
-        if ($resolution == null) {
+        } else { // Guardar data recuperacion de gastos
             if (!isset($simulator['expenseRecover']))
                 $count = 0;
             else {
@@ -328,7 +328,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                 $expenseRecovers[$i]['idProduct'] = $expenseRecovers[$i]['id_product'];
                 $expenseRecovers[$i]['percentage'] = $expenseRecovers[$i]['expense_recover'];
 
-                if (isset($expenseRecovers[$i]['idExpenseRecover'])) {
+                if (isset($expenseRecovers[$i]['id_expense_recover'])) {
                     $expenseRecovers[$i]['idExpenseRecover'] = $expenseRecovers[$i]['id_expense_recover'];
 
                     $resolution = $expenseRecoverDao->updateRecoverExpense($expenseRecovers[$i]);
