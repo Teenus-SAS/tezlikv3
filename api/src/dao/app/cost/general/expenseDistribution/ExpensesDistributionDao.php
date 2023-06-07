@@ -55,8 +55,7 @@ class ExpensesDistributionDao
         $turnover = str_replace('.', '', $dataExpensesDistribution['turnover']);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, units_sold, 
-                                                                            turnover)
+            $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, units_sold, turnover)
                                           VALUES (:id_product, :id_company, :units_sold, :turnover)");
             $stmt->execute([
                 'id_product' => trim($dataExpensesDistribution['selectNameProduct']),

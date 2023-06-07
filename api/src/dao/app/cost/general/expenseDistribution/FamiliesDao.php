@@ -111,6 +111,24 @@ class FamiliesDao
         }
     }
 
+    public function updateFamilyProduct($dataFamily)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products SET id_family = :id_family WHERE id_product = :id_product");
+            $stmt->execute([
+                'id_product' => $dataFamily['selectNameProduct'],
+                'id_family' => $dataFamily['idFamily']
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     /*public function deleteFamily($dataFamily)
     {
         $connection = Connection::getInstance()->getConnection();

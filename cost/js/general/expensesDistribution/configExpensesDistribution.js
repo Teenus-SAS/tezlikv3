@@ -1,6 +1,4 @@
 $(document).ready(function () {
-  flag_expense_distribution = 0;
-
   getExpense = async () => {
     await searchData('/api/totalExpense');
     let data = await searchData('/api/expenseTotal');
@@ -35,7 +33,6 @@ $(document).ready(function () {
         },
         callback: function (result) {
           result == true ? (option = 1) : (option = 2);
-          flag_expense_distribution = option;
           changeTypeExpense();
         },
       });
@@ -119,6 +116,8 @@ $(document).ready(function () {
         },
         callback: function (result) {
           result == true ? (option = 1) : (option = 0);
+          flag_expense_distribution = option;
+
           changeTypeExpenseDistribution();
         },
       });

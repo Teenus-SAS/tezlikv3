@@ -3,6 +3,7 @@
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\TotalExpenseDao;
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
@@ -14,6 +15,7 @@ $totalExpenseDao = new TotalExpenseDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
 $generalProductsDao = new GeneralProductsDao();
+$familiesDao = new FamiliesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -99,6 +101,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 
 $app->post('/addExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
+    $familiesDao,
     $productsDao,
     $assignableExpenseDao,
     $priceProductDao,
@@ -106,12 +109,24 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $flag = $_SESSION['flag_expense_distribution'];
     $dataExpensesDistribution = $request->getParsedBody();
 
     $dataExpensesDistributions = sizeof($dataExpensesDistribution);
 
     if ($dataExpensesDistributions > 1) {
-        $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
+
+        if ($flag == 0) $dataExpensesDistribution['idFamily'] = 0;
+
+        $expensesDistribution = $familiesDao->updateFamilyProduct($dataExpensesDistribution);
+
+        $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($dataExpensesDistribution, $id_company);
+
+        if (!$findExpenseDistribution)
+            $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
+        else
+            $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+
         /* Calcular gasto asignable */
         if ($expensesDistribution == null) {
             // Consulta unidades vendidades y volumenes de venta por producto

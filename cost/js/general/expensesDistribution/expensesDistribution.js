@@ -23,7 +23,9 @@ $(document).ready(function () {
 
     $('#undVendidas').val('');
     $('#volVendidas').val('');
-    await loadExpensesDProducts();
+
+    if (flag_expense_distribution == 0) await loadExpensesDProducts();
+    else await loadExpensesDFamiliesProducts();
   });
 
   $('#btnAssignExpenses').click(function (e) {
@@ -123,7 +125,8 @@ $(document).ready(function () {
     }
 
     let resp = await sendDataPOST(url, dataExpense);
-
+    let op = 1;
+    if (flag_expense_distribution == 1) op = 3;
     message(resp, 1);
   };
 
