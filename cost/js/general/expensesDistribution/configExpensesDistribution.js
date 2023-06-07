@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  flag_expense_distribution = 0;
+
   getExpense = async () => {
     await searchData('/api/totalExpense');
     let data = await searchData('/api/expenseTotal');
@@ -33,13 +35,14 @@ $(document).ready(function () {
         },
         callback: function (result) {
           result == true ? (option = 1) : (option = 2);
+          flag_expense_distribution = option;
           changeTypeExpense();
         },
       });
     } else {
       option = data.flag_expense;
 
-      setDataExpense();
+      setDataExpense(data);
     }
   };
 
@@ -52,7 +55,40 @@ $(document).ready(function () {
     setDataExpense();
   };
 
-  setDataExpense = () => {
+  changeTypeExpenseDistribution = async () => {
+    resp = await searchData(`/api/changeTypeExpenseDistribution/${option}`);
+    if (resp.success) toastr.success(resp.message);
+    else toastr.error(resp.message);
+
+    if (option == 1) {
+      let buttons = document.getElementsByClassName(
+        'cardBtnExpensesDistribution'
+      )[0];
+
+      buttons.insertAdjacentHTML(
+        'beforebegin',
+        `<div class="col-xs-2 mr-2">
+          <button class="btn btn-secondary" id="btnAddNewFamily">Nueva Familia</button>
+        </div>`
+      );
+
+      let form = document.getElementsByClassName('input-2')[0];
+
+      form.insertAdjacentHTML(
+        'afterend',
+        `<div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+          <select class="form-control" name="idFamily" id="families"></select>
+          <label for="families">Familia</label>
+        </div>`
+      );
+      await loadFamilies();
+      await loadExpensesDFamiliesProducts();
+
+      await loadTableExpensesDistributionFamilies();
+    } else await loadTableExpensesDistribution();
+  };
+
+  setDataExpense = async () => {
     if ($.fn.dataTable.isDataTable('#tblExpenses')) {
       $('#tblExpenses').DataTable().destroy();
       $('#tblExpenses').empty();
@@ -65,7 +101,27 @@ $(document).ready(function () {
       $('#btnImportNewExpenses').html('Importar Distribución');
       $('#lblImportExpense').html('Importar Distribución de Gasto');
       $('#descrExpense').html('Distribución Gastos Generales');
-      loadTableExpensesDistribution();
+
+      bootbox.confirm({
+        closeButton: false,
+        title: 'Tipo de Distribución',
+        message:
+          '¿Desea realizar la distribucion por familia?. Esta acción no se puede reversar',
+        buttons: {
+          confirm: {
+            label: 'Si',
+            className: 'btn-success',
+          },
+          cancel: {
+            label: 'No',
+            className: 'btn-danger',
+          },
+        },
+        callback: function (result) {
+          result == true ? (option = 1) : (option = 0);
+          changeTypeExpenseDistribution();
+        },
+      });
     }
     if (option == 2) {
       $('.cardCheckExpense').show(800);

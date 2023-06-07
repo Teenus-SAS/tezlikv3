@@ -61,9 +61,6 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-secondary" id="btnUpdateExpenses">Modificar Gastos</button>
                                 </div>
                                 <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
-                                    <button class="btn btn-secondary" id="btnAddNewFamily">Nueva Familia</button>
-                                </div>
-                                <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
                                     <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
                                 </div>
                                 <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
@@ -135,7 +132,7 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
                                                     <label for="EDRefProduct">Referencia</label>
                                                 </div>
-                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                <div class="col-sm-5 input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
                                                     <label for="EDNameProduct">Nombre Producto</label>
                                                 </div>
@@ -277,15 +274,19 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
     <script src="/cost/js/general/expenseRecover/updateExpenses.js"></script>
     <script src="/global/js/global/orderData.js"></script>
-    <?php if ($_SESSION['flag_expense'] == 1) { ?>
+    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
         <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>
-        <script src="/cost/js/general/expensesDistribution/family.js"></script>
-        <script src="/cost/js/general/expensesDistribution/tblFamilies.js"></script>
+        <script src="/cost/js/general/expensesDistribution/families/configFamilies.js"></script>
+        <script src="/cost/js/general/expensesDistribution/families/family.js"></script>
+        <script src="/cost/js/general/expensesDistribution/families/tblFamilies.js"></script>
+        <script src="/cost/js/general/expensesDistribution/families/tblExpensesDistributionFamilies.js"></script>
+        <script src="/cost/js/general/expensesDistribution/families/configProducts.js"></script>
     <?php } ?>
 
     <?php if ($_SESSION['flag_expense'] == 2) { ?>
         <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
     <?php } ?>
+
     <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
     <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
     <script src="/global/js/import/import.js"></script>

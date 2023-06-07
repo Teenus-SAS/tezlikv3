@@ -79,11 +79,13 @@ $(document).ready(function () {
       `<option value ='${data.id_product}'> ${data.product} </option>`
     );
 
+    if (flag_expense_distribution == 1)
+      $('#families').append(
+        `<option value ='${data.id_family}'> ${data.family} </option>`
+      );
+
     $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
     $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));
-    // $('#expensesToDistribution').val(
-    //   data.assignable_expense.toLocaleString('es-CO')
-    // );
 
     $('html, body').animate(
       {
@@ -97,6 +99,7 @@ $(document).ready(function () {
   checkDataExpenseDistribution = async (url, idExpense) => {
     let refProduct = parseInt($('#EDRefProduct').val());
     let nameProduct = parseInt($('#EDNameProduct').val());
+    let family = parseInt($('#families').val());
     let unitExp = $('#undVendidas').val();
     let volExp = $('#volVendidas').val();
 
@@ -104,6 +107,8 @@ $(document).ready(function () {
     volExp = parseFloat(strReplaceNumber(volExp));
 
     let data = refProduct * nameProduct * unitExp * volExp;
+
+    if (flag_expense_distribution == 1) data *= family;
 
     if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
@@ -170,13 +175,17 @@ $(document).ready(function () {
   message = async (data, op) => {
     if (data.success == true) {
       $('.cardExpensesDistribution').hide(800);
-      $('.formFamily').hide(800);
+      $('.cardAddNewFamily').hide(800);
       $('.cardExpenseRecover').hide(800);
       $('#formExpensesDistribution').trigger('reset');
-      $('#cardAddNewFamily').trigger('reset');
+      $('#formFamily').trigger('reset');
       $('#formExpenseRecover').trigger('reset');
       if (op == 1) await loadExpensesDProducts();
       else if (op == 2) await loadExpensesRProducts();
+      else if (op == 3) {
+        await loadExpensesDFamiliesProducts();
+        await loadFamilies();
+      }
 
       updateTable(op);
       toastr.success(data.message);
@@ -187,13 +196,16 @@ $(document).ready(function () {
 
   /* Actualizar tabla */
 
-  function updateTable(op) {
+  async function updateTable(op) {
     if ($.fn.dataTable.isDataTable('#tblExpenses') && op != 3) {
       $('#tblExpenses').DataTable().destroy();
       $('#tblExpenses').empty();
     }
     if (op == 1) loadTableExpensesDistribution();
     else if (op == 2) loadTableExpenseRecover();
-    else if (op == 3) loadTableFamilies();
+    else if (op == 3) {
+      await loadTableFamilies();
+      await loadTableExpensesDistributionFamilies();
+    }
   }
 });

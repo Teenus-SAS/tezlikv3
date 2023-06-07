@@ -43,6 +43,34 @@ class FamiliesDao
         return $findFamily;
     }
 
+    public function findAllExpensesDistributionByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT me.id_expenses_distribution, f.id_family, f.family, p.id_product, p.reference, p.product, me.units_sold, me.turnover, me.assignable_expense 
+                                      FROM expenses_distribution me
+                                        INNER JOIN products p ON p.id_product = me.id_product
+                                        INNER JOIN families f ON f.id_family = p.id_family
+                                      WHERE me.id_company = :id_company AND p.active = 1");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $expenses = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("expenses", array('expenses' => $expenses));
+        return $expenses;
+    }
+
+    public function findAllProductsNotInEDistribution($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company AND p.active = 1 AND 
+                                      (p.id_product NOT IN (SELECT id_product FROM expenses_distribution WHERE id_product = p.id_product) OR p.id_family = 0)");
+        $stmt->execute(['id_company' => $id_company]);
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
+
     public function insertFamilyByCompany($dataFamily, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -64,16 +92,16 @@ class FamiliesDao
         }
     }
 
-    /*
-    public function updateFamily($dataFamily)
+
+    public function updateFlagFamily($flag_family, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE families SET family = :family WHERE id_family = :id_family");
+            $stmt = $connection->prepare("UPDATE companies_licenses SET flag_family = :flag_family WHERE id_company = :id_company");
             $stmt->execute([
-                'id_family' => trim($dataFamily['idFamily']),
-                'family' => trim($dataFamily['family']),
+                'flag_family' => $flag_family,
+                'id_company' => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -83,7 +111,7 @@ class FamiliesDao
         }
     }
 
-    public function deleteFamily($dataFamily)
+    /*public function deleteFamily($dataFamily)
     {
         $connection = Connection::getInstance()->getConnection();
 

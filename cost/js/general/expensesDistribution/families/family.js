@@ -1,9 +1,7 @@
 $(document).ready(function () {
   $('.cardAddNewFamily').hide();
 
-  $('#btnAddNewFamily').click(function (e) {
-    e.preventDefault();
-
+  $(document).on('click', '#btnAddNewFamily', function () {
     $('#formFamily').trigger('reset');
     $('.cardTblExpensesDistribution').hide(800);
     $('.cardExpensesDistribution').hide(800);

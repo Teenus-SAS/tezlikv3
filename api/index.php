@@ -83,11 +83,10 @@ require_once('../api/src/routes/app/cost/config/routeProductsMaterials.php');
 require_once('../api/src/routes/app/cost/dashboard/routeDashboardGenerals.php');
 require_once('../api/src/routes/app/cost/dashboard/routeDashboardProducts.php');
 
-
 // General
 require_once('../api/src/routes/app/cost/general/routeExpenses.php');
-require_once('../api/src/routes/app/cost/general/routeExpensesDistribution.php');
-require_once('../api/src/routes/app/cost/general/routeFamilies.php');
+require_once('../api/src/routes/app/cost/general/expensesDistribution/routeExpensesDistribution.php');
+require_once('../api/src/routes/app/cost/general/expensesDistribution/routeFamilies.php');
 require_once('../api/src/routes/app/cost/general/routeExpenseRecover.php');
 require_once('../api/src/routes/app/cost/general/routePayroll.php');
 require_once('../api/src/routes/app/cost/general/routeProcessPayroll.php');

@@ -16,6 +16,39 @@ $app->get('/families', function (Request $request, Response $response, $args) us
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/expensesDistributionFamilies', function (Request $request, Response $response, $args) use ($familiesDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $expensesDistribution = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+    $response->getBody()->write(json_encode($expensesDistribution, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/expensesDistributionFamiliesProducts', function (Request $request, Response $response, $args) use ($familiesDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $products = $familiesDao->findAllProductsNotInEDistribution($id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, Response $response, $args) use ($familiesDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $typeExpense = $familiesDao->updateFlagFamily($args['flag'], $id_company);
+
+    $_SESSION['flag_expense_distribution'] = $args['flag'];
+
+    if ($typeExpense == null)
+        $resp = array('success' => true, 'message' => 'Se selecciono el tipo de distribucion correctamente');
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/addFamily', function (Request $request, Response $response, $args) use (
     $familiesDao
 ) {
