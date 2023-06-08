@@ -16,5 +16,22 @@ $(document).ready(function () {
     });
   };
 
-  loadPriceList();
+  loadPriceListByProduct = async (id_product) => {
+    let data = await searchData(`/api/priceListByProduct/${id_product}`);
+
+    let dataPriceList = JSON.stringify(data);
+    sessionStorage.setItem('dataPriceList', dataPriceList);
+
+    let $select = $(`#pricesList`);
+    $select.empty();
+
+    $select.append(`<option value='0' selected>Seleccionar</option>`);
+    $.each(data, function (i, value) {
+      $select.append(
+        `<option value ='${value.id_price_list}'> ${value.price_name} </option>`
+      );
+    });
+  };
+
+  if (option_price == true) loadPriceList();
 });

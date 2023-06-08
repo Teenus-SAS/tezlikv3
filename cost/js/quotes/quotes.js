@@ -98,29 +98,16 @@ $(document).ready(function () {
 
   /* Actualizar Cotizaciones */
 
-  $(document).on('click', '.updateQuote', function (e) {
+  $(document).on('click', '.updateQuote', async function (e) {
     let idQuote = this.id;
     sessionStorage.setItem('id_quote', idQuote);
 
     let row = $(this).parent().parent()[0];
     let data = tblQuotes.fnGetData(row);
 
-    $(`#company option[value=${data.id_company}]`).prop('selected', true);
+    $(`#company option[value=${data.id_quote_company}]`).prop('selected', true);
 
-    getDataQuotes(data, idQuote);
-
-    $('#btnSaveQuote').html('Actualizar');
-
-    $('html, body').animate(
-      {
-        scrollTop: 0,
-      },
-      1000
-    );
-  });
-
-  getDataQuotes = async (data, id) => {
-    await configData(data.id_company);
+    await configData(data.id_quote_company);
 
     $(`#contacts option[value=${data.id_contact}]`).prop('selected', true);
     $('#offerValidity').val(data.offer_validity);
@@ -133,13 +120,20 @@ $(document).ready(function () {
     $('#observation').val(data.observation);
 
     /* Obtener data de los productos cotizados */
-    products = await searchData(`/api/quotesProducts/${id}`);
+    products = await searchData(`/api/quotesProducts/${idQuote}`);
 
     await addProducts();
 
-    $('#modalCreateQuote').modal('show');
     $('#btnSaveQuote').html('Actualizar');
-  };
+    $('#modalCreateQuote').modal('show');
+
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
+  });
 
   updateQuote = () => {
     let idQuote = sessionStorage.getItem('id_quote');

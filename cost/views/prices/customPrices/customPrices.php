@@ -125,6 +125,10 @@ if (sizeof($_SESSION) == 0)
 
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script>
+        option_price = true;
+    </script>
+
     <script src="/cost/js/general/priceList/configPriceList.js"></script>
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>

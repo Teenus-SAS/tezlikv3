@@ -18,6 +18,12 @@ $app->get('/priceList', function (Request $request, Response $response, $args) u
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/priceListByProduct/{id_product}', function (Request $request, Response $response, $args) use ($priceListDao) {
+    $priceList = $priceListDao->findAllPricesListByProduct($args['id_product']);
+    $response->getBody()->write(json_encode($priceList, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/addPriceList', function (Request $request, Response $response, $args) use (
     $priceListDao,
     $generalPriceListDao

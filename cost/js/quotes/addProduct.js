@@ -17,20 +17,22 @@ $(document).ready(function () {
     $('#btnAddProduct').css('border', '');
   });
 
-  $('#refProduct').change(function (e) {
+  $('#refProduct').change(async function (e) {
     e.preventDefault();
     let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     loadDataProduct(id);
+    await loadPriceListByProduct(id);
   });
 
-  $('#selectNameProduct').change(function (e) {
+  $('#selectNameProduct').change(async function (e) {
     e.preventDefault();
     let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     loadDataProduct(id);
+    await loadPriceListByProduct(id);
   });
 
   loadDataProduct = async (id) => {
@@ -42,6 +44,7 @@ $(document).ready(function () {
       price = parseInt(data.price).toLocaleString('es-CO');
     }
     oldPrice = data.price;
+    priceProduct = data.price;
 
     $('#price').val(price);
 
@@ -50,14 +53,23 @@ $(document).ready(function () {
     $('#quantity').click();
   };
 
-  // $(document).on('change', '#pricesList', function () {
-  //   let data = JSON.parse(sessionStorage.getItem('dataPriceList'));
+  $(document).on('change', '#pricesList', async function () {
+    if (this.value == '0') {
+      $('#price').val(parseInt(priceProduct).toLocaleString());
+      return false;
+    }
 
-  //   for (let i = 0; i < data.length; i++) {
-  //     if(data[i].id_price_list)
+    let data = JSON.parse(sessionStorage.getItem('dataPriceList'));
 
-  //   }
-  // });
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].id_price_list == this.value) {
+        data = data[i];
+        break;
+      }
+    }
+
+    $('#price').val(parseInt(data.price).toLocaleString());
+  });
 
   /* Calcular precio total */
 
@@ -133,6 +145,7 @@ $(document).ready(function () {
         idProduct: idProduct,
         ref: ref.trim(),
         nameProduct: nameProduct.trim(),
+        idPriceList: $('#pricesList').val(),
         price: `$ ${parseInt(price).toLocaleString('es-CO')}`,
         quantity: quantity,
         discount: discount,
@@ -144,6 +157,7 @@ $(document).ready(function () {
       products[op].idProduct = idProduct;
       products[op].ref = ref.trim();
       products[op].nameProduct = nameProduct.trim();
+      products[op].idPriceList = $('#pricesList').val();
       products[op].quantity = quantity;
       products[op].price = `$ ${parseInt(price).toLocaleString('es-CO')}`;
       products[op].discount = discount;
@@ -155,6 +169,7 @@ $(document).ready(function () {
 
     $('#refProduct').prop('selectedIndex', 0);
     $('#selectNameProduct').prop('selectedIndex', 0);
+    $('#pricesList').prop('selectedIndex', 0);
     $('#quantity').val('');
     $('#price').val('');
     $('#discount').val('');
@@ -162,7 +177,7 @@ $(document).ready(function () {
   });
 
   /* Modificar producto */
-  $(document).on('click', '.updateProduct', function (e) {
+  $(document).on('click', '.updateProduct', async function (e) {
     e.preventDefault();
 
     let id = this.id;
@@ -173,6 +188,10 @@ $(document).ready(function () {
       'selected',
       true
     );
+
+    await loadPriceListByProduct(data.idProduct);
+
+    $(`#pricesList option[value=${data.idPriceList}]`).prop('selected', true);
 
     $('#quantity').val(data.quantity.toLocaleString());
 

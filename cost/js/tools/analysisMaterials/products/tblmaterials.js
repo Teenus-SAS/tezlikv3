@@ -73,7 +73,13 @@ $(document).ready(function () {
           title: 'Costo Unitario',
           data: 'cost',
           className: 'uniqueClassName',
-          render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+          render: function (data) {
+            data.abbreviation_material != data.abbreviation_product_material
+              ? (cost = data.cost_product_material)
+              : (cost = data.cost);
+
+            return cost.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+          },
         },
         {
           title: 'Precio Total',
