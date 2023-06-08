@@ -1,7 +1,8 @@
 $(document).ready(function () {
-  $(document).on('click', '.backup', async function () {
+  $(document).on('click', '.aBackup', async function () {
     try {
       $('.loading').show(800);
+      document.body.style.overflow = 'hidden';
 
       let wb = XLSX.utils.book_new();
       let data = [];
@@ -195,6 +196,7 @@ $(document).ready(function () {
       }
 
       $('.loading').hide(800);
+      document.body.style.overflow = '';
 
       XLSX.writeFile(wb, 'backup.xlsx');
     } catch (error) {
