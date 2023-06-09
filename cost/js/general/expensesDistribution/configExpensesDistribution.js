@@ -53,11 +53,13 @@ $(document).ready(function () {
   };
 
   changeTypeExpenseDistribution = async () => {
-    resp = await searchData(`/api/changeTypeExpenseDistribution/${option}`);
+    resp = await searchData(
+      `/api/changeTypeExpenseDistribution/${option_distribution}`
+    );
     if (resp.success) toastr.success(resp.message);
     else toastr.error(resp.message);
 
-    if (option == 1) {
+    if (option_distribution == 1) {
       let buttons = document.getElementsByClassName(
         'cardBtnExpensesDistribution'
       )[0];
@@ -115,8 +117,10 @@ $(document).ready(function () {
           },
         },
         callback: function (result) {
-          result == true ? (option = 1) : (option = 0);
-          flag_expense_distribution = option;
+          result == true
+            ? (option_distribution = 1)
+            : (option_distribution = 0);
+          flag_expense_distribution = option_distribution;
 
           changeTypeExpenseDistribution();
         },

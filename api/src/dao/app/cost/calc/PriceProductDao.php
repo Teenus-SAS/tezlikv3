@@ -24,12 +24,13 @@ class PriceProductDao
         try {
             if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) {
                 $stmt = $connection->prepare("SELECT
-                                                (((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product)) + IFNULL(ed.assignable_expense, 0)) 
+                                                (((IFNULL(pc.cost_workforce + pc.cost_materials, 0) + IFNULL(pc.cost_indirect_cost, 0) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product)) + IF(p.id_family = 0, IFNULL(ed.assignable_expense, 0), f.assignable_expense)) 
                                                 / (1 - (IFNULL(pc.profitability, 0) /100))) / (1 - (IFNULL(pc.commission_sale, 0) / 100)) AS totalPrice  
                                                 FROM products p
                                                     LEFT JOIN products_costs pc ON pc.id_product = p.id_product
                                                     LEFT JOIN services s ON s.id_product = p.id_product
                                                     LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                                    LEFT JOIN families f ON f.id_family = p.id_family
                                                 WHERE p.id_product = :id_product");
                 $stmt->execute(['id_product' => $idProduct]);
             } else {

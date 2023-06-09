@@ -124,8 +124,10 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
         if (!$findExpenseDistribution)
             $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
-        else
+        else {
+            $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
             $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+        }
 
         /* Calcular gasto asignable */
         if ($expensesDistribution == null) {
@@ -141,9 +143,26 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             foreach ($unitVol as $arr) {
                 if (isset($resolution['info'])) break;
                 // Calcular gasto asignable
-                $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                 // Actualizar gasto asignable
-                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+            }
+
+            /* x Familia */
+            if ($expensesDistribution == null && $flag == 1) {
+                // Consulta unidades vendidades y volumenes de venta por familia
+                $unitVol = $assignableExpenseDao->findUnitsVolByFamily($id_company);
+
+                // Calcular el total de unidades vendidas y volumen de ventas
+                $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
+
+                foreach ($unitVol as $arr) {
+                    if (isset($resolution['info'])) break;
+                    // Calcular gasto asignable
+                    $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                    // Actualizar gasto asignable
+                    $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
+                }
             }
         }
 
@@ -190,9 +209,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             foreach ($unitVol as $arr) {
                 if (isset($resolution['info'])) break;
                 // Calcular gasto asignable
-                $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                 // Actualizar gasto asignable
-                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
             }
 
             // Calcular Precio del producto
@@ -241,9 +260,9 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         foreach ($unitVol as $arr) {
             if (isset($resolution['info'])) break;
             // Calcular gasto asignable
-            $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
             // Actualizar gasto asignable
-            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
         }
     }
 
@@ -290,9 +309,9 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
         foreach ($unitVol as $arr) {
             if (isset($resolution['info'])) break;
             // Calcular gasto asignable
-            $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
             // Actualizar gasto asignable
-            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
         }
     }
 

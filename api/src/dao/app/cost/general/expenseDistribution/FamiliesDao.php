@@ -46,11 +46,12 @@ class FamiliesDao
     public function findAllExpensesDistributionByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT me.id_expenses_distribution, f.id_family, f.family, p.id_product, p.reference, p.product, me.units_sold, me.turnover, me.assignable_expense 
+        $stmt = $connection->prepare("SELECT f.id_family, f.family, SUM(me.units_sold) AS units_sold, SUM(me.turnover) AS turnover, f.assignable_expense
                                       FROM expenses_distribution me
                                         INNER JOIN products p ON p.id_product = me.id_product
                                         INNER JOIN families f ON f.id_family = p.id_family
-                                      WHERE me.id_company = :id_company AND p.active = 1");
+                                      WHERE me.id_company = :id_company AND p.active = 1 
+                                      GROUP BY p.id_family");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

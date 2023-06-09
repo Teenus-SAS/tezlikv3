@@ -23,6 +23,10 @@ $(document).ready(function () {
 
     $('#undVendidas').val('');
     $('#volVendidas').val('');
+    let attr = tables;
+    attr.style.width = '100%';
+    attr = tables.firstElementChild;
+    attr.style.width = '100%';
 
     if (flag_expense_distribution == 0) await loadExpensesDProducts();
     else await loadExpensesDFamiliesProducts();
@@ -127,7 +131,7 @@ $(document).ready(function () {
     let resp = await sendDataPOST(url, dataExpense);
     let op = 1;
     if (flag_expense_distribution == 1) op = 3;
-    message(resp, 1);
+    message(resp, op);
   };
 
   /* Eliminar gasto */
@@ -200,10 +204,11 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   async function updateTable(op) {
-    if ($.fn.dataTable.isDataTable('#tblExpenses') && op != 3) {
-      $('#tblExpenses').DataTable().destroy();
-      $('#tblExpenses').empty();
-    }
+    // if ($.fn.dataTable.isDataTable('#tblExpenses')) {
+    //   $('#tblExpenses').DataTable().destroy();
+    //   $('#tblExpenses').empty();
+    // }
+
     if (op == 1) loadTableExpensesDistribution();
     else if (op == 2) loadTableExpenseRecover();
     else if (op == 3) {

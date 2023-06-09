@@ -22,7 +22,7 @@ $(document).ready(function () {
         },
         {
           title: 'Referencia',
-          data: 'reference',
+          data: 'id_family',
           visible: false,
         },
         {
@@ -42,21 +42,16 @@ $(document).ready(function () {
           render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
         },
         {
-          title: 'Gasto Asignable al Producto',
+          title: 'Gasto Asignable Familia',
           data: 'assignable_expense',
           className: 'classRight',
           render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
         },
         {
           title: 'Acciones',
-          data: 'id_expenses_distribution',
+          data: 'id_family',
           className: 'uniqueClassName',
           visible: false,
-          render: function (data) {
-            return `
-            <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateExpenseDistribution" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>
-            <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteExpenseDistribution()"></i></a>`;
-          },
         },
       ],
       footerCallback: function (row, data, start, end, display) {
@@ -68,11 +63,11 @@ $(document).ready(function () {
           turnover += data[i].turnover;
         }
 
-        $(this.api().column(4).footer()).html(
+        $(this.api().column(3).footer()).html(
           units_sold.toLocaleString('es-CO')
         );
 
-        $(this.api().column(5).footer()).html(
+        $(this.api().column(4).footer()).html(
           `$ ${turnover.toLocaleString('es-CO')}`
         );
       },
