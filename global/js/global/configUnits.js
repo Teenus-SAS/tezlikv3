@@ -16,7 +16,7 @@ $(document).ready(function () {
         if (value.id_unit == data.id_unit) {
           $select.empty();
           $select.append(
-            `<option value ='${value.id_unit}' selected disabled> ${value.unit} </option>`
+            `<option value ='${value.id_unit}' selected> ${value.unit} </option>`
           );
           return false;
         }
