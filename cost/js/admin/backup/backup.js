@@ -167,8 +167,10 @@ $(document).ready(function () {
             dotaciones: dataPayroll[i].endowment,
             horas_extras: dataPayroll[i].extra_time,
             otros_ingresos: dataPayroll[i].bonification,
-            horas_trabajo_x_dia: dataPayroll[i].working_days_month,
-            dias_trabajo_x_mes: dataPayroll[i].hours_day,
+            prestacional: '',
+            horas_trabajo_x_dia: dataPayroll[i].hours_day,
+            dias_trabajo_x_mes: dataPayroll[i].working_days_month,
+            tipo_riesgo: data[i].risk_level,
             tipo_nomina: dataPayroll[i].factor_benefit,
             factor: dataPayroll[i].type_contract,
           });

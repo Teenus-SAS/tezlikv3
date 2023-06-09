@@ -20,7 +20,7 @@ class PayrollDao
   {
     $connection = Connection::getInstance()->getConnection();
     $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, 
-                                         p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, IFNULL(rk.percentage, 0) AS percentage
+                                         p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage
                                   FROM payroll p 
                                     INNER JOIN process pp ON p.id_process = pp.id_process
                                     LEFT JOIN risks rk ON rk.id_risk = p.id_risk

@@ -74,7 +74,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardAddNewFamily">
+                <div class="page-content-wrapper mt--45 mb-5 cardAddNewFamily" style="display: none;">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">

@@ -175,13 +175,6 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                     // Convertir unidades
                     $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-                    // !$quantities ? $quantities = 0 : $quantities;
-
-                    // $totalQuantity += $quantities;
-
-                    // Convertir una unidad
-                    // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
-
                     // Modificar costo
                     $materialsDao->updateCostProductMaterial($arr, $quantities);
                 }
@@ -249,13 +242,6 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                 // Convertir unidades
                 $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-                // !$quantities ? $quantities = 0 : $quantities;
-
-                // $totalQuantity += $quantities;
-
-                // Convertir una unidad
-                // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
-
                 // Modificar costo
                 $materialsDao->updateCostProductMaterial($arr, $quantities);
             }
@@ -317,13 +303,6 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
 
                 // Convertir unidades
                 $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
-
-                // !$quantities ? $quantities = 0 : $quantities;
-
-                // $totalQuantity += $quantities;
-
-                // Convertir una unidad
-                // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
 
                 // Modificar costo
                 $materialsDao->updateCostProductMaterial($arr, $quantities);
