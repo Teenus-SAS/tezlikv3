@@ -371,13 +371,6 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         // Convertir unidades
                         $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
 
-                        // !$quantities ? $quantities = 0 : $quantities;
-
-                        // $totalQuantity += $quantities;
-
-                        // Convertir una unidad
-                        // $quantity = $conversionUnitsDao->convertUnits($material, $arr, 1);
-
                         // Modificar costo
                         $materialsDao->updateCostProductMaterial($arr, $quantities);
                     }

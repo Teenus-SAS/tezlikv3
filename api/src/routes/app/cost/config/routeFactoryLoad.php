@@ -97,10 +97,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
         if ($factoryLoad == null) {
             $factoryLoad = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
 
-            if ($factoryLoad == null) {
-                $dataFactoryLoad['costMinute'] = $factoryLoad['costMinute'];
-                $factoryLoad = $costMinuteDao->updateCostMinuteFactoryLoad($dataFactoryLoad, $id_company);
-            }
+            $dataFactoryLoad['costMinute'] = $factoryLoad['costMinute'];
+            $factoryLoad = $costMinuteDao->updateCostMinuteFactoryLoad($dataFactoryLoad, $id_company);
         }
 
         if ($factoryLoad == null) {
@@ -209,10 +207,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     if ($factoryLoad == null)
         $factoryLoad = $costMinuteDao->calcCostMinuteByFactoryLoad($dataFactoryLoad, $id_company);
 
-    if ($factoryLoad == null) {
-        $dataFactoryLoad['costMinute'] = $factoryLoad['costMinute'];
-        $factoryLoad = $costMinuteDao->updateCostMinuteFactoryLoad($dataFactoryLoad, $id_company);
-    }
+    $dataFactoryLoad['costMinute'] = $factoryLoad['costMinute'];
+    $factoryLoad = $costMinuteDao->updateCostMinuteFactoryLoad($dataFactoryLoad, $id_company);
 
     if ($factoryLoad == null) {
         $dataProducts = $indirectCostDao->findProductByMachine($dataFactoryLoad['idMachine'], $id_company);

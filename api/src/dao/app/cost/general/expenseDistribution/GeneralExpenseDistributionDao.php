@@ -44,6 +44,23 @@ class GeneralExpenseDistributionDao
         return $findExpenseDistribution;
     }
 
+    public function findAllExpensesDistributionByFamily($id_family)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT p.reference, p.product, ed.id_expenses_distribution, ed.id_product, 
+                                             ed.id_company, ed.units_sold, ed.turnover, ed.assignable_expense
+                                      FROM expenses_distribution ed
+                                        INNER JOIN products p ON p.id_product = ed.id_product
+                                        INNER JOIN families f ON f.id_family = p.id_family
+                                      WHERE f.id_family = :id_family");
+        $stmt->execute([
+            'id_family' => $id_family
+        ]);
+        $expenseDistributions = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $expenseDistributions;
+    }
+
     public function deleteExpensesDistributionByProduct($dataExpensesDistribution)
     {
         $connection = Connection::getInstance()->getConnection();

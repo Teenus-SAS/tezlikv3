@@ -40,9 +40,7 @@ class GeneralProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM products
-                                  WHERE reference = :reference
-                                  OR product = :product 
-                                  AND id_company = :id_company");
+                                      WHERE id_company = :id_company AND (reference = :reference OR product = :product)");
         $stmt->execute([
             'reference' => trim($dataProduct['referenceProduct']),
             'product' => strtoupper(trim($dataProduct['product'])),

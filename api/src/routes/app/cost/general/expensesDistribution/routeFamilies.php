@@ -1,8 +1,10 @@
 <?php
 
 use tezlikv3\dao\FamiliesDao;
+use tezlikv3\dao\GeneralExpenseDistributionDao;
 
 $familiesDao = new FamiliesDao();
+$generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -24,12 +26,9 @@ $app->get('/expensesDistributionFamilies', function (Request $request, Response 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/expensesDistributionFamiliesProducts', function (Request $request, Response $response, $args) use ($familiesDao) {
-    session_start();
-    $id_company = $_SESSION['id_company'];
-
-    $products = $familiesDao->findAllProductsNotInEDistribution($id_company);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+$app->get('/expensesDistributionFamilies/{id_family}', function (Request $request, Response $response, $args) use ($generalExpenseDistributionDao) {
+    $expensesDistribution = $generalExpenseDistributionDao->findAllExpensesDistributionByFamily($args['id_family']);
+    $response->getBody()->write(json_encode($expensesDistribution, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

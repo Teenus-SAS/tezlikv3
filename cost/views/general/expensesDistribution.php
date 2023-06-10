@@ -9,6 +9,7 @@ if (sizeof($_SESSION) == 0)
 ?>
 
 <?php require_once dirname(dirname(__DIR__)) . '/modals/modifyRecoverExpenses.php'; ?>
+<?php require_once dirname(dirname(__DIR__)) . '/modals/modifyExpenseFamily.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">

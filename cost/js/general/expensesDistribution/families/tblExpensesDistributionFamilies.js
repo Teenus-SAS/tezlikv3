@@ -51,7 +51,9 @@ $(document).ready(function () {
           title: 'Acciones',
           data: 'id_family',
           className: 'uniqueClassName',
-          visible: false,
+          render: function (data) {
+            return `<a href="javascript:;" <i id="${data}" class="mdi mdi-playlist-check seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>`;
+          },
         },
       ],
       footerCallback: function (row, data, start, end, display) {
