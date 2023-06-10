@@ -136,9 +136,13 @@ $(document).ready(function () {
 
   /* Eliminar gasto */
 
-  deleteExpenseDistribution = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblExpensesDistribution.fnGetData(row);
+  deleteExpenseDistribution = (op) => {
+    if (op == '1') {
+      let row = $(this.activeElement).parent().parent()[0];
+      data = tblExpensesDistribution.fnGetData(row);
+    } else {
+      data = dataExpenseDistributionFamily[op];
+    }
 
     let id_expenses_distribution = data.id_expenses_distribution;
 
@@ -169,7 +173,10 @@ $(document).ready(function () {
             '../../api/deleteExpensesDistribution',
             dataExpensesDistribution,
             function (data, textStatus, jqXHR) {
-              message(data, 1);
+              let op = 1;
+              if (flag_expense_distribution == 1) op = 3;
+
+              message(data, op);
             }
           );
         }
@@ -187,6 +194,8 @@ $(document).ready(function () {
       $('#formExpensesDistribution').trigger('reset');
       $('#formFamily').trigger('reset');
       $('#formExpenseRecover').trigger('reset');
+      $('#modalExpenseDistributionByFamily').modal('hide');
+
       if (op == 1) await loadExpensesDProducts();
       else if (op == 2) await loadExpensesRProducts();
       else if (op == 3) {

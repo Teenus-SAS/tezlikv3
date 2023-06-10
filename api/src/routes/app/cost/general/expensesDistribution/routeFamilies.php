@@ -32,6 +32,12 @@ $app->get('/expensesDistributionFamilies/{id_family}', function (Request $reques
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/expensesDistributionFamiliesProducts', function (Request $request, Response $response, $args) use ($familiesDao) {
+    $products = $familiesDao->findAllProductsNotInEDistribution($args['id_family']);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, Response $response, $args) use ($familiesDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
