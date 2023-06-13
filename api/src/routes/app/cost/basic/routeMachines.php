@@ -116,6 +116,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                 $minuteDepreciation = $minuteDepreciationDao->calcMinuteDepreciationByMachine($lastMachine['id_machine']);
 
                 // Modificar depreciacion x minuto
+                $dataMachine['idMachine'] = $lastMachine['id_machine'];
                 $dataMachine['minuteDepreciation'] = $minuteDepreciation;
                 $machine = $minuteDepreciationDao->updateMinuteDepreciation($dataMachine, $id_company);
 
