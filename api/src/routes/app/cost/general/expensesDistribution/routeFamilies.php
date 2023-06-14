@@ -32,8 +32,20 @@ $app->get('/expensesDistributionFamilies/{id_family}', function (Request $reques
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/productsFamilies', function (Request $request, Response $response, $args) use ($familiesDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $products = $familiesDao->findAllProductsFamiliesByCompany($id_company);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/expensesDistributionFamiliesProducts', function (Request $request, Response $response, $args) use ($familiesDao) {
-    $products = $familiesDao->findAllProductsNotInEDistribution($args['id_family']);
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $products = $familiesDao->findAllProductsNotInEDistribution($id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -75,6 +87,59 @@ $app->post('/addFamily', function (Request $request, Response $response, $args) 
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
     } else
         $resp = array('info' => true, 'message' => 'Familia ya existente. Ingrese un nueva familia');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/saveProductFamily', function (Request $request, Response $response, $args) use ($familiesDao) {
+    $dataFamily = $request->getParsedBody();
+
+    $resolution = $familiesDao->updateFamilyProduct($dataFamily);
+
+    if ($resolution == null && $dataFamily['idFamily'] != 0)
+        $resp = array('success' => true, 'message' => 'Producto asignado a la familia correctamente');
+    if ($resolution == null && $dataFamily['idFamily'] == 0)
+        $resp = array('success' => true, 'message' => 'Producto eliminado de la familia correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/updateFamily', function (Request $request, Response $response, $args) use ($familiesDao) {
+    $dataFamily = $request->getParsedBody();
+
+    $resolution = $familiesDao->updateFamily($dataFamily);
+
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Familia modificada correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/deleteFamily/{id_family}', function (Request $request, Response $response, $args) use ($familiesDao, $generalExpenseDistributionDao) {
+    $expensesDistribution = $generalExpenseDistributionDao->findAllExpensesDistributionByFamily($args['id_family']);
+
+    if (!$expensesDistribution) {
+        $resolution = $familiesDao->deleteFamily($args['id_family']);
+
+        if ($resolution == null)
+            $resp = array('success' => true, 'message' => 'Familia eliminada correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
+        else
+            $resp = array('info' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
+    } else
+        $resp = array('error' => true, 'message' => 'Familia asociada a productos no se puede eliminar');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

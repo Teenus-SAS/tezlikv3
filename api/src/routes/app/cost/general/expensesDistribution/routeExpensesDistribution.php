@@ -101,7 +101,6 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 
 $app->post('/addExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
-    $familiesDao,
     $productsDao,
     $assignableExpenseDao,
     $priceProductDao,
@@ -116,9 +115,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     if ($dataExpensesDistributions > 1) {
 
-        if ($flag == 0) $dataExpensesDistribution['idFamily'] = 0;
+        // if ($flag == 0) $dataExpensesDistribution['idFamily'] = 0;
 
-        $expensesDistribution = $familiesDao->updateFamilyProduct($dataExpensesDistribution);
+        // $expensesDistribution = $familiesDao->updateFamilyProduct($dataExpensesDistribution);
 
         $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($dataExpensesDistribution, $id_company);
 

@@ -2,7 +2,7 @@ $(document).ready(function () {
   loadFamilies = async () => {
     let data = await searchData('/api/families');
 
-    let $select = $('#families');
+    let $select = $('.families');
 
     $select.empty();
 

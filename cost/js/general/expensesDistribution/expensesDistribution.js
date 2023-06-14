@@ -14,6 +14,7 @@ $(document).ready(function () {
     $('.cardImportExpenses').hide(800);
     $('.cardExpenseRecover').hide(800);
     $('.cardAddNewFamily').hide(800);
+    $('.cardAddProductFamily').hide(800);
     $('.cardTblFamilies').hide(800);
     $('.cardTblExpensesDistribution').show(800);
     $('#btnAssignExpenses').html('Asignar');
@@ -23,6 +24,9 @@ $(document).ready(function () {
 
     $('#undVendidas').val('');
     $('#volVendidas').val('');
+
+    let tables = document.getElementById('tblExpenses');
+
     let attr = tables;
     attr.style.width = '100%';
     attr = tables.firstElementChild;
@@ -86,8 +90,9 @@ $(document).ready(function () {
     );
 
     if (flag_expense_distribution == 1)
-      $('#families').append(
-        `<option value ='${data.id_family}'> ${data.family} </option>`
+      $(`#familiesDistribute option[value=${data.id_family}]`).prop(
+        'selected',
+        true
       );
 
     $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
@@ -105,7 +110,7 @@ $(document).ready(function () {
   checkDataExpenseDistribution = async (url, idExpense) => {
     let refProduct = parseInt($('#EDRefProduct').val());
     let nameProduct = parseInt($('#EDNameProduct').val());
-    let family = parseInt($('#families').val());
+    let family = parseInt($('#familiesDistribute').val());
     let unitExp = $('#undVendidas').val();
     let volExp = $('#volVendidas').val();
 
@@ -190,6 +195,7 @@ $(document).ready(function () {
     if (data.success == true) {
       $('.cardExpensesDistribution').hide(800);
       $('.cardAddNewFamily').hide(800);
+      $('.cardAddProductFamily').hide(800);
       $('.cardExpenseRecover').hide(800);
       $('#formExpensesDistribution').trigger('reset');
       $('#formFamily').trigger('reset');
@@ -201,6 +207,9 @@ $(document).ready(function () {
       else if (op == 3) {
         await loadExpensesDFamiliesProducts();
         await loadFamilies();
+      } else if (op == 4) {
+        await loadExpensesDFamiliesProducts();
+        await loadTableProductsFamilies();
       }
 
       updateTable(op);
@@ -213,11 +222,6 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   async function updateTable(op) {
-    // if ($.fn.dataTable.isDataTable('#tblExpenses')) {
-    //   $('#tblExpenses').DataTable().destroy();
-    //   $('#tblExpenses').empty();
-    // }
-
     if (op == 1) loadTableExpensesDistribution();
     else if (op == 2) loadTableExpenseRecover();
     else if (op == 3) {

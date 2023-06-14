@@ -38,6 +38,7 @@ $(document).ready(function () {
       });
     } else {
       option = data.flag_expense;
+      flag_expense_distribution = data.flag_family;
 
       setDataExpense(data);
     }
@@ -53,11 +54,15 @@ $(document).ready(function () {
   };
 
   changeTypeExpenseDistribution = async () => {
-    resp = await searchData(
-      `/api/changeTypeExpenseDistribution/${option_distribution}`
-    );
-    if (resp.success) toastr.success(resp.message);
-    else toastr.error(resp.message);
+    if (option_distribution == false)
+      option_distribution = flag_expense_distribution;
+    else {
+      resp = await searchData(
+        `/api/changeTypeExpenseDistribution/${option_distribution}`
+      );
+      if (resp.success) toastr.success(resp.message);
+      else toastr.error(resp.message);
+    }
 
     if (option_distribution == 1) {
       let buttons = document.getElementsByClassName(
@@ -68,15 +73,19 @@ $(document).ready(function () {
         'beforebegin',
         `<div class="col-xs-2 mr-2">
           <button class="btn btn-secondary" id="btnAddNewFamily">Nueva Familia</button>
-        </div>`
+        </div>
+        <div class="col-xs-2 mr-2">
+          <button class="btn btn-secondary" id="btnAddProductsFamilies">Asignar Productos</button>
+        </div>
+        `
       );
-
+      $('.distribution').hide();
       let form = document.getElementsByClassName('input-2')[0];
 
       form.insertAdjacentHTML(
         'afterend',
         `<div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-          <select class="form-control" name="idFamily" id="families"></select>
+          <select class="form-control families" name="idFamily" id="familiesDistribute"></select>
           <label for="families">Familia</label>
         </div>`
       );
@@ -101,30 +110,34 @@ $(document).ready(function () {
       $('#lblImportExpense').html('Importar Distribución de Gasto');
       $('#descrExpense').html('Distribución Gastos Generales');
 
-      bootbox.confirm({
-        closeButton: false,
-        title: 'Tipo de Distribución',
-        message:
-          '¿Desea realizar la distribucion por familia?. Esta acción no se puede reversar',
-        buttons: {
-          confirm: {
-            label: 'Si',
-            className: 'btn-success',
+      if (flag_expense_distribution == 0) {
+        bootbox.confirm({
+          closeButton: false,
+          title: 'Tipo de Distribución',
+          message:
+            '¿Desea realizar la distribucion por familia?. Esta acción no se puede reversar',
+          buttons: {
+            confirm: {
+              label: 'Si',
+              className: 'btn-success',
+            },
+            cancel: {
+              label: 'No',
+              className: 'btn-danger',
+            },
           },
-          cancel: {
-            label: 'No',
-            className: 'btn-danger',
+          callback: function (result) {
+            result == true
+              ? (option_distribution = 1)
+              : (option_distribution = 0);
+            flag_expense_distribution = option_distribution;
+            changeTypeExpenseDistribution();
           },
-        },
-        callback: function (result) {
-          result == true
-            ? (option_distribution = 1)
-            : (option_distribution = 0);
-          flag_expense_distribution = option_distribution;
-
-          changeTypeExpenseDistribution();
-        },
-      });
+        });
+      } else {
+        option_distribution = false;
+        changeTypeExpenseDistribution();
+      }
     }
     if (option == 2) {
       $('.cardCheckExpense').show(800);

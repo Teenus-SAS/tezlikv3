@@ -99,6 +99,38 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
+                <div class="page-content-wrapper mt--45 mb-5 cardAddProductFamily" style="display: none;">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formProductFamily">
+                                            <div class="form-row">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                    <select class="form-control refProduct" name="refProduct" id="familyRefProduct"></select>
+                                                    <label for="familyRefProduct">Referencia</label>
+                                                </div>
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="familyNameProduct"></select>
+                                                    <label for="familyNameProduct">Nombre Producto</label>
+                                                </div>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                    <select class="form-control families" name="idFamily" id="families"></select>
+                                                    <label for="families">Familia</label>
+                                                </div>
+                                                <div class="col-xs-2" style="margin-top:12px">
+                                                    <button class="btn btn-primary" id="btnAddProductFamily">Asignar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
                     <div class="container-fluid">
                         <div class="row">
@@ -129,11 +161,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formExpensesDistribution">
                                             <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
                                                     <label for="EDRefProduct">Referencia</label>
                                                 </div>
-                                                <div class="col-sm-5 input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                     <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
                                                     <label for="EDNameProduct">Nombre Producto</label>
                                                 </div>

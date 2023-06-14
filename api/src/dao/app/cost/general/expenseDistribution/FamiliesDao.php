@@ -43,6 +43,22 @@ class FamiliesDao
         return $findFamily;
     }
 
+    public function findAllProductsFamiliesByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, f.family
+                                      FROM products p
+                                        INNER JOIN families f ON f.id_family = p.id_family
+                                      WHERE p.id_company = :id_company  
+                                      ORDER BY `f`.`family` ASC");
+        $stmt->execute([
+            'id_company' => $id_company
+        ]);
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
+
     public function findAllExpensesDistributionByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
@@ -93,6 +109,22 @@ class FamiliesDao
         }
     }
 
+    public function updateFamily($dataFamily)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("UPDATE families SET family = :family WHERE id_family = :id_family");
+            $stmt->execute([
+                'id_family' => $dataFamily['idFamily'],
+                'family' => strtoupper(trim($dataFamily['family']))
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 
     public function updateFlagFamily($flag_family, $id_company)
     {
@@ -130,18 +162,23 @@ class FamiliesDao
         }
     }
 
-    /*public function deleteFamily($dataFamily)
+    public function deleteFamily($id_family)
     {
         $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("SELECT * FROM families WHERE id_family = :id_family");
+            $stmt->execute(['id_family' => $id_family]);
+            $row = $stmt->rowCount();
 
-        $stmt = $connection->prepare("SELECT * FROM families WHERE id_family = :id_family");
-        $stmt->execute(['id_family' => $dataFamily['idFamily']]);
-        $row = $stmt->rowCount();
-
-        if ($row > 0) {
-            $stmt = $connection->prepare("DELETE FROM families WHERE id_family = :id_family");
-            $stmt->execute(['id_family' => $dataFamily['idFamily']]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            if ($row > 0) {
+                $stmt = $connection->prepare("DELETE FROM families WHERE id_family = :id_family");
+                $stmt->execute(['id_family' => $id_family]);
+                $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
         }
-    } */
+    }
 }

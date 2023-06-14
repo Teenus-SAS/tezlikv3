@@ -39,7 +39,11 @@ $(document).ready(function () {
         title: 'Precio',
         data: 'cost',
         className: 'classRight',
-        render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
+        render: function (data) {
+          return `$ ${data.toLocaleString('es-CO', {
+            maximumFractionDigits: 2,
+          })}`;
+        },
       },
       {
         title: 'Acciones',
