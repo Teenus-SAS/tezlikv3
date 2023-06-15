@@ -191,9 +191,11 @@ $(document).ready(function () {
   });
 
   /* Asignar productos */
-  $(document).on('click', '#btnAddProductsFamilies', async function () {
+  $(document).on('click', '.btnAddProductsFamilies', async function () {
     await loadTableProductsFamilies();
     await loadExpensesDFamiliesProducts();
+    $('#btnAddProductFamily').html('Asignar');
+
     $('#formProductFamily').trigger('reset');
     $('.cardTblExpensesDistribution').hide(800);
     $('.cardExpensesDistribution').hide(800);
@@ -209,18 +211,20 @@ $(document).ready(function () {
     attr.style.width = '100%';
   });
 
-  $(document).on('click', '#btnAddProductFamily', function () {
+  $('#btnAddProductFamily').click(function (e) {
+    e.preventDefault();
+
     let id_product = parseInt($('#familyRefProduct').val());
     let id_family = parseInt($('#families').val());
 
-    data = id_product * id_family;
+    let data = id_product * id_family;
 
     if (isNaN(data)) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
 
-    let data = $('#formProductFamily').serialize();
+    data = $('#formProductFamily').serialize();
 
     $.post('/api/saveProductFamily', data, function (data, textStatus, jqXHR) {
       message(data, 4);

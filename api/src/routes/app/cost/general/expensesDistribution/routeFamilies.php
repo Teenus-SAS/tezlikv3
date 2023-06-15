@@ -99,7 +99,7 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
 
     if ($resolution == null && $dataFamily['idFamily'] != 0)
         $resp = array('success' => true, 'message' => 'Producto asignado a la familia correctamente');
-    if ($resolution == null && $dataFamily['idFamily'] == 0)
+    else if ($resolution == null && $dataFamily['idFamily'] == 0)
         $resp = array('success' => true, 'message' => 'Producto eliminado de la familia correctamente');
     else if (isset($resolution['info']))
         $resp = array('info' => true, 'message' => $resolution['message']);

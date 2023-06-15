@@ -75,7 +75,7 @@ $(document).ready(function () {
           <button class="btn btn-secondary" id="btnAddNewFamily">Nueva Familia</button>
         </div>
         <div class="col-xs-2 mr-2">
-          <button class="btn btn-secondary" id="btnAddProductsFamilies">Asignar Productos</button>
+          <button class="btn btn-secondary btnAddProductsFamilies" id="btnAddProductsFamilies">Asignar Productos</button>
         </div>
         `
       );

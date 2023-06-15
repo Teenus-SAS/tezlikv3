@@ -47,7 +47,7 @@ class FamiliesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, f.family
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, f.id_family, f.family
                                       FROM products p
                                         INNER JOIN families f ON f.id_family = p.id_family
                                       WHERE p.id_company = :id_company  
@@ -84,6 +84,18 @@ class FamiliesDao
         $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company AND p.active = 1 AND 
                                       (p.id_product NOT IN (SELECT id_product FROM expenses_distribution WHERE id_product = p.id_product) OR p.id_family = 0)");
         $stmt->execute(['id_company' => $id_company]);
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
+
+    public function findAllProductsInFamily($id_family)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT id_product
+                                      FROM products 
+                                      WHERE active = 1 AND id_family = :id_family");
+        $stmt->execute(['id_family' => $id_family]);
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;
     }

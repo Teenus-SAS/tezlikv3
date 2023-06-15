@@ -101,6 +101,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 
 $app->post('/addExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
+    $familiesDao,
     $productsDao,
     $assignableExpenseDao,
     $priceProductDao,
@@ -115,17 +116,31 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     if ($dataExpensesDistributions > 1) {
 
-        // if ($flag == 0) $dataExpensesDistribution['idFamily'] = 0;
+        if ($flag != 0) {
+            $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily']);
 
-        // $expensesDistribution = $familiesDao->updateFamilyProduct($dataExpensesDistribution);
+            for ($i = 0; $i < sizeof($products); $i++) {
+                $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
+                $products[$i]['unitsSold'] = $dataExpensesDistribution['unitsSold'];
+                $products[$i]['turnover'] = $dataExpensesDistribution['turnover'];
+                $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($products[$i], $id_company);
 
-        $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($dataExpensesDistribution, $id_company);
+                if (!$findExpenseDistribution)
+                    $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($products[$i], $id_company);
+                else {
+                    $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                    $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+                }
+            }
+        } else {
+            $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($dataExpensesDistribution, $id_company);
 
-        if (!$findExpenseDistribution)
-            $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
-        else {
-            $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-            $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+            if (!$findExpenseDistribution)
+                $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
+            else {
+                $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+            }
         }
 
         /* Calcular gasto asignable */
@@ -165,12 +180,25 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             }
         }
 
-        // Calcular Precio del producto
-        if ($expensesDistribution == null)
-            $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+        if ($flag == 1) {
+            // Calcular Precio del producto
+            for ($i = 0; $i < sizeof($products); $i++) {
+                if ($expensesDistribution == null)
+                    $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
 
-        if (isset($expensesDistribution['totalPrice']))
-            $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+                if (isset($expensesDistribution['totalPrice']))
+                    $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
+
+                if (isset($expensesDistribution['info'])) break;
+            }
+        } else {
+            // Calcular Precio del producto
+            if ($expensesDistribution == null)
+                $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+
+            if (isset($expensesDistribution['totalPrice']))
+                $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+        }
 
         if ($expensesDistribution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');

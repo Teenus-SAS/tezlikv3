@@ -6,6 +6,9 @@ $(document).ready(function () {
   $('#btnExpensesDistribution').click(async function (e) {
     e.preventDefault();
 
+    if (flag_expense_distribution == 0) await loadExpensesDProducts();
+    else await loadExpensesDFamiliesProducts();
+
     $('.selectNameProduct option').removeAttr('selected');
     $('.refProduct option').removeAttr('selected');
     $(`.selectNameProduct option[value='0']`).prop('selected', true);
@@ -16,9 +19,7 @@ $(document).ready(function () {
     $('.cardAddNewFamily').hide(800);
     $('.cardAddProductFamily').hide(800);
     $('.cardTblFamilies').hide(800);
-    $('.cardTblExpensesDistribution').show(800);
     $('#btnAssignExpenses').html('Asignar');
-    $('.cardExpensesDistribution').toggle(800);
 
     sessionStorage.removeItem('id_expenses_distribution');
 
@@ -32,8 +33,8 @@ $(document).ready(function () {
     attr = tables.firstElementChild;
     attr.style.width = '100%';
 
-    if (flag_expense_distribution == 0) await loadExpensesDProducts();
-    else await loadExpensesDFamiliesProducts();
+    $('.cardTblExpensesDistribution').show(800);
+    $('.cardExpensesDistribution').toggle(800);
   });
 
   $('#btnAssignExpenses').click(function (e) {
@@ -119,7 +120,7 @@ $(document).ready(function () {
 
     let data = refProduct * nameProduct * unitExp * volExp;
 
-    if (flag_expense_distribution == 1) data *= family;
+    if (flag_expense_distribution == 1) data = family * unitExp * volExp;
 
     if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
