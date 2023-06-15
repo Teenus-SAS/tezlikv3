@@ -29,6 +29,19 @@ class FamiliesDao
         return $families;
     }
 
+    public function findAllFamiliesNotDistributeByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM families WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $families = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("families", array('families' => $families));
+        return $families;
+    }
+
     // Consultar si existe distribucion de gasto en BD
     public function findFamily($dataFamily, $id_company)
     {
@@ -77,25 +90,16 @@ class FamiliesDao
         return $expenses;
     }
 
-    public function findAllProductsNotInEDistribution($id_company)
+    public function findAllProductsInFamily($id_family, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company AND p.active = 1 AND 
-                                      (p.id_product NOT IN (SELECT id_product FROM expenses_distribution WHERE id_product = p.id_product) OR p.id_family = 0)");
-        $stmt->execute(['id_company' => $id_company]);
-        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
-        return $products;
-    }
-
-    public function findAllProductsInFamily($id_family)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        $stmt = $connection->prepare("SELECT id_product
-                                      FROM products 
-                                      WHERE active = 1 AND id_family = :id_family");
-        $stmt->execute(['id_family' => $id_family]);
+        $stmt = $connection->prepare("SELECT * FROM products 
+                                      WHERE active = 1 AND id_family = :id_family AND id_company = :id_company");
+        $stmt->execute([
+            'id_family' => $id_family,
+            'id_company' => $id_company
+        ]);
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;
     }

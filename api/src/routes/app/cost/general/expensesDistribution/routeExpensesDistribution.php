@@ -116,10 +116,16 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     if ($dataExpensesDistributions > 1) {
 
-        if ($flag != 0) {
-            $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily']);
+        if ($flag == 1) {
+            $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
+
+            if (!$products) {
+                $expensesDistribution = 1;
+            }
 
             for ($i = 0; $i < sizeof($products); $i++) {
+                if (isset($expensesDistribution['info'])) break;
+
                 $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
                 $products[$i]['unitsSold'] = $dataExpensesDistribution['unitsSold'];
                 $products[$i]['turnover'] = $dataExpensesDistribution['turnover'];
@@ -180,7 +186,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             }
         }
 
-        if ($flag == 1) {
+        if ($flag == 1 && $expensesDistribution == null) {
             // Calcular Precio del producto
             for ($i = 0; $i < sizeof($products); $i++) {
                 if ($expensesDistribution == null)
@@ -191,10 +197,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
                 if (isset($expensesDistribution['info'])) break;
             }
-        } else {
+        } else if ($flag == 0 && $expensesDistribution == null) {
             // Calcular Precio del producto
-            if ($expensesDistribution == null)
-                $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+            $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
             if (isset($expensesDistribution['totalPrice']))
                 $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
@@ -202,6 +207,8 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
         if ($expensesDistribution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
+        else if ($expensesDistribution == 1)
+            $resp = array('info' => true, 'message' => 'Familia no tiene ningún producto asociado');
         else if (isset($expensesDistribution['info']))
             $resp = array('info' => true, 'message' => $expensesDistribution['message']);
         else

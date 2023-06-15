@@ -248,6 +248,8 @@ $(document).ready(function () {
     );
     $(`#families option[value=${data.id_family}]`).prop('selected', true);
 
+    $('.cardAddProductFamily').show(800);
+
     $('html, body').animate(
       {
         scrollTop: 0,

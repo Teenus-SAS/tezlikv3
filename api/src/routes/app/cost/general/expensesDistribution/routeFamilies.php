@@ -45,7 +45,7 @@ $app->get('/expensesDistributionFamiliesProducts', function (Request $request, R
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $products = $familiesDao->findAllProductsNotInEDistribution($id_company);
+    $products = $familiesDao->findAllProductsInFamily(0, $id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
