@@ -277,67 +277,6 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $flag = $_SESSION['flag_expense_distribution'];
     $dataExpensesDistribution = $request->getParsedBody();
 
-    /*if (sizeof($dataExpensesDistribution) > 1)
-        $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution);
-    else {
-        $expensesDistribution = $dataExpensesDistribution['data'];
-        for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
-            $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
-            if (isset($resolution['info'])) break;
-        }
-    }
-    // Calcular gasto asignable
-    if ($resolution == null) {
-        // Consulta unidades vendidades y volumenes de venta por producto
-        $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
-
-        // Calcular el total de unidades vendidas y volumen de ventas
-        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
-
-        // Obtener el total de gastos
-        $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
-
-        foreach ($unitVol as $arr) {
-            if (isset($resolution['info'])) break;
-            // Calcular gasto asignable
-            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-            // Actualizar gasto asignable
-            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-        }
-    }
-
-    // x Familia
-    if ($resolution == null && $flag == 1) {
-        // Consulta unidades vendidades y volumenes de venta por familia
-        $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
-
-        // Calcular el total de unidades vendidas y volumen de ventas
-        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
-
-        foreach ($unitVol as $arr) {
-            if (isset($resolution['info'])) break;
-            // Calcular gasto asignable
-            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-            // Actualizar gasto asignable
-            $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
-        }
-    }
-
-    // Calcular Precio del producto
-    if ($resolution == null) {
-        if (sizeof($dataExpensesDistribution) > 1) {
-            $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
-            $resolution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
-        } else {
-            $expensesDistribution = $dataExpensesDistribution['data'];
-
-            for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
-                $arr = $priceProductDao->calcPrice($expensesDistribution[$i]['selectNameProduct']);
-                $resolution = $generalProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $arr['totalPrice']);
-                if (isset($resolution['info'])) break;
-            }
-        }
-    } */
     if ($flag == 1) {
         $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
 
@@ -345,14 +284,16 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
         for ($i = 0; $i < sizeof($products); $i++) {
             if (isset($expensesDistribution['info'])) break;
-
             $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
-            $products[$i]['unitsSold'] = $dataExpensesDistribution['unitsSold'];
-            $products[$i]['turnover'] = $dataExpensesDistribution['turnover'];
             $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($products[$i], $id_company);
 
-            $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-            $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+            if ($findExpenseDistribution != false) {
+                $products[$i]['unitsSold'] = $dataExpensesDistribution['unitsSold'];
+                $products[$i]['turnover'] = $dataExpensesDistribution['turnover'];
+
+                $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+            }
         }
     } else {
         $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($dataExpensesDistribution, $id_company);

@@ -190,7 +190,6 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
     // Calcular Precio del producto
     for ($i = 0; $i < sizeof($products); $i++) {
         $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
-        $products[$i]['unitsSold'] = $products[$i]['units_sold'];
 
         if ($expensesDistribution == null)
             $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
