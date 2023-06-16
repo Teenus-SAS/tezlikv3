@@ -90,11 +90,12 @@ $(document).ready(function () {
       `<option value ='${data.id_product}'> ${data.product} </option>`
     );
 
-    if (flag_expense_distribution == 1)
-      $(`#familiesDistribute option[value=${data.id_family}]`).prop(
-        'selected',
-        true
+    if (flag_expense_distribution == 1) {
+      $('#familiesDistribute').empty();
+      $('#familiesDistribute').append(
+        `<option value=${data.id_family}> ${data.family}</option>`
       );
+    }
 
     $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
     $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));

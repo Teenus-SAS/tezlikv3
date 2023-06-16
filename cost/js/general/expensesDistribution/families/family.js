@@ -123,60 +123,6 @@ $(document).ready(function () {
       },
       1000
     );
-    /*let id_family = this.id;
-
-    let data = await searchData(
-      `/api/expensesDistributionFamilies/${id_family}`
-    );
-    dataExpenseDistributionFamily = data;
-
-    $('#inputsDistribution').empty();
-
-    let form = document.getElementById('inputsDistribution');
-
-    for (let i = 0; i < data.length; i++) {
-      dataExpenseDistributionFamily[i].idExpensesDistribution =
-        data[i].id_expenses_distribution;
-      dataExpenseDistributionFamily[i].selectNameProduct = data[i].id_product;
-      dataExpenseDistributionFamily[i].unitsSold = data[i].units_sold;
-
-      form.insertAdjacentHTML(
-        'beforeend',
-        `<div class="col-12 col-lg-12 titlePayroll">
-            <label for=""><b>${data[i].reference} - ${
-          data[i].product
-        }</b></label>
-        </div>
-        <div class="col-12 col-lg-4">
-            <div class="form-group floating-label enable-floating-label show-label">
-                <input type="text" class="form-control number inputsFamily ${[
-                  i,
-                ]}" name="unitsSold" id="unitsSold" value="${data[
-          i
-        ].units_sold.toLocaleString()}">
-                <label for="unitsSold">Unidades Vendidas</label>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4">
-            <div class="form-group floating-label enable-floating-label show-label">
-                <input type="text" class="form-control number inputsFamily ${[
-                  i,
-                ]}" name="turnover" id="turnover" value="${data[
-          i
-        ].turnover.toLocaleString()}">
-                <label for="turnover">Volumen Ventas</label>
-            </div>
-        </div>
-        <div class="col-12 col-lg-4">
-          <a href="javascript:;" <i id="${
-            data[i].id_expense_distribution
-          }" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteExpenseDistribution(${i})"></i></a>
-        </div>
-        `
-      );
-    }
-
-    $('#modalExpenseDistributionByFamily').modal('show');*/
   });
 
   /* Eliminar distribucion de gasto x familia */
@@ -227,19 +173,6 @@ $(document).ready(function () {
 
     dataExpenseDistributionFamily[key][this.id] = this.value;
   });
-
-  /*  $('#btnModifyDistribution').click(function (e) {
-    e.preventDefault();
-
-    $.ajax({
-      type: 'POST',
-      url: '/api/updateExpensesDistribution',
-      data: { data: dataExpenseDistributionFamily },
-      success: function (resp) {
-        message(resp, 3);
-      },
-    });
-  });*/
 
   /* Asignar productos */
   $(document).on('click', '.btnAddProductsFamilies', async function () {
