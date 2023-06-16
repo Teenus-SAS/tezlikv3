@@ -75,12 +75,8 @@ class FamiliesDao
     public function findAllExpensesDistributionByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT f.id_family, f.family, SUM(me.units_sold) AS units_sold, SUM(me.turnover) AS turnover, f.assignable_expense
-                                      FROM expenses_distribution me
-                                        INNER JOIN products p ON p.id_product = me.id_product
-                                        INNER JOIN families f ON f.id_family = p.id_family
-                                      WHERE me.id_company = :id_company AND p.active = 1 
-                                      GROUP BY p.id_family");
+        $stmt = $connection->prepare("SELECT * FROM families
+                                      WHERE id_company = :id_company AND (assignable_expense > 0 OR units_sold > 0 OR turnover > 0)");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -168,6 +164,28 @@ class FamiliesDao
             $stmt = $connection->prepare("UPDATE products SET id_family = :id_family WHERE id_product = :id_product");
             $stmt->execute([
                 'id_product' => $dataFamily['selectNameProduct'],
+                'id_family' => $dataFamily['idFamily']
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updateDistributionFamily($dataFamily)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $unitsSold = str_replace('.', '', $dataFamily['unitsSold']);
+        $turnover = str_replace('.', '', $dataFamily['turnover']);
+
+        try {
+            $stmt = $connection->prepare("UPDATE families SET units_sold = :units_sold, turnover = :turnover WHERE id_family = :id_family");
+            $stmt->execute([
+                'units_sold' => $unitsSold,
+                'turnover' => $turnover,
                 'id_family' => $dataFamily['idFamily']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

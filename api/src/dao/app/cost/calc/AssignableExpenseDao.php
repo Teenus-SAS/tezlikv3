@@ -55,11 +55,9 @@ class AssignableExpenseDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT SUM(ed.units_sold) as units_sold, SUM(ed.turnover) as turnover 
-                                          FROM expenses_distribution ed
-                                            INNER JOIN products p ON p.id_product = ed.id_product
-                                            INNER JOIN families f ON f.id_family = p.id_family
-                                          WHERE ed.id_company = :id_company");
+            $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
+                                          FROM families
+                                          WHERE id_company = :id_company AND (assignable_expense > 0 OR units_sold > 0 OR turnover > 0)");
             $stmt->execute(['id_company' => $id_company]);
             $totalUnitVol = $stmt->fetch($connection::FETCH_ASSOC);
         } catch (\Exception $e) {
@@ -86,7 +84,7 @@ class AssignableExpenseDao
     }
 
     // Obtener total unidades y vol de ventas de la familia
-    public function findUnitsVolByFamily($id_company)
+    /*public function findUnitsVolByFamily($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -103,7 +101,7 @@ class AssignableExpenseDao
             $totalUnitVol = array('info' => true, 'message' => $message);
         }
         return $totalUnitVol;
-    }
+    }*/
 
     // Calcula el gasto asignable
     public function calcAssignableExpense($unitVol, $totalUnitVol, $totalExpense)

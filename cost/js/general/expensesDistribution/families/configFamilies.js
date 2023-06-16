@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  loadFamilies = async () => {
+  loadFamilies = async (op) => {
     let data = await searchData('/api/families');
 
     let $select = $('.families');
@@ -8,9 +8,14 @@ $(document).ready(function () {
 
     $select.append(`<option disabled selected>Seleccionar</option>`);
     $.each(data, function (i, value) {
-      $select.append(
-        `<option value = '${value.id_family}'>${value.family} </option>`
-      );
+      if (op == 1)
+        $select.append(
+          `<option value = '${value.id_family}'>${value.family} </option>`
+        );
+      else if (op == 2 && value.assignable_expense == 0)
+        $select.append(
+          `<option value = '${value.id_family}'>${value.family} </option>`
+        );
     });
   };
 });

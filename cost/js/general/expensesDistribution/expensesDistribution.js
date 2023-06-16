@@ -7,7 +7,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     if (flag_expense_distribution == 0) await loadExpensesDProducts();
-    else await loadExpensesDFamiliesProducts();
+    else await loadFamilies(2);
 
     $('.selectNameProduct option').removeAttr('selected');
     $('.refProduct option').removeAttr('selected');
@@ -203,12 +203,12 @@ $(document).ready(function () {
       $('#formExpenseRecover').trigger('reset');
       $('#modalExpenseDistributionByFamily').modal('hide');
 
-      if (op == 1) await loadExpensesDProducts();
-      else if (op == 2) await loadExpensesRProducts();
-      else if (op == 3) {
-        await loadExpensesDFamiliesProducts();
-        await loadFamilies();
-      } else if (op == 4) {
+      if (op == 1) {
+        await loadExpensesDProducts();
+        await loadFamilies(2);
+      } else if (op == 2) await loadExpensesRProducts();
+      else if (op == 3) await loadFamilies(1);
+      else if (op == 4) {
         await loadExpensesDFamiliesProducts();
         await loadTableProductsFamilies();
       }

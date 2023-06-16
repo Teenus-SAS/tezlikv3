@@ -89,8 +89,7 @@ $(document).ready(function () {
           <label for="families">Familia</label>
         </div>`
       );
-      await loadFamilies();
-      await loadExpensesDFamiliesProducts();
+      await loadFamilies(1);
 
       await loadTableExpensesDistributionFamilies();
     } else await loadTableExpensesDistribution();

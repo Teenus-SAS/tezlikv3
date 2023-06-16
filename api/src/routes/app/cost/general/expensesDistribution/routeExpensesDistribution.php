@@ -119,9 +119,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         if ($flag == 1) {
             $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
 
-            if (!$products) {
-                $expensesDistribution = 1;
-            }
+            $expensesDistribution = $familiesDao->updateDistributionFamily($dataExpensesDistribution);
 
             for ($i = 0; $i < sizeof($products); $i++) {
                 if (isset($expensesDistribution['info'])) break;
@@ -171,7 +169,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             /* x Familia */
             if ($expensesDistribution == null && $flag == 1) {
                 // Consulta unidades vendidades y volumenes de venta por familia
-                $unitVol = $assignableExpenseDao->findUnitsVolByFamily($id_company);
+                $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
 
                 // Calcular el total de unidades vendidas y volumen de ventas
                 $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
@@ -207,8 +205,6 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
         if ($expensesDistribution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
-        else if ($expensesDistribution == 1)
-            $resp = array('info' => true, 'message' => 'Familia no tiene ningún producto asociado');
         else if (isset($expensesDistribution['info']))
             $resp = array('info' => true, 'message' => $expensesDistribution['message']);
         else
@@ -271,6 +267,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
 $app->post('/updateExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
+    $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
     $generalProductsDao
@@ -280,7 +277,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $flag = $_SESSION['flag_expense_distribution'];
     $dataExpensesDistribution = $request->getParsedBody();
 
-    if (sizeof($dataExpensesDistribution) > 1)
+    /*if (sizeof($dataExpensesDistribution) > 1)
         $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution);
     else {
         $expensesDistribution = $dataExpensesDistribution['data'];
@@ -309,10 +306,10 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         }
     }
 
-    /* x Familia */
+    // x Familia
     if ($resolution == null && $flag == 1) {
         // Consulta unidades vendidades y volumenes de venta por familia
-        $unitVol = $assignableExpenseDao->findUnitsVolByFamily($id_company);
+        $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
 
         // Calcular el total de unidades vendidas y volumen de ventas
         $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
@@ -340,13 +337,92 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                 if (isset($resolution['info'])) break;
             }
         }
+    } */
+    if ($flag == 1) {
+        $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
+
+        $expensesDistribution = $familiesDao->updateDistributionFamily($dataExpensesDistribution);
+
+        for ($i = 0; $i < sizeof($products); $i++) {
+            if (isset($expensesDistribution['info'])) break;
+
+            $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
+            $products[$i]['unitsSold'] = $dataExpensesDistribution['unitsSold'];
+            $products[$i]['turnover'] = $dataExpensesDistribution['turnover'];
+            $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($products[$i], $id_company);
+
+            $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+            $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+        }
+    } else {
+        $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($dataExpensesDistribution, $id_company);
+
+        $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+        $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
     }
-    if ($resolution == null)
-        $resp = array('success' => true, 'message' => 'Distribución de gasto actualizada correctamente');
-    else if (isset($resolution['info']))
-        $resp = array('info' => true, 'message' => $resolution['message']);
+
+    /* Calcular gasto asignable */
+    if ($expensesDistribution == null) {
+        // Consulta unidades vendidades y volumenes de venta por producto
+        $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+        // Calcular el total de unidades vendidas y volumen de ventas
+        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+        // Obtener el total de gastos
+        $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+        foreach ($unitVol as $arr) {
+            if (isset($resolution['info'])) break;
+            // Calcular gasto asignable
+            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+            // Actualizar gasto asignable
+            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+        }
+
+        /* x Familia */
+        if ($expensesDistribution == null && $flag == 1) {
+            // Consulta unidades vendidades y volumenes de venta por familia
+            $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+
+            // Calcular el total de unidades vendidas y volumen de ventas
+            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
+
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
+            }
+        }
+    }
+
+    if ($flag == 1 && $expensesDistribution == null) {
+        // Calcular Precio del producto
+        for ($i = 0; $i < sizeof($products); $i++) {
+            if ($expensesDistribution == null)
+                $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
+
+            if (isset($expensesDistribution['totalPrice']))
+                $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
+
+            if (isset($expensesDistribution['info'])) break;
+        }
+    } else if ($flag == 0 && $expensesDistribution == null) {
+        // Calcular Precio del producto
+        $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
+
+        if (isset($expensesDistribution['totalPrice']))
+            $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+    }
+
+    if ($expensesDistribution == null)
+        $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
+    else if (isset($expensesDistribution['info']))
+        $resp = array('info' => true, 'message' => $expensesDistribution['message']);
     else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -354,6 +430,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
 $app->post('/deleteExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
+    $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
     $generalProductsDao
@@ -386,7 +463,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     /* x Familia */
     if ($resolution == null && $flag == 1) {
         // Consulta unidades vendidades y volumenes de venta por familia
-        $unitVol = $assignableExpenseDao->findUnitsVolByFamily($id_company);
+        $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
 
         // Calcular el total de unidades vendidas y volumen de ventas
         $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);

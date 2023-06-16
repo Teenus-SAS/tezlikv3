@@ -98,8 +98,32 @@ $(document).ready(function () {
   };
 
   /* Actualizar gasto de distribucion x familia */
-  $(document).on('click', '.seeDetail', async function () {
-    let id_family = this.id;
+  $(document).on('click', '.updateExpenseDistributionFamilies', function () {
+    $('.cardImportExpenses').hide(800);
+    $('.cardExpenseRecover').hide(800);
+    $('.cardExpensesDistribution').show(800);
+    $('#btnAssignExpenses').html('Actualizar');
+
+    sessionStorage.setItem('id_expenses_distribution', 1);
+
+    let row = $(this).parent().parent()[0];
+    let data = tblExpensesDistribution.fnGetData(row);
+
+    $(`#familiesDistribute option[value=${data.id_family}]`).prop(
+      'selected',
+      true
+    );
+
+    $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
+    $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));
+
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
+    /*let id_family = this.id;
 
     let data = await searchData(
       `/api/expensesDistributionFamilies/${id_family}`
@@ -152,8 +176,42 @@ $(document).ready(function () {
       );
     }
 
-    $('#modalExpenseDistributionByFamily').modal('show');
+    $('#modalExpenseDistributionByFamily').modal('show');*/
   });
+
+  /* Eliminar distribucion de gasto x familia */
+  deleteExpenseDistributionFamilies = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblExpensesDistribution.fnGetData(row);
+
+    let id_family = data.id_family;
+
+    bootbox.confirm({
+      title: 'Eliminar',
+      message:
+        'Está seguro de eliminar esta familia? Esta acción no se puede reversar.',
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `/api/deleteExpensesDistributionFamily/${id_family}`,
+            function (data, textStatus, jqXHR) {
+              message(data, 3);
+            }
+          );
+        }
+      },
+    });
+  };
 
   /* Guardar Familia */
   $(document).on('keyup', '.inputsFamily', function () {
@@ -170,7 +228,7 @@ $(document).ready(function () {
     dataExpenseDistributionFamily[key][this.id] = this.value;
   });
 
-  $('#btnModifyDistribution').click(function (e) {
+  /*  $('#btnModifyDistribution').click(function (e) {
     e.preventDefault();
 
     $.ajax({
@@ -181,14 +239,7 @@ $(document).ready(function () {
         message(resp, 3);
       },
     });
-  });
-
-  /* Cerrar modal */
-  $('#btnCloseDistribution').click(function (e) {
-    e.preventDefault();
-
-    $('#modalExpenseDistributionByFamily').modal('hide');
-  });
+  });*/
 
   /* Asignar productos */
   $(document).on('click', '.btnAddProductsFamilies', async function () {
