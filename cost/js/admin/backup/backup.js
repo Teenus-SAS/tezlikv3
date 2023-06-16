@@ -170,7 +170,7 @@ $(document).ready(function () {
             prestacional: '',
             horas_trabajo_x_dia: dataPayroll[i].hours_day,
             dias_trabajo_x_mes: dataPayroll[i].working_days_month,
-            tipo_riesgo: data[i].risk_level,
+            tipo_riesgo: dataPayroll[i].risk_level,
             // tipo_nomina: dataPayroll[i].type_contract,
             // factor: dataPayroll[i].factor_benefit,
           });
