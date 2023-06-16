@@ -190,7 +190,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
             // Obtener id maquina
             // Si no está definida agrega 0 a 'idMachine'
-            if (!isset($productProcess[$i]['machine'])) {
+            if (!isset($productProcess[$i]['machine']) || strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
                 $productProcess[$i]['idMachine'] = 0;
             } else {
                 // Obtener id maquina
@@ -243,7 +243,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             if (isset($resolution['info']))
                 break;
 
-            $resolution = $GeneralProductsDao->updatePrice($dataProductProcess[$i]['idProduct'], $resolution['totalPrice']);
+            $resolution = $GeneralProductsDao->updatePrice($productProcess[$i]['idProduct'], $resolution['totalPrice']);
         }
 
         if ($resolution == null)
