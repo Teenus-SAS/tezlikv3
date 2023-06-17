@@ -6,7 +6,7 @@ $(document).ready(function () {
   $('#btnExpensesDistribution').click(async function (e) {
     e.preventDefault();
 
-    if (flag_expense_distribution == 0) await loadExpensesDProducts();
+    if (flag_expense_distribution == 1) await loadExpensesDProducts();
     else await loadFamilies(2);
 
     $('.selectNameProduct option').removeAttr('selected');
@@ -90,7 +90,7 @@ $(document).ready(function () {
       `<option value ='${data.id_product}'> ${data.product} </option>`
     );
 
-    if (flag_expense_distribution == 1) {
+    if (flag_expense_distribution == 2) {
       $('#familiesDistribute').empty();
       $('#familiesDistribute').append(
         `<option value=${data.id_family}> ${data.family}</option>`
@@ -121,7 +121,7 @@ $(document).ready(function () {
 
     let data = refProduct * nameProduct * unitExp * volExp;
 
-    if (flag_expense_distribution == 1) data = family * unitExp * volExp;
+    if (flag_expense_distribution == 2) data = family * unitExp * volExp;
 
     if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
@@ -137,7 +137,7 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataExpense);
     let op = 1;
-    if (flag_expense_distribution == 1) op = 3;
+    if (flag_expense_distribution == 2) op = 3;
     message(resp, op);
   };
 
@@ -181,7 +181,7 @@ $(document).ready(function () {
             dataExpensesDistribution,
             function (data, textStatus, jqXHR) {
               let op = 1;
-              if (flag_expense_distribution == 1) op = 3;
+              if (flag_expense_distribution == 2) op = 3;
 
               message(data, op);
             }

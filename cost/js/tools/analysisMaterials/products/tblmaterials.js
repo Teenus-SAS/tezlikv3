@@ -20,10 +20,10 @@ $(document).ready(function () {
   getDataMaterials = async (id) => {
     let data = await searchData(`/api/rawMaterials/${id}`);
 
-    if ($.fn.dataTable.isDataTable('#tblMaterials')) {
-      $('#tblMaterials').DataTable().destroy();
-      $('#tblMaterials').empty();
-    }
+    // if ($.fn.dataTable.isDataTable('#tblMaterials')) {
+    //   $('#tblMaterials').DataTable().destroy();
+    //   $('#tblMaterials').empty();
+    // }
 
     $('.colMaterials').empty();
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
         },
         {
           title: 'Costo Unitario',
-          data: 'cost',
+          data: null,
           className: 'uniqueClassName',
           render: function (data) {
             data.abbreviation_material != data.abbreviation_product_material

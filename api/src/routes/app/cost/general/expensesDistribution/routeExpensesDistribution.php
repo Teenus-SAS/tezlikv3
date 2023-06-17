@@ -116,7 +116,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     if ($dataExpensesDistributions > 1) {
 
-        if ($flag == 1) {
+        if ($flag == 2) {
             $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
 
             $expensesDistribution = $familiesDao->updateDistributionFamily($dataExpensesDistribution);
@@ -184,7 +184,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             }
         }
 
-        if ($flag == 1 && $expensesDistribution == null) {
+        if ($flag == 2 && $expensesDistribution == null) {
             // Calcular Precio del producto
             for ($i = 0; $i < sizeof($products); $i++) {
                 if ($expensesDistribution == null)
@@ -195,7 +195,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
                 if (isset($expensesDistribution['info'])) break;
             }
-        } else if ($flag == 0 && $expensesDistribution == null) {
+        } else if ($flag == 1 && $expensesDistribution == null) {
             // Calcular Precio del producto
             $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
@@ -277,7 +277,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $flag = $_SESSION['flag_expense_distribution'];
     $dataExpensesDistribution = $request->getParsedBody();
 
-    if ($flag == 1) {
+    if ($flag == 2) {
         $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
 
         $expensesDistribution = $familiesDao->updateDistributionFamily($dataExpensesDistribution);
@@ -322,7 +322,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         }
 
         /* x Familia */
-        if ($expensesDistribution == null && $flag == 1) {
+        if ($expensesDistribution == null && $flag == 2) {
             // Consulta unidades vendidades y volumenes de venta por familia
             $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
 
@@ -339,7 +339,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         }
     }
 
-    if ($flag == 1 && $expensesDistribution == null) {
+    if ($flag == 2 && $expensesDistribution == null) {
         // Calcular Precio del producto
         for ($i = 0; $i < sizeof($products); $i++) {
             if ($expensesDistribution == null)
@@ -350,7 +350,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
             if (isset($expensesDistribution['info'])) break;
         }
-    } else if ($flag == 0 && $expensesDistribution == null) {
+    } else if ($flag == 1 && $expensesDistribution == null) {
         // Calcular Precio del producto
         $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['refProduct']);
 
@@ -402,7 +402,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
         }
     }
     /* x Familia */
-    if ($resolution == null && $flag == 1) {
+    if ($resolution == null && $flag == 2) {
         // Consulta unidades vendidades y volumenes de venta por familia
         $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
 

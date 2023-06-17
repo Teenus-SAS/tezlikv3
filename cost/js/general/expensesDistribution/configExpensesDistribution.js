@@ -64,7 +64,7 @@ $(document).ready(function () {
       else toastr.error(resp.message);
     }
 
-    if (option_distribution == 1) {
+    if (option_distribution == 2) {
       let buttons = document.getElementsByClassName(
         'cardBtnExpensesDistribution'
       )[0];
@@ -127,8 +127,8 @@ $(document).ready(function () {
           },
           callback: function (result) {
             result == true
-              ? (option_distribution = 1)
-              : (option_distribution = 0);
+              ? (option_distribution = 2)
+              : (option_distribution = 1);
             flag_expense_distribution = option_distribution;
             changeTypeExpenseDistribution();
           },

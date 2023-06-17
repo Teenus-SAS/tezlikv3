@@ -29,11 +29,14 @@ $(document).ready(function () {
                           <th id="rawMaterial-${i + 1}">${data[i].material}</th>
                           <th id="quantity-${i + 1}">${data[i].quantity}</th>
                           <th id="currentPrice-${i + 1}">$ ${
-            data.abbreviation_material != data.abbreviation_product_material
-              ? data.cost_product_material.toLocaleString('es-CO', {
+            data[i].abbreviation_material !=
+            data[i].abbreviation_product_material
+              ? data[i].cost_product_material.toLocaleString('es-CO', {
                   maximumFractionDigits: 0,
                 })
-              : data.cost.toLocaleString('es-CO', { maximumFractionDigits: 0 })
+              : data[i].cost.toLocaleString('es-CO', {
+                  maximumFractionDigits: 0,
+                })
           }</th>
                           <th><input class="form-control numberCalc negotiatePrice text-center" type="text" id="${
                             i + 1
