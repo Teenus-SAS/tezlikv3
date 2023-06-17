@@ -19,6 +19,8 @@ $(document).ready(function () {
       generalMaterials(data.quantity_materials);
 
       dataPucExpenes = data.expenses;
+
+      dataExpenses = data.expense_value;
     });
 
   /* Colors */
@@ -45,7 +47,7 @@ $(document).ready(function () {
   /* Indicadores Generales */
   generalIndicators = (data, expenseRecover, multiproducts) => {
     // Cantidad de productos
-    $('#products').html(data.products.toLocaleString('es-CO'));
+    $('#products').html(data[0].products.toLocaleString('es-CO'));
     $('#multiproducts').html(
       multiproducts.total_units.toLocaleString('es-CO', {
         maximumFractionDigits: 0,
@@ -56,10 +58,12 @@ $(document).ready(function () {
     let totalExpense = 0;
 
     if (flag_expense == 1 || flag_expense == 0) {
-      for (i = 0; i < 3; i++) {
+      for (i = 0; i < data.length; i++) {
         totalExpense = totalExpense + data[i].expenseCount;
       }
-      totalExpense = `$ ${Math.round(totalExpense).toLocaleString('es-CO')}`;
+      totalExpense = `$ ${totalExpense.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })}`;
       expenses = 'Gastos Generales';
     } else {
       expenses = `Gastos Generales (Promedio)`;

@@ -22,8 +22,8 @@ class ExpensesDao
     $id_company = $_SESSION['id_company'];
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT IF(p.number_count LIKE '51%', '51 - Operacionales de administración', IF(p.number_count LIKE '52%', '52 - Gastos de Ventas', IF(p.number_count LIKE '53%', '53 - No operacionales', p.number_count))) AS puc,
-                                         e.id_expense, e.id_puc, p.number_count, p.count, e.participation, e.expense_value 
+    $stmt = $connection->prepare("SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc,
+                                      e.id_expense, e.id_puc, p.number_count, p.count, e.participation, e.expense_value 
                                   FROM expenses e 
                                   INNER JOIN puc p ON e.id_puc = p.id_puc 
                                   WHERE e.id_company = :id_company 

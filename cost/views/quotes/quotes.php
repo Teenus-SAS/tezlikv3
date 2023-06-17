@@ -98,9 +98,7 @@ if (sizeof($_SESSION) == 0)
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
 	<script src="/cost/js/basic/products/configProducts.js"></script>
-	<script>
-		option_price = false;
-	</script>
+
 	<script src="/cost/js/general/priceList/configPriceList.js"></script>
 	<script src="/global/js/global/orderData.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>

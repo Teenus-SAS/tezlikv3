@@ -204,10 +204,12 @@ $(document).ready(function () {
   /* Gastos generales */
 
   graphicGeneralCost = (data) => {
+    let expenseLabel = [];
     let expenseCount = [];
     let totalExpense = 0;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < data.length; i++) {
+      expenseLabel.push(data[i].count);
       expenseCount.push(data[i].expenseCount);
       totalExpense = totalExpense + data[i].expenseCount;
     }
@@ -219,11 +221,7 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: 'doughnut',
       data: {
-        labels: [
-          'Operacionales de administración',
-          'Gastos de Ventas',
-          'No operacionales',
-        ],
+        labels: expenseLabel,
         datasets: [
           {
             data: expenseCount,

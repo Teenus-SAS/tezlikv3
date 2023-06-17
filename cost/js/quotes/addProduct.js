@@ -29,6 +29,11 @@ $(document).ready(function () {
   $('#selectNameProduct').change(async function (e) {
     e.preventDefault();
     let id = this.value;
+    $('#pricesList option').removeAttr('selected');
+    $(`#pricesList option[value='0']`).prop('selected', true);
+    $('#price').val('');
+    $('#totalPrice').val('');
+
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     loadDataProduct(id);
@@ -54,21 +59,17 @@ $(document).ready(function () {
   };
 
   $(document).on('change', '#pricesList', async function () {
-    if (this.value == '0') {
-      $('#price').val(parseInt(priceProduct).toLocaleString());
-      return false;
-    }
-
     let data = JSON.parse(sessionStorage.getItem('dataPriceList'));
+    let price = 0;
 
     for (let i = 0; i < data.length; i++) {
       if (data[i].id_price_list == this.value) {
-        data = data[i];
+        price = data[i].price;
         break;
       }
     }
 
-    $('#price').val(parseInt(data.price).toLocaleString());
+    $('#price').val(parseInt(price).toLocaleString());
   });
 
   /* Calcular precio total */
@@ -188,8 +189,6 @@ $(document).ready(function () {
       'selected',
       true
     );
-
-    await loadPriceListByProduct(data.idProduct);
 
     $(`#pricesList option[value=${data.idPriceList}]`).prop('selected', true);
 

@@ -9,7 +9,13 @@ $(document).ready(function () {
     let expense_value = [];
     let puc;
 
-    switch (label) {
+    for (let i = 0; i < dataExpenses.length; i++) {
+      if (dataExpenses[i].count == label) {
+        puc = dataExpenses[i].number_count;
+        break;
+      }
+    }
+    /*switch (label) {
       case 'Operacionales de administración':
         puc = '51';
         break;
@@ -20,7 +26,7 @@ $(document).ready(function () {
       case 'No operacionales':
         puc = '53';
         break;
-    }
+    } */
 
     /* Capturar y ordenar de mayor a menor  */
     for (i = 0; i < dataPucExpenes.length; i++) {

@@ -83,26 +83,6 @@ class AssignableExpenseDao
         return $totalExpense;
     }
 
-    // Obtener total unidades y vol de ventas de la familia
-    /*public function findUnitsVolByFamily($id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $stmt = $connection->prepare("SELECT p.id_family, SUM(ed.units_sold) AS units_sold, SUM(ed.turnover) AS turnover
-                                          FROM expenses_distribution ed
-                                            INNER JOIN products p ON p.id_product = ed.id_product
-                                            INNER JOIN families f ON f.id_family = p.id_family
-                                          WHERE ed.id_company = :id_company GROUP BY p.id_family");
-            $stmt->execute(['id_company' => $id_company]);
-            $totalUnitVol = $stmt->fetchAll($connection::FETCH_ASSOC);
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $totalUnitVol = array('info' => true, 'message' => $message);
-        }
-        return $totalUnitVol;
-    }*/
-
     // Calcula el gasto asignable
     public function calcAssignableExpense($unitVol, $totalUnitVol, $totalExpense)
     {

@@ -13,8 +13,6 @@ $(document).ready(function () {
     $('#formCreateCustomPrices').trigger('reset');
     $(`#idProduct`).prop('disabled', false);
 
-    await loadPriceList();
-
     $('.cardCreateCustomPrices').toggle(800);
   });
 

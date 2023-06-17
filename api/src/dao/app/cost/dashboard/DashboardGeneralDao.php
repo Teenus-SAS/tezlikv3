@@ -104,25 +104,12 @@ class DashboardGeneralDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    // Contar todos los productos
-    $stmt = $connection->prepare("SELECT COUNT(p.product) AS products
-                                      FROM products p
-                                        INNER JOIN products_costs pc ON pc.id_product = p.id_product
-                                      WHERE p.id_company = :id_company AND p.active = 1");
+    $stmt = $connection->prepare("SELECT *, (SELECT SUM(ex.expense_value) FROM expenses ex LEFT JOIN puc cp ON cp.id_puc = ex.id_puc WHERE ex.id_company = :id_company 
+                                            AND cp.number_count LIKE CONCAT(p.number_count, '%')) AS expenseCount, (SELECT COUNT(p.product) FROM products p	
+                                  INNER JOIN products_costs pc ON pc.id_product = p.id_product WHERE p.id_company = :id_company AND p.active = 1) AS products
+                                  FROM puc p WHERE LENGTH(p.number_count) = 2 ORDER BY `p`.`number_count` ASC");
     $stmt->execute(['id_company' => $id_company]);
-    $quantityData = $stmt->fetch($connection::FETCH_ASSOC);
-
-    for ($i = 1; $i < 4; $i++) {
-      $stmt = $connection->prepare("SELECT p.number_count, SUM(ex.expense_value) AS expenseCount
-                                      FROM expenses ex
-                                      LEFT JOIN puc p ON p.id_puc = ex.id_puc
-                                      WHERE ex.id_company = :id_company AND
-                                      p.number_count LIKE '5$i%'");
-      $stmt->execute(['id_company' => $id_company]);
-      $expenseCount = $stmt->fetch($connection::FETCH_ASSOC);
-      $expenseValue[$i] =  $expenseCount;
-    }
-    $expenseValue = array_merge($expenseValue, $quantityData);
+    $expenseValue = $stmt->fetchAll($connection::FETCH_ASSOC);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -137,9 +124,7 @@ class DashboardGeneralDao
     $stmt = $connection->prepare("SELECT p.number_count, p.count, ex.expense_value
                                   FROM expenses ex
                                     LEFT JOIN puc p ON p.id_puc = ex.id_puc
-                                  WHERE ex.id_company = :id_company AND p.number_count LIKE '51%' 
-                                  OR p.number_count LIKE '52%' OR p.number_count LIKE '53%'  
-                                  ORDER BY `p`.`number_count` ASC");
+                                  WHERE ex.id_company = :id_company");
     $stmt->execute(['id_company' => $id_company]);
     $expenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
 

@@ -143,9 +143,9 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
                 foreach ($unitVol as $arr) {
                     if (isset($expenses['info'])) break;
                     // Calcular gasto asignable
-                    $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                    $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                     // Actualizar gasto asignable
-                    $expenses = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+                    $expenses = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
                 }
             }
 
@@ -187,9 +187,9 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
                 foreach ($unitVol as $arr) {
                     if (isset($resolution['info'])) break;
                     // Calcular gasto asignable
-                    $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                    $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                     // Actualizar gasto asignable
-                    $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+                    $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
                 }
             }
         }
@@ -246,9 +246,9 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
             foreach ($unitVol as $arr) {
                 if (isset($expenses['info'])) break;
                 // Calcular gasto asignable
-                $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                 // Actualizar gasto asignable
-                $expenses = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
+                $expenses = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
             }
         }
 

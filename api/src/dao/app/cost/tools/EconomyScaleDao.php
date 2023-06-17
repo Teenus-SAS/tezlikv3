@@ -20,9 +20,8 @@ class EconomyScaleDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT (SELECT IFNULL(SUM(salary_net), 0) AS salary_net FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll) + IFNULL((IF(IFNULL(mp.units_sold, 0) = 0,(SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON e.id_puc = pu.id_puc WHERE e.id_company = p.id_company 
-                                                AND (pu.number_count LIKE '51%' OR pu.number_count LIKE '52%' OR pu.number_count LIKE '53%')) , (SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON e.id_puc = pu.id_puc 
-                                                WHERE e.id_company = p.id_company AND (pu.number_count LIKE '51%' OR pu.number_count LIKE '52%' OR pu.number_count LIKE '53%')) * (mp.participation / 100))), 0) AS costFixed
+        $stmt = $connection->prepare("SELECT (SELECT IFNULL(SUM(salary_net), 0) AS salary_net FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll) + IFNULL((IF(IFNULL(mp.units_sold, 0) = 0,(SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON e.id_puc = pu.id_puc WHERE e.id_company = p.id_company),
+                                             (SELECT SUM(e.expense_value) FROM expenses e INNER JOIN puc pu ON e.id_puc = pu.id_puc WHERE e.id_company = p.id_company) * (mp.participation / 100))), 0) AS costFixed
                                         FROM products p
                                         LEFT JOIN products_costs pc ON pc.id_product = p.id_product
                                         LEFT JOIN multiproducts mp ON mp.id_product = p.id_product

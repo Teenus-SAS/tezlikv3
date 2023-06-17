@@ -20,12 +20,16 @@ class ParticipationExpenseDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
+            // Capturar todas las cuentas generales
+            $stmt = $connection->prepare("SELECT * FROM puc WHERE LENGTH(number_count) = 2");
+            $stmt->execute();
+            $generalsPucs = $stmt->fetchAll($connection::FETCH_ASSOC);
+
             // Suma total por numero de cuenta
             $stmt = $connection->prepare("SELECT LEFT(p.number_count, 2) AS number_count, SUM(ex.expense_value) AS total_expense_value
                                           FROM expenses ex
                                           LEFT JOIN puc p ON p.id_puc = ex.id_puc
-                                          WHERE ex.id_company = :id_company 
-                                          AND (p.number_count LIKE '51%' OR p.number_count LIKE '52%' OR p.number_count LIKE '53%')
+                                          WHERE ex.id_company = :id_company
                                           GROUP BY LEFT(p.number_count, 2)
                                           ORDER BY LEFT(p.number_count, 2) ASC");
             $stmt->execute(['id_company' => $id_company]);
@@ -39,8 +43,7 @@ class ParticipationExpenseDao
             $stmt = $connection->prepare("SELECT ex.id_expense, p.number_count, ex.expense_value
                                           FROM expenses ex
                                           LEFT JOIN puc p ON p.id_puc = ex.id_puc
-                                          WHERE ex.id_company = :id_company 
-                                          AND (p.number_count LIKE '51%' OR p.number_count LIKE '52%' OR p.number_count LIKE '53%')  
+                                          WHERE ex.id_company = :id_company
                                           ORDER BY `p`.`number_count` ASC");
             $stmt->execute(['id_company' => $id_company]);
             $expenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
@@ -49,12 +52,12 @@ class ParticipationExpenseDao
             for ($i = 0; $i < sizeof($expenseCount); $i++) {
                 $totalExpenseCount = 0;
 
-                if (substr($expenseCount[$i]['number_count'], 0, 2) == '51')
-                    $totalExpenseCount = $count['51'];
-                else if (substr($expenseCount[$i]['number_count'], 0, 2) == '52')
-                    $totalExpenseCount = $count['52'];
-                else if (substr($expenseCount[$i]['number_count'], 0, 2) == '53')
-                    $totalExpenseCount = $count['53'];
+                foreach ($generalsPucs as $arr) {
+                    if (substr($expenseCount[$i]['number_count'], 0, 2) == $arr['number_count']) {
+                        $totalExpenseCount = $count[$arr['number_count']];
+                        break;
+                    }
+                }
 
                 $expenseCount[$i]['participation'] = ($expenseCount[$i]['expense_value'] / $totalExpenseCount) * 100;
 

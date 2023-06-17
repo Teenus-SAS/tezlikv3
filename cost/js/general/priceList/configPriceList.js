@@ -8,7 +8,7 @@ $(document).ready(function () {
     let $select = $(`#pricesList`);
     $select.empty();
 
-    $select.append(`<option disabled selected>Seleccionar</option>`);
+    $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
     $.each(data, function (i, value) {
       $select.append(
         `<option value = ${value.id_price_list}> ${value.price_name} </option>`
@@ -22,7 +22,7 @@ $(document).ready(function () {
     let dataPriceList = JSON.stringify(data);
     sessionStorage.setItem('dataPriceList', dataPriceList);
 
-    let $select = $(`#pricesList`);
+    /*let $select = $(`#pricesList`);
     $select.empty();
 
     $select.append(`<option value='0' selected>Seleccionar</option>`);
@@ -30,8 +30,8 @@ $(document).ready(function () {
       $select.append(
         `<option value ='${value.id_price_list}'> ${value.price_name} </option>`
       );
-    });
+    });*/
   };
 
-  if (option_price == true) loadPriceList();
+  loadPriceList();
 });

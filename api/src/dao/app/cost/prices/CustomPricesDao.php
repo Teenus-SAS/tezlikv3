@@ -20,8 +20,8 @@ class CustomPricesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.reference, p.product, pc.price AS price_cost, cp.id_price_list, pl.price_name, cp.price AS price_custom, (((pc.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_company = cp.id_company))) / (pc.price) * 100) AS profitability_price,
-                                             (((cp.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_company = cp.id_company))) / (cp.price)* 100) AS profitability_custom
+        $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.reference, p.product, pc.price AS price_cost, cp.id_price_list, pl.price_name, cp.price AS price_custom, (((pc.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (pc.price) * 100) AS profitability_price,
+                                             (((cp.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (cp.price)* 100) AS profitability_custom
                                       FROM custom_prices cp
                                         INNER JOIN products p ON p.id_product = cp.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = cp.id_product
