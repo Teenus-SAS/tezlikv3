@@ -50,15 +50,7 @@ $(document).ready(function () {
     await loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
-    let cost = data.cost;
-
-    if (cost.isInteger) cost = cost.toLocaleString('es-CO');
-    else
-      cost = cost.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-    $('#costRawMaterial').val(cost);
+    $('#costRawMaterial').val(data.cost.toLocaleString('es-CO'));
 
     $('html, body').animate(
       {
@@ -115,6 +107,13 @@ $(document).ready(function () {
 
     let idMaterial = data.id_material;
     dataMaterial['idMaterial'] = idMaterial;
+
+    if (data.status == 0) {
+      toastr.error(
+        'Esta materia prima no se puede eliminar, esta configurada a un producto'
+      );
+      return false;
+    }
 
     bootbox.confirm({
       title: 'Eliminar',

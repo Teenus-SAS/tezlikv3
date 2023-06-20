@@ -33,7 +33,7 @@ $(document).ready(function () {
             referencia: dataMaterials[i].reference,
             material: dataMaterials[i].material,
             magnitud: dataMaterials[i].magnitude,
-            unidad: dataMaterials[i].abbreviation,
+            unidad: dataMaterials[i].unit,
             costo: dataMaterials[i].cost,
           });
         }
@@ -89,7 +89,7 @@ $(document).ready(function () {
             referencia_material: dataProductsMaterials[i].reference_material,
             material: dataProductsMaterials[i].material,
             magnitud: dataProductsMaterials[i].magnitude,
-            unidad: dataProductsMaterials[i].abbreviation,
+            unidad: dataProductsMaterials[i].unit,
             cantidad: dataProductsMaterials[i].quantity,
           });
         }
