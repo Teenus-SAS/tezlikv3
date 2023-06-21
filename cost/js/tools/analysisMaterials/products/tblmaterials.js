@@ -78,7 +78,9 @@ $(document).ready(function () {
               ? (cost = data.cost_product_material)
               : (cost = data.cost);
 
-            return cost.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            return data.cost.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            });
           },
         },
         {

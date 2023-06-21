@@ -104,7 +104,7 @@ $(document).ready(function () {
       totalCost = unitsmanufacturated * unityCost;
 
       $(`#totalCost-${i}`).html(
-        parseInt(totalCost.toFixed()).toLocaleString('es-CO')
+        totalCost.toLocaleString('es-CO', { maximumFractionDigits: 2 })
       );
     }
   };
