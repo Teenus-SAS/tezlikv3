@@ -64,7 +64,7 @@ $(document).ready(function () {
         },
         {
           title: 'Precio Total',
-          data: 'unityCost',
+          data: 'cost_product_material',
           className: 'classCenter',
           render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
         },
@@ -175,7 +175,7 @@ $(document).ready(function () {
         },
         {
           title: 'Costo Unidad',
-          data: 'unityCost',
+          data: 'cost_product_material',
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
             return `<p id="unityCost-${meta.row}">${data.toLocaleString(

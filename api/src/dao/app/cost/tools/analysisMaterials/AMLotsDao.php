@@ -26,7 +26,7 @@ class AMLotsDao
             else
                 $products = $products[0];
             $stmt = $connection->prepare("SELECT p.id_product, p.reference AS reference_product, p.product, m.id_material, m.reference AS reference_material, m.material, m.cost, pm.cost AS cost_product_material,
-                                                 CONCAT(FORMAT(SUM(ROUND(pm.quantity, 2)), 2, 'de_DE'), ' ', u.abbreviation) AS quantity, u.abbreviation AS abbreviation_material, (SELECT cu.abbreviation FROM materials cm INNER JOIN convert_units cu ON cu.id_unit = cm.unit WHERE cm.id_material = m.id_material) AS abbreviation_product_material, (SUM(ROUND(pm.quantity, 2))*pm.cost) AS unityCost
+                                                 CONCAT(FORMAT(SUM(ROUND(pm.quantity, 2)), 2, 'de_DE'), ' ', u.abbreviation) AS quantity, u.abbreviation AS abbreviation_material, (SELECT cu.abbreviation FROM materials cm INNER JOIN convert_units cu ON cu.id_unit = cm.unit WHERE cm.id_material = m.id_material) AS abbreviation_product_material -- , (SUM(ROUND(pm.quantity, 2))*pm.cost) AS unityCost
                                           FROM products p
                                             INNER JOIN products_materials pm ON pm.id_product = p.id_product
                                             INNER JOIN materials m ON m.id_material = pm.id_material
@@ -52,7 +52,7 @@ class AMLotsDao
         $totalUnits = 0;
 
         foreach ($dataMaterial as $arr) {
-            $totalUnits += $arr['unityCost'];
+            $totalUnits += $arr['cost_product_material'];
         }
 
         return $totalUnits;
@@ -62,7 +62,7 @@ class AMLotsDao
     {
         for ($i = 0; $i < sizeof($dataMaterial); $i++) {
             /* Calculo participacion */
-            $dataMaterial[$i]['participation'] = ($dataMaterial[$i]['unityCost'] / $totalUnits) * 100;
+            $dataMaterial[$i]['participation'] = ($dataMaterial[$i]['cost_product_material'] / $totalUnits) * 100;
         }
 
         return $dataMaterial;
