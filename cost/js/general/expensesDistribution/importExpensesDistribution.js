@@ -118,14 +118,18 @@ $(document).ready(function () {
         else if (r.info == true) toastr.info(r.message);
 
         /* Actualizar tabla */
-        function updateTable() {
+        async function updateTable() {
           if ($.fn.dataTable.isDataTable('#tblExpenses')) {
             $('#tblExpenses').DataTable().destroy();
             $('#tblExpenses').empty();
           }
-          option == 1
-            ? loadTableExpensesDistribution()
-            : loadTableExpenseRecover();
+          if (flag_expense_distribution == 2) {
+            await loadTableFamilies();
+            await loadTableExpensesDistributionFamilies();
+          } else
+            option == 1
+              ? loadTableExpensesDistribution()
+              : loadTableExpenseRecover();
         }
       },
     });

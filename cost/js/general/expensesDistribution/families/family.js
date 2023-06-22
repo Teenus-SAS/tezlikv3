@@ -109,9 +109,10 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblExpensesDistribution.fnGetData(row);
 
-    $(`#familiesDistribute option[value=${data.id_family}]`).prop(
-      'selected',
-      true
+    $('#familiesDistribute').empty();
+
+    $('#familiesDistribute').append(
+      `<option value ='${data.id_family}'> ${data.family} </option>`
     );
 
     $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));

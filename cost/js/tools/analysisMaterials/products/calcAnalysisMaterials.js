@@ -145,8 +145,6 @@ $(document).ready(function () {
     for (i = 1; i < count + 1; i++) {
       let projectedCost = $(`#projectedCost-${i}`).html();
 
-      if (projectedCost == '$ 0') return false;
-
       // Eliminar miles
       projectedCost = strReplaceNumber(projectedCost);
       projectedCost = projectedCost.replace('$', '');
