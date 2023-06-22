@@ -133,6 +133,9 @@ $(document).ready(function () {
 
           /* Porcentaje */
           percentage = (netUtility / (totalRevenue - commission)) * 100;
+          if (i != 0) {
+            percentage += ((price * (profitability / 100)) / prices[0]) * 100;
+          }
 
           $(`#percentage-${i}`).html(
             `${percentage.toLocaleString(undefined, {
