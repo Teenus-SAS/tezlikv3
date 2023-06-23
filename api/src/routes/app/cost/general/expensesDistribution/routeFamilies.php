@@ -98,10 +98,48 @@ $app->post('/addFamily', function (Request $request, Response $response, $args) 
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/saveProductFamily', function (Request $request, Response $response, $args) use ($familiesDao) {
+$app->post('/saveProductFamily', function (Request $request, Response $response, $args) use (
+    $familiesDao,
+    $assignableExpenseDao,
+    $priceProductDao,
+    $generalProductsDao
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataFamily = $request->getParsedBody();
 
     $resolution = $familiesDao->updateFamilyProduct($dataFamily);
+
+    /* Calcular gasto asignable x Familia */
+    // Consulta unidades vendidades y volumenes de venta por familia
+    $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+
+    // Calcular el total de unidades vendidas y volumen de ventas
+    $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
+
+    // Obtener el total de gastos
+    $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+    foreach ($unitVol as $arr) {
+        if (isset($resolution['info'])) break;
+        // Calcular gasto asignable
+        $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+        // Actualizar gasto asignable
+        $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
+    }
+
+    $products = $familiesDao->findAllProductsInFamily($dataFamily['idFamily'], $id_company);
+
+    // Calcular Precio del producto
+    for ($i = 0; $i < sizeof($products); $i++) {
+        if (isset($resolution['info'])) break;
+        $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
+
+        $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
+
+        if (isset($expensesDistribution['totalPrice']))
+            $resolution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
+    }
 
     if ($resolution == null && $dataFamily['idFamily'] != 0)
         $resp = array('success' => true, 'message' => 'Producto asignado a la familia correctamente');
@@ -161,11 +199,13 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
     $id_company = $_SESSION['id_company'];
 
     $data['idFamily'] = $args['id_family'];
+    $data['selectNameProduct'] = 0;
     $data['unitsSold'] = 0;
     $data['turnover'] = 0;
 
-    $expensesDistribution = $familiesDao->updateDistributionFamily($data);
+    $resolution = $familiesDao->updateDistributionFamily($data);
     $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($args['id_family'], 0);
+    $resolution = $familiesDao->updateFamilyProduct($data);
 
     /* Calcular gasto asignable x Familia */
     // Consulta unidades vendidades y volumenes de venta por familia
@@ -189,18 +229,16 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
 
     // Calcular Precio del producto
     for ($i = 0; $i < sizeof($products); $i++) {
+        if (isset($resolution['info'])) break;
         $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
 
-        if ($expensesDistribution == null)
-            $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
+        $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
 
         if (isset($expensesDistribution['totalPrice']))
-            $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
-
-        if (isset($expensesDistribution['info'])) break;
+            $resolution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
     }
 
-    if ($expensesDistribution == null)
+    if ($resolution == null)
         $resp = array('success' => true, 'message' => 'Distribucion de gasto x familia eliminado correctamente');
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el gasto, existe información asociada a él');
