@@ -19,8 +19,8 @@ class PricesDao
   public function findAllPricesByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.cost_workforce, pc.cost_materials, pc.cost_indirect_cost, pc.profitability, pc.commission_sale, IF(cl.flag_family = 2, (SELECT SUM(IFNULL(units_sold, 0)) FROM families WHERE id_company = p.id_company), (SELECT SUM(IFNULL(units_sold, 0)) FROM expenses_distribution WHERE id_company = p.id_company)) AS units_sold,
-                                         IF(cl.flag_family = 2, (SELECT SUM(IFNULL(turnover, 0)) FROM families WHERE id_company = p.id_company), (SELECT SUM(IFNULL(turnover, 0)) FROM expenses_distribution WHERE id_company = p.id_company)) AS turnover, ed.assignable_expense,
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.cost_workforce, pc.cost_materials, pc.cost_indirect_cost, pc.profitability, pc.commission_sale, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_company = p.id_company)) AS units_sold,
+                                         IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS turnover, ed.assignable_expense,
                                          IFNULL(er.expense_recover, 0) AS expense_recover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, p.img, pc.price, pc.price_usd, (SELECT cost_price FROM plans_access WHERE id_plan = cl.plan) AS details_product
                                   FROM products p
                                     LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product

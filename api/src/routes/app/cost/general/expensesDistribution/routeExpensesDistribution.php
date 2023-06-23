@@ -167,7 +167,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             }
 
             /* x Familia */
-            if ($expensesDistribution == null && $flag == 1) {
+            if ($expensesDistribution == null && $flag == 2) {
                 // Consulta unidades vendidades y volumenes de venta por familia
                 $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
 
