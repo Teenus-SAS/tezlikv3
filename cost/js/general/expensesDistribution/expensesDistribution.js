@@ -143,13 +143,9 @@ $(document).ready(function () {
 
   /* Eliminar gasto */
 
-  deleteExpenseDistribution = (op) => {
-    if (op == '1') {
-      let row = $(this.activeElement).parent().parent()[0];
-      data = tblExpensesDistribution.fnGetData(row);
-    } else {
-      data = dataExpenseDistributionFamily[op];
-    }
+  deleteExpenseDistribution = () => {
+    let row = $(this.activeElement).parent().parent()[0];
+    data = tblExpensesDistribution.fnGetData(row);
 
     let id_expenses_distribution = data.id_expenses_distribution;
 
@@ -180,10 +176,7 @@ $(document).ready(function () {
             '../../api/deleteExpensesDistribution',
             dataExpensesDistribution,
             function (data, textStatus, jqXHR) {
-              let op = 1;
-              if (flag_expense_distribution == 2) op = 3;
-
-              message(data, op);
+              message(data, 1);
             }
           );
         }

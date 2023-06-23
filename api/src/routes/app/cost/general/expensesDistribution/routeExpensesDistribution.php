@@ -371,13 +371,11 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
 $app->post('/deleteExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
-    $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
     $generalProductsDao
 ) {
     session_start();
-    $flag = $_SESSION['flag_expense_distribution'];
     $id_company = $_SESSION['id_company'];
     $dataExpensesDistribution = $request->getParsedBody();
 
@@ -399,22 +397,6 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
             $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
             // Actualizar gasto asignable
             $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-        }
-    }
-    /* x Familia */
-    if ($resolution == null && $flag == 2) {
-        // Consulta unidades vendidades y volumenes de venta por familia
-        $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
-
-        // Calcular el total de unidades vendidas y volumen de ventas
-        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
-
-        foreach ($unitVol as $arr) {
-            if (isset($resolution['info'])) break;
-            // Calcular gasto asignable
-            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-            // Actualizar gasto asignable
-            $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
         }
     }
 
