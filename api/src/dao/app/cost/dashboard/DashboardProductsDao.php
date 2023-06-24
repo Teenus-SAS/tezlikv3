@@ -21,13 +21,14 @@ class DashboardProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.cost_materials, pc.cost_workforce, IF(p.id_family = 0, IFNULL(ed.assignable_expense, 0), IFNULL(f.assignable_expense, 0)) AS assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, pc.cost_indirect_cost, 
-                                             pc.profitability, IF(p.id_family != 0, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_company = p.id_company)) AS units_sold,
-                                             IF(p.id_family != 0, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS turnover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, pc.commission_sale, pc.price, p.img
+                                                pc.profitability, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_company = p.id_company)) AS units_sold,
+                                                IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS turnover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, pc.commission_sale, pc.price, p.img
                                         FROM products_costs pc
                                             INNER JOIN products p ON p.id_product = pc.id_product
                                             LEFT JOIN expenses_distribution ed ON ed.id_product = pc.id_product
                                             LEFT JOIN expenses_recover er ON er.id_product = pc.id_product
                                             LEFT JOIN families f ON f.id_family = p.id_family
+                                            INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
                                         WHERE pc.id_product = :id_product AND pc.id_company = :id_company");
         $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
 

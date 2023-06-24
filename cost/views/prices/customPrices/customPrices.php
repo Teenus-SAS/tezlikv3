@@ -56,7 +56,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                             <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                 <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewCustomPrice">Nuevo Precio</button>
+                                    <button class="btn btn-warning" id="btnNewCustomPrice">Adicionar Precio</button>
                                 </div>
                             </div>
                         </div>
@@ -75,11 +75,15 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Producto</label>
                                                     <select class="form-control selectNameProduct" name="idProduct" id="idProduct"></select>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Lista de Precios</label>
                                                     <select class="form-control" name="idPriceList" id="pricesList"></select>
                                                 </div>
-                                                <div class="col-xs-3 floating-label enable-floating-label show-label">
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                    <label for="">Precio - Costo</label>
+                                                    <input type="text" class="form-control number text-center" id="priceProduct" readonly>
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
                                                     <label for="">Valor</label>
                                                     <input type="text" class="form-control number text-center" id="customPricesValue" name="customPricesValue">
                                                 </div>

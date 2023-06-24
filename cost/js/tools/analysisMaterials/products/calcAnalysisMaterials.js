@@ -78,11 +78,23 @@ $(document).ready(function () {
     //calcula el costo proyectado
     calculateProjectedCost();
 
-    // Calcular ahorro mensual
-    savingsMontly();
+    let negotiatePrice = document.getElementsByClassName('negotiatePrice');
+    let status = false;
 
-    // Calcular ahorro Anual
-    savingsAnnual();
+    for (let i = 0; i < negotiatePrice.length; i++) {
+      if (negotiatePrice[i].value != '') {
+        status = true;
+        break;
+      }
+    }
+
+    if (status == true) {
+      // Calcular ahorro mensual
+      savingsMontly();
+
+      // Calcular ahorro Anual
+      savingsAnnual();
+    }
   });
 
   /* Calcula el costo de los materiales */

@@ -1,4 +1,17 @@
 $(document).ready(function () {
+  $('#idProduct').change(async function (e) {
+    e.preventDefault();
+    let id = this.value;
+
+    let data = await searchData(`/api/productCost/${id}`);
+
+    $('#priceProduct').val(
+      data.price.toLocaleString('es-CO', {
+        maximumFractionDigits: 2,
+      })
+    );
+  });
+
   /* Ocultar panel Nuevo Servicio */
   $('.cardCreateCustomPrices').hide();
 
@@ -39,6 +52,8 @@ $(document).ready(function () {
 
     $(`#idProduct option[value=${data.id_product}]`).prop('selected', true);
     $(`#idProduct`).prop('disabled', true);
+
+    $('#priceProduct').val(data.price_cost.toLocaleString('es-CO'));
 
     $('#pricesList').empty();
 

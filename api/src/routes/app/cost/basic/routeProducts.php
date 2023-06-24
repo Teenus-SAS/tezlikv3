@@ -66,9 +66,9 @@ $app->get('/products', function (Request $request, Response $response, $args) us
 
 /* Consultar productos CRM */
 $app->get('/productsCRM', function (Request $request, Response $response, $args) use (
-    $GeneralProductsDao
+    $generalProductsDao
 ) {
-    $products = $GeneralProductsDao->findAllProductsByCRM(1);
+    $products = $generalProductsDao->findAllProductsByCRM(1);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -86,21 +86,21 @@ $app->get('/productsLimit', function (Request $request, Response $response, $arg
 });
 
 $app->get('/inactivesProducts', function (Request $request, Response $response, $args) use (
-    $GeneralProductsDao
+    $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $GeneralProductsDao->findAllInactivesProducts($id_company);
+    $products = $generalProductsDao->findAllInactivesProducts($id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->get('/productCost/{id_product}', function (Request $request, Response $response, $args) use (
-    $GeneralProductsDao
+    $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $products = $GeneralProductsDao->findProductCost($args['id_product'], $id_company);
+    $products = $generalProductsDao->findProductCost($args['id_product'], $id_company);
     $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -241,7 +241,6 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $lastDataDao,
     $productsCostDao,
     $generalProductsDao,
-    $GeneralProductsDao,
     $productsQuantityDao,
     $productsMaterialsDao,
     $conversionUnitsDao,
@@ -425,7 +424,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         if (isset($resolution['info']))
                             break;
 
-                        $resolution = $GeneralProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
                     }
                 }
             }
@@ -450,7 +449,6 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $FilesDao,
     $productsCostDao,
     $generalProductsDao,
-    $GeneralProductsDao,
     $priceProductDao
 ) {
     session_start();
@@ -476,7 +474,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         if ($products == null)
             $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
         if (isset($products['totalPrice']))
-            $products = $GeneralProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
+            $products = $generalProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
@@ -524,8 +522,8 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 });
 
 /* Inactivar Producto */
-$app->get('/inactiveProducts/{id_product}', function (Request $request, Response $response, $args) use ($GeneralProductsDao) {
-    $product = $GeneralProductsDao->activeOrInactiveProducts($args['id_product'], 0);
+$app->get('/inactiveProducts/{id_product}', function (Request $request, Response $response, $args) use ($generalProductsDao) {
+    $product = $generalProductsDao->activeOrInactiveProducts($args['id_product'], 0);
 
     if ($product == null)
         $resp = array('success' => true, 'message' => 'Producto inactivado correctamente');
@@ -539,13 +537,13 @@ $app->get('/inactiveProducts/{id_product}', function (Request $request, Response
 });
 
 /* Activar Productos */
-$app->post('/activeProducts', function (Request $request, Response $response, $args) use ($GeneralProductsDao) {
+$app->post('/activeProducts', function (Request $request, Response $response, $args) use ($generalProductsDao) {
     $dataProducts = $request->getParsedBody();
 
     $products = $dataProducts['data'];
 
     for ($i = 0; $i < sizeof($products); $i++) {
-        $resolution = $GeneralProductsDao->activeOrInactiveProducts($products[$i]['idProduct'], 1);
+        $resolution = $generalProductsDao->activeOrInactiveProducts($products[$i]['idProduct'], 1);
     }
 
     if ($resolution == null)
