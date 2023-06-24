@@ -19,12 +19,19 @@ $(document).ready(function () {
   $('#btnNewCustomPrice').click(async function (e) {
     e.preventDefault();
 
+    op_price_list = false;
+
     $('#btnCreateCustomPrice').html('Adicionar');
 
     sessionStorage.removeItem('id_custom_price');
 
     $('#formCreateCustomPrices').trigger('reset');
+
     $(`#idProduct`).prop('disabled', false);
+
+    let visible = $('.cardCreateCustomPrices').is(':visible');
+
+    if (visible == false) await loadPriceList();
 
     $('.cardCreateCustomPrices').toggle(800);
   });
@@ -50,6 +57,8 @@ $(document).ready(function () {
 
     let data = combinedData[this.id];
 
+    sessionStorage.setItem('dataCustomPrice', JSON.stringify(data));
+
     $(`#idProduct option[value=${data.id_product}]`).prop('selected', true);
     $(`#idProduct`).prop('disabled', true);
 
@@ -65,9 +74,21 @@ $(document).ready(function () {
       );
     }
 
-    $('#pricesList').change(function (e) {
-      e.preventDefault();
+    op_price_list = true;
 
+    $('html, body').animate(
+      {
+        scrollTop: 0,
+      },
+      1000
+    );
+  });
+
+  $('#pricesList').change(function (e) {
+    e.preventDefault();
+
+    if (op_price_list == true) {
+      let data = JSON.parse(sessionStorage.getItem('dataCustomPrice'));
       $('#customPricesValue').val('');
       let id_price_list = this.value;
       let price = 0;
@@ -82,14 +103,7 @@ $(document).ready(function () {
           break;
         }
       }
-    });
-
-    $('html, body').animate(
-      {
-        scrollTop: 0,
-      },
-      1000
-    );
+    }
   });
 
   /* Revision data servicio */

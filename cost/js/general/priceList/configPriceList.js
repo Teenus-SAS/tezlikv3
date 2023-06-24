@@ -21,16 +21,6 @@ $(document).ready(function () {
 
     let dataPriceList = JSON.stringify(data);
     sessionStorage.setItem('dataPriceList', dataPriceList);
-
-    /*let $select = $(`#pricesList`);
-    $select.empty();
-
-    $select.append(`<option value='0' selected>Seleccionar</option>`);
-    $.each(data, function (i, value) {
-      $select.append(
-        `<option value ='${value.id_price_list}'> ${value.price_name} </option>`
-      );
-    });*/
   };
 
   loadPriceList();

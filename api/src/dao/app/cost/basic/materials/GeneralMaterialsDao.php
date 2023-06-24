@@ -20,7 +20,7 @@ class GeneralMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, mg.id_magnitude, mg.magnitude, 
-                                             u.id_unit, u.abbreviation, m.cost, m.category, m.quantity,
+                                             u.id_unit, u.unit, u.abbreviation, m.cost, m.category, m.quantity,
                                              IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status
                                       FROM materials m
                                           INNER JOIN convert_units u ON u.id_unit = m.unit
