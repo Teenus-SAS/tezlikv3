@@ -40,7 +40,9 @@ $(document).ready(function () {
         data: 'cost',
         className: 'classRight',
         render: function (data) {
-          return `$ ${data.toLocaleString('es-CO')}`;
+          return `$ ${data.toLocaleString('es-CO', {
+            maximumFractionDigits: 4,
+          })}`;
         },
       },
       {

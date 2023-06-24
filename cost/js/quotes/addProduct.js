@@ -8,7 +8,8 @@ $(document).ready(function () {
     $('.addProd').toggle(800);
     sessionStorage.removeItem('actualizar');
 
-    $('#imgProduct').attr('src', '');
+    $('.imgProduct').empty();
+
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value='0']`).prop('selected', true);
     $('#refProduct option').removeAttr('selected');
@@ -53,7 +54,12 @@ $(document).ready(function () {
 
     $('#price').val(price);
 
-    if (data.img) $('#imgProduct').attr('src', data.img);
+    $('.imgProduct').empty();
+
+    if (data.img)
+      $('.imgProduct').html(`
+        <img src="${data.img}" id="imgProduct" style="width:80px">
+      `);
 
     $('#quantity').click();
   };

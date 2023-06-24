@@ -50,7 +50,9 @@ $(document).ready(function () {
     await loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
-    $('#costRawMaterial').val(data.cost.toLocaleString('es-CO'));
+    $('#costRawMaterial').val(
+      data.cost.toLocaleString('es-CO', { maximumFractionDigits: 4 })
+    );
 
     $('html, body').animate(
       {

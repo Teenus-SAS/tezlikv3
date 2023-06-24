@@ -134,8 +134,7 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-6 mb-4">
-                                                <img src="" id="imgProduct" style="width:80px">
+                                            <div class="col-12 col-lg-6 mb-4 imgProduct">
                                             </div>
                                             <div class="col-12 col-lg-12">
                                                 <button class="btn btn-warning mb-4" id="btnAddProduct">Adicionar producto</button>
