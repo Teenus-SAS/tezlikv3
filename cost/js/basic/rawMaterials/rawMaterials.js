@@ -164,4 +164,33 @@ $(document).ready(function () {
     $('#tblRawMaterials').DataTable().clear();
     $('#tblRawMaterials').DataTable().ajax.reload();
   }
+
+  /* Ocultar modal productos inactivos */
+  $('#btnCloseProducts').click(function (e) {
+    e.preventDefault();
+    $('#productsByMaterial').modal('hide');
+    $('#tblProductsBody').empty();
+  });
+
+  /* Productos relacionados */
+  $(document).on('click', '.seeDetail', async function () {
+    let data = await searchData(`/api/productsByMaterials/${this.id}`);
+
+    let tblProductsBody = document.getElementById('tblProductsBody');
+
+    for (i = 0; i < data.length; i++) {
+      tblProductsBody.insertAdjacentHTML(
+        'beforeend',
+        `
+        <tr>
+            <td>${i + 1}</td>
+            <td>${data[i].reference}</td>
+            <td>${data[i].product}</td> 
+        </tr>
+      `
+      );
+    }
+
+    $('#productsByMaterial').modal('show');
+  });
 });

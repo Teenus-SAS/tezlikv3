@@ -51,12 +51,17 @@ $(document).ready(function () {
         data: null,
         className: 'uniqueClassName',
         render: function (data) {
+          let check = '';
           if (data.status == 0) icon = '/global/assets/images/trash_v.png';
-          else icon = '/global/assets/images/trash_x.png';
+          else {
+            icon = '/global/assets/images/trash_x.png';
+            check = `<a href="javascript:;" <i id="${data.id_material}" class="mdi mdi-playlist-check seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px; color:black;"></i></a>`;
+          }
 
           return `
                 <a href="javascript:;" <i id="${data.id_material}" class="bx bx-edit-alt updateRawMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
-                <a href="javascript:;"><img src="${icon}" alt="Eliminar Materia Prima" id="${data.id_material}" style="width:30px;height:30px;margin-top:-20px" onclick="deleteFunction()"></a>`;
+                <a href="javascript:;"><img src="${icon}" alt="Eliminar Materia Prima" id="${data.id_material}" style="width:30px;height:30px;margin-top:-20px" onclick="deleteFunction()"></a>
+                ${check}`;
         },
       },
     ],

@@ -86,6 +86,22 @@ class GeneralMaterialsDao
         return $findMaterial;
     }
 
+    public function findAllProductsByMaterials($id_material)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product
+                                      FROM products p
+                                        INNER JOIN products_materials pm ON pm.id_product = p.id_product
+                                        INNER JOIN materials m ON m.id_material = pm.id_material
+                                      WHERE m.id_material = :id_material");
+        $stmt->execute([
+            'id_material' => $id_material,
+        ]);
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
+
     /* Modificar Costo Ficha Tecnica */
     public function updateCostProductMaterial($dataMaterial, $quantity)
     {

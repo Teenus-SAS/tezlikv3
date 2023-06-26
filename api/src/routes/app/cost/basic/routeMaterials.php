@@ -33,6 +33,13 @@ $app->get('/materials', function (Request $request, Response $response, $args) u
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+/* Consultar productos relacionados con la materia prima */
+$app->get('/productsByMaterials/{id_material}', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
+    $products = $generalMaterialsDao->findAllProductsByMaterials($args['id_material']);
+    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 /* Consultar Materias prima importada */
 $app->post('/materialsDataValidation', function (Request $request, Response $response, $args) use (
     $generalMaterialsDao,
