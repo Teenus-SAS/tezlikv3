@@ -58,17 +58,22 @@ $(document).ready(function () {
           data: 'quantity',
           className: 'classCenter',
           render: function (data) {
-            number = `${data}`;
-            number = number.replace('.', ',');
+            let decimals = contarDecimales(data);
+            let quantity = formatNumber(data, decimals);
 
-            return number;
+            return quantity;
           },
         },
         {
           title: 'Precio Unitario',
           data: 'cost_product_material',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+          render: function (data) {
+            let decimals = contarDecimales(data);
+            let cost = formatNumber(data, decimals);
+
+            return `$ ${cost}`;
+          },
         },
         {
           title: 'Acciones',

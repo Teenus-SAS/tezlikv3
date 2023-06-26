@@ -73,9 +73,13 @@ $(document).ready(function () {
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
 
-    $('#enlistmentTime').val(data.enlistment_time.toLocaleString('es-CO'));
+    let decimals = contarDecimales(data.cost);
+    let enlistment_time = formatNumber(data.enlistment_time, decimals);
+    $('#enlistmentTime').val(enlistment_time);
 
-    $('#operationTime').val(data.operation_time.toLocaleString('es-CO'));
+    decimals = contarDecimales(data.cost);
+    let operation_time = formatNumber(data.operation_time, decimals);
+    $('#operationTime').val(operation_time);
 
     $('#enlistmentTime').click();
 

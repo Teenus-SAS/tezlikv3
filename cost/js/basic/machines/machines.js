@@ -39,7 +39,9 @@ $(document).ready(function () {
     let data = tblMachines.fnGetData(row);
 
     $('#machine').val(data.machine);
-    $('#costMachine').val(data.cost.toLocaleString('es-CO'));
+    let decimals = contarDecimales(data.cost);
+    let cost = formatNumber(data.cost, decimals);
+    $('#costMachine').val(cost);
     $('#residualValue').val(data.residual_value.toLocaleString('es-CO'));
     $('#depreciationYears').val(data.years_depreciation);
 

@@ -38,7 +38,7 @@ $(document).ready(function () {
                   maximumFractionDigits: 0,
                 })
           }</th>
-                          <th><input class="form-control numberCalc negotiatePrice text-center" type="text" id="${
+                          <th><input class="form-control number negotiatePrice text-center" type="text" id="${
                             i + 1
                           }"></th>
                           <th id="percentage-${i + 1}"></th>

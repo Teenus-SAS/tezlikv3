@@ -45,7 +45,9 @@ $(document).ready(function () {
 
     $(`#machine option[value=${data.id_machine}]`).prop('selected', true);
     $('#descriptionFactoryLoad').val(data.input);
-    $('#costFactory').val(data.cost.toLocaleString('es-CO'));
+    let decimals = contarDecimales(data.cost);
+    let cost = formatNumber(data.cost, decimals);
+    $('#costFactory').val(cost);
 
     $('html, body').animate(
       {

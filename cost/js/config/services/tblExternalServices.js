@@ -51,7 +51,12 @@ $(document).ready(function () {
           title: 'Costo',
           data: 'cost',
           className: 'classRight',
-          render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+          render: function (data) {
+            let decimals = contarDecimales(data);
+            let cost = formatNumber(data, decimals);
+
+            return cost;
+          },
         },
         {
           title: 'Acciones',

@@ -34,7 +34,12 @@ $(document).ready(function () {
         title: 'Precio',
         data: 'cost',
         className: 'classCenter',
-        render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+        render: function (data) {
+          let decimals = contarDecimales(data);
+          let cost = formatNumber(data, decimals);
+
+          return `$ ${cost}`;
+        },
       },
       {
         title: 'Valor Minuto',

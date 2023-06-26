@@ -88,6 +88,9 @@ $(document).ready(function () {
       }
     }
 
+    $('#monthlySavings').val('');
+    $('#annualSavings').val('');
+
     if (status == true) {
       // Calcular ahorro mensual
       savingsMontly();
@@ -123,6 +126,8 @@ $(document).ready(function () {
 
   /* Calcula el costo proyectado */
   calculateProjectedCost = () => {
+    let status = false;
+
     for (i = 1; i < count + 1; i++) {
       quantity = $(`#quantity-${i}`).html();
 
@@ -145,9 +150,17 @@ $(document).ready(function () {
         $(`#projectedCost-${i}`).html(
           `$ ${parseInt(projectedCost.toFixed()).toLocaleString('es-CO')}`
         );
+
+      if (negotiatePrice != '') status = true;
     }
-    savingsMontly();
-    savingsAnnual();
+
+    $('#monthlySavings').val('');
+    $('#annualSavings').val('');
+
+    if (status == true) {
+      savingsMontly();
+      savingsAnnual();
+    }
   };
 
   /* Calcula el ahorro mensual */
@@ -162,15 +175,17 @@ $(document).ready(function () {
       projectedCost = projectedCost.replace('$', '');
       projectedCost = parseFloat(projectedCost);
 
-      let currentCost = $(`#totalCost-${i}`).html();
-      // Eliminar miles
-      currentCost = strReplaceNumber(currentCost);
-      currentCost = currentCost.replace('$', '');
-      currentCost = parseFloat(currentCost);
+      if (projectedCost > 0) {
+        let currentCost = $(`#totalCost-${i}`).html();
+        // Eliminar miles
+        currentCost = strReplaceNumber(currentCost);
+        currentCost = currentCost.replace('$', '');
+        currentCost = parseFloat(currentCost);
 
-      monthlySavingsRow = currentCost - projectedCost;
+        monthlySavingsRow = currentCost - projectedCost;
 
-      isNaN(monthlySavingsRow) ? (monthlySavingsRow = 0) : monthlySavingsRow;
+        isNaN(monthlySavingsRow) ? (monthlySavingsRow = 0) : monthlySavingsRow;
+      } else monthlySavingsRow = 0;
 
       totalMonthlySavings += monthlySavingsRow;
 

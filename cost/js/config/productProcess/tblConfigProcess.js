@@ -52,7 +52,10 @@ $(document).ready(function () {
           data: 'enlistment_time',
           className: 'classCenter',
           render: function (data) {
-            return data.toLocaleString('es-CO');
+            let decimals = contarDecimales(data);
+            let enlistment_time = formatNumber(data, decimals);
+
+            return enlistment_time;
           },
         },
         {
@@ -60,7 +63,10 @@ $(document).ready(function () {
           data: 'operation_time',
           className: 'classCenter',
           render: function (data) {
-            return data.toLocaleString('es-CO');
+            let decimals = contarDecimales(data);
+            let operation_time = formatNumber(data, decimals);
+
+            return operation_time;
           },
         },
         {

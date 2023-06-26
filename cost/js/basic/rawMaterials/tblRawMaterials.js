@@ -40,9 +40,10 @@ $(document).ready(function () {
         data: 'cost',
         className: 'classRight',
         render: function (data) {
-          return `$ ${data.toLocaleString('es-CO', {
-            maximumFractionDigits: 4,
-          })}`;
+          let decimals = contarDecimales(data);
+          let cost = formatNumber(data, decimals);
+
+          return `$ ${cost}`;
         },
       },
       {

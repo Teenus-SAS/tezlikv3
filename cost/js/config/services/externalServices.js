@@ -50,7 +50,10 @@ $(document).ready(function () {
     sessionStorage.setItem('id_service', data.id_service);
 
     $('#service').val(data.name_service);
-    $('#costService').val(data.cost.toLocaleString('es-CO'));
+
+    let decimals = contarDecimales(data.cost);
+    let cost = formatNumber(data.cost, decimals);
+    $('#costService').val(cost);
 
     $('html, body').animate(
       {

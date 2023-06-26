@@ -39,7 +39,9 @@ $(document).ready(function () {
       true
     );
 
-    $('#expenseValue').val(data.expense_value.toLocaleString('es-CO'));
+    let decimals = contarDecimales(data);
+    let expense_value = formatNumber(data, decimals);
+    $('#expenseValue').val(expense_value);
 
     $('html, body').animate(
       {
