@@ -79,7 +79,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
 
         $_SESSION['flag_expense_distribution'] == 1 || $_SESSION['flag_expense_distribution'] == 0 ?
             $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company) :
-            $expensesDistribution = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+            $expensesDistribution = $familiesDao->findAllFamiliesByCompany($id_company);
 
         $data['expensesDistribution'] = $expensesDistribution;
         $data['totalExpense'] = $totalExpense['total_expense'];

@@ -713,18 +713,12 @@ $(document).ready(function () {
   /* Distribucion de Gastos */
   loadTblSimulatorDistribution = (data) => {
     let status = false;
+    $('.cardAddDataSimulator').hide();
 
     for (let i = 0; i < data.length; i++) {
-      if (flag_expense_distribution == 2) {
-        if (data[i].id_family == dataSimulator.products[0].id_family) {
-          status = true;
-          break;
-        }
-      } else {
-        if (data[i].id_product == dataSimulator.products[0].id_product) {
-          status = true;
-          break;
-        }
+      if (data[i].id_product == dataSimulator.products[0].id_product) {
+        status = true;
+        break;
       }
     }
 
@@ -816,8 +810,146 @@ $(document).ready(function () {
     }
   });
 
+  /* Distribucion de Gastos x Familia*/
+  loadTblSimulatorDistributionFamily = (data) => {
+    let status = false;
+    let options = ``;
+    dataFamily = [];
+    $('.cardAddDataSimulator').hide();
+    $('#cardAddDataSimulator').empty();
+
+    for (let i = 0; i < data.length; i++) {
+      if (
+        data[i].turnover > 0 ||
+        data[i].units_sold > 0 ||
+        data[i].assignable_expense > 0
+      )
+        dataFamily.push(data[i]);
+      else
+        options += `<option value="${data[i].id_family}"> ${data[i].family} </option>`;
+
+      if (data[i].id_family == dataSimulator.products[0].id_family) {
+        status = true;
+        break;
+      }
+    }
+
+    if (status == false) {
+      let form = document.getElementById('cardAddDataSimulator');
+
+      form.insertAdjacentHTML(
+        'beforeend',
+        `<div class="col-sm-6 mb-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Familia</label>
+            <select id="id_family" class="form-control data">
+              <option disabled selected>Seleccionar</option>
+              ${options}
+            </select>
+          </div>
+          <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Und Vendidas (Mes)</label>
+            <input type="text" class="form-control number data" id="units_sold">
+          </div>
+          <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+              <label for="">Total Ventas (Mes)</label>
+              <input type="text" class="form-control number data" id="turnover">
+          </div>
+          <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
+            <button class="btn btn-success btnCreateDataSimulator" id="family">Crear Familia</button>
+          </div>`
+      );
+
+      $('.cardAddDataSimulator').show(800);
+      data = [];
+    }
+
+    tblSimulator = $('#tblSimulator').DataTable({
+      destroy: true,
+      scrollY: '150px',
+      scrollCollapse: true,
+      paging: false,
+      data: dataFamily,
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      columns: [
+        {
+          className: 'dt-control family',
+          orderable: false,
+          data: null,
+          defaultContent: '',
+        },
+        {
+          title: 'Familia',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            var options = ``;
+
+            for (var i = 0; i < dataFamily.length; i++) {
+              options += `<option value="${dataFamily[i].id_family}" ${
+                data.id_family == dataFamily[i].id_family ? 'selected' : ''
+              }>
+                ${dataFamily[i].family}
+              </option>`;
+            }
+
+            var select = `<select class="form-control id_family ${data.id_family}" id="families">
+              <option disabled>Seleccionar</option> 
+              ${options}
+            </select>`;
+
+            return select;
+          },
+        },
+        {
+          title: 'Unidades Vendidas',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<input type="text" class="text-center form-control number inputSimulator id_family ${
+              data.id_family
+            }" id="units_sold" value="${data.units_sold.toLocaleString(
+              'es-CO'
+            )}">`;
+          },
+        },
+      ],
+    });
+  };
+
+  function formatDistributionFamily(d) {
+    return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
+            <tr>
+                <th>Vol de Ventas:</th>
+                <td style="width:400px">
+                  <input type="text" class="text-center form-control number inputSimulator id_family ${
+                    d.id_family
+                  }" id="turnover" value="${d.turnover.toLocaleString('es-CO')}">
+                </td>
+            </tr>
+        </table>`;
+  }
+
+  $(document).on('click', '.family', function () {
+    var tr = $(this).closest('tr');
+    var row = tblSimulator.row(tr);
+
+    if (row.child.isShown()) {
+      // This row is already open - close it
+      row.child.hide();
+      tr.removeClass('shown');
+    } else {
+      // Open this row
+      row.child(formatDistributionFamily(row.data())).show();
+      tr.addClass('shown');
+    }
+  });
+
   /* Recuperacion de Gastos */
   loadTblSimulatorRecover = (data) => {
+    $('.cardAddDataSimulator').hide();
+
     if (data.length == 0) {
       $('#cardAddDataSimulator').empty();
 

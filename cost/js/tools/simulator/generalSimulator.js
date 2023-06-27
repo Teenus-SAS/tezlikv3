@@ -33,6 +33,10 @@ $(document).ready(function () {
 
     op = this.id;
 
+    flag_expense_distribution == 2
+      ? (distribution = loadTblSimulatorDistributionFamily)
+      : (distribution = loadTblSimulatorDistribution);
+
     let cardMapping = {
       1: {
         data: 'products',
@@ -65,7 +69,7 @@ $(document).ready(function () {
       8: { data: 'payroll', loader: loadTblSimulatorPayroll },
       9: {
         data: 'expensesDistribution',
-        loader: loadTblSimulatorDistribution,
+        loader: distribution,
       },
       10: {
         data: 'expenseRecover',
@@ -212,8 +216,13 @@ $(document).ready(function () {
 
       data[i].assignable_expense = assignableExpense;
 
-      if (data[i].id_product == dataSimulator.products[0].id_product)
-        dataSimulator.products[0].assignable_expense = assignableExpense;
+      if (flag_expense_distribution == 2) {
+        if (data[i].id_family == dataSimulator.products[0].id_family)
+          dataSimulator.products[0].assignable_expense = assignableExpense;
+      } else {
+        if (data[i].id_product == dataSimulator.products[0].id_product)
+          dataSimulator.products[0].assignable_expense = assignableExpense;
+      }
     }
   };
 

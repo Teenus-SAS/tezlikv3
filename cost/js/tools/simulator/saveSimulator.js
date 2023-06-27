@@ -111,6 +111,36 @@ $(document).ready(function () {
     }
   });
 
+  /* Distribucion x Familia */
+  $(document).on('change', '#families', function () {
+    let key = getLastText(this.className);
+    let text = this.className.split(' ');
+    let id = text[text.length - 2];
+
+    for (let i = 0; i < dataFamily.length; i++) {
+      if (dataFamily[i].id_family == this.value) {
+        dataFamily = dataFamily[i];
+        break;
+      }
+    }
+
+    for (let i = 0; i < dataSimulator[cardData.data].length; i++) {
+      if (dataSimulator[cardData.data][i][id] == key) {
+        dataSimulator[cardData.data][i]['id_family'] = parseFloat(this.value);
+        dataSimulator[cardData.data][i]['family'] = dataFamily.family.trim();
+        dataSimulator[cardData.data][i]['units_sold'] = parseFloat(
+          dataFamily.units_sold
+        );
+        dataSimulator[cardData.data][i]['turnover'] = parseFloat(
+          dataFamily.turnover
+        );
+        dataSimulator[cardData.data][i]['assignable_expense'] = parseFloat(
+          dataFamily.assignable_expense
+        );
+      }
+    }
+  });
+
   $('#btnAddSimulator').click(function (e) {
     e.preventDefault();
 
@@ -182,9 +212,19 @@ $(document).ready(function () {
       data[form[i].id] = value;
     }
 
+    if (this.id == 'family')
+      for (let i = 0; i < dataSimulator[cardData.data].length; i++) {
+        if (data.id_family == dataSimulator[cardData.data][i].id_family) {
+          dataSimulator[cardData.data][i].turnover = data.turnover;
+          dataSimulator[cardData.data][i].units_sold = data.units_sold;
+          dataSimulator.products[0].id_family = data.id_family;
+          break;
+        }
+      }
+    else dataSimulator[cardData.data].push(data);
+
     toastr.success('Datos agregados correctamente');
     $('#formDataSimulator').trigger('reset');
-    dataSimulator[cardData.data].push(data);
     await cardData.loader(dataSimulator[cardData.data]);
   });
 

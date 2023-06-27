@@ -29,19 +29,6 @@ class FamiliesDao
         return $families;
     }
 
-    public function findAllFamiliesNotDistributeByCompany($id_company)
-    {
-        $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM families WHERE id_company = :id_company");
-        $stmt->execute(['id_company' => $id_company]);
-
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $families = $stmt->fetchAll($connection::FETCH_ASSOC);
-        $this->logger->notice("families", array('families' => $families));
-        return $families;
-    }
-
     // Consultar si existe distribucion de gasto en BD
     public function findFamily($dataFamily, $id_company)
     {
