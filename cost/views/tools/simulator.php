@@ -341,6 +341,9 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>"
     </script>
+    <script>
+        flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>"
+    </script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/tools/simulator/loadSimulators.js"></script>
     <script src="/cost/js/tools/simulator/generalSimulator.js"></script>

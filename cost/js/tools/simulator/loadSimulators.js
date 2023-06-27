@@ -54,11 +54,29 @@ $(document).ready(function () {
     percentIndirectCost = (data.cost_indirect_cost / dataCost.costTotal) * 100;
     percentAssignableExpenses = (dataCost.expense / dataCost.costTotal) * 100;
 
-    $('.percentRawMaterial').html(`${percentRawMaterial.toFixed(0)} %`);
-    $('.percentWorkforce').html(`${percentWorkforce.toFixed(0)} %`);
-    $('.percentIndirectCost').html(`${percentIndirectCost.toFixed(0)} %`);
+    $('.percentRawMaterial').html(
+      `${percentRawMaterial.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
+    );
+    $('.percentWorkforce').html(
+      `${percentWorkforce.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
+    );
+    $('.percentIndirectCost').html(
+      `${percentIndirectCost.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
+    );
     $('.percentAssignableExpenses').html(
-      `${percentAssignableExpenses.toFixed(0)} %`
+      `${percentAssignableExpenses.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
     );
 
     $('.costTotal').html(
@@ -163,11 +181,29 @@ $(document).ready(function () {
     percentIndirectCost = (data.cost_indirect_cost / dataCost.costTotal) * 100;
     percentAssignableExpenses = (dataCost.expense / dataCost.costTotal) * 100;
 
-    $('#percentRawMaterial-2').html(`${percentRawMaterial.toFixed(0)} %`);
-    $('#percentWorkforce-2').html(`${percentWorkforce.toFixed(0)} %`);
-    $('#percentIndirectCost-2').html(`${percentIndirectCost.toFixed(0)} %`);
+    $('#percentRawMaterial-2').html(
+      `${percentRawMaterial.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
+    );
+    $('#percentWorkforce-2').html(
+      `${percentWorkforce.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
+    );
+    $('#percentIndirectCost-2').html(
+      `${percentIndirectCost.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
+    );
     $('#percentAssignableExpenses-2').html(
-      `${percentAssignableExpenses.toFixed(0)} %`
+      `${percentAssignableExpenses.toLocaleString('es-CO', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })} %`
     );
 
     $('#costTotal-2').html(

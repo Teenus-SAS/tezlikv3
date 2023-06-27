@@ -9,6 +9,7 @@ use tezlikv3\dao\ExpenseRecoverDao;
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\FactoryLoadDao;
+use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\IndirectCostDao;
@@ -26,7 +27,7 @@ $simulatorDao = new SimulatorDao();
 $externalServicesDao = new ExternalServicesDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
-$assignableExpenseDao = new AssignableExpenseDao();
+$familiesDao = new FamiliesDao();
 $productsCostDao = new ProductsCostDao();
 $generalProductsDao = new GeneralProductsDao();
 $machinesDao = new MachinesDao();
@@ -52,6 +53,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     $dashboardProductsDao,
     $generalExpenseRecoverDao,
     $expensesDistributionDao,
+    $familiesDao,
     $assignableExpenseDao,
     $externalServicesDao,
     $simulatorDao
@@ -74,7 +76,11 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
 
     if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) {
         $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
-        $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company);
+
+        $_SESSION['flag_expense_distribution'] == 1 || $_SESSION['flag_expense_distribution'] == 0 ?
+            $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company) :
+            $expensesDistribution = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+
         $data['expensesDistribution'] = $expensesDistribution;
         $data['totalExpense'] = $totalExpense['total_expense'];
     } else {
@@ -105,6 +111,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $externalServicesDao,
     $payrollDao,
     $expensesDistributionDao,
+    $familiesDao,
     $assignableExpenseDao,
     $expenseRecoverDao,
     $generalProductsDao,

@@ -34,13 +34,13 @@ $(document).ready(function () {
 
   /* General */
   $(document).on('click keyup', '.inputSimulator', function () {
-    let data = 1 * parseFloat(this.value);
+    let value = 1 * parseFloat(strReplaceNumber(this.value));
 
     let key = getLastText(this.className);
     let text = this.className.split(' ');
     let id = text[text.length - 2];
 
-    if (isNaN(data) || data <= 0) {
+    if (isNaN(value) || value <= 0) {
       toastr.error('Ingrese un valor valido');
       if (key == '0')
         $(`#${this.id}`).val(dataSimulator[cardData.data][key][this.id]);
@@ -53,11 +53,11 @@ $(document).ready(function () {
     }
 
     if (key == '0')
-      dataSimulator[cardData.data][key][this.id] = parseFloat(this.value);
+      dataSimulator[cardData.data][key][this.id] = parseFloat(value);
     else {
       for (let i = 0; i < dataSimulator[cardData.data].length; i++) {
         if (dataSimulator[cardData.data][i][id] == key) {
-          dataSimulator[cardData.data][i][this.id] = parseFloat(this.value);
+          dataSimulator[cardData.data][i][this.id] = parseFloat(value);
 
           if (id == 'id_payroll') {
             let payroll = calcSalaryNetSimulator(
@@ -156,7 +156,8 @@ $(document).ready(function () {
     });
   });
 
-  $(document).on('click', '.btnCreateDataSimulator', async function () {
+  $(document).on('click', '.btnCreateDataSimulator', async function (e) {
+    e.preventDefault();
     let form = document.getElementsByClassName('data');
 
     let data = new Object();
@@ -164,9 +165,16 @@ $(document).ready(function () {
     data.id_product = dataSimulator.products[0].id_product;
 
     for (let i = 0; i < form.length; i++) {
+      let status = true;
       let value = form[i].value;
+      let text = /[a-zA-Z]/.test(value);
 
-      if (value == '') {
+      if (text == false) {
+        value = 1 * parseFloat(strReplaceNumber(form[i].value));
+        isNaN(value) ? (status = false) : status;
+      } else value == '' ? (status = false) : status;
+
+      if (status == false) {
         toastr.error('Ingrese todos los campos');
         return false;
       }
