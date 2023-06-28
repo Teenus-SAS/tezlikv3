@@ -39,8 +39,8 @@ $(document).ready(function () {
       true
     );
 
-    let decimals = contarDecimales(data);
-    let expense_value = formatNumber(data, decimals);
+    let decimals = contarDecimales(data.expense_value);
+    let expense_value = formatNumber(data.expense_value, decimals);
     $('#expenseValue').val(expense_value);
 
     $('html, body').animate(
