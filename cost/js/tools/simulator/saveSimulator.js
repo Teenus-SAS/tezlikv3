@@ -40,14 +40,22 @@ $(document).ready(function () {
     let text = this.className.split(' ');
     let id = text[text.length - 2];
 
+    let input = this.id;
+
+    while (this.id.includes('-')) {
+      this.id = this.id.substring(0, this.id.length - 1);
+    }
+
     if (isNaN(value) || value <= 0) {
       toastr.error('Ingrese un valor valido');
       if (key == '0')
-        $(`#${this.id}`).val(dataSimulator[cardData.data][key][this.id]);
+        $(`#${input}`).val(dataSimulator[cardData.data][key][this.id]);
       else
         for (let i = 0; i < dataSimulator[cardData.data].length; i++) {
           if (dataSimulator[cardData.data][i][id] == key)
-            $(`#${this.id}`).val(dataSimulator[cardData.data][i][this.id]);
+            $(`#${input}`).val(
+              dataSimulator[cardData.data][i][this.id].toLocaleString('es-CO')
+            );
         }
       return false;
     }
@@ -107,36 +115,6 @@ $(document).ready(function () {
           this.value == 0 ? 0 : parseFloat(dataMachines.hours_machine);
         dataSimulator[cardData.data][i]['days_machine'] =
           this.value == 0 ? 0 : parseFloat(dataMachines.days_machine);
-      }
-    }
-  });
-
-  /* Distribucion x Familia */
-  $(document).on('change', '#families', function () {
-    let key = getLastText(this.className);
-    let text = this.className.split(' ');
-    let id = text[text.length - 2];
-
-    for (let i = 0; i < dataFamily.length; i++) {
-      if (dataFamily[i].id_family == this.value) {
-        dataFamily = dataFamily[i];
-        break;
-      }
-    }
-
-    for (let i = 0; i < dataSimulator[cardData.data].length; i++) {
-      if (dataSimulator[cardData.data][i][id] == key) {
-        dataSimulator[cardData.data][i]['id_family'] = parseFloat(this.value);
-        dataSimulator[cardData.data][i]['family'] = dataFamily.family.trim();
-        dataSimulator[cardData.data][i]['units_sold'] = parseFloat(
-          dataFamily.units_sold
-        );
-        dataSimulator[cardData.data][i]['turnover'] = parseFloat(
-          dataFamily.turnover
-        );
-        dataSimulator[cardData.data][i]['assignable_expense'] = parseFloat(
-          dataFamily.assignable_expense
-        );
       }
     }
   });
@@ -215,8 +193,6 @@ $(document).ready(function () {
     if (this.id == 'family')
       for (let i = 0; i < dataSimulator[cardData.data].length; i++) {
         if (data.id_family == dataSimulator[cardData.data][i].id_family) {
-          dataSimulator[cardData.data][i].turnover = data.turnover;
-          dataSimulator[cardData.data][i].units_sold = data.units_sold;
           dataSimulator.products[0].id_family = data.id_family;
           break;
         }

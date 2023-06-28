@@ -120,26 +120,26 @@ $(document).ready(function () {
           title: 'Costo',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             return `<input type="text" class="form-control number text-center inputSimulator id_machine ${
               data.id_machine
-            }" id="cost_machine" value="${data.cost_machine.toLocaleString(
-              'es-CO'
-            )}">`;
+            }" id="cost_machine-${
+              meta.row + 1
+            }" value="${data.cost_machine.toLocaleString('es-CO')}">`;
           },
         },
       ],
     });
   };
 
-  function formatMachines(d) {
+  function formatMachines(d, row) {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Valor Residual:</td>
                 <td style="width:400px">
                   <input type="text" class="form-control number text-center inputSimulator id_machine ${
                     d.id_machine
-                  }" id="residual_value" value="${d.residual_value.toLocaleString('es-CO')}"
+                  }" id="residual_value-${row}" value="${d.residual_value.toLocaleString('es-CO')}"
                 </td>
             </tr>
             <tr>
@@ -147,7 +147,7 @@ $(document).ready(function () {
                 <td>
                   <input type="number" class="form-control text-center number inputSimulator id_machine ${
                     d.id_machine
-                  }" id="years_depreciation" value="${d.years_depreciation}"
+                  }" id="years_depreciation-${row}" value="${d.years_depreciation}"
                 </td>
             </tr>
             <tr>
@@ -155,7 +155,7 @@ $(document).ready(function () {
                 <td>
                   <input type="number" class="form-control text-center number inputSimulator id_machine ${
                     d.id_machine
-                  }" id="hours_machine" value="${d.hours_machine}"
+                  }" id="hours_machine-${row}" value="${d.hours_machine}"
                 </td>
             </tr>
             <tr>
@@ -163,7 +163,7 @@ $(document).ready(function () {
                 <td>
                   <input type="number" class="form-control text-center number inputSimulator id_machine ${
                     d.id_machine
-                  }" id="days_machine" value="${d.days_machine}"
+                  }" id="days_machine-${row}" value="${d.days_machine}"
                 </td>
             </tr>
         </table>`;
@@ -179,7 +179,7 @@ $(document).ready(function () {
       tr.removeClass('shown');
     } else {
       // Open this row
-      row.child(formatMachines(row.data())).show();
+      row.child(formatMachines(row.data(), row[0][0])).show();
       tr.addClass('shown');
     }
   });
@@ -211,12 +211,12 @@ $(document).ready(function () {
           title: 'Costo',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             return `<input type="text" class="form-control number text-center inputSimulator id_material ${
               data.id_material
-            }" id="cost_material" value="${data.cost_material.toLocaleString(
-              'es-CO'
-            )}">`;
+            }" id="cost_material-${
+              meta.row + 1
+            }" value="${data.cost_material.toLocaleString('es-CO')}">`;
           },
         },
       ],
@@ -284,7 +284,7 @@ $(document).ready(function () {
     });
   };
 
-  function formatProductsMaterials(d) {
+  function formatProductsMaterials(d, row) {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;">
             <tr>
                 <th>Material:</td>
@@ -299,7 +299,7 @@ $(document).ready(function () {
                 <td>
                   <input type="text" class="form-control number text-center inputSimulator id_product_material ${
                     d.id_product_material
-                  }" id="quantity" value="${d.quantity.toLocaleString('es-CO')}">
+                  }" id="quantity-${row}" value="${d.quantity.toLocaleString('es-CO')}">
                 </td>
             </tr> 
         </table>`;
@@ -315,7 +315,7 @@ $(document).ready(function () {
       tr.removeClass('shown');
     } else {
       // Open this row
-      row.child(formatProductsMaterials(row.data())).show();
+      row.child(formatProductsMaterials(row.data(), row[0][0])).show();
       tr.addClass('shown');
     }
   });
@@ -379,18 +379,18 @@ $(document).ready(function () {
     });
   };
 
-  function formatProductsProcess(d) {
+  function formatProductsProcess(d, row) {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Tiempo de Enlistamiento:</th>
                 <td style="width:400px">
-                  <input type="number" class="form-control text-center inputSimulator id_product_process ${d.id_product_process}" id="enlistment_time" value="${d.enlistment_time}">
+                  <input type="number" class="form-control text-center inputSimulator id_product_process ${d.id_product_process}" id="enlistment_time-${row}" value="${d.enlistment_time}">
                 </td>
             </tr> 
             <tr>
                 <th>Tiempo de Operacion:</th>
                 <td>
-                  <input type="number" class="form-control text-center inputSimulator id_product_process ${d.id_product_process}" id="operation_time" value="${d.operation_time}">
+                  <input type="number" class="form-control text-center inputSimulator id_product_process ${d.id_product_process}" id="operation_time-${row}" value="${d.operation_time}">
                 </td>
             </tr> 
         </table>`;
@@ -406,7 +406,7 @@ $(document).ready(function () {
       tr.removeClass('shown');
     } else {
       // Open this row
-      row.child(formatProductsProcess(row.data())).show();
+      row.child(formatProductsProcess(row.data(), row[0][0])).show();
       tr.addClass('shown');
     }
   });
@@ -438,10 +438,12 @@ $(document).ready(function () {
           title: 'Precio',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             return `<input type="text" class="text-center number form-control inputSimulator id_manufacturing_load ${
               data.id_manufacturing_load
-            }" id="cost" value="${data.cost.toLocaleString('es-CO')}">`;
+            }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
+              'es-CO'
+            )}">`;
           },
         },
       ],
@@ -525,10 +527,12 @@ $(document).ready(function () {
           title: 'Costo',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             return `<input type="text" class="text-center number form-control inputSimulator id_service ${
               data.id_service
-            }" id="cost" value="${data.cost.toLocaleString('es-CO')}">`;
+            }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
+              'es-CO'
+            )}">`;
           },
         },
       ],
@@ -562,17 +566,19 @@ $(document).ready(function () {
           title: 'Salario',
           data: null,
           className: 'uniqueClassName payroll',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             return `<input type="text" class="text-center number form-control inputSimulator basicSalary id_payroll ${
               data.id_payroll
-            }" id="salary" value="${data.salary.toLocaleString('es-CO')}">`;
+            }" id="salary-${meta.row + 1}" value="${data.salary.toLocaleString(
+              'es-CO'
+            )}">`;
           },
         },
       ],
     });
   };
 
-  function formatPayroll(d) {
+  function formatPayroll(d, row) {
     let optionsRisk = `
       <option value="1" ${d.id_risk == '1' ? 'selected' : ''}>CLASE I</option>
       <option value="2" ${d.id_risk == '2' ? 'selected' : ''}>CLASE II</option>
@@ -609,7 +615,7 @@ $(document).ready(function () {
                 <td>
                   <input type="text" class="text-center number form-control inputSimulator id_payroll ${
                     d.id_payroll
-                  }" id="transport" value="${d.transport.toLocaleString('es-CO')}">
+                  }" id="transport-${row}" value="${d.transport.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
@@ -617,7 +623,7 @@ $(document).ready(function () {
                 <td>
                   <input type="text" class="text-center number form-control inputSimulator id_payroll ${
                     d.id_payroll
-                  }" id="endowment" value="${d.endowment.toLocaleString('es-CO')}">
+                  }" id="endowment-${row}" value="${d.endowment.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
@@ -625,7 +631,7 @@ $(document).ready(function () {
                 <td>
                   <input type="text" class="text-center number form-control inputSimulator id_payroll ${
                     d.id_payroll
-                  }" id="extra_time" value="${d.extra_time.toLocaleString('es-CO')}">
+                  }" id="extra_time-${row}" value="${d.extra_time.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
@@ -633,7 +639,7 @@ $(document).ready(function () {
                 <td>
                   <input type="text" class="text-center number form-control inputSimulator id_payroll ${
                     d.id_payroll
-                  }" id="bonification" value="${d.bonification.toLocaleString('es-CO')}">
+                  }" id="bonification-${row}" value="${d.bonification.toLocaleString('es-CO')}">
                 </td>
             </tr>
             <tr>
@@ -641,7 +647,7 @@ $(document).ready(function () {
                 <td>
                   <input type="number" class="text-center form-control inputSimulator workingHoursDay id_payroll ${
                     d.id_payroll
-                  }" id="hours_day" value="${d.hours_day}">
+                  }" id="hours_day-${row}" value="${d.hours_day}">
                 </td>
             </tr>
             <tr>
@@ -649,7 +655,7 @@ $(document).ready(function () {
                 <td>
                   <input type="number" class="text-center form-control inputSimulator workingDaysMonth id_payroll ${
                     d.id_payroll
-                  }" id="working_days_month" value="${d.working_days_month}">
+                  }" id="working_days_month-${row}" value="${d.working_days_month}">
                 </td>
             </tr>
             <tr>
@@ -668,7 +674,7 @@ $(document).ready(function () {
               <td>
                 <input type="text" class="form-control text-center inputSimulator valueRisk id_payroll ${
                   d.id_payroll
-                }" value="${d.percentage}" id="percentage" readonly>
+                }" value="${d.percentage}" id="percentage-${row}" readonly>
               </td>
             </tr>
             <tr>
@@ -676,7 +682,7 @@ $(document).ready(function () {
                 <td>
                   <select class="form-control inputSimulator typeFactor id_payroll ${
                     d.id_payroll
-                  }" id="type_contract">
+                  }" id="type_contract-${row}">
                     <option disabled value="0">Seleccionar</option>
                     ${optionsFactor}
                   </select>
@@ -687,7 +693,7 @@ $(document).ready(function () {
                 <td>
                   <input type="number" class="text-center form-control inputSimulator factor id_payroll ${
                     d.id_payroll
-                  }" id="factor_benefit">
+                  }" id="factor_benefit-${row}">
                 </td>
             </tr>
         </table>`;
@@ -703,7 +709,7 @@ $(document).ready(function () {
       tr.removeClass('shown');
     } else {
       // Open this row
-      row.child(formatPayroll(row.data())).show();
+      row.child(formatPayroll(row.data(), row[0][0])).show();
       tr.addClass('shown');
       $('.typeFactor').change();
       sessionStorage.removeItem('type_salary');
@@ -770,26 +776,26 @@ $(document).ready(function () {
           title: 'Unidades Vendidas',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             return `<input type="text" class="text-center form-control number inputSimulator id_expenses_distribution ${
               data.id_expenses_distribution
-            }" id="units_sold" value="${data.units_sold.toLocaleString(
-              'es-CO'
-            )}">`;
+            }" id="units_sold-${
+              meta.row + 1
+            }" value="${data.units_sold.toLocaleString('es-CO')}">`;
           },
         },
       ],
     });
   };
 
-  function formatDistribution(d) {
+  function formatDistribution(d, row) {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Vol de Ventas:</th>
                 <td style="width:400px">
                   <input type="text" class="text-center form-control number inputSimulator id_expenses_distribution ${
                     d.id_expenses_distribution
-                  }" id="turnover" value="${d.turnover.toLocaleString('es-CO')}">
+                  }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
                 </td>
             </tr>
         </table>`;
@@ -805,7 +811,7 @@ $(document).ready(function () {
       tr.removeClass('shown');
     } else {
       // Open this row
-      row.child(formatDistribution(row.data())).show();
+      row.child(formatDistribution(row.data(), row[0][0])).show();
       tr.addClass('shown');
     }
   });
@@ -814,19 +820,11 @@ $(document).ready(function () {
   loadTblSimulatorDistributionFamily = (data) => {
     let status = false;
     let options = ``;
-    dataFamily = [];
     $('.cardAddDataSimulator').hide();
     $('#cardAddDataSimulator').empty();
 
     for (let i = 0; i < data.length; i++) {
-      if (
-        data[i].turnover > 0 ||
-        data[i].units_sold > 0 ||
-        data[i].assignable_expense > 0
-      )
-        dataFamily.push(data[i]);
-      else
-        options += `<option value="${data[i].id_family}"> ${data[i].family} </option>`;
+      options += `<option value="${data[i].id_family}"> ${data[i].family} </option>`;
 
       if (data[i].id_family == dataSimulator.products[0].id_family) {
         status = true;
@@ -839,28 +837,25 @@ $(document).ready(function () {
 
       form.insertAdjacentHTML(
         'beforeend',
-        `<div class="col-sm-6 mb-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+        ` <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+            <label for="">Producto</label>
+            <select class="form-control data">
+              <option selected value="${dataSimulator.products[0].id_product}"> ${dataSimulator.products[0].product}</option>
+            </select>
+          </div>
+          <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:5px">
             <label for="">Familia</label>
             <select id="id_family" class="form-control data">
               <option disabled selected>Seleccionar</option>
               ${options}
             </select>
           </div>
-          <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Und Vendidas (Mes)</label>
-            <input type="text" class="form-control number data" id="units_sold">
-          </div>
-          <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-              <label for="">Total Ventas (Mes)</label>
-              <input type="text" class="form-control number data" id="turnover">
-          </div>
-          <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
-            <button class="btn btn-success btnCreateDataSimulator" id="family">Crear Familia</button>
+          <div class="col-sm-2" style="margin-bottom:0px;margin-top:4px">
+            <button class="btn btn-success btnCreateDataSimulator" id="family">Adicionar</button>
           </div>`
       );
 
       $('.cardAddDataSimulator').show(800);
-      data = [];
     }
 
     tblSimulator = $('#tblSimulator').DataTable({
@@ -868,7 +863,7 @@ $(document).ready(function () {
       scrollY: '150px',
       scrollCollapse: true,
       paging: false,
-      data: dataFamily,
+      data: data,
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
       },
@@ -881,51 +876,33 @@ $(document).ready(function () {
         },
         {
           title: 'Familia',
-          data: null,
+          data: 'family',
           className: 'uniqueClassName',
-          render: function (data) {
-            var options = ``;
-
-            for (var i = 0; i < dataFamily.length; i++) {
-              options += `<option value="${dataFamily[i].id_family}" ${
-                data.id_family == dataFamily[i].id_family ? 'selected' : ''
-              }>
-                ${dataFamily[i].family}
-              </option>`;
-            }
-
-            var select = `<select class="form-control id_family ${data.id_family}" id="families">
-              <option disabled>Seleccionar</option> 
-              ${options}
-            </select>`;
-
-            return select;
-          },
         },
         {
           title: 'Unidades Vendidas',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             return `<input type="text" class="text-center form-control number inputSimulator id_family ${
               data.id_family
-            }" id="units_sold" value="${data.units_sold.toLocaleString(
-              'es-CO'
-            )}">`;
+            }" id="units_sold-${
+              meta.row + 1
+            }" value="${data.units_sold.toLocaleString('es-CO')}">`;
           },
         },
       ],
     });
   };
 
-  function formatDistributionFamily(d) {
+  function formatDistributionFamily(d, row) {
     return `<table cellpadding="5" cellspacing="0" border="0" style="margin:-15px;"> 
             <tr>
                 <th>Vol de Ventas:</th>
                 <td style="width:400px">
                   <input type="text" class="text-center form-control number inputSimulator id_family ${
                     d.id_family
-                  }" id="turnover" value="${d.turnover.toLocaleString('es-CO')}">
+                  }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
                 </td>
             </tr>
         </table>`;
@@ -941,7 +918,7 @@ $(document).ready(function () {
       tr.removeClass('shown');
     } else {
       // Open this row
-      row.child(formatDistributionFamily(row.data())).show();
+      row.child(formatDistributionFamily(row.data(), row[0][0])).show();
       tr.addClass('shown');
     }
   });
@@ -991,8 +968,10 @@ $(document).ready(function () {
           title: 'Porcentaje',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
-            return `<input type="number" class="text-center form-control inputSimulator 0" id="expense_recover" value="${data.expense_recover}">`;
+          render: function (data, type, full, meta) {
+            return `<input type="number" class="text-center form-control inputSimulator 0" id="expense_recover-${
+              meta.row + 1
+            }" value="${data.expense_recover}">`;
           },
         },
       ],

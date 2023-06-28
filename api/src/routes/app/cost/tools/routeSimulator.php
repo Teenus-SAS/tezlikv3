@@ -234,15 +234,17 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
             $factoryLoad = $simulator['factoryLoad'];
             $count = sizeof($factoryLoad);
         }
+
         for ($i = 0; $i < $count; $i++) {
             if (isset($resolution['info'])) break;
             $factoryLoad[$i]['idManufacturingLoad'] = $factoryLoad[$i]['id_manufacturing_load'];
             $factoryLoad[$i]['idMachine'] = $factoryLoad[$i]['id_machine'];
             $factoryLoad[$i]['descriptionFactoryLoad'] = $factoryLoad[$i]['input'];
             $factoryLoad[$i]['costFactory'] = $factoryLoad[$i]['cost'];
+            $factoryLoad[$i]['costMinute'] = $factoryLoad[$i]['cost_minute'];
 
 
-            $resolution = $factoryLoadDao->updateFactoryLoad($factoryLoad);
+            $resolution = $factoryLoadDao->updateFactoryLoad($factoryLoad[$i]);
             if (isset($resolution['info'])) break;
 
             $resolution = $costMinuteDao->updateCostMinuteFactoryLoad($factoryLoad[$i], $id_company);
@@ -305,22 +307,35 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                 $expensesDistribution = $simulator['expensesDistribution'];
                 $count = sizeof($expensesDistribution);
             }
-
             for ($i = 0; $i < $count; $i++) {
                 if (isset($resolution['info'])) break;
-                $expensesDistribution[$i]['selectNameProduct'] = $expensesDistribution[$i]['id_product'];
+
                 $expensesDistribution[$i]['unitsSold'] = $expensesDistribution[$i]['units_sold'];
 
-                if (isset($expensesDistribution[$i]['id_expenses_distribution'])) {
-                    $expensesDistribution[$i]['idExpensesDistribution'] = $expensesDistribution[$i]['id_expenses_distribution'];
+                if ($_SESSION['flag_expense_distribution'] == 1 || $_SESSION['flag_expense_distribution'] == 0) {
+                    $expensesDistribution[$i]['selectNameProduct'] = $expensesDistribution[$i]['id_product'];
 
-                    $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
-                } else
-                    $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($expensesDistribution[$i], $id_company);
+                    if (isset($expensesDistribution[$i]['id_expenses_distribution'])) {
+                        $expensesDistribution[$i]['idExpensesDistribution'] = $expensesDistribution[$i]['id_expenses_distribution'];
 
+                        $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
+                    } else
+                        $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($expensesDistribution[$i], $id_company);
+
+
+                    $resolution = $assignableExpenseDao->updateAssignableExpense($expensesDistribution[$i]['id_product'], $expensesDistribution[$i]['assignable_expense']);
+                } else {
+                    $expensesDistribution[$i]['idFamily'] = $expensesDistribution[$i]['id_family'];
+
+                    if ($simulator['products'][0]['id_family'] == $expensesDistribution[$i]['id_family']) {
+                        $expensesDistribution[$i]['selectNameProduct'] = $simulator['products'][0]['id_product'];
+                        $resolution = $familiesDao->updateFamilyProduct($expensesDistribution[$i]);
+                    }
+
+                    $resolution = $familiesDao->updateDistributionFamily($expensesDistribution[$i]);
+                    $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($expensesDistribution[$i]['id_family'], $expensesDistribution[$i]['assignable_expense']);
+                }
                 if (isset($resolution['info'])) break;
-
-                $resolution = $assignableExpenseDao->updateAssignableExpense($expensesDistribution[$i]['id_product'], $expensesDistribution[$i]['assignable_expense']);
             }
         } else { // Guardar data recuperacion de gastos
             if (!isset($simulator['expenseRecover']))
