@@ -3,6 +3,7 @@
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
+use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\IndirectCostDao;
@@ -17,6 +18,7 @@ $minuteDepreciationDao = new MinuteDepreciationDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
 $GeneralProductsDao = new GeneralProductsDao();
+$generalProductProcessDao = new GeneralProductsProcessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -271,6 +273,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 /* Eliminar Maquina */
 $app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
     $machinesDao,
+    $generalProductProcessDao,
     $indirectCostDao,
     $priceProductDao,
     $GeneralProductsDao
@@ -279,39 +282,42 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
 
-    $machines = $machinesDao->deleteMachine($dataMachine['idMachine']);
+    $machine = $generalProductProcessDao->findProductProcessByIdMachine($dataMachine['idMachine']);
 
-    if ($machines == null) {
-        // Buscar producto por idMachine
-        $dataProducts = $indirectCostDao->findProductByMachine($dataMachine['idMachine'], $id_company);
+    if ($machine == false) {
+        $machines = $machinesDao->deleteMachine($dataMachine['idMachine']);
 
-        foreach ($dataProducts as $arr) {
-            if (isset($machines['info'])) break;
-            /* Costo Indirecto */
-            // Buscar la maquina asociada al producto
-            $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
-            // Calcular costo indirecto
-            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-            // Actualizar campo
-            $machines = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+        if ($machines == null) {
+            // Buscar producto por idMachine
+            $dataProducts = $indirectCostDao->findProductByMachine($dataMachine['idMachine'], $id_company);
 
-            if (isset($machines['info'])) break;
+            foreach ($dataProducts as $arr) {
+                if (isset($machines['info'])) break;
+                /* Costo Indirecto */
+                // Buscar la maquina asociada al producto
+                $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+                // Calcular costo indirecto
+                $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                // Actualizar campo
+                $machines = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
-            /* Precio Producto */
-            // Calcular precio products_costs
-            $machines = $priceProductDao->calcPrice($arr['id_product']);
+                if (isset($machines['info'])) break;
 
-            if (isset($machines['info'])) break;
+                /* Precio Producto */
+                // Calcular precio products_costs
+                $machines = $priceProductDao->calcPrice($arr['id_product']);
 
-            $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                if (isset($machines['info'])) break;
+
+                $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+            }
         }
-    }
 
-    if ($machines == null)
-        $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');
-    else if (isset($machines['info']))
-        $resp = array('info' => true, 'message' => $machines['message']);
-    else
+        if ($machines == null)
+            $resp = array('success' => true, 'message' => 'Maquina eliminada correctamente');
+        else if (isset($machines['info']))
+            $resp = array('info' => true, 'message' => $machines['message']);
+    } else
         $resp = array('error' => true, 'message' => 'No es posible eliminar la maquina, existe información asociada a él');
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

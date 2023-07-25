@@ -45,6 +45,19 @@ class GeneralProductsProcessDao
         return $findProductProcess;
     }
 
+    public function findProductProcessByIdMachine($id_machine)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products_process WHERE id_machine = :id_machine");
+        $stmt->execute([
+            'id_machine' => $id_machine
+        ]);
+        $findProductProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+        return $findProductProcess;
+    }
+
     public function deleteProductProcessByProduct($dataProductProcess)
     {
         $connection = Connection::getInstance()->getConnection();
