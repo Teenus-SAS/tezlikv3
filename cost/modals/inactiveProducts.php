@@ -13,7 +13,7 @@
                         <div class="vertical-app-tabs" id="rootwizard">
                             <div class="col-md-12 col-lg-12">
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table class="table table-striped" id="tblInactiveProducts">
                                         <thead>
                                             <tr>
                                                 <th>No</th>

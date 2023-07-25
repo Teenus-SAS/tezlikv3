@@ -225,7 +225,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
             }
             if ($resolution != null) break;
+        }
 
+        for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
             /* Calcular gasto asignable */
             // Consulta unidades vendidades y volumenes de venta por producto
             $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);

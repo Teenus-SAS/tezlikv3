@@ -76,6 +76,25 @@ $(document).ready(function () {
     }
 
     $('#createInactivesProducts').modal('show');
+
+    $('#tblInactiveProducts').DataTable({
+      destroy: true,
+      scrollY: '150px',
+      scrollCollapse: true,
+      // language: {
+      //   url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      // },
+    });
+
+    let tables = document.getElementsByClassName(
+        'dataTables_scrollHeadInner'
+      );
+
+    let attr = tables[0];
+    attr.style.width = '100%';
+    attr = tables[0].firstElementChild;
+    attr.style.width = '100%';
+
   };
 
   /* Guardar productos a activar */

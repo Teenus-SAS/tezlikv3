@@ -319,6 +319,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
             $resp = array('info' => true, 'message' => $machines['message']);
     } else
         $resp = array('error' => true, 'message' => 'No es posible eliminar la maquina, existe información asociada a él');
+
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
 });
