@@ -132,9 +132,13 @@ $(document).ready(function () {
     message(resp);
   };
 
-  /* Eliminar servicio 
+  /* Eliminar servicio */
 
-  deleteFunction = (idCustomPrice) => {
+  $(document).on('click', '.deleteFunction', function (e) {
+    e.preventDefault();
+
+    let data = combinedData[this.id];
+
     bootbox.confirm({
       title: 'Eliminar',
       message:
@@ -152,7 +156,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.get(
-            `../api/deleteCustomPrice/${idCustomPrice}`,
+            `../api/deleteCustomPrice/${data.id_custom_price}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }
@@ -160,7 +164,7 @@ $(document).ready(function () {
         }
       },
     });
-  }; */
+  }); 
 
   /* Mensaje de exito */
 

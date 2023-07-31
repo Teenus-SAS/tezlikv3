@@ -55,4 +55,15 @@ class PricesDao
     $price = $stmt->fetch($connection::FETCH_ASSOC);
     return $price;
   }
+
+  public function findCustomPriceByPriceList($id_price_list)
+  {
+    $connection = Connection::getInstance()->getConnection();
+    $stmt = $connection->prepare("SELECT * FROM custom_prices WHERE id_price_list = :id_price_list");
+    $stmt->execute(['id_price_list' => $id_price_list]);
+    $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    $price = $stmt->fetch($connection::FETCH_ASSOC);
+    return $price;
+  }
 }

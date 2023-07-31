@@ -110,13 +110,13 @@ class CustomPricesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT * FROM custom_prices WHERE id_custom_price = :id_custom_price");
-            $stmt->execute(['id_custom_price' => $id_custom_price]);
+            $stmt = $connection->prepare("SELECT * FROM custom_prices WHERE id_custom_price IN ($id_custom_price)");
+            $stmt->execute();
             $row = $stmt->rowCount();
 
             if ($row > 0) {
-                $stmt = $connection->prepare("DELETE FROM custom_prices WHERE id_custom_price = :id_custom_price");
-                $stmt->execute(['id_custom_price' => $id_custom_price]);
+                $stmt = $connection->prepare("DELETE FROM custom_prices WHERE id_custom_price IN ($id_custom_price)");
+                $stmt->execute();
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {

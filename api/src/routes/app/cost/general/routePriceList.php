@@ -1,10 +1,12 @@
 <?php
 
 use tezlikv3\dao\GeneralPricesListDao;
+use tezlikv3\dao\PricesDao;
 use tezlikv3\dao\PricesListDao;
 
 $priceListDao = new PricesListDao();
 $generalPriceListDao = new GeneralPricesListDao();
+$customPriceDao = new PricesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -81,15 +83,23 @@ $app->post('/updatePriceList', function (Request $request, Response $response, $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePriceList/{id_price_list}', function (Request $request, Response $response, $args) use ($priceListDao) {
-    $priceList = $priceListDao->deletePriceList($args['id_price_list']);
+$app->get('/deletePriceList/{id_price_list}', function (Request $request, Response $response, $args) use (
+    $priceListDao,
+    $customPriceDao
+) {
+    $customPrice = $customPriceDao->findCustomPriceByPriceList($args['id_price_list']);
 
-    if ($priceList == null)
-        $resp = array('success' => true, 'message' => 'Lista de precio eliminada correctamente');
-    else if (isset($priceList['info']))
-        $resp = array('info' => true, 'message' => $priceList['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
+    if ($customPrice == false) {
+        $priceList = $priceListDao->deletePriceList($args['id_price_list']);
+
+        if ($priceList == null)
+            $resp = array('success' => true, 'message' => 'Lista de precio eliminada correctamente');
+        else if (isset($priceList['info']))
+            $resp = array('info' => true, 'message' => $priceList['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras eliminaba la información. Intente nuevamente');
+    } else
+        $resp = array('info' => true, 'message' => 'Lista de precio asociado a precios personalizado');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

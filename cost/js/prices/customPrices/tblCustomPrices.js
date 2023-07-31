@@ -82,6 +82,7 @@ $(document).ready(function () {
           ${(tbody = addColsPricesCombines(combinedData[i], dataPriceList))}
           <td>
             <a href="javascript:;" <i id="${i}" class="bx bx-edit-alt updateCustomPrice" data-toggle='tooltip' title='Actualizar Precio' style="font-size: 30px;"></i></a>
+            <a href="javascript:;" <i id="${i}" class="mdi mdi-delete-forever deleteFunction" data-toggle='tooltip' title='Eliminar Precio' style="font-size: 30px;color:red"></i></a>
           </td>
         </tr>`
         );
@@ -93,25 +94,48 @@ $(document).ready(function () {
 
   addColsPricesCombines = (data, dataPriceList) => {
     let tbody = '';
-    for (let i = 0; i < dataPriceList.length; i++) {
-      !data.prices[i]
-        ? (price_custom = '')
-        : (price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
+    for (let i = 0; i < data.id_price_list.length; i++) { 
+      if(data.id_price_list.length < dataPriceList.length){
+        for (let j = 0; j < dataPriceList.length; j++) { 
+          if (data.id_price_list[i] == dataPriceList[j].id_price_list) {
+          price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
-          })}`);
-
-      !data.profitability_customs[i]
-        ? (profitability_custom = '')
-        : (profitability_custom = `${data.profitability_customs[
+          })}`;
+  
+          profitability_custom = `${data.profitability_customs[
             i
           ].toLocaleString('es-CO', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-          })} %`);
+          })} %`;
+        
+        } else {
+          price_custom = '';
+          profitability_custom = '';
+        }; 
 
-      tbody += `<td>${price_custom}</td>
-                <td>${profitability_custom}</td>`;
+        tbody += `<td>${price_custom}</td>
+                  <td>${profitability_custom}</td>`;
+        }
+      }
+      else {
+        price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`;
+  
+        profitability_custom = `${data.profitability_customs[
+          i
+        ].toLocaleString('es-CO', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })} %`;
+
+        tbody += `<td>${price_custom}</td>
+                  <td>${profitability_custom}</td>`;
+      
+      } 
     }
 
     return tbody;
