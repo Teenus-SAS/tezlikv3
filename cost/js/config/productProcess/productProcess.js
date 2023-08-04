@@ -73,11 +73,11 @@ $(document).ready(function () {
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
 
-    let decimals = contarDecimales(data.cost);
+    let decimals = contarDecimales(data.enlistment_time);
     let enlistment_time = formatNumber(data.enlistment_time, decimals);
     $('#enlistmentTime').val(enlistment_time);
 
-    decimals = contarDecimales(data.cost);
+    decimals = contarDecimales(data.operation_time);
     let operation_time = formatNumber(data.operation_time, decimals);
     $('#operationTime').val(operation_time);
 
