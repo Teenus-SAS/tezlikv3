@@ -85,7 +85,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
                 $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
 
-                if (!$sendEmail['info']) {
+                if (!isset($sendEmail['info'])) {
                     $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
                     /* Almacena el usuario */
