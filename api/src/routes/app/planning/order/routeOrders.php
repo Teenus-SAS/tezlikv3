@@ -50,7 +50,7 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
                 empty($order[$i]['order'])  || empty($order[$i]['dateOrder']) || empty($order[$i]['minDate']) ||
                 empty($order[$i]['maxDate']) || empty($order[$i]['originalQuantity']) ||  empty($order[$i]['quantity'])
             ) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportOrder = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
             }
@@ -58,7 +58,7 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
             // Obtener id producto
             $findProduct = $productsDao->findProduct($order[$i], $id_company);
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportOrder = array('error' => true, 'message' => "Producto no existe en la base de datos.<br>Fila: {$i}");
                 break;
             } else $order[$i]['idProduct'] = $findProduct['id_product'];
@@ -75,7 +75,7 @@ $app->post('/orderDataValidation', function (Request $request, Response $respons
             // Obtener id Tipo pedido
             $findOrderType = $orderTypesDao->findOrderType($order[$i]);
             if (!$findOrderType) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportOrder = array('error' => true, 'message' => "Tipo de pedido no existe en la base de datos.<br>Fila: {$i}");
                 break;
             } else $order[$i]['idOrderType'] = $findOrderType['id_order_type'];

@@ -51,7 +51,7 @@ $app->post('/productsInProcessDataValidation', function (Request $request, Respo
             $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
 
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsInProcess = array('error' => true, 'message' => "Producto en proceso no existe en la Base de datos. Fila: {$i}");
                 break;
             }
@@ -61,7 +61,7 @@ $app->post('/productsInProcessDataValidation', function (Request $request, Respo
 
             $findProductInProcess = $productsInProcessDao->findProductInProcess($productsInProcess[$i], $id_company);
             if ($findProductInProcess) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsInProcess = array('error' => true, 'message' => "Producto ya asignado en proceso. Fila: {$i}");
                 break;
             }
@@ -69,7 +69,7 @@ $app->post('/productsInProcessDataValidation', function (Request $request, Respo
             // Saber si existe con categoria en proceso
             $findProductInProcess = $planProductsDao->findProductByCategoryInProcess($productsInProcess[$i], $id_company);
             if (!$findProductInProcess) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsInProcess = array('error' => true, 'message' => "Producto no esta en la categoria en proceso. Fila: {$i}");
                 break;
             }
@@ -80,7 +80,7 @@ $app->post('/productsInProcessDataValidation', function (Request $request, Respo
             $findProduct = $productsDao->findProduct($productsInProcess[$i], $id_company);
 
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsInProcess = array('error' => true, 'message' => "Producto final no existe en la Base de datos. Fila: {$i}");
                 break;
             } else

@@ -48,13 +48,13 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
             // Obtener id maquina
             $findMachine = $machinesDao->findMachine($factoryLoad[$i], $id_company);
             if (!$findMachine) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportFactoryLoad = array('error' => true, 'message' => "Maquina no existe en la base de datos <br>Fila: {$i}");
                 break;
             } else $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
 
             if (empty($factoryLoad[$i]['descriptionFactoryLoad']) || empty($factoryLoad[$i]['costFactory'])) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportFactoryLoad = array('error' => true, 'message' => "Campos vacios en fila {$i}");
                 break;
             } else {

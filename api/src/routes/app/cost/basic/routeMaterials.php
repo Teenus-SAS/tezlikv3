@@ -58,11 +58,34 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
         $materials = $dataMaterial['importMaterials'];
 
         for ($i = 0; $i < sizeof($materials); $i++) {
+            if (
+                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || $materials[$i]['costRawMaterial'] == '' ||
+                empty($materials[$i]['magnitude']) || empty($materials[$i]['unit'])
+            ) {
+                $i = $i + 2;
+                $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            }
+
+            if (intval($materials[$i]['costRawMaterial']) == false) {
+                $i = $i + 2;
+                $dataImportMaterial = array('error' => true, 'message' => "El costo debe ser mayor a cero (0), fila: $i");
+                break;
+            }
+
+            $cost = 1 * $materials[$i]['costRawMaterial'];
+
+            if ($cost <= 0 || is_nan($cost)) {
+                $i = $i + 2;
+                $dataImportMaterial = array('error' => true, 'message' => "El costo debe ser mayor a cero (0), fila: $i");
+                break;
+            }
+
             // Consultar magnitud
             $magnitude = $magnitudesDao->findMagnitude($materials[$i]);
 
             if (!$magnitude) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportMaterial = array('error' => true, 'message' => "Magnitud no existe en la base de datos. Fila: $i");
                 break;
             }
@@ -73,28 +96,16 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
             $unit = $unitsDao->findUnit($materials[$i]);
 
             if (!$unit) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportMaterial = array('error' => true, 'message' => "Unidad no existe en la base de datos. Fila: $i");
                 break;
             }
 
-            if (
-                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || $materials[$i]['costRawMaterial'] == ''
-            ) {
-                $i = $i + 1;
-                $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
-                break;
-            } else if ($materials[$i]['costRawMaterial'] == 0) {
-                $i = $i + 1;
-                $dataImportMaterial = array('error' => true, 'message' => "El costo debe ser mayor a cero (0), fila: $i");
-                break;
-            } else {
-                $findMaterial = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
-                if (!$findMaterial) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportMaterial['insert'] = $insert;
-                $dataImportMaterial['update'] = $update;
-            }
+            $findMaterial = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
+            if (!$findMaterial) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportMaterial['insert'] = $insert;
+            $dataImportMaterial['update'] = $update;
         }
     } else
         $dataImportMaterial = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');

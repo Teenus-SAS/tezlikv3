@@ -49,13 +49,13 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
             // Obtener id producto
             $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExternalService = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
                 break;
             } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
 
             if (empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
             } else {

@@ -42,7 +42,7 @@ $app->post('/planMaterialsDataValidation', function (Request $request, Response 
                 empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || empty($materials[$i]['unityRawMaterial']) ||
                 empty($materials[$i]['quantity']) || empty($materials[$i]['category'])
             ) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
             } else {

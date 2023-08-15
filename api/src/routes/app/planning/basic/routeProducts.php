@@ -46,7 +46,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
 
         for ($i = 0; $i < sizeof($products); $i++) {
             if (empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) || empty($products[$i]['quantity'])) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "Campos vacios. Fila: {$i}");
                 break;
             }
@@ -54,7 +54,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
             // Obtener id Molde
             $findMold = $invMoldsDao->findInvMold($products[$i], $id_company);
             if (!$findMold) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "Molde no existe en la base de datos<br>Fila: {$i}");
                 break;
             }
@@ -62,7 +62,7 @@ $app->post('/planProductsDataValidation', function (Request $request, Response $
             // Obtener id Categoria
             $findCategory = $invCategoriesDao->findCategory($products[$i]);
             if (!$findCategory) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "Categoria no existe en la base de datos<br>Fila: {$i}");
                 break;
             }

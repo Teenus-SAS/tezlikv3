@@ -64,7 +64,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             // Obtener id producto
             $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductProcess = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
                 break;
             } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
@@ -72,7 +72,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             // Obtener id proceso
             $findProcess = $processPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
             if (!$findProcess) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
                 break;
             } else
@@ -85,7 +85,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             } else {
                 $findMachine = $machinesDao->findMachine($productProcess[$i], $id_company);
                 if (!$findMachine) {
-                    $i = $i + 1;
+                    $i = $i + 2;
                     $dataImportProductProcess = array('error' => true, 'message' => "Maquina no existe en la base de datos <br>Fila: {$i}");
                     break;
                 } else $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
@@ -210,7 +210,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 $resolution = $productsProcessDao->insertProductsProcessByCompany($productProcess[$i], $id_company);
 
                 if ($resolution == 1) {
-                    $i = $i + 1;
+                    $i = $i + 2;
                     $resp = array('error' => true, 'message' => "El Proceso ya se encuentra en la Base de Datos<br>Fila: {$i}");
                     break;
                 } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];

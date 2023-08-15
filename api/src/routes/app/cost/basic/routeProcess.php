@@ -34,7 +34,7 @@ $app->post('/processDataValidation', function (Request $request, Response $respo
         for ($i = 0; $i < sizeof($process); $i++) {
             $nameProcess = $process[$i]['process'];
             if (empty($nameProcess)) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProcess = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
             } else {

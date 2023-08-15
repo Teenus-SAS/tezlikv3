@@ -81,14 +81,14 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
 
         for ($i = 0; $i < sizeof($expense); $i++) {
             if (empty($expense[$i]['numberCount']) || empty($expense[$i]['count']) || empty($expense[$i]['expenseValue'])) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExpense = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
             }
             // Obtener id cuenta
             $findPuc = $pucDao->findPuc($expense[$i]);
             if (!$findPuc) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExpense = array('error' => true, 'message' => "Cuenta no existe en la base de datos<br>Fila: {$i}");
                 break;
             } else $expense[$i]['idPuc'] = $findPuc['id_puc'];

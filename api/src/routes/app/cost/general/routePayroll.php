@@ -52,12 +52,12 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
                 empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) || empty($payroll[$i]['workingDaysMonth']) ||
                 empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor']) || empty($payroll[$i]['benefit']) || empty($payroll[$i]['riskLevel'])
             ) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
             }
             if ($payroll[$i]['workingDaysMonth'] > 31 || $payroll[$i]['workingHoursDay'] > 24) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportPayroll = array('error' => true, 'message' => "El campo dias trabajo x mes debe ser menor a 31 <br>y horas trabajo x dia menor a 24, fila: {$i}");
                 break;
             }
@@ -66,7 +66,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
             $findProcess = $processDao->findProcess($payroll[$i], $id_company);
 
             if (!$findProcess) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportPayroll = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila {$i}");
                 break;
             } else

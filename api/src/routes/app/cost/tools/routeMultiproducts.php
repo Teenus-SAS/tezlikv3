@@ -52,7 +52,7 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
                 empty($multiproducts[$i]['soldUnit'])
             ) {
                 $status = false;
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportMultiproducts = array('error' => true, 'message' => "Campos vacios. Fila: $i");
                 break;
             }
@@ -62,7 +62,7 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
 
             if (!$product) {
                 $status = false;
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportMultiproducts = array('error' => true, 'message' => "Producto no existe en la base de datos. Fila $i");
                 break;
             }

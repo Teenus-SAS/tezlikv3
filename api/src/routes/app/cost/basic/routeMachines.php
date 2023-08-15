@@ -63,12 +63,12 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
             }
 
             if ($machines[$i]['hoursMachine'] > 24) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportMachine = array('error' => true, 'message' => "Las horas de trabajo no pueden ser mayor a 24, fila: $i");
                 break;
             }
             if ($machines[$i]['daysMachine'] > 31) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportMachine = array('error' => true, 'message' => "Los dias de trabajo no pueden ser mayor a 31, fila: $i");
                 break;
             } else {

@@ -73,7 +73,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
             }
 
             if (empty($expensesDistribution[$i]['unitsSold']) || empty($expensesDistribution[$i]['turnover'])) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
             }
@@ -81,7 +81,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
             // Obtener id producto
             $findProduct = $productsDao->findProduct($expensesDistribution[$i], $id_company);
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila{$i}");
                 break;
             } else $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];

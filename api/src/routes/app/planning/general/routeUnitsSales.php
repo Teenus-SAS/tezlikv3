@@ -44,7 +44,7 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
                 empty($unitSales[$i]['may']) && empty($unitSales[$i]['june']) && empty($unitSales[$i]['july']) && empty($unitSales[$i]['august']) &&
                 empty($unitSales[$i]['september']) && empty($unitSales[$i]['october']) &&  empty($unitSales[$i]['november']) && empty($unitSales[$i]['december'])
             ) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportUnitSales = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
             }
@@ -52,7 +52,7 @@ $app->post('/unitSalesDataValidation', function (Request $request, Response $res
             // Obtener id producto
             $findProduct = $productsDao->findProduct($unitSales[$i], $id_company);
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportUnitSales = array('error' => true, 'message' => "Producto no existe en la base de datos.<br>Fila: {$i}");
                 break;
             } else $unitSales[$i]['idProduct'] = $findProduct['id_product'];

@@ -46,7 +46,7 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
                 empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) ||
                 empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == ''
             ) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
                 break;
             }
@@ -56,7 +56,7 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
             $quantity = 1 * $quantity;
 
             if ($quantity <= 0 || is_nan($quantity)) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "La cantidad debe ser mayor a cero (0)<br>Fila: {$i}");
                 break;
             }
@@ -64,7 +64,7 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
             // Obtener id producto
             $findProduct = $productsDao->findProduct($productMaterials[$i], $id_company);
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
                 break;
             } else $productMaterials[$i]['idProduct'] = $findProduct['id_product'];
@@ -72,7 +72,7 @@ $app->post('/planProductsMaterialsDataValidation', function (Request $request, R
             // Obtener id materia prima
             $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
             if (!$findMaterial) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Materia prima no existe en la base de datos<br>Fila: {$i}");
                 break;
             } else $productMaterials[$i]['material'] = $findMaterial['id_material'];

@@ -51,13 +51,13 @@ $app->post('/expenseRecoverDataValidation', function (Request $request, Response
             // Obtener id producto
             $findProduct = $productsDao->findProduct($expensesRecover[$i], $id_company);
             if (!$findProduct) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExpenseRecover = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila{$i}");
                 break;
             } else $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
 
             if (empty($expensesRecover[$i]['percentage'])) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
             } else {

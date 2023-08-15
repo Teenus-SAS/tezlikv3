@@ -69,7 +69,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
                 empty($inventory[$i]['reference']) || empty($inventory[$i]['nameInventory']) ||
                 empty($inventory[$i]['quantity']) || empty($inventory[$i]['category'])
             ) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportinventory = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
             }
@@ -78,7 +78,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
             $findCategory = $categoriesDao->findCategory($inventory[$i]);
 
             if (!$findCategory) {
-                $i = $i + 1;
+                $i = $i + 2;
                 $dataImportinventory = array('error' => true, 'message' => "Categoria no existe en la base de datos. Fila: {$i}");
                 break;
             }
@@ -87,7 +87,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
 
             if ($category == 'Productos') {
                 if (empty($inventory[$i]['referenceMold']) || empty($inventory[$i]['mold'])) {
-                    $i = $i + 1;
+                    $i = $i + 2;
                     $dataImportinventory = array('error' => true, 'message' => "Moldes vacios en la fila: {$i}");
                     break;
                 }
@@ -95,7 +95,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
                 // Obtener id Molde
                 $findMold = $moldsDao->findInvMold($inventory[$i], $id_company);
                 if (!$findMold) {
-                    $i = $i + 1;
+                    $i = $i + 2;
                     $dataImportinventory = array('error' => true, 'message' => "Molde no existe en la base de datos.<br>Fila: {$i}");
                     break;
                 }
@@ -103,7 +103,7 @@ $app->post('/inventoryDataValidation', function (Request $request, Response $res
 
             if ($category == 'Materiales' || $category == 'Insumos') {
                 if (empty($inventory[$i]['unityRawMaterial'])) {
-                    $i = $i + 1;
+                    $i = $i + 2;
                     $dataImportinventory = array('error' => true, 'message' => "Unidad vacia en la fila: {$i}");
                     break;
                 }
