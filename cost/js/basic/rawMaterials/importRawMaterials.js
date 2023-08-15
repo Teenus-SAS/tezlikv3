@@ -24,6 +24,19 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide(400);
+
+    let form = document.getElementById('formMaterials');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
         let materialsToImport = data.map((item) => {
@@ -51,6 +64,10 @@ $(document).ready(function () {
       data: { importMaterials: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#fileMaterials').val('');
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          
           toastr.error(resp.message);
           return false;
         }
@@ -70,7 +87,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveMaterialTable(data);
-            } else $('#fileMaterials').val('');
+            } else {
+              $('#fileMaterials').val('');
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+            }
           },
         });
       },
@@ -83,6 +104,11 @@ $(document).ready(function () {
       url: '../api/addMaterials',
       data: { importMaterials: data },
       success: function (r) {
+        $('#fileMaterials').val('');
+
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
+
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportMaterials').hide(800);
