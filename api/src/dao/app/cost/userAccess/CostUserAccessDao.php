@@ -45,7 +45,7 @@ class CostUserAccessDao
         $stmt = $connection->prepare(
             "SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_materials, 0) AS create_materials, IFNULL(usa.create_machines, 0) AS create_machines, IFNULL(usa.create_process, 0) AS create_process, IFNULL(usa.product_materials, 0) AS product_materials, 
                     IFNULL(usa.product_process, 0) AS product_process, IFNULL(usa.factory_load, 0) AS factory_load, IFNULL(usa.external_service, 0) AS external_service, IFNULL(usa.payroll_load, 0) AS payroll_load, IFNULL(usa.expense, 0) AS expense, IFNULL(usa.expense_distribution, 0) AS expense_distribution, 
-                    IFNULL(usa.user, 0) AS user, IFNULL(usa.economy_scale, 0) AS economy_scale, IFNULL(usa.multiproduct, 0) AS multiproduct, IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, IFNULL(usa.quote_company, 0) AS quote_company, IFNULL(usa.quote_contact, 0) AS quote_contact, 
+                    IFNULL(usa.user, 0) AS user, IFNULL(usa.backup, 0) AS backup, IFNULL(usa.economy_scale, 0) AS economy_scale, IFNULL(usa.multiproduct, 0) AS multiproduct, IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, IFNULL(usa.quote_company, 0) AS quote_company, IFNULL(usa.quote_contact, 0) AS quote_contact, 
                     IFNULL(usa.price, 0) AS price, IFNULL(usa.price_usd, 0) AS price_usd, IFNULL(usa.custom_price, 0) AS custom_price, IFNULL(usa.analysis_material, 0) AS analysis_material, IFNULL(usa.simulator, 0) AS simulator, IFNULL(usa.support, 0) AS support, IFNULL(usa.quote, 0) AS quote
              FROM users us
              LEFT JOIN cost_users_access usa ON usa.id_user = us.id_user

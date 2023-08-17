@@ -24,7 +24,7 @@ $(document).ready(function () {
       return false;
     }
 
-    $('.cardBottons').hide(400);
+    $('.cardBottons').hide();
 
     let form = document.getElementById('formMaterials');
 

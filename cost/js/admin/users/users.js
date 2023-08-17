@@ -59,7 +59,7 @@ $(document).ready(function () {
       dataUser = setCheckBoxes(dataUser);
 
       $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
-        message(data);
+        message(data, null);
       });
     } else {
       updateUserAccess();
@@ -132,7 +132,7 @@ $(document).ready(function () {
   });
 
   updateUserAccess = () => {
-    idUser = sessionStorage.getItem('id_user');
+    let idUser = sessionStorage.getItem('id_user');
 
     let dataUser = {};
     dataUser['idUser'] = idUser;
@@ -146,7 +146,7 @@ $(document).ready(function () {
       '/api/updateCostUserAccess',
       dataUser,
       function (data, textStatus, jqXHR) {
-        message(data);
+        message(data, idUser);
         updateTable();
       }
     );
@@ -224,7 +224,7 @@ $(document).ready(function () {
             '/api/deleteUser',
             dataUser,
             function (data, textStatus, jqXHR) {
-              message(data);
+              message(data, idUser);
             }
           );
         }
@@ -234,14 +234,13 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  message = async (data, id_user) => {
     if (data.success == true) {
       $('#createUserAccess').modal('hide');
       $('#formCreateUser').trigger('reset');
       updateTable();
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+      if (id_user == idUser)
+        await loadUserAccess();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
