@@ -104,9 +104,11 @@ if (sizeof($_SESSION) == 0)
         plan_cost_simulator = "<?= $_SESSION['plan_cost_simulator'] ?>";
         plan_cost_quote = "<?= $_SESSION['plan_cost_quote'] ?>";
         plan_cost_support = "<?= $_SESSION['plan_cost_support'] ?>";
+        idUser = "<?= $_SESSION['idUser'] ?>";
     </script>
-    <script src="../cost/js/admin/users/tblUsers.js"></script>
-    <script src="../cost/js/admin/users/users.js"></script>
+    <script src="/cost/js/admin/users/tblUsers.js"></script>
+    <script src="/cost/js/admin/users/users.js"></script>
+    <script src="/cost/js/admin/users/userAccess.js"></script>
 </body>
 
 </html>

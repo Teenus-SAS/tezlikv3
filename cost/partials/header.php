@@ -105,7 +105,7 @@
                                                 <?php } ?>
                                             <?php } ?>
                                             <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
-                                                <li class="priceList"><a href="/cost/price-list">Lista de Precios</a></li>
+                                                <li class="aCustomPrices"><a href="/cost/price-list">Lista de Precios</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
@@ -130,15 +130,15 @@
                 </div>
             </div>
             <?php if ($_SESSION['quote_payment_method'] != 0 || $_SESSION['quote_company'] != 0 || $_SESSION['quote_contact'] != 0) { ?>
-                <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
+                <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2" id="navCostQuotesBasics">
                     <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
                         <i class="bx bxs-cog bx-spin" style="font-size: 2em;" data-toggle="tooltip" title="Configuración Cotización"></i>
                     </a>
                     <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown" x-placement="bottom-start" style="position: absolute; transform: translate3d(35px, 70px, 0px); top: 0px; left: 0px; will-change: transform;">
                         <div class="row">
                             <div class="col-sm-9">
-                                <div class="row" id="nav">
-                                    <div class="col-md-3" id="navCostQuotesBasics">
+                                <div class="row">
+                                    <div class="col-md-3">
                                         <h5 class="font-size-14 font-weight-600">Cotización</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['quote_payment_method'] == 1) { ?>
