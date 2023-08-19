@@ -5,7 +5,7 @@
                 <span>2023 &copy; Teenus SAS.</span>
             </div>
             <div class="col-md-6 text-md-right">
-                <span>Desarrollado por <span class="text-primary font-weight-500">Teenus SAS</span></span> (versión 2.25)
+                <span>Desarrollado por <span class="text-primary font-weight-500">Teenus SAS</span></span> - versión 2.25
             </div>
         </div>
     </div>
