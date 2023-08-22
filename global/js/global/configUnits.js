@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     $select.append(`<option disabled selected>Seleccionar</option>`);
     $.each(dataPMaterials, function (i, value) {
-      if (id_magnitude == '5' && op == 2) {
+      if (id_magnitude == '4' && op == 2) {
         if (value.id_unit == data.id_unit) {
           $select.empty();
           $select.append(
