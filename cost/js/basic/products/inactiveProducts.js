@@ -45,8 +45,24 @@ $(document).ready(function () {
   /* Mostrar productos inactivos */
   $('#btnActiveProducts').click(function (e) {
     e.preventDefault();
-    $('#tblInactiveProductsBody').empty();
+    $('#tblInactiveProducts').empty();
+    
+    let tblInactiveProducts = document.getElementById(
+      'tblInactiveProducts'
+    );
 
+    tblInactiveProducts.insertAdjacentHTML('beforeend',
+      `<thead>
+        <tr>
+        <th>No</th>
+        <th>Referencia</th>
+        <th>Producto</th>
+        <th>Activar</th>
+        <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tblInactiveProductsBody"></tbody>`);
+    
     setTblInactivesProducts();
   });
 
@@ -69,6 +85,9 @@ $(document).ready(function () {
                 <input type="checkbox" class="form-control-updated checkInactiveProduct" id="checkIn-${
                   data[i].id_product
                 }">
+            </td>
+            <td>
+                <a href="javascript:;" <i id="${data[i].id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
             </td>
         </tr>
       `

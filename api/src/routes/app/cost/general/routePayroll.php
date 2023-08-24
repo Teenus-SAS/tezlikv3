@@ -255,6 +255,28 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+$app->post('/copyPayroll', function (Request $request, Response $response, $args) use (
+    $payrollDao,
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataPayroll = $request->getParsedBody();
+
+    $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
+
+    if ($payroll == null)
+        $resp = array('success' => true, 'message' => 'Nomina copiada correctamente');
+    else if (isset($payroll['info']))
+        $resp = array('info' => true, 'message' => $payroll['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+
+
 $app->post('/deletePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
     $costWorkforceDao,

@@ -85,14 +85,9 @@ $(document).ready(function () {
   };
 
   /* Eliminar productos */
-
-  deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblProducts.fnGetData(row);
-
-    let idProduct = data.id_product;
+  $(document).on('click', '.deleteProduct', function () {
     let dataProduct = {};
-    dataProduct['idProduct'] = idProduct;
+    dataProduct['idProduct'] = this.id;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -120,7 +115,7 @@ $(document).ready(function () {
         }
       },
     });
-  };
+  });
 
   /* Copiar Producto */
   copyFunction = () => {
@@ -182,6 +177,7 @@ $(document).ready(function () {
 
   const message = (data) => {
     if (data.success == true) {
+      $('#createInactivesProducts').modal('hide');
       $('.cardCreateProduct').hide(800);
       $('#formCreateProduct').trigger('reset');
       updateTable();

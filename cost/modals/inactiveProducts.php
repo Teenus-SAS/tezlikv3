@@ -20,6 +20,7 @@
                                                 <th>Referencia</th>
                                                 <th>Producto</th>
                                                 <th>Activar</th>
+                                                <th>Acciones</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tblInactiveProductsBody"></tbody>

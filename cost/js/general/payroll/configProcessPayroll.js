@@ -1,7 +1,7 @@
 $(document).ready(function () {
   $.ajax({
     url: '/api/processPayroll',
-    success: function (r) {
+    success: function (r) { 
       let $select = $(`#idProcess`);
       $select.empty();
 

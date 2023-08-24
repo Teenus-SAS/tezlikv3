@@ -198,6 +198,79 @@ $(document).ready(function () {
     });
   };
 
+  /* Copiar Nomina */
+  copyFunction = (id_process) => {
+    var options = ``;
+
+    let dataProcess = JSON.parse(sessionStorage.getItem('dataProcess'));
+
+    for (var i = 0; i < dataProcess.length; i++) {
+      if(id_process != dataProcess[i].id_process)
+        options += `<option value="${dataProcess[i].id_process}"> ${dataProcess[i].process} </option>`;
+    }
+
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblPayroll.fnGetData(row);
+
+    bootbox.confirm({
+      title: 'Clonar Nomina',
+      message: `<div class="row">
+                  <div class="col-12">
+                    <label for="process">Proceso</label>
+                    <select class="form-control" id="process">
+                      <option disabled selected value="0">Seleccionar</option>
+                      ${options}
+                    </select>
+                  </div>
+                </div>`,
+      buttons: {
+        confirm: {
+          label: 'Ok',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'Cancel',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          let process = $('#process').val();
+
+          if (!process || process == '0') {
+            toastr.error('Seleccione proceso');
+            return false;
+          }
+
+          let dataPayroll = {};
+          dataPayroll['idOldPayroll'] = data.id_payroll;
+          dataPayroll['idProcess'] = process;
+          dataPayroll['employee'] = data.employee;
+          dataPayroll['basicSalary'] = data.salary;
+          dataPayroll['transport'] = data.transport;
+          dataPayroll['extraTime'] = data.extra_time;
+          dataPayroll['bonification'] = data.bonification;
+          dataPayroll['endowment'] = data.endowment;
+          dataPayroll['workingDaysMonth'] = data.working_days_month;
+          dataPayroll['workingHoursDay'] = data.hours_day;
+          dataPayroll['factor'] = data.factor_benefit;
+          dataPayroll['typeFactor'] = data.type_contract;
+          dataPayroll['risk'] = data.id_risk;
+          dataPayroll['minuteValue'] = data.minute_value;
+          dataPayroll['salaryNet'] = data.salary_net;
+
+          $.post(
+            '/api/copyPayroll',
+            dataPayroll,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  };
+
   /* Mensaje de exito */
 
   message = (data) => {
