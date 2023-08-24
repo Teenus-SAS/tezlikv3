@@ -29,14 +29,14 @@ $app->get('/materials', function (Request $request, Response $response, $args) u
     session_start();
     $id_company = $_SESSION['id_company'];
     $materials = $generalMaterialsDao->findAllMaterialsByCompany($id_company);
-    $response->getBody()->write(json_encode($materials, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($materials));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 /* Consultar productos relacionados con la materia prima */
 $app->get('/productsByMaterials/{id_material}', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
     $products = $generalMaterialsDao->findAllProductsByMaterials($args['id_material']);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

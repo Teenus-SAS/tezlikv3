@@ -26,7 +26,7 @@ $app->get('/expensesDistribution', function (Request $request, Response $respons
     session_start();
     $id_company = $_SESSION['id_company'];
     $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company);
-    $response->getBody()->write(json_encode($expensesDistribution, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($expensesDistribution));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -35,7 +35,7 @@ $app->get('/expensesDistributionProducts', function (Request $request, Response 
     $id_company = $_SESSION['id_company'];
 
     $products = $generalExpenseDistributionDao->findAllProductsNotInEDistribution($id_company);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -64,6 +64,14 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
         $expensesDistribution = $dataExpensesDistribution['importExpense'];
 
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
+            if (
+                empty($expensesDistribution[$i]['referenceProduct']) || empty($expensesDistribution[$i]['product']) ||
+                empty($expensesDistribution[$i]['unitsSold']) || empty($expensesDistribution[$i]['turnover'])
+            ) {
+                $i = $i + 2;
+                $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
 
             $expenseTotal = $totalExpenseDao->findTotalExpenseByCompany($id_company);
 
@@ -72,17 +80,12 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
                 break;
             }
 
-            if (empty($expensesDistribution[$i]['unitsSold']) || empty($expensesDistribution[$i]['turnover'])) {
-                $i = $i + 2;
-                $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            }
 
             // Obtener id producto
             $findProduct = $productsDao->findProduct($expensesDistribution[$i], $id_company);
             if (!$findProduct) {
                 $i = $i + 2;
-                $dataImportExpenseDistribution = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila{$i}");
+                $dataImportExpenseDistribution = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
                 break;
             } else $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
 

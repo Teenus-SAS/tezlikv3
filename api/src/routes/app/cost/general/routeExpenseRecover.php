@@ -19,7 +19,7 @@ $app->get('/expensesRecover', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
 
     $expensesRecover = $expenseRecoverDao->findAllExpenseRecoverByCompany($id_company);
-    $response->getBody()->write(json_encode($expensesRecover, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($expensesRecover));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -28,7 +28,7 @@ $app->get('/expenseRecoverProducts', function (Request $request, Response $respo
     $id_company = $_SESSION['id_company'];
 
     $products = $generalExpenseRecoverDao->findAllProductsNotInERecover($id_company);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

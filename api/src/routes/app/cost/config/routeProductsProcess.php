@@ -29,7 +29,7 @@ $app->get('/productsProcess/{idProduct}', function (Request $request, Response $
     $id_company = $_SESSION['id_company'];
 
     $productProcess = $productsProcessDao->findAllProductsprocessByIdProduct($args['idProduct'], $id_company);
-    $response->getBody()->write(json_encode($productProcess, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($productProcess));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -38,7 +38,7 @@ $app->get('/allProductsProcess', function (Request $request, Response $response,
     $id_company = $_SESSION['id_company'];
 
     $productProcess = $generalProductsProcessDao->findAllProductsprocess($id_company);
-    $response->getBody()->write(json_encode($productProcess, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($productProcess));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

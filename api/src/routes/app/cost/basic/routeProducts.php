@@ -60,7 +60,7 @@ $app->get('/products', function (Request $request, Response $response, $args) us
     session_start();
     $id_company = $_SESSION['id_company'];
     $products = $productsDao->findAllProductsByCompany($id_company);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -69,7 +69,7 @@ $app->get('/productsCRM', function (Request $request, Response $response, $args)
     $generalProductsDao
 ) {
     $products = $generalProductsDao->findAllProductsByCRM(1);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -91,7 +91,7 @@ $app->get('/inactivesProducts', function (Request $request, Response $response, 
     session_start();
     $id_company = $_SESSION['id_company'];
     $products = $generalProductsDao->findAllInactivesProducts($id_company);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -101,7 +101,7 @@ $app->get('/productCost/{id_product}', function (Request $request, Response $res
     session_start();
     $id_company = $_SESSION['id_company'];
     $products = $generalProductsDao->findProductCost($args['id_product'], $id_company);
-    $response->getBody()->write(json_encode($products, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
 

@@ -31,7 +31,7 @@ $app->get('/productsMaterials/{idProduct}', function (Request $request, Response
 
     $productMaterials = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($args['idProduct'], $id_company);
 
-    $response->getBody()->write(json_encode($productMaterials, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($productMaterials));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -41,7 +41,7 @@ $app->get('/allProductsMaterials', function (Request $request, Response $respons
 
     $productMaterials = $generalProductMaterialsDao->findAllProductsmaterials($id_company);
 
-    $response->getBody()->write(json_encode($productMaterials, JSON_NUMERIC_CHECK));
+    $response->getBody()->write(json_encode($productMaterials));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
