@@ -63,8 +63,8 @@ $(document).ready(function () {
         let turnover = 0;
 
         for (let i = 0; i < data.length; i++) {
-          units_sold += data[i].units_sold;
-          turnover += data[i].turnover;
+          units_sold += parseFloat(data[i].units_sold);
+          turnover += parseFloat(data[i].turnover);
         }
 
         $(this.api().column(3).footer()).html(

@@ -81,7 +81,7 @@ $(document).ready(function () {
       let expense_value = 0;
 
       for (i = 0; i < display.length; i++) {
-        expense_value += data[display[i]].expense_value;
+        expense_value += parseFloat(data[display[i]].expense_value);
       }
 
       $(this.api().column(4).footer()).html(
