@@ -107,6 +107,23 @@ class UserAdminDao
         }
     }
 
+    public function changeCompanyUser($id_user, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE users SET id_company = :id_company WHERE id_user = :id_user");
+            $stmt->execute([
+                'id_user' => $id_user,
+                'id_company' => $id_company
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     public function deleteUser($id_admin)
     {
         $connection = Connection::getInstance()->getConnection();
