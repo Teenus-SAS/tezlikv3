@@ -1,3 +1,5 @@
+<?php require_once dirname(dirname(__DIR__)) . '/admin/modals/changeCompany.php'; ?>
+
 <div class="horizontal-topnav shadow-sm">
     <div class="container-fluid">
         <nav class="navbar navbar-expand-lg topnav-menu">
@@ -56,6 +58,12 @@
                     <li class="nav-item notification">
                         <a class="nav-link" href="/admin/notifications">
                             <i class="bx bx-bell mr-1"></i> Notificaciones
+                            <i class="bx bx-chevron-down"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item notification">
+                        <a class="nav-link" href="javascript:;" id="navChangeCompany">
+                            <i class="bx bxs-business mr-1"></i> Cambiar Compañia
                             <i class="bx bx-chevron-down"></i>
                         </a>
                     </li>

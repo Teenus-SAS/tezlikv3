@@ -8,10 +8,12 @@ use tezlikv3\dao\FactorBenefitDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\dao\GeneralPayrollDao;
 use tezlikv3\Dao\RisksDao;
 use tezlikv3\dao\ValueMinuteDao;
 
 $payrollDao = new PayrollDao();
+$generalPayrollDao = new GeneralPayrollDao();
 $valueMinuteDao = new ValueMinuteDao();
 $convertDataDao = new ConvertDataDao();
 $processDao = new GeneralProcessDao();
@@ -35,7 +37,18 @@ $app->get('/payroll', function (Request $request, Response $response, $args) use
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/payrollDataValidation', function (Request $request, Response $response, $args) use ($payrollDao, $processDao) {
+$app->get('/process/{employee}', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $process = $generalPayrollDao->findAllProcessByEmployee($args['employee'], $id_company);
+    $response->getBody()->write(json_encode($process, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/payrollDataValidation', function (Request $request, Response $response, $args) use (
+    $generalPayrollDao,
+    $processDao
+) {
     $dataPayroll = $request->getParsedBody();
 
     if (isset($dataPayroll)) {
@@ -72,7 +85,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
             } else
                 $payroll[$i]['idProcess'] = $findProcess['id_process'];
 
-            $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
+            $findPayroll = $generalPayrollDao->findPayroll($payroll[$i], $id_company);
 
             !$findPayroll ? $insert = $insert + 1 : $update = $update + 1;
             $dataImportPayroll['insert'] = $insert;
@@ -87,6 +100,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
 
 $app->post('/addPayroll', function (Request $request, Response $response) use (
     $payrollDao,
+    $generalPayrollDao,
     $convertDataDao,
     $valueMinuteDao,
     $processDao,
@@ -105,24 +119,29 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
     if ($dataPayrolls > 1) {
 
-        $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+        $payroll = $generalPayrollDao->findPayroll($dataPayroll, $id_company);
 
-        // Calcular factor benefico
-        $dataBenefits = $benefitsDao->findAllBenefits();
+        if (!$payroll) {
+            $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
-        $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
+            // Calcular factor benefico
+            $dataBenefits = $benefitsDao->findAllBenefits();
 
-        // Calcular Valor x minuto
-        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+            $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
 
-        $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
+            // Calcular Valor x minuto
+            $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
-        if ($payroll == null)
-            $resp = array('success' => true, 'message' => 'Nomina creada correctamente');
-        else if (isset($payroll['info']))
-            $resp = array('info' => true, 'message' => $payroll['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+            $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
+
+            if ($payroll == null)
+                $resp = array('success' => true, 'message' => 'Nomina creada correctamente');
+            else if (isset($payroll['info']))
+                $resp = array('info' => true, 'message' => $payroll['message']);
+            else
+                $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
+        } else
+            $resp = array('error' => true, 'message' => 'Empleado con Proceso ya existente. Ingrese nuevo proceso');
     } else {
         $payroll = $dataPayroll['importPayroll'];
 
@@ -155,7 +174,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
             $findProcess = $processDao->findProcess($payroll[$i], $id_company);
             $payroll[$i]['idProcess'] = $findProcess['id_process'];
 
-            $findPayroll = $payrollDao->findPayroll($payroll[$i], $id_company);
+            $findPayroll = $generalPayrollDao->findPayroll($payroll[$i], $id_company);
 
             if (!$findPayroll)
                 $resolution = $payrollDao->insertPayrollByCompany($payroll[$i], $id_company);
@@ -197,6 +216,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
 $app->post('/updatePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
+    $generalPayrollDao,
     $convertDataDao,
     $valueMinuteDao,
     $costWorkforceDao,
@@ -209,47 +229,54 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
 
-    $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+    $payroll = $generalPayrollDao->findPayroll($dataPayroll, $id_company);
 
-    // Calcular factor benefico
-    $dataBenefits = $benefitsDao->findAllBenefits();
+    !is_array($payroll) ? $data['id_payroll'] = 0 : $data = $payroll;
 
-    $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
+    if ($data['id_payroll'] == $dataPayroll['idPayroll'] || $data['id_payroll'] == 0) {
+        $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
-    // Calcular Valor x Minuto
-    $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+        // Calcular factor benefico
+        $dataBenefits = $benefitsDao->findAllBenefits();
 
-    $payroll = $payrollDao->updatePayroll($dataPayroll);
+        $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
 
-    if ($payroll == null) {
+        // Calcular Valor x Minuto
+        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
-        $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
+        $payroll = $payrollDao->updatePayroll($dataPayroll);
 
-        foreach ($dataProducts as $arr) {
-            if (isset($payroll['info'])) break;
+        if ($payroll == null) {
 
-            // Calcular costo nomina
-            $dataPayroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+            $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
 
-            $payroll = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
+            foreach ($dataProducts as $arr) {
+                if (isset($payroll['info'])) break;
 
-            if (isset($payroll['info'])) break;
+                // Calcular costo nomina
+                $dataPayroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
 
-            // Calcular precio products_costs
-            $payroll = $priceProductDao->calcPrice($arr['id_product']);
+                $payroll = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
 
-            if (isset($payroll['info'])) break;
+                if (isset($payroll['info'])) break;
 
-            $payroll = $GeneralProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+                // Calcular precio products_costs
+                $payroll = $priceProductDao->calcPrice($arr['id_product']);
+
+                if (isset($payroll['info'])) break;
+
+                $payroll = $GeneralProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+            }
         }
-    }
 
-    if ($payroll == null)
-        $resp = array('success' => true, 'message' => 'Nomina actualizada correctamente');
-    else if (isset($payroll['info']))
-        $resp = array('info' => true, 'message' => $payroll['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+        if ($payroll == null)
+            $resp = array('success' => true, 'message' => 'Nomina actualizada correctamente');
+        else if (isset($payroll['info']))
+            $resp = array('info' => true, 'message' => $payroll['message']);
+        else
+            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    } else
+        $resp = array('error' => true, 'message' => 'Empleado con Proceso ya existente. Ingrese nuevo proceso');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

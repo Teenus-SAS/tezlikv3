@@ -35,22 +35,6 @@ class PayrollDao
     return $payroll;
   }
 
-  // Consultar si existe la nomina en BD
-  public function findPayroll($dataPayroll, $id_company)
-  {
-    $connection = Connection::getInstance()->getConnection();
-
-    $stmt = $connection->prepare("SELECT id_payroll FROM payroll
-                                  WHERE employee = :employee AND id_process = :id_process AND id_company = :id_company");
-    $stmt->execute([
-      'employee' => strtoupper(trim($dataPayroll['employee'])),
-      'id_process' => trim($dataPayroll['idProcess']),
-      'id_company' => $id_company
-    ]);
-    $findPayroll = $stmt->fetch($connection::FETCH_ASSOC);
-    return $findPayroll;
-  }
-
   public function insertPayrollByCompany($dataPayroll, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();

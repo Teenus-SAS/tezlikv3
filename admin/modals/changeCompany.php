@@ -1,5 +1,5 @@
 <div class="modal fade" id="modalChangeCompany" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Cambiar Compañia Usuario</h5>
@@ -11,16 +11,22 @@
                             <div class="col-md-12 col-lg-12 InputGroup">
                                 <form id="formChangeCompany">
                                     <div class="row mt-5">
-                                        <div class="col-12 col-lg-4">
+                                        <div class="col-12 col-lg-12 titlePayroll pt-2">
+                                            <label for=""><b>Usuario</b></label>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <select name="idUser" class="form-control" id="idUser" disabled>
+                                                <select name="idUser" class="form-control" id="user" disabled>
                                                     <option value="1">sergio.velandia@gmail.com</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-12 col-lg-4">
+                                        <div class="col-12 col-lg-12 titlePayroll pt-2">
+                                            <label for=""><b>Empresa</b></label>
+                                        </div>
+                                        <div class="col-12 col-lg-12">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <select name="idComapny" class="form-control" id="idComapny"></select>
+                                                <select name="idCompany" class="form-control company" id="company"></select>
                                             </div>
                                         </div>
                                     </div>

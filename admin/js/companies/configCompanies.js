@@ -2,7 +2,7 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/allCompanies',
     success: function (r) {
-      let $select = $(`#company`);
+      let $select = $(`.company`);
       $select.empty();
 
       $select.append(`<option disabled selected>Seleccionar</option>`);

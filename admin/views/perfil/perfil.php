@@ -131,6 +131,8 @@ if (sizeof($_SESSION) == 0)
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
     <script src="/global/js/global/loadImg.js"></script>
+    <script src="/admin/js/global/changeCompany.js"></script>
+    <script src="/admin/js/companies/configCompanies.js"></script>
     <script src="/admin/js/profile/profile.js"></script>
 </body>
 

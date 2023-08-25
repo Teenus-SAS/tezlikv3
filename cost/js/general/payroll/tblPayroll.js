@@ -51,7 +51,7 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: function (data) {
           return `
-                <a href="javascript:;" <i id="${data.id_payroll}" class="bx bx-copy-alt" data-toggle='tooltip' title='Clonar Nomina' style="font-size: 30px; color:green" onclick="copyFunction(${data.id_process})"></i></a>
+                <a href="javascript:;" <i id="${data.id_payroll}" class="bx bx-copy-alt" data-toggle='tooltip' title='Clonar Nomina' style="font-size: 30px; color:green" onclick="copyFunction('${data.employee}')"></i></a>
                 <a href="javascript:;" <i id="${data.id_payroll}" class="bx bx-edit-alt updatePayroll" data-toggle='tooltip' title='Actualizar Nomina' style="font-size: 30px;"></i></a>
                 <a href="javascript:;" <i id="${data.id_payroll}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Nomina' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
         },

@@ -1,7 +1,7 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
-use tezlikv3\dao\ProcessPayrollDao;
+use tezlikv3\dao\GeneralPayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\GeneralProductsDao;
@@ -14,7 +14,7 @@ $productsProcessDao = new ProductsProcessDao();
 $generalProductsProcessDao = new GeneralProductsProcessDao();
 $convertDataDao = new ConvertDataDao();
 $productsDao = new GeneralProductsDao();
-$processPayrollDao = new ProcessPayrollDao();
+$generalPayrollDao = new GeneralPayrollDao();
 $machinesDao = new GeneralMachinesDao();
 $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
@@ -46,7 +46,7 @@ $app->get('/allProductsProcess', function (Request $request, Response $response,
 $app->post('/productsProcessDataValidation', function (Request $request, Response $response, $args) use (
     $productsProcessDao,
     $productsDao,
-    $processPayrollDao,
+    $generalPayrollDao,
     $machinesDao
 ) {
     $dataProductProcess = $request->getParsedBody();
@@ -70,7 +70,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
 
             // Obtener id proceso
-            $findProcess = $processPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
+            $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
             if (!$findProcess) {
                 $i = $i + 2;
                 $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
@@ -119,7 +119,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $productsProcessDao,
     $convertDataDao,
     $productsDao,
-    $processPayrollDao,
+    $generalPayrollDao,
     $machinesDao,
     $costWorkforceDao,
     $indirectCostDao,
@@ -185,7 +185,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $productProcess[$i]['idProduct'] = $findProduct['id_product'];
 
             // Obtener id proceso
-            $findProcess = $processPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
+            $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
             $productProcess[$i]['idProcess'] = $findProcess['id_process'];
 
             // Obtener id maquina

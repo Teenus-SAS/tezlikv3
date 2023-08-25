@@ -9,10 +9,7 @@ $(document).ready(function () {
   $.ajax({
     type: 'GET',
     url: '/api/process',
-    success: function (r) {
-      sessionStorage.removeItem('dataProcess');
-      sessionStorage.setItem('dataProcess', JSON.stringify(r));
-      
+    success: function (r) { 
       let $select = $(`#idProcess`);
       $select.empty();
 

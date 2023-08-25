@@ -199,13 +199,12 @@ $(document).ready(function () {
   };
 
   /* Copiar Nomina */
-  copyFunction = (id_process) => {
+  copyFunction = async (employee) => {
     var options = ``;
 
-    let dataProcess = JSON.parse(sessionStorage.getItem('dataProcess'));
+    let dataProcess = await searchData(`/api/process/${employee}`);
 
-    for (var i = 0; i < dataProcess.length; i++) {
-      if(id_process != dataProcess[i].id_process)
+    for (var i = 0; i < dataProcess.length; i++) { 
         options += `<option value="${dataProcess[i].id_process}"> ${dataProcess[i].process} </option>`;
     }
 

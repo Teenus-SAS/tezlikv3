@@ -68,7 +68,7 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-sm">
                                                     <div class="form-group m-0">
                                                         <label for="company">Empresa</label>
-                                                        <select name="company" class="form-control" id="company"></select>
+                                                        <select name="company" class="form-control company" id="company"></select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm">
@@ -147,8 +147,9 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="/admin/js/plans/configPlans.js"></script>
+    <script src="/admin/js/global/changeCompany.js"></script>
     <script src="/admin/js/companies/configCompanies.js"></script>
+    <script src="/admin/js/plans/configPlans.js"></script>
     <script src="/admin/js/licenses/tblCompaniesLicense.js"></script>
     <script src="/admin/js/licenses/companiesLicense.js"></script>
 </body>

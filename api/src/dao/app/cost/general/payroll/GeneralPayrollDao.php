@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class ProcessPayrollDao
+class GeneralPayrollDao
 {
     private $logger;
 
@@ -14,6 +14,22 @@ class ProcessPayrollDao
     {
         $this->logger = new Logger(self::class);
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
+    }
+
+    // Consultar si existe la nomina en BD
+    public function findPayroll($dataPayroll, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT id_payroll FROM payroll
+                                  WHERE employee = :employee AND id_process = :id_process AND id_company = :id_company");
+        $stmt->execute([
+            'employee' => strtoupper(trim($dataPayroll['employee'])),
+            'id_process' => trim($dataPayroll['idProcess']),
+            'id_company' => $id_company
+        ]);
+        $findPayroll = $stmt->fetch($connection::FETCH_ASSOC);
+        return $findPayroll;
     }
 
     public function findAllProcessByPayroll($id_company)
@@ -47,5 +63,22 @@ class ProcessPayrollDao
         ]);
         $findProcess = $stmt->fetch($connection::FETCH_ASSOC);
         return $findProcess;
+    }
+
+    public function findAllProcessByEmployee($employee, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT DISTINCT p.id_process, p.process 
+                                      FROM payroll pay 
+                                        INNER JOIN process p ON p.id_process = pay.id_process 
+                                      WHERE pay.id_company = :id_company AND pay.employee != :employee 
+                                      ORDER BY `p`.`process` ASC");
+        $stmt->execute([
+            'employee' => $employee,
+            'id_company' => $id_company
+        ]);
+        $process = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $process;
     }
 }
