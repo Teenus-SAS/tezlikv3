@@ -107,15 +107,15 @@ class UserAdminDao
         }
     }
 
-    public function changeCompanyUser($id_user, $id_company)
+    public function changeCompanyUser($dataUser)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
             $stmt = $connection->prepare("UPDATE users SET id_company = :id_company WHERE id_user = :id_user");
             $stmt->execute([
-                'id_user' => $id_user,
-                'id_company' => $id_company
+                'id_user' => $dataUser['idUser'],
+                'id_company' => $dataUser['idCompany']
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();

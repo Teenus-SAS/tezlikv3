@@ -64,9 +64,9 @@ $(document).ready(function () {
       let minute_value = 0;
 
       for (i = 0; i < display.length; i++) {
-        salary += data[display[i]].salary;
-        salary_net += data[display[i]].salary_net;
-        minute_value += data[display[i]].minute_value;
+        salary += parseFloat(data[display[i]].salary);
+        salary_net += parseFloat(data[display[i]].salary_net);
+        minute_value += parseFloat(data[display[i]].minute_value);
       }
 
       $(this.api().column(3).footer()).html(

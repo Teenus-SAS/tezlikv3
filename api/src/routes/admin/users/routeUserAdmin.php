@@ -18,11 +18,13 @@ $app->get('/userAdmins', function (Request $request, Response $response, $args) 
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
 $app->get('/usersCompany', function (Request $request, Response $response, $args) use ($userAdminDao) {
     $userAdmin = $userAdminDao->findAllUser();
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
 $app->get('/userAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
     $userAdmin = $userAdminDao->findUserAdmin();
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
@@ -60,6 +62,22 @@ $app->post('/addUserAdmin', function (Request $request, Response $response, $arg
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
     }
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/changeCompany', function (Request $request, Response $response, $args) use ($userAdminDao) {
+    $dataUserAdmin = $request->getParsedBody();
+
+    $user = $userAdminDao->changeCompanyUser($dataUserAdmin);
+
+    if ($user == null)
+        $resp = array('success' => true, 'message' => 'Compañia modificada correctamente');
+    else if (isset($user['info']))
+        $resp = array('info' => true, 'message' => $user['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al modificar la información. Intente nuevamente');
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
