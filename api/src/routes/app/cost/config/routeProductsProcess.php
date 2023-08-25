@@ -202,7 +202,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             //false = no, id_product_process = si
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
-            $productProcess[$i] = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
+            // $productProcess[$i] = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
 
             if (!$findProductProcess) {
 
