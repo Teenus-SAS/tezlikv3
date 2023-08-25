@@ -26,12 +26,17 @@ $(document).ready(function () {
       },
       {
         title: 'Acciones',
-        data: 'id_process',
+        data: null,
         className: 'uniqueClassName',
         render: function (data) {
+          if (data.status == 0)
+            icon = '/global/assets/images/trash_v.png';
+          else 
+            icon = '/global/assets/images/trash_x.png';
+          
           return `
-                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
-                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Proceso' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+                <a href="javascript:;" <i id="${data.id_process}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
+                <a href="javascript:;"><img src="${icon}" alt="Eliminar Proceso" id="${data.id_process}" style="width:30px;height:30px;margin-top:-20px" onclick="deleteFunction()"></a>`;
         },
       },
     ],

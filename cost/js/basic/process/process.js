@@ -75,6 +75,11 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblProcess.fnGetData(row);
 
+    if (!data.status == 0) {
+      toastr.error( 'Este proceso no se puede eliminar, esta configurado a un producto o nomina');
+      return false;
+    }
+
     let id_process = data.id_process;
 
     bootbox.confirm({

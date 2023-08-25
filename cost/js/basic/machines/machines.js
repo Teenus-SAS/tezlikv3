@@ -102,6 +102,11 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblMachines.fnGetData(row);
 
+    if (!data.status == 0) {
+      toastr.error( 'Esta maquina no se puede eliminar, esta configurada a un producto o carga fabril');
+      return false;
+    }
+
     dataMachine['idMachine'] = data.id_machine;
 
     bootbox.confirm({

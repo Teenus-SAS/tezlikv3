@@ -19,7 +19,11 @@ class MachinesDao
   public function findAllMachinesByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM machines WHERE id_company = :id_company ORDER BY machine ASC");
+    $stmt = $connection->prepare("SELECT m.id_machine, m.id_company, m.machine, m.cost, m.years_depreciation, m.residual_value, m.minute_depreciation, m.hours_machine, m.days_machine, IFNULL(IF((SELECT id_product_process FROM products_process WHERE id_machine = m.id_machine LIMIT 1) = NULL, 
+                                         (SELECT id_manufacturing_load FROM manufacturing_load WHERE id_machine = m.id_machine LIMIT 1), (SELECT id_product_process FROM products_process WHERE id_machine = m.id_machine LIMIT 1)), 0) AS status
+                                  FROM machines m
+                                  WHERE id_company = :id_company 
+                                  ORDER BY machine ASC");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
