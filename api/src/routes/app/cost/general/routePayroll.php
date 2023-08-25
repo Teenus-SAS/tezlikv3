@@ -284,12 +284,38 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
 $app->post('/copyPayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
+    $costWorkforceDao,
+    $priceProductDao,
+    $GeneralProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
 
     $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
+
+    if ($payroll == null) {
+
+        $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
+
+        foreach ($dataProducts as $arr) {
+            if (isset($payroll['info'])) break;
+
+            // Calcular costo nomina
+            $dataPayroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+
+            $payroll = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
+
+            if (isset($payroll['info'])) break;
+
+            // Calcular precio products_costs
+            $payroll = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($payroll['info'])) break;
+
+            $payroll = $GeneralProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+        }
+    }
 
     if ($payroll == null)
         $resp = array('success' => true, 'message' => 'Nomina copiada correctamente');
