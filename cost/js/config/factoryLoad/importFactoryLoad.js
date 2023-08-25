@@ -81,6 +81,7 @@ $(document).ready(function () {
       url: '../../api/addFactoryLoad',
       data: { importFactoryLoad: data },
       success: function (r) {
+        $('#fileFactoryLoad').val('');
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportFactoryLoad').hide(800);

@@ -83,6 +83,8 @@ $(document).ready(function () {
       data: { importExpense: data },
       success: function (r) {
         /* Mensaje de exito */
+          $('#fileExpensesAssignation').val('');
+
         if (r.success == true) {
           $('.cardImportExpensesAssignation').hide(800);
           $('#formImportExpesesAssignation').trigger('reset');

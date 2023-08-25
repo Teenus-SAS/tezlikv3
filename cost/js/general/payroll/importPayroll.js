@@ -93,6 +93,8 @@ $(document).ready(function () {
       data: { importPayroll: data },
       success: function (r) {
         /* Mensaje de exito */
+          $('#filePayroll').val('');
+
         if (r.success == true) {
           $('.cardImportPayroll').hide(800);
           $('#formImportPayroll').trigger('reset');

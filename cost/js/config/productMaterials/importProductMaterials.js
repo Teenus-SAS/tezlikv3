@@ -87,6 +87,8 @@ $(document).ready(function () {
       data: { importProductsMaterials: data },
       success: function (r) {
         /* Mensaje de exito */
+          $('#fileProductsMaterials').val('');
+
         if (r.success == true) {
           $('.cardImportProductsMaterials').hide(800);
           $('#formImportProductMaterial').trigger('reset');
@@ -94,10 +96,8 @@ $(document).ready(function () {
           toastr.success(r.message);
           return false;
         } else if (r.error == true) {
-          $('#fileProductsMaterials').val('');
           toastr.error(r.message);
-        } else if (r.info == true) {
-          $('#fileProductsMaterials').val('');
+        } else if (r.info == true) { 
           toastr.info(r.message);
         }
 

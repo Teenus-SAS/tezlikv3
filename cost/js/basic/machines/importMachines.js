@@ -85,6 +85,7 @@ $(document).ready(function () {
       data: { importMachines: data },
       success: function (r) {
         /* Mensaje de exito */
+        $('#fileMachines').val('');
         if (r.success == true) {
           $('.cardImportMachines').hide(800);
           $('#formImportMachines').trigger('reset');

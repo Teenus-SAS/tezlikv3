@@ -83,6 +83,7 @@ $(document).ready(function () {
       url: '../../api/addExternalService',
       data: { importExternalService: data },
       success: function (r) {
+        $('#fileExternalServices').val('');
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportExternalServices').hide(800);

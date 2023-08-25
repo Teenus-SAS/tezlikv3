@@ -83,6 +83,8 @@ $(document).ready(function () {
       url: '/api/addProductsProcess',
       data: { importProductsProcess: data },
       success: function (r) {
+        $('#fileProductsProcess').val('');
+        
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportProductsProcess').hide(800);

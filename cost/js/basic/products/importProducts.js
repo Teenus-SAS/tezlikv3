@@ -86,6 +86,7 @@ $(document).ready(function () {
       data: { importProducts: data },
       success: function (r) {
         /* Mensaje de exito */
+         $('#fileProducts').val('');
         if (r.success == true) {
           $('.cardImportProducts').hide(800);
           $('#formImportProduct').trigger('reset');

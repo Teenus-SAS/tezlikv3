@@ -79,6 +79,7 @@ $(document).ready(function () {
       url: '../../api/addProcess',
       data: { importProcess: data },
       success: function (r) {
+        $('#fileProcess').val('');
         /* Mensaje de exito */
         if (r.success == true) {
           $('.cardImportProcess').hide(800);
