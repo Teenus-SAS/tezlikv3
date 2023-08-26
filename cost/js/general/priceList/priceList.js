@@ -52,7 +52,7 @@ $(document).ready(function () {
   checkDataPricesList = async (url, idPriceList) => {
     let priceName = $('#priceName').val();
 
-    if (priceName == '' || priceName == 0) {
+    if (priceName.trim() == '' || !priceName) {
       toastr.error('Ingrese todos los campos');
       return false;
     }

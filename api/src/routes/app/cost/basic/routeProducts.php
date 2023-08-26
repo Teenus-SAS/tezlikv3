@@ -127,13 +127,13 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
             $profitability = 1 * $profitability;
 
             if (
-                empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
+                empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) ||
                 $products[$i]['commissionSale'] == '' || is_nan($profitability) || $profitability <= 0
             ) {
                 $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
                 break;
-            } else if ($profitability > 100 || $commissionSale > 100) {
+            } else if ($profitability > 100 || $commissionSale > 100 || is_nan($profitability) || is_nan($commissionSale)) {
                 $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "La rentabilidad y comision debe ser menor al 100%, fila: $i");
                 break;

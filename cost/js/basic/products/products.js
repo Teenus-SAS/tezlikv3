@@ -61,7 +61,7 @@ $(document).ready(function () {
 
     let data = 1 * prof;
 
-    if (ref == '' || !ref || prod == '' || !prod || data <= 0 || isNaN(data)) {
+    if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim() || data <= 0 || isNaN(data)) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -149,7 +149,7 @@ $(document).ready(function () {
           let ref = $('#referenceNewProduct').val();
           let prod = $('#newProduct').val();
 
-          if (!ref || ref == '' || !prod || prod == '') {
+          if (!ref.trim() || ref.trim() == '' || !prod.trim() || prod.trim() == '') {
             toastr.error('Ingrese todos los campos');
             return false;
           }

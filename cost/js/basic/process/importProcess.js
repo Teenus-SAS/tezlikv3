@@ -46,6 +46,8 @@ $(document).ready(function () {
       data: { importProcess: data },
       success: function (resp) {
         if (resp.error == true) {
+        $('#fileProcess').val('');
+
           toastr.error(resp.message);
           return false;
         }

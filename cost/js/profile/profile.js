@@ -47,16 +47,16 @@ $(document).ready(function () {
     let conPassword = $('#conPassword').val();
 
     if (
-      !firstname ||
-      firstname == '' ||
-      !lastname ||
-      lastname == '' ||
-      company == '' ||
-      nit == '' ||
-      city == '' ||
-      country == '' ||
-      phone == '' ||
-      address == ''
+      !firstname.trim() ||
+      firstname.trim() == '' ||
+      !lastname.trim() ||
+      lastname.trim() == '' ||
+      company.trim() == '' ||
+      nit.trim() == '' ||
+      city.trim() == '' ||
+      country.trim() == '' ||
+      phone.trim() == '' ||
+      address.trim() == ''
     ) {
       let generalInputs = document.getElementsByClassName('general');
 

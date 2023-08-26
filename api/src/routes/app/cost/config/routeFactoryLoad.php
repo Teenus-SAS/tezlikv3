@@ -53,7 +53,7 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
                 break;
             } else $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
 
-            if (empty($factoryLoad[$i]['descriptionFactoryLoad']) || empty($factoryLoad[$i]['costFactory'])) {
+            if (empty(trim($factoryLoad[$i]['descriptionFactoryLoad'])) || empty(trim($factoryLoad[$i]['costFactory']))) {
                 $i = $i + 2;
                 $dataImportFactoryLoad = array('error' => true, 'message' => "Campos vacios en fila {$i}");
                 break;

@@ -73,7 +73,7 @@ $(document).ready(function () {
 
     let data = idProduct * cost;
 
-    if (service == '' || service == 0 || isNaN(data) || data <= 0) {
+    if (service.trim() == '' || !service.trim() || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }

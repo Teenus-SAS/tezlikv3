@@ -54,7 +54,7 @@ $(document).ready(function () {
   checkDataProcess = async (url, idProcess) => {
     let process = $('#process').val();
 
-    if (process == '' || process == 0) {
+    if (process.trim() == '' || !process.trim()) {
       toastr.error('Ingrese todos los campos');
       return false;
     }

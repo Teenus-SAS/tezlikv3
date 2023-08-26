@@ -63,8 +63,8 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
         for ($i = 0; $i < count($materials); $i++) {
             if (
-                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || $materials[$i]['costRawMaterial'] == '' ||
-                empty($materials[$i]['magnitude']) || empty($materials[$i]['unit'])
+                empty(trim($materials[$i]['refRawMaterial'])) || empty(trim($materials[$i]['nameRawMaterial'])) || trim($materials[$i]['costRawMaterial']) == '' ||
+                empty(trim($materials[$i]['magnitude'])) || empty(trim($materials[$i]['unit']))
             ) {
                 $i = $i + 2;
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");

@@ -70,11 +70,11 @@ $(document).ready(function () {
     let cost = $('#costRawMaterial').val();
 
     if (
-      ref == '' ||
-      ref == 0 ||
-      material == '' ||
-      material == 0 ||
-      unity == '' ||
+      ref.trim() == '' ||
+      !ref.trim() ||
+      material.trim() == '' ||
+      !material.trim() ||
+      !unity ||
       unity == 0 ||
       cost == ''
     ) {

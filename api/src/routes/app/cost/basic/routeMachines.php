@@ -56,7 +56,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
             $data = floatval($machines[$i]['costMachine']) * floatval($machines[$i]['depreciationYears']) * floatval($machines[$i]['hoursMachine']) * floatval($machines[$i]['daysMachine']);
 
             if (
-                empty($machines[$i]['machine']) || empty($machines[$i]['depreciationYears']) || $data <= 0 || is_nan($data)
+                empty(trim($machines[$i]['machine'])) || empty(trim($machines[$i]['depreciationYears'])) || $data <= 0 || is_nan($data)
             ) {
                 $dataImportMachine = array('error' => true, 'message' => 'Ingrese todos los datos');
                 break;

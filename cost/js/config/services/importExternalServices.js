@@ -86,9 +86,13 @@ $(document).ready(function () {
         $('#fileExternalServices').val('');
         /* Mensaje de exito */
         if (r.success == true) {
+          let idProduct = $('#selectNameProduct').val(); 
           $('.cardImportExternalServices').hide(800);
           $('#formImportExternalServices').trigger('reset');
-          updateTable();
+
+          if (idProduct != null)
+            updateTable();
+          
           toastr.success(r.message);
           return false;
         } else if (r.error == true) toastr.error(r.message);

@@ -62,8 +62,8 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
 
         for ($i = 0; $i < sizeof($payroll); $i++) {
             if (
-                empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) || empty($payroll[$i]['workingDaysMonth']) ||
-                empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor']) || empty($payroll[$i]['benefit']) || empty($payroll[$i]['riskLevel'])
+                empty(trim($payroll[$i]['process'])) || empty(trim($payroll[$i]['employee'])) || empty(trim($payroll[$i]['basicSalary'])) || empty(trim($payroll[$i]['workingDaysMonth'])) ||
+                empty(trim($payroll[$i]['workingHoursDay'])) || empty(trim($payroll[$i]['typeFactor'])) || empty(trim($payroll[$i]['benefit'])) || empty(trim($payroll[$i]['riskLevel']))
             ) {
                 $i = $i + 2;
                 $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");

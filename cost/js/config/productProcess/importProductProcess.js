@@ -49,7 +49,9 @@ $(document).ready(function () {
       url: '/api/productsProcessDataValidation',
       data: { importProductsProcess: data },
       success: function (resp) {
+
         if (resp.error == true) {
+          $('#fileProductsProcess').val('');
           toastr.error(resp.message);
           return false;
         }
@@ -87,9 +89,15 @@ $(document).ready(function () {
         
         /* Mensaje de exito */
         if (r.success == true) {
+          // $('#selectNameProduct').prop('selectedIndex', 1);
+          // $('#selectNameProduct').change();
+          let idProduct = $('#selectNameProduct').val(); 
+          
           $('.cardImportProductsProcess').hide(800);
           $('#formImportProductProcess').trigger('reset');
-          updateTable();
+          if (idProduct != null)
+            updateTable();
+
           toastr.success(r.message);
           return false;
         } else if (r.error == true) toastr.error(r.message);

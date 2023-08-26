@@ -122,7 +122,7 @@ $(document).ready(function () {
 
     let data = process * workingDM * workingHD * salary;
 
-    if (isNaN(data) || data <= 0 || employee == '' || factor == '') {
+    if (isNaN(data) || data <= 0 || employee.trim() == '' || factor == '') {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -203,6 +203,11 @@ $(document).ready(function () {
     var options = ``;
 
     let dataProcess = await searchData(`/api/process/${employee}`);
+
+    if (dataProcess.length == 0) {
+      toastr.info('No hay procesos disponibles para este empleado');
+      return false;
+    }
 
     for (var i = 0; i < dataProcess.length; i++) { 
         options += `<option value="${dataProcess[i].id_process}"> ${dataProcess[i].process} </option>`;

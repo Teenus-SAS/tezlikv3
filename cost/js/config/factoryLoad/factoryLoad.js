@@ -68,8 +68,8 @@ $(document).ready(function () {
     costFactory = 1 * costFactory;
 
     if (
-      machine == '' ||
-      descriptionFactoryLoad == '' ||
+      machine.trim() == '' ||
+      descriptionFactoryLoad.trim() == '' ||
       isNaN(costFactory) ||
       costFactory <= 0
     ) {

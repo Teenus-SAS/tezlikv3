@@ -49,7 +49,7 @@ $(document).ready(function () {
   checkDataFamily = async (url, idFamily) => {
     let family = $('#family').val();
 
-    if (family == '') {
+    if (family.trim() == '') {
       toastr.error('Ingrese nuevo campo');
       return false;
     }

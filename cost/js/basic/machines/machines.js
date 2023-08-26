@@ -71,7 +71,7 @@ $(document).ready(function () {
 
     let data = costMachine * yearsDepreciation * hoursMachine * daysMachine;
 
-    if (Machine == '' || Machine == null || isNaN(data) || data <= 0) {
+    if (Machine.trim() == '' || Machine.trim() == null || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }

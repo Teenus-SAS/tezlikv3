@@ -80,7 +80,7 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
         $expense = $dataExpense['importExpense'];
 
         for ($i = 0; $i < sizeof($expense); $i++) {
-            if (empty($expense[$i]['numberCount']) || empty($expense[$i]['count']) || empty($expense[$i]['expenseValue'])) {
+            if (empty(trim($expense[$i]['numberCount'])) || empty(trim($expense[$i]['count'])) || empty(trim($expense[$i]['expenseValue']))) {
                 $i = $i + 2;
                 $dataImportExpense = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;

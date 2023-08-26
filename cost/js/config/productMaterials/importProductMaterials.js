@@ -89,10 +89,14 @@ $(document).ready(function () {
         /* Mensaje de exito */
           $('#fileProductsMaterials').val('');
 
-        if (r.success == true) {
+        if (r.success == true) { 
           $('.cardImportProductsMaterials').hide(800);
           $('#formImportProductMaterial').trigger('reset');
-          updateTable();
+          
+          let idProduct = $('#selectNameProduct').val();  
+          if (idProduct != null)
+            updateTable();
+
           toastr.success(r.message);
           return false;
         } else if (r.error == true) {

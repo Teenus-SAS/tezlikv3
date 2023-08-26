@@ -72,7 +72,8 @@ class GeneralPayrollDao
         $stmt = $connection->prepare("SELECT DISTINCT p.id_process, p.process 
                                       FROM payroll pay 
                                         INNER JOIN process p ON p.id_process = pay.id_process 
-                                      WHERE pay.id_company = :id_company AND pay.employee != :employee 
+                                      WHERE pay.id_company = :id_company 
+                                      AND pay.id_process NOT IN (SELECT id_process FROM payroll WHERE employee = :employee AND id_company = pay.id_company)
                                       ORDER BY `p`.`process` ASC");
         $stmt->execute([
             'employee' => $employee,

@@ -51,6 +51,7 @@ $(document).ready(function () {
       data: { importMachines: data },
       success: function (resp) {
         if (resp.error == true) {
+        $('#fileMachines').val('');
           toastr.error(resp.message);
           return false;
         }
