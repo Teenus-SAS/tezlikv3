@@ -4,7 +4,7 @@ $(document).ready(function () {
         $('#formChangeCompany').trigger('reset');
         $('#modalChangeCompany').modal('show');
         let op = sessionStorage.getItem('op')
-        $(`#company option[value='${op}']`).prop('selected', true);
+        $(`#sCompany option[value='${op}']`).prop('selected', true);
     });
 
     $('#btnCloseChangeCompany').click(function (e) {
@@ -15,7 +15,7 @@ $(document).ready(function () {
     $('#btnChangeCompany').click(function (e) {
         e.preventDefault();
 
-        let company = $('#company').val();
+        let company = $('#sCompany').val();
 
         if (!company || company == '') {
             toastr.error('Ingrese todos los datos');

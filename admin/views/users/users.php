@@ -67,7 +67,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="form-row">
                                                 <div class="col">
                                                     <label for="">Empresa</label>
-                                                    <select name="company" class="form-control" id="company" name="company"></select>
+                                                    <select name="company" class="form-control company" id="company" name="company"></select>
                                                 </div>
                                                 <div class="col">
                                                     <label for="">Nombres</label>

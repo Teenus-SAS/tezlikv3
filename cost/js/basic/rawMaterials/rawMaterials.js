@@ -109,8 +109,9 @@ $(document).ready(function () {
 
     let idMaterial = data.id_material;
     dataMaterial['idMaterial'] = idMaterial;
+    let status = parseInt(data.status);
 
-    if (!data.status == "0") {
+    if (!status == 0) {
       toastr.error(
         'Esta materia prima no se puede eliminar, esta configurada a un producto'
       );

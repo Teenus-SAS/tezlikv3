@@ -26,7 +26,7 @@
                                         </div>
                                         <div class="col-12 col-lg-12">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <select name="idCompany" class="form-control company" id="company"></select>
+                                                <select name="idCompany" class="form-control company" id="sCompany"></select>
                                             </div>
                                         </div>
                                     </div>

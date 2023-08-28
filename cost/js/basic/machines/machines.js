@@ -101,9 +101,10 @@ $(document).ready(function () {
   deleteFunction = () => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblMachines.fnGetData(row);
+    let status = parseInt(data.status);
 
-    if (!data.status == '0') {
-      toastr.error( 'Esta maquina no se puede eliminar, esta configurada a un producto o carga fabril');
+    if (!status == 0) {
+      toastr.error('Esta maquina no se puede eliminar, esta configurada a un producto o carga fabril');
       return false;
     }
 
