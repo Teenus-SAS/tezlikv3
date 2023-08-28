@@ -160,6 +160,7 @@ $(document).ready(function () {
           dataProduct['product'] = prod;
           dataProduct['profitability'] = data.profitability;
           dataProduct['commissionSale'] = data.commission_sale;
+          dataProduct['idFamily'] = data.id_family;
 
           $.post(
             '/api/copyProduct',

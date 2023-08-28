@@ -7,6 +7,7 @@ use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\ExpenseRecoverDao;
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
+use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralProductMaterialsDao;
@@ -41,6 +42,7 @@ $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
 $generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
+$familiesDao = new FamiliesDao();
 $expensesRecoverDao = new ExpenseRecoverDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $costMaterialsDao = new CostMaterialsDao();
@@ -251,6 +253,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $externalServicesDao,
     $generalServicesDao,
     $expensesDistributionDao,
+    $familiesDao,
     $generalExpenseDistributionDao,
     $expensesRecoverDao,
     $generalExpenseRecoverDao,
@@ -332,14 +335,46 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                 if ($resolution == null) {
                     // Copiar data expenses_distribution
+                    $flag = $_SESSION['flag_expense_distribution'];
                     $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct['idOldProduct'], $id_company);
                     $arr = array();
 
                     if ($oldProduct != false) {
                         $arr['selectNameProduct'] = $dataProduct['idProduct'];
+                        $arr['idFamily'] = $dataProduct['idFamily'];
                         $arr['unitsSold'] = $oldProduct['units_sold'];
                         $arr['turnover'] = $oldProduct['turnover'];
-                        $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
+                    }
+
+                    if ($flag == 2) {
+                        $products = $familiesDao->findAllProductsInFamily($dataProduct['idFamily'], $id_company);
+
+                        $resolution = $familiesDao->updateDistributionFamily($arr);
+
+                        for ($i = 0; $i < sizeof($products); $i++) {
+                            if (isset($resolution['info'])) break;
+
+                            $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
+                            $products[$i]['unitsSold'] = $arr['unitsSold'];
+                            $products[$i]['turnover'] = $arr['turnover'];
+                            $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($products[$i], $id_company);
+
+                            if (!$findExpenseDistribution)
+                                $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($products[$i], $id_company);
+                            else {
+                                $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                                $resolution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+                            }
+                        }
+                    } else {
+                        $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
+
+                        if (!$findExpenseDistribution)
+                            $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
+                        else {
+                            $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                            $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+                        }
                     }
                 }
 
@@ -396,7 +431,41 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 }
 
                 if ($resolution == null) {
-                    // Consulta unidades vendidades y volumenes de venta por producto
+                    // Obtener el total de gastos
+                    $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+                    if ($flag == 1) {
+                        // Consulta unidades vendidades y volumenes de venta por producto
+                        $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+                        // Calcular el total de unidades vendidas y volumen de ventas
+                        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+                        foreach ($unitVol as $arr) {
+                            if (isset($resolution['info'])) break;
+                            // Calcular gasto asignable
+                            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                            // Actualizar gasto asignable
+                            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+                        }
+
+                        /* x Familia */
+                    } else {
+                        // Consulta unidades vendidades y volumenes de venta por familia
+                        $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+
+                        // Calcular el total de unidades vendidas y volumen de ventas
+                        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
+
+                        foreach ($unitVol as $arr) {
+                            if (isset($resolution['info'])) break;
+                            // Calcular gasto asignable
+                            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                            // Actualizar gasto asignable
+                            $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
+                        }
+                    }
+                    /*// Consulta unidades vendidades y volumenes de venta por producto
                     $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
                     // Calcular el total de unidades vendidas y volumen de ventas
@@ -411,7 +480,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         $assignableExpense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                         // Actualizar gasto asignable
                         $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $assignableExpense);
-                    }
+                    }*/
                 }
 
                 if ($resolution == null) {
