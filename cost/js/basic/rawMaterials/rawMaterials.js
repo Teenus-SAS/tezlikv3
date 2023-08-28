@@ -64,16 +64,16 @@ $(document).ready(function () {
 
   /* Revision data materia prima */
   checkDataMaterial = async (url, idMaterial) => {
-    let ref = $('#refRawMaterial').val();
-    let material = $('#nameRawMaterial').val();
-    let unity = $('#unit').val();
+    let ref = $('#refRawMaterial').val().trim();
+    let material = $('#nameRawMaterial').val().trim();
+    let unity = $('#units').val();
     let cost = $('#costRawMaterial').val();
 
     if (
-      ref.trim() == '' ||
-      !ref.trim() ||
-      material.trim() == '' ||
-      !material.trim() ||
+      ref == '' ||
+      !ref ||
+      material == '' ||
+      !material ||
       !unity ||
       unity == 0 ||
       cost == ''
@@ -110,7 +110,7 @@ $(document).ready(function () {
     let idMaterial = data.id_material;
     dataMaterial['idMaterial'] = idMaterial;
 
-    if (!data.status == 0) {
+    if (!data.status == '0') {
       toastr.error(
         'Esta materia prima no se puede eliminar, esta configurada a un producto'
       );
