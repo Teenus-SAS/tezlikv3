@@ -22,7 +22,7 @@ class ProfileDao
 
         try {
             if (empty($dataUser['password'])) {
-                $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname
+                $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, position = :position
                                           WHERE id_user = :id_user");
                 $stmt->execute([
                     'id_user' => $dataUser['idUser'],
@@ -31,12 +31,13 @@ class ProfileDao
                 ]);
             } else {
                 $pass = password_hash($dataUser['password'], PASSWORD_DEFAULT);
-                $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, password = :pass
+                $stmt = $connection->prepare("UPDATE users SET firstname = :firstname, lastname = :lastname, position = :position, password = :pass
                                           WHERE id_user = :id_user");
                 $stmt->execute([
                     'id_user' => $dataUser['idUser'],
                     'firstname' => $dataUser['nameUser'],
                     'lastname' => $dataUser['lastnameUser'],
+                    'position' => $dataUser['position'],
                     'pass' => $pass
                 ]);
             }

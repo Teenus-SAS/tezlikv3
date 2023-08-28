@@ -42,6 +42,7 @@ $(document).ready(function () {
     let country = $('#country').val();
     let phone = $('#phone').val();
     let address = $('#address').val();
+    let position = $('#position').val();
 
     let password = $('#password').val();
     let conPassword = $('#conPassword').val();
@@ -56,7 +57,8 @@ $(document).ready(function () {
       city.trim() == '' ||
       country.trim() == '' ||
       phone.trim() == '' ||
-      address.trim() == ''
+      address.trim() == ''||
+      position.trim() == ''
     ) {
       let generalInputs = document.getElementsByClassName('general');
 
@@ -78,6 +80,7 @@ $(document).ready(function () {
     let imageProd = $('#formFile')[0].files[0];
     let imageCompany = $('#formFileC')[0].files[0];
     let dataProfile = new FormData(formSaveProfile);
+    
     dataProfile.append('avatar', imageProd);
     dataProfile.append('logo', imageCompany);
     dataProfile.append('admin', 0);

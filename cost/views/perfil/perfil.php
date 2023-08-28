@@ -150,7 +150,7 @@ if (sizeof($_SESSION) == 0)
                                                 <label class="form-label">Cargo *</label>
                                             </div>
                                             <div class="col-sm-5">
-                                                <input type="text" class="form-control text-center" placeholder="" aria-label="Position" id="position" name="position" disabled>
+                                                <input type="text" class="form-control text-center" placeholder="" aria-label="Position" id="position" name="position">
                                             </div>
                                         </div>
                                         <hr>
