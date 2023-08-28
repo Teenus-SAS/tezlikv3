@@ -21,7 +21,8 @@ class CompaniesDao
     public function findAllCompanies()
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT * FROM companies");
+        $stmt = $connection->prepare("SELECT *, (SELECT id_company FROM users WHERE id_user = 1) AS id_company_user1
+                                      FROM companies");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $companyData = $stmt->fetchAll($connection::FETCH_ASSOC);

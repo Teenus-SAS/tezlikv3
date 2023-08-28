@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnClose">Cerrar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCloseChangeCompany">Cerrar</button>
                 <button type="button" class="btn btn-primary" id="btnChangeCompany">Cambiar</button>
             </div>
         </div>

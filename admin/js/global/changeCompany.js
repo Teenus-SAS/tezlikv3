@@ -3,6 +3,13 @@ $(document).ready(function () {
         e.preventDefault();
         $('#formChangeCompany').trigger('reset');
         $('#modalChangeCompany').modal('show');
+        let op = sessionStorage.getItem('op')
+        $(`#company option[value='${op}']`).prop('selected', true);
+    });
+
+    $('#btnCloseChangeCompany').click(function (e) {
+        e.preventDefault();
+        $('#modalChangeCompany').modal('hide'); 
     });
 
     $('#btnChangeCompany').click(function (e) {
