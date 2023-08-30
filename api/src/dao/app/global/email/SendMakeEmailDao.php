@@ -82,6 +82,29 @@ class SendMakeEmailDao
         return $resp;
     }
 
+    public function SendEmailNotifications($name, $email, $observations)
+    {
+        $msg  =
+            "<html>
+                <body>
+                    <p>
+                        Estimado(a) $name<br><br>
+                        Estamos muy emocionados de anunciar una nueva actualización para TezlikSoftware. Esta actualización incluye una serie de mejoras y funciones nuevas que estamos seguros de que te encantarán.<br><br>
+                        Aquí hay un resumen de los cambios más importantes:
+                        <ul>
+                            <li>$observations</li>
+                        </ul><br><br>
+                        Estamos seguros que estas mejoras harán que TezlikSoftware sea más útil y agradable para usted. Si tiene alguna pregunta o inconveniente, no dude en contactarnos.<br><br>
+                        Le enviamos un cordial saludo.<br><br>
+                        Equipo de Soporte<br>
+                        Teenus SAS
+                    </p>
+                </body>
+            </html>";
+        $resp = array('to' => array($email), 'pdf' => null, 'subject' => 'Actualización', 'body' => $msg, 'ccHeader' => null);
+        return $resp;
+    }
+
     public function SendEmailSupport($dataSupport, $email)
     {
         if (isset($dataSupport['ccHeader']))

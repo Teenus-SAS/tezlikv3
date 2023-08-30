@@ -40,8 +40,13 @@ class UsersDao
   public function findAllUsersByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT * FROM users  WHERE id_company = :id_company;");
-    $stmt->execute(['id_company' => $id_company]);
+    if ($id_company == 0) {
+      $stmt = $connection->prepare("SELECT * FROM users");
+      $stmt->execute();
+    } else {
+      $stmt = $connection->prepare("SELECT * FROM users WHERE id_company = :id_company;");
+      $stmt->execute(['id_company' => $id_company]);
+    }
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

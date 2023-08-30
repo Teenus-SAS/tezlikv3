@@ -118,7 +118,7 @@ $(document).ready(function () {
   $(document).on('blur', '#bonification', function () {
     let type_salary = sessionStorage.getItem('type_salary');
 
-    if (!type_salary || type_salary == '' || this.value != '' || this.value != '0')
+    if ((!type_salary || type_salary == '') && (this.value != '' && this.value != '0'))
       bootbox.confirm({
         title: 'Otros Ingresos',
         message: 'El valor a ingresar es salarial?',
