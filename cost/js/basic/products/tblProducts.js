@@ -39,8 +39,20 @@ $(document).ready(function () {
           return txt;
         },
       },
+      
       {
-        title: 'Rentabilidad',
+        title: 'Precio de Venta',
+        data: 'sale_price',
+        className: 'classCenter',
+         render: function (data) {
+          let decimals = contarDecimales(data);
+          let cost = formatNumber(data, decimals);
+
+          return `$ ${cost}`;
+        },
+      },
+      {
+        title: 'Rentabilidad Deseada',
         data: 'profitability',
         className: 'classCenter',
         render: function (data) {

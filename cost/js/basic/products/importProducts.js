@@ -30,6 +30,7 @@ $(document).ready(function () {
           return {
             referenceProduct: item.referencia,
             product: item.producto,
+            salePrice: item.precio_venta,
             profitability: item.rentabilidad,
             commissionSale: item.comision_ventas,
           };

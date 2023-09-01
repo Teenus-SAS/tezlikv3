@@ -19,7 +19,7 @@ class ProductsDao
   public function findAllProductsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.profitability, pc.commission_sale, pc.price, p.img, p.id_family 
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.sale_price, pc.profitability, pc.commission_sale, pc.price, p.img, p.id_family 
                                   FROM products p
                                     INNER JOIN products_costs pc ON p.id_product = pc.id_product
                                   WHERE p.id_company = :id_company AND p.active = 1 ORDER BY `p`.`product`, `p`.`reference` ASC");
@@ -38,11 +38,15 @@ class ProductsDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, active) 
-                                      VALUES(:id_company, :reference, :product, 1)");
+      $salePrice = str_replace('.', '', $dataProduct['salePrice']);
+      $salePrice = str_replace(',', '.', $salePrice);
+
+      $stmt = $connection->prepare("INSERT INTO products(id_company, reference, product, sale_price, active) 
+                                      VALUES(:id_company, :reference, :product, :sale_price, 1)");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => strtoupper(trim($dataProduct['product'])),
+        'sale_price' => $salePrice,
         'id_company' => $id_company,
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -59,12 +63,16 @@ class ProductsDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product 
+      $salePrice = str_replace('.', '', $dataProduct['salePrice']);
+      $salePrice = str_replace(',', '.', $salePrice);
+
+      $stmt = $connection->prepare("UPDATE products SET reference = :reference, product = :product, sale_price = :sale_price 
                                     WHERE id_product = :id_product AND id_company = :id_company");
       $stmt->execute([
         'reference' => trim($dataProduct['referenceProduct']),
         'product' => strtoupper(trim($dataProduct['product'])),
         'id_product' => $dataProduct['idProduct'],
+        'sale_price' => $salePrice,
         'id_company' => $id_company
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

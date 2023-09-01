@@ -45,6 +45,9 @@ $(document).ready(function () {
     $('#product').val(data.product);
     $('#profitability').val(data.profitability);
     $('#commisionSale').val(data.commission_sale);
+    let decimals = contarDecimales(data.sale_price);
+    let cost = formatNumber(data.sale_price, decimals);
+    $('#salePrice').val(cost);
 
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });
@@ -54,10 +57,10 @@ $(document).ready(function () {
     let ref = $('#referenceProduct').val();
     let prod = $('#product').val();
     let prof = $('#profitability').val();
-    let comission = $('#commisionSale').val();
+    let comission = $('#commisionSale').val(); 
 
     prof = parseFloat(prof.replace(',', '.'));
-    comission = parseFloat(comission.replace(',', '.'));
+    comission = parseFloat(comission.replace(',', '.')); 
 
     let data = 1 * prof;
 
