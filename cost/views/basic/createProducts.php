@@ -88,7 +88,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <input type="text" class="form-control text-center number" name="salePrice" id="salePrice" data-toggle="tooltip" title="Ingrese el precio de venta actual, si existe">
-                                                <label for="">Precio de Venta</label>
+                                                <label for="">Precio de Venta Actual</label>
                                             </div>
                                         </div>
                                     </div>
