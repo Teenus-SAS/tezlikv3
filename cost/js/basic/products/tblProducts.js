@@ -41,7 +41,7 @@ $(document).ready(function () {
       },
       
       {
-        title: 'Precio de Venta',
+        title: 'Precio Vta',
         data: 'sale_price',
         className: 'classCenter',
          render: function (data) {

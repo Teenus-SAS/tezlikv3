@@ -127,7 +127,7 @@ $(document).ready(function () {
       })}`
     );
 
-    $('.commission').html(`Comisión Vts (${data.commission_sale}%)`);
+    $('.commission').html(`Comisión Vta (${data.commission_sale}%)`);
     $('.commisionSale').html(
       `$ ${Math.round(dataCost.costCommissionSale).toLocaleString('es-CO')}`
     );
@@ -251,7 +251,7 @@ $(document).ready(function () {
       })}`
     );
 
-    $('#commission-2').html(`Comisión Vts (${data.commission_sale}%)`);
+    $('#commission-2').html(`Comisión Vta (${data.commission_sale}%)`);
     $('#commisionSale-2').html(
       `$ ${Math.round(dataCost.costCommissionSale).toLocaleString('es-CO')}`
     );
