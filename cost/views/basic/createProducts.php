@@ -78,11 +78,11 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="form-row">
-                                            <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                            <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                 <input type="text" class="form-control" name="referenceProduct" id="referenceProduct">
                                                 <label for="">Referencia</label>
                                             </div>
-                                            <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:0px">
+                                            <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                                 <input type="text" class="form-control" name="product" id="product">
                                                 <label for="">Nombre Producto</label>
                                             </div>
