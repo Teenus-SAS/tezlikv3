@@ -155,7 +155,7 @@ if (sizeof($_SESSION) == 0)
                                             <li class="list-group-item py-4">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <div style="display: grid;grid-template-columns:1fr 110px">
+                                                        <div style="display: grid;grid-template-columns:1fr 110px ">
                                                             <p class="mb-2 salesPrice" style="color:green">Precio de Venta</p>
                                                             <h6 class="mb-0 pl-3 text-right salesPrice" id="salesPrice"></h6>
                                                             <p class="mb-2 costTotal" style="color:darkcyan">Total Costos</p>
@@ -176,6 +176,13 @@ if (sizeof($_SESSION) == 0)
                                                             <h6 class="mb-0 pl-3 text-right commission" id="commisionSale"></h6>
                                                             <p class="mb-2 profit" style="color:darkcyan" id="profit">Rentabilidad</p>
                                                             <h6 class="mb-0 pl-3 text-right profit" id="profitability"></h6>
+                                                        </div>
+                                                        <hr class="actualSalePrice" style="margin-top: 1px;">
+                                                        <div style="display: grid;grid-template-columns:1fr 110px">
+                                                            <p class="mb-2 actualSalePrice" style="color:green">Precio de Venta Actual</p>
+                                                            <h6 class="mb-0 pl-3 text-right actualSalePrice" id="actualSalePrice"></h6>
+                                                            <p class="mb-2 actualSalePrice" style="color:darkcyan">Rentabilidad Actual</p>
+                                                            <h6 class="mb-0 pl-3 text-right actualSalePrice" id="actualProfitability"></h6>
                                                         </div>
                                                     </div>
                                                 </div>

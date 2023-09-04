@@ -111,6 +111,7 @@ $(document).ready(function () {
     if (dataCost.expense == 0) $('.payAssignableExpenses').hide();
     if (dataCost.costCommissionSale == 0) $('.commission').hide();
     if (dataCost.costProfitability == 0) $('.profit').hide();
+    if (data[0].sale_price == 0) $('.actualSalePrice').hide();
 
     $('#costTotal').html(
       `$ ${dataCost.costTotal.toLocaleString('es-CO', {
@@ -184,6 +185,18 @@ $(document).ready(function () {
         maximumFractionDigits: 0,
       })}`
     );
+
+    $('#actualSalePrice').html(`$ ${data[0].sale_price.toLocaleString('es-CO', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })}`);
+    
+    let profitability = ((data[0].sale_price - dataCost.costTotal) / data[0].sale_price) * 100;
+
+    $('#actualProfitability').html(`${profitability.toLocaleString('es-CO', {
+      maximumFractionDigits: 2,
+    })} %`);
+    
   };
 
   loadIndicatorsProducts(id_product);
