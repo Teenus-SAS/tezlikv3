@@ -37,7 +37,7 @@ $(document).ready(function () {
         },
         {
           title: 'Referencia',
-          data: 'reference', 
+          data: 'reference',
         },
         {
           title: 'Producto',
@@ -47,13 +47,23 @@ $(document).ready(function () {
           title: 'Unidades Vendidas (mes)',
           data: 'units_sold',
           className: 'classRight',
-          render: $.fn.dataTable.render.number('.', ',', 0, ''),
+          render: function (data) {
+            let decimals = contarDecimales(data);
+            let units_sold = formatNumber(data, decimals);
+
+            return `$ ${units_sold}`;
+          },
         },
         {
           title: 'Total Ventas (mes)',
           data: 'turnover',
           className: 'classRight',
-          render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+          render: function (data) {
+            let decimals = contarDecimales(data);
+            let turnover = formatNumber(data, decimals);
+
+            return `$ ${turnover}`;
+          },
         },
         {
           title: 'Gasto Asignable al Producto',

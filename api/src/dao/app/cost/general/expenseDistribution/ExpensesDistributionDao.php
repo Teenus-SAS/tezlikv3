@@ -52,7 +52,11 @@ class ExpensesDistributionDao
         $connection = Connection::getInstance()->getConnection();
 
         $unitsSold = str_replace('.', '', $dataExpensesDistribution['unitsSold']);
+        if (str_contains($unitsSold, ','))
+            $unitsSold = str_replace(',', '.', $unitsSold);
         $turnover = str_replace('.', '', $dataExpensesDistribution['turnover']);
+        if (str_contains($turnover, ','))
+            $turnover = str_replace(',', '.', $turnover);
 
         try {
             $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, units_sold, turnover)
@@ -78,7 +82,11 @@ class ExpensesDistributionDao
         $connection = Connection::getInstance()->getConnection();
 
         $unitsSold = str_replace('.', '', $dataExpensesDistribution['unitsSold']);
+        if (str_contains($unitsSold, ','))
+            $unitsSold = str_replace(',', '.', $unitsSold);
         $turnover = str_replace('.', '', $dataExpensesDistribution['turnover']);
+        if (str_contains($turnover, ','))
+            $turnover = str_replace(',', '.', $turnover);
 
         try {
             $stmt = $connection->prepare("UPDATE expenses_distribution SET id_product = :id_product, units_sold = :units_sold, turnover = :turnover

@@ -208,6 +208,9 @@ $(document).ready(function () {
     $('#actualProfitability').html(`${profitability.toLocaleString('es-CO', {
       maximumFractionDigits: 2,
     })} %`);
+
+    if (profitability < 0)
+      $('#actualProfitability').css('color', 'red');
     
   };
 

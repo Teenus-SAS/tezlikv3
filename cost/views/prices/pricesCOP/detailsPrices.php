@@ -186,8 +186,8 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media">
                                                     <div class="media-body">
                                                         <div style="display: grid;grid-template-columns:1fr 110px ">
-                                                            <p class="mb-2 salesPrice suggestedPrice" style="color:green">Precio de Venta</p>
-                                                            <h6 class="mb-0 pl-3 text-right salesPrice" id="salesPrice"></h6>
+                                                            <p class="mb-2 salesPrice" style="color:green">Precio de Venta</p>
+                                                            <h6 class="mb-0 pl-3 text-right salesPrice suggestedPrice" id="salesPrice"></h6>
                                                             <p class="mb-2 costTotal" style="color:darkcyan">Total Costos</p>
                                                             <h6 class="mb-0 pl-3 text-right costTotal" id="costTotal"></h6>
                                                             <p class="mb-2 cost" style="color:darkcyan">Costos</p>

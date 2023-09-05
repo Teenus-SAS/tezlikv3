@@ -39,11 +39,19 @@ $(document).ready(function () {
         let expenseToImport = data.map((item) => {
           if (option == 1) {
             url = '/api/expenseDistributionDataValidation';
+            let unitsSold = '';
+            let turnover = '';
+
+            if(item.unidades_vendidas)
+              unitsSold = item.unidades_vendidas.toString().replace('.', ',');
+            if(item.volumen_ventas)
+              turnover = item.volumen_ventas.toString().replace('.', ',');
+            
             return {
               referenceProduct: item.referencia_producto,
               product: item.producto,
-              unitsSold: item.unidades_vendidas,
-              turnover: item.volumen_ventas,
+              unitsSold: unitsSold,
+              turnover: turnover,
             };
           } else if (option == 2) {
             url = '/api/expenseRecoverDataValidation';
