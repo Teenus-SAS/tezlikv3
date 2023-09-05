@@ -143,6 +143,36 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
+                        <div class="row actualSalePrice">
+                            <div class="col-md-6 col-xl-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
+                                                <h3 class="mb-0 mt-1" id="actualSalePrice"></h3>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
+                                                <h3 class="mb-0 mt-1 suggestedPrice"></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body" style="display: grid; grid-template-columns: 140px 1fr 1fr 1fr;">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                                                <h3 class="mb-0 mt-1" id="actualProfitability"></h3>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Minima/Deseada</span>
+                                                <h3 class="mb-0 mt-1" id="minProfit"></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
                             <div class="col">
@@ -156,7 +186,7 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media">
                                                     <div class="media-body">
                                                         <div style="display: grid;grid-template-columns:1fr 110px ">
-                                                            <p class="mb-2 salesPrice" style="color:green">Precio de Venta</p>
+                                                            <p class="mb-2 salesPrice suggestedPrice" style="color:green">Precio de Venta</p>
                                                             <h6 class="mb-0 pl-3 text-right salesPrice" id="salesPrice"></h6>
                                                             <p class="mb-2 costTotal" style="color:darkcyan">Total Costos</p>
                                                             <h6 class="mb-0 pl-3 text-right costTotal" id="costTotal"></h6>
@@ -174,15 +204,8 @@ if (sizeof($_SESSION) == 0)
                                                             <h6 class="mb-0 pl-3 text-right expenses" id="payAssignableExpenses"></h6>
                                                             <p class="mb-2 commission" style="color:darkcyan" id="commission">Comisión Vta</p>
                                                             <h6 class="mb-0 pl-3 text-right commission" id="commisionSale"></h6>
-                                                            <p class="mb-2 profit" style="color:darkcyan" id="profit">Rentabilidad</p>
+                                                            <p class="mb-2 profit minProfit" style="color:darkcyan" id="profit">Rentabilidad</p>
                                                             <h6 class="mb-0 pl-3 text-right profit" id="profitability"></h6>
-                                                        </div>
-                                                        <hr class="actualSalePrice" style="margin-top: 1px;">
-                                                        <div style="display: grid;grid-template-columns:1fr 110px">
-                                                            <p class="mb-2 actualSalePrice" style="color:green">Precio de Venta Actual</p>
-                                                            <h6 class="mb-0 pl-3 text-right actualSalePrice" id="actualSalePrice"></h6>
-                                                            <p class="mb-2 actualSalePrice" style="color:darkcyan">Rentabilidad Actual</p>
-                                                            <h6 class="mb-0 pl-3 text-right actualSalePrice" id="actualProfitability"></h6>
                                                         </div>
                                                     </div>
                                                 </div>

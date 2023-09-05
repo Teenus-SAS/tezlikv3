@@ -105,13 +105,21 @@ $(document).ready(function () {
     dataCost = getDataCost(data[0]);
 
     if (data[0].cost_materials == 0) $('.payRawMaterial').hide();
+    else $('.payRawMaterial').show();
     if (data[0].cost_workforce == 0) $('.payWorkforce').hide();
+    else $('.payWorkforce').show();
     if (data[0].cost_indirect_cost == 0) $('.payIndirectCost').hide();
+    else $('.payIndirectCost').show();
     if (data[0].services == 0) $('.services').hide();
+    else $('.services').show();
     if (dataCost.expense == 0) $('.payAssignableExpenses').hide();
+    else $('.payAssignableExpenses').show();
     if (dataCost.costCommissionSale == 0) $('.commission').hide();
+    else $('.commission').show();
     if (dataCost.costProfitability == 0) $('.profit').hide();
+    else $('.profit').show();
     if (data[0].sale_price == 0) $('.actualSalePrice').hide();
+    else $('.actualSalePrice').show();
 
     $('#costTotal').html(
       `$ ${dataCost.costTotal.toLocaleString('es-CO', {
@@ -179,7 +187,7 @@ $(document).ready(function () {
       `$ ${Math.round(dataCost.costProfitability).toLocaleString('es-CO')}`
     );
 
-    $('#salesPrice').html(
+    $('.suggestedPrice').html(
       `$ ${data[0].price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
@@ -190,6 +198,10 @@ $(document).ready(function () {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     })}`);
+
+    $('#minProfit').html(`${data[0].profitability.toLocaleString('es-CO', {
+      maximumFractionDigits: 2,
+    })}%`);
     
     let profitability = ((data[0].sale_price - dataCost.costTotal) / data[0].sale_price) * 100;
 
