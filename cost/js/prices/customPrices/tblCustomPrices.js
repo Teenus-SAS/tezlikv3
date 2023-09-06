@@ -95,7 +95,7 @@ $(document).ready(function () {
   addColsPricesCombines = (data, dataPriceList) => {
     let tbody = '';
     for (let i = 0; i < data.id_price_list.length; i++) { 
-      if(data.id_price_list.length < dataPriceList.length){
+      if (data.id_price_list.length < dataPriceList.length) {
         for (let j = 0; j < dataPriceList.length; j++) { 
           if (data.id_price_list[i] == dataPriceList[j].id_price_list) {
           price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
@@ -110,6 +110,7 @@ $(document).ready(function () {
             maximumFractionDigits: 2,
           })} %`;
         
+          i += 1;
         } else {
           price_custom = '';
           profitability_custom = '';
@@ -117,6 +118,7 @@ $(document).ready(function () {
 
         tbody += `<td>${price_custom}</td>
                   <td>${profitability_custom}</td>`;
+          
         }
       }
       else {

@@ -344,36 +344,37 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         $arr['idFamily'] = $dataProduct['idFamily'];
                         $arr['unitsSold'] = $oldProduct['units_sold'];
                         $arr['turnover'] = $oldProduct['turnover'];
-                    }
 
-                    if ($flag == 2) {
-                        $products = $familiesDao->findAllProductsInFamily($dataProduct['idFamily'], $id_company);
 
-                        $resolution = $familiesDao->updateDistributionFamily($arr);
+                        if ($flag == 2) {
+                            $products = $familiesDao->findAllProductsInFamily($dataProduct['idFamily'], $id_company);
 
-                        for ($i = 0; $i < sizeof($products); $i++) {
-                            if (isset($resolution['info'])) break;
+                            $resolution = $familiesDao->updateDistributionFamily($arr);
 
-                            $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
-                            $products[$i]['unitsSold'] = $arr['unitsSold'];
-                            $products[$i]['turnover'] = $arr['turnover'];
-                            $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($products[$i], $id_company);
+                            for ($i = 0; $i < sizeof($products); $i++) {
+                                if (isset($resolution['info'])) break;
+
+                                $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
+                                $products[$i]['unitsSold'] = $arr['unitsSold'];
+                                $products[$i]['turnover'] = $arr['turnover'];
+                                $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($products[$i], $id_company);
+
+                                if (!$findExpenseDistribution)
+                                    $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($products[$i], $id_company);
+                                else {
+                                    $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                                    $resolution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+                                }
+                            }
+                        } else {
+                            $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
 
                             if (!$findExpenseDistribution)
-                                $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($products[$i], $id_company);
+                                $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
                             else {
-                                $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-                                $resolution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+                                $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                                $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
                             }
-                        }
-                    } else {
-                        $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
-
-                        if (!$findExpenseDistribution)
-                            $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
-                        else {
-                            $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-                            $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
                         }
                     }
                 }

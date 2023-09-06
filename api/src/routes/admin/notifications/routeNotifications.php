@@ -45,7 +45,7 @@ $app->post('/addNotification', function (Request $request, Response $response, $
     for ($i = 0; $i < sizeof($users); $i++) {
         if (isset($resolution['info'])) break;
 
-        $name  = $users[$i]['firstname'] . $users[$i]['lastname'];
+        $name  = $users[$i]['firstname'] . " " . $users[$i]['lastname'];
 
         $dataEmail = $sendMakeEmailDao->SendEmailNotifications($name, $users[$i]['email'], $dataNotifications['description']);
         $resolution = $sendEmailDao->sendEmail($dataEmail, $users[$i]['email'], $name);
@@ -62,13 +62,28 @@ $app->post('/addNotification', function (Request $request, Response $response, $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
+$app->post('/updateNotification', function (Request $request, Response $response, $args) use (
+    $notificationsDao,
+    $usersDao,
+    $sendMakeEmailDao,
+    $sendEmailDao
+) {
     $dataNotifications = $request->getParsedBody();
 
     if (empty($dataNotifications['description']) || empty($dataNotifications['company']))
         $resp = array('error' => true, 'message' => 'No hubo algun cambio');
     else {
         $notifications = $notificationsDao->updateNotification($dataNotifications);
+        $users = $usersDao->findAllUsersByCompany($dataNotifications['company']);
+
+        for ($i = 0; $i < sizeof($users); $i++) {
+            if (isset($resolution['info'])) break;
+
+            $name  = $users[$i]['firstname'] . " " . $users[$i]['lastname'];
+
+            $dataEmail = $sendMakeEmailDao->SendEmailNotifications($name, $users[$i]['email'], $dataNotifications['description']);
+            $resolution = $sendEmailDao->sendEmail($dataEmail, $users[$i]['email'], $name);
+        }
 
         if ($notifications == null)
             $resp = array('success' => true, 'message' => 'Notificacion modificada correctamente');

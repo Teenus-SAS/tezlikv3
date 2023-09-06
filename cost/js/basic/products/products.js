@@ -136,6 +136,10 @@ $(document).ready(function () {
                     <label for="newProduct">Nombre Producto</label>
                     <input type="text" class="form-control" name="newProduct" id="newProduct">
                   </div>
+                  <div class="col-4">
+                    <label for="newSalePrice">Precio de Venta</label>
+                    <input type="text" class="form-control text-center number" name="newSalePrice" id="newSalePrice">
+                  </div>
                 </div>`,
       buttons: {
         confirm: {
@@ -151,6 +155,7 @@ $(document).ready(function () {
         if (result == true) {
           let ref = $('#referenceNewProduct').val();
           let prod = $('#newProduct').val();
+          let sale_price = $('#newSalePrice').val();
 
           if (!ref.trim() || ref.trim() == '' || !prod.trim() || prod.trim() == '') {
             toastr.error('Ingrese todos los campos');
@@ -163,6 +168,7 @@ $(document).ready(function () {
           dataProduct['product'] = prod;
           dataProduct['profitability'] = data.profitability;
           dataProduct['commissionSale'] = data.commission_sale;
+          dataProduct['salePrice'] = sale_price;
           dataProduct['idFamily'] = data.id_family;
 
           $.post(
