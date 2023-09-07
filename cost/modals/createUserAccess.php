@@ -158,6 +158,15 @@
                                                         <label for="checkbox-19">Precios Personalizados</label>
                                                     </div>
                                                 <?php } ?>
+                                                <div class="form-group floating-label enable-floating-label show-label mb-2" style="width: 150px">
+                                                    <select class="form-control" name="typeCustomPrices" id="typeCustomPrices">
+                                                        <option value="0" selected disabled>Seleccionar</option>
+                                                        <option value="1"></option>
+                                                    </select>
+
+                                                    <label for="typeCustomPrices">Tipo de Precios<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
 
 

@@ -203,7 +203,8 @@ $(document).ready(function () {
       maximumFractionDigits: 2,
     })}%`);
     
-    let profitability = ((data[0].sale_price - dataCost.costTotal) / data[0].sale_price) * 100;
+    // let profitability = ((data[0].sale_price - dataCost.costTotal) / data[0].sale_price) * 100;
+    let profitability = (((data[0].sale_price * (1 - (data[0].commission_sale / 100))) - dataCost.costTotal) / data[0].sale_price) * 100;
 
     $('#actualProfitability').html(`${profitability.toLocaleString('es-CO', {
       maximumFractionDigits: 2,

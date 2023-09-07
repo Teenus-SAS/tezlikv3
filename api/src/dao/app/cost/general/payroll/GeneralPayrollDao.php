@@ -39,7 +39,7 @@ class GeneralPayrollDao
         $stmt = $connection->prepare("SELECT DISTINCT pay.id_process, p.process 
                                         FROM payroll pay 
                                         INNER JOIN process p ON p.id_process = pay.id_process 
-                                        WHERE pay.id_company = :id_company");
+                                        WHERE pay.id_company = :id_company ORDER BY p.process ASC");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
