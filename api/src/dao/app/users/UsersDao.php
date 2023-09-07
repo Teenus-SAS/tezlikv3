@@ -76,7 +76,7 @@ class UsersDao
       $stmt->execute([
         'firstname' => ucwords(strtolower(trim($dataUser['nameUser']))),
         'lastname' => ucwords(strtolower(trim($dataUser['lastnameUser']))),
-        'email' => trim($dataUser['emailUser']),
+        'email' => strtolower(trim($dataUser['emailUser'])),
         'pass' => $pass,
         'id_company' => $id_company,
         'id_rols' => 2,
@@ -98,7 +98,7 @@ class UsersDao
       $stmt = $connection->prepare("INSERT INTO users (email, password, id_company, id_rols, active) 
                                     VALUES(:email, :pass, :id_company, :id_rols, :active)");
       $stmt->execute([
-        'email' => trim($email),
+        'email' => strtolower(trim($email)),
         'pass' => $pass,
         'id_company' => $id_company,
         'id_rols' => 2,

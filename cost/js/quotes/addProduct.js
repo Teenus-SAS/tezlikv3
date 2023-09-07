@@ -75,7 +75,7 @@ $(document).ready(function () {
       }
     }
 
-    $('#price').val(parseInt(price).toLocaleString());
+    $('#price').val(price.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
   });
 
   /* Calcular precio total */

@@ -54,11 +54,13 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewCustomPrice">Adicionar Precio</button>
+                            <?php if ($_SESSION['type_custom_price'] == '-1') { ?>
+                                <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-warning" id="btnNewCustomPrice">Adicionar Precio</button>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -130,6 +132,12 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/general/priceList/configPriceList.js"></script>
+    <script>
+        type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
+        $(document).ready(function() {
+            loadPriceList(1);
+        });
+    </script>
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>
 </body>

@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $('.cardTypePrices').hide();
+
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
     e.preventDefault();
@@ -19,6 +21,10 @@ $(document).ready(function () {
     $('#emailUser').prop('disabled', false);
 
     $('#formCreateUser').trigger('reset');
+  });
+
+  $(document).on('click', '#checkbox-19', function () {
+    $('.cardTypePrices').toggle(800);
   });
 
   /* Agregar nuevo usuario */
@@ -47,15 +53,27 @@ $(document).ready(function () {
       /* Validar que al menos un acceso sea otorgado */
       if ($('input[type=checkbox]:checked').length === 0) {
         toastr.error('Debe seleccionar al menos un acceso');
+        return false;
       }
 
+      
       /* Obtener los checkbox seleccionados */
-
+      
       let dataUser = {};
       dataUser['nameUser'] = nameUser;
       dataUser['lastnameUser'] = lastnameUser;
       dataUser['emailUser'] = emailUser;
+      
+      if ($(`#checkbox-19`).is(':checked')) {
+        let typeCustomPrices = $('#pricesList').val();
 
+        if (typeCustomPrices == 0 || !typeCustomPrices) {
+          toastr.error('Debe seleccionar tipo de precio');
+          return false; 
+        }
+
+        dataUser['typeCustomPrices'] = typeCustomPrices;
+      }
       dataUser = setCheckBoxes(dataUser);
 
       $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
@@ -123,6 +141,10 @@ $(document).ready(function () {
       i++;
     });
 
+    if ($(`#checkbox-19`).is(':checked')) $('.cardTypePrices').show();
+
+    $(`#pricesList option[value=${data.type_custom_price}]`).prop('selected', true);
+
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -139,6 +161,17 @@ $(document).ready(function () {
     dataUser['nameUser'] = $('#nameUser').val();
     dataUser['lastnameUser'] = $('#lastnameUser').val();
     dataUser['emailUser'] = $('#emailUser').val();
+
+    if ($(`#checkbox-19`).is(':checked')) {
+      let typeCustomPrices = $('#pricesList').val();
+
+      if (typeCustomPrices == 0 || !typeCustomPrices) {
+        toastr.error('Debe seleccionar tipo de precio');
+        return false;
+      }
+
+      dataUser['typeCustomPrices'] = typeCustomPrices;
+    }
 
     dataUser = setCheckBoxes(dataUser);
 
@@ -188,7 +221,7 @@ $(document).ready(function () {
       if ($(`#checkbox-${i}`).is(':checked')) dataUser[`${index}`] = 1;
       else dataUser[`${index}`] = 0;
       i++;
-    });
+    }); 
     return dataUser;
   };
 
@@ -237,6 +270,7 @@ $(document).ready(function () {
   message = async (data, id_user) => {
     if (data.success == true) {
       $('#createUserAccess').modal('hide');
+      $('.cardTypePrices').hide();
       $('#formCreateUser').trigger('reset');
       updateTable();
       if (id_user == idUser)

@@ -91,6 +91,15 @@
                                                     <input id="checkbox-9" name="factoryLoad" type="checkbox">
                                                     <label for="checkbox-9">Cargar Nómina</label>
                                                 </div>
+                                                <!-- <div class="form-group floating-label enable-floating-label show-label mb-2 cardTypePrices" style="width: 150px">
+                                                    <select class="form-control" name="typeCustomPrices" id="type">
+                                                        <option value="0" selected disabled>Seleccionar</option>
+                                                        <option value="1"></option>
+                                                    </select>
+
+                                                    <label for="typeCustomPrices">Tipo de Precios<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div> -->
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-10" name="expense" type="checkbox">
                                                     <label for="checkbox-10">Asignar Gastos</label>
@@ -158,8 +167,8 @@
                                                         <label for="checkbox-19">Precios Personalizados</label>
                                                     </div>
                                                 <?php } ?>
-                                                <div class="form-group floating-label enable-floating-label show-label mb-2" style="width: 150px">
-                                                    <select class="form-control" name="typeCustomPrices" id="typeCustomPrices">
+                                                <div class="form-group floating-label enable-floating-label show-label mb-2 cardTypePrices" style="width: 150px">
+                                                    <select class="form-control" name="typeCustomPrices" id="pricesList">
                                                         <option value="0" selected disabled>Seleccionar</option>
                                                         <option value="1"></option>
                                                     </select>

@@ -106,6 +106,12 @@ if (sizeof($_SESSION) == 0)
         plan_cost_support = "<?= $_SESSION['plan_cost_support'] ?>";
         idUser = "<?= $_SESSION['idUser'] ?>";
     </script>
+    <script src="/cost/js/general/priceList/configPriceList.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadPriceList(2);
+        });
+    </script>
     <script src="/cost/js/admin/users/tblUsers.js"></script>
     <script src="/cost/js/admin/users/users.js"></script>
     <script src="/cost/js/admin/users/userAccess.js"></script>

@@ -100,6 +100,13 @@ if (sizeof($_SESSION) == 0)
 	<script src="/cost/js/basic/products/configProducts.js"></script>
 
 	<script src="/cost/js/general/priceList/configPriceList.js"></script>
+	<script>
+		type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
+
+		$(document).ready(function() {
+			loadPriceList(1);
+		});
+	</script>
 	<script src="/global/js/global/orderData.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>
 	<script src="/cost/js/quotes/companies/configCompanies.js"></script>

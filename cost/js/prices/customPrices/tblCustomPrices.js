@@ -1,8 +1,18 @@
 $(document).ready(function () {
+  
   /* Cargue tabla de Proyectos */
   loadTblCustomPrices = async () => {
     try {
       let data = await searchData('/api/customPrices');
+      let arr = data;
+
+      for (let i = 0; i < arr.length; i++) {  
+        if (parseInt(type_custom_price) == arr[i].id_price_list) {
+          data = []
+          data[0] = arr[i];
+          break;
+        }
+      }
 
       $('#tblCustomPrices').empty();
 
@@ -15,6 +25,10 @@ $(document).ready(function () {
       for (let i = 0; i < dataPriceList.length; i++) {
         headers += `<th>${dataPriceList[i].price_name}</th><th></th>`;
       }
+      let actions = '';
+
+      if (type_custom_price == '-1')
+        actions = '<th>ACCIONES</th>';
 
       table.insertAdjacentHTML(
         'beforeend',
@@ -26,7 +40,7 @@ $(document).ready(function () {
           <th>PRECIO - COSTO</th>
           <th></th>
           ${headers}
-          <th>ACCIONES</th>
+          ${actions}
         </tr>
       </thead>
       <tbody id="tblCustomPricesBody"></tbody>
@@ -65,6 +79,13 @@ $(document).ready(function () {
       }, []);
 
       for (let i = 0; i < combinedData.length; i++) {
+        let actions = '';
+        if (type_custom_price == '-1')
+          actions = `<td>
+            <a href="javascript:;" <i id="${i}" class="bx bx-edit-alt updateCustomPrice" data-toggle='tooltip' title='Actualizar Precio' style="font-size: 30px;"></i></a>
+            <a href="javascript:;" <i id="${i}" class="mdi mdi-delete-forever deleteFunction" data-toggle='tooltip' title='Eliminar Precio' style="font-size: 30px;color:red"></i></a>
+          </td>`;
+        
         body.insertAdjacentHTML(
           'beforeend',
           `<tr>
@@ -80,10 +101,7 @@ $(document).ready(function () {
             maximumFractionDigits: 2,
           })} %</td>
           ${(tbody = addColsPricesCombines(combinedData[i], dataPriceList))}
-          <td>
-            <a href="javascript:;" <i id="${i}" class="bx bx-edit-alt updateCustomPrice" data-toggle='tooltip' title='Actualizar Precio' style="font-size: 30px;"></i></a>
-            <a href="javascript:;" <i id="${i}" class="mdi mdi-delete-forever deleteFunction" data-toggle='tooltip' title='Eliminar Precio' style="font-size: 30px;color:red"></i></a>
-          </td>
+          ${actions}
         </tr>`
         );
       }
