@@ -95,63 +95,63 @@ $(document).ready(function () {
   checkDataPayroll = async (url, idPayroll) => {
     let employee = $('#employee').val();
     let process = $('#idProcess').val();
-
-    let salary = $('#basicSalary').val();
-    let transport = $('#transport').val();
-    let endowment = $('#endowment').val();
-    let extraTime = $('#extraTime').val();
-    let bonification = $('#bonification').val();
-    let factor = $('#factor').val();
-
-    salary = parseFloat(strReplaceNumber(salary));
-    transport = parseFloat(strReplaceNumber(transport));
-    endowment = parseFloat(strReplaceNumber(endowment));
-    extraTime = parseFloat(strReplaceNumber(extraTime));
-    bonification = parseFloat(strReplaceNumber(bonification));
-    factor = parseFloat(factor);
-
-    isNaN(transport) ? (transport = 0) : transport;
-    isNaN(endowment) ? (endowment = 0) : endowment;
-    isNaN(extraTime) ? (extraTime = 0) : extraTime;
-    isNaN(bonification) ? (bonification = 0) : bonification;
-    isNaN(factor) ? (factor = 0) : factor;
-
-    let workingHD = $('#workingHoursDay').val();
-    let workingDM = $('#workingDaysMonth').val();
-    let valueRisk = parseFloat(sessionStorage.getItem('percentage'));
-
-    let data = process * workingDM * workingHD * salary;
-
-    if (isNaN(data) || data <= 0 || employee.trim() == '' || factor == '') {
-      toastr.error('Ingrese todos los campos');
-      return false;
-    }
-
-    if (workingDM > 31 || workingHD > 24) {
-      toastr.error(
-        'El campo dias trabajo x mes debe ser menor a 31, y horas trabajo x dia menor a 24'
-      );
-      return false;
-    }
-
-    $('#factor').prop('disabled', false);
-
     let dataPayroll = new FormData(formCreatePayroll);
 
-    dataPayroll.append('transport', transport);
-    dataPayroll.append('endowment', endowment);
-    dataPayroll.append('extraTime', extraTime);
-    dataPayroll.append('bonification', bonification);
-    dataPayroll.append('factor', factor);
-    dataPayroll.append('valueRisk', valueRisk);
+    if (type_payroll == '1') {
+      let salary = $('#basicSalary').val();
+      let transport = $('#transport').val();
+      let endowment = $('#endowment').val();
+      let extraTime = $('#extraTime').val();
+      let bonification = $('#bonification').val();
+      let factor = $('#factor').val();
 
-    salary = parseFloat(
-      strReplaceNumber(
-        sessionStorage.getItem('salary') || $('#basicSalary').val()
-      )
-    );
+      salary = parseFloat(strReplaceNumber(salary));
+      transport = parseFloat(strReplaceNumber(transport));
+      endowment = parseFloat(strReplaceNumber(endowment));
+      extraTime = parseFloat(strReplaceNumber(extraTime));
+      bonification = parseFloat(strReplaceNumber(bonification));
+      factor = parseFloat(factor);
 
-    dataPayroll.append('salary', salary);
+      isNaN(transport) ? (transport = 0) : transport;
+      isNaN(endowment) ? (endowment = 0) : endowment;
+      isNaN(extraTime) ? (extraTime = 0) : extraTime;
+      isNaN(bonification) ? (bonification = 0) : bonification;
+      isNaN(factor) ? (factor = 0) : factor;
+
+      let workingHD = $('#workingHoursDay').val();
+      let workingDM = $('#workingDaysMonth').val();
+      let valueRisk = parseFloat(sessionStorage.getItem('percentage'));
+
+      let data = process * workingDM * workingHD * salary;
+
+      if (isNaN(data) || data <= 0 || employee.trim() == '' || factor == '') {
+        toastr.error('Ingrese todos los campos');
+        return false;
+      }
+
+      if (workingDM > 31 || workingHD > 24) {
+        toastr.error(
+          'El campo dias trabajo x mes debe ser menor a 31, y horas trabajo x dia menor a 24'
+        );
+        return false;
+      }
+
+      $('#factor').prop('disabled', false);
+      dataPayroll.append('transport', transport);
+      dataPayroll.append('endowment', endowment);
+      dataPayroll.append('extraTime', extraTime);
+      dataPayroll.append('bonification', bonification);
+      dataPayroll.append('factor', factor);
+      dataPayroll.append('valueRisk', valueRisk);
+
+      salary = parseFloat(
+        strReplaceNumber(
+          sessionStorage.getItem('salary') || $('#basicSalary').val()
+        )
+      );
+  
+      dataPayroll.append('salary', salary);
+    }
 
     if (idPayroll != '' || idPayroll != null)
       dataPayroll.append('idPayroll', idPayroll);

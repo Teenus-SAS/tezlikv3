@@ -79,4 +79,22 @@ class GeneralPayrollDao
         $process = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $process;
     }
+
+    public function updatePayroll($dataPayroll)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+
+            $stmt = $connection->prepare("UPDATE payroll SET employee = :employee, id_process = :id_process WHERE id_payroll = :id_payroll");
+            $stmt->execute([
+                'employee' => $dataPayroll['employee'],
+                'id_process' => $dataPayroll['idProcess'],
+                'id_payroll' => $dataPayroll['idPayroll'],
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 }

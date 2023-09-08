@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $('.cardTypePrices').hide();
+  $('.cardTypePayroll').hide();
+  $('.cardTypePrices').hide();
 
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
@@ -23,8 +24,11 @@ $(document).ready(function () {
     $('#formCreateUser').trigger('reset');
   });
 
-  $(document).on('click', '#checkbox-19', function () {
-    $('.cardTypePrices').toggle(800);
+  $(document).on('click', '.typeCheckbox', function () {
+    if (this.id == 'checkbox-9')
+      $('.cardTypePayroll').toggle(800);
+    if (this.id == 'checkbox-19')
+      $('.cardTypePrices').toggle(800);
   });
 
   /* Agregar nuevo usuario */
@@ -69,11 +73,23 @@ $(document).ready(function () {
 
         if (typeCustomPrices == 0 || !typeCustomPrices) {
           toastr.error('Debe seleccionar tipo de precio');
-          return false; 
+          return false;
         }
 
         dataUser['typeCustomPrices'] = typeCustomPrices;
       }
+
+      if ($(`#checkbox-9`).is(':checked')) {
+        let typePayroll = $('#typePayroll').val();
+
+        if (typePayroll == 0 || !typePayroll) {
+          toastr.error('Debe seleccionar tipo de nomina');
+          return false;
+        }
+
+        dataUser['typePayroll'] = typePayroll;
+      }
+      
       dataUser = setCheckBoxes(dataUser);
 
       $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
@@ -141,8 +157,11 @@ $(document).ready(function () {
       i++;
     });
 
+    if ($(`#checkbox-9`).is(':checked')) $('.cardTypePayroll').show();
     if ($(`#checkbox-19`).is(':checked')) $('.cardTypePrices').show();
 
+    
+    $(`#typePayroll option[value=${data.type_payroll}]`).prop('selected', true);
     $(`#pricesList option[value=${data.type_custom_price}]`).prop('selected', true);
 
     $('html, body').animate(
@@ -162,11 +181,22 @@ $(document).ready(function () {
     dataUser['lastnameUser'] = $('#lastnameUser').val();
     dataUser['emailUser'] = $('#emailUser').val();
 
+    if ($(`#checkbox-9`).is(':checked')) {
+      let typePayroll = $('#typePayroll').val();
+
+      if (typePayroll == 0 || !typePayroll) {
+        toastr.error('Debe seleccionar tipo de precio');
+        return false;
+      }
+
+      dataUser['typePayroll'] = typePayroll;
+    }
+
     if ($(`#checkbox-19`).is(':checked')) {
       let typeCustomPrices = $('#pricesList').val();
 
       if (typeCustomPrices == 0 || !typeCustomPrices) {
-        toastr.error('Debe seleccionar tipo de precio');
+        toastr.error('Debe seleccionar tipo de nomina');
         return false;
       }
 
@@ -221,7 +251,7 @@ $(document).ready(function () {
       if ($(`#checkbox-${i}`).is(':checked')) dataUser[`${index}`] = 1;
       else dataUser[`${index}`] = 0;
       i++;
-    }); 
+    });
     return dataUser;
   };
 
@@ -270,6 +300,7 @@ $(document).ready(function () {
   message = async (data, id_user) => {
     if (data.success == true) {
       $('#createUserAccess').modal('hide');
+      $('.cardTypePayroll').hide();
       $('.cardTypePrices').hide();
       $('#formCreateUser').trigger('reset');
       updateTable();

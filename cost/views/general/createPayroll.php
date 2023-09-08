@@ -55,14 +55,16 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewPayroll">Nueva Nómina</button>
+                            <?php if ($_SESSION['type_payroll'] == '1') { ?>
+                                <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-warning" id="btnNewPayroll">Nueva Nómina</button>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2">
+                                        <button class="btn btn-info" id="btnImportNewPayroll">Importar Nómina</button>
+                                    </div>
                                 </div>
-                                <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewPayroll">Importar Nómina</button>
-                                </div>
-                            </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -104,16 +106,18 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblPayroll">
-                                                <tfoot>
-                                                    <tr>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th>Total:</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                        <th></th>
-                                                    </tr>
-                                                </tfoot>
+                                                <?php if ($_SESSION['type_payroll'] == '1') { ?>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th>Total:</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
+                                                <?php } ?>
                                             </table>
                                         </div>
                                     </div>
@@ -133,6 +137,9 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
+    <script>
+        type_payroll = "<?= $_SESSION['type_payroll'] ?>";
+    </script>
     <script src="/cost/js/general/payroll/tblPayroll.js"></script>
     <script src="/admin/js/benefits/configBenefits.js"></script>
     <script src="/admin/js/risks/configRisks.js"></script>

@@ -23,12 +23,13 @@ $(document).ready(function () {
       dataPriceList = JSON.parse(dataPriceList);
 
       for (let i = 0; i < dataPriceList.length; i++) {
-        headers += `<th>${dataPriceList[i].price_name}</th><th></th>`;
+        type_custom_price == '-1' ? headers += `<th>${dataPriceList[i].price_name}</th><th></th>`: headers += `<th>${dataPriceList[i].price_name}</th>`;
       }
       let actions = '';
 
-      if (type_custom_price == '-1')
+      if (type_custom_price == '-1') {
         actions = '<th>ACCIONES</th>';
+      }
 
       table.insertAdjacentHTML(
         'beforeend',
@@ -38,7 +39,7 @@ $(document).ready(function () {
           <th>REFERENCIA</th>
           <th>PRODUCTO</th>
           <th>PRECIO - COSTO</th>
-          <th></th>
+          ${type_custom_price == '-1' ? '<th></th>' : ''}
           ${headers}
           ${actions}
         </tr>
@@ -96,10 +97,10 @@ $(document).ready(function () {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}</td>
-          <td>${combinedData[i].profitability_price.toLocaleString('es-CO', {
+          ${type_custom_price == '-1' ? `<td>${combinedData[i].profitability_price.toLocaleString('es-CO', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
-          })} %</td>
+          })} %</td>` : ''} 
           ${(tbody = addColsPricesCombines(combinedData[i], dataPriceList))}
           ${actions}
         </tr>`
@@ -112,30 +113,30 @@ $(document).ready(function () {
 
   addColsPricesCombines = (data, dataPriceList) => {
     let tbody = '';
-    for (let i = 0; i < data.id_price_list.length; i++) { 
+    for (let i = 0; i < data.id_price_list.length; i++) {
       if (data.id_price_list.length < dataPriceList.length) {
-        for (let j = 0; j < dataPriceList.length; j++) { 
+        for (let j = 0; j < dataPriceList.length; j++) {
           if (data.id_price_list[i] == dataPriceList[j].id_price_list) {
-          price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          })}`;
+            price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}`;
   
-          profitability_custom = `${data.profitability_customs[
-            i
-          ].toLocaleString('es-CO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })} %`;
+            profitability_custom = `${data.profitability_customs[
+              i
+            ].toLocaleString('es-CO', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })} %`;
         
-          i += 1;
-        } else {
-          price_custom = '';
-          profitability_custom = '';
-        }; 
+            i += 1;
+          } else {
+            price_custom = '';
+            profitability_custom = '';
+          };
 
-        tbody += `<td>${price_custom}</td>
-                  <td>${profitability_custom}</td>`;
+          tbody += `<td>${price_custom}</td>
+                  ${type_custom_price == '-1' ? `<td>${profitability_custom}</td>` : ''}`;
           
         }
       }
@@ -153,9 +154,10 @@ $(document).ready(function () {
         })} %`;
 
         tbody += `<td>${price_custom}</td>
-                  <td>${profitability_custom}</td>`;
+                  ${type_custom_price == '-1' ? `<td>${profitability_custom}</td>` : ''}`;
+
       
-      } 
+      }
     }
 
     return tbody;

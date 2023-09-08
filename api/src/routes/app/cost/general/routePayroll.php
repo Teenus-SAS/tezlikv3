@@ -227,6 +227,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $type_payroll = $_SESSION['type_payroll'];
     $dataPayroll = $request->getParsedBody();
 
     $payroll = $generalPayrollDao->findPayroll($dataPayroll, $id_company);
@@ -234,39 +235,43 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     !is_array($payroll) ? $data['id_payroll'] = 0 : $data = $payroll;
 
     if ($data['id_payroll'] == $dataPayroll['idPayroll'] || $data['id_payroll'] == 0) {
-        $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+        if ($type_payroll == '1') {
+            $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
-        // Calcular factor benefico
-        $dataBenefits = $benefitsDao->findAllBenefits();
+            // Calcular factor benefico
+            $dataBenefits = $benefitsDao->findAllBenefits();
 
-        $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
+            $dataPayroll = $factorBenefitDao->calcFactorBenefit($dataBenefits, $dataPayroll);
 
-        // Calcular Valor x Minuto
-        $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+            // Calcular Valor x Minuto
+            $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
-        $payroll = $payrollDao->updatePayroll($dataPayroll);
+            $payroll = $payrollDao->updatePayroll($dataPayroll);
 
-        if ($payroll == null) {
+            if ($payroll == null) {
 
-            $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
+                $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
 
-            foreach ($dataProducts as $arr) {
-                if (isset($payroll['info'])) break;
+                foreach ($dataProducts as $arr) {
+                    if (isset($payroll['info'])) break;
 
-                // Calcular costo nomina
-                $dataPayroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+                    // Calcular costo nomina
+                    $dataPayroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
 
-                $payroll = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
+                    $payroll = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
 
-                if (isset($payroll['info'])) break;
+                    if (isset($payroll['info'])) break;
 
-                // Calcular precio products_costs
-                $payroll = $priceProductDao->calcPrice($arr['id_product']);
+                    // Calcular precio products_costs
+                    $payroll = $priceProductDao->calcPrice($arr['id_product']);
 
-                if (isset($payroll['info'])) break;
+                    if (isset($payroll['info'])) break;
 
-                $payroll = $GeneralProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+                    $payroll = $GeneralProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+                }
             }
+        } else {
+            $payroll = $generalPayrollDao->updatePayroll($dataPayroll);
         }
 
         if ($payroll == null)

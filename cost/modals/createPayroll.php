@@ -32,118 +32,119 @@
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
+                                        <?php if ($_SESSION['type_payroll'] == '1') { ?>
 
-                                        <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Devengado</b></label>
-                                        </div>
-
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="basicSalary" name="basicSalary" type="text" class="form-control basicSalary text-center number">
-                                                <label for="basicSalary">Salario Básico<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-12 titlePayroll">
+                                                <label for=""><b>Devengado</b></label>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="transport" name="transport" type="text" class="form-control transport text-center number">
-                                                <label for="transport">Transporte<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="basicSalary" name="basicSalary" type="text" class="form-control basicSalary text-center number">
+                                                    <label for="basicSalary">Salario Básico<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="endowment" name="endowment" type="text" class="form-control endowment text-center number">
-                                                <label for="endowment">Dotaciones<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="transport" name="transport" type="text" class="form-control transport text-center number">
+                                                    <label for="transport">Transporte<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-3">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="extraTime" name="extraTime" type="text" class="form-control extraTime text-center number">
-                                                <label for="extraTime">Horas Extras<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="endowment" name="endowment" type="text" class="form-control endowment text-center number">
+                                                    <label for="endowment">Dotaciones<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-3">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="bonification" name="bonification" type="text" class="form-control bonification text-center number">
-                                                <label for="otherIncome">Otros Ingresos<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="extraTime" name="extraTime" type="text" class="form-control extraTime text-center number">
+                                                    <label for="extraTime">Horas Extras<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Jornada</b></label>
-                                        </div>
-
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="workingHoursDay" name="workingHoursDay" type="number" class="form-control workingHoursDay text-center">
-                                                <label for="workingHoursDay">Horas Trabajo x Día<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-3">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="bonification" name="bonification" type="text" class="form-control bonification text-center number">
+                                                    <label for="otherIncome">Otros Ingresos<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="workingDaysMonth" name="workingDaysMonth" type="number" class="form-control workingDaysMonth text-center">
-                                                <label for="workingDaysMonth">Dias Trabajo x Mes<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-12 titlePayroll">
+                                                <label for=""><b>Jornada</b></label>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Nivel de Riesgo</b></label>
-                                        </div>
-
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <select id="risk" name="risk" class="form-control risk"> </select>
-                                                <label for="risk">Riesgo<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="workingHoursDay" name="workingHoursDay" type="number" class="form-control workingHoursDay text-center">
+                                                    <label for="workingHoursDay">Horas Trabajo x Día<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="valueRisk" name="valueRisk" type="text" class="form-control text-center valueRisk" readonly>
-                                                <label for="valueRisk">Valor<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="workingDaysMonth" name="workingDaysMonth" type="number" class="form-control workingDaysMonth text-center">
+                                                    <label for="workingDaysMonth">Dias Trabajo x Mes<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Factor Prestacional</b></label>
-                                        </div>
-
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <select id="typeFactor" name="typeFactor" type="number" class="form-control typeFactor" data-toggle="tooltip" title="Seleccione el tipo de contrato para su colaborador, la plataforma calculara automaticamente las prestaciones sociales">
-                                                    <option selected disabled value="0">Seleccionar</option>
-                                                    <option value="1">Nómina</option>
-                                                    <option value="2">Servicios</option>
-                                                    <option value="3">Calculo Manual</option>
-                                                </select>
-                                                <label for="typeFactor">Tipo Nómina<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-12 titlePayroll">
+                                                <label for=""><b>Nivel de Riesgo</b></label>
                                             </div>
-                                        </div>
 
-                                        <div class="col-12 col-lg-4">
-                                            <div class="form-group floating-label enable-floating-label show-label">
-                                                <input id="factor" name="factor" type="text" class="form-control text-center number factor">
-                                                <label for="factor">Factor<span class="text-danger">*</span></label>
-                                                <div class="validation-error d-none font-size-13">Requerido</div>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <select id="risk" name="risk" class="form-control risk"> </select>
+                                                    <label for="risk">Riesgo<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <hr>
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="valueRisk" name="valueRisk" type="text" class="form-control text-center valueRisk" readonly>
+                                                    <label for="valueRisk">Valor<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
 
+                                            <div class="col-12 col-lg-12 titlePayroll">
+                                                <label for=""><b>Factor Prestacional</b></label>
+                                            </div>
+
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <select id="typeFactor" name="typeFactor" type="number" class="form-control typeFactor" data-toggle="tooltip" title="Seleccione el tipo de contrato para su colaborador, la plataforma calculara automaticamente las prestaciones sociales">
+                                                        <option selected disabled value="0">Seleccionar</option>
+                                                        <option value="1">Nómina</option>
+                                                        <option value="2">Servicios</option>
+                                                        <option value="3">Calculo Manual</option>
+                                                    </select>
+                                                    <label for="typeFactor">Tipo Nómina<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input id="factor" name="factor" type="text" class="form-control text-center number factor">
+                                                    <label for="factor">Factor<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+                                        <?php } ?>
                                     </div>
                                     <!-- This button link with id-sw-default-step-1 if you change it change in serial number like below -->
                                     <div class="d-none">

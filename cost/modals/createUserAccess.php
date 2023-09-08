@@ -88,18 +88,19 @@
                                             <div class="col-sm-3 pb-2">
                                                 Configuración General
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-9" name="factoryLoad" type="checkbox">
+                                                    <input class="typeCheckbox" id="checkbox-9" name="factoryLoad" type="checkbox">
                                                     <label for="checkbox-9">Cargar Nómina</label>
                                                 </div>
-                                                <!-- <div class="form-group floating-label enable-floating-label show-label mb-2 cardTypePrices" style="width: 150px">
-                                                    <select class="form-control" name="typeCustomPrices" id="type">
+                                                <div class="form-group floating-label enable-floating-label show-label my-2 cardTypePayroll" style="width: 150px">
+                                                    <select class="form-control" name="typePayroll" id="typePayroll">
                                                         <option value="0" selected disabled>Seleccionar</option>
-                                                        <option value="1"></option>
+                                                        <option value="1">TODO</option>
+                                                        <option value="2">PROCESOS</option>
                                                     </select>
 
-                                                    <label for="typeCustomPrices">Tipo de Precios<span class="text-danger">*</span></label>
+                                                    <label for="typePayroll">Tipo de Nomina<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div> -->
+                                                </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-10" name="expense" type="checkbox">
                                                     <label for="checkbox-10">Asignar Gastos</label>
@@ -163,7 +164,7 @@
 
                                                 <?php if ($_SESSION['plan_custom_price'] == 1) { ?>
                                                     <div class="mb-2 checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-19" name="customPrices" type="checkbox">
+                                                        <input class="typeCheckbox" id="checkbox-19" name="customPrices" type="checkbox">
                                                         <label for="checkbox-19">Precios Personalizados</label>
                                                     </div>
                                                 <?php } ?>
