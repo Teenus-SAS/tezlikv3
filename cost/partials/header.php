@@ -2,20 +2,20 @@
     <div class="navbar-header">
         <div class="left-bar">
             <div class="d-flex justify-content-center">
-                <div class="d-lg-none">
+                <!-- <div class="d-lg-none">
                     <a href="/cost" class="logo logo-dark">
                         <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
                     </a>
                     <a href="/cost" class="logo logo-light">
                         <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
                     </a>
-                </div>
+                </div> -->
+                <?php
+                $logoCompany = $_SESSION['logoCompany'];
+                ?>
                 <div class="d-none d-lg-block">
-                    <a href="/cost" class="logo logo-dark">
-                        <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Logo tezlik"></span>
-                    </a>
                     <a href="/cost" class="logo logo-light">
-                        <span class="logo-lg"><img src="/assets/images/logo/logo_tezlik.png" alt="Lettstart Admin"></span>
+                        <span class="logo-lg"><img src="<?php echo $logoCompany; ?>" alt="Lettstart Admin"></span>
                     </a>
                 </div>
             </div>

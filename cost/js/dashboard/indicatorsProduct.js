@@ -1,21 +1,34 @@
 $(document).ready(function () {
   let id_product = sessionStorage.getItem('idProduct');
 
-  loadIndicatorsProducts = (id_product) => {
-    fetch(`/api/dashboardPricesProducts/${id_product}`)
-      .then((response) => response.text())
-      .then((data) => {
-        data = JSON.parse(data);
-        generalIndicators(data.cost_product);
-        UnitsVolSold(data.cost_product);
-        totalCostData(data.cost_product);
-        graphicCostExpenses(data.cost_product);
-        graphicCostWorkforce(data.cost_workforce);
-        graphicCostTimeProcess(data.cost_time_process);
-        graphicPromTime(data.average_time_process);
-        graphicCompPrices(data.cost_product);
-        graphicCostMaterials(data.cost_materials);
-      });
+  loadIndicatorsProducts = async (id_product) => {
+    let data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
+    await generalIndicators(data.cost_product);
+    await UnitsVolSold(data.cost_product);
+    await totalCostData(data.cost_product);
+    await graphicCostExpenses(data.cost_product);
+    await graphicCostWorkforce(data.cost_workforce);
+    await graphicCostTimeProcess(data.cost_time_process);
+    await graphicPromTime(data.average_time_process);
+    await graphicCompPrices(data.cost_product);
+
+    data = await searchData(`/api/rawMaterials/${id_product}`); 
+    await graphicCostMaterials(data['80RawMaterials']);
+    
+    // fetch(`/api/dashboardPricesProducts/${id_product}`)
+    //   .then((response) => response.text())
+    //   .then((data) => {
+    //     data = JSON.parse(data);
+    //     generalIndicators(data.cost_product);
+    //     UnitsVolSold(data.cost_product);
+    //     totalCostData(data.cost_product);
+    //     graphicCostExpenses(data.cost_product);
+    //     graphicCostWorkforce(data.cost_workforce);
+    //     graphicCostTimeProcess(data.cost_time_process);
+    //     graphicPromTime(data.average_time_process);
+    //     graphicCompPrices(data.cost_product);
+    //     graphicCostMaterials(data.cost_materials);
+    //   });
   };
   /* Colors */
 

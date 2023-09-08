@@ -81,23 +81,23 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                 $newPass = $generateCodeDao->GenerateCode();
 
                 // Se envia email con usuario(email) y contraseña
-                // $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
+                $dataEmail = $makeEmailDao->SendEmailPassword($dataUser['emailUser'], $newPass);
 
-                // $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
+                $sendEmail = $sendEmailDao->sendEmail($dataEmail, $email, $name);
 
-                // if (!isset($sendEmail['info'])) {
-                $pass = password_hash($newPass, PASSWORD_DEFAULT);
+                if (!isset($sendEmail['info'])) {
+                    $pass = password_hash($newPass, PASSWORD_DEFAULT);
 
-                /* Almacena el usuario */
-                $users = $userDao->saveUser($dataUser, $pass, $id_company);
+                    /* Almacena el usuario */
+                    $users = $userDao->saveUser($dataUser, $pass, $id_company);
 
-                if ($users == null) {
-                    $user = $userDao->findUser($dataUser['emailUser']);
-                    $dataUser['idUser'] = $user['id_user'];
+                    if ($users == null) {
+                        $user = $userDao->findUser($dataUser['emailUser']);
+                        $dataUser['idUser'] = $user['id_user'];
 
-                    $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                        $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                    }
                 }
-                // }
             } else $users = 1;
         }
 

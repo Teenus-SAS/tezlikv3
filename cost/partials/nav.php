@@ -1,6 +1,6 @@
 <div class="horizontal-topnav shadow-sm">
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg topnav-menu">
+    <div class="row container-fluid">
+        <nav class="col-sm-10 navbar navbar-expand-lg topnav-menu">
             <div class="collapse navbar-collapse" id="topnav-menu-content">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
@@ -11,9 +11,9 @@
                     </li>
 
                     <?php if (
-                        $_SESSION['price'] == 1 || $_SESSION['plan_cost_price'] == 1 ||
-                        $_SESSION['price_usd'] == 1 || $_SESSION['plan_cost_price_usd'] == 1 ||
-                        $_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1
+                        ($_SESSION['price'] == 1 && $_SESSION['plan_cost_price'] == 1) ||
+                        ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) ||
+                        ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1)
                     ) { ?>
                         <li class="nav-item dropdown" id="navPrices">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -106,5 +106,10 @@
                 </ul>
             </div>
         </nav>
+        <div class="col-sm-2 d-none d-lg-block form-inline justify-content-sm-end">
+            <a href="/cost" class="mt-1 logo logo-dark">
+                <span><img src="/assets/images/logo/logo_tezlik1.png" alt="Logo tezlik" style="width: 120px;"></span>
+            </a>
+        </div>
     </div>
 </div>

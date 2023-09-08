@@ -21,7 +21,9 @@ class LicenseCompanyDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM companies_licenses WHERE id_company = :id_company");
+        $stmt = $connection->prepare("SELECT * FROM companies c
+                                        INNER JOIN companies_licenses cl 
+                                      WHERE c.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $dataCompany = $stmt->fetch($connection::FETCH_ASSOC);

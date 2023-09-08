@@ -63,33 +63,34 @@ $(document).ready(function () {
       
       /* Obtener los checkbox seleccionados */
       
-      let dataUser = {};
-      dataUser['nameUser'] = nameUser;
-      dataUser['lastnameUser'] = lastnameUser;
-      dataUser['emailUser'] = emailUser;
-      
+      let typeCustomPrices = 0;
       if ($(`#checkbox-19`).is(':checked')) {
-        let typeCustomPrices = $('#pricesList').val();
+        typeCustomPrices = $('#pricesList').val();
 
         if (typeCustomPrices == 0 || !typeCustomPrices) {
           toastr.error('Debe seleccionar tipo de precio');
           return false;
-        }
-
-        dataUser['typeCustomPrices'] = typeCustomPrices;
+        } 
       }
 
+      let typePayroll = 0;
+
       if ($(`#checkbox-9`).is(':checked')) {
-        let typePayroll = $('#typePayroll').val();
+        typePayroll = $('#typePayroll').val();
 
         if (typePayroll == 0 || !typePayroll) {
           toastr.error('Debe seleccionar tipo de nomina');
           return false;
-        }
-
-        dataUser['typePayroll'] = typePayroll;
+        }  
       }
-      
+
+      let dataUser = {};
+      dataUser['nameUser'] = nameUser;
+      dataUser['lastnameUser'] = lastnameUser;
+      dataUser['emailUser'] = emailUser;
+      dataUser['typePayroll'] = typePayroll;
+      dataUser['typeCustomPrices'] = typeCustomPrices;
+
       dataUser = setCheckBoxes(dataUser);
 
       $.post('/api/addUser', dataUser, function (data, textStatus, jqXHR) {
@@ -175,33 +176,36 @@ $(document).ready(function () {
   updateUserAccess = () => {
     let idUser = sessionStorage.getItem('id_user');
 
-    let dataUser = {};
-    dataUser['idUser'] = idUser;
-    dataUser['nameUser'] = $('#nameUser').val();
-    dataUser['lastnameUser'] = $('#lastnameUser').val();
-    dataUser['emailUser'] = $('#emailUser').val();
-
+    let typePayroll = 0;
+    
     if ($(`#checkbox-9`).is(':checked')) {
-      let typePayroll = $('#typePayroll').val();
-
+      typePayroll = $('#typePayroll').val();
+      
       if (typePayroll == 0 || !typePayroll) {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
       }
 
-      dataUser['typePayroll'] = typePayroll;
     }
-
+    
+    let typeCustomPrices = 0;
+    
     if ($(`#checkbox-19`).is(':checked')) {
-      let typeCustomPrices = $('#pricesList').val();
-
+      typeCustomPrices = $('#pricesList').val();
+      
       if (typeCustomPrices == 0 || !typeCustomPrices) {
         toastr.error('Debe seleccionar tipo de nomina');
         return false;
-      }
-
-      dataUser['typeCustomPrices'] = typeCustomPrices;
+      } 
     }
+
+    let dataUser = {};
+    dataUser['idUser'] = idUser;
+    dataUser['nameUser'] = $('#nameUser').val();
+    dataUser['lastnameUser'] = $('#lastnameUser').val();
+    dataUser['emailUser'] = $('#emailUser').val();
+    dataUser['typeCustomPrices'] = typeCustomPrices;
+    dataUser['typePayroll'] = typePayroll;
 
     dataUser = setCheckBoxes(dataUser);
 
