@@ -182,7 +182,7 @@ $(document).ready(function () {
       typePayroll = $('#typePayroll').val();
       
       if (typePayroll == 0 || !typePayroll) {
-        toastr.error('Debe seleccionar tipo de precio');
+        toastr.error('Debe seleccionar tipo de nomina');
         return false;
       }
 
@@ -194,7 +194,7 @@ $(document).ready(function () {
       typeCustomPrices = $('#pricesList').val();
       
       if (typeCustomPrices == 0 || !typeCustomPrices) {
-        toastr.error('Debe seleccionar tipo de nomina');
+        toastr.error('Debe seleccionar tipo de precio');
         return false;
       } 
     }

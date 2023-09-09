@@ -22,7 +22,7 @@ class LicenseCompanyDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM companies c
-                                        INNER JOIN companies_licenses cl 
+                                        INNER JOIN companies_licenses cl ON cl.id_company = c.id_company
                                       WHERE c.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
