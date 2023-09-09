@@ -88,7 +88,7 @@
                                         <h5 class="font-size-14 font-weight-600">General</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['payroll_load'] == 1) { ?>
-                                                <li class="aPayroll"><a href="/cost/payroll">Carga Nómina</a></li>
+                                                <li class="aPayroll"><a href="/cost/payroll">Nómina Producción</a></li>
                                             <?php } ?>
                                             <?php if (
                                                 $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
