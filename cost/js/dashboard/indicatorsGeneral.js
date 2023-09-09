@@ -83,16 +83,26 @@ $(document).ready(function () {
   averagePrices = (data) => {
     let profitability = 0;
     let commissionSale = 0;
-
+    let actualProfitability = 0;
+    
     if (data.length > 0) {
       for (let i in data) {
         profitability = profitability + data[i].profitability;
         commissionSale = commissionSale + data[i].commission_sale;
-      }
 
+        let dataCost = getDataCost(data[i]);
+        actualProfitability += dataCost.actualProfitability;
+      }
+      
       let averageprofitability = profitability / data.length;
       let averagecommissionSale = commissionSale / data.length;
+      let averageActualProfitability = actualProfitability / data.length;
 
+      $('#actualProfitabilityAverage').html(
+        `${averageActualProfitability.toLocaleString('es-CO', {
+          maximumFractionDigits: 2,
+        })} %`
+      );
       $('#profitabilityAverage').html(
         `${averageprofitability.toLocaleString('es-CO', {
           maximumFractionDigits: 2,

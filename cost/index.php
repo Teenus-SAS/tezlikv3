@@ -63,7 +63,7 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <!-- Widget  -->
                         <div class="row">
-                            <div class="col-md-6 col-xl-2">
+                            <div class="col-md-6 col-xl-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -81,7 +81,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-2">
+                            <div class="col-md-6 col-xl-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -99,7 +99,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-2">
+                            <div class="col-md-6 col-xl-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -117,7 +117,25 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
+                            <div class="col-md-6 col-xl-4">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad actual (Promedio)</span>
+                                                <h2 class="mb-0 mt-1" id="actualProfitabilityAverage"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <div id="t-user"></div>
+                                                <span class="text-success font-weight-bold font-size-13">
+                                                    <i class='bx bx-money fs-lg'></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xl-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -135,7 +153,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
+                            <div class="col-md-6 col-xl-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
