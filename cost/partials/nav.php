@@ -106,10 +106,12 @@
                 </ul>
             </div>
         </nav>
-        <div class="col-sm-2 d-none d-lg-block form-inline justify-content-sm-end">
-            <a href="/cost" class="mt-1 logo logo-dark">
-                <span><img src="/assets/images/logo/logo_tezlik1.png" alt="Logo tezlik" style="width: 120px;"></span>
-            </a>
+        <div class="justify-logo">
+            <div class="col-sm-2 d-none d-lg-block form-inline justify-content-sm-end">
+                <a href="/cost" class="mt-1 logo logo-dark">
+                    <span><img src="/assets/images/logo/logo_tezlik1.png" alt="Logo tezlik" style="width: 80px;margin-top: 10px;"></span>
+                </a>
+            </div>
         </div>
     </div>
 </div>
