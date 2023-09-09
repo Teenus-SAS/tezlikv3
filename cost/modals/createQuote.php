@@ -94,7 +94,7 @@
                                                 <label for="">Lista de Precios</label>
                                                 <select class="form-control" name="idPriceList" id="pricesList"></select>
                                             </div>
-                                            <div class="col-12 col-lg-3">
+                                            <div class="col-12 col-lg-2">
                                                 <div class="form-group floating-label enable-floating-label show-label">
                                                     <input class="form-control number text-center calcPrice" type="text" name="quantity" id="quantity">
                                                     <label for="quantity" class="form-label">Cantidad <span class="text-danger">*</span></label>
@@ -108,7 +108,7 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-3">
+                                            <div class="col-12 col-lg-2">
                                                 <div class="form-group floating-label enable-floating-label show-label calcPrice">
                                                     <select name="discount" id="discount" class="form-control">
                                                         <option value="0">0%</option>
@@ -127,7 +127,7 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-3">
+                                            <div class="col-12 col-lg-2">
                                                 <div class="form-group floating-label enable-floating-label show-label">
                                                     <input class="form-control text-center" type="text" name="totalPrice" id="totalPrice" readonly>
                                                     <label for="prices" class="form-label">Precio Total <span class="text-danger">*</span></label>
