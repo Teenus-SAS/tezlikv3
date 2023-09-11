@@ -137,7 +137,7 @@ class DashboardGeneralDao
 
     $stmt = $connection->prepare("SELECT IFNULL(SUM(er.expense_recover) / COUNT(p.id_product), 0) AS percentageExpense
                                   FROM products p
-                                    LEFT JOIN expenses_recover er ON er.id_product = p.id_product
+                                    INNER JOIN expenses_recover er ON er.id_product = p.id_product
                                   WHERE p.id_company = :id_company AND p.active = 1");
     $stmt->execute(['id_company' => $id_company]);
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

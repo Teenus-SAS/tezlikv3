@@ -14,8 +14,8 @@
                 $logoCompany = $_SESSION['logoCompany'];
                 ?>
                 <div class="d-none d-lg-block">
-                    <a href="/cost" class="logo logo-light">
-                        <span class="logo-lg"><img src="<?php echo $logoCompany; ?>" alt="Lettstart Admin"></span>
+                    <a href="/cost" class="logo logo-dark">
+                        <span><img style="width:150px" src="<?php echo $logoCompany; ?>" alt="Lettstart Admin"></span>
                     </a>
                 </div>
             </div>

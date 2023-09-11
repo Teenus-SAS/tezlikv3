@@ -84,6 +84,7 @@ $(document).ready(function () {
     let profitability = 0;
     let commissionSale = 0;
     let actualProfitability = 0;
+    let contProfitability = 0;
     
     if (data.length > 0) {
       for (let i in data) {
@@ -91,12 +92,15 @@ $(document).ready(function () {
         commissionSale = commissionSale + data[i].commission_sale;
 
         let dataCost = getDataCost(data[i]);
-        actualProfitability += dataCost.actualProfitability;
+        if (isFinite(dataCost.actualProfitability)) {
+          contProfitability += 1;
+          actualProfitability += dataCost.actualProfitability;
+        }
       }
       
       let averageprofitability = profitability / data.length;
       let averagecommissionSale = commissionSale / data.length;
-      let averageActualProfitability = actualProfitability / data.length;
+      let averageActualProfitability = actualProfitability / contProfitability;
 
       $('#actualProfitabilityAverage').html(
         `${averageActualProfitability.toLocaleString('es-CO', {
