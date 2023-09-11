@@ -13,22 +13,7 @@ $(document).ready(function () {
     await graphicCompPrices(data.cost_product);
 
     data = await searchData(`/api/rawMaterials/${id_product}`); 
-    await graphicCostMaterials(data['80RawMaterials']);
-    
-    // fetch(`/api/dashboardPricesProducts/${id_product}`)
-    //   .then((response) => response.text())
-    //   .then((data) => {
-    //     data = JSON.parse(data);
-    //     generalIndicators(data.cost_product);
-    //     UnitsVolSold(data.cost_product);
-    //     totalCostData(data.cost_product);
-    //     graphicCostExpenses(data.cost_product);
-    //     graphicCostWorkforce(data.cost_workforce);
-    //     graphicCostTimeProcess(data.cost_time_process);
-    //     graphicPromTime(data.average_time_process);
-    //     graphicCompPrices(data.cost_product);
-    //     graphicCostMaterials(data.cost_materials);
-    //   });
+    await graphicCostMaterials(data['80RawMaterials']); 
   };
   /* Colors */
 
@@ -216,16 +201,25 @@ $(document).ready(function () {
       maximumFractionDigits: 2,
     })}%`);
     
-    // let profitability = ((data[0].sale_price - dataCost.costTotal) / data[0].sale_price) * 100;
-    let profitability = (((data[0].sale_price * (1 - (data[0].commission_sale / 100))) - dataCost.costTotal) / data[0].sale_price) * 100;
 
-    $('#actualProfitability').html(`${profitability.toLocaleString('es-CO', {
+    $('#actualProfitability').html(`${dataCost.actualProfitability.toLocaleString('es-CO', {
       maximumFractionDigits: 2,
     })} %`);
 
-    if (profitability < 0)
+    if (dataCost.actualProfitability < 0)
       $('#actualProfitability').css('color', 'red');
+
+    $('.cardTrafficLight').empty();
+    let content = '';
     
+    if (dataCost.actualProfitability == data[0].profitability)
+      content = '<i class="bi bi-check-circle-fill" style="font-size: 20px;color:green"></i>';
+    else if (dataCost.actualProfitability > data[0].profitability)
+      content = '<i class="bi bi-info-circle-fill" style="font-size: 20px;color:orange"></i>';
+    else
+      content = '<i class="bi bi-x-circle-fill" style="font-size: 20px;color:red"></i>';
+    
+    $('.cardTrafficLight').append(content);
   };
 
   loadIndicatorsProducts(id_product);

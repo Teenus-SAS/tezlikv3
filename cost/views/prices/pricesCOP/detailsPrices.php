@@ -150,9 +150,9 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
-                                                <h3 class="mb-0 mt-1" id="actualSalePrice"></h3>
+                                                <h3 class="mb-0 mt-1" id="actualSalePrice" style="font-size: 19px"></h3>
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
-                                                <h3 class="mb-0 mt-1 suggestedPrice"></h3>
+                                                <h3 class="mb-0 mt-1 suggestedPrice" style="font-size: 19px"></h3>
                                             </div>
                                         </div>
                                     </div>
@@ -161,12 +161,20 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-md-6 col-xl-6">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body" style="display: grid; grid-template-columns: 140px 1fr 1fr 1fr;">
+                                        <div class="row">
+                                            <div class="col-sm-3">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                <h3 class="mb-0 mt-1" id="actualProfitability"></h3>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: 19px"></h3>
+                                            </div>
+                                            <div class="col-sm-1 cardTrafficLight">
+                                            </div>
+                                            <div class="col-sm-3">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Minima/Deseada</span>
-                                                <h3 class="mb-0 mt-1" id="minProfit"></h3>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <h3 class="mb-0 mt-1" id="minProfit" style="font-size: 19px"></h3>
                                             </div>
                                         </div>
                                     </div>

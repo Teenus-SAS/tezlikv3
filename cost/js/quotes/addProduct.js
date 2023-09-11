@@ -52,7 +52,7 @@ $(document).ready(function () {
     oldPrice = data.price;
     priceProduct = data.price;
 
-    $('#price').val(price);
+    // $('#price').val(price);
 
     $('.imgProduct').empty();
 

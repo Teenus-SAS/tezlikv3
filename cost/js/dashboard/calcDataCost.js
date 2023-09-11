@@ -21,9 +21,13 @@ $(document).ready(function () {
 
     costCommissionSale = price * (data.commission_sale / 100);
 
+    profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
+    if (profitability < 0) profitability = 0;
+
     dataCost = {
       cost: cost,
       costTotal: costTotal,
+      actualProfitability: profitability,
       costCommissionSale: costCommissionSale,
       costProfitability: costProfitability,
       expense: expense,

@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   // Tiempo de inactividad
-  (function () {
+  // (function () {
     var minutes = true;
     var interval = minutes ? 60000 : 1000;
     var IDLE_TIMEOUT = 10;
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetchindata();
       }
     }, interval);
-  })();
+  // })();
 
   getApi = async (url) => {
     try {

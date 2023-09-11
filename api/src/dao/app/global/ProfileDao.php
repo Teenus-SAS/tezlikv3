@@ -27,7 +27,8 @@ class ProfileDao
                 $stmt->execute([
                     'id_user' => $dataUser['idUser'],
                     'firstname' => $dataUser['nameUser'],
-                    'lastname' => $dataUser['lastnameUser']
+                    'lastname' => $dataUser['lastnameUser'],
+                    'position' => $dataUser['position'],
                 ]);
             } else {
                 $pass = password_hash($dataUser['password'], PASSWORD_DEFAULT);
