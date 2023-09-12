@@ -65,7 +65,7 @@ class GeneralPayrollDao
         return $findProcess;
     }
 
-    public function findAllProcessByEmployee($employee, $id_company)
+    public function findAllProcessByEmployeeNotIn($employee, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -78,6 +78,19 @@ class GeneralPayrollDao
         ]);
         $process = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $process;
+    }
+
+    public function findAllPayrollByEmployee($employee, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM payroll WHERE employee = :employee AND id_company = :id_company");
+        $stmt->execute([
+            'employee' => $employee,
+            'id_company' => $id_company
+        ]);
+        $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $payroll;
     }
 
     public function updatePayroll($dataPayroll)
