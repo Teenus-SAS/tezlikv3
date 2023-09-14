@@ -20,7 +20,7 @@ class PaymentMethodsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM quote_payment_methods");
+        $stmt = $connection->prepare("SELECT * FROM quote_payment_methods WHERE flag = 0");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -82,6 +82,22 @@ class PaymentMethodsDao
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function changeFlagPaymentMethod($id_method, $flag)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("UPDATE quote_payment_methods SET flag = :flag WHERE id_method = :id_method");
+            $stmt->execute([
+                'flag' => $flag,
+                'id_method' => $id_method
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

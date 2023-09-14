@@ -226,8 +226,20 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-sm-9" style="height: fit-content;">
                                     <?php } ?>
                                     <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Productos con mayor rentabilidad</h5>
+                                        <div class="card-header row">
+                                            <h5 class="card-title col-sm-8 productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
+                                            <div class="text-center col-sm-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input typePrice" type="checkbox" id="sugered" value="1" checked>
+                                                    <label class="form-check-label" for="sugered">Sugerido</label>
+                                                </div>
+                                            </div>
+                                            <div class="text-center col-sm-2">
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input typePrice" type="checkbox" id="actual" value="2">
+                                                    <label class="form-check-label" for="actual">Actual</label>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-body pt-2">
                                             <canvas id="chartProductsCost" style="width: 100%;"></canvas>

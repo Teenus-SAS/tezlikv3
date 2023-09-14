@@ -16,6 +16,17 @@ class GeneralQuotesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findPaymentMethod($id_method)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM quotes WHERE id_payment_method = :id_payment_method");
+        $stmt->execute(['id_payment_method' => $id_method]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $quotes = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $quotes;
+    }
+
     public function findAllQuotesProductsByIdProduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();

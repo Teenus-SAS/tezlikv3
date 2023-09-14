@@ -1,8 +1,9 @@
 $(document).ready(function () {
+  var chartProductsCost;
   var anchura = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
-  );
+  ); 
 
   anchura <= 480 ? (length = 5) : (length = 10);
 
@@ -280,7 +281,24 @@ $(document).ready(function () {
     });
   };
 
-  // Rentabilidad y precio productos
+  $(document).on('click', '.typePrice',async function () {
+    let op = this.value;
+
+    let data = await searchData('/api/dashboardExpensesGenerals');
+    if (op == 1 && $('#sugered').is(':checked')) {
+      $('#sugered').prop('checked', true);
+      $('#actual').prop('checked', false);
+      $('.productTitle').html('Productos con mayor rentabilidad (Sugerida)');
+      graphicProductCost(data.details_prices);
+    } else {
+      $('#actual').prop('checked', true);
+      $('#sugered').prop('checked', false);
+      $('.productTitle').html('Productos con mayor rentabilidad (Actual)');
+      graphicProductActualCost(data.details_prices);
+    }
+  });
+
+  // Rentabilidad y precio productos (Sugerido)
   graphicProductCost = (data) => {
     let products = [];
     let product = [];
@@ -308,8 +326,89 @@ $(document).ready(function () {
       cost.push(products[i].cost);
     }
 
+    chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
+
     const cmc = document.getElementById('chartProductsCost');
-    const chartProductsCost = new Chart(cmc, {
+    chartProductsCost = new Chart(cmc, {
+      plugins: [ChartDataLabels],
+      type: 'bar',
+      data: {
+        labels: product,
+        //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        formatter: function (value, context) {
+          return context.chart.data.labels[context.dataIndex];
+        },
+        datasets: [
+          {
+            data: cost,
+            backgroundColor: getRandomColor(count),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+          x: {
+            display: false,
+          },
+        },
+        //plugins: [ChartDataLabels],
+        plugins: {
+          legend: {
+            display: false,
+          },
+          datalabels: {
+            anchor: 'end',
+            formatter: (cost) =>
+              cost.toLocaleString('es-CO', { maximumFractionDigits: 0 }),
+            color: 'black',
+            font: {
+              size: '12',
+              weight: 'normal',
+            },
+          },
+        },
+      },
+    });
+  };
+  // Rentabilidad y precio productos (Actual)
+  graphicProductActualCost = (data) => {
+    let products = [];
+    let product = [];
+    let cost = [];
+
+    /* Capturar y ordenar de mayor a menor  */
+    for (i = 0; i < data.length; i++) {
+      let dataCost = getDataCost(data[i]);
+
+      if (isFinite(dataCost.costActualProfitability)) { 
+        products.push({
+          name: data[i].product,
+          cost: dataCost.costActualProfitability,
+        });
+      }
+    }
+
+    products.sort(function (a, b) {
+      return b['cost'] - a['cost'];
+    });
+
+    /* Guardar datos para grafica */
+
+    products.length > length ? (count = length) : (count = products.length);
+
+    for (i = 0; i < count; i++) {
+      product.push(products[i].name);
+      cost.push(products[i].cost);
+    }
+
+    chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
+
+    const cmc = document.getElementById('chartProductsCost');
+    chartProductsCost = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: 'bar',
       data: {
