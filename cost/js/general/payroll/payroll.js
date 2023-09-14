@@ -169,7 +169,7 @@ $(document).ready(function () {
 
     dataPayroll['idPayroll'] = data.id_payroll;
     dataPayroll['idProcess'] = data.id_process;
-    dataPayroll['endowment'] = data.endowment;
+    dataPayroll['employee'] = data.employee;
 
     bootbox.confirm({
       title: 'Eliminar',
