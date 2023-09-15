@@ -339,7 +339,8 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script>
-        flag_expense = "<?= $_SESSION['flag_expense'] ?>"
+        flag_expense = "<?= $_SESSION['flag_expense'] ?>";
+        flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
     </script>
     <script>
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>"

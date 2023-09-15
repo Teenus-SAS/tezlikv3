@@ -102,6 +102,9 @@ if (sizeof($_SESSION) == 0)
 	<script src="/cost/js/general/priceList/configPriceList.js"></script>
 	<script>
 		type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
+		flag_expense = "<?= $_SESSION['flag_expense'] ?>";
+		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";;
+		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
 	</script>
 	<script src="/global/js/global/orderData.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>

@@ -1,6 +1,51 @@
 $(document).ready(function () {
   $(document).on('click', '.aBackup', async function () {
     try {
+      // if (flag_expense == '1') {
+      //   if (flag_expense_distribution == '1'){
+      //     url = '/api/expensesDistribution';
+      //     op = 1;
+      //   }
+      //   else {
+      //     url = '/api/expensesDistributionFamilies';
+      //     op = 2;
+      //   }
+      // } else {
+      //   url = '/api/expensesRecover';
+      //   op = 3;
+      // }
+      // dataTypeExpense = await searchData(url);
+
+      // if (op == 1) {
+      //   if (dataTypeExpense.length > 0) {
+      //   for (i = 0; i < dataProducts.length; i++) {
+      //     data.push({
+      //       // referencia: dataProducts[i].id_family,
+      //       familia: dataProducts[i].family,
+      //       unidades_vendidas: dataProducts[i].units_sold,
+      //       total_ventas: dataProducts[i].turnover,
+      //     });
+      //   }
+
+      //   let ws = XLSX.utils.json_to_sheet(data);
+      //   XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Familia');
+      // }
+      // else if (op == 2) {
+      //   dataFamilies = await searchData(url);
+      //   if (dataFamilies.length > 0) {
+      //   for (i = 0; i < dataProducts.length; i++) {
+      //     data.push({
+      //       // referencia: dataProducts[i].id_family,
+      //       familia: dataProducts[i].family,
+      //       unidades_vendidas: dataProducts[i].units_sold,
+      //       total_ventas: dataProducts[i].turnover,
+      //     });
+      //   }
+
+      //   let ws = XLSX.utils.json_to_sheet(data);
+      //   XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Familia');
+      // }
+
       $('.loading').show(800);
       document.body.style.overflow = 'hidden';
 
@@ -196,6 +241,8 @@ $(document).ready(function () {
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'Asignacion de Gastos');
       }
+
+      
 
       $('.loading').hide(800);
       document.body.style.overflow = '';

@@ -37,8 +37,8 @@ $(document).ready(function () {
 
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id);
-    await loadPriceListByProduct(id);
+    let op = await loadPriceListByProduct(id);
+    loadDataProduct(id, op);
   });
 
   loadDataProduct = async (id) => {
@@ -52,7 +52,8 @@ $(document).ready(function () {
     oldPrice = data.price;
     priceProduct = data.price;
 
-    // $('#price').val(price);
+    if (op == 1)
+      $('#price').val(price);
 
     $('.imgProduct').empty();
 
@@ -70,7 +71,7 @@ $(document).ready(function () {
 
     for (let i = 0; i < data.length; i++) {
       if (data[i].id_price_list == this.value) {
-        price = data[i].price;
+        price = parseFloat(data[i].price);
         break;
       }
     }

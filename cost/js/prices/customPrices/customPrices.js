@@ -6,7 +6,7 @@ $(document).ready(function () {
     let data = await searchData(`/api/productCost/${id}`);
 
     $('#priceProduct').val(
-      data.price.toLocaleString('es-CO', {
+      parseFloat(data.price).toLocaleString('es-CO', {
         maximumFractionDigits: 2,
       })
     );
@@ -62,7 +62,7 @@ $(document).ready(function () {
     $(`#idProduct option[value=${data.id_product}]`).prop('selected', true);
     $(`#idProduct`).prop('disabled', true);
 
-    $('#priceProduct').val(data.price_cost.toLocaleString('es-CO'));
+    $('#priceProduct').val(parseFloat(data.price_cost).toLocaleString('es-CO'));
 
     $('#pricesList').empty();
 
@@ -97,7 +97,7 @@ $(document).ready(function () {
         if (id_price_list == data.id_price_list[i]) {
           sessionStorage.setItem('id_custom_price', data.id_custom_price[i]);
 
-          price = data.prices[i];
+          price = parseFloat(data.prices[i]);  
 
           $('#customPricesValue').val(price.toLocaleString('es-CO'));
           break;

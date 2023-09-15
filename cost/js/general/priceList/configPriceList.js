@@ -44,6 +44,7 @@ $(document).ready(function () {
   };
 
   loadPriceListByProduct = async (id_product) => {
+    $('.selectPricelist').show();
     let data = await searchData(`/api/priceListByProduct/${id_product}`);
 
     let $select = $(`#pricesList`);
@@ -68,6 +69,11 @@ $(document).ready(function () {
     });
 
     if (arr.length == 0) {
+      $('.selectPricelist').hide();
+      return 1;
+    }
+
+    if (arr.length == 1) {
       $(`#pricesList option[value=${arr[0].id_price_list}]`).prop('selected', true);
       $('#price').val(arr[0].price);
     }

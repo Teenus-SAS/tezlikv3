@@ -95,6 +95,8 @@ if (sizeof($_SESSION) == 0)
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
     <script>
+        flag_expense = "<?= $_SESSION['flag_expense'] ?>";
+        flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         plan_cost_price = "<?= $_SESSION['plan_cost_price'] ?>";
         price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         plan_custom_price = "<?= $_SESSION['plan_custom_price'] ?>";

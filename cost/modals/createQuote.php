@@ -90,7 +90,7 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                            <div class="col-sm-3 floating-label enable-floating-label show-label selectPricelist">
                                                 <label for="">Lista de Precios</label>
                                                 <select class="form-control" name="idPriceList" id="pricesList"></select>
                                             </div>

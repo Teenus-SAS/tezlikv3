@@ -51,7 +51,7 @@ $(document).ready(function () {
             let decimals = contarDecimales(data);
             let units_sold = formatNumber(data, decimals);
 
-            return `$ ${units_sold}`;
+            return units_sold;
           },
         },
         {

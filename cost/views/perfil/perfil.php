@@ -201,7 +201,10 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-
+    <script>
+        flag_expense = "<?= $_SESSION['flag_expense'] ?>";
+        flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+    </script>
     <script src="/global/js/global/loadImg.js"></script>
     <script src="/cost/js/profile/profile.js"></script>
 </body>
