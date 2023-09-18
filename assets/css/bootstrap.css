@@ -7411,7 +7411,7 @@ button.bg-default:focus {
 }
 
 .border-start {
-	border-left: 1px solid #dee2e6 !important;
+	border-left: 3px solid #dee2e6 !important;
 }
 
 .border-top-0 {
