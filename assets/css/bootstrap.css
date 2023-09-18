@@ -7410,6 +7410,10 @@ button.bg-default:focus {
 	border-width: 3px !important;
 }
 
+.border-start {
+	border-left: 1px solid #dee2e6 !important;
+}
+
 .border-top-0 {
   border-top: 0 !important;
 }
