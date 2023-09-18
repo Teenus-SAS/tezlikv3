@@ -63,61 +63,7 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <!-- Widget  -->
                         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
-                            <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-info">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Productos</span>
-                                                <h2 class="mb-0 mt-1 text-info" id="products"></h2>
-                                            </div>
-                                            <div class="text-center">
-                                                <div id="t-rev"></div>
-                                                <span class="text-info font-weight-bold font-size-23">
-                                                    <i class='bx bx-box fs-lg'></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-danger">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
-                                                <h2 class="mb-0 mt-1 text-info" id="materials"></h2>
-                                            </div>
-                                            <div class="text-center">
-                                                <div id="t-rev"></div>
-                                                <span class="text-info font-weight-bold font-size-13">
-                                                    <i class='bx bxs-customize fs-lg'></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-success">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Comisión de Vta</span>
-                                                <h2 class="mb-0 mt-1 text-success" id="comissionAverage"></h2>
-                                            </div>
-                                            <div class="text-center">
-                                                <div id="t-user"></div>
-                                                <span class="text-success font-weight-bold font-size-13">
-                                                    <i class='bx bx-money fs-lg'></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
+                            <div class="col"> <!-- profitability -->
                                 <div class="card radius-10 border-start border-0 border-3 border-warning">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -135,7 +81,43 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col"> <!-- commision sales -->
+                                <div class="card radius-10 border-start border-0 border-3 border-success">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Comisión de Vta</span>
+                                                <h2 class="mb-0 mt-1 text-success" id="comissionAverage"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <div id="t-user"></div>
+                                                <span class="text-success font-weight-bold font-size-13">
+                                                    <i class='bx bx-money fs-lg'></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col"> <!-- breakeven -->
+                                <div class="card radius-10 border-start border-0 border-3 border-dark">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Pto De Equilibrio</span>
+                                                <h2 class="mb-0 mt-1 text-info" id="multiproducts"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <div id="t-visitor"></div>
+                                                <span class="text-danger font-weight-bold font-size-13">
+                                                    <i class='bx bxs-pie-chart-alt-2 fs-lg'></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col"> <!-- expenses -->
                                 <div class="card radius-10 border-start border-0 border-3 border-primary">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -153,18 +135,38 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-dark">
+                        </div>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                            <div class="col"> <!-- Products -->
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Pto De Equilibrio</span>
-                                                <h2 class="mb-0 mt-1 text-dark" id="multiproducts"></h2>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Productos</span>
+                                                <h2 class="mb-0 mt-1 text-info" id="products"></h2>
                                             </div>
                                             <div class="text-center">
-                                                <div id="t-visitor"></div>
-                                                <span class="text-danger font-weight-bold font-size-13">
-                                                    <i class='bx bxs-pie-chart-alt-2 fs-lg'></i>
+                                                <div id="t-rev"></div>
+                                                <span class="text-info font-weight-bold font-size-23">
+                                                    <i class='bx bx-box fs-lg'></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col"> <!-- Materials -->
+                                <div class="card radius-10 border-start border-0 border-3 border-danger">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
+                                                <h2 class="mb-0 mt-1 text-info" id="materials"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <div id="t-rev"></div>
+                                                <span class="text-info font-weight-bold font-size-13">
+                                                    <i class='bx bxs-customize fs-lg'></i>
                                                 </span>
                                             </div>
                                         </div>
