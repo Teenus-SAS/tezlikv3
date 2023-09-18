@@ -123,7 +123,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad actual (Promedio)</span>
-                                                <h2 class="mb-0 mt-1" id="actualProfitabilityAverage"></h2>
+                                                <h2 class="mb-0 mt-1 text-warning" id="actualProfitabilityAverage"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-user"></div>
