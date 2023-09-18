@@ -229,21 +229,11 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-header dflex-between-center">
                                             <h5 class="card-title productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
                                             <div class="text-center">
-                                                <!-- <div class="form-check form-check-inline">
-                                                    <input class="form-check-input typePrice" type="checkbox" id="sugered" value="1" checked>
-                                                    <label class="form-check-label" for="sugered">Sugerido</label>
-                                                </div> -->
                                                 <div class="btn-group earningTabs">
                                                     <button class="btn btn-sm waves-effect waves-light btn-primary typePrice" data-effect="wave" data-type="weekly" id="sugered">Sugerido</button>
                                                     <button class="btn btn-sm waves-effect waves-light btn-outline-primary typePrice" data-effect="wave" data-type="monthly" id="actual">Actual</button>
                                                 </div>
                                             </div>
-                                            <!-- <div class="text-center col-sm-2">
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input typePrice" type="checkbox" id="actual" value="2">
-                                                    <label class="form-check-label" for="actual">Actual</label>
-                                                </div>
-                                            </div> -->
                                         </div>
                                         <div class="card-body pt-2">
                                             <canvas id="chartProductsCost" style="width: 100%;"></canvas>
