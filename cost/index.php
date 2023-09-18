@@ -226,9 +226,9 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-sm-9" style="height: fit-content;">
                                     <?php } ?>
                                     <div class="card">
-                                        <div class="card-header row">
-                                            <h5 class="card-title col-sm-8 productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
-                                            <div class="text-center col-sm-2">
+                                        <div class="card-header dflex-between-center">
+                                            <h5 class="card-title productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
+                                            <div class="text-center">
                                                 <!-- <div class="form-check form-check-inline">
                                                     <input class="form-check-input typePrice" type="checkbox" id="sugered" value="1" checked>
                                                     <label class="form-check-label" for="sugered">Sugerido</label>
