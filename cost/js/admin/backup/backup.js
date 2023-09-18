@@ -1,56 +1,11 @@
 $(document).ready(function () {
   $(document).on('click', '.aBackup', async function () {
-    try {
-      // if (flag_expense == '1') {
-      //   if (flag_expense_distribution == '1'){
-      //     url = '/api/expensesDistribution';
-      //     op = 1;
-      //   }
-      //   else {
-      //     url = '/api/expensesDistributionFamilies';
-      //     op = 2;
-      //   }
-      // } else {
-      //   url = '/api/expensesRecover';
-      //   op = 3;
-      // }
-      // dataTypeExpense = await searchData(url);
-
-      // if (op == 1) {
-      //   if (dataTypeExpense.length > 0) {
-      //   for (i = 0; i < dataProducts.length; i++) {
-      //     data.push({
-      //       // referencia: dataProducts[i].id_family,
-      //       familia: dataProducts[i].family,
-      //       unidades_vendidas: dataProducts[i].units_sold,
-      //       total_ventas: dataProducts[i].turnover,
-      //     });
-      //   }
-
-      //   let ws = XLSX.utils.json_to_sheet(data);
-      //   XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Familia');
-      // }
-      // else if (op == 2) {
-      //   dataFamilies = await searchData(url);
-      //   if (dataFamilies.length > 0) {
-      //   for (i = 0; i < dataProducts.length; i++) {
-      //     data.push({
-      //       // referencia: dataProducts[i].id_family,
-      //       familia: dataProducts[i].family,
-      //       unidades_vendidas: dataProducts[i].units_sold,
-      //       total_ventas: dataProducts[i].turnover,
-      //     });
-      //   }
-
-      //   let ws = XLSX.utils.json_to_sheet(data);
-      //   XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Familia');
-      // }
-
+    try { 
       $('.loading').show(800);
       document.body.style.overflow = 'hidden';
 
       let wb = XLSX.utils.book_new();
-      let data = [];
+      let data = []; 
 
       /* Productos */
       let dataProducts = await searchData('/api/products');
@@ -59,8 +14,8 @@ $(document).ready(function () {
           data.push({
             referencia: dataProducts[i].reference,
             producto: dataProducts[i].product,
-            rentabilidad: dataProducts[i].profitability,
-            comision_ventas: dataProducts[i].commission_sale,
+            rentabilidad: parseFloat(dataProducts[i].profitability),
+            comision_ventas: parseFloat(dataProducts[i].commission_sale),
           });
         }
 
@@ -79,7 +34,7 @@ $(document).ready(function () {
             material: dataMaterials[i].material,
             magnitud: dataMaterials[i].magnitude,
             unidad: dataMaterials[i].unit,
-            costo: dataMaterials[i].cost,
+            costo: parseFloat(dataMaterials[i].cost),
           });
         }
 
@@ -96,10 +51,10 @@ $(document).ready(function () {
           data.push({
             maquina: dataMachines[i].machine,
             costo: dataMachines[i].cost,
-            años_depreciacion: dataMachines[i].years_depreciation,
-            valor_residual: dataMachines[i].residual_value,
-            horas_maquina: dataMachines[i].hours_machine,
-            dias_maquina: dataMachines[i].days_machine,
+            años_depreciacion: parseFloat(dataMachines[i].years_depreciation),
+            valor_residual: parseFloat(dataMachines[i].residual_value),
+            horas_maquina: parseFloat(dataMachines[i].hours_machine),
+            dias_maquina: parseFloat(dataMachines[i].days_machine),
           });
         }
 
@@ -135,7 +90,7 @@ $(document).ready(function () {
             material: dataProductsMaterials[i].material,
             magnitud: dataProductsMaterials[i].magnitude,
             unidad: dataProductsMaterials[i].unit,
-            cantidad: dataProductsMaterials[i].quantity,
+            cantidad: parseFloat(dataProductsMaterials[i].quantity),
           });
         }
 
@@ -154,8 +109,8 @@ $(document).ready(function () {
             producto: dataProductsProcess[i].product,
             proceso: dataProductsProcess[i].process,
             maquina: dataProductsProcess[i].machine,
-            tiempo_enlistamiento: dataProductsProcess[i].enlistment_time,
-            tiempo_operacion: dataProductsProcess[i].operation_time,
+            tiempo_enlistamiento: parseFloat(dataProductsProcess[i].enlistment_time),
+            tiempo_operacion: parseFloat(dataProductsProcess[i].operation_time),
           });
         }
 
@@ -172,7 +127,7 @@ $(document).ready(function () {
           data.push({
             maquina: dataFactoryLoad[i].machine,
             descripcion: dataFactoryLoad[i].input,
-            costo: dataFactoryLoad[i].cost,
+            costo: parseFloat(dataFactoryLoad[i].cost),
           });
         }
 
@@ -190,7 +145,7 @@ $(document).ready(function () {
             referencia_producto: dataServices[i].reference,
             producto: dataServices[i].product,
             servicio: dataServices[i].name_service,
-            costo: dataServices[i].cost,
+            costo: parseFloat(dataServices[i].cost),
           });
         }
 
@@ -207,14 +162,14 @@ $(document).ready(function () {
           data.push({
             nombres_y_apellidos: dataPayroll[i].employee,
             proceso: dataPayroll[i].process,
-            salario_basico: dataPayroll[i].salary,
-            transporte: dataPayroll[i].transport,
-            dotaciones: dataPayroll[i].endowment,
-            horas_extras: dataPayroll[i].extra_time,
-            otros_ingresos: dataPayroll[i].bonification,
+            salario_basico: parseFloat(dataPayroll[i].salary),
+            transporte: parseFloat(dataPayroll[i].transport),
+            dotaciones: parseFloat(dataPayroll[i].endowment),
+            horas_extras: parseFloat(dataPayroll[i].extra_time),
+            otros_ingresos: parseFloat(dataPayroll[i].bonification),
             prestacional: '',
-            horas_trabajo_x_dia: dataPayroll[i].hours_day,
-            dias_trabajo_x_mes: dataPayroll[i].working_days_month,
+            horas_trabajo_x_dia: parseFloat(dataPayroll[i].hours_day),
+            dias_trabajo_x_mes: parseFloat(dataPayroll[i].working_days_month),
             tipo_riesgo: dataPayroll[i].risk_level,
             // tipo_nomina: dataPayroll[i].type_contract,
             // factor: dataPayroll[i].factor_benefit,
@@ -234,7 +189,7 @@ $(document).ready(function () {
           data.push({
             numero_cuenta: dataExpenses[i].number_count,
             cuenta: dataExpenses[i].count,
-            valor: dataExpenses[i].expense_value,
+            valor: parseFloat(dataExpenses[i].expense_value),
           });
         }
 
@@ -242,7 +197,67 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Asignacion de Gastos');
       }
 
-      
+      /* Tipo de gasto */
+      data = [];
+      if (flag_expense == '1') {
+        if (flag_expense_distribution == '1'){
+          url = '/api/expensesDistribution';
+          op = 1;
+        }
+        else {
+          url = '/api/expensesDistributionFamilies';
+          op = 2;
+        }
+      } else {
+        url = '/api/expensesRecover';
+        op = 3;
+      }
+      dataTypeExpense = await searchData(url);
+
+      if (op == 1) {
+        if (dataTypeExpense.length > 0) {
+          for (i = 0; i < dataTypeExpense.length; i++) {
+            data.push({
+              referencia_producto: dataTypeExpense[i].reference,
+              producto: dataTypeExpense[i].product,
+              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+              total_ventas: parseFloat(dataTypeExpense[i].turnover),
+            });
+          }
+
+          let ws = XLSX.utils.json_to_sheet(data);
+          XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Producto');
+        }
+      }
+      else if (op == 2) {
+        if (dataTypeExpense.length > 0) {
+          for (i = 0; i < dataTypeExpense.length; i++) {
+            data.push({
+              // referencia: dataProducts[i].id_family,
+              familia: dataTypeExpense[i].family,
+              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+              total_ventas: parseFloat(dataTypeExpense[i].turnover),
+            });
+          }
+
+          let ws = XLSX.utils.json_to_sheet(data);
+          XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Familia');
+        }
+      }
+      else {
+        if (dataTypeExpense.length > 0) {
+          for (i = 0; i < dataTypeExpense.length; i++) {
+            data.push({
+              reference_producto: dataProducts[i].reference,
+              producto: dataTypeExpense[i].product,
+              porcentaje_recuperado: parseFloat(dataTypeExpense[i].expense_recover),
+            });
+          }
+
+          let ws = XLSX.utils.json_to_sheet(data);
+          XLSX.utils.book_append_sheet(wb, ws, 'Recuperacion Gasto');
+        }
+      }
 
       $('.loading').hide(800);
       document.body.style.overflow = '';

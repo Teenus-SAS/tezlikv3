@@ -1,6 +1,7 @@
 $(document).ready(function () {
   $('.cardTypePayroll').hide();
   $('.cardTypePrices').hide();
+  typeCustomPrices = [];
 
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
@@ -29,6 +30,32 @@ $(document).ready(function () {
       $('.cardTypePayroll').toggle(800);
     if (this.id == 'checkbox-19')
       $('.cardTypePrices').toggle(800);
+  });
+
+  $(document).on('click', '.typePriceList', function () {
+    $(`#${this.id}`).is(':checked') ? op = true : op = false;
+    $(`#${this.id}`).prop('checked', op);
+    
+    if (!$(`#${this.id}`).is(':checked')) {
+      if (this.id == '-1') { 
+        for (i = 0; i < typeCustomPrices.length; i++) {
+          typeCustomPrices.splice(i, 1);
+        }
+      } else
+      for (let i = 0; i < typeCustomPrices.length; i++) {
+        if (typeCustomPrices[i] == this.id) typeCustomPrices.splice(i, 1);
+      }
+    } else if (this.id == '-1') {
+      $('.typePriceList').prop('checked', op);
+      let typePriceList = document.getElementsByClassName('typePriceList');
+
+      for (i = 1; i < typePriceList.length; i++) {
+        typeCustomPrices.push(typePriceList[i].id);
+      }
+    }
+    else {
+      typeCustomPrices.push(this.id);
+    }
   });
 
   /* Agregar nuevo usuario */
@@ -63,11 +90,8 @@ $(document).ready(function () {
       
       /* Obtener los checkbox seleccionados */
       
-      let typeCustomPrices = 0;
       if ($(`#checkbox-19`).is(':checked')) {
-        typeCustomPrices = $('#pricesList').val();
-
-        if (typeCustomPrices == 0 || !typeCustomPrices) {
+        if (typeCustomPrices.length == 0) {
           toastr.error('Debe seleccionar tipo de precio');
           return false;
         } 
@@ -188,12 +212,8 @@ $(document).ready(function () {
 
     }
     
-    let typeCustomPrices = 0;
-    
     if ($(`#checkbox-19`).is(':checked')) {
-      typeCustomPrices = $('#pricesList').val();
-      
-      if (typeCustomPrices == 0 || !typeCustomPrices) {
+      if (typeCustomPrices.length == 0) {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
       } 
