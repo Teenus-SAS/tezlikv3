@@ -1,24 +1,31 @@
 $(document).ready(function () {
   loadPriceList = async (op) => {
-    let data = await searchData('/api/priceList');
-
+    let data = await searchData('/api/priceList'); 
     let $select = $(`#pricesList`);
     $select.empty();
     
-    $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
-    
     if (op == 2) {
+      $select.append('Tipo de Precios');
       let dataPriceList = JSON.stringify(data);
       sessionStorage.setItem('dataPriceList', dataPriceList);
       
-      $select.append(`<option value='-1'>TODO</option>`);
+      $select.append(`<div class="checkbox checkbox-success">
+                        <input class="typePriceList" id="-1" type="checkbox">
+                        <label for="-1">TODOS</label>
+                      </div>`);
+      
       $.each(data, function (i, value) {
         $select.append(
-          `<option value = ${value.id_price_list}> ${value.price_name} </option>`
+          `<div class="checkbox checkbox-success">
+            <input class="typePriceList" id="${value.id_price_list}" type="checkbox">
+            <label for="${value.id_price_list}">${value.price_name}</label>
+          </div>`
         );
       });
-    }
+    } 
     else {
+      $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
+      
       let dataPriceList = JSON.stringify(data);
       sessionStorage.setItem('dataPriceList', dataPriceList);
       let arr = data;
@@ -77,10 +84,6 @@ $(document).ready(function () {
       $(`#pricesList option[value=${arr[0].id_price_list}]`).prop('selected', true);
       $('#price').val(arr[0].price);
     }
-
-    // let dataPriceList = JSON.stringify(data);
-    // sessionStorage.setItem('dataPriceList', dataPriceList);
   };
 
-  // loadPriceList();
 });
