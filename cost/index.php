@@ -62,9 +62,9 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
                         <!-- Widget  -->
-                        <div class="row">
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -81,8 +81,8 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -99,8 +99,8 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -117,8 +117,8 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -135,8 +135,8 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -153,8 +153,8 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-4">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
