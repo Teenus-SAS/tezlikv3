@@ -7406,6 +7406,10 @@ button.bg-default:focus {
   border: 0 !important;
 }
 
+.border-3 {
+	border-width: 3px !important;
+}
+
 .border-top-0 {
   border-top: 0 !important;
 }
