@@ -100,12 +100,12 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col"> <!-- breakeven -->
-                                <div class="card radius-10 border-start border-0 border-3 border-secondary">
+                                <div class="card radius-10 border-start border-0 border-3 border-primary">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Pto De Equilibrio</span>
-                                                <h2 class="mb-0 mt-1 text-secondary" id="multiproducts"></h2>
+                                                <h2 class="mb-0 mt-1 text-primary" id="multiproducts"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-visitor"></div>
@@ -118,12 +118,12 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col"> <!-- expenses -->
-                                <div class="card radius-10 border-start border-0 border-3 border-light">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold" id="expenses"></span>
-                                                <h2 class="mb-0 mt-1 text-light" id="generalCost"></h2>
+                                                <h2 class="mb-0 mt-1 text-info" id="generalCost"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-visitor"></div>
