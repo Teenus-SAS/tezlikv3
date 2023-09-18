@@ -69,7 +69,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Productos</span>
-                                                <h2 class="mb-0 mt-1" id="products"></h2>
+                                                <h2 class="mb-0 mt-1 text-info" id="products"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-rev"></div>
@@ -87,7 +87,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
-                                                <h2 class="mb-0 mt-1" id="materials"></h2>
+                                                <h2 class="mb-0 mt-1 text-info" id="materials"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-rev"></div>
@@ -105,7 +105,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Comisión de Vta</span>
-                                                <h2 class="mb-0 mt-1" id="comissionAverage"></h2>
+                                                <h2 class="mb-0 mt-1 text-success" id="comissionAverage"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-user"></div>
@@ -136,12 +136,12 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                <div class="card radius-10 border-start border-0 border-3 border-primary">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold" id="expenses"></span>
-                                                <h2 class="mb-0 mt-1" id="generalCost"></h2>
+                                                <h2 class="mb-0 mt-1 text-primary" id="generalCost"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-visitor"></div>
@@ -154,12 +154,12 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                <div class="card radius-10 border-start border-0 border-3 border-dark">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Pto De Equilibrio</span>
-                                                <h2 class="mb-0 mt-1" id="multiproducts"></h2>
+                                                <h2 class="mb-0 mt-1 text-dark" id="multiproducts"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <div id="t-visitor"></div>
