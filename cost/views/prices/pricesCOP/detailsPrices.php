@@ -152,11 +152,11 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
-                                                    <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: 19px"></h2>
+                                                    <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
                                                 </div>
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
-                                                    <h3 class="mb-0 mt-1 text-warning suggestedPrice" style="font-size: 19px"></h3>
+                                                    <h3 class="mb-0 mt-1 text-warning suggestedPrice" style="font-size: x-large"></h3>
                                                 </div>
                                             </div>
                                         </div>
