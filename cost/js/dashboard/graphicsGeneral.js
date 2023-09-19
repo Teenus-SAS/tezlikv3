@@ -281,23 +281,24 @@ $(document).ready(function () {
     });
   };
 
-  // $(document).on('click', '.typePrice',async function () {
-  //   let op = this.value;
-  //   let className = this.class;
+  $(document).on('click', '.typePrice',async function () {
+    let op = this.value;
+    let className = this.className;
 
-  //   let data = await searchData('/api/dashboardExpensesGenerals');
-  //   if (op == 1 && className.) {
-  //     $('#sugered').prop('checked', true);
-  //     $('#actual').prop('checked', false);
-  //     $('.productTitle').html('Productos con mayor rentabilidad (Sugerida)');
-  //     graphicProductCost(data.details_prices);
-  //   } else {
-  //     $('#actual').prop('checked', true);
-  //     $('#sugered').prop('checked', false);
-  //     $('.productTitle').html('Productos con mayor rentabilidad (Actual)');
-  //     graphicProductActualCost(data.details_prices);
-  //   }
-  // });
+    let data = await searchData('/api/dashboardExpensesGenerals');
+    if (op == 1 && className.includes('btn-outline-primary')) {
+      document.getElementById('sugered').className = 'btn btn-sm btn-primary typePrice';
+      document.getElementById('actual').className = 'btn btn-sm btn-outline-primary typePrice';
+      $('.productTitle').html('Productos con mayor rentabilidad (Sugerida)');
+      graphicProductCost(data.details_prices);
+    } else if(className.includes('btn-outline-primary')) { 
+      document.getElementById('actual').className = 'btn btn-sm btn-primary typePrice';
+      document.getElementById('sugered').className = 'btn btn-sm btn-outline-primary typePrice';
+
+      $('.productTitle').html('Productos con mayor rentabilidad (Actual)');
+      graphicProductActualCost(data.details_prices);
+    }
+  });
 
   // Rentabilidad y precio productos (Sugerido)
   graphicProductCost = (data) => {

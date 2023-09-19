@@ -56,6 +56,7 @@ $(document).ready(function () {
 
     let $select = $(`#pricesList`);
     $select.empty();
+    let arr = [];
     
     $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
     for (let i = 0; i < data.length; i++) {
@@ -75,10 +76,10 @@ $(document).ready(function () {
       );
     });
 
-    if (arr.length == 0) {
-      $('.selectPricelist').hide();
-      return 1;
-    }
+    // if (arr.length == 0) {
+    //   $('.selectPricelist').hide();
+    //   return 1;
+    // }
 
     if (arr.length == 1) {
       $(`#pricesList option[value=${arr[0].id_price_list}]`).prop('selected', true);

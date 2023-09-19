@@ -230,8 +230,8 @@ if (sizeof($_SESSION) == 0)
                                             <h5 class="card-title productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
                                             <div class="text-center">
                                                 <div class="btn-group">
-                                                    <button class="btn btn-sm btn-primary" id="sugered" value="1">Sugerido</button>
-                                                    <button class="btn btn-sm btn-outline-primary" id="actual" value="2">Actual</button>
+                                                    <button class="btn btn-sm btn-primary typePrice" id="sugered" value="1">Sugerido</button>
+                                                    <button class="btn btn-sm btn-outline-primary typePrice" id="actual" value="2">Actual</button>
                                                 </div>
                                             </div>
                                         </div>
