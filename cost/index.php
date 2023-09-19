@@ -74,7 +74,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="text-center">
                                                 <div id="t-rev"></div>
                                                 <span class="text-info font-weight-bold font-size-23">
-                                                    <i class='bx bx-box fs-lg'></i>
+                                                    <i class='bx bxs-spreadsheet fs-xl'></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -92,7 +92,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="text-center">
                                                 <div id="t-rev"></div>
                                                 <span class="text-info font-weight-bold font-size-13">
-                                                    <i class='bx bxs-customize fs-lg'></i>
+                                                    <i class='bx bxs-package fs-xl'></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="text-center">
                                                 <div id="t-user"></div>
                                                 <span class="text-success font-weight-bold font-size-13">
-                                                    <i class='bx bx-money fs-lg'></i>
+                                                    <i class='bx bx-money fs-xl'></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -164,7 +164,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="text-center">
                                                 <div id="t-visitor"></div>
                                                 <span class="text-danger font-weight-bold font-size-13">
-                                                    <i class='bx bxs-pie-chart-alt-2 fs-lg'></i>
+                                                    <i class='bx bxs-pie-chart-alt-2 fs-xl'></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@ if (sizeof($_SESSION) == 0)
                                                 <h2 class="mb-0 mt-1 text-white" id="actualProfitabilityAverage"></h2>
                                             </div>
                                             <div class="align-self-center mt-1">
-                                                <i class="bx bxs-time fs-xl"></i>
+                                                <i class="bx bx-line-chart fs-xl"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +215,7 @@ if (sizeof($_SESSION) == 0)
                                                 <h2 class="mb-0 mt-1 text-white" id="multiproducts"></h2>
                                             </div>
                                             <div class="align-self-center mt-1">
-                                                <i class="bx bxs-time fs-xl"></i>
+                                                <i class="bx bx-bar-chart-alt fs-xl"></i>
                                             </div>
                                         </div>
                                     </div>
