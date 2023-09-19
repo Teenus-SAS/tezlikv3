@@ -198,7 +198,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="text-center">
                                                 <!-- <div id="t-rev"></div> -->
                                                 <span class="text-danger font-weight-bold" style="font-size:large">
-                                                    <i class="" id="actualProfitability" style="font-style: initial;"></i>
+                                                    <i class="cardTrafficLight" style="font-style: initial;"></i>
                                                 </span>
                                             </div>
                                         </div>
