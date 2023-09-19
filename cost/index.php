@@ -238,7 +238,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-body pt-2">
+                                        <div class="card-body chart-container">
                                             <canvas id="chartProductsCost" class="chart"></canvas>
                                         </div>
                                     </div>
