@@ -172,15 +172,15 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card bg-warning">
+                                <div class="card radius-10 border-start border-0 border-3 border-warning">
                                     <div class="card-body">
-                                        <div class="media text-white">
+                                        <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="text-uppercase font-size-12 font-weight-bold">PTO EQUILIBRIO</span>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">PTO EQUILIBRIO</span>
                                                 <h2 class="mb-0 mt-1 text-white" id="multiproducts"></h2>
                                             </div>
                                             <div class="align-self-center mt-1">
-                                                <i class="bx bxs-time fs-xl"></i>
+                                                <i class="bx bx-scan fs-xl"></i>
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +194,7 @@ if (sizeof($_SESSION) == 0)
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
                             <div class="col-md-4 col-lg-3">
-                                <div class="card bg-info">
+                                <div class="radius-10 border-start border-0 border-3 border-warning">
                                     <div class="card-body">
                                         <div class="media text-white">
                                             <div class="media-body">
