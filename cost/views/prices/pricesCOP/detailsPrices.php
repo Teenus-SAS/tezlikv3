@@ -163,7 +163,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col">
+                            <!-- <div class="col">
                                 <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media-body align-items-center">
@@ -171,14 +171,9 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
                                                     <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: x-large"></h3>
-                                                    <!-- <div class="col-sm-1 cardTrafficLight"></div> -->
+                                                    <div class="col-sm-1 cardTrafficLight"></div>
                                                 </div>
-                                                <div class="text-center">
-                                                    <span class="text-info font-weight-bold font-size-13">
-                                                        <i class="bx bxs-package fs-xl"></i>
-                                                    </span>
-                                                </div>
-
+                                                
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Minima/Deseada</span>
                                                     <h3 class="mb-0 mt-1" id="minProfit" style="font-size: x-large"></h3>
@@ -188,8 +183,48 @@ if (sizeof($_SESSION) == 0)
 
                                     </div>
                                 </div>
+                            </div> -->
+                        </div>
+
+                        <div class="row-cols-1 row-cols-md-2 row-cols-xl-4">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-danger">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materia Prima</span>
+                                                <h2 class="mb-0 mt-1 costProduct text-danger" id="rawMaterial"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <!-- <div id="t-rev"></div> -->
+                                                <span class="text-danger font-weight-bold" style="font-size:large">
+                                                    <i class="" id="percentRawMaterial" style="font-style: initial;"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mano de Obra</span>
+                                                <h2 class="mb-0 mt-1 text-info" id="workforce"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <!-- <div id="t-order"></div> -->
+                                                <span class="text-info font-weight-bold" style="font-size:large">
+                                                    <i class="" id="percentWorkforce" style="font-style: initial;"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+
 
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
