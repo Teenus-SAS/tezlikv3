@@ -170,13 +170,13 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
                                                 <div class="media align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                    <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: 19px"></h3>
+                                                    <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: x-large"></h3>
                                                     <div class="col-sm-1 cardTrafficLight"></div>
                                                 </div>
 
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Minima/Deseada</span>
-                                                    <h3 class="mb-0 mt-1" id="minProfit" style="font-size: 19px"></h3>
+                                                    <h3 class="mb-0 mt-1" id="minProfit" style="font-size: x-large"></h3>
                                                 </div>
                                             </div>
                                         </div>
