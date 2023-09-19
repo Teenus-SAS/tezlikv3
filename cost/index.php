@@ -206,15 +206,15 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                                 <div class="card">
-                                    <div class="card-header">
+                                    <!-- <div class="card-header">
                                         <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
-                                    </div>
+                                    </div> -->
                                     <div class="card-body p-0">
                                         <ul class="list-group list-group-flush">
                                             <li class="list-group-item py-4">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <p class="text-muted mb-2">Alistamiento</p>
+                                                        <p class="text-muted mb-2">Tiempo Alistamiento (Prom)</p>
                                                         <h4 class="mb-0 number" id="enlistmentTime"></h4>
                                                     </div>
                                                     <div class="avatar avatar-md bg-info mr-0 align-self-center">
@@ -225,7 +225,7 @@ if (sizeof($_SESSION) == 0)
                                             <li class="list-group-item py-4">
                                                 <div class="media">
                                                     <div class="media-body">
-                                                        <p class="text-muted mb-2">Operación</p>
+                                                        <p class="text-muted mb-2">Tiempo Operación (Prom)</p>
                                                         <h4 class="mb-0 number" id="operationTime"></h4>
                                                     </div>
                                                     <div class="avatar avatar-md bg-primary mr-0 align-self-center">
