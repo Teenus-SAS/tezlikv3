@@ -198,7 +198,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="text-center">
                                                 <!-- <div id="t-rev"></div> -->
                                                 <span class="text-danger font-weight-bold" style="font-size:large">
-                                                    <i class="" id="minProfit" style="font-style: initial;"></i>
+                                                    <i class="" id="actualProfitability" style="font-style: initial;"></i>
                                                 </span>
                                             </div>
                                         </div>
@@ -211,12 +211,12 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Mínima Deseada</span>
-                                                <h2 class="mb-0 mt-1 text-info" id="workforce"></h2>
+                                                <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-order"></div> -->
                                                 <span class="text-info font-weight-bold" style="font-size:large">
-                                                    <i class="" id="percentWorkforce" style="font-style: initial;"></i>
+                                                    <i class="" id="minProfit" style="font-style: initial;"></i>
                                                 </span>
                                             </div>
                                         </div>
