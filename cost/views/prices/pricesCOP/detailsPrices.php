@@ -146,14 +146,18 @@ if (sizeof($_SESSION) == 0)
 
                         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 actualSalePrice">
                             <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                <div class="card radius-10 border-start border-0 border-3 border-success">
                                     <div class="card-body">
                                         <div class="media align-items-center">
-                                            <div class="media-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
-                                                <h3 class="mb-0 mt-1" id="actualSalePrice" style="font-size: 19px"></h3>
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
-                                                <h3 class="mb-0 mt-1 suggestedPrice" style="font-size: 19px"></h3>
+                                            <div class="card-body">
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
+                                                    <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: 19px"></h2>
+                                                    <div class="text-center">
+                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
+                                                        <h3 class="mb-0 mt-1 text-warning suggestedPrice" style="font-size: 19px"></h3>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
