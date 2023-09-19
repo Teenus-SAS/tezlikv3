@@ -81,7 +81,25 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col"> <!-- profitability -->
+                            <div class="col"> <!-- Materials -->
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
+                                                <h2 class="mb-0 mt-1 text-info" id="materials"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <div id="t-rev"></div>
+                                                <span class="text-info font-weight-bold font-size-13">
+                                                    <i class='bx bxs-customize fs-lg'></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col"> profitability
                                 <div class="card radius-10 border-start border-0 border-3 border-warning">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -98,7 +116,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col"> <!-- commision sales -->
                                 <div class="card radius-10 border-start border-0 border-3 border-success">
                                     <div class="card-body">
@@ -117,7 +135,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col"> <!-- breakeven -->
+                            <!-- <div class="col"> breakeven
                                 <div class="card radius-10 border-start border-0 border-3 border-primary">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -134,7 +152,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col"> <!-- expenses -->
                                 <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
@@ -154,27 +172,10 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                        <!-- <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
 
-                            <div class="col"> <!-- Materials -->
-                                <div class="card radius-10 border-start border-0 border-3 border-info">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
-                                                <h2 class="mb-0 mt-1 text-info" id="materials"></h2>
-                                            </div>
-                                            <div class="text-center">
-                                                <div id="t-rev"></div>
-                                                <span class="text-info font-weight-bold font-size-13">
-                                                    <i class='bx bxs-customize fs-lg'></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
+                        </div> -->
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
                             <div class="col-md-4 col-lg-3">
@@ -183,7 +184,20 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media text-white">
                                             <div class="media-body">
                                                 <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                <h2 class="mb-0 mt-1 text-white" id="actualProfitabilityAverage">99.9%</h2>
+                                                <h2 class="mb-0 mt-1 text-white" id="actualProfitabilityAverage"></h2>
+                                            </div>
+                                            <div class="align-self-center mt-1">
+                                                <i class="bx bxs-time fs-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card bg-warning">
+                                    <div class="card-body">
+                                        <div class="media text-white">
+                                            <div class="media-body">
+                                                <span class="text-uppercase font-size-12 font-weight-bold">PTO EQUILIBRIO</span>
+                                                <h2 class="mb-0 mt-1 text-white" id="multiproducts"></h2>
                                             </div>
                                             <div class="align-self-center mt-1">
                                                 <i class="bx bxs-time fs-xl"></i>
