@@ -76,11 +76,11 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materia Prima</span>
-                                                <h2 class="mb-0 mt-1 costProduct" id="rawMaterial"></h2>
+                                                <h2 class="mb-0 mt-1 costProduct text-danger" id="rawMaterial"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-rev"></div> -->
-                                                <span class="text-info font-weight-bold" style="font-size:large">
+                                                <span class="text-danger font-weight-bold" style="font-size:large">
                                                     <i class="" id="percentRawMaterial" style="font-style: initial;"></i>
                                                 </span>
                                             </div>
