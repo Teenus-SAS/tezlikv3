@@ -63,6 +63,24 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <!-- Widget  -->
                         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                            <div class="col"> <!-- Products -->
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Productos</span>
+                                                <h2 class="mb-0 mt-1 text-info" id="products"></h2>
+                                            </div>
+                                            <div class="text-center">
+                                                <div id="t-rev"></div>
+                                                <span class="text-info font-weight-bold font-size-23">
+                                                    <i class='bx bx-box fs-lg'></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col"> <!-- profitability -->
                                 <div class="card radius-10 border-start border-0 border-3 border-warning">
                                     <div class="card-body">
@@ -137,24 +155,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
                         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
-                            <div class="col"> <!-- Products -->
-                                <div class="card radius-10 border-start border-0 border-3 border-info">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Productos</span>
-                                                <h2 class="mb-0 mt-1 text-info" id="products"></h2>
-                                            </div>
-                                            <div class="text-center">
-                                                <div id="t-rev"></div>
-                                                <span class="text-info font-weight-bold font-size-23">
-                                                    <i class='bx bx-box fs-lg'></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                             <div class="col"> <!-- Materials -->
                                 <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
@@ -176,7 +177,20 @@ if (sizeof($_SESSION) == 0)
                         </div>
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
-                            <div class="col-lg-3">
+                            <div class="col-md-4 col-lg-3">
+                                <div class="card bg-info">
+                                    <div class="card-body">
+                                        <div class="media text-white">
+                                            <div class="media-body">
+                                                <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                                                <h2 class="mb-0 mt-1 text-white" id="actualProfitabilityAverage">99.9%</h2>
+                                            </div>
+                                            <div class="align-self-center mt-1">
+                                                <i class="bx bxs-time fs-xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
@@ -223,10 +237,10 @@ if (sizeof($_SESSION) == 0)
                             <!-- Begin total revenue chart -->
 
                             <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                <div class="col-sm-6">
+                                <div class="col-lg-6">
                                 <?php } ?>
                                 <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                    <div class="col-sm-9">
+                                    <div class="col-lg-9">
                                     <?php } ?>
                                     <div class="card">
                                         <div class="card-header dflex-between-center">
