@@ -71,7 +71,7 @@ if (sizeof($_SESSION) == 0)
                         <!-- Widget  -->
                         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
                             <div class="col">
-                                <div class="card card radius-10 border-start border-0 border-3 border-danger">
+                                <div class="card radius-10 border-start border-0 border-3 border-danger">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -89,12 +89,12 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card card card radius-10 border-start border-0 border-3 border-info">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mano de Obra</span>
-                                                <h2 class="mb-0 mt-1" id="workforce"></h2>
+                                                <h2 class="mb-0 mt-1 text-info" id="workforce"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-order"></div> -->
@@ -107,12 +107,12 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card card card radius-10 border-start border-0 border-3 border-info">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Costos Indirectos</span>
-                                                <h2 class="mb-0 mt-1 number" id="indirectCost"></h2>
+                                                <h2 class="mb-0 mt-1 number text-info" id="indirectCost"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-user"></div> -->
@@ -130,7 +130,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gastos Generales</span>
-                                                <h2 class="mb-0 mt-1 number" id="assignableExpenses"></h2>
+                                                <h2 class="mb-0 mt-1 number text-warning" id="assignableExpenses"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-visitor"></div> -->
@@ -144,10 +144,9 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-
-                        <div class="row actualSalePrice">
-                            <div class="col-md-6 col-xl-6">
-                                <div class="card">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 actualSalePrice">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
@@ -160,8 +159,8 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-6">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-sm-3">
@@ -183,6 +182,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
+
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
                             <div class="col">
