@@ -40,12 +40,17 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let materialsToImport = data.map((item) => {
+          let costRawMaterial = '';
+
+          if (item.costo)
+            costRawMaterial = item.costo.toString().replace('.', ',');
+
           return {
             refRawMaterial: item.referencia,
             nameRawMaterial: item.material,
             magnitude: item.magnitud,
             unit: item.unidad,
-            costRawMaterial: item.costo,
+            costRawMaterial: costRawMaterial,
           };
         });
 

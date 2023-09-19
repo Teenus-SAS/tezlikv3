@@ -27,10 +27,15 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let productsToImport = data.map((item) => {
+          let salePrice = '';
+
+          if (item.precio_venta)
+            salePrice = item.precio_venta.toString().replace('.', ',');
+
           return {
             referenceProduct: item.referencia,
             product: item.producto,
-            salePrice: item.precio_venta,
+            salePrice: salePrice,
             profitability: item.rentabilidad,
             commissionSale: item.comision_ventas,
           };
