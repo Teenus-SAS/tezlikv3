@@ -99,7 +99,12 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="card-body">
                                                     <div class="media align-items-center">
                                                         <div class="media-body">
-                                                            <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
+                                                            <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
+                                                            <?php } ?>
+                                                            <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mat Primas</span>
+                                                            <?php } ?>
                                                             <h2 class="mb-0 mt-1 text-info" id="materials"></h2>
                                                         </div>
                                                         <div class="text-center">
@@ -112,24 +117,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             </div>
                                             </div>
-                                            <!-- <div class="col"> profitability
-                                <div class="card radius-10 border-start border-0 border-3 border-warning">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad actual (Promedio)</span>
-                                                <h2 class="mb-0 mt-1 text-warning" id="actualProfitabilityAverage"></h2>
-                                            </div>
-                                            <div class="text-center">
-                                                <div id="t-user"></div>
-                                                <span class="text-success font-weight-bold font-size-13">
-                                                    <i class='bx bx-money fs-lg'></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+
                                             <div class="col"> <!-- commision sales -->
                                                 <div class="card radius-10 border-start border-0 border-3 border-success">
                                                     <div class="card-body">
@@ -148,24 +136,7 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- <div class="col"> breakeven
-                                <div class="card radius-10 border-start border-0 border-3 border-primary">
-                                    <div class="card-body">
-                                        <div class="media align-items-center">
-                                            <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Pto De Equilibrio</span>
-                                                <h2 class="mb-0 mt-1 text-primary" id="multiproducts"></h2>
-                                            </div>
-                                            <div class="text-center">
-                                                <div id="t-visitor"></div>
-                                                <span class="text-danger font-weight-bold font-size-13">
-                                                    <i class='bx bxs-pie-chart-alt-2 fs-lg'></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+
                                             <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
                                                 <div class="col-xl-3"> <!-- Expenses -->
                                                 <?php } ?>
@@ -206,10 +177,7 @@ if (sizeof($_SESSION) == 0)
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
 
-
-                        </div> -->
                                                 <!-- Row 2-->
                                                 <div class="row align-items-stretch">
                                                     <div class="col-md-4 col-lg-3">
@@ -231,7 +199,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <div class="media text-white">
                                                                     <div class="media-body">
                                                                         <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Deseada</span>
-                                                                        <h2 class="mb-0 mt-1 text-white" id="multiproducts"></h2>
+                                                                        <h2 class="mb-0 mt-1 text-white" id="profitabilityAverage"></h2>
                                                                     </div>
                                                                     <div class="align-self-center mt-1">
                                                                         <i class="bx bx-bar-chart-alt fs-xl"></i>
@@ -241,8 +209,8 @@ if (sizeof($_SESSION) == 0)
                                                         </div>
                                                         <div class="card">
                                                             <!-- <div class="card-header">
-                                        <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
-                                    </div> -->
+                                                                    <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
+                                                            </div> -->
                                                             <div class="card-body p-0">
                                                                 <ul class="list-group list-group-flush">
                                                                     <li class="list-group-item py-4" style="border-radius: 10px 10px 0 0;">
