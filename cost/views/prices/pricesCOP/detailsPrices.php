@@ -172,8 +172,7 @@ if (sizeof($_SESSION) == 0)
                                                     <div class="media align-items-center">
                                                         <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
                                                         <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: 19px"></h3>
-                                                        <div class="col-sm-1 cardTrafficLight">
-                                                        </div>
+                                                        <!-- <div class="col-sm-1 cardTrafficLight"></div> -->
                                                     </div>
 
                                                     <div class="media-body align-items-center">
