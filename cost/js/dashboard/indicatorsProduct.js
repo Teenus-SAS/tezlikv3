@@ -213,11 +213,11 @@ $(document).ready(function () {
     let content = '';
     
     if (dataCost.actualProfitability == data[0].profitability)
-      content = '<i class="bi bi-info-circle-fill" style="font-size: 20px;color:orange"></i>';
+      content = '<i class="bx bxs-no-entry" style="font-size: xxx-large;color:orange"></i>';
     else if (dataCost.actualProfitability > data[0].profitability)
-      content = '<i class="bi bi-check-circle-fill" style="font-size: 20px;color:green"></i>';
+      content = '<i class="bx bxs-check-circle" style="font-size: xxx-large;color:green"></i>';
     else
-      content = '<i class="bi bi-x-circle-fill" style="font-size: 20px;color:red"></i>';
+      content = '<i class="bx bxs-x-circle" style="font-size: xxx-large;color:red"></i>';
     
     $('.cardTrafficLight').append(content);
   };
