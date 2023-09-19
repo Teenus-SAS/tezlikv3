@@ -166,7 +166,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col">
                                 <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
-                                        <div class="row">
+                                        <!-- <div class="row"> -->
                                             <div class="media align-items-center">
                                                 <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
                                                     <div class="media align-items-center">
@@ -181,7 +181,7 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        <!-- </div> -->
                                     </div>
                                 </div>
                             </div>
