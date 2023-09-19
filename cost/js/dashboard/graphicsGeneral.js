@@ -5,7 +5,7 @@ $(document).ready(function () {
     window.innerWidth || 0
   ); 
 
-  anchura <= 480 ? (length = 5) : (length = 10);
+  //anchura <= 480 ? (length = 5) : (length = 10);
 
   /* Tiempo de procesos */
   graphicTimeProcessByProduct = (data) => {

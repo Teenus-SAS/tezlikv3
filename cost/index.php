@@ -223,10 +223,10 @@ if (sizeof($_SESSION) == 0)
                             <!-- Begin total revenue chart -->
 
                             <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                <div class="col-sm-6" style="height: fit-content;">
+                                <div class="col-sm-6">
                                 <?php } ?>
                                 <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                    <div class="col-sm-9" style="height: fit-content;">
+                                    <div class="col-sm-9">
                                     <?php } ?>
                                     <div class="card">
                                         <div class="card-header dflex-between-center">
