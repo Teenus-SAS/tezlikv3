@@ -13,9 +13,9 @@ if (sizeof($_SESSION) == 0)
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="LetStart Admin is a full featured, multipurpose, premium bootstrap admin template built with Bootstrap 4 Framework, HTML5, CSS and JQuery.">
-    <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
-    <meta name="author" content="MatrrDigital">
+    <meta name="description" content="Cotice en minutos, y no vuelva a perder mas oportunidades de negocio">
+    <meta name="keywords" content="cotizar, costos, precio, competitividad, ventajas, beneficios, diferenciacion">
+    <meta name="author" content="Teenus">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tezlik - Cost | Details Prices</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
@@ -69,9 +69,9 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
                         <!-- Widget  -->
-                        <div class="row">
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5">
+                            <div class="col">
+                                <div class="card card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -88,7 +88,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
+                            <div class="col">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -106,7 +106,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
+                            <div class="col">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -124,7 +124,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
+                            <div class="col">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="media align-items-center">
@@ -143,6 +143,8 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="row actualSalePrice">
                             <div class="col-md-6 col-xl-6">
                                 <div class="card">

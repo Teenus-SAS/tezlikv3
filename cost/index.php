@@ -226,7 +226,7 @@ if (sizeof($_SESSION) == 0)
                                     </div> -->
                                     <div class="card-body p-0">
                                         <ul class="list-group list-group-flush">
-                                            <li class="list-group-item py-4">
+                                            <li class="list-group-item py-4" style="border-radius: 10px 10px 0 0;">
                                                 <div class="media">
                                                     <div class="media-body">
                                                         <p class="text-muted mb-2">Tiempo Alistamiento (Prom)</p>
@@ -248,7 +248,7 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                             </li>
-                                            <li class="list-group-item py-4">
+                                            <li class="list-group-item py-4" style="border-radius: 0 0 10px 10px;">
                                                 <div class="media">
                                                     <div class="media-body">
                                                         <p class="text-muted mb-2">Tiempo Total Promedio</p>
