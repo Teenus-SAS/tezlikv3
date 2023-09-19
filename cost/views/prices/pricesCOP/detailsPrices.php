@@ -71,16 +71,16 @@ if (sizeof($_SESSION) == 0)
                         <!-- Widget  -->
                         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
                             <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-danger">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materia Prima</span>
-                                                <h2 class="mb-0 mt-1 costProduct text-danger" id="rawMaterial"></h2>
+                                                <h2 class="mb-0 mt-1 costProduct text-info" id="rawMaterial"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-rev"></div> -->
-                                                <span class="text-danger font-weight-bold" style="font-size:large">
+                                                <span class="text-info font-weight-bold" style="font-size:large">
                                                     <i class="" id="percentRawMaterial" style="font-style: initial;"></i>
                                                 </span>
                                             </div>
@@ -125,12 +125,12 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card card card radius-10 border-start border-0 border-3 border-warning">
+                                <div class="card card card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gastos Generales</span>
-                                                <h2 class="mb-0 mt-1 number text-warning" id="assignableExpenses"></h2>
+                                                <h2 class="mb-0 mt-1 number text-info" id="assignableExpenses"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-visitor"></div> -->
@@ -184,8 +184,6 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div> -->
-
-
 
                             <div class="col-xl-3">
                                 <div class="card radius-10 border-start border-0 border-3 border-danger">
