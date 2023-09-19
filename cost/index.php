@@ -176,7 +176,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
-                            <div class="col">
+                            <div class="col-lg-3">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
@@ -221,147 +221,147 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <!-- Begin total revenue chart -->
-                            <div class="row">
-                                <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                    <div class="col-sm-6" style="height: fit-content;">
+
+                            <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                <div class="col-sm-6" style="height: fit-content;">
+                                <?php } ?>
+                                <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                    <div class="col-sm-9" style="height: fit-content;">
                                     <?php } ?>
-                                    <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                        <div class="col-sm-9" style="height: fit-content;">
-                                        <?php } ?>
+                                    <div class="card">
+                                        <div class="card-header dflex-between-center">
+                                            <h5 class="card-title productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
+                                            <div class="text-center">
+                                                <div class="btn-group earningTabs">
+                                                    <button class="btn btn-sm waves-effect waves-light btn-primary typePrice" data-effect="wave" data-type="weekly" id="sugered">Sugerido</button>
+                                                    <button class="btn btn-sm waves-effect waves-light btn-outline-primary typePrice" data-effect="wave" data-type="monthly" id="actual">Actual</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body pt-2">
+                                            <canvas id="chartProductsCost" style="width: 100%;"></canvas>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                <?php if ($_SESSION['flag_expense'] != 2) { ?>
+                                    <div class="col-md-4 col-lg-3">
                                         <div class="card">
-                                            <div class="card-header dflex-between-center">
-                                                <h5 class="card-title productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
-                                                <div class="text-center">
-                                                    <div class="btn-group earningTabs">
-                                                        <button class="btn btn-sm waves-effect waves-light btn-primary typePrice" data-effect="wave" data-type="weekly" id="sugered">Sugerido</button>
-                                                        <button class="btn btn-sm waves-effect waves-light btn-outline-primary typePrice" data-effect="wave" data-type="monthly" id="actual">Actual</button>
+                                            <div class="card-header">
+                                                <h5 class="card-title">Ventas</h5>
+                                            </div>
+                                            <div class="card-body p-0">
+                                                <ul class="list-group list-group-flush">
+                                                    <li class="list-group-item py-4">
+                                                        <div class="media">
+                                                            <div class="media-body">
+                                                                <p class="text-muted mb-2">Total Unidades Vendidas</p>
+                                                                <h4 class="mb-0" id="productsSold"></h4>
+                                                            </div>
+                                                            <div class="avatar avatar-md bg-info mr-0 align-self-center">
+                                                                <i class="bx bx-layer fs-lg"></i>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="list-group-item py-4">
+                                                        <div class="media">
+                                                            <div class="media-body">
+                                                                <p class="text-muted mb-2">Total Ingresos por Ventas</p>
+                                                                <h4 class="mb-0" id="salesRevenue"></h4>
+                                                            </div>
+                                                            <div class="avatar avatar-md bg-primary mr-0 align-self-center">
+                                                                <i class="bx bx-bar-chart-alt fs-lg"></i>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="list-group-item py-4">
+                                                        <div class="media">
+                                                            <div class="media-body">
+                                                                <p class="text-muted mb-2">Rentabilidad Promedio</p>
+                                                                <h4 class="mb-0" id="profitabilityAverage">8,235</h4>
+                                                            </div>
+                                                            <div class="avatar avatar-md bg-success mr-0 align-self-center">
+                                                                <i class="bx bx-chart fs-lg"></i>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
+                                <!-- End total revenue chart -->
+
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Costo Mano de Obra (Min)</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="chartWorkForceGeneral" style="width: 80%;"></canvas>
+                                                <div class="center-text">
+                                                    <p class="text-muted mb-1 font-weight-600">Total Costo </p>
+                                                    <h4 class="mb-0 font-weight-bold" id="totalCostWorkforce"></h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Costo Carga Fabril</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="chart-container">
+                                                    <canvas id="chartFactoryLoadCost" style="width: 80%;"></canvas>
+                                                    <div class="center-text">
+                                                        <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
+                                                        <h4 class="mb-0 font-weight-bold" id="factoryLoadCost"></h4>
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- </div> -->
+
+                                    <!-- <div class="row"> -->
+
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Gastos Generales</h5>
+                                            </div>
                                             <div class="card-body pt-2">
-                                                <canvas id="chartProductsCost" style="width: 100%;"></canvas>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <?php if ($_SESSION['flag_expense'] != 2) { ?>
-                                        <div class="col-md-4 col-lg-3">
-                                            <div class="card">
-                                                <div class="card-header">
-                                                    <h5 class="card-title">Ventas</h5>
-                                                </div>
-                                                <div class="card-body p-0">
-                                                    <ul class="list-group list-group-flush">
-                                                        <li class="list-group-item py-4">
-                                                            <div class="media">
-                                                                <div class="media-body">
-                                                                    <p class="text-muted mb-2">Total Unidades Vendidas</p>
-                                                                    <h4 class="mb-0" id="productsSold"></h4>
-                                                                </div>
-                                                                <div class="avatar avatar-md bg-info mr-0 align-self-center">
-                                                                    <i class="bx bx-layer fs-lg"></i>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li class="list-group-item py-4">
-                                                            <div class="media">
-                                                                <div class="media-body">
-                                                                    <p class="text-muted mb-2">Total Ingresos por Ventas</p>
-                                                                    <h4 class="mb-0" id="salesRevenue"></h4>
-                                                                </div>
-                                                                <div class="avatar avatar-md bg-primary mr-0 align-self-center">
-                                                                    <i class="bx bx-bar-chart-alt fs-lg"></i>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li class="list-group-item py-4">
-                                                            <div class="media">
-                                                                <div class="media-body">
-                                                                    <p class="text-muted mb-2">Rentabilidad Promedio</p>
-                                                                    <h4 class="mb-0" id="profitabilityAverage">8,235</h4>
-                                                                </div>
-                                                                <div class="avatar avatar-md bg-success mr-0 align-self-center">
-                                                                    <i class="bx bx-chart fs-lg"></i>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                <div class="chart-container">
+                                                    <canvas id="chartExpensesGenerals" style="width: 80%;"></canvas>
+                                                    <div class="center-text">
+                                                        <p class="text-muted mb-1 font-weight-600">Total Gastos </p>
+                                                        <h4 class="mb-0 font-weight-bold" id="totalCost"></h4>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    <?php } ?>
-                                    <!-- End total revenue chart -->
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Costo Mano de Obra (Min)</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <canvas id="chartWorkForceGeneral" style="width: 80%;"></canvas>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total Costo </p>
-                                                <h4 class="mb-0 font-weight-bold" id="totalCostWorkforce"></h4>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="col-lg-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Costo Carga Fabril</h5>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="chart-container">
-                                                <canvas id="chartFactoryLoadCost" style="width: 80%;"></canvas>
+                                    <div class="col-lg-12" style="height: fit-content;">
+                                        <div class=" card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Tiempo Total de Fabricación por Producto (min)</h5>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <canvas id="chartTimeProcessProducts" style="width: 80%;"></canvas>
                                                 <div class="center-text">
-                                                    <p class="text-muted mb-1 font-weight-600">Tiempo Total</p>
-                                                    <h4 class="mb-0 font-weight-bold" id="factoryLoadCost"></h4>
+                                                    <p class="text-muted mb-1 font-weight-600"></p>
+                                                    <h4 class="mb-0 font-weight-bold"></h4>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- </div> -->
-
-                                <!-- <div class="row"> -->
-
-                                <div class="col-lg-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Gastos Generales</h5>
-                                        </div>
-                                        <div class="card-body pt-2">
-                                            <div class="chart-container">
-                                                <canvas id="chartExpensesGenerals" style="width: 80%;"></canvas>
-                                                <div class="center-text">
-                                                    <p class="text-muted mb-1 font-weight-600">Total Gastos </p>
-                                                    <h4 class="mb-0 font-weight-bold" id="totalCost"></h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12" style="height: fit-content;">
-                                    <div class=" card">
-                                        <div class="card-header">
-                                            <h5 class="card-title">Tiempo Total de Fabricación por Producto (min)</h5>
-                                        </div>
-                                        <div class="card-body pt-2">
-                                            <canvas id="chartTimeProcessProducts" style="width: 80%;"></canvas>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600"></p>
-                                                <h4 class="mb-0 font-weight-bold"></h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
