@@ -281,22 +281,23 @@ $(document).ready(function () {
     });
   };
 
-  $(document).on('click', '.typePrice',async function () {
-    let op = this.value;
+  // $(document).on('click', '.typePrice',async function () {
+  //   let op = this.value;
+  //   let className = this.class;
 
-    let data = await searchData('/api/dashboardExpensesGenerals');
-    if (op == 1 && $('#sugered').is(':checked')) {
-      $('#sugered').prop('checked', true);
-      $('#actual').prop('checked', false);
-      $('.productTitle').html('Productos con mayor rentabilidad (Sugerida)');
-      graphicProductCost(data.details_prices);
-    } else {
-      $('#actual').prop('checked', true);
-      $('#sugered').prop('checked', false);
-      $('.productTitle').html('Productos con mayor rentabilidad (Actual)');
-      graphicProductActualCost(data.details_prices);
-    }
-  });
+  //   let data = await searchData('/api/dashboardExpensesGenerals');
+  //   if (op == 1 && className.) {
+  //     $('#sugered').prop('checked', true);
+  //     $('#actual').prop('checked', false);
+  //     $('.productTitle').html('Productos con mayor rentabilidad (Sugerida)');
+  //     graphicProductCost(data.details_prices);
+  //   } else {
+  //     $('#actual').prop('checked', true);
+  //     $('#sugered').prop('checked', false);
+  //     $('.productTitle').html('Productos con mayor rentabilidad (Actual)');
+  //     graphicProductActualCost(data.details_prices);
+  //   }
+  // });
 
   // Rentabilidad y precio productos (Sugerido)
   graphicProductCost = (data) => {

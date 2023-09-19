@@ -275,9 +275,9 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-header dflex-between-center">
                                             <h5 class="card-title productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
                                             <div class="text-center">
-                                                <div class="btn-group earningTabs">
-                                                    <button class="btn btn-sm waves-effect waves-light btn-primary typePrice" data-effect="wave" data-type="weekly" id="sugered">Sugerido</button>
-                                                    <button class="btn btn-sm waves-effect waves-light btn-outline-primary typePrice" data-effect="wave" data-type="monthly" id="actual">Actual</button>
+                                                <div class="btn-group">
+                                                    <button class="btn btn-sm btn-primary" id="sugered" value="1">Sugerido</button>
+                                                    <button class="btn btn-sm btn-outline-primary" id="actual" value="2">Actual</button>
                                                 </div>
                                             </div>
                                         </div>

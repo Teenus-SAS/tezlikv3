@@ -27,11 +27,19 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let machinesToImport = data.map((item) => {
+          let cost = '';
+          let residualValue = '';
+
+          if(item.costo)
+            cost = item.costo.toString().replace('.', ',');
+          if(item.residualValue)
+            residualValue = item.valor_residual.toString().replace('.', ',');
+
           return {
             machine: item.maquina,
-            cost: item.costo,
+            cost: cost,
             depreciationYears: item.años_depreciacion,
-            residualValue: item.valor_residual,
+            residualValue: residualValue,
             hoursMachine: item.horas_maquina,
             daysMachine: item.dias_maquina,
           };
