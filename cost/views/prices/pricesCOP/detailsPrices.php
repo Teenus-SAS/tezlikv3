@@ -69,9 +69,9 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
                         <!-- Widget  -->
-                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
                             <div class="col">
-                                <div class="card card radius-10 border-start border-0 border-3 border-info">
+                                <div class="card card radius-10 border-start border-0 border-3 border-danger">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -89,7 +89,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card">
+                                <div class="card card card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -107,7 +107,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card">
+                                <div class="card card card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
@@ -125,7 +125,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col">
-                                <div class="card">
+                                <div class="card card card radius-10 border-start border-0 border-3 border-warning">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
