@@ -23,8 +23,9 @@ $(document).ready(function () {
     let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
+    if (custom_price == 1)
+      await loadPriceListByProduct(id);
     loadDataProduct(id);
-    await loadPriceListByProduct(id);
   });
 
   $('#selectNameProduct').change(async function (e) {
@@ -37,8 +38,9 @@ $(document).ready(function () {
 
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
-    let op = await loadPriceListByProduct(id);
-    loadDataProduct(id, op);
+    if (custom_price == 1)
+      await loadPriceListByProduct(id);
+    loadDataProduct(id);
   });
 
   loadDataProduct = async (id) => {
@@ -52,7 +54,7 @@ $(document).ready(function () {
     oldPrice = data.price;
     priceProduct = data.price;
 
-    if (op == 1)
+    if (custom_price == 0)
       $('#price').val(price);
 
     $('.imgProduct').empty();

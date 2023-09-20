@@ -98,12 +98,13 @@ if (sizeof($_SESSION) == 0)
 	<?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
 	<script src="/cost/js/basic/products/configProducts.js"></script>
-
-	<script src="/cost/js/general/priceList/configPriceList.js"></script>
+	<?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
+		<script src="/cost/js/general/priceList/configPriceList.js"></script>
+	<?php } ?>
 	<script>
+		custom_price = "<?= $_SESSION['custom_price'] ?>";
 		type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
 		flag_expense = "<?= $_SESSION['flag_expense'] ?>";
-		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";;
 		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
 	</script>
 	<script src="/global/js/global/orderData.js"></script>
