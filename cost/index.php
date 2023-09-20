@@ -299,17 +299,17 @@ if (sizeof($_SESSION) == 0)
                                                                                 </div>
                                                                             </div>
                                                                         </li>
-                                                                        <!-- <li class="list-group-item py-4">
-                                                                                <div class="media">
-                                                                                    <div class="media-body">
-                                                                                        <p class="text-muted mb-2">Rentabilidad Promedio</p>
-                                                                                        <h4 class="mb-0" id="profitabilityAverage">8,235</h4>
-                                                                                    </div>
-                                                                                    <div class="avatar avatar-md bg-success mr-0 align-self-center">
-                                                                                        <i class="bx bx-chart fs-lg"></i>
-                                                                                    </div>
+                                                                        <li class="list-group-item py-4">
+                                                                            <div class="media">
+                                                                                <div class="media-body">
+                                                                                    <p class="text-muted mb-2">Rentabilidad Promedio</p>
+                                                                                    <h4 class="mb-0" id="profitabilityAverage">8,235</h4>
                                                                                 </div>
-                                                                            </li> -->
+                                                                                <div class="avatar avatar-md bg-success mr-0 align-self-center">
+                                                                                    <i class="bx bx-chart fs-lg"></i>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
