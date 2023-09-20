@@ -27,6 +27,24 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let payrollToImport = data.map((item) => {
+          let basicSalary = '';
+          let transport = '';
+          let endowment = '';
+          let extraTime = '';
+          let bonification = '';
+
+          if (item.salario_basico)
+            basicSalary = item.salario_basico.toString().replace('.', ',');
+          if (item.transporte)
+            transport = item.transporte.toString().replace('.', ',');
+          if (item.dotaciones)
+            endowment = item.dotaciones.toString().replace('.', ',');
+          if (item.horas_extras)
+            extraTime = item.horas_extras.toString().replace('.', ',');
+          if (item.otros_ingresos)
+            bonification = item.otros_ingresos.toString().replace('.', ',');
+
+
           return {
             employee: item.nombres_y_apellidos,
             process: item.proceso,

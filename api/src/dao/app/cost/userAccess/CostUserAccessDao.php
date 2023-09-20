@@ -58,7 +58,7 @@ class CostUserAccessDao
         return $users;
     }
 
-    public function insertUserAccessByUser($dataUser)
+    public function insertUserAccessByUser($dataUser, $typeCustomPrice)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -78,7 +78,7 @@ class CostUserAccessDao
                 'product_materials' => $dataUser['costProductMaterials'],       'price' => $dataUser['price'],
                 'product_process' => $dataUser['costProductProcess'],           'price_usd' => $dataUser['priceUSD'],
                 'factory_load' => $dataUser['factoryLoad'],                     'custom_price' => $dataUser['customPrices'],
-                'external_service' => $dataUser['externalService'],             'type_custom_price' => $dataUser['typeCustomPrices'],
+                'external_service' => $dataUser['externalService'],             'type_custom_price' => $typeCustomPrice,
                 'payroll_load' => $dataUser['payrollLoad'],                     'analysis_material' => $dataUser['analysisMaterial'],
                 'expense' => $dataUser['expense'],                              'simulator' => $dataUser['simulator'],
                 'expense_distribution' => $dataUser['expenseDistribution'],     'support' => $dataUser['support'],
@@ -114,7 +114,7 @@ class CostUserAccessDao
         $dataUser['factoryLoad'] = 1;
         $dataUser['priceUSD'] = 1;
         $dataUser['customPrices'] = 1;
-        $dataUser['typeCustomPrices'] = 1;
+        $dataUser['typeCustomPrices'] = -1;
         $dataUser['externalService'] = 1;
         $dataUser['analysisMaterial'] = 1;
         $dataUser['payrollLoad'] = 1;
@@ -127,7 +127,7 @@ class CostUserAccessDao
         return $dataUser;
     }
 
-    public function updateUserAccessByUsers($dataUser)
+    public function updateUserAccessByUsers($dataUser, $typeCustomPrice)
     {
         $connection = Connection::getInstance()->getConnection();
         /* Hacer un select
@@ -155,7 +155,7 @@ class CostUserAccessDao
                     'product_materials' => $dataUser['costProductMaterials'],       'price' => $dataUser['price'],
                     'product_process' => $dataUser['costProductProcess'],           'price_usd' => $dataUser['priceUSD'],
                     'factory_load' => $dataUser['factoryLoad'],                     'custom_price' => $dataUser['customPrices'],
-                    'external_service' => $dataUser['externalService'],             'type_custom_price' => $dataUser['typeCustomPrices'],
+                    'external_service' => $dataUser['externalService'],             'type_custom_price' => $typeCustomPrice,
                     'payroll_load' => $dataUser['payrollLoad'],                     'analysis_material' => $dataUser['analysisMaterial'],
                     'expense' => $dataUser['expense'],                              'simulator' => $dataUser['simulator'],
                     'expense_distribution' => $dataUser['expenseDistribution'],     'support' => $dataUser['support'],

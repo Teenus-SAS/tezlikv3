@@ -26,6 +26,11 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let productMaterialsToImport = data.map((item) => {
+          let quantity = '';
+
+          if (item.precio_venta)
+            quantity = item.cantidad.toString().replace('.', ',');
+
           return {
             referenceProduct: item.referencia_producto,
             product: item.producto,
@@ -33,7 +38,7 @@ $(document).ready(function () {
             nameRawMaterial: item.material,
             magnitude: item.magnitud,
             unit: item.unidad,
-            quantity: item.cantidad,
+            quantity: quantity,
           };
         });
         checkProductMaterial(productMaterialsToImport);

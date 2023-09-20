@@ -27,10 +27,15 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let expenseToImport = data.map((item) => {
+          let expenseValue = '';
+
+          if (item.valor)
+            expenseValue = item.valor.toString().replace('.', ',');
+
           return {
             numberCount: item.numero_cuenta,
             count: item.cuenta,
-            expenseValue: item.valor,
+            expenseValue: expenseValue,
           };
         });
         checkExpense(expenseToImport);

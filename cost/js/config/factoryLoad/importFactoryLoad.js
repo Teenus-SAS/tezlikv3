@@ -25,12 +25,17 @@ $(document).ready(function () {
     }
 
     importFile(selectedFile)
-      .then((data) => {
+      .then((data) => { 
         let factoryLoadToImport = data.map((item) => {
+          let costFactory = '';
+
+          if (item.costo)
+            costFactory = item.costo.toString().replace('.', ',');
+
           return {
             machine: item.maquina,
             descriptionFactoryLoad: item.descripcion,
-            costFactory: item.costo,
+            costFactory: costFactory,
           };
         });
         checkFactoryLoad(factoryLoadToImport);

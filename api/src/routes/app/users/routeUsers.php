@@ -65,7 +65,6 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     //obtener cantidad de usuarios creados con el id_company
     $quantityCreatedUsers = $quantityUsersDao->quantityUsersCreated($id_company);
 
-
     if ($quantityAllowsUsers['quantity_user'] <= $quantityCreatedUsers['quantity_users'])
         $resp = array('error' => true, 'message' => 'Cantidad de usuarios maxima alcanzada');
     else {
@@ -95,7 +94,12 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                         $user = $userDao->findUser($dataUser['emailUser']);
                         $dataUser['idUser'] = $user['id_user'];
 
-                        $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                        if (sizeof($dataUser['typeCustomPrices']) == 1)
+                            $typeCustomPrice = $dataUser['typeCustomPrices'][0];
+                        else
+                            $typeCustomPrice = implode(',', $dataUser['typeCustomPrices']);
+
+                        $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $typeCustomPrice);
                     }
                 }
             } else $users = 1;
@@ -159,7 +163,7 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
                 $user = $userDao->findUser($args['email']);
                 $dataUser = $costAccessUserDao->setDataUserAccessDemo($user['id_user']);
 
-                $resolution = $costAccessUserDao->insertUserAccessByUser($dataUser);
+                $resolution = $costAccessUserDao->insertUserAccessByUser($dataUser, -1);
             }
             // }
         } else $resolution = 1;
@@ -185,15 +189,15 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
     session_start();
     $dataUser = $request->getParsedBody();
 
-    !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
+    // !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
 
     if (empty($dataUser['nameUser']) && empty($dataUser['lastnameUser'])) {
         $resp = array('error' => true, 'message' => 'Ingrese sus Nombres y Apellidos completos');
     } else {
         $users = $userDao->updateUser($dataUser, null);
-        $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
+        // $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
     }
-    if ($users == null && $usersAccess == null)
+    if ($users == null)
         $resp = array('success' => true, 'message' => 'Usuario actualizado correctamente');
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error, Intente nuevamente');

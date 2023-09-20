@@ -27,11 +27,16 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let externalServiceToImport = data.map((item) => {
+          let costService = '';
+
+          if (item.costo)
+            costService = item.costo.toString().replace('.', ',');
+
           return {
             referenceProduct: item.referencia_producto,
             product: item.producto,
             service: item.servicio,
-            costService: item.costo,
+            costService: costService,
           };
         });
         checkExternalService(externalServiceToImport);

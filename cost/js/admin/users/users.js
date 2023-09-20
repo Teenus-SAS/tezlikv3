@@ -36,24 +36,26 @@ $(document).ready(function () {
     $(`#${this.id}`).is(':checked') ? op = true : op = false;
     $(`#${this.id}`).prop('checked', op);
     
+    if (this.id == '-1')
+      $(`.typePriceList`).prop('checked', op);
+  
     if (!$(`#${this.id}`).is(':checked')) {
-      if (this.id == '-1') { 
+      if (this.id == '-1') {
         for (i = 0; i < typeCustomPrices.length; i++) {
           typeCustomPrices.splice(i, 1);
         }
       } else
-      for (let i = 0; i < typeCustomPrices.length; i++) {
-        if (typeCustomPrices[i] == this.id) typeCustomPrices.splice(i, 1);
-      }
-    } else if (this.id == '-1') {
-      $('.typePriceList').prop('checked', op);
-      let typePriceList = document.getElementsByClassName('typePriceList');
-
-      for (i = 1; i < typePriceList.length; i++) {
-        typeCustomPrices.push(typePriceList[i].id);
-      }
-    }
-    else {
+        if (this.id == '-1') {
+          typeCustomPrices = [];
+          $(`#-1`).prop('checked', op);
+        }
+        else
+          for (let i = 0; i < typeCustomPrices.length; i++) {
+            if (typeCustomPrices[i] == this.id) typeCustomPrices.splice(i, 1);
+          }
+    } else {
+      if (this.id == '-1')
+        typeCustomPrices = [];
       typeCustomPrices.push(this.id);
     }
   });
@@ -185,9 +187,31 @@ $(document).ready(function () {
     if ($(`#checkbox-9`).is(':checked')) $('.cardTypePayroll').show();
     if ($(`#checkbox-19`).is(':checked')) $('.cardTypePrices').show();
 
-    
     $(`#typePayroll option[value=${data.type_payroll}]`).prop('selected', true);
-    $(`#pricesList option[value=${data.type_custom_price}]`).prop('selected', true);
+
+    typeCustomPrices = [];
+    let typePriceList = document.getElementsByClassName('typePriceList');
+    let type_custom_price = data.type_custom_price.toString().split(",");
+
+    $(`.typePriceList`).prop('checked', false);
+
+    if (type_custom_price[0] == '-1') {
+      $(`.typePriceList`).prop('checked', true);
+      typeCustomPrices.push('-1');
+    } else { 
+      for (let i = 0; i < type_custom_price.length; i++) {
+        for (let j = 1; j < typePriceList.length; j++) { 
+          if (type_custom_price[i] == typePriceList[j].id) { 
+            $(`#${type_custom_price[i]}`).prop('checked', true);
+            typeCustomPrices.push(type_custom_price[i]);
+            break;
+          }
+        }
+      }
+    }
+
+
+    // $(`#pricesList option[value=${data.type_custom_price}]`).prop('selected', true);
 
     $('html, body').animate(
       {

@@ -76,10 +76,15 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
 
     $findUserAccess = $userAccessDao->findUserAccess($id_company, $dataUserAccess['idUser']);
 
-    if ($findUserAccess)
-        $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
+    if (sizeof($dataUserAccess['typeCustomPrices']) == 1)
+        $typeCustomPrice = $dataUserAccess['typeCustomPrices'][0];
     else
-        $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_company);
+        $typeCustomPrice = implode(',', $dataUserAccess['typeCustomPrices']);
+
+    if ($findUserAccess)
+        $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess, $typeCustomPrice);
+    else
+        $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $typeCustomPrice);
 
     /* Modificar accesos */
     if ($idUser == $dataUserAccess['idUser'])
