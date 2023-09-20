@@ -225,7 +225,7 @@ if (sizeof($_SESSION) == 0)
                                                                             </div>
                                                                         </div>
                                                                     </li>
-                                                                    <?php if ($_SESSION['flag_expense'] == 1) { ?>
+                                                                    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
                                                                         <li class="list-group-item py-4">
                                                                             <div class="media">
                                                                                 <div class="media-body">
