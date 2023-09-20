@@ -186,16 +186,16 @@ if (sizeof($_SESSION) == 0)
                             </div> -->
 
                             <div class="col-xl-3">
-                                <div class="card radius-10 border-start border-0 border-3 border-danger">
+                                <div class="card radius-10 border-start border-0 border-3 border-success">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                <h2 class="mb-0 mt-1 costProduct text-danger" id="actualProfitability"></h2>
+                                                <h2 class="mb-0 mt-1 costProduct text-success" id="actualProfitability"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-rev"></div> -->
-                                                <span class="text-danger font-weight-bold" style="font-size:large">
+                                                <span class="text-success font-weight-bold" style="font-size:large">
                                                     <i class="cardTrafficLight" style="font-style: initial;"></i>
                                                 </span>
                                             </div>
