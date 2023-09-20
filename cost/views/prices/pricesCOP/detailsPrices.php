@@ -13,9 +13,9 @@ if (sizeof($_SESSION) == 0)
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="LetStart Admin is a full featured, multipurpose, premium bootstrap admin template built with Bootstrap 4 Framework, HTML5, CSS and JQuery.">
-    <meta name="keywords" content="admin, panels, dashboard, admin panel, multipurpose, bootstrap, bootstrap4, all type of dashboards">
-    <meta name="author" content="MatrrDigital">
+    <meta name="description" content="Cotice en minutos, y no vuelva a perder mas oportunidades de negocio">
+    <meta name="keywords" content="cotizar, costos, precio, competitividad, ventajas, beneficios, diferenciacion">
+    <meta name="author" content="Teenus">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Tezlik - Cost | Details Prices</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
@@ -69,14 +69,14 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
                         <!-- Widget  -->
-                        <div class="row">
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materia Prima</span>
-                                                <h2 class="mb-0 mt-1 costProduct" id="rawMaterial"></h2>
+                                                <h2 class="mb-0 mt-1 costProduct text-info" id="rawMaterial"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-rev"></div> -->
@@ -88,13 +88,13 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mano de Obra</span>
-                                                <h2 class="mb-0 mt-1" id="workforce"></h2>
+                                                <h2 class="mb-0 mt-1 text-info" id="workforce"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-order"></div> -->
@@ -106,13 +106,13 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Costos Indirectos</span>
-                                                <h2 class="mb-0 mt-1 number" id="indirectCost"></h2>
+                                                <h2 class="mb-0 mt-1 number text-info" id="indirectCost"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-user"></div> -->
@@ -124,13 +124,13 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-3">
-                                <div class="card">
+                            <div class="col">
+                                <div class="card card card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Gastos Generales</span>
-                                                <h2 class="mb-0 mt-1 number" id="assignableExpenses"></h2>
+                                                <h2 class="mb-0 mt-1 number text-info" id="assignableExpenses"></h2>
                                             </div>
                                             <div class="text-center">
                                                 <!-- <div id="t-visitor"></div> -->
@@ -143,44 +143,88 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
-                        <div class="row actualSalePrice">
-                            <div class="col-md-6 col-xl-6">
-                                <div class="card">
+
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 actualSalePrice">
+                            <div class="col-xl-6">
+                                <div class="card radius-10 border-start border-0 border-3 border-success">
                                     <div class="card-body">
                                         <div class="media align-items-center">
-                                            <div class="media-body" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
-                                                <h3 class="mb-0 mt-1" id="actualSalePrice" style="font-size: 19px"></h3>
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
-                                                <h3 class="mb-0 mt-1 suggestedPrice" style="font-size: 19px"></h3>
+                                            <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
+                                                    <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
+                                                </div>
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
+                                                    <h3 class="mb-0 mt-1 text-warning suggestedPrice" style="font-size: x-large"></h3>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6 col-xl-6">
-                                <div class="card">
+                            <!-- <div class="col">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-3">
+                                        <div class="media-body align-items-center">
+                                            <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                                                    <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: x-large"></h3>
+                                                    <div class="col-sm-1 cardTrafficLight"></div>
+                                                </div>
+                                                
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Minima/Deseada</span>
+                                                    <h3 class="mb-0 mt-1" id="minProfit" style="font-size: x-large"></h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="col-xl-3">
+                                <div class="card radius-10 border-start border-0 border-3 border-success">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                                                <h2 class="mb-0 mt-1 costProduct text-success" id="actualProfitability"></h2>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: 19px"></h3>
+                                            <div class="text-center">
+                                                <!-- <div id="t-rev"></div> -->
+                                                <span class="text-success font-weight-bold" style="font-size:large">
+                                                    <i class="cardTrafficLight" style="font-style: initial;"></i>
+                                                </span>
                                             </div>
-                                            <div class="col-sm-1 cardTrafficLight">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Mínima Deseada</span>
+                                                <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Minima/Deseada</span>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <h3 class="mb-0 mt-1" id="minProfit" style="font-size: 19px"></h3>
+                                            <div class="text-center">
+                                                <!-- <div id="t-order"></div> -->
+                                                <span class="text-info font-weight-bold" style="font-size:large">
+                                                    <i class="" id="minProfit" style="font-style: initial;"></i>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
+
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
                             <div class="col">

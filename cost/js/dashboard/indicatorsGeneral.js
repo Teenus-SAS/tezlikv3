@@ -66,7 +66,7 @@ $(document).ready(function () {
       })}`;
       expenses = 'Gastos Generales';
     } else {
-      expenses = `Gastos Generales (Promedio)`;
+      expenses = `Gtos Generales`;
       totalExpense = `${expenseRecover.percentageExpense.toLocaleString(
         'es-CO',
         {
