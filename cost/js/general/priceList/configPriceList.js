@@ -76,10 +76,10 @@ $(document).ready(function () {
       );
     });
 
-    // if (arr.length == 0) {
-    //   $('.selectPricelist').hide();
+    if (arr.length == 0) {
+      $('.selectPricelist').hide();
     //   return 1;
-    // }
+    }
 
     if (arr.length == 1) {
       $(`#pricesList option[value=${arr[0].id_price_list}]`).prop('selected', true);
