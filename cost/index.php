@@ -214,18 +214,18 @@ if (sizeof($_SESSION) == 0)
                                                             </div> -->
                                                             <div class="card-body p-0">
                                                                 <ul class="list-group list-group-flush">
-                                                                    <li class="list-group-item py-4" style="border-radius: 10px 10px 0 0;">
-                                                                        <div class="media">
-                                                                            <div class="media-body">
-                                                                                <p class="text-muted mb-2">Tiempo Alistamiento (Prom)</p>
-                                                                                <h4 class="mb-0 number" id="enlistmentTime"></h4>
-                                                                            </div>
-                                                                            <div class="avatar avatar-md bg-info mr-0 align-self-center">
-                                                                                <i class="bx bxs-time fs-lg"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </li>
                                                                     <?php if ($_SESSION['flag_expense'] == 2 || $_SESSION['flag_expense'] == 0) { ?>
+                                                                        <li class="list-group-item py-4" style="border-radius: 10px 10px 0 0;">
+                                                                            <div class="media">
+                                                                                <div class="media-body">
+                                                                                    <p class="text-muted mb-2">Tiempo Alistamiento (Prom)</p>
+                                                                                    <h4 class="mb-0 number" id="enlistmentTime"></h4>
+                                                                                </div>
+                                                                                <div class="avatar avatar-md bg-info mr-0 align-self-center">
+                                                                                    <i class="bx bxs-time fs-lg"></i>
+                                                                                </div>
+                                                                            </div>
+                                                                        </li>
                                                                         <li class="list-group-item py-4">
                                                                             <div class="media">
                                                                                 <div class="media-body">
@@ -237,18 +237,18 @@ if (sizeof($_SESSION) == 0)
                                                                                 </div>
                                                                             </div>
                                                                         </li>
-                                                                        <li class="list-group-item py-4" style="border-radius: 0 0 10px 10px;">
-                                                                            <div class="media">
-                                                                                <div class="media-body">
-                                                                                    <p class="text-muted mb-2">Tiempo Total Promedio</p>
-                                                                                    <h4 class="mb-0" id="averageTotalTime"></h4>
-                                                                                </div>
-                                                                                <div class="avatar avatar-md bg-danger mr-0 align-self-center">
-                                                                                    <i class='bx bx-error-circle fs-lg'></i>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
                                                                     <?php } ?>
+                                                                    <li class="list-group-item py-4" style="border-radius: 0 0 10px 10px;">
+                                                                        <div class="media">
+                                                                            <div class="media-body">
+                                                                                <p class="text-muted mb-2">Tiempo Promedio Fabricación</p>
+                                                                                <h4 class="mb-0" id="averageTotalTime"></h4>
+                                                                            </div>
+                                                                            <div class="avatar avatar-md bg-danger mr-0 align-self-center">
+                                                                                <i class='bx bx-error-circle fs-lg'></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
                                                                 </ul>
                                                             </div>
                                                         </div>
