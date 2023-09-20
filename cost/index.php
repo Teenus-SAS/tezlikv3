@@ -181,11 +181,10 @@ if (sizeof($_SESSION) == 0)
                                                 <!-- Row 2-->
                                                 <div class="row align-items-stretch">
                                                     <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                        <div class="col-md-4 col-lg-3">
+                                                        <div class="pt-4 col-md-4 col-lg-3">
                                                         <?php } ?>
                                                         <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                            <div class="pt-4 col-md-4 col-lg-3">
-
+                                                            <div class="col-md-4 col-lg-3">
                                                             <?php } ?>
                                                             <div class="card bg-success">
                                                                 <div class="card-body">
