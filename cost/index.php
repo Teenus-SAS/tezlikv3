@@ -198,7 +198,7 @@ if (sizeof($_SESSION) == 0)
                                                             <div class="card-body">
                                                                 <div class="media text-white">
                                                                     <div class="media-body">
-                                                                        <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Deseada</span>
+                                                                        <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Mínima Deseada</span>
                                                                         <h2 class="mb-0 mt-1 text-white" id="profitabilityAverage"></h2>
                                                                     </div>
                                                                     <div class="align-self-center mt-1">
@@ -310,7 +310,7 @@ if (sizeof($_SESSION) == 0)
                                                                                     <div class="media">
                                                                                         <div class="media-body">
                                                                                             <p class="text-muted mb-2">Rentabilidad Promedio</p>
-                                                                                            <h4 class="mb-0" id="profitabilityAverage">8,235</h4>
+                                                                                            <h4 class="mb-0" id="profitabilityAverage"></h4>
                                                                                         </div>
                                                                                         <div class="avatar avatar-md bg-success mr-0 align-self-center">
                                                                                             <i class="bx bx-chart fs-lg"></i>
