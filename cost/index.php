@@ -100,10 +100,10 @@ if (sizeof($_SESSION) == 0)
                                                     <div class="media align-items-center">
                                                         <div class="media-body">
                                                             <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
+                                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mat Primas</span>
                                                             <?php } ?>
                                                             <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Mat Primas</span>
+                                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Materias Primas</span>
                                                             <?php } ?>
                                                             <h2 class="mb-0 mt-1 text-info" id="materials"></h2>
                                                         </div>
@@ -304,7 +304,7 @@ if (sizeof($_SESSION) == 0)
                                                                                     </div>
                                                                                 </div>
                                                                             </li>
-                                                                            <li class="list-group-item py-4">
+                                                                            <!-- <li class="list-group-item py-4">
                                                                                 <div class="media">
                                                                                     <div class="media-body">
                                                                                         <p class="text-muted mb-2">Rentabilidad Promedio</p>
@@ -314,14 +314,13 @@ if (sizeof($_SESSION) == 0)
                                                                                         <i class="bx bx-chart fs-lg"></i>
                                                                                     </div>
                                                                                 </div>
-                                                                            </li>
+                                                                            </li> -->
                                                                         </ul>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         <?php } ?>
                                                         <!-- End total revenue chart -->
-
 
                                                         <div class="row">
                                                             <div class="col-lg-4">
