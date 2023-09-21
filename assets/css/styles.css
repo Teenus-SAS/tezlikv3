@@ -369,6 +369,11 @@ File: Main Css File
   max-height: 19px;
 }
 
+.image_width {
+  width: 150px;
+  object-fit: cover;
+}
+
 .app-search .form-control {
   background-color: rgba(244, 248, 249, 0.07);
   color: #fff;

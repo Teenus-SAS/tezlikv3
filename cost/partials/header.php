@@ -15,7 +15,9 @@
                 ?>
                 <div class="d-none d-lg-block">
                     <a href="/cost" class="logo logo-dark">
-                        <span><img style="width:150px" src="<?php echo $logoCompany; ?>" alt="Lettstart Admin"></span>
+                        <span class="image_width">
+                            <img src="<?php echo $logoCompany; ?>" alt="">
+                        </span>
                     </a>
                 </div>
             </div>
