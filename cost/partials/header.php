@@ -13,9 +13,9 @@
                 <?php
                 $logoCompany = $_SESSION['logoCompany'];
                 ?>
-                <div class="d-none d-lg-block">
+                <div class="d-none d-lg-block image_width">
                     <a href="/cost" class="logo logo-dark">
-                        <span class="image_width">
+                        <span>
                             <img src="<?php echo $logoCompany; ?>" alt="">
                         </span>
                     </a>

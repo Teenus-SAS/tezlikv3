@@ -371,7 +371,7 @@ File: Main Css File
 
 .image_width {
   width: 150px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .app-search .form-control {
