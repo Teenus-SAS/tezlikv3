@@ -1,7 +1,7 @@
 <!-- Begin Header -->
 <header id="page-topbar" class="topbar-header">
     <div class="navbar-header">
-        <!-- <div class="left-bar">
+        <div class="left-bar">
             <div class="d-flex justify-content-center">
                 <div class="d-lg-none">
                     <a href="/admin" class="logo logo-dark">
@@ -25,7 +25,7 @@
                 <span></span>
                 <span></span>
             </a>
-        </div> -->
+        </div>
         <div class="right-bar">
             <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2">
                 <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
