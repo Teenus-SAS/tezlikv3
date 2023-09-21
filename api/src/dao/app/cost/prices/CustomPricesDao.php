@@ -20,7 +20,8 @@ class CustomPricesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.reference, p.product, IF(pc.sale_price = 0, pc.price, pc.sale_price) AS price_cost, cp.id_price_list, pl.price_name, cp.price AS price_custom -- , (((pc.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (pc.price) * 100) AS profitability_price,
+        $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.reference, p.product, IF(cp.flag_price = 0, pc.price, pc.sale_price) AS price_cost, cp.id_price_list, pl.price_name, (cp.price * (1 - (pl.percentage / 100))) AS price_custom, pl.percentage
+                                             -- , (((pc.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (pc.price) * 100) AS profitability_price,
                                              -- (((cp.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (cp.price)* 100) AS profitability_custom
                                       FROM custom_prices cp
                                         INNER JOIN products p ON p.id_product = cp.id_product
@@ -94,6 +95,25 @@ class CustomPricesDao
                 'id_custom_price' => $dataPrice['idCustomPrice'],
                 'id_product' => $dataPrice['idProduct'],
                 'id_price_list' => $dataPrice['idPriceList'],
+                'price' => $price
+            ]);
+
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updatePrice($id_custom_price, $price)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE custom_prices SET price = :price WHERE id_custom_price = :id_custom_price");
+            $stmt->execute([
+                'id_custom_price' => $id_custom_price,
                 'price' => $price
             ]);
 

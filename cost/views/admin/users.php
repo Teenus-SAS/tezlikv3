@@ -103,6 +103,7 @@ if (sizeof($_SESSION) == 0)
         plan_cost_analysis_material = "<?= $_SESSION['plan_cost_analysis_material'] ?>";
         plan_cost_economy_sale = "<?= $_SESSION['plan_cost_economy_sale'] ?>";
         plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
+        type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
         plan_cost_simulator = "<?= $_SESSION['plan_cost_simulator'] ?>";
         plan_cost_quote = "<?= $_SESSION['plan_cost_quote'] ?>";
         plan_cost_support = "<?= $_SESSION['plan_cost_support'] ?>";

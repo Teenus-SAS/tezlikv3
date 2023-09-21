@@ -57,7 +57,10 @@ if (sizeof($_SESSION) == 0)
                             <?php if ($_SESSION['type_custom_price'] == '-1') { ?>
                                 <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                     <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnNewCustomPrice">Adicionar Precio</button>
+                                        <button class="btn btn-warning" id="btnNewCustomPercentage">Adicionar Porcentaje</button>
+                                    </div>
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-info" id="btnNewCustomPrice">Adicionar Precio</button>
                                     </div>
                                 </div>
                             <?php } ?>
@@ -78,24 +81,63 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control selectNameProduct" name="idProduct" id="idProduct"></select>
                                                 </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label">
-                                                    <label for="" id="lblPriceList">Lista de Precios</label>
-                                                    <select class="form-control" name="idPriceList" id="pricesList"></select>
+                                                    <label for="">Lista de Precios</label>
+                                                    <select class="form-control pricesList" name="idPriceList" id="pricesList"></select>
+                                                </div>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                    <label for="">Precio</label>
+                                                    <select class="form-control" id="typePrice">
+                                                        <option disabled selected>Seleccionar</option>
+                                                        <option value="0">ACTUAL</option>
+                                                        <option value="1">SUGERIDO</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Precio - Costo</label>
                                                     <input type="text" class="form-control number text-center" id="priceProduct" readonly>
                                                 </div>
-                                                <div class="w-100"></div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label inputPercentage">
-                                                    <label for="">Porcentaje</label>
-                                                    <input type="number" class="form-control text-center" id="percentage" name="percentage" min="1" max="100">
-                                                </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label inputPrice">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Valor</label>
                                                     <input type="text" class="form-control number text-center" id="customPricesValue" name="customPricesValue">
                                                 </div>
                                                 <div class="col-sm-2 mt-1">
                                                     <button class="btn btn-primary" id="btnCreateCustomPrice">Asignar Precio</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 mb-5 cardCreateCustomPercentages">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formCreateCustomPercentage">
+                                            <div class="form-row">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                    <label for="">Lista de Precios</label>
+                                                    <select class="form-control pricesList" name="idPriceList" id="pricesList2"></select>
+                                                </div>
+                                                <!-- <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                    <label for="">Precio</label>
+                                                    <select class="form-control" id="">
+                                                        <option disabled selected>Seleccionar</option>
+                                                        <option value="1">ACTUAL</option>
+                                                        <option value="2">SUGERIDO</option>
+                                                    </select>
+                                                </div> -->
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label inputPercentage">
+                                                    <label for="">Porcentaje</label>
+                                                    <input type="number" class="form-control text-center" id="percentage" name="percentage">
+                                                </div>
+                                                <div class="col-sm-2 mt-1">
+                                                    <button class="btn btn-primary" id="btnCreateCustomPercentage">Asignar Porcentaje</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -148,6 +190,7 @@ if (sizeof($_SESSION) == 0)
     </script>
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>
+    <script src="/cost/js/prices/customPrices/customPercentages.js"></script>
 </body>
 
 </html>

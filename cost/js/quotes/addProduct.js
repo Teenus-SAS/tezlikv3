@@ -23,9 +23,12 @@ $(document).ready(function () {
     let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
+
+    let op = 0;
     if (custom_price == 1)
-      await loadPriceListByProduct(id);
-    loadDataProduct(id);
+      op = await loadPriceListByProduct(id);
+
+    loadDataProduct(id, op);
   });
 
   $('#selectNameProduct').change(async function (e) {
@@ -38,23 +41,28 @@ $(document).ready(function () {
 
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
+
+    let op = 0;
     if (custom_price == 1)
-      await loadPriceListByProduct(id);
+     op = await loadPriceListByProduct(id);
     loadDataProduct(id);
   });
 
-  loadDataProduct = async (id) => {
+  loadDataProduct = async (id, op) => {
     let data = await searchData(`/api/productCost/${id}`);
 
-    if (data.price == false) {
+    data.sale == '0' ? price = parseFloat(data.price) : price = parseFloat(data.sale_price);
+
+    if (price == false) {
       price = 0;
     } else {
-      price = parseInt(data.price).toLocaleString('es-CO');
+      price = parseFloat(data.price).toLocaleString('es-CO');
     }
-    oldPrice = data.price;
-    priceProduct = data.price;
 
-    if (custom_price == 0)
+    oldPrice = price;
+    priceProduct = price;
+
+    if (custom_price == 0 || op == 1)
       $('#price').val(price);
 
     $('.imgProduct').empty();

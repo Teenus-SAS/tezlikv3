@@ -32,4 +32,23 @@ class GeneralPricesListDao
         $this->logger->notice("pricesList", array('pricesList' => $pricesList));
         return $pricesList;
     }
+
+    public function updatePercentage($dataPrice)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE price_list SET percentage = :percentage WHERE id_price_list = :id_price_list");
+            $stmt->execute([
+                'id_price_list' => $dataPrice['idPriceList'],
+                'percentage' => $dataPrice['percentage']
+            ]);
+
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 }

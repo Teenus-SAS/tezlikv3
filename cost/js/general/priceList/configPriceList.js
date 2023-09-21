@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   loadPriceList = async (op) => {
     let data = await searchData('/api/priceList');
-    let $select = $(`#pricesList`);
+    let $select = $(`.pricesList`);
     $select.empty();
     
     if (op == 2) {
@@ -31,15 +31,20 @@ $(document).ready(function () {
       let dataPriceList = JSON.stringify(data);
       sessionStorage.setItem('dataPriceList', dataPriceList);
       let arr = data;
+      let op = false;
       
       for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < type_custom_price.length; j++) {
-          if (parseInt(type_custom_price) == data[i].id_price_list) {
-            sessionStorage.removeItem('dataPriceList');
-            arr = [];
-            arr[0] = data[i];
-            arr[0]['price_name'] = 'PRECIOS';
-            break;
+        for (let j = 0; j < type_custom_price.length; j++) { 
+          if (type_custom_price[j] == data[i].id_price_list) {
+            if(op == false){
+              sessionStorage.removeItem('dataPriceList');
+              arr = [];
+              op = true;
+            }
+            arr.push(data[i]);
+            // arr[i] = data[i];
+            // arr[i]['price_name'] = 'PRECIOS';
+            // break;
           }
         }
       }
@@ -66,18 +71,23 @@ $(document).ready(function () {
 
     for (let i = 0; i < data.length; i++) {
       sessionStorage.removeItem('dataPriceList');
-      if (type_custom_price == '-1') {
+      if (type_custom_price[0] == '-1') {
         arr = data;
         sessionStorage.setItem('dataPriceList', JSON.stringify(arr));
         break;
-      } else if (parseInt(type_custom_price) == data[i].id_price_list) {
-        arr = [];
-        arr[0] = data[i];
-        arr[0]['price_name'] = 'PRECIOS';
-        sessionStorage.setItem('dataPriceList', JSON.stringify(arr));
-        break;
       }
+      for (let j = 0; j < type_custom_price.length; j++) {
+        if (type_custom_price[j] == data[i].id_price_list) {
+
+          // arr = [];
+          // arr[i] = data[i];
+          arr.push(data[i]);
+          // break;
+        }
+      }
+    
     }
+    sessionStorage.setItem('dataPriceList', JSON.stringify(arr));
 
     $.each(arr, function (i, value) {
       $select.append(
@@ -87,7 +97,7 @@ $(document).ready(function () {
 
     if (arr.length == 0) {
       $('.selectPricelist').hide();
-      //   return 1;
+      return 1;
     }
 
     if (arr.length == 1) {

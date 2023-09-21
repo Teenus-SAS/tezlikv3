@@ -1,8 +1,10 @@
 <?php
 
 use tezlikv3\dao\CustomPricesDao;
+use tezlikv3\dao\LastDataDao;
 
 $customPricesDao = new CustomPricesDao();
+$lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -17,7 +19,8 @@ $app->get('/customPrices', function (Request $request, Response $response, $args
 });
 
 $app->post('/addCustomPrice', function (Request $request, Response $response, $args) use (
-    $customPricesDao
+    $customPricesDao,
+    $lastDataDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];

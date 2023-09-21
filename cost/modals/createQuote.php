@@ -93,7 +93,7 @@
                                             <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label selectPricelist">
                                                     <label for="">Lista de Precios</label>
-                                                    <select class="form-control" name="idPriceList" id="pricesList"></select>
+                                                    <select class="form-control pricesList" name="idPriceList" id="pricesList"></select>
                                                 </div>
                                             <?php } ?>
                                             <div class="col-12 col-lg-2">

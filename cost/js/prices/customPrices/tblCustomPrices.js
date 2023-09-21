@@ -5,12 +5,20 @@ $(document).ready(function () {
     try {
       let data = await searchData('/api/customPrices');
       let arr = data;
+      let op = false;
 
       for (let i = 0; i < arr.length; i++) {  
-        if (parseInt(type_custom_price) == arr[i].id_price_list) {
-          data = []
-          data[0] = arr[i];
-          break;
+        for (let j = 0; j < type_custom_price.length; j++) {
+          if (type_custom_price[j] == arr[i].id_price_list) {
+            if(op == false){
+              data = [];
+              op = true;
+            }
+            // data[i] = arr[i];
+            data.push(arr[i]);
+            // break;
+          }
+          
         }
       }
 

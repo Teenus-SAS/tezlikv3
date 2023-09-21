@@ -168,7 +168,7 @@
                                                         <label for="checkbox-19">Precios Personalizados</label>
                                                     </div>
                                                 <?php } ?>
-                                                <li class="col-sm-8 pb-2 cardTypePrices" id="pricesList">
+                                                <li class="col-sm-8 pb-2 cardTypePrices pricesList">
 
                                                 </li>
                                             </div>

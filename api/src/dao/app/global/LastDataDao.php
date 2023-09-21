@@ -118,4 +118,16 @@ class LastDataDao
         $company = $stmt->fetch($connection::FETCH_ASSOC);
         return $company;
     }
+
+    public function findLastInsertedCustomPrice()
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(id_custom_price) AS id_custom_price FROM custom_prices");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $company = $stmt->fetch($connection::FETCH_ASSOC);
+        return $company;
+    }
 }
