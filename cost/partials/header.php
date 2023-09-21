@@ -13,12 +13,13 @@
                 <?php
                 $logoCompany = $_SESSION['logoCompany'];
                 ?>
-                <div class="d-none d-lg-block image_width">
-                    <a href="/cost" class="logo logo-dark">
-                        <span>
+                <!-- <div class="d-none d-lg-block image_width"> -->
+                <div class="image_width">
+                    <!-- <a href="/cost" class="logo logo-dark"> -->
+                        <!-- <span> -->
                             <img src="<?php echo $logoCompany; ?>" alt="">
-                        </span>
-                    </a>
+                        <!-- </span> -->
+                    <!-- </a> -->
                 </div>
             </div>
             <a class="navbar-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" data-target="#topnav-menu-content" aria-expanded="false">

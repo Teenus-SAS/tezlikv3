@@ -370,9 +370,9 @@ File: Main Css File
 }
 
 .image_width {
+  display: flex;
   width: 150px;
   height: 150px;
-  object-fit: contain;
 }
 
 .app-search .form-control {
