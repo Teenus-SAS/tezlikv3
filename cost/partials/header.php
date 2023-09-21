@@ -15,7 +15,7 @@
                 $company = $_SESSION['company'];
                 ?>
                 <!-- <div class="d-none d-lg-block image_width"> -->
-                <? if ($company = 4) {  ?>
+                <? if ($company == 4) {  ?>
                     <div class="image_width p-3">
                     <? } ?>
                     <? if ($company != 4) {  ?>
