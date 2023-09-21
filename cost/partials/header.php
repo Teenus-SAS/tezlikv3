@@ -2,14 +2,6 @@
     <div class="navbar-header">
         <div class="left-bar">
             <div class="d-flex justify-content-center">
-                <!-- <div class="d-lg-none">
-                    <a href="/cost" class="logo logo-dark">
-                        <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="icon tezlik"></span>
-                    </a>
-                    <a href="/cost" class="logo logo-light">
-                        <span class="logo-sm"><img src="/assets/images/favicon/favicon_tezlik.jpg" alt="Lettstart Admin"></span>
-                    </a>
-                </div> -->
                 <?php
                 $logoCompany = $_SESSION['logoCompany'];
                 $company = $_SESSION['id_company'];
@@ -21,12 +13,7 @@
                     <? if ($company != 4) {  ?>
                         <div class="image_width">
                         <? } ?>
-
-                        <!-- <a href="/cost" class="logo logo-dark"> -->
-                        <!-- <span> -->
                         <img src="<?php echo $logoCompany; ?>" alt="">
-                        <!-- </span> -->
-                        <!-- </a> -->
                         </div>
                     </div>
                     <a class="navbar-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" data-target="#topnav-menu-content" aria-expanded="false">
