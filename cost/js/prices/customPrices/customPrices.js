@@ -1,12 +1,15 @@
 $(document).ready(function () {
+
   $('#idProduct').change(async function (e) {
     e.preventDefault();
     let id = this.value;
 
     let data = await searchData(`/api/productCost/${id}`);
 
+    data.sale_price == 0 ? price = parseFloat(data.price) : price = parseFloat(data.sale_price);
+
     $('#priceProduct').val(
-      parseFloat(data.price).toLocaleString('es-CO', {
+      price.toLocaleString('es-CO', {
         maximumFractionDigits: 2,
       })
     );
@@ -14,6 +17,7 @@ $(document).ready(function () {
 
   /* Ocultar panel Nuevo Servicio */
   $('.cardCreateCustomPrices').hide();
+  $('.inputPercentage').hide();
 
   /* Abrir panel crear servicio  */
   $('#btnNewCustomPrice').click(async function (e) {
@@ -32,6 +36,8 @@ $(document).ready(function () {
     let visible = $('.cardCreateCustomPrices').is(':visible');
 
     if (visible == false) await loadPriceList();
+    $('.inputPrice').show();
+    $('.inputPercentage').hide();
 
     $('.cardCreateCustomPrices').toggle(800);
   });
@@ -52,11 +58,32 @@ $(document).ready(function () {
   /* Actualizar servicio */
 
   $(document).on('click', '.updateCustomPrice', function (e) {
-    $('.cardCreateCustomPrices').show(800);
-    $('#btnCreateCustomPrice').html('Actualizar');
+    e.preventDefault();
 
     let data = combinedData[this.id];
+    bootbox.dialog({
+      title: 'Modificar',
+      message: `<p>Seleccione si desea modificar por valores o porcentajes.</p>`,
+      buttons: {
+        value: {
+          label: 'Valores',
+          className: 'btn-primary',
+          callback: function () {
+            updateCustomPrice(data, 1);
+          }
+        },
+        percentage: {
+          label: 'Porcentajes',
+          className: 'btn-info',
+          callback: function () {
+            updateCustomPrice(data, 2); 
+          }
+        },
+      }
+    }); 
+  });
 
+  updateCustomPrice = (data, op_update) => {  
     sessionStorage.setItem('dataCustomPrice', JSON.stringify(data));
 
     $(`#idProduct option[value=${data.id_product}]`).prop('selected', true);
@@ -67,14 +94,28 @@ $(document).ready(function () {
     $('#pricesList').empty();
 
     $('#pricesList').append('<option disabled selected>Seleccionar</option>');
-
+    if (op_update == 1) {
+      $('#lblPriceList').html('Lista de Precios');
+      $('.inputPercentage').hide();
+      $('.inputPrice').show();
+    } else {
+      $('#lblPriceList').html('Tipo de Precio');
+      $('#pricesList').append('<option value="0">PRECIO - COSTO</option>');
+      $('.inputPrice').hide();
+      $('.inputPercentage').show();
+    }
+    
     for (let i = 0; i < data.id_price_list.length; i++) {
       $('#pricesList').append(
         `<option value = ${data.id_price_list[i]}> ${data.price_names[i]} </option>`
       );
     }
 
+
     op_price_list = true;
+
+    $('.cardCreateCustomPrices').show(800);
+    $('#btnCreateCustomPrice').html('Actualizar');
 
     $('html, body').animate(
       {
@@ -82,7 +123,7 @@ $(document).ready(function () {
       },
       1000
     );
-  });
+  }
 
   $('#pricesList').change(function (e) {
     e.preventDefault();
@@ -90,6 +131,7 @@ $(document).ready(function () {
     if (op_price_list == true) {
       let data = JSON.parse(sessionStorage.getItem('dataCustomPrice'));
       $('#customPricesValue').val('');
+      $('#percentage').val('');
       let id_price_list = this.value;
       let price = 0;
 
@@ -98,8 +140,10 @@ $(document).ready(function () {
           sessionStorage.setItem('id_custom_price', data.id_custom_price[i]);
 
           price = parseFloat(data.prices[i]);  
+          percentage = parseFloat(data.percentage[i]);  
 
           $('#customPricesValue').val(price.toLocaleString('es-CO'));
+          $('#percentage').val(percentage.toLocaleString('es-CO'));
           break;
         }
       }

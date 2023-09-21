@@ -77,19 +77,24 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Producto</label>
                                                     <select class="form-control selectNameProduct" name="idProduct" id="idProduct"></select>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
-                                                    <label for="">Lista de Precios</label>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                    <label for="" id="lblPriceList">Lista de Precios</label>
                                                     <select class="form-control" name="idPriceList" id="pricesList"></select>
                                                 </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Precio - Costo</label>
                                                     <input type="text" class="form-control number text-center" id="priceProduct" readonly>
                                                 </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                <div class="w-100"></div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label inputPercentage">
+                                                    <label for="">Porcentaje</label>
+                                                    <input type="number" class="form-control text-center" id="percentage" name="percentage" min="1" max="100">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label inputPrice">
                                                     <label for="">Valor</label>
                                                     <input type="text" class="form-control number text-center" id="customPricesValue" name="customPricesValue">
                                                 </div>
-                                                <div class="col-xs-2 mt-1">
+                                                <div class="col-sm-2 mt-1">
                                                     <button class="btn btn-primary" id="btnCreateCustomPrice">Asignar Precio</button>
                                                 </div>
                                             </div>

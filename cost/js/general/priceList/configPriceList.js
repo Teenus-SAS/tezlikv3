@@ -1,6 +1,8 @@
 $(document).ready(function () {
+  type_custom_price = type_custom_price.split(',');
+
   loadPriceList = async (op) => {
-    let data = await searchData('/api/priceList'); 
+    let data = await searchData('/api/priceList');
     let $select = $(`#pricesList`);
     $select.empty();
     
@@ -22,15 +24,13 @@ $(document).ready(function () {
           </div>`
         );
       });
-    } 
+    }
     else {
       $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
       
       let dataPriceList = JSON.stringify(data);
       sessionStorage.setItem('dataPriceList', dataPriceList);
       let arr = data;
-
-      type_custom_price = type_custom_price.split(',');
       
       for (let i = 0; i < data.length; i++) {
         for (let j = 0; j < type_custom_price.length; j++) {
@@ -87,7 +87,7 @@ $(document).ready(function () {
 
     if (arr.length == 0) {
       $('.selectPricelist').hide();
-    //   return 1;
+      //   return 1;
     }
 
     if (arr.length == 1) {
