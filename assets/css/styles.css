@@ -371,6 +371,7 @@ File: Main Css File
 
 .image_width {
   width: 150px;
+  height: 150px;
   object-fit: contain;
 }
 
