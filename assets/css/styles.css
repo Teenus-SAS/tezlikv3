@@ -370,10 +370,9 @@ File: Main Css File
 }
 
 .image_width {
-  object-fit: cover;
   display: flex;
-  height: 100vp;
-  object-position: bottom;
+  height: 180vh;
+
 }
 
 .app-search .form-control {
