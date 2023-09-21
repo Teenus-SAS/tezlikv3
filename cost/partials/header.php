@@ -149,22 +149,6 @@
                 </div>
             <?php } ?>
 
-            <!-- <div class="d-none d-lg-block ml-0 ml-sm-2 dropdown ">
-                <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-search-dropdown" aria-expanded="false" class="btn header-item notify-icon">
-                    <i class="bx bx-search"></i>
-                </button>
-                <div aria-labelledby="page-header-search-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu">
-                    <form class="p-3">
-                        <div class="search-box">
-                            <div class="position-relative">
-                                <input type="text" placeholder="Search..." class="form-control form-control-sm">
-                                <i class="bx bx-search icon"></i>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div> -->
-
             <div class="d-none d-lg-inline-flex ml-2">
                 <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">
                     <i class="bx bx-fullscreen"></i>
