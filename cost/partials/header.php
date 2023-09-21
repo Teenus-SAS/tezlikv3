@@ -12,7 +12,7 @@
                 </div> -->
                 <?php
                 $logoCompany = $_SESSION['logoCompany'];
-                $company = $_SESSION['company'];
+                $company = $_SESSION['id_company'];
                 ?>
                 <!-- <div class="d-none d-lg-block image_width"> -->
                 <? if ($company == 4) {  ?>
