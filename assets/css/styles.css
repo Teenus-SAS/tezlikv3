@@ -371,10 +371,14 @@ File: Main Css File
 
 .image_width {
   display: flex;
-  width: 250px;
-  height: 90px;
-  object-fit: cover;
-  object-position: bottom;
+  height: 10vh;
+
+}
+
+@media screen and (max-width: 600px) {
+  .image_width{
+      display:none;
+  }
 }
 
 .app-search .form-control {

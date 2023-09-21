@@ -28,7 +28,7 @@ $(document).ready(function () {
         let productMaterialsToImport = data.map((item) => {
           let quantity = '';
 
-          if (item.precio_venta)
+          if (item.cantidad)
             quantity = item.cantidad.toString().replace('.', ',');
 
           return {
