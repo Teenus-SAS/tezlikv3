@@ -7,7 +7,7 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
-
+<?php include_once dirname(dirname(dirname(__DIR__))) . '/modals/notProducts.php' ?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -86,7 +86,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label">
                                                     <label for="">Precio</label>
-                                                    <select class="form-control" id="typePrice">
+                                                    <select class="form-control" name="typePrice" id="typePrice">
                                                         <option disabled selected>Seleccionar</option>
                                                         <option value="0">ACTUAL</option>
                                                         <option value="1">SUGERIDO</option>
@@ -124,14 +124,14 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Lista de Precios</label>
                                                     <select class="form-control pricesList" name="idPriceList" id="pricesList2"></select>
                                                 </div>
-                                                <!-- <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
                                                     <label for="">Precio</label>
-                                                    <select class="form-control" id="">
+                                                    <select class="form-control" name="typePrice" id="typePrice2">
                                                         <option disabled selected>Seleccionar</option>
                                                         <option value="1">ACTUAL</option>
                                                         <option value="2">SUGERIDO</option>
                                                     </select>
-                                                </div> -->
+                                                </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label inputPercentage">
                                                     <label for="">Porcentaje</label>
                                                     <input type="number" class="form-control text-center" id="percentage" name="percentage">
@@ -188,6 +188,7 @@ if (sizeof($_SESSION) == 0)
             loadPriceList(1);
         });
     </script>
+    <script src="/cost/js/prices/customPrices/tblNotProducts.js"></script>
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPercentages.js"></script>

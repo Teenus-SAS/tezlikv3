@@ -22,7 +22,7 @@ $(document).ready(function () {
 
     let data = await searchData(`/api/productCost/${id_product}`);
 
-    id == '0' ? price = parseFloat(data.price) : price = parseFloat(data.sale_price);
+    id == '0' ? price = parseFloat(data.sale_price) : price = parseFloat(data.price);
 
     $('#priceProduct').val(
       price.toLocaleString('es-CO', {

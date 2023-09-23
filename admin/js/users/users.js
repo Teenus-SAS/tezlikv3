@@ -155,7 +155,7 @@ $(document).ready(function () {
     dataUser['quoteContact'] = 1;
     dataUser['price'] = 1;
     dataUser['priceUSD'] = 1;
-    dataUser['customPrices'] = 1;
+    dataUser['customPrices'][0] = -1;
     dataUser['analysisMaterial'] = 1;
     dataUser['simulator'] = 1;
     dataUser['economyScale'] = 1;

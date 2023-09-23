@@ -2,8 +2,10 @@
 
 use tezlikv3\dao\CustomPricesDao;
 use tezlikv3\dao\LastDataDao;
+use tezlikv3\Dao\PriceCustomDao;
 
 $customPricesDao = new CustomPricesDao();
+$priceCustomDao = new PriceCustomDao();
 $lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -20,6 +22,7 @@ $app->get('/customPrices', function (Request $request, Response $response, $args
 
 $app->post('/addCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
+    $priceCustomDao,
     $lastDataDao
 ) {
     session_start();
@@ -31,6 +34,14 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
 
     if (!$findPrice) {
         $customPrices = $customPricesDao->insertCustomPricesByCompany($dataCustomPrice, $id_company);
+
+        if ($customPrices == null) {
+            $lastData = $lastDataDao->findLastInsertedCustomPrice();
+
+            $price = $priceCustomDao->calcPriceCustomByCustomPrice($lastData['id_custom_price']);
+
+            $customPrices = $customPricesDao->updatePrice($lastData['id_custom_price'], $price['custom_price']);
+        }
 
         if ($customPrices == null)
             $resp = array('success' => true, 'message' => 'Precio agregado correctamente');
@@ -46,7 +57,8 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
 });
 
 $app->post('/updateCustomPrice', function (Request $request, Response $response, $args) use (
-    $customPricesDao
+    $customPricesDao,
+    $priceCustomDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -60,6 +72,12 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
 
     if ($data['id_custom_price'] == $dataCustomPrice['idCustomPrice'] || $data['id_custom_price'] == 0) {
         $customPrices = $customPricesDao->updateCustomPrice($dataCustomPrice);
+
+        if ($customPrices == null) {
+            $price = $priceCustomDao->calcPriceCustomByCustomPrice($dataCustomPrice['idCustomPrice']);
+
+            $customPrices = $customPricesDao->updatePrice($dataCustomPrice['idCustomPrice'], $price['custom_price']);
+        }
 
         if ($customPrices == null)
             $resp = array('success' => true, 'message' => 'Precio modificado correctamente');

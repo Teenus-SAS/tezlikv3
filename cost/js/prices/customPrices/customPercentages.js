@@ -32,30 +32,40 @@ $(document).ready(function () {
         $('.cardCreateCustomPrices').hide(800);
     });
 
-    $('#btnCreateCustomPercentage').click(function (e) { 
+    $('#btnCreateCustomPercentage').click(function (e) {
         e.preventDefault();
 
         let priceList = parseFloat($('#pricesList2').val());
+        let typePrice = parseFloat($('#typePrice2').val());
         let percentage = parseFloat($('#percentage').val());
 
-        let data = priceList * percentage;
+        let data = priceList * typePrice * percentage;
 
         if (isNaN(data) || data <= 0) {
             toastr.error('Ingrese todos los datos');
-            return false; 
+            return false;
         }
 
-        if (percentage < 0 || percentage > 100) {
-            toastr.error('Ingrese un porcentage valido');
+        if (percentage > 100) {
+            toastr.error('Ingrese un porcentaje valido');
             return false;
         }
 
         data = $('#formCreateCustomPercentage').serialize();
+        typePrice == '1' ? namePrice = 'sale_price' : namePrice = 'price';
+        data = `${data}&name=${namePrice}`;
 
         $.post('/api/addCustomPercentage', data,
             function (data, textStatus, jqXHR) {
                 message(data);
+                $('#modalNotProducts').modal('show');
+                loadTblNotProducts(data.dataNotData);
             },
         );
+    });
+
+    $('#btnCloseNotProducts').click(function (e) { 
+        e.preventDefault();
+        $('#modalNotProducts').modal('hide');
     });
 });
