@@ -128,8 +128,8 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Precio</label>
                                                     <select class="form-control" name="typePrice" id="typePrice2">
                                                         <option disabled selected>Seleccionar</option>
-                                                        <option value="1">ACTUAL</option>
-                                                        <option value="2">SUGERIDO</option>
+                                                        <option value="0">ACTUAL</option>
+                                                        <option value="1">SUGERIDO</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label inputPercentage">

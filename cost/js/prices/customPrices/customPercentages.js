@@ -39,19 +39,17 @@ $(document).ready(function () {
         let typePrice = parseFloat($('#typePrice2').val());
         let percentage = parseFloat($('#percentage').val());
 
-        let data = priceList * typePrice;
-
-        if (isNaN(data) || data <= 0) {
+        if (!priceList || (!typePrice && typePrice != 0)) {
             toastr.error('Ingrese todos los datos');
             return false;
         }
 
-        if (percentage > 100) {
+        if (percentage > 100 || percentage == 0) {
             toastr.error('Ingrese un porcentaje valido');
             return false;
         }
 
-        data = $('#formCreateCustomPercentage').serialize();
+        let  data = $('#formCreateCustomPercentage').serialize();
         typePrice == '1' ? namePrice = 'sale_price' : namePrice = 'price';
         data = `${data}&name=${namePrice}`;
 

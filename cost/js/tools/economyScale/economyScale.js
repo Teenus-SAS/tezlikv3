@@ -68,5 +68,16 @@ $(document).ready(function () {
   $('#typePrice').change(function (e) {
     e.preventDefault();
     
+    let id_product = $('#refProduct').val();
+
+    if (!id_product) {
+      toastr.error('Seleccione Producto');
+      return false;
+    }
+
+    $('#typePrice option').removeAttr('selected');
+    $(`#typePrice option[value='-1']`).prop('selected', true);
+
+    loadDataProduct(id_product, this.value);
   });
 });

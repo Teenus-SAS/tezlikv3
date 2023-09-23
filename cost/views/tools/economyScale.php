@@ -91,8 +91,8 @@ if (sizeof($_SESSION) == 0)
                                             <h5 class="col-sm-10 mb-2"> Descripción </h5>
                                             <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                 <label for="">Precio</label>
-                                                <select class="form-control" name="typePrice" id="typePrice">
-                                                    <option disabled selected>Seleccionar</option>
+                                                <select class="form-control" id="typePrice">
+                                                    <option disabled selected value="-1">Seleccionar</option>
                                                     <option value="0">ACTUAL</option>
                                                     <option value="1">SUGERIDO</option>
                                                 </select>
