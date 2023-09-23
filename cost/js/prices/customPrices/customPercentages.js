@@ -39,7 +39,7 @@ $(document).ready(function () {
         let typePrice = parseFloat($('#typePrice2').val());
         let percentage = parseFloat($('#percentage').val());
 
-        let data = priceList * typePrice * percentage;
+        let data = priceList * typePrice;
 
         if (isNaN(data) || data <= 0) {
             toastr.error('Ingrese todos los datos');

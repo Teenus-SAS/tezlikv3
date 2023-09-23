@@ -5,7 +5,7 @@ $(document).ready(function () {
     let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id);
+    loadDataProduct(id, 2);
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -13,10 +13,10 @@ $(document).ready(function () {
     let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id);
+    loadDataProduct(id, 2);
   });
 
-  loadDataProduct = async (id) => {
+  loadDataProduct = async (id, op) => {
     $('.general').val('');
     $('.general').html('');
 
@@ -27,20 +27,22 @@ $(document).ready(function () {
 
     commission = data.commission;
 
+    op == 1 ? price = data.sale_price : price = data.price;
+
     // Regla de tres rentabilidad
-    profitability = (data.price * data.profitability) / data.price;
+    profitability = (price * data.profitability) / price;
 
     /* Precios */
     $('.price').val(
-      data.price.toLocaleString('es-CO', { maximumFractionDigits: 0 })
+      price.toLocaleString('es-CO', { maximumFractionDigits: 0 })
     );
     prices = [
-      data.price,
-      data.price,
-      data.price,
-      data.price,
-      data.price,
-      data.price,
+      price,
+      price,
+      price,
+      price,
+      price,
+      price,
     ];
 
     /* Costos Fijos */
@@ -62,4 +64,9 @@ $(document).ready(function () {
 
     generalCalc(0);
   };
+
+  $('#typePrice').change(function (e) {
+    e.preventDefault();
+    
+  });
 });
