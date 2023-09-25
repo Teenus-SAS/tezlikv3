@@ -50,6 +50,7 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
                 else {
                     $data['idCustomPrice'] = $customPrice['id_custom_price'];
                     $resolution = $customPricesDao->updateCustomPrice($data);
+                    $resolution = $customPricesDao->changeflagPrice($data);
                 }
             }
         }

@@ -14,23 +14,6 @@ $(document).ready(function () {
     );
   });
 
-  $('#typePrice').change(async function (e) { 
-    e.preventDefault();
-    
-    let id = this.value;
-    let id_product = $('#idProduct').val();
-
-    let data = await searchData(`/api/productCost/${id_product}`);
-
-    id == '0' ? price = parseFloat(data.sale_price) : price = parseFloat(data.price);
-
-    $('#priceProduct').val(
-      price.toLocaleString('es-CO', {
-        maximumFractionDigits: 2,
-      })
-    );
-  });
-
   /* Ocultar panel Nuevo Servicio */
   $('.cardCreateCustomPrices').hide(); 
 
@@ -110,7 +93,7 @@ $(document).ready(function () {
 
     if (op_price_list == true) {
       let data = JSON.parse(sessionStorage.getItem('dataCustomPrice'));
-      $('#customPricesValue').val(''); 
+      $('#customPricesValue2').val(''); 
       let id_price_list = this.value;
       let price = 0;
 
@@ -120,7 +103,7 @@ $(document).ready(function () {
 
           price = parseFloat(data.prices[i]); 
 
-          $('#customPricesValue').val(price.toLocaleString('es-CO')); 
+          $('#customPricesValue2').val(price.toLocaleString('es-CO')); 
           break;
         }
       }
@@ -129,8 +112,7 @@ $(document).ready(function () {
 
   /* Revision data servicio */
   checkDataServices = async (url, idCustomPrice) => {
-    let idProduct = parseInt($('#idProduct').val());
-    let typePrice = $('#typePrice').val();
+    let idProduct = parseInt($('#idProduct').val()); 
     let pricesList = $('#pricesList').val();
     let cost = $('#customPricesValue').val();
 
@@ -138,7 +120,7 @@ $(document).ready(function () {
 
     let data = idProduct * cost * pricesList;
 
-    if (isNaN(data) || data <= 0 || !typePrice) {
+    if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }

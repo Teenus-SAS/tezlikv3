@@ -57,11 +57,11 @@ if (sizeof($_SESSION) == 0)
                             <?php if ($_SESSION['type_custom_price'] == '-1') { ?>
                                 <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                     <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnNewCustomPercentage">Adicionar Porcentaje</button>
+                                        <button class="btn btn-info" id="btnNewCustomPercentage">Adicionar Porcentaje</button>
                                     </div>
-                                    <div class="col-xs-2 mr-2">
+                                    <!-- <div class="col-xs-2 mr-2">
                                         <button class="btn btn-info" id="btnNewCustomPrice">Adicionar Precio</button>
-                                    </div>
+                                    </div> -->
                                 </div>
                             <?php } ?>
                         </div>
@@ -76,32 +76,24 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formCreateCustomPrices">
                                             <div class="form-row">
-                                                <div class="col-sm-5 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                     <label for="">Producto</label>
                                                     <select class="form-control selectNameProduct" name="idProduct" id="idProduct"></select>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Lista de Precios</label>
                                                     <select class="form-control pricesList" name="idPriceList" id="pricesList"></select>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
-                                                    <label for="">Precio</label>
-                                                    <select class="form-control" name="typePrice" id="typePrice">
-                                                        <option disabled selected>Seleccionar</option>
-                                                        <option value="0">ACTUAL</option>
-                                                        <option value="1">SUGERIDO</option>
-                                                    </select>
-                                                </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
-                                                    <label for="">Precio - Costo</label>
-                                                    <input type="text" class="form-control number text-center" id="priceProduct" readonly>
+                                                    <label for="">Precio - Lista de Precios</label>
+                                                    <input type="text" class="form-control number text-center" id="customPricesValue2" readonly>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Valor</label>
                                                     <input type="text" class="form-control number text-center" id="customPricesValue" name="customPricesValue">
                                                 </div>
-                                                <div class="col-sm-2 mt-1">
-                                                    <button class="btn btn-primary" id="btnCreateCustomPrice">Asignar Precio</button>
+                                                <div class="col-sm-1 mt-1">
+                                                    <button class="btn btn-primary" id="btnCreateCustomPrice">Actualizar</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -126,7 +118,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label">
                                                     <label for="">Precio</label>
-                                                    <select class="form-control" name="typePrice" id="typePrice2">
+                                                    <select class="form-control" name="typePrice" id="typePrice">
                                                         <option disabled selected>Seleccionar</option>
                                                         <option value="0">ACTUAL</option>
                                                         <option value="1">SUGERIDO</option>

@@ -36,7 +36,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         let priceList = parseFloat($('#pricesList2').val());
-        let typePrice = parseFloat($('#typePrice2').val());
+        let typePrice = parseFloat($('#typePrice').val());
         let percentage = parseFloat($('#percentage').val());
 
         if (!priceList || (!typePrice && typePrice != 0)) {

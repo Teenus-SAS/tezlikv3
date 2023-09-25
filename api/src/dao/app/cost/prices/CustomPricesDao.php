@@ -90,14 +90,13 @@ class CustomPricesDao
         $price = str_replace(',', '.', $price);
 
         try {
-            $stmt = $connection->prepare("UPDATE custom_prices SET id_product = :id_product, id_price_list = :id_price_list, price = :price, flag_price = :flag_price 
+            $stmt = $connection->prepare("UPDATE custom_prices SET id_product = :id_product, id_price_list = :id_price_list, price = :price 
                                           WHERE id_custom_price = :id_custom_price");
             $stmt->execute([
                 'id_custom_price' => $dataPrice['idCustomPrice'],
                 'id_product' => $dataPrice['idProduct'],
                 'id_price_list' => $dataPrice['idPriceList'],
                 'price' => $price,
-                'flag_price' => $dataPrice['typePrice']
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -117,6 +116,25 @@ class CustomPricesDao
             $stmt->execute([
                 'id_custom_price' => $id_custom_price,
                 'price' => $price
+            ]);
+
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function changeflagPrice($dataPrice)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE custom_prices SET flag_price = :flag_price WHERE id_custom_price = :id_custom_price");
+            $stmt->execute([
+                'id_custom_price' => $dataPrice['idCustomPrice'],
+                'flag_price' => $dataPrice['typePrice']
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

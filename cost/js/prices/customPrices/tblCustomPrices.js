@@ -31,7 +31,7 @@ $(document).ready(function () {
       dataPriceList = JSON.parse(dataPriceList);
 
       for (let i = 0; i < dataPriceList.length; i++) {
-        type_custom_price[0] == '-1' ? headers += `<th>PRECIO</th><th>${dataPriceList[i].price_name}</th>`: headers += `<th>${dataPriceList[i].price_name}</th>`;
+        type_custom_price[0] == '-1' ? headers += `<th>${dataPriceList[i].type_price}</th><th>${dataPriceList[i].price_name}</th>`: headers += `<th>${dataPriceList[i].price_name}</th>`;
       }
       let actions = '';
 
