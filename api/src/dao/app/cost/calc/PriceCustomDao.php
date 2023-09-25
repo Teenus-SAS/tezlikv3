@@ -21,7 +21,7 @@ class PriceCustomDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            if ($dataPrice['typePrice'] == 1)
+            if ($dataPrice['typePrice'] == 0)
                 $stmt = $connection->prepare("SELECT (sale_price * (1 + (:percentage / 100))) AS custom_price 
                                           FROM products_costs 
                                           WHERE id_product = :id_product");
