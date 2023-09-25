@@ -138,7 +138,7 @@ $(document).ready(function () {
           }
 
           $(`#percentage-${i}`).html(
-            `${percentage.toLocaleString(undefined, {
+            `${percentage.toLocaleString('es-CO', {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })} %`
@@ -148,7 +148,7 @@ $(document).ready(function () {
           if (i == 0 && percentage >= 0 && percentage < 1) {
             percentage += profitability;
             $(`#percentage-${i}`).html(
-              `${percentage.toLocaleString(undefined, {
+              `${percentage.toLocaleString('es-CO', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })} %`
@@ -158,7 +158,7 @@ $(document).ready(function () {
             let division = totalCostsAndExpense / price + 1;
 
             $(`#unity-${i}`).val(
-              division.toLocaleString(undefined, {
+              division.toLocaleString('es-CO', {
                 maximumFractionDigits: 0,
               })
             );

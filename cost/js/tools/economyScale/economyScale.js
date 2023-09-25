@@ -1,11 +1,11 @@
-$(document).ready(function () {
+$(document).ready(function () { 
   $('#refProduct').change(function (e) {
     e.preventDefault();
 
     let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id, 2);
+    loadDataProduct(id);
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -13,10 +13,10 @@ $(document).ready(function () {
     let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id, 2);
+    loadDataProduct(id);
   });
 
-  loadDataProduct = async (id, op) => {
+  loadDataProduct = async (id) => {
     $('.general').val('');
     $('.general').html('');
 
@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     commission = data.commission;
 
-    op == 1 ? price = data.sale_price : price = data.price;
+    flag_type_price == '0' ? price = data.sale_price : price = data.price;
 
     // Regla de tres rentabilidad
     profitability = (price * data.profitability) / price;
@@ -63,21 +63,5 @@ $(document).ready(function () {
     );
 
     generalCalc(0);
-  };
-
-  $('#typePrice').change(function (e) {
-    e.preventDefault();
-    
-    let id_product = $('#refProduct').val();
-
-    if (!id_product) {
-      toastr.error('Seleccione Producto');
-      return false;
-    }
-
-    $('#typePrice option').removeAttr('selected');
-    $(`#typePrice option[value='-1']`).prop('selected', true);
-
-    loadDataProduct(id_product, this.value);
-  });
+  }; 
 });

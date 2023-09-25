@@ -91,6 +91,7 @@ $(document).ready(function () {
     );
 
     $('#tblMultiproducts').dataTable({
+      destroy:true,
       pageLength: 50,
       autoWidth: true,
     });

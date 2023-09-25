@@ -140,7 +140,7 @@ if (sizeof($_SESSION) == 0)
                                                     <tr>
                                                         <th style="width: 350px">Producto</th>
                                                         <th>No Unidades Vendidas</th>
-                                                        <th style="width: 150px;">Precio</th>
+                                                        <th style="width: 150px;" id="lblPrice">Precio</th>
                                                         <!-- <th style="width: 150px;">Costo Variable</th> -->
                                                         <th style="width: 150px;">Participacion</th>
                                                         <th>Margen De Contribucion</th>
@@ -207,6 +207,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
     </script>
     <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
     <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
@@ -215,6 +216,12 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/import/file.js"></script>
     <script src="/global/js/import/import.js"></script>
     <script src="/cost/js/tools/multiproduct/importMultiproducts.js"></script>
+    <script src="/cost/js/tools/economyScale/configTypePrices.js"></script>
+    <script>
+        $(document).ready(function() {
+            checkFlagPrice(2);
+        });
+    </script>
 </body>
 
 </html>

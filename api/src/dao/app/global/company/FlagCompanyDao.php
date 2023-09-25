@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class FlagExpenseDao
+class FlagCompanyDao
 {
     private $logger;
 
@@ -25,5 +25,21 @@ class FlagExpenseDao
             'id_company' => $id_company
         ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    }
+
+    public function updateFlagPrice($flag_price, $id_company)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+            $stmt = $connection->prepare("UPDATE companies_licenses SET flag_type_price = :flag_type_price WHERE id_company = :id_company");
+            $stmt->execute([
+                'flag_type_price' => $flag_price,
+                'id_company' => $id_company
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
     }
 }
