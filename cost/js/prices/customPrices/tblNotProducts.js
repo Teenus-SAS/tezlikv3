@@ -31,16 +31,16 @@ $(document).ready(function () {
         });
 
 
-        // setInterval(() => {
-        //     let tables = document.getElementsByClassName(
-        //         'dataTables_scrollHeadInner'
-        //     );
+        setInterval(() => {
+            let tables = document.getElementsByClassName(
+                'dataTables_scrollHeadInner'
+            );
 
-        //     let attr = tables[0];
-        //     attr.style.width = '100%';
-        //     attr = tables[0].firstElementChild;
-        //     attr.style.width = '100%';
-        // }, 500);
+            let attr = tables[0];
+            attr.style.width = '100%';
+            attr = tables[0].firstElementChild;
+            attr.style.width = '100%';
+        }, 1000);
         
     }
 });

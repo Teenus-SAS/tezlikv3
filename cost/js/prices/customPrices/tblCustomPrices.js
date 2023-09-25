@@ -114,6 +114,16 @@ $(document).ready(function () {
         </tr>`
         );
       }
+
+      $('#tblCustomPrices').dataTable({
+        destroy: true,
+        pageLength: 50,
+        autoWidth: true,
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+        },
+      });
+      
     } catch (error) {
       console.log(error);
     }

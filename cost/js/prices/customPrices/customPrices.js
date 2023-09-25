@@ -56,6 +56,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.updateCustomPrice', function (e) {
     e.preventDefault();
+    $('.cardCreateCustomPercentages').hide(800);
 
     let data = combinedData[this.id];
     sessionStorage.setItem('dataCustomPrice', JSON.stringify(data));

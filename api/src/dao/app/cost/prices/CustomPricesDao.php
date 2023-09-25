@@ -27,7 +27,7 @@ class CustomPricesDao
                                         INNER JOIN products p ON p.id_product = cp.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = cp.id_product
                                         INNER JOIN price_list pl ON pl.id_price_list = cp.id_price_list
-                                      WHERE cp.id_company = :id_company");
+                                      WHERE cp.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
