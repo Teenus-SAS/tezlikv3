@@ -50,13 +50,14 @@ $(document).ready(function () {
         }
 
         let  data = $('#formCreateCustomPercentage').serialize();
-        typePrice == '1' ? namePrice = 'sale_price' : namePrice = 'price';
+        typePrice == '0' ? namePrice = 'sale_price' : namePrice = 'price';
         data = `${data}&name=${namePrice}`;
 
         $.post('/api/addCustomPercentage', data,
-            function (data, textStatus, jqXHR) {
+            function (data, textStatus, jqXHR) { 
                 message(data);
                 $('#modalNotProducts').modal('show');
+                loadPriceList(1);
                 loadTblNotProducts(data.dataNotData);
             },
         );

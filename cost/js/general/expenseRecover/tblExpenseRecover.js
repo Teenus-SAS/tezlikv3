@@ -53,6 +53,7 @@ $(document).ready(function () {
     }
 
     tblExpenseRecover = $('#tblExpenses').DataTable({
+      destroy: true,
       dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',

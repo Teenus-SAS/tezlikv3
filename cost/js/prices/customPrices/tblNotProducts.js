@@ -35,9 +35,8 @@ $(document).ready(function () {
                 },
             ],
         });
-
-
-        setInterval(() => {
+ 
+        setTimeout(() => {
             let tables = document.getElementsByClassName(
                 'dataTables_scrollHeadInner'
             );

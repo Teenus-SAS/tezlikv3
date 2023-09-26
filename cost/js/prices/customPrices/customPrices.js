@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     let visible = $('.cardCreateCustomPrices').is(':visible');
 
-    if (visible == false) await loadPriceList();
+    if (visible == false) await loadPriceList(1);
 
     $('.cardCreateCustomPrices').toggle(800);
     $('.cardCreateCustomPercentages').hide(800);

@@ -20,7 +20,7 @@ class PricesListDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT pl.id_price_list, pl.price_name, pl.percentage, (SELECT IF(flag_price = 0, 'PRECIO ACTUAL', 'PRECIO SUGERIDO') FROM custom_prices WHERE id_price_list = pl.id_price_list LIMIT 1) AS type_price 
+        $stmt = $connection->prepare("SELECT pl.id_price_list, pl.price_name, pl.percentage, IFNULL((SELECT IF(flag_price = 0, 'PRECIO ACTUAL', 'PRECIO SUGERIDO') FROM custom_prices WHERE id_price_list = pl.id_price_list LIMIT 1), '') AS type_price 
                                       FROM price_list pl
                                       WHERE pl.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);

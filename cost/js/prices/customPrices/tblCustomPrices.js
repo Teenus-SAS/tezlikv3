@@ -3,14 +3,16 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
   loadTblCustomPrices = async () => {
     try {
+      sessionStorage.removeItem('dataPriceList');
+      await loadPriceList(1);
       let data = await searchData('/api/customPrices');
       let arr = data;
       let op = false;
 
-      for (let i = 0; i < arr.length; i++) {  
+      for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < type_custom_price.length; j++) {
           if (type_custom_price[j] == arr[i].id_price_list) {
-            if(op == false){
+            if (op == false) {
               data = [];
               op = true;
             }
@@ -24,6 +26,11 @@ $(document).ready(function () {
 
       $('#tblCustomPrices').empty();
 
+      if ($.fn.dataTable.isDataTable('#tblCustomPrices')) {
+        $('#tblCustomPrices').DataTable().destroy();
+        $('#tblCustomPrices').empty();
+      };
+
       let table = document.getElementById('tblCustomPrices');
 
       let headers = '';
@@ -31,14 +38,14 @@ $(document).ready(function () {
       dataPriceList = JSON.parse(dataPriceList);
 
       for (let i = 0; i < dataPriceList.length; i++) {
-        type_custom_price[0] == '-1' ? headers += `<th>${dataPriceList[i].type_price}</th><th>${dataPriceList[i].price_name}</th>`: headers += `<th>${dataPriceList[i].price_name}</th>`;
+        type_custom_price[0] == '-1' ? headers += `<th>${dataPriceList[i].type_price}</th><th>${dataPriceList[i].price_name}</th>` : headers += `<th>${dataPriceList[i].price_name}</th>`;
       }
       let actions = '';
 
       if (type_custom_price[0] == '-1') {
         actions = '<th>ACCIONES</th>';
       }
-//${type_custom_price == '-1' ? '<th></th>' : ''}
+      //${type_custom_price == '-1' ? '<th></th>' : ''}
       table.insertAdjacentHTML(
         'beforeend',
         `<thead>
@@ -75,7 +82,7 @@ $(document).ready(function () {
             id_product: current.id_product,
             reference: current.reference,
             product: current.product,
-            price_cost: [current.price_cost], 
+            price_cost: [current.price_cost],
             //profitability_price: current.profitability_price,
             price_names: [current.price_name],
             prices: [current.price_custom],
@@ -152,23 +159,23 @@ $(document).ready(function () {
             //   minimumFractionDigits: 2,
             //   maximumFractionDigits: 2,
             // })} %`;
+            !data.price_cost[i] ? price_cost = '' : price_cost = `$ ${data.price_cost[i].toLocaleString('es-CO', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}`;
+            i += 1;
         
           } else {
             price_custom = '';
+            price_cost = '';
             //profitability_custom = '';
           };
           
-          !data.price_cost[i] ? price_cost = '' : price_cost = `$ ${data.price_cost[i].toLocaleString('es-CO', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          })}`;
-          i += 1;
           
           tbody += type_custom_price[0] == '-1' ? `<td>${price_cost}</td><td>${price_custom}</td>` : `<td>${price_custom}</td>`;
           //${type_custom_price == '-1' ? `<td>${profitability_custom}</td>` : ''}
         }
-      }
-      else {
+      } else {
         price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
@@ -183,7 +190,7 @@ $(document).ready(function () {
         !data.price_cost[i] ? price_cost = '' : price_cost = `$ ${data.price_cost[i].toLocaleString('es-CO', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
-        })}`; 
+        })}`;
         tbody += type_custom_price[0] == '-1' ? `<td>${price_cost}</td><td>${price_custom}</td>` : `<td>${price_custom}</td>`;
 
         // tbody += `<td>${price_custom}</td>`;
