@@ -42,8 +42,14 @@ $(document).ready(function () {
       pageLength: 50,
       data: data,
       order: [[6, 'desc']],
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {

@@ -100,7 +100,7 @@ if (sizeof($_SESSION) == 0)
     </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
-    <script src="/cost/js/prices/pricesCOP/tblprices.js"></script>
+    <script src="/cost/js/prices/pricesCOP/tblPrices.js"></script>
 </body>
 
 </html>

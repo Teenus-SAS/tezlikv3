@@ -7,8 +7,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -101,8 +107,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -121,11 +133,9 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="form-control number text-center inputSimulator id_machine ${
-              data.id_machine
-            }" id="cost_machine-${
-              meta.row + 1
-            }" value="${data.cost_machine.toLocaleString('es-CO')}">`;
+            return `<input type="text" class="form-control number text-center inputSimulator id_machine ${data.id_machine
+              }" id="cost_machine-${meta.row + 1
+              }" value="${data.cost_machine.toLocaleString('es-CO')}">`;
           },
         },
       ],
@@ -192,8 +202,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -212,11 +228,9 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="form-control number text-center inputSimulator id_material ${
-              data.id_material
-            }" id="cost_material-${
-              meta.row + 1
-            }" value="${data.cost_material.toLocaleString('es-CO')}">`;
+            return `<input type="text" class="form-control number text-center inputSimulator id_material ${data.id_material
+              }" id="cost_material-${meta.row + 1
+              }" value="${data.cost_material.toLocaleString('es-CO')}">`;
           },
         },
       ],
@@ -259,8 +273,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -328,8 +348,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -419,8 +445,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -503,8 +535,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -547,8 +585,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -757,8 +801,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -864,8 +914,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {
@@ -952,8 +1008,14 @@ $(document).ready(function () {
       scrollCollapse: true,
       paging: false,
       data: data,
+      dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
       },
       columns: [
         {

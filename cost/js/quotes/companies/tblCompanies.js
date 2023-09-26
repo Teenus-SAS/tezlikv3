@@ -7,8 +7,14 @@ $(document).ready(function () {
       url: '/api/quotesCompanies',
       dataSrc: '',
     },
+    dom: '<"datatable-error-console">frtip',
     language: {
       url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+    },
+    fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+      if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+        console.error(oSettings.json.error);
+      }
     },
     columns: [
       {
