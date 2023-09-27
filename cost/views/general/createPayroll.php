@@ -112,9 +112,9 @@ if (sizeof($_SESSION) == 0)
                                                             <th></th>
                                                             <th></th>
                                                             <th>Total:</th>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th></th>
+                                                            <th id="totalSalary"></th>
+                                                            <th id="totalSalarynet"></th>
+                                                            <th id="totalMinuteValue"></th>
                                                         </tr>
                                                     </tfoot>
                                                 <?php } ?>

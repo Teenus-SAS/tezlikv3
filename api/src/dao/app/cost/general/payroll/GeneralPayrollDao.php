@@ -65,6 +65,20 @@ class GeneralPayrollDao
         return $findProcess;
     }
 
+    public function findSalarynetByPayroll($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        // Obtener id_proceso
+        $stmt = $connection->prepare("SELECT IFNULL(SUM(salary), 0) AS salary, IFNULL(SUM(salary_net), 0) AS salary_net, IFNULL(SUM(minute_value), 0) AS minute_value 
+                                      FROM (SELECT salary, salary_net, minute_value FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll");
+        $stmt->execute([
+            'id_company' => $id_company
+        ]);
+        $payroll = $stmt->fetch($connection::FETCH_ASSOC);
+        return $payroll;
+    }
+
     public function findAllProcessByEmployeeNotIn($employee, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();

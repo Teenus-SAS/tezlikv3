@@ -12,7 +12,7 @@ $(document).ready(function () {
     let expenses = expenseAsignation + sumTotalCostFixed;
 
     $('#expenses').html(
-      `$ ${expenses.toLocaleString('es-CO', {
+      `$ ${expenseAsignation.toLocaleString('es-CO', {
         maximumFractionDigits: 0,
       })}`
     );

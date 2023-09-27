@@ -85,7 +85,7 @@ $(document).ready(function () {
       );
 
     $('#expenses').html(
-      `$ ${(expenseAsignation + sumTotalCostFixed).toLocaleString('es-CO', {
+      `$ ${expenseAsignation.toLocaleString('es-CO', {
         maximumFractionDigits: 0,
       })}`
     );

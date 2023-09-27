@@ -102,4 +102,16 @@ $(document).ready(function () {
       }
     },
   });
+
+  loadFooterPayroll = async () => {
+    let data = await searchData('/api/salarynet');
+
+    $('#totalSalary').html(`$ ${parseFloat(data.salary).toLocaleString('es-CO',{maximumFractionDigits:2})}`);
+    $('#totalSalarynet').html(`$ ${parseFloat(data.salary_net).toLocaleString('es-CO',{maximumFractionDigits:2})}`);
+    $('#totalMinuteValue').html(`$ ${parseFloat(data.minute_value).toLocaleString('es-CO',{maximumFractionDigits:2})}`);
+  } 
+
+  setTimeout(() => {
+    loadFooterPayroll(); 
+  }, 1000);
 });

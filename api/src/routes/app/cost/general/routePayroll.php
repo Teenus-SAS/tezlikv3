@@ -37,6 +37,14 @@ $app->get('/payroll', function (Request $request, Response $response, $args) use
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/salarynet', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $payroll = $generalPayrollDao->findSalarynetByPayroll($id_company);
+    $response->getBody()->write(json_encode($payroll, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/process/{employee}', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
