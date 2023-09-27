@@ -97,6 +97,8 @@ $(document).ready(function () {
           toastr.error('Debe seleccionar tipo de precio');
           return false;
         } 
+      } else {
+        typeCustomPrices.push(0);
       }
 
       let typePayroll = 0;
@@ -241,6 +243,8 @@ $(document).ready(function () {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
       } 
+    } else {
+      typeCustomPrices.push(0);
     }
 
     let dataUser = {};
