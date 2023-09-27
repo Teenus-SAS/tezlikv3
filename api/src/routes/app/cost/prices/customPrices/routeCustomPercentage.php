@@ -31,24 +31,32 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
         $products = $productsDao->findAllProductsByCompany($id_company);
 
         foreach ($products as $arr) {
-            if ($arr[$dataPrice['name']] == 0)
+            if (isset($resolution['info'])) break;
+
+            $data['idProduct'] = $arr['id_product'];
+            $data['typePrice'] = $dataPrice['typePrice'];
+            $data['idPriceList'] = $dataPrice['idPriceList'];
+
+            $findCustomPrice = $customPricesDao->findCustomPrice($data, $id_company);
+
+            if ($arr[$dataPrice['name']] == 0) {
                 array_push($dataNotData, $arr);
-            else {
-                if (isset($resolution['info'])) break;
+                $data['idCustomPrice'] = $findCustomPrice['id_custom_price'];
+                $data['customPricesValue'] = 0;
+
+                $resolution = $customPricesDao->updateCustomPrice($data);
+                $resolution = $customPricesDao->changeflagPrice($data);
+            } else {
 
                 $customPrice = $priceCustomDao->calcPriceCustomByProduct($dataPrice, $arr['id_product']);
 
-                $data['idProduct'] = $arr['id_product'];
                 $data['customPricesValue'] = $customPrice;
-                $data['idPriceList'] = $dataPrice['idPriceList'];
-                $data['typePrice'] = $dataPrice['typePrice'];
 
-                $customPrice = $customPricesDao->findCustomPrice($data, $id_company);
 
-                if (!$customPrice)
+                if (!$findCustomPrice)
                     $resolution = $customPricesDao->insertCustomPricesByCompany($data, $id_company);
                 else {
-                    $data['idCustomPrice'] = $customPrice['id_custom_price'];
+                    $data['idCustomPrice'] = $findCustomPrice['id_custom_price'];
                     $resolution = $customPricesDao->updateCustomPrice($data);
                     $resolution = $customPricesDao->changeflagPrice($data);
                 }

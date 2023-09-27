@@ -29,7 +29,7 @@ class MultiproductsDao
                                         LEFT JOIN multiproducts mp ON mp.id_product = p.id_product
                                         LEFT JOIN companies_licenses cl ON cl.id_company = p.id_company
                                         WHERE p.id_company = :id_company AND p.active = 1 
-                                        AND IF(cl.flag_type_price = 0, pc.sale_price, pc.price) != 0 AND
+                                        AND IF(cl.flag_type_price = 0, pc.sale_price, pc.price) != 0
                                         ORDER BY p.product ASC");
             $stmt->execute([
                 'id_company' => $id_company
