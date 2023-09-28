@@ -36,7 +36,7 @@ class PricesListDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT pl.id_price_list, pl.price_name, (cp.price * (1 - (pl.percentage / 100))) AS price
+        $stmt = $connection->prepare("SELECT pl.id_price_list, pl.price_name, cp.price
                                       FROM price_list pl
                                         LEFT JOIN custom_prices cp ON cp.id_price_list = pl.id_price_list
                                         INNER JOIN products p ON p.id_product = cp.id_product

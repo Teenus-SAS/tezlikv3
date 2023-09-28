@@ -44,7 +44,7 @@ $(document).ready(function () {
             return false;
         }
 
-        if (percentage > 100 || percentage == 0) {
+        if (percentage > 100) {
             toastr.error('Ingrese un porcentaje valido');
             return false;
         }
