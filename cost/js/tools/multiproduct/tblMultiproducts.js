@@ -54,6 +54,7 @@ $(document).ready(function () {
     }
 
     expenseAsignation = multiproducts[0].expense;
+    costPayroll = multiproducts[0].sum_payroll;
 
     if (expenseAsignation == 0) $('.cardExpenseAssignation').show(800);
 
@@ -85,7 +86,7 @@ $(document).ready(function () {
       );
 
     $('#expenses').html(
-      `$ ${expenseAsignation.toLocaleString('es-CO', {
+      `$ ${parseFloat(expenseAsignation + costPayroll).toLocaleString('es-CO', {
         maximumFractionDigits: 0,
       })}`
     );
