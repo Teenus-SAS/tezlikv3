@@ -144,10 +144,21 @@ $(document).ready(function () {
 
     let data = combinedData[this.id];
 
+    var options = ``;
+
+    for (var i = 0; i < data.id_price_list.length; i++) {
+      options += `<option value="${data.id_custom_price[i]}"> ${data.price_names[i]} </option>`;
+    }
+
     bootbox.confirm({
       title: 'Eliminar',
       message:
-        'Está seguro de eliminar este precio? Esta acción no se puede reversar.',
+      `<p>Está seguro de eliminar este precio? Esta acción no se puede reversar.</p><br>
+       <label>Tipo Precio</label>
+        <select class="form-control" id="selectDeleteCustomPrice">
+          <option value='0' disabled selected>Seleccionar</option>
+          ${options}
+        </select>`,
       buttons: {
         confirm: {
           label: 'Si',
@@ -160,15 +171,22 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
+          let id_custom_price = $('#selectDeleteCustomPrice').val();
+
+          if (id_custom_price == '0' || !id_custom_price) {
+            toastr.error('Seleccione precio a eliminar');
+            return false;
+          } 
+
           $.get(
-            `../api/deleteCustomPrice/${data.id_custom_price}`,
+            `../api/deleteCustomPrice/${id_custom_price}`,
             function (data, textStatus, jqXHR) {
               message(data);
             }
           );
         }
       },
-    });
+    });  
   }); 
 
   /* Mensaje de exito */

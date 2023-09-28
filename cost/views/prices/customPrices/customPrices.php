@@ -54,16 +54,16 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <?php if ($_SESSION['type_custom_price'] == '-1') { ?>
-                                <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                    <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-info" id="btnNewCustomPercentage">Adicionar Porcentaje</button>
-                                    </div>
-                                    <!-- <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-info" id="btnNewCustomPrice">Adicionar Precio</button>
-                                    </div> -->
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
+                                    <button class="btn btn-success" id="btnExportCustomPrice">Exportar Precio</button>
                                 </div>
-                            <?php } ?>
+                                <?php if ($_SESSION['type_custom_price'] == '-1') { ?>
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-info" id="btnNewCustomPercentage">Configurar Lista De Precios</button>
+                                    </div>
+                                <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,14 +116,14 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Lista de Precios</label>
                                                     <select class="form-control pricesList" name="idPriceList" id="pricesList2"></select>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <!-- <div class="col-sm-3 floating-label enable-floating-label show-label">
                                                     <label for="">Precio</label>
                                                     <select class="form-control" name="typePrice" id="typePrice">
                                                         <option disabled selected>Seleccionar</option>
                                                         <option value="0">ACTUAL</option>
                                                         <option value="1">SUGERIDO</option>
                                                     </select>
-                                                </div>
+                                                </div> -->
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label inputPercentage">
                                                     <label for="">Porcentaje</label>
                                                     <input type="number" class="form-control text-center" id="percentage" name="percentage">
@@ -183,6 +183,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/prices/customPrices/tblNotProducts.js"></script>
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>
+    <script src="/cost/js/prices/customPrices/exportCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPercentages.js"></script>
 </body>
 

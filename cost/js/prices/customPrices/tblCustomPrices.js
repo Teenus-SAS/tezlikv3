@@ -38,7 +38,7 @@ $(document).ready(function () {
       dataPriceList = JSON.parse(dataPriceList);
 
       for (let i = 0; i < dataPriceList.length; i++) {
-        type_custom_price[0] == '-1' ? headers += `<th>${dataPriceList[i].type_price}</th><th>${dataPriceList[i].price_name}</th>` : headers += `<th>${dataPriceList[i].price_name}</th>`;
+        type_custom_price[0] == '-1' ? headers += `<th>${dataPriceList[i].price_name}</th>` : headers += `<th>${dataPriceList[i].price_name}</th>`;
       }
       let actions = '';
 
@@ -52,7 +52,8 @@ $(document).ready(function () {
         <tr>
           <th>No</th>
           <th>REFERENCIA</th>
-          <th>PRODUCTO</th> 
+          <th>PRODUCTO</th>
+          ${type_custom_price[0] == '-1' ? `<th>${dataPriceList[0].type_price}</th>` : ''}
           ${headers}
           ${actions}
         </tr>
@@ -72,9 +73,7 @@ $(document).ready(function () {
           existing.id_custom_price.push(current.id_custom_price);
           existing.id_price_list.push(current.id_price_list);
           existing.price_names.push(current.price_name);
-          existing.prices.push(current.price_custom);
-          existing.price_cost.push(current.price_cost);
-          //existing.profitability_customs.push(current.profitability_custom);
+          existing.prices.push(current.price_custom); 
         } else {
           result.push({
             id_custom_price: [current.id_custom_price],
@@ -82,8 +81,8 @@ $(document).ready(function () {
             id_product: current.id_product,
             reference: current.reference,
             product: current.product,
-            price_cost: [current.price_cost],
-            //profitability_price: current.profitability_price,
+            price_cost: current.price_cost,
+            flag_price: current.flag_price,
             price_names: [current.price_name],
             prices: [current.price_custom],
             //profitability_customs: [current.profitability_custom],
@@ -99,23 +98,16 @@ $(document).ready(function () {
           actions = `<td>
             <a href="javascript:;" <i id="${i}" class="bx bx-edit-alt updateCustomPrice" data-toggle='tooltip' title='Actualizar Precio' style="font-size: 30px;"></i></a>
             <a href="javascript:;" <i id="${i}" class="mdi mdi-delete-forever deleteFunction" data-toggle='tooltip' title='Eliminar Precio' style="font-size: 30px;color:red"></i></a>
-          </td>`;
-        /*${type_custom_price == '-1' ? `<td>${combinedData[i].profitability_price.toLocaleString('es-CO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })} %</td>` : ''} 
-          <td>$ ${combinedData[i].price_cost.toLocaleString('es-CO', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          })}</td>*/
+          </td>`; 
         body.insertAdjacentHTML(
           'beforeend',
           `<tr>
           <td>${i + 1}</td>
           <td>${combinedData[i].reference}</td>
           <td>${combinedData[i].product}</td>
-          
-          
+          ${type_custom_price[0] == '-1' ?
+            `<td>$ ${parseFloat(combinedData[i].price_cost).toLocaleString('es-CO', {
+              minimumFractionDigits: 0, maximumFractionDigits: 0,})}</td>` : ``}
           ${(tbody = addColsPricesCombines(combinedData[i], dataPriceList))}
           ${actions}
         </tr>`
@@ -126,7 +118,7 @@ $(document).ready(function () {
         destroy: true,
         pageLength: 50,
         autoWidth: true,
-        dom: '<"datatable-error-console">frtip',
+        dom: '<"datatable-error-console">frtip', 
         language: {
           url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
         },
@@ -151,51 +143,22 @@ $(document).ready(function () {
             price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
-            })}`;
-  
-            // profitability_custom = `${data.profitability_customs[
-            //   i
-            // ].toLocaleString('es-CO', {
-            //   minimumFractionDigits: 2,
-            //   maximumFractionDigits: 2,
-            // })} %`;
-            !data.price_cost[i] ? price_cost = '' : price_cost = `$ ${data.price_cost[i].toLocaleString('es-CO', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}`;
+            })}`; 
+
             i += 1;
         
           } else {
-            price_custom = '';
-            price_cost = '';
-            //profitability_custom = '';
-          };
-          
-          
-          tbody += type_custom_price[0] == '-1' ? `<td>${price_cost}</td><td>${price_custom}</td>` : `<td>${price_custom}</td>`;
-          //${type_custom_price == '-1' ? `<td>${profitability_custom}</td>` : ''}
+            price_custom = '';  
+          }; 
+          tbody += `<td>${price_custom}</td>`; 
         }
       } else {
         price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
-        })}`;
-  
-        // profitability_custom = `${data.profitability_customs[
-        //   i
-        // ].toLocaleString('es-CO', {
-        //   minimumFractionDigits: 2,
-        //   maximumFractionDigits: 2,
-        // })} %`;
-        !data.price_cost[i] ? price_cost = '' : price_cost = `$ ${data.price_cost[i].toLocaleString('es-CO', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        })}`;
-        tbody += type_custom_price[0] == '-1' ? `<td>${price_cost}</td><td>${price_custom}</td>` : `<td>${price_custom}</td>`;
+        })}`; 
 
-        // tbody += `<td>${price_custom}</td>`;
-        //${type_custom_price == '-1' ? `<td>${profitability_custom}</td>` : ''}
-      
+        tbody += `<td>${price_custom}</td>`; 
       }
     }
 

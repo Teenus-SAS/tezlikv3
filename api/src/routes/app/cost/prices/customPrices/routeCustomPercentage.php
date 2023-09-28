@@ -41,26 +41,29 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
 
             if ($arr[$dataPrice['name']] == 0) {
                 array_push($dataNotData, $arr);
-                $data['idCustomPrice'] = $findCustomPrice['id_custom_price'];
+
                 $data['customPricesValue'] = 0;
-
-                $resolution = $customPricesDao->updateCustomPrice($data);
-                $resolution = $customPricesDao->changeflagPrice($data);
-            } else {
-
-                $customPrice = $priceCustomDao->calcPriceCustomByProduct($dataPrice, $arr['id_product']);
-
-                $data['customPricesValue'] = $customPrice;
-
 
                 if (!$findCustomPrice)
                     $resolution = $customPricesDao->insertCustomPricesByCompany($data, $id_company);
                 else {
                     $data['idCustomPrice'] = $findCustomPrice['id_custom_price'];
                     $resolution = $customPricesDao->updateCustomPrice($data);
-                    $resolution = $customPricesDao->changeflagPrice($data);
+                    // $resolution = $customPricesDao->changeflagPrice($data);
+                }
+            } else {
+                $customPrice = $priceCustomDao->calcPriceCustomByProduct($dataPrice, $arr['id_product']);
+
+                $data['customPricesValue'] = $customPrice;
+
+                if (!$findCustomPrice)
+                    $resolution = $customPricesDao->insertCustomPricesByCompany($data, $id_company);
+                else {
+                    $data['idCustomPrice'] = $findCustomPrice['id_custom_price'];
+                    $resolution = $customPricesDao->updateCustomPrice($data);
                 }
             }
+            $resolution = $customPricesDao->changeflagPrice($data);
         }
     }
 

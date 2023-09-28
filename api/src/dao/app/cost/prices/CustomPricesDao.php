@@ -65,14 +65,14 @@ class CustomPricesDao
         $price = str_replace(',', '.', $price);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO custom_prices (id_company, id_product, id_price_list, price, flag_price) 
-                                          VALUES (:id_company, :id_product, :id_price_list, :price, :flag_price)");
+            $stmt = $connection->prepare("INSERT INTO custom_prices (id_company, id_product, id_price_list, price) 
+                                          VALUES (:id_company, :id_product, :id_price_list, :price)");
             $stmt->execute([
                 'id_company' => $id_company,
                 'id_product' => $dataPrice['idProduct'],
                 'id_price_list' => $dataPrice['idPriceList'],
                 'price' => $price,
-                'flag_price' => $dataPrice['typePrice']
+                // 'flag_price' => $dataPrice['typePrice']
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -132,9 +132,8 @@ class CustomPricesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE custom_prices SET flag_price = :flag_price WHERE id_custom_price = :id_custom_price");
+            $stmt = $connection->prepare("UPDATE custom_prices SET flag_price = :flag_price");
             $stmt->execute([
-                'id_custom_price' => $dataPrice['idCustomPrice'],
                 'flag_price' => $dataPrice['typePrice']
             ]);
 
@@ -151,13 +150,13 @@ class CustomPricesDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT * FROM custom_prices WHERE id_custom_price IN ($id_custom_price)");
-            $stmt->execute();
+            $stmt = $connection->prepare("SELECT * FROM custom_prices WHERE id_custom_price = :id_custom_price");
+            $stmt->execute(['id_custom_price' => $id_custom_price]);
             $row = $stmt->rowCount();
 
             if ($row > 0) {
-                $stmt = $connection->prepare("DELETE FROM custom_prices WHERE id_custom_price IN ($id_custom_price)");
-                $stmt->execute();
+                $stmt = $connection->prepare("DELETE FROM custom_prices WHERE id_custom_price = :id_custom_price");
+                $stmt->execute(['id_custom_price' => $id_custom_price]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             }
         } catch (\Exception $e) {
