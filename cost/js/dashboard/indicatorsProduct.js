@@ -202,22 +202,59 @@ $(document).ready(function () {
     })}%`);
     
 
-    $('#actualProfitability').html(`${dataCost.actualProfitability.toLocaleString('es-CO', {
-      maximumFractionDigits: 2,
-    })} %`);
-
-    if (dataCost.actualProfitability < 0)
-      $('#actualProfitability').css('color', 'red');
+    $('#actualProfitability').html(``); 
 
     $('.cardTrafficLight').empty();
     let content = '';
     
     if (dataCost.actualProfitability == data[0].profitability)
-      content = '<i class="bx bxs-no-entry" style="font-size: xxx-large;color:orange"></i>';
+      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                        </div>
+                        <div class="text-center">
+                          <span class="text-warning font-weight-bold" style="font-size:large">
+                            <i style="font-style: initial;"><i class="bx bxs-no-entry" style="font-size: xxx-large;color:green"></i></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
     else if (dataCost.actualProfitability > data[0].profitability)
-      content = '<i class="bx bxs-check-circle" style="font-size: xxx-large;color:green"></i>';
+      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <h2 class="mb-0 mt-1 costProduct text-success">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                        </div>
+                        <div class="text-center">
+                          <span class="text-success font-weight-bold" style="font-size:large">
+                            <i style="font-style: initial;"><i class="bx bxs-check-circle" style="font-size: xxx-large;color:green"></i></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
     else
-      content = '<i class="bx bxs-x-circle" style="font-size: xxx-large;color:red"></i>';
+      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', {maximumFractionDigits: 2,})} %</h2>
+                        </div>
+                        <div class="text-center">
+                          <span class="text-danger font-weight-bold" style="font-size:large">
+                            <i style="font-style: initial;"><i class="bx bxs-x-circle" style="font-size: xxx-large;color:red"></i></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
     
     $('.cardTrafficLight').append(content);
   };

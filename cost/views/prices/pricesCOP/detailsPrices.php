@@ -163,45 +163,23 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col">
-                                <div class="card radius-10 border-start border-0 border-3 border-info">
-                                    <div class="card-body">
-                                        <div class="media-body align-items-center">
-                                            <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
-                                                <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                    <h3 class="mb-0 mt-1" id="actualProfitability" style="font-size: x-large"></h3>
-                                                    <div class="col-sm-1 cardTrafficLight"></div>
-                                                </div>
-                                                
-                                                <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Minima/Deseada</span>
-                                                    <h3 class="mb-0 mt-1" id="minProfit" style="font-size: x-large"></h3>
-                                                </div>
-                                            </div>
-                                        </div>
 
-                                    </div>
-                                </div>
-                            </div> -->
-
-                            <div class="col-xl-3">
-                                <div class="card radius-10 border-start border-0 border-3 border-success">
+                            <div class="col-xl-3 cardTrafficLight">
+                                <!-- <div class="card radius-10 border-start border-0 border-3 border-success">
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
                                                 <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
                                                 <h2 class="mb-0 mt-1 costProduct text-success" id="actualProfitability"></h2>
                                             </div>
-                                            <div class="text-center">
-                                                <!-- <div id="t-rev"></div> -->
+                                            <div class="text-center"> 
                                                 <span class="text-success font-weight-bold" style="font-size:large">
-                                                    <i class="cardTrafficLight" style="font-style: initial;"></i>
+                                                    <i class="" style="font-style: initial;"></i>
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="col-xl-3">
                                 <div class="card radius-10 border-start border-0 border-3 border-info">
