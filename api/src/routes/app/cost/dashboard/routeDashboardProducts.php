@@ -23,7 +23,7 @@ $app->get('/dashboardPricesProducts/{id_product}', function (Request $request, R
     $costWorkforce = $dashboardProductsDao->findCostWorkforceByProduct($args['id_product'], $id_company);
 
     // Consultar Costo Materia prima por producto
-    // $costRawMaterials = $dashboardProductsDao->findCostRawMaterialsByProduct($args['id_product'], $id_company);
+    $costRawMaterials = $dashboardProductsDao->findCostRawMaterialsByProduct($args['id_product'], $id_company);
 
     // Consultar promedio de tiempos procesos
     $averageTimeProcess = $dashboardProductsDao->findAverageTimeProcessByProduct($args['id_product'], $id_company);
@@ -33,7 +33,7 @@ $app->get('/dashboardPricesProducts/{id_product}', function (Request $request, R
     $costProduct['cost_product'] = $costAnalysisProducts;
     $costProduct['cost_time_process'] = $totalTimeProcess;
     $costProduct['cost_workforce'] = $costWorkforce;
-    // $costProduct['cost_materials'] = $costRawMaterials;
+    $costProduct['cost_materials'] = $costRawMaterials;
     $costProduct['average_time_process'] = $averageTimeProcess;
 
     $response->getBody()->write(json_encode($costProduct, JSON_NUMERIC_CHECK));

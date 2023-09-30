@@ -10,6 +10,7 @@ $(document).ready(function () {
       );
       averagePrices(data.details_prices);
       generalSales(data.details_prices);
+      graphicMultiproducts(data.multiproducts);
       graphicTimeProcessByProduct(data.time_process);
       averagesTime(data.average_time_process);
       graphicsFactoryLoad(data.factory_load_minute_value);

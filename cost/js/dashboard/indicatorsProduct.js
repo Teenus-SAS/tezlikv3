@@ -12,8 +12,14 @@ $(document).ready(function () {
     await graphicPromTime(data.average_time_process);
     await graphicCompPrices(data.cost_product);
 
-    data = await searchData(`/api/rawMaterials/${id_product}`); 
-    await graphicCostMaterials(data['80RawMaterials']); 
+    if (data.cost_materials.length > 10) {
+      data = await searchData(`/api/rawMaterials/${id_product}`);
+      data = data['80RawMaterials'];
+    }
+    else
+      data = data.cost_materials;
+    
+    await graphicCostMaterials(data); 
   };
   /* Colors */
 
