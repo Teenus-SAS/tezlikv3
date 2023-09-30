@@ -26,21 +26,21 @@ $(document).ready(function () {
     importFile(selectedFile)
       .then((data) => {
         let productProcessToImport = data.map((item) => {
-          let enlistmentTime = '';
-          let operationTime = '';
+          // let enlistmentTime = '';
+          // let operationTime = '';
 
-          if (item.tiempo_enlistamiento)
-            enlistmentTime = item.tiempo_enlistamiento.toString().replace('.', ',');
-          if (item.tiempo_operacion)
-            operationTime = item.tiempo_operacion.toString().replace('.', ',');
+          // if (item.tiempo_enlistamiento)
+          //   enlistmentTime = item.tiempo_enlistamiento.toString().replace('.', ',');
+          // if (item.tiempo_operacion)
+          //   operationTime = item.tiempo_operacion.toString().replace('.', ',');
 
           return {
             referenceProduct: item.referencia_producto,
             product: item.producto,
             process: item.proceso,
             machine: item.maquina,
-            enlistmentTime: enlistmentTime,
-            operationTime: operationTime,
+            enlistmentTime: item.tiempo_enlistamiento,
+            operationTime: item.tiempo_operacion,
           };
         });
         checkProductProcess(productProcessToImport);
