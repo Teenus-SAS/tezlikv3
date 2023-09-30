@@ -10,7 +10,7 @@ $(document).ready(function () {
   var anchura = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
-  );
+  ); 
 
   /* Costo del producto */
 

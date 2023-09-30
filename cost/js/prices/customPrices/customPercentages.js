@@ -13,26 +13,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#btnNewCustomPercentage').click(async function (e) {
-        e.preventDefault();
-        
-        op_price_list = false;
-
-        $('#btnCreateCustomPercentage').html('Adicionar');
-
-        sessionStorage.removeItem('id_custom_percentage');
-
-        $('#formCreateCustomPercentage').trigger('reset'); 
-
-        let visible = $('.cardCreateCustomPercentages').is(':visible');
-
-        if (visible == false) await loadPriceList();
-
-        $('.cardCreateCustomPercentages').toggle(800);
-        $('.cardCreateCustomPrices').hide(800);
-    });
-
-    $('#btnCreateCustomPercentage').click(function (e) {
+    $('#btnNewCustomPercentage').click(function (e) {
         e.preventDefault();
 
         let data = combinedData[0];
@@ -70,38 +51,66 @@ $(document).ready(function () {
             },
             callback: function (result) {
                 if (result == true) {
-                    let priceList = parseFloat($('#pricesList2').val());
-                    let percentage = parseFloat($('#percentage').val());
-                    let typePrice = parseFloat($('#selectPricesCustom').val());
-
-                    if (!priceList || (!typePrice && typePrice != 0)) {
-                        toastr.error('Ingrese todos los datos');
+                    typePrice = parseFloat($('#selectPricesCustom').val());
+                    
+                    if ((!typePrice && typePrice != 0)) {
+                        toastr.error('Seleccione tipo de precio');
                         return false;
                     }
 
-                    if (percentage > 100) {
-                        toastr.error('Ingrese un porcentaje valido');
-                        return false;
-                    }
-
-                    let data = $('#formCreateCustomPercentage').serialize();
-                    typePrice == '0' ? namePrice = 'sale_price' : namePrice = 'price';
-                    data = `${data}&name=${namePrice}&typePrice=${typePrice}`;
-
-                    $.post('/api/addCustomPercentage', data,
-                        function (data, textStatus, jqXHR) {
-                            message(data);
-                            $('#modalNotProducts').modal('show');
-                            loadPriceList(1);
-                            loadTblNotProducts(data.dataNotData);
-                        },
-                    );
+                    newCustomPercentage();
                 }
             },
         });
-
-        
     });
+
+    newCustomPercentage = async () => {
+        op_price_list = false;
+
+        $('#btnCreateCustomPercentage').html('Adicionar');
+
+        sessionStorage.removeItem('id_custom_percentage');
+
+        $('#formCreateCustomPercentage').trigger('reset');
+
+        let visible = $('.cardCreateCustomPercentages').is(':visible');
+
+        if (visible == false) await loadPriceList();
+
+        $('.cardCreateCustomPercentages').toggle(800);
+        $('.cardCreateCustomPrices').hide(800);
+    }
+
+    $('#btnCreateCustomPercentage').click(async function (e) {
+        e.preventDefault();
+
+        let priceList = parseFloat($('#pricesList2').val());
+        let percentage = parseFloat($('#percentage').val());
+
+        if (!priceList) {
+            toastr.error('Ingrese todos los datos');
+            return false;
+        }
+
+        if (percentage > 100) {
+            toastr.error('Ingrese un porcentaje valido');
+            return false;
+        }
+
+        let data = $('#formCreateCustomPercentage').serialize();
+        typePrice == '0' ? namePrice = 'sale_price' : namePrice = 'price';
+        data = `${data}&name=${namePrice}&typePrice=${typePrice}`;
+
+        $.post('/api/addCustomPercentage', data,
+            function (data, textStatus, jqXHR) {
+                message(data);
+                $('#modalNotProducts').modal('show');
+                loadPriceList(1);
+                loadTblNotProducts(data.dataNotData);
+            },
+        ); 
+        
+    }); 
 
     $('#btnCloseNotProducts').click(function (e) { 
         e.preventDefault();

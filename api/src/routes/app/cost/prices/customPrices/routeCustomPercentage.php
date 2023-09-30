@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\CustomPricesDao;
+use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\GeneralPricesListDao;
 use tezlikv3\Dao\PriceCustomDao;
 use tezlikv3\dao\ProductsDao;
@@ -9,12 +10,14 @@ $customPricesDao = new CustomPricesDao();
 $priceCustomDao = new PriceCustomDao();
 $productsDao = new ProductsDao();
 $generalPricesListDao = new GeneralPricesListDao();
+$generalCustomPricesDao = new GeneralCustomPricesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->post('/addCustomPercentage', function (Request $request, Response $response, $args) use (
     $customPricesDao,
+    $generalCustomPricesDao,
     $productsDao,
     $priceCustomDao,
     $generalPricesListDao
@@ -37,7 +40,7 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
             $data['typePrice'] = $dataPrice['typePrice'];
             $data['idPriceList'] = $dataPrice['idPriceList'];
 
-            $findCustomPrice = $customPricesDao->findCustomPrice($data, $id_company);
+            $findCustomPrice = $generalCustomPricesDao->findCustomPrice($data, $id_company);
 
             if ($arr[$dataPrice['name']] == 0) {
                 array_push($dataNotData, $arr);
@@ -63,7 +66,7 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
                     $resolution = $customPricesDao->updateCustomPrice($data);
                 }
             }
-            $resolution = $customPricesDao->changeflagPrice($data);
+            $resolution = $generalCustomPricesDao->changeflagPrice($data);
         }
     }
 

@@ -56,7 +56,9 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
     $multiproducts = $dashboardGeneralDao->findTotalMultiproducts($id_company);
 
     if (!($multiproducts)) {
-        $multiproductsDao->updateTotalUnits(0, $id_company);
+        $data['total_units'] = 0;
+        $data['total_units_sold'] = 0;
+        $multiproductsDao->updateTotalUnits($data, $id_company);
         $multiproducts = $dashboardGeneralDao->findTotalMultiproducts($id_company);
     }
 

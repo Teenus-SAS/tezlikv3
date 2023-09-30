@@ -49,7 +49,7 @@ $(document).ready(function () {
         let participation = 0;
 
         // if (unit > 0) {
-        let totalUnitsSold = sumTotalSoldUnits();
+        totalUnitsSold = sumTotalSoldUnits();
 
         // Calcular porcentaje de participacion
         participation = (unit / totalUnitsSold) * 100;
@@ -113,7 +113,7 @@ $(document).ready(function () {
 
       sumTotalUnits();
 
-      dataMultiproducts.push(totalUnits);
+      dataMultiproducts.push({ total_units: totalUnits, total_units_sold: totalUnitsSold });
 
       saveMultiproducts(dataMultiproducts);
       // }

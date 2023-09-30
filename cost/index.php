@@ -170,7 +170,7 @@ if (sizeof($_SESSION) == 0)
                                                                         <h2 class="mb-0 mt-1 text-warning" id="multiproducts"></h2>
                                                                     </div>
                                                                     <div class="align-self-center mt-1">
-                                                                        <i class="bx bx-scan fs-xl"></i>
+                                                                        <canvas id="chartMultiproducts" style="width: 80%;"></canvas>
                                                                     </div>
                                                                 </div>
                                                             </div>

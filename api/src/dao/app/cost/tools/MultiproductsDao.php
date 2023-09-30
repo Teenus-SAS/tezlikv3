@@ -117,7 +117,7 @@ class MultiproductsDao
         }
     }
 
-    public function updateTotalUnits($total_units, $id_company)
+    public function updateTotalUnits($data, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
@@ -127,12 +127,13 @@ class MultiproductsDao
             $row = $stmt->rowCount();
 
             if ($row > 0)
-                $stmt = $connection->prepare("UPDATE general_data SET total_units = :total_units WHERE id_company = :id_company");
+                $stmt = $connection->prepare("UPDATE general_data SET total_units_sold = :total_units_sold, total_units = :total_units WHERE id_company = :id_company");
             else
-                $stmt = $connection->prepare("INSERT INTO general_data (total_units, id_company) VALUES (:total_units, :id_company)");
+                $stmt = $connection->prepare("INSERT INTO general_data (total_units_sold, total_units, id_company) VALUES (:total_units_sold, :total_units, :id_company)");
 
             $stmt->execute([
-                'total_units' => $total_units,
+                'total_units_sold' => $data['total_units_sold'],
+                'total_units' => $data['total_units'],
                 'id_company' => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

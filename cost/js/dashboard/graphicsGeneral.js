@@ -7,6 +7,11 @@ $(document).ready(function () {
 
   anchura <= 480 ? (length = 5) : (length = 10);
 
+  /* Punto de equilibrio */
+  graphicMultiproducts = (data) => {
+    
+  }
+
   /* Tiempo de procesos */
   graphicTimeProcessByProduct = (data) => {
     let product = [];

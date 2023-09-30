@@ -1,10 +1,12 @@
 <?php
 
 use tezlikv3\dao\CustomPricesDao;
+use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\PriceCustomDao;
 
 $customPricesDao = new CustomPricesDao();
+$generalCustomPricesDao = new GeneralCustomPricesDao();
 $priceCustomDao = new PriceCustomDao();
 $lastDataDao = new LastDataDao();
 
@@ -58,6 +60,7 @@ $app->get('/customPrices', function (Request $request, Response $response, $args
 
 $app->post('/updateCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
+    $generalCustomPricesDao,
     $priceCustomDao
 ) {
     session_start();
@@ -66,7 +69,7 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
 
     $data = [];
 
-    $findPrice = $customPricesDao->findCustomPrice($dataCustomPrice, $id_company);
+    $findPrice = $generalCustomPricesDao->findCustomPrice($dataCustomPrice, $id_company);
 
     !is_array($findPrice) ? $data['id_custom_price'] = 0 : $data = $findPrice;
 

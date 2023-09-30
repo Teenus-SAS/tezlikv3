@@ -27,7 +27,7 @@ class PricesDao
                                     LEFT JOIN expenses_recover er ON er.id_product = p.id_product
                                     INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                     INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
-                                  WHERE p.id_company = :id_company AND p.active = 1
+                                  WHERE p.id_company = :id_company AND p.active = 1 AND pc.price != 0
                                   ORDER BY `p`.`reference` ASC");
 
     $stmt->execute(['id_company' => $id_company]);
