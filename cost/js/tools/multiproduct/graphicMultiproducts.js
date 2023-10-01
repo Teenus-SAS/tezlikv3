@@ -3,8 +3,8 @@ $(document).ready(function () {
   var chartMultiproductsBar;
 
   dynamicColors = () => {
-    let letters = '0123456789ABCDEF'.split('');
-    let color = '#';
+    let letters = "0123456789ABCDEF".split("");
+    let color = "#";
 
     for (var i = 0; i < 6; i++)
       color += letters[Math.floor(Math.random() * 16)];
@@ -22,13 +22,13 @@ $(document).ready(function () {
     window.innerWidth || 0
   );
 
-  $('#btnShowGraphic').click(function (e) {
+  $("#btnShowGraphic").click(function (e) {
     e.preventDefault();
 
-    $('.cardImportMultiproducts').hide(800);
-    $('.cardTblMultiproducts').hide(800);
-    $('.cardTblBreakeven').hide(800);
-    $('.cardGraphicMultiproducts').show(800);
+    $(".cardImportMultiproducts").hide(800);
+    $(".cardTblMultiproducts").hide(800);
+    $(".cardTblBreakeven").hide(800);
+    $(".cardGraphicMultiproducts").show(800);
 
     loadGraphicMultiproducts();
   });
@@ -51,12 +51,12 @@ $(document).ready(function () {
       ? chartMultiproductsDonut.destroy()
       : chartMultiproductsDonut;
 
-    cmo = document.getElementById('chartMultiproductsDonut');
+    cmo = document.getElementById("chartMultiproductsDonut");
     chartMultiproductsDonut = new Chart(cmo, {
       plugins: [ChartDataLabels],
-      type: 'doughnut',
+      type: "doughnut",
       data: {
-        labels: ['N° de unidades Vendidas', 'N° de Unidades Por Vender'],
+        labels: ["N° de unidades Vendidas", "N° de Unidades Por Vender"],
         datasets: [
           {
             data: product,
@@ -66,7 +66,6 @@ $(document).ready(function () {
         ],
       },
       options: {
-        cutoutPercentage: 85,
         plugins: {
           legend: {
             display: false,
@@ -78,13 +77,13 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + '%';
+              let percentage = ((value * 100) / sum).toFixed(2) + "%";
               return percentage;
             },
-            color: 'white',
+            color: "white",
             font: {
-              size: '9',
-              weight: 'bold',
+              size: "9",
+              weight: "bold",
             },
           },
         },
@@ -97,10 +96,10 @@ $(document).ready(function () {
     for (let i = 0; i < multiproducts.length; i++) {
       product.push({
         name: multiproducts[i].product,
-        soldUnits: multiproducts[i].soldUnit.toLocaleString('es-CO', {
+        soldUnits: multiproducts[i].soldUnit.toLocaleString("es-CO", {
           maximumFractionDigits: 0,
         }),
-        unitsToSold: multiproducts[i].unitsToSold.toLocaleString('es-CO', {
+        unitsToSold: multiproducts[i].unitsToSold.toLocaleString("es-CO", {
           maximumFractionDigits: 0,
         }),
         percentage: multiproducts[i].percentage,
@@ -108,7 +107,7 @@ $(document).ready(function () {
     }
 
     product.sort(function (a, b) {
-      return b['soldUnits'] - a['soldUnits'];
+      return b["soldUnits"] - a["soldUnits"];
     });
 
     let nameProduct = [];
@@ -127,22 +126,22 @@ $(document).ready(function () {
       unitsToSold.push(product[i].unitsToSold);
 
       if (product[i].percentage >= 1 && product[i].percentage <= 50)
-        color.push('red');
+        color.push("red");
       else if (product[i].percentage > 50 && product[i].percentage <= 80)
-        color.push('yellow');
+        color.push("yellow");
       else if (product[i].percentage > 80 && product[i].percentage <= 90)
-        color.push('blue');
-      else color.push('green');
+        color.push("blue");
+      else color.push("green");
     }
 
     chartMultiproductsBar
       ? chartMultiproductsBar.destroy()
       : chartMultiproductsBar;
 
-    ctx = document.getElementById('chartMultiproductsBar').getContext('2d');
+    ctx = document.getElementById("chartMultiproductsBar").getContext("2d");
     chartMultiproductsBar = new Chart(ctx, {
       plugins: [ChartDataLabels],
-      type: 'bar',
+      type: "bar",
       data: {
         labels: nameProduct,
         formatter: function (value, context) {
@@ -150,15 +149,15 @@ $(document).ready(function () {
         },
         datasets: [
           {
-            label: 'N° de unidades vendidas',
+            label: "N° de unidades vendidas",
             data: soldUnits,
             backgroundColor: getRandomColor(count),
             borderWidth: 1,
           },
           {
-            label: 'Unidades a vender',
+            label: "Unidades a vender",
             data: unitsToSold,
-            backgroundColor: 'orange',
+            backgroundColor: "orange",
             borderWidth: 1,
           },
         ],
@@ -178,19 +177,19 @@ $(document).ready(function () {
             display: false,
           },
           datalabels: {
-            anchor: 'end',
+            anchor: "end",
             formatter: (soldUnits) =>
-              soldUnits.toLocaleString('es-CO', {
+              soldUnits.toLocaleString("es-CO", {
                 maximumFractionDigits: 0,
               }),
             formatter: (unitsToSold) =>
-              unitsToSold.toLocaleString('es-CO', {
+              unitsToSold.toLocaleString("es-CO", {
                 maximumFractionDigits: 0,
               }),
-            color: 'black',
+            color: "black",
             font: {
-              size: '14',
-              weight: 'normal',
+              size: "14",
+              weight: "normal",
             },
           },
         },
