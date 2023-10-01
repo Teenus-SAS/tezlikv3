@@ -67,9 +67,9 @@ $(document).ready(function () {
       options: {
         cutoutPercentage: 85,
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         animation: { duration: 2500 },
-        scales: { xAxes: [{ display: false }], yAxes: [{ display: false }] },
+        scales: { xAxes: [{ display: true }], yAxes: [{ display: true }] },
                 
         tooltips: {
           enabled: false,
