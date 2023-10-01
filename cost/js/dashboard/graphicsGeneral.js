@@ -88,7 +88,7 @@ $(document).ready(function () {
             },
           },
         },
-        cutoutPercentage: 85,
+        cutoutPercentage: 100,
         // cutoutPercentage: (data.total_units_sold / data.total_units) * 100,
         responsive: !0,
         maintainAspectRatio: !1,
