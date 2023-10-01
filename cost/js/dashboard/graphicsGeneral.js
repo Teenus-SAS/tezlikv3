@@ -3,7 +3,7 @@ $(document).ready(function () {
   var anchura = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
-  ); 
+  );
 
   anchura <= 480 ? (length = 5) : (length = 10);
 
@@ -46,11 +46,11 @@ $(document).ready(function () {
     //   },
     // };
     // new Chart(document.getElementById('chartMultiproducts'), o);
-    const cmc = document.getElementById('chartMultiproducts');
+    const cmc = document.getElementById("chartMultiproducts");
 
     const chartWorkForce = new Chart(cmc, {
       plugins: [ChartDataLabels],
-      type: 'doughnut',
+      type: "doughnut",
       data: {
         // labels: ['Vender'],
         formatter: function (value, context) {
@@ -65,7 +65,6 @@ $(document).ready(function () {
         ],
       },
       options: {
-        cutoutPercentage: 85,
         tooltips: {
           enabled: false,
         },
@@ -77,15 +76,15 @@ $(document).ready(function () {
             formatter: (value, ctx) => {
               let percentage = (value * 100) / data.total_units;
 
-              return `${percentage.toLocaleString('es-CO', {
+              return `${percentage.toLocaleString("es-CO", {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })} %`;
             },
-            color: 'white',
+            color: "white",
             font: {
-              size: '14',
-              weight: 'bold',
+              size: "14",
+              weight: "bold",
             },
           },
           // cutoutPercentage: (data.total_units_sold / data.total_units) * 100,
@@ -98,7 +97,7 @@ $(document).ready(function () {
         },
       },
     });
-  }
+  };
 
   /* Tiempo de procesos */
   graphicTimeProcessByProduct = (data) => {
@@ -110,10 +109,10 @@ $(document).ready(function () {
       product.push(data[i].product);
       totalTime.push(data[i].totalTime);
     }
-    const cmc = document.getElementById('chartTimeProcessProducts');
+    const cmc = document.getElementById("chartTimeProcessProducts");
     const chartTimeProcessProducts = new Chart(cmc, {
       plugins: [ChartDataLabels],
-      type: 'bar',
+      type: "bar",
       data: {
         labels: product,
         formatter: function (value, context) {
@@ -142,12 +141,12 @@ $(document).ready(function () {
             display: false,
           },
           datalabels: {
-            anchor: 'end',
-            formatter: (totalTime) => totalTime.toLocaleString('es-CO'),
-            color: 'black',
+            anchor: "end",
+            formatter: (totalTime) => totalTime.toLocaleString("es-CO"),
+            color: "black",
             font: {
-              size: '12',
-              weight: 'normal',
+              size: "12",
+              weight: "normal",
             },
           },
         },
@@ -167,18 +166,18 @@ $(document).ready(function () {
       totalCost = totalCost + minuteValue[i];
     }
 
-    $('#totalCostWorkforce').html(
-      `$ ${totalCost.toLocaleString('es-CO', {
+    $("#totalCostWorkforce").html(
+      `$ ${totalCost.toLocaleString("es-CO", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1,
       })}`
     );
 
-    const cmc = document.getElementById('chartWorkForceGeneral');
+    const cmc = document.getElementById("chartWorkForceGeneral");
 
     const chartWorkForce = new Chart(cmc, {
       plugins: [ChartDataLabels],
-      type: 'doughnut',
+      type: "doughnut",
       data: {
         labels: process,
         formatter: function (value, context) {
@@ -209,16 +208,16 @@ $(document).ready(function () {
               });
               let percentage = (value * 100) / sum;
               if (percentage > 3)
-                return `${percentage.toLocaleString('es-CO', {
+                return `${percentage.toLocaleString("es-CO", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })} %`;
-              else return '';
+              else return "";
             },
-            color: 'white',
+            color: "white",
             font: {
-              size: '14',
-              weight: 'bold',
+              size: "14",
+              weight: "bold",
             },
           },
         },
@@ -239,17 +238,17 @@ $(document).ready(function () {
       totalCostMinute = totalCostMinute + costMinute[i];
     }
 
-    $('#factoryLoadCost').html(
-      totalCostMinute.toLocaleString('es-CO', {
+    $("#factoryLoadCost").html(
+      totalCostMinute.toLocaleString("es-CO", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })
     );
 
-    const cmc = document.getElementById('chartFactoryLoadCost');
+    const cmc = document.getElementById("chartFactoryLoadCost");
     const chartFactoryLoadCost = new Chart(cmc, {
       plugins: [ChartDataLabels],
-      type: 'doughnut',
+      type: "doughnut",
       data: {
         labels: machine,
         formatter: function (value, context) {
@@ -278,16 +277,16 @@ $(document).ready(function () {
               });
               let percentage = (value * 100) / sum;
               if (percentage > 3)
-                return `${percentage.toLocaleString('es-CO', {
+                return `${percentage.toLocaleString("es-CO", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })} %`;
-              else return '';
+              else return "";
             },
-            color: 'white',
+            color: "white",
             font: {
-              size: '14',
-              weight: 'bold',
+              size: "14",
+              weight: "bold",
             },
           },
         },
@@ -307,13 +306,13 @@ $(document).ready(function () {
       expenseCount.push(data[i].expenseCount);
       totalExpense = totalExpense + data[i].expenseCount;
     }
-    $('#totalCost').html(`$ ${totalExpense.toLocaleString('es-ES')}`);
+    $("#totalCost").html(`$ ${totalExpense.toLocaleString("es-ES")}`);
 
     /* Grafico */
-    var canvasExpenses = document.getElementById('chartExpensesGenerals');
+    var canvasExpenses = document.getElementById("chartExpensesGenerals");
     var chartExpensesGenerals = new Chart(canvasExpenses, {
       plugins: [ChartDataLabels],
-      type: 'doughnut',
+      type: "doughnut",
       data: {
         labels: expenseLabel,
         datasets: [
@@ -329,7 +328,7 @@ $(document).ready(function () {
         onClick: function (e) {
           let elements = chartExpensesGenerals.getElementsAtEventForMode(
             e,
-            'nearest',
+            "nearest",
             { intersect: true },
             true
           );
@@ -357,16 +356,16 @@ $(document).ready(function () {
               });
               let percentage = (value * 100) / sum;
               if (percentage > 3)
-                return `${percentage.toLocaleString('es-CO', {
+                return `${percentage.toLocaleString("es-CO", {
                   minimumFractionDigits: 2,
                   maximumFractionDigits: 2,
                 })} %`;
-              else return '';
+              else return "";
             },
-            color: 'white',
+            color: "white",
             font: {
-              size: '14',
-              weight: 'bold',
+              size: "14",
+              weight: "bold",
             },
           },
         },
@@ -374,21 +373,25 @@ $(document).ready(function () {
     });
   };
 
-  $(document).on('click', '.typePrice',async function () {
+  $(document).on("click", ".typePrice", async function () {
     let op = this.value;
     let className = this.className;
 
-    let data = await searchData('/api/dashboardExpensesGenerals');
-    if (op == 1 && className.includes('btn-outline-primary')) {
-      document.getElementById('sugered').className = 'btn btn-sm btn-primary typePrice';
-      document.getElementById('actual').className = 'btn btn-sm btn-outline-primary typePrice';
-      $('.productTitle').html('Productos con mayor rentabilidad (Sugerida)');
+    let data = await searchData("/api/dashboardExpensesGenerals");
+    if (op == 1 && className.includes("btn-outline-primary")) {
+      document.getElementById("sugered").className =
+        "btn btn-sm btn-primary typePrice";
+      document.getElementById("actual").className =
+        "btn btn-sm btn-outline-primary typePrice";
+      $(".productTitle").html("Productos con mayor rentabilidad (Sugerida)");
       graphicProductCost(data.details_prices);
-    } else if(className.includes('btn-outline-primary')) { 
-      document.getElementById('actual').className = 'btn btn-sm btn-primary typePrice';
-      document.getElementById('sugered').className = 'btn btn-sm btn-outline-primary typePrice';
+    } else if (className.includes("btn-outline-primary")) {
+      document.getElementById("actual").className =
+        "btn btn-sm btn-primary typePrice";
+      document.getElementById("sugered").className =
+        "btn btn-sm btn-outline-primary typePrice";
 
-      $('.productTitle').html('Productos con mayor rentabilidad (Actual)');
+      $(".productTitle").html("Productos con mayor rentabilidad (Actual)");
       graphicProductActualCost(data.details_prices);
     }
   });
@@ -409,7 +412,7 @@ $(document).ready(function () {
     }
 
     products.sort(function (a, b) {
-      return b['cost'] - a['cost'];
+      return b["cost"] - a["cost"];
     });
 
     /* Guardar datos para grafica */
@@ -423,10 +426,10 @@ $(document).ready(function () {
 
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
-    const cmc = document.getElementById('chartProductsCost');
+    const cmc = document.getElementById("chartProductsCost");
     chartProductsCost = new Chart(cmc, {
       plugins: [ChartDataLabels],
-      type: 'bar',
+      type: "bar",
       data: {
         labels: product,
         //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -456,13 +459,13 @@ $(document).ready(function () {
             display: false,
           },
           datalabels: {
-            anchor: 'end',
+            anchor: "end",
             formatter: (cost) =>
-              cost.toLocaleString('es-CO', { maximumFractionDigits: 0 }),
-            color: 'black',
+              cost.toLocaleString("es-CO", { maximumFractionDigits: 0 }),
+            color: "black",
             font: {
-              size: '12',
-              weight: 'normal',
+              size: "12",
+              weight: "normal",
             },
           },
         },
@@ -479,7 +482,7 @@ $(document).ready(function () {
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
 
-      if (isFinite(dataCost.costActualProfitability)) { 
+      if (isFinite(dataCost.costActualProfitability)) {
         products.push({
           name: data[i].product,
           cost: dataCost.costActualProfitability,
@@ -488,7 +491,7 @@ $(document).ready(function () {
     }
 
     products.sort(function (a, b) {
-      return b['cost'] - a['cost'];
+      return b["cost"] - a["cost"];
     });
 
     /* Guardar datos para grafica */
@@ -502,10 +505,10 @@ $(document).ready(function () {
 
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
-    const cmc = document.getElementById('chartProductsCost');
+    const cmc = document.getElementById("chartProductsCost");
     chartProductsCost = new Chart(cmc, {
       plugins: [ChartDataLabels],
-      type: 'bar',
+      type: "bar",
       data: {
         labels: product,
         //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
@@ -535,13 +538,13 @@ $(document).ready(function () {
             display: false,
           },
           datalabels: {
-            anchor: 'end',
+            anchor: "end",
             formatter: (cost) =>
-              cost.toLocaleString('es-CO', { maximumFractionDigits: 0 }),
-            color: 'black',
+              cost.toLocaleString("es-CO", { maximumFractionDigits: 0 }),
+            color: "black",
             font: {
-              size: '12',
-              weight: 'normal',
+              size: "12",
+              weight: "normal",
             },
           },
         },

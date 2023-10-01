@@ -66,6 +66,7 @@ $(document).ready(function () {
         ],
       },
       options: {
+        cutoutPercentage: 85,
         plugins: {
           legend: {
             display: false,
