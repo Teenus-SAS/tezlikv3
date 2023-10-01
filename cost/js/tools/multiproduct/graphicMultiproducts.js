@@ -82,7 +82,7 @@ $(document).ready(function () {
             },
             color: 'white',
             font: {
-              size: '14',
+              size: '9',
               weight: 'bold',
             },
           },
