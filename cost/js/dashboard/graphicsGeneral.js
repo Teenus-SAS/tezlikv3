@@ -60,12 +60,14 @@ $(document).ready(function () {
           {
             data: [data.total_units_sold],
             backgroundColor: getRandomColor(1),
-            borderWidth: 0,
+            borderWidth: 1,
           },
         ],
       },
       options: {
-        tooltips: {enabled: false,},
+        tooltips: {
+          enabled: false,
+        },
         plugins: {
           legend: {
             display: false,
