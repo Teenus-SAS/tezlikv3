@@ -65,6 +65,7 @@ $(document).ready(function () {
         ],
       },
       options: {
+        cutoutPercentage: 85,
         tooltips: {
           enabled: false,
         },
