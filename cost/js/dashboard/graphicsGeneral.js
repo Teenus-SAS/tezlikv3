@@ -84,7 +84,7 @@ $(document).ready(function () {
             color: "white",
             font: {
               size: "10",
-              weight: "bold",
+              //weight: "bold",
             },
           },
           cutoutPercentage: 85,
