@@ -65,7 +65,7 @@ $(document).ready(function () {
         ],
       },
       options: {
-        cutoutPercentage: 85,
+        cutoutPercentage: 90,
         responsive: true,
         maintainAspectRatio: true,
         animation: { duration: 2500 },
