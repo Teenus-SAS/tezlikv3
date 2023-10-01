@@ -65,11 +65,7 @@ $(document).ready(function () {
         ],
       },
       options: {
-        cutoutPercentage: 90,
-        responsive: true,
-        maintainAspectRatio: true,
-        animation: { duration: 2500 },
-                        
+                                
         tooltips: {
           enabled: false,
         },
@@ -90,7 +86,7 @@ $(document).ready(function () {
             color: "white",
             font: {
               size: "6",
-              //weight: "bold",
+              weight: "bold",
             },
           },
         },
