@@ -83,7 +83,7 @@ $(document).ready(function () {
             },
             color: "white",
             font: {
-              size: "10",
+              size: "6",
               //weight: "bold",
             },
           },
