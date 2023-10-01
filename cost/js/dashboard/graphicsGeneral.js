@@ -67,9 +67,14 @@ $(document).ready(function () {
       options: {
         cutoutPercentage: 85,
         responsive: true,
+        maintainAspectRatio: !1,
+        animation: { duration: 2500 },
+        scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
+                
         tooltips: {
           enabled: false,
         },
+        
         plugins: {
           legend: {
             display: false,
