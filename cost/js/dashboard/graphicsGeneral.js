@@ -65,7 +65,6 @@ $(document).ready(function () {
         ],
       },
       options: {
-        cutoutPercentage: 85,
         tooltips: {
           enabled: false,
         },
@@ -84,10 +83,11 @@ $(document).ready(function () {
             },
             color: "white",
             font: {
-              size: "14",
+              size: "10",
               weight: "bold",
             },
           },
+          cutoutPercentage: 85,
           // cutoutPercentage: (data.total_units_sold / data.total_units) * 100,
           // responsive: !0,
           // maintainAspectRatio: !1,
