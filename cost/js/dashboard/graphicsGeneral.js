@@ -88,14 +88,14 @@ $(document).ready(function () {
             },
           },
         },
-        cutoutPercentage: 100,
         // cutoutPercentage: (data.total_units_sold / data.total_units) * 100,
+        /* cutoutPercentage: 85,
         responsive: !0,
         maintainAspectRatio: !1,
         animation: { duration: 2500 },
-        //scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
+        scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
         legend: { display: !1 },
-        tooltips: { enabled: !1 },
+        tooltips: { enabled: !1 }, */
       },
     });
   };
