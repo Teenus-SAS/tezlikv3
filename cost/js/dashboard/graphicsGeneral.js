@@ -69,8 +69,7 @@ $(document).ready(function () {
         responsive: true,
         maintainAspectRatio: true,
         animation: { duration: 2500 },
-        scales: { xAxes: [{ display: true }], yAxes: [{ display: true }] },
-                
+                        
         tooltips: {
           enabled: false,
         },
