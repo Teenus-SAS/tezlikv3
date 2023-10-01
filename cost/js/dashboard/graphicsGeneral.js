@@ -65,6 +65,8 @@ $(document).ready(function () {
         ],
       },
       options: {
+        cutoutPercentage: 85,
+        responsive: true,
         tooltips: {
           enabled: false,
         },
@@ -89,8 +91,6 @@ $(document).ready(function () {
           },
         },
         // cutoutPercentage: (data.total_units_sold / data.total_units) * 100,
-         cutoutPercentage: 85,
-         responsive: true,
         /*maintainAspectRatio: !1,
         animation: { duration: 2500 },
         scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
