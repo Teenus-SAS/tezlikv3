@@ -90,7 +90,7 @@ $(document).ready(function () {
           cutoutPercentage: 85,
           // cutoutPercentage: (data.total_units_sold / data.total_units) * 100,
           // responsive: !0,
-          // maintainAspectRatio: !1,
+          maintainAspectRatio: !1,
           // animation: { duration: 2500 },
           // scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
           // legend: { display: !1 },
