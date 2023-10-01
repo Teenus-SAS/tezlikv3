@@ -93,9 +93,9 @@ $(document).ready(function () {
         responsive: !0,
         maintainAspectRatio: !1,
         animation: { duration: 2500 },
-        scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
-        //legend: { display: !1 },
-        //tooltips: { enabled: !1 },
+        //scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
+        legend: { display: !1 },
+        tooltips: { enabled: !1 },
       },
     });
   };
