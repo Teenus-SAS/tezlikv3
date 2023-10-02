@@ -169,8 +169,11 @@ if (sizeof($_SESSION) == 0)
                                                                         <span class="text-muted text-uppercase font-size-12 font-weight-bold">PTO EQUILIBRIO</span>
                                                                         <h2 class="mb-0 mt-1 text-warning" id="multiproducts"></h2>
                                                                     </div>
-                                                                    <div class="align-self-center mt-1">
-                                                                        <canvas id="chartMultiproducts" style="width: 46%;"></canvas>
+                                                                    <div class="align-self-center">
+                                                                        <canvas id="chartMultiproducts" style="width: 26%;"></canvas>
+                                                                        <div class="col-sm-12">
+                                                                            <h4 style="font-size: small" class="mb-0 font-weight-bold" id="percentageMultiproducts"></h4>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

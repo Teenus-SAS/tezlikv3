@@ -9,79 +9,45 @@ $(document).ready(function () {
 
   /* Punto de equilibrio */
   graphicMultiproducts = (data) => {
-    /* Grafico */
-    // var o = {
-    //   // plugins: [ChartDataLabels],
-    //   type: 'doughnut',
-    //   data: {
-    //     labels: ['X Vender', 'T. Unidades'],
-    //     // formatter: function (value, context) {
-    //     //   return context.chart.data.labels[context.dataIndex];
-    //     // },
-    //     datasets: [
-    //       {
-    //         data: [data.total_units_sold, data.total_units],
-    //         backgroundColor: getRandomColor(2),
-    //         // hoverBackgroundColor: [colors.success, colors.gray300],
-    //         borderWidth: 1,
-    //       },
-    //     ],
-    //   },
-    //   options: {
-    //     tooltips: {
-    //       enabled: false,
-    //     },
-    //     plugins: {
-    //       legend: {
-    //         display: false,
-    //       },
-    //     },
-    //     cutoutPercentage: 85,
-    //     responsive: !0,
-    //     maintainAspectRatio: !1,
-    //     animation: { duration: 2500 },
-    //     scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
-    //     legend: { display: !1 },
-    //     tooltips: { enabled: !1 },
-    //   },
-    // };
-    // new Chart(document.getElementById('chartMultiproducts'), o);
-    const cmc = document.getElementById("chartMultiproducts");
+    let percentage = (data.total_units_sold * 100) / data.total_units;
+
+    $('#percentageMultiproducts').html(`${percentage.toLocaleString("es-CO", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })} %`);
+    
+    const cmc = document.getElementById("chartMultiproducts").getContext("2d");
 
     const chartWorkForce = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: "doughnut",
       data: {
         // labels: ['Vender'],
+        // labels: [percentage.toFixed(2) + "% Hecho", (100 - percentage).toFixed(2) + "% Restante"],
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
         datasets: [
           {
-            data: [data.total_units_sold],
-            backgroundColor: getRandomColor(1),
-            borderWidth: 1,
+            data: [data.total_units_sold, data.total_units - data.total_units_sold],
+            backgroundColor: getRandomColor(2),
+            borderWidth: 5,
           },
         ],
       },
       options: {
-                                
-        tooltips: {
-          enabled: false,
-        },
-        
         plugins: {
           legend: {
             display: false,
           },
           datalabels: {
-            formatter: (value, ctx) => {
-              let percentage = (value * 100) / data.total_units;
-
-              return `${percentage.toLocaleString("es-CO", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })} %`;
+            formatter: function (value, context) {
+              return '';
+              // if (context.datasetIndex === 0) {
+              //   return percentage + "%";
+              // } else {
+              //   return value;
+              // }
             },
             color: "white",
             font: {
@@ -90,12 +56,11 @@ $(document).ready(function () {
             },
           },
         },
-        // cutoutPercentage: (data.total_units_sold / data.total_units) * 100,
-        /*maintainAspectRatio: !1,
-        animation: { duration: 2500 },
-        scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
-        legend: { display: !1 },
-        tooltips: { enabled: !1 }, */
+        // maintainAspectRatio: 1,
+        // animation: { duration: 2500 },
+        // scales: { xAxes: [{ display: !1 }], yAxes: [{ display: !1 }] },
+        // legend: { display: !1 },
+        // tooltips: { enabled: !1 },
       },
     });
   };
