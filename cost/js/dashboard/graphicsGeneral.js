@@ -31,7 +31,7 @@ $(document).ready(function () {
           {
             data: [data.total_units_sold, data.total_units - data.total_units_sold],
             backgroundColor: getRandomColor(2),
-            borderWidth: 5,
+            borderWidth: 15,
           },
         ],
       },

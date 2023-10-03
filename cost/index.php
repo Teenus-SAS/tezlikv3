@@ -162,17 +162,17 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="card radius-10 border-start border-0 border-3 border-warning">
+                                                        <div class="card radius-10 border-start border-0 border-3 border-warning" style="height: 92px;">
                                                             <div class="card-body">
-                                                                <div class="media align-items-center">
+                                                                <div class="media align-items-center" style="height: 60px;">
                                                                     <div class="media-body">
                                                                         <span class="text-muted text-uppercase font-size-12 font-weight-bold">PTO EQUILIBRIO</span>
                                                                         <h2 class="mb-0 mt-1 text-warning" id="multiproducts"></h2>
                                                                     </div>
-                                                                    <div class="align-self-center">
-                                                                        <canvas id="chartMultiproducts" style="width: 26%;"></canvas>
-                                                                        <div class="col-sm-12">
-                                                                            <h4 style="font-size: small" class="mb-0 font-weight-bold" id="percentageMultiproducts"></h4>
+                                                                    <div class="chart-container" style="height:90px; width:90px">
+                                                                        <canvas id="chartMultiproducts"></canvas>
+                                                                        <div class="center-text">
+                                                                            <h4 style="font-size: small;width: 60px;margin-left: 15px;" class="mb-0 font-weight-bold" id="percentageMultiproducts"></h4>
                                                                         </div>
                                                                     </div>
                                                                 </div>
