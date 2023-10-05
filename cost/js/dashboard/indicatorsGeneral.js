@@ -22,6 +22,7 @@ $(document).ready(function () {
       dataPucExpenes = data.expenses;
 
       dataExpenses = data.expense_value;
+      dataDetailsPrices = data.details_prices;
     });
 
   /* Colors */

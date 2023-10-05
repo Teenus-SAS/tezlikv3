@@ -7,7 +7,7 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
-<?php require_once __DIR__ . '/modals/modalExpensesByPuc.php'; ?>
+<?php require_once __DIR__ . '/modals/modalGeneralDashboard.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -190,7 +190,7 @@ if (sizeof($_SESSION) == 0)
                                                             <div class="col-md-4 col-lg-3">
                                                             <?php } ?>
                                                             <div class="card bg-success">
-                                                                <div class="card-body">
+                                                                <div class="card-body cardActualProfitability">
                                                                     <div class="media text-white">
                                                                         <div class="media-body">
                                                                             <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
@@ -273,6 +273,11 @@ if (sizeof($_SESSION) == 0)
                                                                         <div class="card-header dflex-between-center">
                                                                             <h5 class="card-title productTitle">Productos con mayor rentabilidad (Sugerida)</h5>
                                                                             <div class="text-center">
+                                                                                <div class="mb-2">
+                                                                                    <button class="btn btn-sm btn-warning" id="btnGraphicProducts" style="width: 40px; height: 40px; padding: 10px 16px; border-radius: 35px; font-size: 24px; line-height: 1.33;">
+                                                                                        <i class="bi bi-bar-chart-fill" style="margin-left:-8px"></i>
+                                                                                    </button>
+                                                                                </div>
                                                                                 <div class="btn-group">
                                                                                     <button class="btn btn-sm btn-primary typePrice" id="sugered" value="1">Sugerido</button>
                                                                                     <button class="btn btn-sm btn-outline-primary typePrice" id="actual" value="2">Actual</button>
@@ -418,7 +423,7 @@ if (sizeof($_SESSION) == 0)
                         <script src="js/dashboard/indicatorsGeneral.js"></script>
                         <script src="js/dashboard/calcDataCost.js"></script>
                         <script src="js/dashboard/graphicsGeneral.js"></script>
-                        <script src="js/dashboard/generalExpenses.js"></script>
+                        <script src="js/dashboard/generalModals.js"></script>
                     </div>
 </body>
 

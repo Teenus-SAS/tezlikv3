@@ -342,6 +342,7 @@ $(document).ready(function () {
   $(document).on("click", ".typePrice", async function () {
     let op = this.value;
     let className = this.className;
+    typePrice = op;
 
     let data = await searchData("/api/dashboardExpensesGenerals");
     if (op == 1 && className.includes("btn-outline-primary")) {
