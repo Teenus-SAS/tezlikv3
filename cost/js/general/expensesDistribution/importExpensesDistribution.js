@@ -146,21 +146,89 @@ $(document).ready(function () {
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsExpenses').click(function (e) {
+  $('#btnDownloadImportsExpenses').click(async function (e) {
     e.preventDefault();
 
-    option == 1
-      ? (url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx')
-      : (url = 'assets/formatsXlsx/Recuperacion_Gastos.xlsx');
+    // option == 1
+    //   ? (url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx')
+    //   : (url = 'assets/formatsXlsx/Recuperacion_Gastos.xlsx');
 
-    let link = document.createElement('a');
-    link.target = '_blank';
+    // let link = document.createElement('a');
+    // link.target = '_blank';
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    // link.href = url;
+    // document.body.appendChild(link);
+    // link.click();
 
-    document.body.removeChild(link);
-    delete link;
+    // document.body.removeChild(link);
+    // delete link;
+    /* Tipo de gasto */
+    let wb = XLSX.utils.book_new();
+
+    let data = [];
+    if (flag_expense == '1') {
+      if (flag_expense_distribution == '1') {
+        namexlsx = 'distribucion_gastos.xlsx';
+        url = '/api/expensesDistribution';
+        op = 1;
+      }
+      else {
+        namexlsx = 'distribucion_gastos_familia.xlsx';
+        url = '/api/expensesDistributionFamilies';
+        op = 2;
+      }
+    } else {
+      namexlsx = 'recuperacion_gastos.xlsx';
+      url = '/api/expensesRecover';
+      op = 3;
+    }
+    dataTypeExpense = await searchData(url);
+
+    if (op == 1) {
+      if (dataTypeExpense.length > 0) {
+        for (i = 0; i < dataTypeExpense.length; i++) {
+          data.push({
+            referencia_producto: dataTypeExpense[i].reference,
+            producto: dataTypeExpense[i].product,
+            unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+            total_ventas: parseFloat(dataTypeExpense[i].turnover),
+          });
+        }
+
+        let ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Producto');
+      }
+    }
+    else if (op == 2) {
+      if (dataTypeExpense.length > 0) {
+        for (i = 0; i < dataTypeExpense.length; i++) {
+          data.push({
+            // referencia: dataProducts[i].id_family,
+            familia: dataTypeExpense[i].family,
+            unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+            total_ventas: parseFloat(dataTypeExpense[i].turnover),
+          });
+        }
+
+        let ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Familia');
+      }
+    }
+    else {
+      if (dataTypeExpense.length > 0) {
+        for (i = 0; i < dataTypeExpense.length; i++) {
+          data.push({
+            reference_producto: dataProducts[i].reference,
+            producto: dataTypeExpense[i].product,
+            porcentaje_recuperado: parseFloat(dataTypeExpense[i].expense_recover),
+          });
+        }
+
+        let ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Recuperacion Gasto');
+      }
+    }
+    
+    XLSX.writeFile(wb, namexlsx);
   });
 });
