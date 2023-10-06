@@ -90,12 +90,101 @@ $(document).ready(function () {
   });
 
   /* Productos con mayor rentabilidad */
-  // $('#btnGraphicProducts').click(function (e) { 
-  //   e.preventDefault();
+  $('#btnGraphicProducts').click(function (e) {
+    e.preventDefault();
 
+    $('#generalDashboardName').html('');
+    $('.cardExpenseByCount').hide();
 
+    let products = [];
+    let product = [];
+    let profitability = [];
+    let data = dataDetailsPrices;
+
+    /* Capturar y ordenar de mayor a menor  */
+    for (i = 0; i < data.length; i++) {
+      let dataCost = getDataCost(data[i]);
+
+      if (typePrice == '1')
+        products.push({
+          name: data[i].product,
+          profitability: data[i].profitability,
+        });
+      else {
+        if (isFinite(dataCost.actualProfitability)) {
+          products.push({
+            name: data[i].product,
+            profitability: dataCost.actualProfitability,
+          });
+        }
+      }
+    }
+
+    products.sort(function (a, b) {
+      return b["profitability"] - a["profitability"];
+    });
+
+    /* Guardar datos para grafica */
+
+    products.length > length ? (count = length) : (count = products.length);
+
+    for (i = 0; i < count; i++) {
+      product.push(products[i].name);
+      profitability.push(products[i].profitability);
+    }
+
+    chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
+
+    const cmc = document.getElementById("chartGeneralDashboard");
+    chartGeneralDashboard = new Chart(cmc, {
+      plugins: [ChartDataLabels],
+      type: "bar",
+      data: {
+        labels: product,
+        //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        formatter: function (value, context) {
+          return context.chart.data.labels[context.dataIndex];
+        },
+        datasets: [
+          {
+            data: profitability,
+            backgroundColor: getRandomColor(count),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: {
+            stacked: true,
+            display: false,
+          },
+          y: {
+            stacked: true,
+          },
+        },
+        //plugins: [ChartDataLabels],
+        plugins: {
+          legend: {
+            display: false,
+          },
+          datalabels: {
+            anchor: "end",
+            formatter: (profitability) =>
+              profitability.toLocaleString("es-CO", { maximumFractionDigits: 2 }),
+            color: "black",
+            font: {
+              size: "12",
+              weight: "normal",
+            },
+          },
+        },
+      },
+    });
     
-  // });
+    $('#generalDashboardName').html(`Productos con mayor rentabilidad (${typePrice == '1' ? 'Sugerida' : 'Actual'})`);
+    $('#modalGeneralDashboard').modal('show');
+  });
   
   /* Grafico Gastos */
   loadModalExpenses = (label, value) => {

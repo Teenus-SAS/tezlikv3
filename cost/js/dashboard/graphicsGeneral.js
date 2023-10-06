@@ -368,6 +368,7 @@ $(document).ready(function () {
     let products = [];
     let product = [];
     let cost = [];
+    typePrice = '1';
 
     /* Capturar y ordenar de mayor a menor  */
     for (i = 0; i < data.length; i++) {
