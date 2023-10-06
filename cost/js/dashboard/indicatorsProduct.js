@@ -208,12 +208,15 @@ $(document).ready(function () {
     })}%`);
     
 
-    $('#actualProfitability').html(``); 
+    $('#actualProfitability').html(``);
 
     $('.cardTrafficLight').empty();
     let content = '';
+    $('#suggestedPrice').removeClass('text-warning');
+    $('#suggestedPrice').removeClass('text-success');
+    $('#suggestedPrice').removeClass('text-danger');
     
-    if (dataCost.actualProfitability == data[0].profitability)
+    if (dataCost.actualProfitability == data[0].profitability) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -223,13 +226,15 @@ $(document).ready(function () {
                         </div>
                         <div class="text-center">
                           <span class="text-warning font-weight-bold" style="font-size:large">
-                            <i style="font-style: initial;"><i class="bx bxs-no-entry" style="font-size: xxx-large;color:green"></i></i>
+                            <i style="font-style: initial;"><i class="bx bxs-no-entry" style="font-size: xxx-large;color:orange"></i></i>
                           </span>
                         </div>
                       </div>
                     </div>
                   </div>`;
-    else if (dataCost.actualProfitability > data[0].profitability)
+      $('#suggestedPrice').addClass('text-warning');
+    }
+    else if (dataCost.actualProfitability > data[0].profitability) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -245,13 +250,15 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-    else
+      $('#suggestedPrice').addClass('text-success');
+    }
+    else {
       content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', {maximumFractionDigits: 2,})} %</h2>
+                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                         <div class="text-center">
                           <span class="text-danger font-weight-bold" style="font-size:large">
@@ -261,6 +268,8 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
+      $('#suggestedPrice').addClass('text-danger');
+    }
     
     $('.cardTrafficLight').append(content);
   };
