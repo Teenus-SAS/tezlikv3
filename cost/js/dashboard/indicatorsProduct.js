@@ -212,9 +212,9 @@ $(document).ready(function () {
 
     $('.cardTrafficLight').empty();
     let content = '';
-    $('#suggestedPrice').removeClass('text-warning');
-    $('#suggestedPrice').removeClass('text-success');
-    $('#suggestedPrice').removeClass('text-danger');
+    $('#actualSalePrice').removeClass('text-warning');
+    $('#actualSalePrice').removeClass('text-success');
+    $('#actualSalePrice').removeClass('text-danger');
     
     if (dataCost.actualProfitability == data[0].profitability) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
@@ -232,7 +232,7 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#suggestedPrice').addClass('text-warning');
+      $('#actualSalePrice').addClass('text-warning');
     }
     else if (dataCost.actualProfitability > data[0].profitability) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-success">
@@ -250,7 +250,7 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#suggestedPrice').addClass('text-success');
+      $('#actualSalePrice').addClass('text-success');
     }
     else {
       content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
@@ -268,7 +268,7 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#suggestedPrice').addClass('text-danger');
+      $('#actualSalePrice').addClass('text-danger');
     }
     
     $('.cardTrafficLight').append(content);

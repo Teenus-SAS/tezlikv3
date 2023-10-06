@@ -156,7 +156,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
-                                                    <h3 class="mb-0 mt-1 suggestedPrice" id="suggestedPrice" style="font-size: x-large"></h3>
+                                                    <h3 class="mb-0 mt-1 suggestedPrice" style="font-size: x-large"></h3>
                                                 </div>
                                             </div>
                                         </div>

@@ -8,15 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="col-lg-10 ml-5">
-                    <div class="chart-container">
-                        <canvas id="chartGeneralDashboard" style="width: 85%;"></canvas>
-
-                        <div class="center-text cardExpenseByCount">
-                            <p class="text-muted mb-1 font-weight-600">Total Gasto </p>
-                            <h4 class="mb-0 font-weight-bold" id="totalExpenseByCount"></h4>
-                        </div>
-                    </div>
+                <div class="col-lg-10 ml-5 cardGeneralDashboard">
                 </div>
             </div>
             <div class="modal-footer">

@@ -2,9 +2,14 @@ $(document).ready(function () {
   var chartGeneralDashboard;
 
   /* Rentabilidad actual */
-  $(document).on('click', '.cardActualProfitability', function () {
+  $(document).on('click', '#btnActualProfitabilityAverage', function () {
     $('#generalDashboardName').html('');
-    $('.cardExpenseByCount').hide();
+    $('.cardGeneralDashboard').empty();
+    $('.cardGeneralDashboard').append(`<div style="width: 100%; height: 100%; overflow-x: scroll;">
+                                          <div style="width: 1130px;">
+                                              <canvas id="chartGeneralDashboard"></canvas>
+                                          </div>
+                                      </div>`);
 
     let products = [];
     let product = [];
@@ -15,12 +20,12 @@ $(document).ready(function () {
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
 
-      if (isFinite(dataCost.actualProfitability)) {
-        products.push({
-          name: data[i].product,
-          profitability: dataCost.actualProfitability,
-        });
-      }
+      isFinite(dataCost.actualProfitability) ? actualProfitability = dataCost.actualProfitability : actualProfitability = 0;
+
+      products.push({
+        name: data[i].product,
+        profitability: actualProfitability,
+      });
     }
 
     products.sort(function (a, b) {
@@ -29,9 +34,9 @@ $(document).ready(function () {
 
     /* Guardar datos para grafica */
 
-    products.length > length ? (count = length) : (count = products.length);
+    // products.length > length ? (count = length) : (count = products.length);
 
-    for (i = 0; i < count; i++) {
+    for (i = 0; i < products.length; i++) {
       product.push(products[i].name);
       profitability.push(products[i].profitability);
     }
@@ -56,7 +61,7 @@ $(document).ready(function () {
           },
         ],
       },
-      options: {
+      options: { 
         scales: {
           x: {
             stacked: true,
@@ -84,9 +89,9 @@ $(document).ready(function () {
         },
       },
     });
-    
+
     $('#generalDashboardName').html(`Rentabilidad Actual (Porcentaje)`);
-    $('#modalGeneralDashboard').modal('show'); 
+    $('#modalGeneralDashboard').modal('show');
   });
 
   /* Productos con mayor rentabilidad */
@@ -94,11 +99,16 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('#generalDashboardName').html('');
-    $('.cardExpenseByCount').hide();
+    $('.cardGeneralDashboard').empty();
+    $('.cardGeneralDashboard').append(`<div style="width: 100%; height: 100%; overflow-x: scroll;">
+                                          <div style="width: 1130px;">
+                                              <canvas id="chartGeneralDashboard"></canvas>
+                                          </div>
+                                      </div>`);
 
     let products = [];
     let product = [];
-    let profitability = [];
+    let cost = [];
     let data = dataDetailsPrices;
 
     /* Capturar y ordenar de mayor a menor  */
@@ -108,29 +118,28 @@ $(document).ready(function () {
       if (typePrice == '1')
         products.push({
           name: data[i].product,
-          profitability: data[i].profitability,
+          cost: dataCost.costProfitability,
         });
       else {
-        if (isFinite(dataCost.actualProfitability)) {
+        isFinite(dataCost.costActualProfitability) ? costActualProfitability = dataCost.costActualProfitability : costActualProfitability = 0;
+
           products.push({
             name: data[i].product,
-            profitability: dataCost.actualProfitability,
+            cost: costActualProfitability,
           });
-        }
+        
       }
     }
 
     products.sort(function (a, b) {
-      return b["profitability"] - a["profitability"];
+      return b["cost"] - a["cost"];
     });
 
     /* Guardar datos para grafica */
 
-    products.length > length ? (count = length) : (count = products.length);
-
-    for (i = 0; i < count; i++) {
+    for (i = 0; i < products.length; i++) {
       product.push(products[i].name);
-      profitability.push(products[i].profitability);
+      cost.push(products[i].cost);
     }
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
@@ -147,7 +156,7 @@ $(document).ready(function () {
         },
         datasets: [
           {
-            data: profitability,
+            data: cost,
             backgroundColor: getRandomColor(count),
             borderWidth: 1,
           },
@@ -189,8 +198,15 @@ $(document).ready(function () {
   /* Grafico Gastos */
   loadModalExpenses = (label, value) => {
     $('#generalDashboardName').html('');
-    $('.cardExpenseByCount').show();
-    $('#totalExpenseByCount').html(`$ ${value.toLocaleString('es-ES')}`);
+    $('.cardGeneralDashboard').empty();
+    $('.cardGeneralDashboard').append(`<div class="chart-container">
+                                          <canvas id="chartGeneralDashboard"></canvas>
+
+                                          <div class="center-text cardExpenseByCount">
+                                              <p class="text-muted mb-1 font-weight-600">Total Gasto </p>
+                                              <h4 class="mb-0 font-weight-bold">$ ${value.toLocaleString('es-ES')}</h4>
+                                          </div>
+                                      </div>`); 
 
     let expenses = [];
     let expense = [];
@@ -292,6 +308,4 @@ $(document).ready(function () {
     $('#generalDashboardName').html(`${puc} - ${label}`);
     $('#modalGeneralDashboard').modal('show');
   };
-
-
 });

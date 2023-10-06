@@ -10,7 +10,8 @@ $(document).ready(function () {
       );
       averagePrices(data.details_prices);
       generalSales(data.details_prices);
-      graphicMultiproducts(data.multiproducts);
+      if (cost_multiproduct == 1 && plan_cost_multiproduct == 1)
+        graphicMultiproducts(data.multiproducts);
       graphicTimeProcessByProduct(data.time_process);
       averagesTime(data.average_time_process);
       graphicsFactoryLoad(data.factory_load_minute_value);
@@ -104,11 +105,24 @@ $(document).ready(function () {
       let averagecommissionSale = commissionSale / data.length;
       let averageActualProfitability = actualProfitability / contProfitability;
 
-      $('#actualProfitabilityAverage').html(
-        `${averageActualProfitability.toLocaleString('es-CO', {
-          maximumFractionDigits: 2,
-        })} %`
-      );
+      let cardActualProfitability = document.getElementsByClassName('cardActualProfitability')[0];
+
+      cardActualProfitability.insertAdjacentHTML('afterbegin',
+      `<div class="card ${averageActualProfitability < 0 ? 'bg-danger':'bg-success'}">
+        <a class="card-body" id="btnActualProfitabilityAverage" href="javascript:;">
+          <div class="media text-white">
+            <div class="media-body">
+              <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+              <h2 class="mb-0 mt-1 text-white">${averageActualProfitability.toLocaleString('es-CO', {maximumFractionDigits: 2})} %</h2>
+            </div>
+            <div class="align-self-center mt-1">
+              <i class="bx bx-line-chart fs-xl"></i>
+            </div>
+          </div>
+        </a>
+      </div>`);
+
+
       $('#profitabilityAverage').html(
         `${averageprofitability.toLocaleString('es-CO', {
           maximumFractionDigits: 2,
@@ -165,5 +179,5 @@ $(document).ready(function () {
   generalSales = (data) => {
     $('#productsSold').html(data[0].units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
-  };
+  }; 
 });
