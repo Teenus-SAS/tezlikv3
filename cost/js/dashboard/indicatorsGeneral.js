@@ -51,8 +51,11 @@ $(document).ready(function () {
   generalIndicators = (data, expenseRecover, multiproducts) => {
     // Cantidad de productos
     $('#products').html(data[0].products.toLocaleString('es-CO'));
+
+    isNaN(multiproducts.total_units) ? total_units = 0 : total_units = multiproducts.total_units;
+
     $('#multiproducts').html(
-      multiproducts.total_units.toLocaleString('es-CO', {
+      total_units.toLocaleString('es-CO', {
         maximumFractionDigits: 0,
       })
     );
@@ -104,6 +107,8 @@ $(document).ready(function () {
       let averageprofitability = profitability / data.length;
       let averagecommissionSale = commissionSale / data.length;
       let averageActualProfitability = actualProfitability / contProfitability;
+
+      isNaN(averageActualProfitability) ? averageActualProfitability = 0 : averageActualProfitability; 
 
       let cardActualProfitability = document.getElementsByClassName('cardActualProfitability')[0];
 

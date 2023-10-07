@@ -48,7 +48,10 @@ class IndirectCostDao
                                       FROM products_process pp 
                                       INNER JOIN machines m ON m.id_machine = pp.id_machine 
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
-            $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
+            $stmt->execute([
+                'id_product' => $idProduct,
+                'id_company' => $id_company
+            ]);
             $dataProductMachine = $stmt->fetchAll($connection::FETCH_ASSOC);
         } catch (\Exception $e) {
             $message = $e->getMessage();

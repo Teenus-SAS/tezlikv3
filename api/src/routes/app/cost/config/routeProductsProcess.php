@@ -372,3 +372,18 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+// function calcAllData($CompaniesDao, $IndirectCostDao, $CostWorkforceDao)
+// {
+//     $companies = $CompaniesDao->findAllCompanies();
+
+//     foreach ($companies as $arr) {
+//         $machines = $IndirectCostDao->findMachineByProduct(0, $arr['id_company']);
+
+//         $IndirectCost = $IndirectCostDao->calcIndirectCost($machines);
+
+//         $CostWorkforce = $CostWorkforceDao->calcCostPayroll(0, $arr['id_company']);
+//     }
+// }
+
+// calcAllData($CompaniesDao, $IndirectCostDao, $CostWorkforceDao);
