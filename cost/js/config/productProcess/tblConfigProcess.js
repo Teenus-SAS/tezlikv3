@@ -76,6 +76,22 @@ $(document).ready(function () {
           },
         },
         {
+          title: 'Mano De Obra',
+          data: 'workforce_cost',
+          className: 'classCenter',
+          render: function (data) {
+            return `$ ${data.toLocaleString('es-co',{maximumFractionDigits: 2})}`;
+          },
+        },
+        {
+          title: 'Costo Indirecto',
+          data: 'indirect_cost',
+          className: 'classCenter',
+          render: function (data) {
+            return `$ ${data.toLocaleString('es-co',{maximumFractionDigits: 2})}`;
+          },
+        },
+        {
           title: 'Acciones',
           data: 'id_product_process',
           className: 'uniqueClassName',
@@ -106,6 +122,27 @@ $(document).ready(function () {
 
         $(this.api().column(4).footer()).html(
           new Intl.NumberFormat('de-DE').format(operationTime)
+        );
+
+        workForce = this.api()
+          .column(5)
+          .data()
+          .reduce(function (a, b) {
+            return parseFloat(a) + parseFloat(b);
+          }, 0);
+
+        $(this.api().column(5).footer()).html(
+          `$ ${new Intl.NumberFormat('de-DE').format(workForce)}`
+        );
+        indirectCost = this.api()
+          .column(6)
+          .data()
+          .reduce(function (a, b) {
+            return parseFloat(a) + parseFloat(b);
+          }, 0);
+
+        $(this.api().column(6).footer()).html(
+          `$ ${new Intl.NumberFormat('de-DE').format(indirectCost)}`
         );
       },
     });

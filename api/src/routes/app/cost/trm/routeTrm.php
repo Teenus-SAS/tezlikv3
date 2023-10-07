@@ -1,8 +1,16 @@
 <?php
 
+use tezlikv3\dao\CompaniesDao;
+use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\IndirectCostDao;
+use tezlikv3\dao\MachinesDao;
 use tezlikv3\Dao\TrmDao;
 
 $trmDao = new TrmDao();
+$machinesDao = new MachinesDao();
+$IndirectCostDao = new IndirectCostDao();
+$CostWorkforceDao = new CostWorkforceDao();
+$CompaniesDao = new CompaniesDao();
 
 // Modificar TRM historico Diario 
 function updateLastTrm($trmDao, $today)
@@ -49,3 +57,12 @@ $lastTrm = $trmDao->findLastInsertedTrm($date);
 
 if ($date > $data['date_trm'])
     updateLastTrm($trmDao, $date);
+
+// function calcAllData($CompaniesDao, $machinesDao)
+// {
+//     // $companies = $CompaniesDao->findAllCompanies();
+
+//     // foreach ($companies as $arr) { 
+//     //     $machines = $machinesDao
+//     // }
+// }

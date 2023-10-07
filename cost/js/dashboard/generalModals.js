@@ -5,10 +5,14 @@ $(document).ready(function () {
   $(document).on('click', '#btnActualProfitabilityAverage', function () {
     $('#generalDashboardName').html('');
     $('.cardGeneralDashboard').empty();
-    $('.cardGeneralDashboard').append(`<div style="width: 100%; height: 100%; overflow-x: scroll;">
-                                          <div style="width: 1130px;">
-                                              <canvas id="chartGeneralDashboard"></canvas>
-                                          </div>
+    $('.cardGeneralDashboard').append(`<div class="chart-container"> 
+                                          <a href="javascript:;" 
+                                            <i id="loadPreviousButton" class="bi bi-arrow-left-square-fill" data-toggle='tooltip' title='Anterior' style="color: black;"></i>
+                                          </a>
+                                          <a href="javascript:;" 
+                                            <i id="loadNextButton" class="bi bi-arrow-right-square-fill" data-toggle='tooltip' title='Siguiente' style="color: black;"></i>
+                                          </a>
+                                          <canvas id="chartGeneralDashboard"></canvas>
                                       </div>`);
 
     let products = [];
@@ -40,6 +44,8 @@ $(document).ready(function () {
       product.push(products[i].name);
       profitability.push(products[i].profitability);
     }
+    const numToShow = 10;
+    let startIndex = 0;
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 
@@ -48,20 +54,21 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
-        labels: product,
-        //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        labels: product.slice(startIndex, startIndex + numToShow),
+        // labels: product, 
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
         datasets: [
           {
-            data: profitability,
-            backgroundColor: getRandomColor(count),
+            // data: profitability,
+            data: profitability.slice(startIndex, startIndex + numToShow),
+            backgroundColor: getRandomColor(numToShow),
             borderWidth: 1,
           },
         ],
       },
-      options: { 
+      options: {
         scales: {
           x: {
             stacked: true,
@@ -90,6 +97,38 @@ $(document).ready(function () {
       },
     });
 
+    // Función para cargar los datos anteriores
+    function loadPreviousData() {
+      if (startIndex > 0) {
+        startIndex -= numToShow;
+        updateChartData();
+      }
+    }
+
+    // Función para cargar los datos siguientes
+    function loadNextData() {
+      if (startIndex + numToShow < product.length) {
+        startIndex += numToShow;
+        updateChartData();
+      }
+    }
+
+    function updateChartData() {
+      chartGeneralDashboard.data.labels = product.slice(startIndex, startIndex + numToShow);
+      chartGeneralDashboard.data.datasets[0].data = profitability.slice(startIndex, startIndex + numToShow);
+      chartGeneralDashboard.data.datasets[0].backgroundColor = getRandomColor(numToShow);
+      chartGeneralDashboard.update();
+    }
+
+    const loadPreviousButton = document.getElementById("loadPreviousButton");
+    const loadNextButton = document.getElementById("loadNextButton");
+
+    loadPreviousButton.addEventListener("click", loadPreviousData);
+    loadNextButton.addEventListener("click", loadNextData);
+
+    loadPreviousButton.disabled = startIndex === 0;
+    loadNextButton.disabled = startIndex + numToShow >= product.length;
+
     $('#generalDashboardName').html(`Rentabilidad Actual (Porcentaje)`);
     $('#modalGeneralDashboard').modal('show');
   });
@@ -100,10 +139,14 @@ $(document).ready(function () {
 
     $('#generalDashboardName').html('');
     $('.cardGeneralDashboard').empty();
-    $('.cardGeneralDashboard').append(`<div style="width: 100%; height: 100%; overflow-x: scroll;">
-                                          <div style="width: 1130px;">
-                                              <canvas id="chartGeneralDashboard"></canvas>
-                                          </div>
+    $('.cardGeneralDashboard').append(`<div class="chart-container"> 
+                                          <a href="javascript:;" 
+                                            <i id="loadPreviousButton" class="bi bi-arrow-left-square-fill" data-toggle='tooltip' title='Anterior' style="color: black;"></i>
+                                          </a>
+                                          <a href="javascript:;" 
+                                            <i id="loadNextButton" class="bi bi-arrow-right-square-fill" data-toggle='tooltip' title='Siguiente' style="color: black;"></i>
+                                          </a>
+                                          <canvas id="chartGeneralDashboard"></canvas>
                                       </div>`);
 
     let products = [];
@@ -141,6 +184,8 @@ $(document).ready(function () {
       product.push(products[i].name);
       cost.push(products[i].cost);
     }
+const numToShow = 10;
+    let startIndex = 0;
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 
@@ -149,14 +194,13 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
-        labels: product,
-        //labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        labels: product.slice(startIndex, startIndex + numToShow),
         formatter: function (value, context) {
           return context.chart.data.labels[context.dataIndex];
         },
         datasets: [
           {
-            data: cost,
+            data: cost.slice(startIndex, startIndex + numToShow),
             backgroundColor: getRandomColor(count),
             borderWidth: 1,
           },
@@ -191,6 +235,39 @@ $(document).ready(function () {
       },
     });
     
+    // Función para cargar los datos anteriores
+    function loadPreviousData() {
+      if (startIndex > 0) {
+        startIndex -= numToShow;
+        updateChartData();
+      }
+    }
+
+    // Función para cargar los datos siguientes
+    function loadNextData() {
+      if (startIndex + numToShow < product.length) {
+        startIndex += numToShow;
+        updateChartData();
+      }
+    }
+
+    function updateChartData() {
+      chartGeneralDashboard.data.labels = product.slice(startIndex, startIndex + numToShow);
+      chartGeneralDashboard.data.datasets[0].data = cost.slice(startIndex, startIndex + numToShow);
+      chartGeneralDashboard.data.datasets[0].backgroundColor = getRandomColor(numToShow);
+      chartGeneralDashboard.update();
+    }
+
+    const loadPreviousButton = document.getElementById("loadPreviousButton");
+    const loadNextButton = document.getElementById("loadNextButton");
+
+    loadPreviousButton.addEventListener("click", loadPreviousData);
+    loadNextButton.addEventListener("click", loadNextData);
+
+    loadPreviousButton.disabled = startIndex === 0;
+    loadNextButton.disabled = startIndex + numToShow >= product.length;
+
+
     $('#generalDashboardName').html(`Productos con mayor rentabilidad (${typePrice == '1' ? 'Sugerida' : 'Actual'})`);
     $('#modalGeneralDashboard').modal('show');
   });

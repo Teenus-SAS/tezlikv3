@@ -113,7 +113,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo
-                $machines = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+                $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
                 if (isset($machines['info'])) break;
                 /* Precio Producto */
@@ -167,7 +167,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo
-                $resolution = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+                $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
                 if (isset($resolution['info'])) break;
                 /* Precio Producto */
@@ -221,7 +221,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
             // Calcular costo indirecto
             $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
             // Actualizar campo
-            $factoryLoad = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+            $factoryLoad = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
             if (isset($factoryLoad['info'])) break;
             /* Precio Producto */
@@ -269,7 +269,7 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
             // Calcular costo indirecto
             $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
             // Actualizar campo
-            $factoryLoad = $indirectCostDao->updateCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+            $factoryLoad = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
             if (isset($factoryLoad['info'])) break;
             /* Precio Producto */

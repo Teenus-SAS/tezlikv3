@@ -44,7 +44,7 @@ class IndirectCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT pp.id_machine, m.minute_depreciation, pp.operation_time 
+            $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_machine, m.minute_depreciation, pp.operation_time 
                                       FROM products_process pp 
                                       INNER JOIN machines m ON m.id_machine = pp.id_machine 
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
@@ -78,6 +78,9 @@ class IndirectCostDao
                 // Calculo costo indirecto
                 $processMachineindirectCost = ($dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation']) * $dataProductMachine[$i]['operation_time'];
 
+                // Guardar Costo indirecto
+                $this->updateCostIndirectCost($processMachineindirectCost, $dataProductMachine[$i]['id_product_process']);
+
                 $indirectCost = $indirectCost + $processMachineindirectCost;
             }
         } catch (\Exception $e) {
@@ -87,8 +90,26 @@ class IndirectCostDao
         return $indirectCost;
     }
 
-    // Modificar costo indirecto de products_costs
-    public function updateCostIndirectCost($indirectCost, $idProduct, $id_company)
+    // Modificar costo indirecto de products_process
+    public function updateCostIndirectCost($indirectCost, $idProductProcess)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products_process SET indirect_cost = :indirect_cost WHERE id_product_process = :id_product_process");
+            $stmt->execute([
+                'indirect_cost' => $indirectCost,
+                'id_product_process' => $idProductProcess,
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    // Modificar total costo indirecto de products_costs
+    public function updateTotalCostIndirectCost($indirectCost, $idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 

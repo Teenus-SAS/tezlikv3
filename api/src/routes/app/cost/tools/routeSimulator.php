@@ -136,8 +136,8 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
         $resolution = $generalProductsDao->updatePrice($products['idProduct'], $simulator['products'][0]['price']);
         $products['cost'] = $simulator['products'][0]['cost_materials'];
         $resolution = $costMaterialsDao->updateCostMaterials($products, $id_company);
-        $resolution = $costWorkforceDao->updateCostWorkforce($simulator['products'][0]['cost_workforce'], $products['idProduct'], $id_company);
-        $resolution = $indirectCostDao->updateCostIndirectCost($simulator['products'][0]['cost_indirect_cost'], $products['idProduct'], $id_company);
+        $resolution = $costWorkforceDao->updateTotalCostWorkforce($simulator['products'][0]['cost_workforce'], $products['idProduct'], $id_company);
+        $resolution = $indirectCostDao->updateTotalCostIndirectCost($simulator['products'][0]['cost_indirect_cost'], $products['idProduct'], $id_company);
     }
 
     // Guardar data maquinas

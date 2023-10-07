@@ -19,7 +19,8 @@ class GeneralProductsProcessDao
     public function findAllProductsprocess($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process
+        $stmt = $connection->prepare("SELECT p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
+                                             pp.workforce_cost, pp.indirect_cost
                                   FROM products p 
                                   INNER JOIN products_process pp ON pp.id_product = p.id_product
                                   LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 

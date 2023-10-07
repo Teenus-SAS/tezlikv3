@@ -417,9 +417,13 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                 if ($resolution == null) {
                     // Calcular costo nomina
-                    $dataPayroll = $costWorkforceDao->calcCostPayroll($dataProduct['idProduct'], $id_company);
+                    $resolution = $costWorkforceDao->calcCostPayroll($dataProduct['idProduct'], $id_company);
+                    // Calcular costo nomina total
+                    if ($resolution == null) {
+                        $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProduct['idProduct'], $id_company);
 
-                    $resolution = $costWorkforceDao->updateCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
+                        $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
+                    }
                 }
 
                 if ($resolution == null) {
@@ -428,7 +432,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                     // Calcular costo indirecto
                     $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                     // Actualizar campo
-                    $resolution = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
+                    $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
                 }
 
                 if ($resolution == null) {
