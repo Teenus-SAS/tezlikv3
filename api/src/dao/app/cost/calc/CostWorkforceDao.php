@@ -41,7 +41,7 @@ class CostWorkforceDao
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                           WHERE pp.id_product = :id_product AND pp.id_company = :id_company GROUP BY `pp`.`id_product_process`");
             $stmt->execute([
-                // 'id_product' => $idProduct,
+                'id_product' => $idProduct,
                 'id_company' => $id_company
             ]);
             $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
