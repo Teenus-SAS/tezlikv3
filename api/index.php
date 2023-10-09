@@ -57,6 +57,9 @@ require_once('../api/src/routes/admin/binnacle/routeBinnacle.php');
 // Dashboard
 require_once('../api/src/routes/admin/dashboard/routeDashboardGeneral.php');
 
+// Contract
+require_once('../api/src/routes/admin/contract/routeContract.php');
+
 /* App Cost */
 // Trm
 require_once('../api/src/routes/app/cost/trm/routeTrm.php');

@@ -29,6 +29,7 @@ get('/admin/magnitudes', '/admin/views/magnitudes/magnitudes.php');
 get('/admin/units', '/admin/views/units/units.php');
 get('/admin/binnacle', '/admin/views/binnacle/binnacle.php');
 get('/admin/profile', '/admin/views/perfil/perfil.php');
+get('/admin/contract', '/admin/views/contract/contract.php');
 
 
 /* COST */

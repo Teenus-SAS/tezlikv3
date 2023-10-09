@@ -13869,3 +13869,8 @@ button.btn-icon {
 .radio-default input[type='radio']:checked + label::after {
   background-color: #505d69;
 }
+/* BootBox Extension*/
+.confirmWidth {
+  width: 950px;
+  margin-left: -120px
+}

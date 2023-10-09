@@ -15,11 +15,12 @@ $(function () {
 });
 
 /* Obtener contenido */
-getContent = () => {
+getContent = (op) => {
   content = editor.getData();
 
-  if (content.includes('<p>'))
-    content = content.replace('<p>', '').replace('</p>', '');
+  if (op == 1)
+    if (content.includes('<p>'))
+      content = content.replace('<p>', '').replace('</p>', '');
 
   return content;
 };

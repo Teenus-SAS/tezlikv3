@@ -80,7 +80,7 @@ $(document).ready(function () {
           data: 'workforce_cost',
           className: 'classCenter',
           render: function (data) {
-            return `$ ${data.toLocaleString('es-co',{maximumFractionDigits: 2})}`;
+            return `$ ${parseFloat(data).toLocaleString('es-co',{maximumFractionDigits: 2})}`;
           },
         },
         {
@@ -88,7 +88,7 @@ $(document).ready(function () {
           data: 'indirect_cost',
           className: 'classCenter',
           render: function (data) {
-            return `$ ${data.toLocaleString('es-co',{maximumFractionDigits: 2})}`;
+            return `$ ${parseFloat(data).toLocaleString('es-co',{maximumFractionDigits: 2})}`;
           },
         },
         {
