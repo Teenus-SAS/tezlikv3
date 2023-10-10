@@ -191,7 +191,7 @@ $(document).ready(function () {
   loadContract = async () => {
     let data = await searchData('/api/contracts');
 
-    if (!data.date_contract)
+    // if (!data.date_contract)
       bootbox.confirm({
         title: 'Contrato de Prestación de Servicios',
         message: data.content,
