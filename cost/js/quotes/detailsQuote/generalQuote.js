@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     let toHeader = $('#toHeader').val();
     let subject = $('#subject').val();
-    let msg = getContent();
+    let msg = getContent(1);
 
     if (
       toHeader == '' ||

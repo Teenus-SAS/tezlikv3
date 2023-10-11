@@ -407,6 +407,45 @@ if (sizeof($_SESSION) == 0)
                                                                                 </div>
                                                                             </div>
                                                                         </div>
+
+                                                                        <div class="col-12 cardTblMultiproducts" style="display: none;">
+                                                                            <div class="card">
+                                                                                <div class="card-header row">
+                                                                                    <h5 class="col-sm-10 card-title">Multiproductos</h5>
+                                                                                </div>
+                                                                                <div class="card-body">
+                                                                                    <div class="table-responsive">
+                                                                                        <table class="table table-striped text-center" id="tblMultiproducts">
+                                                                                            <thead>
+                                                                                                <tr>
+                                                                                                    <th style="width: 350px">Producto</th>
+                                                                                                    <th>No Unidades Vendidas</th>
+                                                                                                    <th style="width: 150px;" id="lblPrice">Precio</th>
+                                                                                                    <!-- <th style="width: 150px;">Costo Variable</th> -->
+                                                                                                    <th style="width: 150px;">Participacion</th>
+                                                                                                    <th>Margen De Contribucion</th>
+                                                                                                    <!-- <th>Promedio Ponderado</th> -->
+                                                                                                    <th>Unidades A Vender</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody id="tblMultiproductsBody"></tbody>
+                                                                                            <tfoot>
+                                                                                                <tr>
+                                                                                                    <td>Total:</td>
+                                                                                                    <td id="totalSoldsUnits"></td>
+                                                                                                    <!-- <td></td> -->
+                                                                                                    <td></td>
+                                                                                                    <td id="totalParticipation"></td>
+                                                                                                    <td></td>
+                                                                                                    <!-- <td id="totalAverages"></td> -->
+                                                                                                    <td id="totalSumUnits"></td>
+                                                                                                </tr>
+                                                                                            </tfoot>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                             </div>
                                                     </div>
@@ -425,11 +464,15 @@ if (sizeof($_SESSION) == 0)
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
+                                    contract = "<?= $_SESSION['contract'] ?>";
                                 </script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
                                 <script src="js/dashboard/calcDataCost.js"></script>
                                 <script src="js/dashboard/graphicsGeneral.js"></script>
                                 <script src="js/dashboard/generalModals.js"></script>
+                                <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
+                                <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
+                                <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
                             </div>
 </body>
 

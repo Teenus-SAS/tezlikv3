@@ -57,6 +57,12 @@
                                         <li class="risks"><a href="/admin/risks">Niveles de Riesgo</a></li>
                                     </ul>
                                 </div>
+                                <div class="col-md-3" id="navBenefits">
+                                    <h5 class="font-size-14 font-weight-600">Legal</h5>
+                                    <ul class="list-unstyled megamenu-list">
+                                        <li class="benefits"><a href="/admin/contract">Contrato de Prestación de Servicios</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

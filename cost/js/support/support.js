@@ -4,7 +4,7 @@ $(document).ready(function () {
     e.preventDefault();
     // cc = $('#ccHeader').val();
     let subject = $('#subject').val();
-    let msg = getContent();
+    let msg = getContent(1);
 
     if (subject == '' || subject == null || msg == '' || !msg) {
       toastr.error('Ingrese todos los campos');

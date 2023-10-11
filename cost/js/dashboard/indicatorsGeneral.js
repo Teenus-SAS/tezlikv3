@@ -1,30 +1,32 @@
 $(document).ready(function () {
-  fetch(`/api/dashboardExpensesGenerals`)
-    .then((response) => response.text())
-    .then((data) => {
-      data = JSON.parse(data);
-      generalIndicators(
-        data.expense_value,
-        data.expense_recover,
-        data.multiproducts
-      );
-      averagePrices(data.details_prices);
-      generalSales(data.details_prices);
-      if (cost_multiproduct == 1 && plan_cost_multiproduct == 1)
-        graphicMultiproducts(data.multiproducts);
-      graphicTimeProcessByProduct(data.time_process);
-      averagesTime(data.average_time_process);
-      graphicsFactoryLoad(data.factory_load_minute_value);
-      graphicWorkforce(data.process_minute_value);
-      graphicGeneralCost(data.expense_value);
-      graphicProductCost(data.details_prices);
-      generalMaterials(data.quantity_materials);
-
-      dataPucExpenes = data.expenses;
-
-      dataExpenses = data.expense_value;
-      dataDetailsPrices = data.details_prices;
-    });
+  setTimeout(() => { 
+    fetch(`/api/dashboardExpensesGenerals`)
+      .then((response) => response.text())
+      .then((data) => {
+        data = JSON.parse(data);
+        generalIndicators(
+          data.expense_value,
+          data.expense_recover,
+          data.multiproducts
+        );
+        averagePrices(data.details_prices);
+        generalSales(data.details_prices);
+        if (cost_multiproduct == 1 && plan_cost_multiproduct == 1)
+          graphicMultiproducts(data.multiproducts);
+        graphicTimeProcessByProduct(data.time_process);
+        averagesTime(data.average_time_process);
+        graphicsFactoryLoad(data.factory_load_minute_value);
+        graphicWorkforce(data.process_minute_value);
+        graphicGeneralCost(data.expense_value);
+        graphicProductCost(data.details_prices);
+        generalMaterials(data.quantity_materials);
+  
+        dataPucExpenes = data.expenses;
+  
+        dataExpenses = data.expense_value;
+        dataDetailsPrices = data.details_prices;
+      });
+  }, 2000);
 
   /* Colors */
   dynamicColors = () => {
@@ -185,4 +187,40 @@ $(document).ready(function () {
     $('#productsSold').html(data[0].units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
   }; 
+
+  loadContract = async () => {
+    let data = await searchData('/api/contracts');
+
+    // if (!data.date_contract)
+      bootbox.confirm({
+        title: 'Contrato de Prestación de Servicios',
+        message: data.content,
+        buttons: {
+          confirm: {
+            label: 'Aceptar',
+            className: 'btn-success',
+          },
+          cancel: {
+            label: 'Cancelar',
+            className: 'btn-danger',
+          },
+        },
+        callback: function (result) {
+          if (result == true) {
+            $.get(
+              `/api/changeDateContract`,
+              function (data, textStatus, jqXHR) {
+                if (data.success == true) {
+                  toastr.success(data.message);
+                  return false;
+                } else if (data.error == true) toastr.error(data.message);
+                else if (data.info == true) toastr.info(data.message);
+              }
+            );
+          }
+        },
+      }).find('div.modal-content').addClass('confirmWidth');
+  };
+
+  if (contract == '1') loadContract();
 });

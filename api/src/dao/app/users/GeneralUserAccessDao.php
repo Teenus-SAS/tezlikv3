@@ -21,7 +21,7 @@ class GeneralUserAccessDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT 
-                                              IFNULL(cua.create_product, 0) AS cost_product, IFNULL(cua.create_materials, 0) AS cost_material, IFNULL(cua.create_machines, 0) AS cost_machine, IFNULL(cua.create_process, 0) AS cost_process, IFNULL(cua.product_materials, 0) AS cost_products_material, IFNULL(cua.product_process, 0) AS cost_products_process,  IFNULL(cua.factory_load, 0) AS factory_load,  
+                                              IFNULL(cua.create_product, 0) AS cost_product, IFNULL(cua.create_materials, 0) AS cost_material, IFNULL(cua.create_machines, 0) AS cost_machine, IFNULL(cua.create_process, 0) AS cost_process, IFNULL(cua.product_materials, 0) AS cost_products_material, IFNULL(cua.product_process, 0) AS cost_products_process,  IFNULL(cua.factory_load, 0) AS factory_load, IFNULL(cua.contract, 0) AS contract,
                                               IFNULL(cua.external_service, 0) AS external_service, IFNULL(cua.payroll_load, 0) AS payroll_load, IFNULL(cua.type_payroll, 0) AS type_payroll, IFNULL(cua.expense, 0) AS expense, IFNULL(cua.expense_distribution, 0) AS expense_distribution, IFNULL(cua.user, 0) AS cost_user, IFNULL(cua.backup, 0) AS cost_backup , IFNULL(cua.economy_scale, 0) AS cost_economy_scale, IFNULL(cua.multiproduct, 0) AS cost_multiproduct, IFNULL(cua.quote_payment_method, 0) AS quote_payment_method, 
                                               IFNULL(cua.quote_company, 0) AS quote_company, IFNULL(cua.quote_contact, 0) AS quote_contact, IFNULL(cua.price, 0) AS price, IFNULL(cua.price_usd, 0) AS price_usd, IFNULL(cua.custom_price, 0) AS custom_price, IFNULL(cua.type_custom_price, 0) AS type_custom_price, IFNULL(cua.analysis_material, 0) AS analysis_material, IFNULL(cua.simulator, 0) AS simulator, IFNULL(cua.support, 0) AS support, IFNULL(cua.quote, 0) AS quote, pa.cost_price AS plan_cost_price, cl.cost_price_usd AS plan_cost_price_usd, pa.custom_price AS plan_custom_price, 
                                               pa.cost_analysis_material AS plan_cost_analysis_material, pa.cost_simulator AS plan_cost_simulator, pa.cost_support AS plan_cost_support, pa.cost_quote AS plan_cost_quote, pa.cost_economy_scale AS plan_cost_economy_sale, pa.cost_multiproduct AS plan_cost_multiproduct, cl.flag_expense, cl.flag_family, cl.flag_type_price, u.firstname, u.lastname, u.email
@@ -87,5 +87,6 @@ class GeneralUserAccessDao
         $_SESSION['plan_cost_quote'] = $userAccess['plan_cost_quote'];
         $_SESSION['plan_cost_economy_sale'] = $userAccess['plan_cost_economy_sale'];
         $_SESSION['plan_cost_multiproduct'] = $userAccess['plan_cost_multiproduct'];
+        $_SESSION['contract'] = $userAccess['contract'];
     }
 }
