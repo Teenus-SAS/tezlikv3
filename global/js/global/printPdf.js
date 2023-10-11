@@ -19,7 +19,7 @@ $(document).ready(function () {
                 jsPDF: {
                     unit: 'pt',
                     format: 'letter',
-                    orientation: 'portrait',
+                    orientation: 'landscape',
                 },
             };
             html2pdf().from(copy_invoice).set(opt).toPdf().get('pdf').save();
