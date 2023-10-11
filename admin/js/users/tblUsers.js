@@ -45,6 +45,14 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
+        title: '',
+        data: null,
+        className: 'uniqueClassName',
+        render: function (data) {
+          return `<input class="form-control-updated checkUser" type="checkbox" id="${data.id_user}" ${data.contract == '1' ? 'checked' : ''}>`;
+        },
+      },
+      {
         title: 'Acciones',
         data: 'id_user',
         className: 'uniqueClassName',

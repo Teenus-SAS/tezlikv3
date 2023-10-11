@@ -20,9 +20,10 @@ class UserAdminDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT u.id_user, u.firstname, u.lastname, u.position, u.email, c.id_company, c.company 
+        $stmt = $connection->prepare("SELECT u.id_user, u.firstname, u.lastname, u.position, u.email, c.id_company, c.company, cua.contract
                                       FROM users u
-                                        INNER JOIN companies c ON c.id_company = u.id_company");
+                                        INNER JOIN companies c ON c.id_company = u.id_company
+                                        INNER JOIN cost_users_access cua ON cua.id_user = u.id_user");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $users = $stmt->fetchAll($connection::FETCH_ASSOC);

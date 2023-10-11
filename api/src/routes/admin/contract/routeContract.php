@@ -32,21 +32,3 @@ $app->post('/saveContract', function (Request $request, Response $response, $arg
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
-
-$app->get('/changeDateContract', function (Request $request, Response $response, $args) use (
-    $contractDao
-) {
-    $contract = $contractDao->findContract();
-
-    $date = date('Y-m-d');
-
-    $contract = $contractDao->changeDateContract($contract['id_contract'], $date);
-
-    if ($contract == null)
-        $resp = array('success' => true, 'message' => 'Información guardada correctamente');
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error al ingresar la informacion. Intente nuevamente');
-
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});

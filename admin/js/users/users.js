@@ -25,6 +25,7 @@ $(document).ready(function () {
       firstname = $('#firstname').val();
       lastname = $('#lastname').val();
       email = $('#email').val();
+      check = $(`#principalUser`).is(':checked');
 
       if (
         firstname == '' ||
@@ -38,13 +39,14 @@ $(document).ready(function () {
       ) {
         toastr.error('Ingrese nombre, apellido y/o email');
         return false;
-      }
+      } 
 
       let dataUser = {};
       dataUser['nameUser'] = firstname;
       dataUser['lastnameUser'] = lastname;
       dataUser['emailUser'] = email;
       dataUser['company'] = company;
+      dataUser['check'] = check;
 
       dataUser = setDataUserAccess(dataUser);
 
@@ -74,6 +76,11 @@ $(document).ready(function () {
     $(`#company option[value=${data.id_company}]`).prop('selected', true);
     $('#company').prop('disabled', true);
 
+    if (data.contract == '1')
+      $('#principalUser').prop('checked', true);
+    else
+      $('#principalUser').prop('checked', false);
+
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -83,15 +90,20 @@ $(document).ready(function () {
   });
 
   updateUser = () => {
+    if (!$(`#principalUser`).is(':checked')) { 
+      toastr.error('Debe haber por lo menos un usuario principal por empresa');
+      return false;
+    }
+
     idUser = sessionStorage.getItem('id_user');
 
+    $('#company').prop('disabled', false);
     dataUser = $('#formCreateUser').serialize();
-
+    
     dataUser = `${dataUser}&idUser=${idUser}`;
-
+    
     $.post('/api/updateUser', dataUser, function (data, textStatus, jqXHR) {
       $('#email').prop('disabled', false);
-      $('#company').prop('disabled', false);
 
       message(data);
     });
@@ -101,6 +113,11 @@ $(document).ready(function () {
   deleteFunction = () => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
+
+    if (data.contract == '1') { 
+      toastr.error('Debe haber por lo menos un usuario principal por empresa');
+      return false;
+    }
 
     dataUser = {};
     dataUser['idUser'] = data.id_user;
@@ -155,7 +172,10 @@ $(document).ready(function () {
     dataUser['quoteContact'] = 1;
     dataUser['price'] = 1;
     dataUser['priceUSD'] = 1;
-    dataUser['customPrices'][0] = -1;
+    dataUser['customPrices'] = 1;
+    dataUser['typeCustomPrices'] = [];
+    dataUser['typeCustomPrices'].push(-1);
+    dataUser['typePayroll'] = 1;
     dataUser['analysisMaterial'] = 1;
     dataUser['simulator'] = 1;
     dataUser['economyScale'] = 1;
@@ -165,6 +185,45 @@ $(document).ready(function () {
 
     return dataUser;
   };
+
+  $(document).on('click', '.checkUser', function () {
+    if (!$(`#${this.id}`).is(':checked')) { 
+      toastr.error('Debe haber por lo menos un usuario principal por empresa');
+      return false;
+    }
+
+    let row = $(this).parent().parent()[0];
+    let data = tblUsers.fnGetData(row);
+
+    dataUser = {};
+    dataUser['idUser'] = data.id_user;
+    dataUser['company'] = data.id_company;
+
+    bootbox.confirm({
+      title: 'Usuario principal',
+      message:
+        'Está seguro de cambiar el usuario principal? Esta acción no se puede reversar.',
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.post(`/api/changePrincipalUser`,dataUser,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            },
+          );
+        }
+      },
+    });
+  });
 
   /* Mensaje de exito */
   message = (data) => {

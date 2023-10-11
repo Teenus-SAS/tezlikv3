@@ -98,6 +98,23 @@ $(document).ready(function () {
     });
   });
 
+  $('#btnShowModalContract').click(async function (e) { 
+    e.preventDefault();
+
+    let data = await searchData('/api/contracts');
+
+    let divContract = document.getElementById('contractContent');
+
+    divContract.insertAdjacentHTML('beforeend', data.content);
+
+    $('#modalContract').modal('show');
+  }); 
+
+  $('#btnCloseContract').click(function (e) { 
+    e.preventDefault();
+    $('#modalContract').modal('hide'); 
+  });
+
   /* Cargar notificación */
   message = (data) => {
     if (data.success == true) {

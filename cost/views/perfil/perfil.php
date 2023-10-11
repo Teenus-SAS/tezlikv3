@@ -7,6 +7,8 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
+<?php include_once dirname(dirname(__DIR__)) . '/modals/contract.php' ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -184,6 +186,11 @@ if (sizeof($_SESSION) == 0)
                                         <div class="d-flex justify-content-end mb-2">
                                             <button type="button" class="btn btn-primary" id="btnSaveProfile">Actualizar Usuario</button>
                                         </div>
+                                        <?php if ($_SESSION['contract'] == 1) { ?>
+                                            <div class="d-flex mb-2">
+                                                <a href="javascript:;" id="btnShowModalContract">Contrato de Prestación <br><?php echo $_SESSION['date_contract'] ?></a>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>

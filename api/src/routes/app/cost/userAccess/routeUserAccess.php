@@ -1,7 +1,6 @@
 <?php
 
 use tezlikv3\dao\CostUserAccessDao;
-use tezlikv3\dao\GeneralCostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\UsersDao;
@@ -10,7 +9,6 @@ $usersDao = new UsersDao();
 $lastDataDao = new LastDataDao();
 $userAccessDao = new CostUserAccessDao();
 $generalUAccessDao = new GeneralUserAccessDao();
-$generalCostUserAccessDao = new GeneralCostUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -100,22 +98,6 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
         $resp = array('info' => true, 'message' => $userAccess['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-
-    $response->getBody()->write(json_encode($resp));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
-$app->get('/changePrincipalUser/{id_user}', function (Request $request, Response $response, $args) use ($generalCostUserAccessDao) {
-    session_start();
-    $id_company = $_SESSION['id_company'];
-
-    $user = $generalCostUserAccessDao->changePrincipalUser($args['id_user'], $id_company);
-    if ($user == null)
-        $resp = array('success' => true, 'message' => 'Usuario principal guardado correctamente');
-    else if (isset($user['info']))
-        $resp = array('info' => true, 'message' => $user['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
