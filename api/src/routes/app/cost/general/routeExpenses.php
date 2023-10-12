@@ -2,7 +2,7 @@
 
 use tezlikv3\dao\AssignableExpenseDao;
 use tezlikv3\dao\ExpensesDao;
-use tezlikv3\dao\FlagCompanyDao;
+use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\ParticipationExpenseDao;
 use tezlikv3\dao\PucDao;
@@ -13,7 +13,7 @@ $assignableExpenseDao = new AssignableExpenseDao();
 $pucDao = new PucDao();
 $totalExpenseDao = new TotalExpenseDao();
 $licenseCompanyDao = new LicenseCompanyDao();
-$flagCompanyDao = new FlagCompanyDao();
+$generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
 $participationExpenseDao = new ParticipationExpenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -27,10 +27,10 @@ $app->get('/checkTypeExpense', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/changeTypeExpense/{flag}', function (Request $request, Response $response, $args) use ($licenseCompanyDao, $flagCompanyDao) {
+$app->get('/changeTypeExpense/{flag}', function (Request $request, Response $response, $args) use ($licenseCompanyDao, $generalCompanyLicenseDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $typeExpense = $flagCompanyDao->updateFlagExpense($args['flag'], $id_company);
+    $typeExpense = $generalCompanyLicenseDao->updateFlagExpense($args['flag'], $id_company);
 
     if ($args['flag'] == 2) {
         $_SESSION['expense'] = 0;

@@ -16,19 +16,33 @@ class GeneralCostUserAccessDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function changePrincipalUser($id_user, $id_company)
+    public function findPrincipalUserByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM cost_users_access cua
+                                          INNER JOIN users u ON u.id_user = cua.id_user
+                                      WHERE u.id_company = :id_company AND cua.contract = 1");
+        $stmt->execute(['id_company' => $id_company]);
+        $user = $stmt->fecth($connection::FETCH_ASSOC);
+        return $user;
+    }
+
+    public function changePrincipalUser($dataUser)
     {
         try {
             $connection = Connection::getInstance()->getConnection();
 
-            $stmt = $connection->prepare("UPDATE cost_users_access cu
-                                          INNER JOIN users u ON u.id_user = cu.id_user
+            $stmt = $connection->prepare("UPDATE cost_users_access cua
+                                          INNER JOIN users u ON u.id_user = cua.id_user
                                           SET contract = 0 WHERE u.id_company = :id_company");
-            $stmt->execute(['id_company' => $id_company]);
+            $stmt->execute([
+                'id_company' => $dataUser['company']
+            ]);
             $stmt = $connection->prepare("UPDATE cost_users_access SET contract = :contract WHERE id_user = :id_user");
             $stmt->execute([
                 'contract' => 1,
-                'id_user' => $id_user
+                'id_user' => $dataUser['idUser']
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();

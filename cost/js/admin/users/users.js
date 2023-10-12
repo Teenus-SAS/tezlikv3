@@ -347,62 +347,6 @@ $(document).ready(function () {
     });
   };
 
-  $('#btnChangePrincipalUser').click(async function (e) {
-    e.preventDefault();
-
-    let data = await searchData('/api/costUsersAccess');
-
-    var options = ``;
-    let status = false;
-
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].contract == '1') status = true;
-
-      options += `<option value="${data[i].id_user}" ${data[i].contract == '1' ? 'selected' : ''
-        }> ${data[i].firstname} - ${data[i].lastname}
-      </option>`;
-    }
-    
-    bootbox.confirm({
-      title: 'Usuario Principal',
-      message:
-        `<select class='form-control' id='selectUsers'>
-          <option disabled ${status == false ? 'selected' : ''}>Seleccionar</option>
-          ${options}
-        </select>`,
-      buttons: {
-        confirm: {
-          label: 'Guardar',
-          className: 'btn-success',
-        },
-        cancel: {
-          label: 'Cancelar',
-          className: 'btn-danger',
-        },
-      },
-      callback: function (result) {
-        if (result == true) {
-          let id_user = $('#selectUsers').val();
-
-          if (!id_user || id_user == '') {
-            toastr.error('Seleccione un usuario');
-            return false;
-          }
-
-          $.get(`/api/changePrincipalUser/${id_user}`,
-            function (data, textStatus, jqXHR) {
-              if (data.success == true) {
-                toastr.success(data.message);
-                return false;
-              } else if (data.error == true) toastr.error(data.message);
-              else if (data.info == true) toastr.info(data.message);
-            },
-          );
-        }
-      },
-    });
-  });
-
   /* Mensaje de exito */
 
   message = async (data, id_user) => {

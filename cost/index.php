@@ -42,7 +42,7 @@ if (sizeof($_SESSION) == 0)
         <!-- Begin main content -->
         <div class="main-content">
             <!-- content -->
-            <div class="page-content">
+            <div class="page-content" id="invoice">
                 <!-- page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
@@ -54,6 +54,9 @@ if (sizeof($_SESSION) == 0)
                                         <li class="breadcrumb-item active">Bienvenido</li>
                                     </ol>
                                 </div>
+                            </div>
+                            <div class="col-sm-5 col-xl-6 d-flex justify-content-end">
+                                <a href="javascript:;" <i id="btnPrintPDF" class="bi bi-filetype-pdf" data-toggle='tooltip' title='Descargar PDF' style="font-size: 30px; color:red;"></i></a>
                             </div>
                         </div>
                     </div>
@@ -465,6 +468,7 @@ if (sizeof($_SESSION) == 0)
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
                                     contract = "<?= $_SESSION['contract'] ?>";
+                                    date_contract = "<?= $_SESSION['date_contract'] ?>";
                                 </script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
                                 <script src="js/dashboard/calcDataCost.js"></script>
@@ -473,6 +477,7 @@ if (sizeof($_SESSION) == 0)
                                 <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
                                 <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
                                 <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
+                                <script src="/global/js/global/printPdf.js"></script>
                             </div>
 </body>
 

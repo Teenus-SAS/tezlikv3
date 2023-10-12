@@ -81,6 +81,10 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Correo</label>
                                                     <input type="email" class="form-control" name="emailUser" id="email">
                                                 </div>
+                                                <div class="col-xs-2 text-center">
+                                                    <label for="">Usuario Principal</label><br>
+                                                    <input type="checkBox" class="form-control-updated" name="principalUser" id="principalUser">
+                                                </div>
                                                 <div style="margin-top:32px;">
                                                     <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>
                                                 </div>

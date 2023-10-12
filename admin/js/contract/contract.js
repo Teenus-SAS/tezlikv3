@@ -30,6 +30,14 @@ $(document).ready(function () {
         message(resp);
     });
 
+    /* Enviar */
+    $('#btnSend').click(async function (e) { 
+        e.preventDefault();
+        
+        let resp = await searchData('/api/changeDateContract/2');
+        message(resp);
+    });
+
     /* Mensaje de exito */
     message = (data) => {
         if (data.success == true) {

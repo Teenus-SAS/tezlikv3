@@ -13871,6 +13871,7 @@ button.btn-icon {
 }
 /* BootBox Extension*/
 .confirmWidth {
-  width: 950px;
-  margin-left: -120px
+  width: 1340px;
+  margin-left: 0px;
+  margin: 0rem auto;
 }
