@@ -470,6 +470,7 @@ if (sizeof($_SESSION) == 0)
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
                                 </script>
+                                <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
                                 <script src="js/dashboard/calcDataCost.js"></script>
                                 <script src="js/dashboard/graphicsGeneral.js"></script>
