@@ -196,4 +196,49 @@ $(document).ready(function () {
 
     $('#productsByMaterial').modal('show');
   });
+
+  $(document).on('click','.billRawMaterial', function () {
+    let row = $(this).parent().parent()[0];
+    let data = tblRawMaterials.fnGetData(row);
+
+    bootbox.confirm({
+      size: 'large',
+      title: 'Factura',
+      message: `<div class="form-row">
+                  <div class="col-sm-12 floating-label enable-floating-label show-label">
+                    <input type="date" class="form-control text-center" name="dateMaterial" id="dateMaterial">
+                    <label for="">Fecha</label>
+                  </div>
+                  <div class="col-sm-12 floating-label enable-floating-label show-label drag-area" style="margin-bottom:20px">
+                    <input class="form-control" type="file" id="formFile">
+                    <label for="formFile" class="form-label"> Cargar imagen</label>
+                  </div>
+                  <div class="col-sm-12 floating-label enable-floating-label show-label">
+                    <textarea class="form-control" id="observation" rows="3"></textarea>
+                    <label for="">Observaciones</label>
+                  </div>
+                </div>`,
+      buttons: {
+        confirm: {
+          label: 'Guardar',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'Cancelar',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          let date = $('#dateMaterial').val();
+          let image = $('#formFile')[0].files[0];
+
+          if (!date) {
+            toastr.error('Ingrese los campos');
+            return false;
+          }
+        }
+      },
+    });
+  });
 });
