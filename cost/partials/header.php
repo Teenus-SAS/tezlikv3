@@ -58,7 +58,7 @@
                                                 <li class="aProductsMaterials"><a href="/cost/product-materials">Ficha Técnica Materia Prima</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_products_process'] == 1) { ?>
-                                                <li class="aProductsProcess"><a href="/cost/product-process">Ficha Técnica Procesos</a></li>
+                                                <li class="aProductsProcess"><a href="/cost/product-process">Ficha Técnica Tiempos y Procesos</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['factory_load'] == 1) { ?>
                                                 <li class="aFactoryLoad"><a href="/cost/factory-load">Carga Fabril</a></li>
