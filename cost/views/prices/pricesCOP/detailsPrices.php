@@ -40,7 +40,7 @@ if (sizeof($_SESSION) == 0)
             </div>
 
             <!-- Content -->
-            <div class="page-content">
+            <div class="page-content" id="invoice">
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
@@ -57,9 +57,14 @@ if (sizeof($_SESSION) == 0)
                                             <select id="product" class="form-control"></select>
                                         </div>
                                     </div>
-                                    <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Análisis de Costos</li>
-                                    </ol>
+                                    <div class="row">
+                                        <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active">Análisis de Costos</li>
+                                        </ol>
+                                        <div class="col-sm-5 col-xl-6 d-flex justify-content-end">
+                                            <a href="javascript:;" <i id="btnPrintPDF" class="bi bi-filetype-pdf" data-toggle='tooltip' title='Descargar PDF' style="font-size: 30px; color:red;"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -416,6 +421,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/dashboard/graphicsProduct.js"></script>
+    <script src="/global/js/global/printPdf.js"></script>
 </body>
 
 </html>

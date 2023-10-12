@@ -191,7 +191,7 @@ $(document).ready(function () {
   loadContract = async () => {
     let data = await searchData('/api/contracts');
 
-    // if (!data.date_contract)
+    if (date_contract == '0')
       bootbox.confirm({
         title: 'Contrato de Prestación de Servicios',
         message: data.content,
@@ -201,14 +201,14 @@ $(document).ready(function () {
             className: 'btn-success',
           },
           cancel: {
-            label: 'Cancelar',
+            label: 'Rechazar',
             className: 'btn-danger',
           },
         },
         callback: function (result) {
           if (result == true) {
             $.get(
-              `/api/changeDateContract`,
+              `/api/changeDateContract/1`,
               function (data, textStatus, jqXHR) {
                 if (data.success == true) {
                   toastr.success(data.message);
@@ -217,7 +217,8 @@ $(document).ready(function () {
                 else if (data.info == true) toastr.info(data.message);
               }
             );
-          }
+          } else
+            fetchindata();
         },
       }).find('div.modal-content').addClass('confirmWidth');
   };

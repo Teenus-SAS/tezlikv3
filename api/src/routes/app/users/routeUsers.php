@@ -3,10 +3,9 @@
 use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\UsersDao;
-// Cantidad de usuarios
 use tezlikv3\dao\QuantityUsersDao;
-//Acceso de usuario
 use tezlikv3\dao\CostUserAccessDao;
+use tezlikv3\dao\GeneralCostUserAccessDao;
 use tezlikv3\dao\GenerateCodeDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\SendEmailDao;
@@ -18,6 +17,7 @@ $makeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
 $quantityUsersDao = new QuantityUsersDao();
 $costAccessUserDao = new CostUserAccessDao();
+$generalCostUserAccessDao = new GeneralCostUserAccessDao();
 $companyDao = new CompaniesDao();
 $companiesLicenseDao = new CompaniesLicenseDao();
 $lastDataDao = new LastDataDao();
@@ -51,13 +51,14 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     $makeEmailDao,
     $sendEmailDao,
     $quantityUsersDao,
-    $costAccessUserDao
+    $costAccessUserDao,
+    $generalCostUserAccessDao
 ) {
     session_start();
     //data
     $dataUser = $request->getParsedBody();
 
-    !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
+    !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] :        $id_company = $_SESSION['id_company'];
 
     //selecciona quantity_user de companies_licenses que tengan el id_company
     $quantityAllowsUsers = $quantityUsersDao->quantityUsersAllows($id_company);
@@ -100,6 +101,9 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                             $typeCustomPrice = implode(',', $dataUser['typeCustomPrices']);
 
                         $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $typeCustomPrice);
+
+                        if ($usersAccess == null && $dataUser['check'] == 'true')
+                            $usersAccess = $generalCostUserAccessDao->changePrincipalUser($dataUser);
                     }
                 }
             } else $users = 1;
@@ -185,17 +189,14 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao, $costAccessUserDao) {
+$app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao) {
     session_start();
     $dataUser = $request->getParsedBody();
-
-    // !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
 
     if (empty($dataUser['nameUser']) && empty($dataUser['lastnameUser'])) {
         $resp = array('error' => true, 'message' => 'Ingrese sus Nombres y Apellidos completos');
     } else {
         $users = $userDao->updateUser($dataUser, null);
-        // $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $id_company);
     }
     if ($users == null)
         $resp = array('success' => true, 'message' => 'Usuario actualizado correctamente');
@@ -226,6 +227,22 @@ $app->post('/deleteUser', function (Request $request, Response $response, $args)
     } else {
         $resp = array('error' => true, 'message' => 'No es posible eliminar este usuario');
     }
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/changePrincipalUser', function (Request $request, Response $response, $args) use ($generalCostUserAccessDao) {
+    $dataUserAdmin = $request->getParsedBody();
+
+    $user = $generalCostUserAccessDao->changePrincipalUser($dataUserAdmin);
+
+    if ($user == null)
+        $resp = array('success' => true, 'message' => 'Usuario principal guardado correctamente');
+    else if (isset($user['info']))
+        $resp = array('info' => true, 'message' => $user['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

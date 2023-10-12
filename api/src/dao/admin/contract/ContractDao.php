@@ -59,21 +59,4 @@ class ContractDao
             return $error;
         }
     }
-
-    public function changeDateContract($id_contract, $date)
-    {
-        try {
-            $connection = Connection::getInstance()->getConnection();
-
-            $stmt = $connection->prepare("UPDATE contracts SET date_contract = :date_contract WHERE id_contract = :id_contract");
-            $stmt->execute([
-                'id_contract' => $id_contract,
-                'date_contract' => $date
-            ]);
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
 }

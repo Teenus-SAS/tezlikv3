@@ -61,7 +61,7 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formSaveContract">
                                             <input type="text" class="form-control" id="idContract" name="idContract" style="display: none;" />
 
-                                            <div class="form-group">
+                                            <div class="form-group" style="overflow-y: scroll;max-height: 300px;">
                                                 <div id="compose-editor" name="content">Hey</div>
                                             </div>
 
@@ -69,6 +69,10 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="text-center">
                                                     <button class="btn btn-primary chat-send-btn" data-effect="wave" id="btnSave">
                                                         <span class="d-none d-sm-inline-block mr-2 align-middle">Guardar</span>
+                                                        <i class="bx bxs-send fs-sm align-middle"></i>
+                                                    </button>
+                                                    <button class="btn btn-warning chat-send-btn" data-effect="wave" id="btnSend">
+                                                        <span class="d-none d-sm-inline-block mr-2 align-middle">Enviar</span>
                                                         <i class="bx bxs-send fs-sm align-middle"></i>
                                                     </button>
                                                 </div>
