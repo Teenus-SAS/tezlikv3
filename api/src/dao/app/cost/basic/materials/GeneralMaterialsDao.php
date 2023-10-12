@@ -126,6 +126,24 @@ class GeneralMaterialsDao
         }
     }
 
+    public function saveBillMaterial($dataMaterial)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE materials SET date_material = :date_material, observation = :observation WHERE id_material = :id_material");
+            $stmt->execute([
+                'date_material' => $dataMaterial['date'],
+                'observation' => $dataMaterial['observation'],
+                'id_material' => $dataMaterial['idMaterial']
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     public function deleteMaterial($id_material)
     {
         $connection = Connection::getInstance()->getConnection();

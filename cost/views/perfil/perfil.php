@@ -46,7 +46,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="container py-5">
                     <form id="formSaveProfile">
                         <div class="row">
-                            <div class="col-lg-4">
+                            <div class="col-lg-3">
                                 <div class="card">
                                     <div class="card-body text-center">
                                         <div class="picture-container">
@@ -58,143 +58,100 @@ if (sizeof($_SESSION) == 0)
                                         <h5 class="my-3" id="profileName"></h5>
                                     </div>
                                 </div>
-                                <div class="card companyData">
-                                    <div class="card-body">
-                                        <input type="" id="state" name="companyState" hidden>
-                                        <input type="" id="idCompany" name="idCompany" hidden>
-
-                                        <div class="picture-container mb-4">
-                                            <div class="pictureC">
-                                                <img id="logo" src="" class="img-fluid" style="width: 400px;" />
-                                                <input class="form-control" type="file" id="formFileC">
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <p class="font-weight-bold mb-0">Compañia</p>
-                                            </div>
-                                            <div class="col-sm-8 mb-0">
-                                                <input class="form-control text-center general" type="text" id="company" name="company">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <p class="font-weight-bold mb-0">NIT</p>
-                                            </div>
-                                            <div class="col-sm-8 mb-0">
-                                                <input class="form-control text-center general" type="number" id="nit" name="companyNIT">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <p class="font-weight-bold mb-0">Ciudad</p>
-                                            </div>
-                                            <div class="col-sm-8 mb-0">
-                                                <input class="form-control text-center general" type="text" id="city" name="companyCity">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <p class="font-weight-bold mb-0">Pais</p>
-                                            </div>
-                                            <div class="col-sm-8 mb-0">
-                                                <input class="form-control text-center general" type="text" id="country" name="companyCountry">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <p class="font-weight-bold mb-0">Telefono</p>
-                                            </div>
-                                            <div class="col-sm-8 mb-0">
-                                                <input class="form-control text-center general" type="number" id="phone" name="companyTel">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <p class="font-weight-bold mb-0">Dirección</p>
-                                            </div>
-                                            <div class="col-sm-8 mb-0">
-                                                <textarea class="form-control text-center general" id="address" name="companyAddress"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-lg-8">
+                            <div class="col-lg-9">
                                 <div class="card mb-4">
                                     <div class="card-body">
-                                        <div class="row">
-                                            <input type="" id="idUser" name="idUser" hidden>
-                                            <div class="col-sm-3">
-                                                <label class="form-label">Nombres *</label>
-                                            </div>
-                                            <div class="col-sm-5">
+                                        <div class="form-row" style="margin-bottom:-30px">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control text-center firstname general" placeholder="" aria-label="First name" id="firstname" name="nameUser">
+                                                <label for="">Nombres *</label>
                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <label class="form-label">Apellidos *</label>
-                                            </div>
-                                            <div class="col-sm-5">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control text-center general" placeholder="" aria-label="Last name" id="lastname" name="lastnameUser">
+                                                <label for="">Apellidos *</label>
                                             </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <label class="form-label">Cargo *</label>
-                                            </div>
-                                            <div class="col-sm-5">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control text-center" placeholder="" aria-label="Position" id="position" name="position">
+                                                <label for="">Cargo *</label>
                                             </div>
                                         </div>
                                         <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
+                                        <div class="form-row" style="margin-bottom:-30px">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                <input type="email" class="form-control text-center" id="email" name="emailUser">
                                                 <label for="email" class="form-label">Email *</label>
                                             </div>
-                                            <div class="col-sm-5">
-                                                <input type="email" class="form-control text-center" id="email" name="emailUser">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                <input type="password" class="form-control text-center" placeholder="" aria-label="Password" id="password" name="password">
                                                 <label class="form-label">Nueva Contraseña</label>
                                             </div>
-                                            <div class="col-sm-5">
-                                                <input type="password" class="form-control text-center" placeholder="" aria-label="Password" id="password" name="password">
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                <input type="password" class="form-control text-center" placeholder="" aria-label="Confirm Password" id="conPassword" name="conPassword">
                                                 <label class="form-label">Confirmar Contraseña</label>
                                             </div>
-                                            <div class="col-sm-5">
-                                                <input type="password" class="form-control text-center" placeholder="" aria-label="Confirm Password" id="conPassword" name="conPassword">
-                                            </div>
                                         </div>
                                         <hr>
-                                        <div class="d-flex justify-content-end mb-2">
-                                            <button type="button" class="btn btn-primary" id="btnSaveProfile">Actualizar Usuario</button>
+                                        <div class="form-row">
+                                            <?php if ($_SESSION['contract'] == 1) { ?>
+                                                <div class="col-sm-3">
+                                                    <a href="javascript:;" id="btnShowModalContract">Contrato de Prestación <br><?php echo $_SESSION['date_contract'] ?></a>
+                                                </div>
+                                                <div class="col-sm-9 d-flex justify-content-end">
+                                                <?php } else { ?>
+                                                    <div class="col-sm-12 d-flex justify-content-end">
+                                                    <?php } ?>
+                                                    <button type="button" class="btn btn-primary" id="btnSaveProfile">Actualizar Usuario</button>
+                                                    </div>
+                                                </div>
                                         </div>
-                                        <?php if ($_SESSION['contract'] == 1) { ?>
-                                            <div class="d-flex mb-2">
-                                                <a href="javascript:;" id="btnShowModalContract">Contrato de Prestación <br><?php echo $_SESSION['date_contract'] ?></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="card companyData">
+                                        <div class="card-body">
+                                            <input type="" id="state" name="companyState" hidden>
+                                            <input type="" id="idCompany" name="idCompany" hidden>
+                                            <div class="picture-container mb-4">
+                                                <div class="pictureC">
+                                                    <img id="logo" src="" class="img-fluid" style="width: 400px;" />
+                                                    <input class="form-control" type="file" id="formFileC">
+                                                </div>
                                             </div>
-                                        <?php } ?>
+                                            <div class="form-row">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                    <label class="form-label">Compañia</label>
+                                                    <input class="form-control text-center general" type="text" id="company" name="company">
+                                                </div>
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                    <label class="form-label">NIT</label>
+                                                    <input class="form-control text-center general" type="number" id="nit" name="companyNIT">
+                                                </div>
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                    <label class="form-label">Ciudad</label>
+                                                    <input class="form-control text-center general" type="text" id="city" name="companyCity">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label">
+                                                    <label class="form-label">Pais</label>
+                                                    <input class="form-control text-center general" type="text" id="country" name="companyCountry">
+                                                </div>
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label">
+                                                    <label class="form-label">Telefono</label>
+                                                    <input class="form-control text-center general" type="number" id="phone" name="companyTel">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col-sm-12 floating-label enable-floating-label show-label">
+                                                    <label class="form-label">Dirección</label>
+                                                    <textarea class="form-control text-center general" id="address" name="companyAddress"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     </form>
 
                 </div>

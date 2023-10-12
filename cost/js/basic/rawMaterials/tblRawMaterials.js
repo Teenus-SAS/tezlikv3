@@ -53,6 +53,17 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Img',
+        data: 'img',
+        className: 'uniqueClassName',
+        render: (data, type, row) => {
+          data == '' || !data
+            ? (txt = '')
+            : (txt = `<img src="${data}" alt="" style="width:50px;border-radius:100px">`);
+          return txt;
+        },
+      }, 
+      {
         title: 'Acciones',
         data: null,
         className: 'uniqueClassName',
