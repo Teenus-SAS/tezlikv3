@@ -61,7 +61,7 @@ if (sizeof($_SESSION) == 0)
                                         <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0">
                                             <li class="breadcrumb-item active">Análisis de Costos</li>
                                         </ol>
-                                        <div class="col-sm-5 col-xl-6 d-flex justify-content-end">
+                                        <div class="col-sm-5 col-xl-6 d-flex justify-content-end btnPrintPDF">
                                             <a href="javascript:;" <i id="btnPrintPDF" class="bi bi-filetype-pdf" data-toggle='tooltip' title='Descargar PDF' style="font-size: 30px; color:red;"></i></a>
                                         </div>
                                     </div>
@@ -368,7 +368,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-3 pageBreak">
                                             <div class="card">
                                                 <div class="card-header">
                                                     <h5 class="card-title">Composición Precio </h5>

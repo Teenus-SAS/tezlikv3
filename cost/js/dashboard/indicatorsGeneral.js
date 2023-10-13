@@ -186,42 +186,5 @@ $(document).ready(function () {
   generalSales = (data) => {
     $('#productsSold').html(data[0].units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
-  }; 
-
-  loadContract = async () => {
-    let data = await searchData('/api/contracts');
-
-    if (date_contract == '0')
-      bootbox.confirm({
-        title: 'Contrato de Prestación de Servicios',
-        message: data.content,
-        buttons: {
-          confirm: {
-            label: 'Aceptar',
-            className: 'btn-success',
-          },
-          cancel: {
-            label: 'Rechazar',
-            className: 'btn-danger',
-          },
-        },
-        callback: function (result) {
-          if (result == true) {
-            $.get(
-              `/api/changeDateContract/1`,
-              function (data, textStatus, jqXHR) {
-                if (data.success == true) {
-                  toastr.success(data.message);
-                  return false;
-                } else if (data.error == true) toastr.error(data.message);
-                else if (data.info == true) toastr.info(data.message);
-              }
-            );
-          } else
-            fetchindata();
-        },
-      }).find('div.modal-content').addClass('confirmWidth');
-  };
-
-  if (contract == '1') loadContract();
+  };  
 });

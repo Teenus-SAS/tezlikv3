@@ -196,4 +196,68 @@ $(document).ready(function () {
 
     $('#productsByMaterial').modal('show');
   });
+
+  $(document).on('click', '.billRawMaterial', function () {
+    let row = $(this).parent().parent()[0];
+    let data = tblRawMaterials.fnGetData(row);
+
+    bootbox.confirm({
+      size: 'large',
+      title: 'Factura',
+      message: `<div class="form-row">
+                  <div class="col-sm-6 floating-label enable-floating-label show-label">
+                    <input type="date" class="form-control" name="dateMaterial" id="dateMaterial" value="${data.date_material}">
+                    <label for="">Fecha</label>
+                  </div>
+                  <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:20px">
+                    <input class="form-control" type="file" id="formFile">
+                    <label for="formFile" class="form-label"> Cargar imagen</label>
+                  </div>
+                  <div class="col-sm-12 floating-label enable-floating-label show-label">
+                    <textarea class="form-control" id="observation" rows="3" value="${data.observation}">${data.observation}</textarea>
+                    <label for="">Observaciones</label>
+                  </div>
+                </div>`,
+      buttons: {
+        confirm: {
+          label: 'Guardar',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'Cancelar',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          let date = $('#dateMaterial').val();
+          let image = $('#formFile')[0].files[0];
+          let observation = $('#observation').val();;
+
+          if (!date) {
+            toastr.error('Ingrese los campos');
+            return false;
+          }
+
+          let dataMaterial = new FormData();
+          dataMaterial.append('img', image);
+          dataMaterial.append('idMaterial', data.id_material);
+          dataMaterial.append('date', date);
+          dataMaterial.append('observation', observation);
+
+          $.ajax({
+            type: "POST",
+            url: '/api/saveBillMaterial',
+            data: dataMaterial,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (response) {
+              message(response);
+            }
+          });
+        }
+      },
+    });
+  });
 });

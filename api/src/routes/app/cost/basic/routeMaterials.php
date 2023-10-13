@@ -3,6 +3,7 @@
 use tezlikv3\Dao\ConversionUnitsDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\ProductsMaterialsDao;
@@ -19,6 +20,7 @@ $conversionUnitsDao = new ConversionUnitsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
 $GeneralProductsDao = new GeneralProductsDao();
+$filesDao = new FilesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -283,6 +285,29 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/saveBillMaterial', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao,
+    $filesDao
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataMaterial = $request->getParsedBody();
+
+    $materials = $generalMaterialsDao->saveBillMaterial($dataMaterial);
+    if (sizeof($_FILES) > 0)
+        $materials = $filesDao->imageMaterial($dataMaterial['idMaterial'], $id_company);
+
+    if ($materials == null)
+        $resp = array('success' => true, 'message' => 'Material modificado correctamente');
+    else if (isset($materials['info']))
+        $resp = array('info' => true, 'message' => $materials['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/deleteMaterial', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {

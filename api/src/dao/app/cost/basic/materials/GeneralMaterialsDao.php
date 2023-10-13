@@ -20,7 +20,7 @@ class GeneralMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, mg.id_magnitude, mg.magnitude, 
-                                             u.id_unit, u.unit, u.abbreviation, m.cost, m.category, m.quantity,
+                                             u.id_unit, u.unit, u.abbreviation, m.cost, m.date_material, m.quantity, m.observation, m.img,
                                              IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status
                                       FROM materials m
                                           INNER JOIN convert_units u ON u.id_unit = m.unit
@@ -73,7 +73,7 @@ class GeneralMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, mg.id_magnitude, mg.magnitude, 
-                                             u.id_unit, u.abbreviation, m.cost, m.category, m.quantity
+                                             u.id_unit, u.abbreviation, m.cost, m.date_material, m.quantity
                                       FROM materials m
                                         INNER JOIN convert_units u ON u.id_unit = m.unit
                                         INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
@@ -121,6 +121,24 @@ class GeneralMaterialsDao
             if ($e->getCode() == 23000)
                 $message = 'Esta materia prima no se puede eliminar, esta configurada a un producto';
 
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function saveBillMaterial($dataMaterial)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE materials SET date_material = :date_material, observation = :observation WHERE id_material = :id_material");
+            $stmt->execute([
+                'date_material' => $dataMaterial['date'],
+                'observation' => $dataMaterial['observation'],
+                'id_material' => $dataMaterial['idMaterial']
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
             $error = array('info' => true, 'message' => $message);
             return $error;
         }

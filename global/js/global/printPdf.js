@@ -3,13 +3,19 @@ $(document).ready(function () {
         e.preventDefault();
         
         try {
-            let invoice = document.getElementById('invoice');
+            // let invoice = document.getElementById('invoice');
             let copy_invoice = invoice.cloneNode(true);
+
+            let elementos = copy_invoice.getElementsByClassName('btnPrintPDF');
+            elementos[0].remove();
+
+            elementos = copy_invoice.getElementsByClassName('pageBreak'); 
+            elementos[0].insertAdjacentHTML('beforeEnd', '<br><br><br>');
 
             copy_invoice.style.width = '1500px';
 
             var opt = {
-                margin: [5, 5, 5, 5],
+                margin: [10, 10, 10, 10],
                 filename: `dashboard.pdf`,
                 html2canvas: {
                     scale: 2,
@@ -20,12 +26,13 @@ $(document).ready(function () {
                     unit: 'pt',
                     format: 'letter',
                     orientation: 'landscape',
-                },
+                },  
             };
             html2pdf().from(copy_invoice).set(opt).toPdf().get('pdf').save();
 
         } catch (error) {
             console.log(error);
-        } 
+        }
     });
+ 
 });
