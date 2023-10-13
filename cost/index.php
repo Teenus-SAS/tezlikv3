@@ -18,7 +18,7 @@ if (sizeof($_SESSION) == 0)
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="description" content="TezlikSoftware">
     <meta name="keywords" content="">
-    <meta name="author" content="MatrrDigital">
+    <meta name="author" content="">
     <title>Tezlik | Dashboard</title>
     <link rel="shortcut icon" href="/assets/images/favicon/favicon_tezlik.jpg" type="image/x-icon" />
 

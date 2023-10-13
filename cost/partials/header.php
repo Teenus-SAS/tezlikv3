@@ -108,7 +108,7 @@
                                                 <li class="aBackup"><a href="javascript:;">Backup</a></li>
                                             <?php } ?>
                                             <?php if ($_SESSION['cost_user'] == 1) { ?>
-                                                <li class="aUsers"><a href="/cost/users">Usuarios</a></li>
+                                                <li class="aUsers"><a href="/cost/users">Usuarios y Accesos</a></li>
                                             <?php } ?>
                                         </ul>
                                     </div>
