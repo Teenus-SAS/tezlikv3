@@ -54,7 +54,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="col-sm-2 py-4 imageProduct">
                                         </div>
                                         <div class="col-sm-4 mb-3 d-flex align-items-center">
-                                            <select id="product" class="form-control"></select>
+                                            <select id="product" class="form-control btnPrintPDF"></select>
                                         </div>
                                     </div>
                                     <div class="row">

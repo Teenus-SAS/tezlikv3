@@ -7,7 +7,10 @@ $(document).ready(function () {
             let copy_invoice = invoice.cloneNode(true);
 
             let elementos = copy_invoice.getElementsByClassName('btnPrintPDF');
-            elementos[0].remove();
+
+            while (elementos.length > 0) {
+                elementos[0].remove();
+            }
 
             elementos = copy_invoice.getElementsByClassName('pageBreak'); 
             elementos[0].insertAdjacentHTML('beforeEnd', '<br><br><br>');

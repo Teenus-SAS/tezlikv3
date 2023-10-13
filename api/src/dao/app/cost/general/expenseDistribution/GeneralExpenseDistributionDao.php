@@ -21,7 +21,8 @@ class GeneralExpenseDistributionDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM products p WHERE p.id_company = :id_company
-                                      AND p.id_product NOT IN (SELECT id_product FROM expenses_distribution WHERE id_product = p.id_product)");
+                                      AND p.id_product NOT IN (SELECT id_product FROM expenses_distribution WHERE id_product = p.id_product)
+                                      AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;
