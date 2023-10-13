@@ -159,7 +159,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine, $id_company);
 
                 // Modificar campo
-                $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+                $productProcess = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
             }
 
             // Calcular Precio del producto
@@ -241,7 +241,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo
-                $resolution = $indirectCostDao->updateCostIndirectCost($indirectCost, $productProcess[$i]['idProduct'], $id_company);
+                $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $productProcess[$i]['idProduct'], $id_company);
             }
 
             // Calcular Precio del producto
@@ -303,7 +303,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
             // Calcular costo indirecto
             $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
             // Actualizar campo
-            $productProcess = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+            $productProcess = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
         }
 
         // Calcular Precio del producto
@@ -355,7 +355,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
         // Calcular costo indirecto
         $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
         // Actualizar campo
-        $product = $indirectCostDao->updateCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+        $product = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
     }
 
     // Calcular Precio del producto
