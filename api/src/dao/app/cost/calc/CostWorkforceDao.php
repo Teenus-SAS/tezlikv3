@@ -59,6 +59,34 @@ class CostWorkforceDao
         }
     }
 
+    public function calcCostPayrollGroupByEmployee($idProduct, $id_company, $employees)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (pp.enlistment_time + pp.operation_time)) AS cost
+                                          FROM products_process pp 
+                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company AND p.id_payroll IN ($employees)
+                                          GROUP BY `pp`.`id_product_process`");
+            $stmt->execute([
+                'id_product' => $idProduct,
+                'id_company' => $id_company
+            ]);
+            $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+            for ($i = 0; $i < sizeof($payroll); $i++) {
+                $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+                $stmt->execute([
+                    'workforce_cost' => $payroll[$i]['cost'],
+                    'id_product_process' => $payroll[$i]['id_product_process']
+                ]);
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $payroll = array('info' => true, 'message' => $message);
+        }
+    }
+
     // Buscar costo de nomina
     public function calcTotalCostPayroll($idProduct, $id_company)
     {
@@ -68,6 +96,26 @@ class CostWorkforceDao
                                           FROM products_process pp 
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                           WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
+            $stmt->execute([
+                'id_product' => $idProduct,
+                'id_company' => $id_company
+            ]);
+            $payroll = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $payroll = array('info' => true, 'message' => $message);
+        }
+        return $payroll;
+    }
+
+    public function calcTotalCostPayrollGroupByEmployee($idProduct, $id_company, $employees)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("SELECT SUM(p.minute_value * (pp.enlistment_time + pp.operation_time)) AS cost
+                                          FROM products_process pp 
+                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company AND p.id_payroll IN($employees)");
             $stmt->execute([
                 'id_product' => $idProduct,
                 'id_company' => $id_company

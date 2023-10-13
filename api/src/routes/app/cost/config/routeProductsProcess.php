@@ -42,6 +42,12 @@ $app->get('/allProductsProcess', function (Request $request, Response $response,
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/employees/{id_product_process}', function (Request $request, Response $response, $args) use ($generalProductsProcessDao) {
+    $employees = $generalProductsProcessDao->findAllEmloyeesByProcess($args['id_product_process']);
+    $response->getBody()->write(json_encode($employees));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 // Consultar productos procesos importados
 $app->post('/productsProcessDataValidation', function (Request $request, Response $response, $args) use (
     $productsProcessDao,
@@ -288,10 +294,21 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 
         /* Calcular costo nomina */
         if ($productProcess == null) {
-            $resolution = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+            if ($dataProductProcess['employees'] == '')
+                $resolution = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+            else {
+                // $employees = implode(',', $dataProductProcess['employees']);
+                $resolution = $costWorkforceDao->calcCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $dataProductProcess['employees']);
+            }
             // Calcular costo nomina total
             if ($resolution == null) {
-                $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
+                if ($dataProductProcess['employees'] == '')
+                    $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
+                else {
+                    // $employees = implode(',', $dataProductProcess['employees']);
+                    $dataPayroll = $costWorkforceDao->calcTotalCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $dataProductProcess['employees']);
+                }
+
                 $productProcess = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
             }
         }
@@ -323,6 +340,65 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/saveEmployees', function (Request $request, Response $response, $args) use (
+    $generalProductsProcessDao,
+    $costWorkforceDao,
+    $indirectCostDao,
+    $priceProductDao,
+    $GeneralProductsDao
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataProductProcess = $request->getParsedBody();
+
+    $employees = implode(',', $dataProductProcess['employees']);
+    $resolution = $generalProductsProcessDao->updateEmployees($dataProductProcess['idProductProcess'], $employees);
+
+    /* Calcular costo nomina */
+    if ($resolution == null) {
+        if ($employees == '')
+            $resolution = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+        else {
+            $resolution = $costWorkforceDao->calcCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $employees);
+        }
+        // Calcular costo nomina total
+        if ($resolution == null) {
+            if ($employees == '')
+                $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
+            else {
+                $dataPayroll = $costWorkforceDao->calcTotalCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $employees);
+            }
+
+            $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
+        }
+    }
+
+    /* Calcular costo indirecto */
+    if ($resolution == null) {
+        // Buscar la maquina asociada al producto
+        $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+        // Calcular costo indirecto
+        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+        // Actualizar campo
+        $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+    }
+
+    // Calcular Precio del producto
+    if ($resolution == null)
+        $product = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+    if (isset($product['totalPrice']))
+        $resolution = $GeneralProductsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
+
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+    else if (isset($productProcess['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    $response->getBody()->write(json_encode($resp));
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/deleteProductProcess', function (Request $request, Response $response, $args) use (

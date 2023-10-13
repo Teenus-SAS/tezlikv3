@@ -160,6 +160,91 @@ $(document).ready(function () {
     });
   };
 
+  /* Modificar empleados */
+  $(document).on('click', '.updateEmployee', async function () {
+    let row = $(this).parent().parent()[0];
+    let data = tblConfigProcess.fnGetData(row);
+
+    let employees = data.employee.toString().split(",");
+    id_product_process = data.id_product_process;
+    id_product = data.id_product;
+
+    let payroll = await searchData(`/api/employees/${id_product_process}`);
+
+    let options = '';
+    for (let i = 0; i < payroll.length; i++) {
+      let checked = '';
+
+      if (!employees[0] == '') {
+        for (let j = 0; j < employees.length; j++) {
+          if (payroll[i].id_payroll == employees[j]) {
+            checked = 'checked';
+            break;
+          }
+        
+        }
+      }
+
+      options += `<div class="checkbox checkbox-success">
+                    <input class="checkboxEmployees" id="${payroll[i].id_payroll}" type="checkbox" ${checked}>
+                    <label for="${payroll[i].id_payroll}">${payroll[i].employee}</label>
+                  </div>`;
+    }
+
+    checkBoxEmployees = employees;
+
+    bootbox.confirm({
+      title: 'Empleados',
+      message: `${options}`,
+      buttons: {
+        confirm: {
+          label: 'Guardar',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'Cancelar',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          if (checkBoxEmployees.length == 0) {
+            toastr.error('Seleccione un empleado');
+            return false;
+          }
+
+          let data = {};
+          data['idProductProcess'] = id_product_process;
+          data['idProduct'] = id_product;
+          data['employees'] = checkBoxEmployees;
+
+          $.post('/api/saveEmployees', data,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            },
+          );
+        }
+      },
+    });
+  });
+
+  $(document).on('click', '.checkboxEmployees', function () {
+    $(`#${this.id}`).is(':checked') ? op = true : op = false;
+    $(`#${this.id}`).prop('checked', op);
+    
+    if (!$(`#${this.id}`).is(':checked')) {
+      for (let i = 0; i < checkBoxEmployees.length; i++) {
+        if (checkBoxEmployees[i] == this.id) checkBoxEmployees.splice(i, 1);
+      }
+      
+    } else {
+      if (checkBoxEmployees[0] == '') {
+        checkBoxEmployees.splice(0, 1);
+      }
+      checkBoxEmployees.push(this.id);
+    }
+  });
+
   /* Mensaje de exito */
 
   message = (data) => {
