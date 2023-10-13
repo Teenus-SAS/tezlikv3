@@ -8109,7 +8109,7 @@ table[data-toggle='table'] {
     }
   
     .pictureC {
-      width: 250px;
+      /* width: 250px; */
       height: 106px;
       background-color: #999999;
       border: 4px solid #CCCCCC;
