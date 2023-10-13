@@ -108,6 +108,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-3">
                                 <div class="card">
                                     <div class="card-body text-center">
@@ -160,8 +161,6 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-
-                        </div>
                     </form>
                 </div>
             </div>
