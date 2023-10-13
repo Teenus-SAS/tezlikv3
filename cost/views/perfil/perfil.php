@@ -112,27 +112,22 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-lg-3">
                                 <div class="card">
                                     <div class="card-body text-center">
-                                        <div class="picture-container">
-                                            <div class="picture">
-                                                <img id="avatar" src="" class="img-fluid" style="width: 100px;" />
-                                                <input class="form-control" type="file" id="formFile">
+                                    <div class="picture-container mb-4">
+                                            <div class="pictureC">
+                                                <img id="logo" src="" class="img-fluid" style="width: 400px;" />
+                                                <input class="form-control" type="file" id="formFileC">
                                             </div>
                                         </div>
                                         <h5 class="my-3" id="profileName"></h5>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-9">
                                 <div class="card companyData">
                                     <div class="card-body">
                                         <input type="" id="state" name="companyState" hidden>
                                         <input type="" id="idCompany" name="idCompany" hidden>
-                                        <div class="picture-container mb-4">
-                                            <div class="pictureC">
-                                                <img id="logo" src="" class="img-fluid" style="width: 400px;" />
-                                                <input class="form-control" type="file" id="formFileC">
-                                            </div>
-                                        </div>
+
                                         <div class="form-row">
                                             <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <label class="form-label">Compañia</label>
