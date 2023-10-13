@@ -44,8 +44,7 @@ $(document).ready(function () {
             : (txt = `<img src="${data}" alt="" style="width:50px;border-radius:100px">`);
           return txt;
         },
-      },
-      
+      }, 
       {
         title: 'Precio Vta',
         data: 'sale_price',
