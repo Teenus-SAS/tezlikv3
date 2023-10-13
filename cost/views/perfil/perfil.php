@@ -112,7 +112,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-lg-3">
                                 <div class="card">
                                     <div class="card-body text-center">
-                                    <div class="picture-container mb-4">
+                                        <div class="picture-container mb-4">
                                             <div class="pictureC">
                                                 <img id="logo" src="" class="img-fluid" style="width: 400px;" />
                                                 <input class="form-control" type="file" id="formFileC">
@@ -161,6 +161,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </form>
 
                 </div>
