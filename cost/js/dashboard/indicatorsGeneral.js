@@ -26,7 +26,7 @@ $(document).ready(function () {
         dataExpenses = data.expense_value;
         dataDetailsPrices = data.details_prices;
       });
-  }, 2000);
+  }, 1000);
 
   /* Colors */
   dynamicColors = () => {

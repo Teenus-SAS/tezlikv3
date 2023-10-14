@@ -5,22 +5,23 @@ $(document).ready(function () {
     sessionStorage.setItem('idProduct', id_product);
   });
 
-  $.ajax({
-    url: '/api/prices',
-    success: function (r) {
-      let $select = $(`#product`);
-      $select.empty();
+  loadDataPrices = async () => {
+    let data = await searchData('/api/prices');
 
-      let prod = r.sort(sortNameProduct);
+    let $select = $(`#product`);
+    $select.empty();
 
+    let prod = data.sort(sortNameProduct);
+
+    $select.append(
+      `<option value='0' disabled selected>Seleccionar</option>`
+    );
+    $.each(prod, function (i, value) {
       $select.append(
-        `<option value='0' disabled selected>Seleccionar</option>`
+        `<option value = ${value.id_product}> ${value.product} </option>`
       );
-      $.each(prod, function (i, value) {
-        $select.append(
-          `<option value = ${value.id_product}> ${value.product} </option>`
-        );
-      });
-    },
-  });
+    });
+  };
+
+  loadDataPrices(); 
 });
