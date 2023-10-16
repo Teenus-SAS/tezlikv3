@@ -228,8 +228,7 @@ class FilesDao
             $query = $connection->prepare($sql);
             $query->execute([
                 'img' => $targetFilePath,
-                'id_material' => $id_material,
-                'id_company' => $id_company
+                'id_material' => $id_material
             ]);
 
             $targetDir = dirname(dirname(dirname(__DIR__))) . '/assets/images/materials/' . $id_company;

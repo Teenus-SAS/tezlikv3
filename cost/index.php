@@ -47,7 +47,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-title-box">
                     <div class="container-fluid">
                         <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
+                            <div class="col-sm-5 col-xl-6 cardHeader">
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Dashboard Consolidado</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
@@ -56,7 +56,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col-sm-5 col-xl-6 d-flex justify-content-end btnPrintPDF">
-                                <a href="javascript:;" <i id="btnPrintPDF" class="bi bi-filetype-pdf" data-toggle='tooltip' title='Descargar PDF' style="font-size: 30px; color:red;"></i></a>
+                                <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
                             </div>
                         </div>
                     </div>

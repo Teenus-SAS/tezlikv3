@@ -54,15 +54,15 @@ if (sizeof($_SESSION) == 0)
                                         <div class="col-sm-2 py-4 imageProduct">
                                         </div>
                                         <div class="col-sm-4 mb-3 d-flex align-items-center">
-                                            <select id="product" class="form-control"></select>
+                                            <select id="product" class="form-control btnPrintPDF"></select>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0">
+                                        <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">
                                             <li class="breadcrumb-item active">Análisis de Costos</li>
                                         </ol>
                                         <div class="col-sm-5 col-xl-6 d-flex justify-content-end btnPrintPDF">
-                                            <a href="javascript:;" <i id="btnPrintPDF" class="bi bi-filetype-pdf" data-toggle='tooltip' title='Descargar PDF' style="font-size: 30px; color:red;"></i></a>
+                                            <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(2)" style="font-size: 30px; color:red;"></i></a>
                                         </div>
                                     </div>
                                 </div>
