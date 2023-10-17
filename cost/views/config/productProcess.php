@@ -178,7 +178,9 @@ if (sizeof($_SESSION) == 0)
                                                         <th></th>
                                                         <th></th>
                                                         <th></th>
-                                                        <th></th>
+                                                        <?php if ($_SESSION['flag_employee'] == 1) { ?>
+                                                            <th></th>
+                                                        <?php } ?>
                                                         <th></th>
                                                     </tr>
                                                 </tfoot>
@@ -203,6 +205,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        flag_employee = "<?= $_SESSION['flag_employee'] ?>";
     </script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>

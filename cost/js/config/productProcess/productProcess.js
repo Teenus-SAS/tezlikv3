@@ -83,6 +83,9 @@ $(document).ready(function () {
 
     $('#enlistmentTime').click();
 
+    let employees = data.employee.toString().split(",");
+    checkBoxEmployees = employees;
+
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -112,9 +115,13 @@ $(document).ready(function () {
 
     let dataProductProcess = new FormData(formAddProcess);
     dataProductProcess.append('idProduct', idProduct);
-
-    if (idProductProcess != '' || idProcess != null)
+    
+    if (idProductProcess != '' || idProcess != null) {
       dataProductProcess.append('idProductProcess', idProductProcess);
+
+      flag_employee == '1' ? employees = checkBoxEmployees : employees = '';
+      dataProductProcess.append('employees', employees);
+    }
 
     let resp = await sendDataPOST(url, dataProductProcess);
 
