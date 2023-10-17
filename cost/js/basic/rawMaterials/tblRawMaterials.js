@@ -65,7 +65,7 @@ $(document).ready(function () {
           }
 
           return `
-                <i class="badge badge-danger badge-pill ml-3" style="position: absolute !important; font-size: 0.625rem;">${!data.date_material ? 0 : 1}</i>
+                <i class="mdi mdi-paperclip badge-pill ml-3" style="position: absolute !important; font-size: 0.625rem;">${!data.date_material ? 0 : 1}</i>
                 <a href="javascript:;" <i id="${data.id_material}" class="bi bi-receipt-cutoff billRawMaterial" aria-hidden="true" data-toggle='tooltip' title='Facturar Materia Prima' style="font-size: 30px; color:orange;"></i></a>
                 <a href="javascript:;" <i id="${data.id_material}" class="bx bx-edit-alt updateRawMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
                 <a href="javascript:;"><img src="${icon}" alt="Eliminar Materia Prima" id="${data.id_material}" style="width:30px;height:30px;margin-top:-20px" onclick="deleteFunction()"></a>
