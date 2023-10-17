@@ -92,6 +92,14 @@ $(document).ready(function () {
           },
         },
         {
+          title: '',
+          data: 'id_product_process',
+          className: 'uniqueClassName',
+          render: function (data) {
+            return `<a href="javascript:;" <i id="${data}" class="bi bi-card-list updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
+          },
+        },
+        {
           title: 'Acciones',
           data: 'id_product_process',
           className: 'uniqueClassName',

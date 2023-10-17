@@ -20,7 +20,7 @@ class GeneralProductsProcessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
-                                             pp.workforce_cost, pp.indirect_cost
+                                             pp.workforce_cost, pp.indirect_cost, pp.employee
                                   FROM products p 
                                   INNER JOIN products_process pp ON pp.id_product = p.id_product
                                   LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
@@ -57,6 +57,37 @@ class GeneralProductsProcessDao
         $findProductProcess = $stmt->fetchAll($connection::FETCH_ASSOC);
 
         return $findProductProcess;
+    }
+
+    public function findAllEmloyeesByProcess($id_product_process)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT p.id_payroll, p.employee
+                                      FROM products_process pp
+                                      INNER JOIN payroll p ON p.id_process = pp.id_process
+                                      WHERE pp.id_product_process = :id_product_process");
+        $stmt->execute([
+            'id_product_process' => $id_product_process
+        ]);
+        $employees = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+        return $employees;
+    }
+
+    public function updateEmployees($id_product_process, $employees)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+            $stmt = $connection->prepare("UPDATE products_process SET employee = :employee WHERE id_product_process = :id_product_process");
+            $stmt->execute([
+                'id_product_process' => $id_product_process,
+                'employee' => $employees
+            ]);
+        } catch (\Exception $e) {
+            $error = array('info' => true, 'message' => $e->getMessage());
+            return $error;
+        }
     }
 
     public function deleteProductProcessByProduct($dataProductProcess)
