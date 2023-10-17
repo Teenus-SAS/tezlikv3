@@ -75,6 +75,15 @@ $(document).ready(function () {
       product.push(data[i].product);
       totalTime.push(data[i].totalTime);
     }
+
+    let maxDataValue = Math.max(...totalTime);
+    let minDataValue = Math.min(...totalTime);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
     const cmc = document.getElementById("chartTimeProcessProducts");
     const chartTimeProcessProducts = new Chart(cmc, {
       plugins: [ChartDataLabels],
@@ -97,6 +106,7 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+            max: maxYValue,
           },
           x: {
             display: false,
@@ -108,6 +118,8 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: "end",
+            align: 'top',
+            offset: 2,
             formatter: (totalTime) => totalTime.toLocaleString("es-CO"),
             color: "black",
             font: {
@@ -392,6 +404,14 @@ $(document).ready(function () {
       cost.push(products[i].cost);
     }
 
+    let maxDataValue = Math.max(...cost);
+    let minDataValue = Math.min(...cost);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
     const cmc = document.getElementById("chartProductsCost");
@@ -416,6 +436,7 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+            max: maxYValue,
           },
           x: {
             display: false,
@@ -428,6 +449,8 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: "end",
+            align: 'top',
+            offset: 2,
             formatter: (cost) =>
               cost.toLocaleString("es-CO", { maximumFractionDigits: 0 }),
             color: "black",
@@ -471,6 +494,14 @@ $(document).ready(function () {
       cost.push(products[i].cost);
     }
 
+    let maxDataValue = Math.max(...cost);
+    let minDataValue = Math.min(...cost);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
     const cmc = document.getElementById("chartProductsCost");
@@ -495,6 +526,7 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+            max: maxYValue,
           },
           x: {
             display: false,
@@ -507,6 +539,8 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: "end",
+            align: 'top',
+            offset: 2,
             formatter: (cost) =>
               cost.toLocaleString("es-CO", { maximumFractionDigits: 0 }),
             color: "black",
