@@ -91,14 +91,14 @@ $(document).ready(function () {
             return `$ ${parseFloat(data).toLocaleString('es-co',{maximumFractionDigits: 2})}`;
           },
         },
-        {
+        /* {
           title: '',
           data: 'id_product_process',
           className: 'uniqueClassName',
           render: function (data) {
             return `<a href="javascript:;" <i id="${data}" class="ti-exchange-vertical updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
           },
-        },
+        }, */
         {
           title: 'Acciones',
           data: 'id_product_process',
