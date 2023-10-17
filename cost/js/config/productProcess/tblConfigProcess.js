@@ -105,7 +105,7 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: function (data) {
             return `
-                
+            <a href="javascript:;" <i id="${data}" class="ti-exchange-vertical updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>
                 <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
                 <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Proceso' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
           },
