@@ -17,6 +17,8 @@ $(document).ready(function () {
     loadtableProcess(id);
   });
 
+  flag_employee == '1' ? visible = true : visible = false;
+
   /* Cargue tabla de Proyectos */
 
   const loadtableProcess = (idProduct) => {
@@ -80,21 +82,22 @@ $(document).ready(function () {
           data: 'workforce_cost',
           className: 'classCenter',
           render: function (data) {
-            return `$ ${parseFloat(data).toLocaleString('es-co',{maximumFractionDigits: 2})}`;
+            return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
           },
         },
         {
           title: 'Costo Indirecto',
           data: 'indirect_cost',
-          className: 'classCenter',
+          className: 'classCenter', 
           render: function (data) {
-            return `$ ${parseFloat(data).toLocaleString('es-co',{maximumFractionDigits: 2})}`;
+            return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
           },
         },
         {
           title: '',
           data: 'id_product_process',
           className: 'uniqueClassName',
+          visible: visible,
           render: function (data) {
             return `<a href="javascript:;" <i id="${data}" class="ti-exchange-vertical updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
           },

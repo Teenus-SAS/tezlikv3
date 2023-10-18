@@ -105,6 +105,10 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="col-xs-2 text-center">
+                                                    <label for="">Procesos Nomina</label><br>
+                                                    <input type="checkBox" class="form-control-updated" name="payrollEmployee" id="payrollEmployee">
+                                                </div>
                                                 <div class="col-xs">
                                                     <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 25px">Crear</button>
                                                 </div>

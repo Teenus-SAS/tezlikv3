@@ -24,6 +24,7 @@ $(document).ready(function () {
       let quantityUsers = $('#quantityUsers').val();
       let plan = $('#plan').val();
       let pricesUSD = $('#pricesUSD').val();
+      let payrollEmployee = $('#payrollEmployee').val();
 
       data = company * quantityUsers * plan * pricesUSD;
 
@@ -37,11 +38,12 @@ $(document).ready(function () {
         return false;
       }
 
-      pricesUSD == 1 ? (pricesUSD = 1) : (pricesUSD = 0);
+      pricesUSD == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
+      payrollEmployee == 'on' ? (payrollEmployee = '1') : (payrollEmployee = '0');
 
       license = $('#formAddLicense').serialize();
 
-      license = `${license}&pricesUSD=${pricesUSD}`;
+      license = `${license}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}`;
 
       $.post('/api/addLicense', license, function (data, textStatus, jqXHR) {
         message(data);
@@ -66,9 +68,13 @@ $(document).ready(function () {
     $('#quantityUsers').val(data.quantity_user);
     $(`#plan option[value=${data.plan}]`).prop('selected', true);
 
-    data.cost_price_usd == 1 ? (pricesUSD = 1) : (pricesUSD = 2);
+    data.cost_price_usd == '1' ? (pricesUSD = '1') : (pricesUSD = '2');
 
     $(`#pricesUSD option[value=${pricesUSD}]`).prop('selected', true);
+    
+    if (data.flag_employee == '1')
+      $(`#payrollEmployee`).prop('checked', true);
+      
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });
@@ -78,11 +84,12 @@ $(document).ready(function () {
 
     $('#company').prop('disabled', false);
 
-    $('#pricesUSD').val() == 1 ? (pricesUSD = 1) : (pricesUSD = 0);
+    $('#pricesUSD').val() == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
+    $('#payrollEmployee').val() == 'on' ? (payrollEmployee = '1') : (payrollEmployee = '0');
 
     dataCompany = $('#formAddLicense').serialize();
 
-    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}`;
+    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}`;
 
     $.post('/api/updateLicense', dataCompany, function (data) {
       message(data);
