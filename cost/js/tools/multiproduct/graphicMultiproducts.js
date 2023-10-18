@@ -96,12 +96,8 @@ $(document).ready(function () {
     for (let i = 0; i < multiproducts.length; i++) {
       product.push({
         name: multiproducts[i].product,
-        soldUnits: multiproducts[i].soldUnit.toLocaleString("es-CO", {
-          maximumFractionDigits: 0,
-        }),
-        unitsToSold: multiproducts[i].unitsToSold.toLocaleString("es-CO", {
-          maximumFractionDigits: 0,
-        }),
+        soldUnits: multiproducts[i].soldUnit,
+        unitsToSold: multiproducts[i].unitsToSold,
         percentage: multiproducts[i].percentage,
       });
     }
@@ -137,6 +133,14 @@ $(document).ready(function () {
     chartMultiproductsBar
       ? chartMultiproductsBar.destroy()
       : chartMultiproductsBar;
+    
+    let maxDataValue = Math.max(...soldUnits);
+    let minDataValue = Math.min(...soldUnits);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     ctx = document.getElementById("chartMultiproductsBar").getContext("2d");
     chartMultiproductsBar = new Chart(ctx, {
@@ -166,8 +170,9 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+            max: maxYValue,
           },
-          x: {
+          x: { 
             display: false,
           },
         },
@@ -178,12 +183,14 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: "end",
+            align: 'top',
+            offset: 2, 
             formatter: (soldUnits) =>
-              soldUnits.toLocaleString("es-CO", {
+              parseFloat(soldUnits).toLocaleString("es-CO", {
                 maximumFractionDigits: 0,
               }),
             formatter: (unitsToSold) =>
-              unitsToSold.toLocaleString("es-CO", {
+              parseFloat(unitsToSold).toLocaleString("es-CO", {
                 maximumFractionDigits: 0,
               }),
             color: "black",

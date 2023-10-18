@@ -47,6 +47,14 @@ $(document).ready(function () {
     const numToShow = 10;
     let startIndex = 0;
 
+    let maxDataValue = Math.max(...profitability);
+    let minDataValue = Math.min(...profitability);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 
     const cmc = document.getElementById("chartGeneralDashboard");
@@ -75,6 +83,7 @@ $(document).ready(function () {
             display: false,
           },
           y: {
+            max: maxYValue,
             stacked: true,
           },
         },
@@ -85,6 +94,8 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: "end",
+            align: 'top',
+            offset: 2,
             formatter: (profitability) =>
               profitability.toLocaleString("es-CO", { maximumFractionDigits: 2 }),
             color: "black",
@@ -184,8 +195,16 @@ $(document).ready(function () {
       product.push(products[i].name);
       cost.push(products[i].cost);
     }
-const numToShow = 10;
+    const numToShow = 10;
     let startIndex = 0;
+
+    let maxDataValue = Math.max(...cost);
+    let minDataValue = Math.min(...cost);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 
@@ -214,6 +233,7 @@ const numToShow = 10;
           },
           y: {
             stacked: true,
+            max: maxYValue,
           },
         },
         //plugins: [ChartDataLabels],
@@ -223,6 +243,8 @@ const numToShow = 10;
           },
           datalabels: {
             anchor: "end",
+            align: 'top',
+            offset: 2,
             formatter: (profitability) =>
               profitability.toLocaleString("es-CO", { maximumFractionDigits: 2 }),
             color: "black",

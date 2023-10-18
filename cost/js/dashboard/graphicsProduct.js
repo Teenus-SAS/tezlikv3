@@ -36,6 +36,13 @@ $(document).ready(function () {
       nameProduct.push(product[i].name);
       costExpenses.push(product[i].cost);
     }
+    let maxDataValue = Math.max(...costExpenses);
+    let minDataValue = Math.min(...costExpenses);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     /* Ordenar el array */
 
@@ -62,6 +69,7 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+            max:maxYValue,
           },
           x: {
             display: false,
@@ -73,6 +81,8 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: 'end',
+            align: 'top',
+            offset: 2,
             formatter: (costExpenses) =>
               costExpenses.toLocaleString('es-CO', {
                 maximumFractionDigits: 0,
@@ -361,6 +371,14 @@ $(document).ready(function () {
       totalMaterial.push(data[i].totalCostMaterial);
     }
 
+    let maxDataValue = Math.max(...totalMaterial);
+    let minDataValue = Math.min(...totalMaterial);
+    let valueRange = maxDataValue - minDataValue;
+
+    let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
     chartMaterials ? chartMaterials.destroy() : chartMaterials;
 
     cmc = document.getElementById('chartMaterialsCosts').getContext('2d');
@@ -384,6 +402,7 @@ $(document).ready(function () {
         scales: {
           y: {
             beginAtZero: true,
+            max: maxYValue,
           },
           x: {
             display: false,
@@ -395,6 +414,8 @@ $(document).ready(function () {
           },
           datalabels: {
             anchor: 'end',
+            align: 'top',
+            offset: 2,
             formatter: (value, ctx) => {
               let sum = 0;
               let dataArr = ctx.chart.data.datasets[0].data;

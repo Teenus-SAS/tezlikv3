@@ -101,6 +101,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
     <script src="/cost/js/prices/pricesCOP/tblprices.js"></script>
+    <script src="/cost/js/dashboard/calcDataCost.js"></script>
 </body>
 
 </html>

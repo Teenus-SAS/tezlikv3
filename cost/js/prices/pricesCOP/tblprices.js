@@ -36,10 +36,32 @@ $(document).ready(function () {
         className: 'classCenter',
       },
       {
-        title: 'Precio',
+        title: 'Precio (Sugerido)',
         data: 'price',
         className: 'classCenter',
         render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+      },
+      {
+        title: 'Precio (Actual)',
+        data: 'sale_price',
+        className: 'classCenter',
+        render: function (data) { 
+          if (data > 0)
+            return `$ ${data.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+          else return '';
+         },
+      },
+      {
+        title: 'Rentabilidad',
+        data: null,
+        className: 'classCenter',
+        render: function (data) {
+          let dataCost = getDataCost(data);
+
+          if (dataCost.actualProfitability > 0)
+            return `${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 0 })} %`;
+          else return '';
+        }
       },
       {
         title: 'Img',
@@ -62,6 +84,9 @@ $(document).ready(function () {
       },
     ],
     rowCallback: function (row, data, index) {
+      let dataCost = getDataCost(data);
+      if (dataCost.actualProfitability < data.profitability && dataCost.actualProfitability > 0) $(row).css('color', 'red');
+      
       if (data.details_product == 0) {
         tblPrices.column(5).visible(false);
       }
