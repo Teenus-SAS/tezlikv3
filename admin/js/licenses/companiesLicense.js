@@ -24,7 +24,7 @@ $(document).ready(function () {
       let quantityUsers = $('#quantityUsers').val();
       let plan = $('#plan').val();
       let pricesUSD = $('#pricesUSD').val();
-      let payrollEmployee = $('#payrollEmployee').val();
+      let payrollEmployee = $('#payrollEmployee').is(':checked');
 
       data = company * quantityUsers * plan * pricesUSD;
 
@@ -39,7 +39,7 @@ $(document).ready(function () {
       }
 
       pricesUSD == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
-      payrollEmployee == 'on' ? (payrollEmployee = '1') : (payrollEmployee = '0');
+      payrollEmployee == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
 
       license = $('#formAddLicense').serialize();
 
@@ -85,7 +85,7 @@ $(document).ready(function () {
     $('#company').prop('disabled', false);
 
     $('#pricesUSD').val() == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
-    $('#payrollEmployee').val() == 'on' ? (payrollEmployee = '1') : (payrollEmployee = '0');
+    $('#payrollEmployee').is(':checked') == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
 
     dataCompany = $('#formAddLicense').serialize();
 

@@ -1,12 +1,19 @@
 $(document).ready(function () {
-  /* Cargue tabla de Máquinas */
+  /* Cargue tabla de Precios */
+  
+  loadTblPrices = async () => {
+    let data = await searchData('/api/prices');
+    let acumulated = 0;
 
-  tblPrices = $('#tblPrices').DataTable({
+    for (let i = 0; i < data.length; i++) {
+      acumulated += data[i].sale_price;
+    }
+
+    acumulated == 0 ? visible = false : visible = true;
+
+    tblPrices = $('#tblPrices').DataTable({
     pageLength: 50,
-    ajax: {
-      url: '../../api/prices',
-      dataSrc: '',
-    },
+    data: data,
     dom: '<"datatable-error-console">frtip',
     language: {
       url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
@@ -45,6 +52,7 @@ $(document).ready(function () {
         title: 'Precio (Actual)',
         data: 'sale_price',
         className: 'classCenter',
+        visible: visible,
         render: function (data) { 
           if (data > 0)
             return `$ ${data.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
@@ -55,10 +63,11 @@ $(document).ready(function () {
         title: 'Rentabilidad',
         data: null,
         className: 'classCenter',
+        visible: visible,
         render: function (data) {
           let dataCost = getDataCost(data);
 
-          if (dataCost.actualProfitability > 0)
+          if (isFinite(dataCost.actualProfitability))
             return `${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 0 })} %`;
           else return '';
         }
@@ -85,11 +94,14 @@ $(document).ready(function () {
     ],
     rowCallback: function (row, data, index) {
       let dataCost = getDataCost(data);
-      if (dataCost.actualProfitability < data.profitability && dataCost.actualProfitability > 0) $(row).css('color', 'red');
+      if (dataCost.actualProfitability < data.profitability && isFinite(dataCost.actualProfitability)) $(row).css('color', 'red');
       
       if (data.details_product == 0) {
-        tblPrices.column(5).visible(false);
+        tblPrices.column(7).visible(false);
       }
     },
   });
+  }
+
+  loadTblPrices();
 });
