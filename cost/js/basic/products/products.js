@@ -183,6 +183,37 @@ $(document).ready(function () {
     });
   };
 
+  $(document).on('click', '.composite', function () {
+    let row = $(this).parent().parent()[0];
+    let data = tblProducts.fnGetData(row);
+
+    bootbox.confirm({
+      title: data.composite == '0' ? 'Agregar' : 'Eliminar',
+      message:
+        `Está seguro de que este producto ${data.composite == '0' ? 'se agregue a producto compuesto' : 'se elimine de producto compuesto'}? Esta acción no se puede reversar.`,
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `/api/changeComposite/${data.id_product}/${data.composite == '0' ? '1' : '0'}`,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  });
+
   /* Mensaje de exito */
 
   const message = (data) => {

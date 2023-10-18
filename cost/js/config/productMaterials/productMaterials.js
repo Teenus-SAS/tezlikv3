@@ -12,6 +12,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('.cardImportProductsMaterials').hide(800);
+    $('.cardAddNewProduct').hide(800);
     $('.cardAddMaterials').toggle(800);
     $('#btnAddMaterials').html('Asignar');
     $('#units').empty();
@@ -176,6 +177,9 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.cardAddMaterials').hide(800);
+      $('.cardAddNewProduct').hide(800);
+      $('.cardImportProductsMaterials').hide(800);
+
       $('#formAddMaterials').trigger('reset');
       updateTable();
       toastr.success(data.message);

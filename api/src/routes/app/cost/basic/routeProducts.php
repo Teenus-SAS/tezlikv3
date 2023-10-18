@@ -703,3 +703,17 @@ $app->post('/activeProducts', function (Request $request, Response $response, $a
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+$app->get('/changeComposite/{id_product}/{op}', function (Request $request, Response $response, $args) use ($generalProductsDao) {
+    $product = $generalProductsDao->changeCompositeProduct($args['id_product'], $args['op']);
+
+    if ($product == null)
+        $resp = array('success' => true, 'message' => 'Productos modificado correctamente');
+    else if (isset($product['info']))
+        $resp = array('info' => true, 'message' => $product['message']);
+    else
+        $resp = array('error' => true, 'message' => 'No se pudo modificar la información. Intente de nuevo');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withHeader('Content-Type', 'application/json');
+});

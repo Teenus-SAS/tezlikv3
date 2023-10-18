@@ -29,6 +29,20 @@ $(document).ready(function () {
           `<option value = ${value.id_product}> ${value.product} </option>`
         );
       });
+
+      let $select2 = $(`#compositeProduct`);
+      $select2.empty();
+
+      let compositeProduct = prod.filter(item => item.composite == 1);
+
+      $select2.append(
+        `<option value='0' disabled selected>Seleccionar</option>`
+      );
+      $.each(compositeProduct, function (i, value) {
+        $select2.append(
+          `<option value = ${value.id_product}> ${value.product} </option>`
+        );
+      });
     },
   });
 });

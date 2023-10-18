@@ -57,6 +57,9 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnCreateProduct">Adicionar Nueva Materia Prima</button>
                                 </div>
+                                <div class="col-xs-2 mr-2">
+                                    <button class="btn btn-secondary" id="btnAddNewProduct">Adicionar Nuevo Producto</button>
+                                </div>
                                 <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-info" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
                                 </div>
@@ -81,6 +84,39 @@ if (sizeof($_SESSION) == 0)
                                                 <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 mb-5 cardAddNewProduct">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body pb-0">
+                                        <form id="formAddNewProduct">
+                                            <div class="form-row">
+                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label for="">Producto</label>
+                                                    <select class="form-control" name="compositeProduct" id="compositeProduct"></select>
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <select class="form-control" id="unit2" name="unit2">
+                                                    </select>
+                                                    <label for="">Unidad</label>
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label for="">Cantidad</label>
+                                                    <input class="form-control text-center number" type="text" name="quantity2" id="quantity2">
+                                                </div>
+                                                <div class="col-xs-1 mt-1">
+                                                    <button class="btn btn-success" id="btnAddProduct">Adicionar</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -193,6 +229,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
+    <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/config/productMaterials/importProductMaterials.js"></script>
     <script src="../global/js/import/file.js"></script>

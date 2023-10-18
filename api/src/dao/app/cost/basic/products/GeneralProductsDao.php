@@ -132,4 +132,22 @@ class GeneralProductsDao
             return $error;
         }
     }
+
+    public function changeCompositeProduct($id_product, $composite)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products SET composite = :composite WHERE id_product = :id_product");
+            $stmt->execute([
+                'id_product' => $id_product,
+                'composite' => $composite
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 }
