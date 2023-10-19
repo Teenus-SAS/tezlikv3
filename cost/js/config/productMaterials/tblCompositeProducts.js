@@ -1,29 +1,16 @@
-$(document).ready(function () {
-  /* Seleccion producto */
-  $('#refProduct').change(function (e) {
-    e.preventDefault();
-    let id = this.value;
-    $('#selectNameProduct option').removeAttr('selected');
-    $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
-    loadtableMaterials(id);
-  });
-
-  $('#selectNameProduct').change(function (e) {
-    e.preventDefault();
-    let id = this.value;
-    $('#refProduct option').removeAttr('selected');
-    $(`#refProduct option[value=${id}]`).prop('selected', true);
-    loadtableMaterials(id);
-  });
-
+$(document).ready(function () { 
   /* Cargue tabla de Proyectos */
+  loadTblCompositeProducts = (idProduct) => {
+    if ($.fn.dataTable.isDataTable('#tblConfigMaterials')) {
+      $('#tblConfigMaterials').DataTable().destroy();
+      $('#tblConfigMaterials').empty();
+    }
 
-  const loadtableMaterials = (idProduct) => {
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
       destroy: true,
       pageLength: 50,
       ajax: {
-        url: `/api/productsMaterials/${idProduct}`,
+        url: `/api/compositeProducts/${idProduct}`,
         dataSrc: '',
       },
       dom: '<"datatable-error-console">frtip',
@@ -50,8 +37,8 @@ $(document).ready(function () {
           className: 'uniqueClassName',
         },
         {
-          title: 'Materia Prima',
-          data: 'material',
+          title: 'Producto',
+          data: 'product',
           className: 'classCenter',
         },
         {
@@ -70,24 +57,24 @@ $(document).ready(function () {
             return quantity;
           },
         },
-        {
-          title: 'Precio Unitario',
-          data: 'cost_product_material',
-          className: 'classCenter',
-          render: function (data) {
-            let decimals = contarDecimales(data);
-            let cost = formatNumber(data, decimals);
+        // {
+        //   title: 'Precio Unitario',
+        //   data: 'cost_product_material',
+        //   className: 'classCenter',
+        //   render: function (data) {
+        //     let decimals = contarDecimales(data);
+        //     let cost = formatNumber(data, decimals);
 
-            return `$ ${cost}`;
-          },
-        },
+        //     return `$ ${cost}`;
+        //   },
+        // },
         {
           title: 'Acciones',
-          data: 'id_product_material',
+          data: 'id_composite_product',
           className: 'uniqueClassName',
           render: function (data) {
-            return `<a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteFunction(2)"></i></a>`;
+            return `<a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateComposite" data-toggle='tooltip' title='Actualizar Producto Compuesto' style="font-size: 30px;"></i></a>
+                    <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Producto Compuesto' style="font-size: 30px;color:red" onclick="deleteFunction(2)"></i></a>`;
           },
         },
       ],

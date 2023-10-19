@@ -40,7 +40,7 @@ $(document).ready(function () {
       );
       $.each(compositeProduct, function (i, value) {
         $select2.append(
-          `<option value = ${value.id_product}> ${value.product} </option>`
+          `<option value ="${value.id_product}"> ${value.product} </option>`
         );
       });
     },

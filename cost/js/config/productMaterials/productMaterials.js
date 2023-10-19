@@ -1,6 +1,5 @@
 $(document).ready(function () {
   let idProduct;
-  let dataProductMaterial = {};
 
   /* Ocultar panel crear producto */
 
@@ -8,7 +7,7 @@ $(document).ready(function () {
 
   /* Abrir panel crear producto */
 
-  $('#btnCreateProduct').click(function (e) {
+  $('#btnCreateProduct').click(async function (e) {
     e.preventDefault();
 
     $('.cardImportProductsMaterials').hide(800);
@@ -20,6 +19,12 @@ $(document).ready(function () {
     sessionStorage.removeItem('id_product_material');
 
     $('#formAddMaterials').trigger('reset');
+    let idProduct = $('#selectNameProduct').val();
+
+    if (!idProduct)
+      return false;
+
+    await loadtableMaterials(idProduct);
   });
 
   /* Adicionar unidad de materia prima */
@@ -134,20 +139,28 @@ $(document).ready(function () {
 
   /* Eliminar materia prima */
 
-  deleteFunction = () => {
+  deleteFunction = (op) => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblConfigMaterials.fnGetData(row);
 
-    let idProductMaterial = data.id_product_material;
-
+    
     let idProduct = $('#selectNameProduct').val();
-    dataProductMaterial['idProductMaterial'] = idProductMaterial;
-    dataProductMaterial['idProduct'] = idProduct;
+    let dataP = {};
+    dataP['idProduct'] = idProduct;
+
+    if (op == '1') {
+      let idProductMaterial = data.id_product_material;
+      dataP['idProductMaterial'] = idProductMaterial;
+      url = '/api/deleteProductMaterial';
+    } else {
+      dataP['idCompositeProduct'] = data.id_composite_product;
+      url = '/api/deleteCompositeProduct';
+    }
 
     bootbox.confirm({
       title: 'Eliminar',
       message:
-        'Está seguro de eliminar esta Materia prima? Esta acción no se puede reversar.',
+        `Está seguro de eliminar ${op == '1' ? 'esta Materia prima' : 'este Producto Compuesto'}? Esta acción no se puede reversar.`,
       buttons: {
         confirm: {
           label: 'Si',
@@ -160,9 +173,7 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.post(
-            '/api/deleteProductMaterial',
-            dataProductMaterial,
+          $.post(url, dataP,
             function (data, textStatus, jqXHR) {
               message(data);
             }

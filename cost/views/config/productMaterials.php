@@ -104,13 +104,13 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control" name="compositeProduct" id="compositeProduct"></select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <select class="form-control" id="unit2" name="unit2">
+                                                    <select class="form-control" id="unit2" name="unit">
                                                     </select>
                                                     <label for="">Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Cantidad</label>
-                                                    <input class="form-control text-center number" type="text" name="quantity2" id="quantity2">
+                                                    <input class="form-control text-center number" type="text" name="quantity" id="quantity2">
                                                 </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddProduct">Adicionar</button>
@@ -230,6 +230,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
+    <script src="/cost/js/config/productMaterials/tblCompositeProducts.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/config/productMaterials/importProductMaterials.js"></script>
     <script src="../global/js/import/file.js"></script>

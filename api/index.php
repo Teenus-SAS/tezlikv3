@@ -80,6 +80,7 @@ require_once('../api/src/routes/app/cost/basic/routeProducts.php');
 require_once('../api/src/routes/app/cost/config/routeExternalServices.php');
 require_once('../api/src/routes/app/cost/config/routeFactoryLoad.php');
 require_once('../api/src/routes/app/cost/config/routeProductsProcess.php');
+require_once('../api/src/routes/app/cost/config/routeCompositesProducts.php');
 require_once('../api/src/routes/app/cost/config/routeProductsMaterials.php');
 
 // Dashboard
@@ -131,37 +132,5 @@ require_once('../api/src/routes/app/users/routeGeneralUserAccess.php');
 require_once('../api/src/routes/app/users/routeUsers.php');
 require_once('../api/src/routes/app/users/routeQuantityUsers.php');
 require_once('../api/src/routes/app/users/routeUsersStatus.php');
-
-/* App Planning 
-// Basic
-require_once('../api/src/routes/app/planning/basic/routeInvMolds.php');
-require_once('../api/src/routes/app/planning/basic/routeMachines.php');
-require_once('../api/src/routes/app/planning/basic/routeMaterials.php');
-require_once('../api/src/routes/app/planning/basic/routeProducts.php');
-require_once('../api/src/routes/app/planning/basic/routeProcess.php');
-// Classification
-require_once('../api/src/routes/app/planning/classification/routeClassification.php');
-// Config
-require_once('../api/src/routes/app/planning/config/routeProductsMaterials.php');
-require_once('../api/src/routes/app/planning/config/routeProductsInProcess.php');
-require_once('../api/src/routes/app/planning/config/routeProductsProcess.php');
-require_once('../api/src/routes/app/planning/config/routePlanning_machines.php');
-require_once('../api/src/routes/app/planning/config/routePlanCiclesMachine.php');
-// General
-require_once('../api/src/routes/app/planning/general/routeCategories.php');
-require_once('../api/src/routes/app/planning/general/routeUnitsSales.php');
-// Administrador
-require_once('../api/src/routes/app/planning/admin/routeUserAccess.php');
-require_once('../api/src/routes/app/planning/admin/routeClients.php');
-require_once('../api/src/routes/app/planning/admin/routeOrderTypes.php');
-
-// Inventario
-require_once('../api/src/routes/app/planning/inventory/routeInventory.php');
-// Pedidos
-require_once('../api/src/routes/app/planning/order/routeOrders.php');
-// Programa
-require_once('../api/src/routes/app/planning/program/routeProgramming.php');
-require_once('../api/src/routes/app/planning/program/routeConsolidated.php');
-*/
 
 $app->run();
