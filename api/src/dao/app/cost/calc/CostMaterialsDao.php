@@ -55,6 +55,29 @@ class CostMaterialsDao
         return $dataMaterials;
     }
 
+    public function calcCostMaterialByCompositeProduct($dataProduct)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT (SELECT SUM(cost_materials)
+                                                    FROM products_costs
+                                                    WHERE id_product IN (SELECT id_child_product FROM composite_products WHERE id_product = :id_product)
+                                                 ) AS cost_materials");
+            $stmt->execute([
+                'id_product' => $dataProduct['idProduct']
+            ]);
+            $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
+
+            $dataProduct['cost'] = $costMaterialsProduct['cost'];
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $dataProduct = array('info' => true, 'message' => $message);
+        }
+
+        return $dataProduct;
+    }
+
     public function updateCostMaterials($dataMaterials, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();

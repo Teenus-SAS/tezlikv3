@@ -16,6 +16,7 @@ use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\FilesDao;
+use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\IndirectCostDao;
@@ -50,6 +51,7 @@ $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
+$generalCompositeProductsDao = new GeneralCompositeProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -704,15 +706,33 @@ $app->post('/activeProducts', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/changeComposite/{id_product}/{op}', function (Request $request, Response $response, $args) use ($generalProductsDao) {
-    $product = $generalProductsDao->changeCompositeProduct($args['id_product'], $args['op']);
+$app->get('/changeComposite/{id_product}/{op}', function (Request $request, Response $response, $args) use (
+    $generalProductsDao,
+    $generalCompositeProductsDao
+) {
+    $status = true;
 
-    if ($product == null)
-        $resp = array('success' => true, 'message' => 'Productos modificado correctamente');
-    else if (isset($product['info']))
-        $resp = array('info' => true, 'message' => $product['message']);
-    else
-        $resp = array('error' => true, 'message' => 'No se pudo modificar la información. Intente de nuevo');
+    if ($args['op'] == 0) {
+        $product = $generalCompositeProductsDao->findCompositeProductByChild($args['id_product']);
+
+        $data = [];
+        !is_array($product) ? $data['id_product'] = 0 : $data = $product;
+
+        if ($data['id_product'] != 0)
+            $status = false;
+    }
+
+    if ($status == true) {
+        $product = $generalProductsDao->changeCompositeProduct($args['id_product'], $args['op']);
+
+        if ($product == null)
+            $resp = array('success' => true, 'message' => 'Productos modificado correctamente');
+        else if (isset($product['info']))
+            $resp = array('info' => true, 'message' => $product['message']);
+        else
+            $resp = array('error' => true, 'message' => 'No se pudo modificar la información. Intente de nuevo');
+    } else
+        $resp = array('error' => true, 'message' => 'No se pudo desactivar el producto. Tiene datos relacionados a él');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');

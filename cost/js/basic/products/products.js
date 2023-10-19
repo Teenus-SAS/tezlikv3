@@ -37,9 +37,10 @@ $(document).ready(function () {
 
     let idProduct = this.id;
     sessionStorage.setItem('id_product', idProduct);
-
+    
     let row = $(this).parent().parent()[0];
     let data = tblProducts.fnGetData(row);
+    sessionStorage.setItem('composite', data.composite);
 
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);
@@ -57,14 +58,15 @@ $(document).ready(function () {
     let ref = $('#referenceProduct').val();
     let prod = $('#product').val();
     let prof = $('#profitability').val();
-    let comission = $('#commisionSale').val(); 
+    let comission = $('#commisionSale').val();
 
     prof = parseFloat(prof.replace(',', '.'));
-    comission = parseFloat(comission.replace(',', '.')); 
+    comission = parseFloat(comission.replace(',', '.'));
 
     let data = 1 * prof;
+    let composite = sessionStorage.getItem('composite');
 
-    if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim() || data <= 0 || isNaN(data)) {
+    if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim() || ((data <= 0 || isNaN(data)) && (!composite || composite == '0'))) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -79,8 +81,9 @@ $(document).ready(function () {
     let dataProduct = new FormData(formCreateProduct);
     dataProduct.append('img', imageProd);
 
-    if (idProduct != '' || idProduct != null)
+    if (idProduct != '' || idProduct != null) {
       dataProduct.append('idProduct', idProduct);
+    }
 
     let resp = await sendDataPOST(url, dataProduct);
 

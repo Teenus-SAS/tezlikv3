@@ -29,16 +29,15 @@ class GeneralCompositeProductsDao
         return $compositeProduct;
     }
 
-    // public function findCompositeProductByChild($id_child_product)
-    // {
-    //     $connection = Connection::getInstance()->getConnection();
-    //     $stmt = $connection->prepare("SELECT * FROM composite_products WHERE id_product = :id_product AND id_child_product = :id_child_product");
-    //     $stmt->execute([
-    //         'id_product' => $dataProduct['idProduct'],
-    //         'id_child_product' => $dataProduct['compositeProduct']
-    //     ]);
-    //     $compositeProduct = $stmt->fetch($connection::FETCH_ASSOC);
-    //     $this->logger->notice("products", array('products' => $compositeProduct));
-    //     return $compositeProduct;
-    // }
+    public function findCompositeProductByChild($id_child_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM composite_products WHERE id_child_product = :id_child_product");
+        $stmt->execute([
+            'id_child_product' => $id_child_product
+        ]);
+        $compositeProduct = $stmt->fetch($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $compositeProduct));
+        return $compositeProduct;
+    }
 }
