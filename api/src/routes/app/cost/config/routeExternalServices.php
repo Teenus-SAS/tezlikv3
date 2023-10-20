@@ -103,24 +103,24 @@ $app->post('/addExternalService', function (Request $request, Response $response
             if (isset($externalServices['totalPrice']))
                 $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
 
-            // if ($externalServices == null) {
-            //     // Calcular costo material porq
-            //     $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExternalService['idProduct']);
+            if ($externalServices == null) {
+                // Calcular costo material porq
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExternalService['idProduct']);
 
-            //     foreach ($productsCompositer as $j) {
-            //         if (isset($externalService['info'])) break;
+                foreach ($productsCompositer as $j) {
+                    if (isset($externalService['info'])) break;
 
-            //         $data = [];
-            //         $data['idProduct'] = $j['id_product'];
-            //         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-            //         $externalService = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                    $data = [];
+                    $data['idProduct'] = $j['id_product'];
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $externalService = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-            //         if (isset($externalService['info'])) break;
+                    if (isset($externalService['info'])) break;
 
-            //         $data = $priceProductDao->calcPrice($j['id_product']);
-            //         $externalService = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
-            //     }
-            // }
+                    $data = $priceProductDao->calcPrice($j['id_product']);
+                    $externalService = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                }
+            }
 
             if ($externalServices == null)
                 $resp = array('success' => true, 'message' => 'Servicio externo ingresado correctamente');
@@ -155,23 +155,23 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
             $resolution = $productsDao->updatePrice($externalService[$i]['idProduct'], $resolution['totalPrice']);
 
-            // if (isset($resolution['info'])) break;
-            // // Calcular costo material porq
-            // $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($externalService[$i]['idProduct']);
+            if (isset($resolution['info'])) break;
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($externalService[$i]['idProduct']);
 
-            // // foreach ($productsCompositer as $j) {
-            // //     if (isset($resolution['info'])) break;
+            foreach ($productsCompositer as $j) {
+                if (isset($resolution['info'])) break;
 
-            // //     $data = [];
-            // //     $data['idProduct'] = $j['id_product'];
-            // //     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-            // //     $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                $data = [];
+                $data['idProduct'] = $j['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-            // //     if (isset($resolution['info'])) break;
+                if (isset($resolution['info'])) break;
 
-            // //     $data = $priceProductDao->calcPrice($j['id_product']);
-            // //     $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-            // // }
+                $data = $priceProductDao->calcPrice($j['id_product']);
+                $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            }
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Servicio externo importado correctamente');

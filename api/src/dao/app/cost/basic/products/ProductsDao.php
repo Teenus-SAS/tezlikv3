@@ -19,7 +19,8 @@ class ProductsDao
   public function findAllProductsByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.sale_price, pc.profitability, pc.commission_sale, pc.price, p.img, p.id_family, p.composite
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pc.sale_price, pc.profitability, pc.commission_sale, pc.price, p.img, p.id_family, p.composite, 
+                                         IFNULL((SELECT id_composite_product FROM composite_products WHERE id_product = p.id_product), 0) AS composite_product
                                   FROM products p
                                     INNER JOIN products_costs pc ON p.id_product = pc.id_product
                                   WHERE p.id_company = :id_company AND p.active = 1 ORDER BY `p`.`product`, `p`.`reference` ASC");
