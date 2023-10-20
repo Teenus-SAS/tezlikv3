@@ -509,7 +509,9 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
     $FilesDao,
     $productsCostDao,
     $generalProductsDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -535,6 +537,25 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
             $products = $priceProductDao->calcPrice($dataProduct['idProduct']);
         if (isset($products['totalPrice']))
             $products = $generalProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
+
+        if ($product == null) {
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
+
+            foreach ($productsCompositer as $arr) {
+                if (isset($product['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $arr['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $product = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($product['info'])) break;
+
+                $data = $priceProductDao->calcPrice($arr['id_product']);
+                $product = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+            }
+        }
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');
@@ -714,11 +735,7 @@ $app->get('/changeComposite/{id_product}/{op}', function (Request $request, Resp
 
     if ($args['op'] == 0) {
         $product = $generalCompositeProductsDao->findCompositeProductByChild($args['id_product']);
-
-        $data = [];
-        !is_array($product) ? $data['id_product'] = 0 : $data = $product;
-
-        if ($data['id_product'] != 0)
+        if (sizeof($product) == 0)
             $status = false;
     }
 
@@ -726,7 +743,7 @@ $app->get('/changeComposite/{id_product}/{op}', function (Request $request, Resp
         $product = $generalProductsDao->changeCompositeProduct($args['id_product'], $args['op']);
 
         if ($product == null)
-            $resp = array('success' => true, 'message' => 'Productos modificado correctamente');
+            $resp = array('success' => true, 'message' => 'Producto modificado correctamente');
         else if (isset($product['info']))
             $resp = array('info' => true, 'message' => $product['message']);
         else

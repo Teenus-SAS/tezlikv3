@@ -1,10 +1,16 @@
 <?php
 
 use tezlikv3\dao\CompositeProductsDao;
+use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
+use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\PriceProductDao;
 
 $compositeProductsDao = new CompositeProductsDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$costMaterialsDao = new CostMaterialsDao();
+$priceProductDao = new PriceProductDao();
+$generalProductsDao = new GeneralProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -20,7 +26,10 @@ $app->get('/compositeProducts/{id_product}', function (Request $request, Respons
 
 $app->post('/addCompositeProduct', function (Request $request, Response $response, $args) use (
     $compositeProductsDao,
-    $generalCompositeProductsDao
+    $generalCompositeProductsDao,
+    $costMaterialsDao,
+    $priceProductDao,
+    $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -30,6 +39,18 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 
     if (!$composite) {
         $resolution = $compositeProductsDao->insertCompositeProductByCompany($dataProduct, $id_company);
+
+        // Calcular costo materia prima
+        if ($resolution == null) {
+            $dataProduct = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProduct);
+            $resolution = $costMaterialsDao->updateCostMaterials($dataProduct, $id_company);
+        }
+
+        // Calcular precio producto
+        if ($resolution == null) {
+            $product = $priceProductDao->calcPrice($dataProduct['idProduct']);
+            $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
+        }
 
         if ($resolution == null) {
             $resp = array('success' => true, 'message' => 'Producto compuesto agregado correctamente');
@@ -47,8 +68,13 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 
 $app->post('/updateCompositeProduct', function (Request $request, Response $response, $args) use (
     $compositeProductsDao,
-    $generalCompositeProductsDao
+    $generalCompositeProductsDao,
+    $costMaterialsDao,
+    $priceProductDao,
+    $generalProductsDao
 ) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
     $data = [];
 
@@ -58,6 +84,18 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 
     if ($data['id_composite_product'] == $dataProduct['idCompositeProduct'] || $data['id_composite_product'] == 0) {
         $resolution = $compositeProductsDao->updateCompositeProduct($dataProduct);
+
+        // Calcular costo materia prima
+        if ($resolution == null) {
+            $dataProduct = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProduct);
+            $resolution = $costMaterialsDao->updateCostMaterials($dataProduct, $id_company);
+        }
+
+        // Calcular precio producto
+        if ($resolution == null) {
+            $product = $priceProductDao->calcPrice($dataProduct['idProduct']);
+            $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
+        }
 
         if ($resolution == null) {
             $resp = array('success' => true, 'message' => 'Producto compuesto modificado correctamente');
@@ -73,10 +111,29 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteCompositeProduct', function (Request $request, Response $response, $args) use ($compositeProductsDao) {
+$app->post('/deleteCompositeProduct', function (Request $request, Response $response, $args) use (
+    $compositeProductsDao,
+    $costMaterialsDao,
+    $priceProductDao,
+    $generalProductsDao
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
 
     $resolution = $compositeProductsDao->deleteCompositeProduct($dataProduct['idCompositeProduct']);
+
+    // Calcular costo materia prima
+    if ($resolution == null) {
+        $dataProduct = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProduct);
+        $resolution = $costMaterialsDao->updateCostMaterials($dataProduct, $id_company);
+    }
+
+    // Calcular precio producto
+    if ($resolution == null) {
+        $product = $priceProductDao->calcPrice($dataProduct['idProduct']);
+        $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
+    }
 
     if ($resolution == null) {
         $resp = array('success' => true, 'message' => 'Producto compuesto eliminado correctamente');

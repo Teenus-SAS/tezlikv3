@@ -60,10 +60,10 @@ class CostMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT (SELECT SUM(cost_materials)
-                                                    FROM products_costs
-                                                    WHERE id_product IN (SELECT id_child_product FROM composite_products WHERE id_product = :id_product)
-                                                 ) AS cost_materials");
+            $stmt = $connection->prepare("SELECT IFNULL((cp.quantity * SUM(pc.price)), 0) AS cost
+                                          FROM composite_products cp
+                                            LEFT JOIN products_costs pc ON cp.id_child_product = pc.id_product
+                                          WHERE cp.id_product = :id_product");
             $stmt->execute([
                 'id_product' => $dataProduct['idProduct']
             ]);

@@ -3,7 +3,9 @@
 use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\TotalExpenseDao;
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\FamiliesDao;
+use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
@@ -16,6 +18,8 @@ $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
 $generalProductsDao = new GeneralProductsDao();
 $familiesDao = new FamiliesDao();
+$generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$costMaterialsDao = new CostMaterialsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -108,7 +112,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     $productsDao,
     $assignableExpenseDao,
     $priceProductDao,
-    $generalProductsDao
+    $generalProductsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -197,6 +203,23 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                     $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
 
                 if (isset($expensesDistribution['info'])) break;
+
+                // Calcular costo material
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products[$i]['selectNameProduct']);
+
+                foreach ($productsCompositer as $arr) {
+                    if (isset($expensesDistribution['info'])) break;
+
+                    $data = [];
+                    $data['idProduct'] = $arr['id_product'];
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $expensesDistribution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($expensesDistribution['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($arr['id_product']);
+                    $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                }
             }
         } else if ($flag == 1 && $expensesDistribution == null) {
             // Calcular Precio del producto
@@ -204,6 +227,24 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
             if (isset($expensesDistribution['totalPrice']))
                 $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+            if ($expensesDistribution == null) {
+                // Calcular costo material porq
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExpensesDistribution['refProduct']);
+
+                foreach ($productsCompositer as $arr) {
+                    if (isset($expensesDistribution['info'])) break;
+
+                    $data = [];
+                    $data['idProduct'] = $arr['id_product'];
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $expensesDistribution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($expensesDistribution['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($arr['id_product']);
+                    $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                }
+            }
         }
 
         if ($expensesDistribution == null)
@@ -256,6 +297,24 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             if (!isset($resolution['totalPrice'])) break;
 
             $resolution = $generalProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $resolution['totalPrice']);
+
+            if (isset($resolution['info'])) break;
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($expensesDistribution[$i]['selectNameProduct']);
+
+            foreach ($productsCompositer as $arr) {
+                if (isset($resolution['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $arr['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($resolution['info'])) break;
+
+                $data = $priceProductDao->calcPrice($arr['id_product']);
+                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+            }
         }
 
         if ($resolution == null)
@@ -275,7 +334,9 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
-    $generalProductsDao
+    $generalProductsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -354,6 +415,23 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                 $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
 
             if (isset($expensesDistribution['info'])) break;
+
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products[$i]['selectNameProduct']);
+
+            foreach ($productsCompositer as $arr) {
+                if (isset($expensesDistribution['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $arr['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $expensesDistribution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($expensesDistribution['info'])) break;
+
+                $data = $priceProductDao->calcPrice($arr['id_product']);
+                $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+            }
         }
     } else if ($flag == 1 && $expensesDistribution == null) {
         // Calcular Precio del producto
@@ -361,6 +439,25 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
         if (isset($expensesDistribution['totalPrice']))
             $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['refProduct'], $expensesDistribution['totalPrice']);
+
+        if ($expensesDistribution == null) {
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExpensesDistribution['refProduct']);
+
+            foreach ($productsCompositer as $arr) {
+                if (isset($expensesDistribution['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $arr['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $expensesDistribution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($expensesDistribution['info'])) break;
+
+                $data = $priceProductDao->calcPrice($arr['id_product']);
+                $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+            }
+        }
     }
 
     if ($expensesDistribution == null)
@@ -378,7 +475,9 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     $expensesDistributionDao,
     $assignableExpenseDao,
     $priceProductDao,
-    $generalProductsDao
+    $generalProductsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -411,6 +510,26 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
     if (isset($expensesDistribution['totalPrice']))
         $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['selectNameProduct'], $expensesDistribution['totalPrice']);
+
+    if ($expensesDistribution == null) {
+        // Calcular costo material porq
+        $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExpensesDistribution['selectNameProduct']);
+
+        foreach ($productsCompositer as $arr) {
+            if (isset($expensesDistribution['info'])) break;
+
+            $data = [];
+            $data['idProduct'] = $arr['id_product'];
+            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            $expensesDistribution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+            if (isset($expensesDistribution['info'])) break;
+
+            $data = $priceProductDao->calcPrice($arr['id_product']);
+            $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+        }
+    }
+
 
     if ($expensesDistribution == null)
         $resp = array('success' => true, 'message' => 'Distribucion de gasto eliminado correctamente');

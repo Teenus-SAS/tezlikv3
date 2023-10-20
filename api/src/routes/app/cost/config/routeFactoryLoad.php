@@ -1,7 +1,9 @@
 <?php
 
+use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\FactoryLoadDao;
 use tezlikv3\dao\CostMinuteDao;
+use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\IndirectCostDao;
@@ -14,7 +16,9 @@ $machinesDao = new GeneralMachinesDao();
 $costMinuteDao = new CostMinuteDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
-$GeneralProductsDao = new GeneralProductsDao();
+$generalProductsDao = new GeneralProductsDao();
+$generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$costMaterialsDao = new CostMaterialsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -79,7 +83,9 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     $costMinuteDao,
     $indirectCostDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $generalProductsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -106,23 +112,41 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
             $dataProducts = $indirectCostDao->findProductByMachine($dataFactoryLoad['idMachine'], $id_company);
 
             foreach ($dataProducts as $arr) {
-                if (isset($machines['info'])) break;
+                if (isset($factoryLoad['info'])) break;
                 /* Costo Indirecto */
                 // Buscar la maquina asociada al producto
                 $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo
-                $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+                $factoryLoad = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
-                if (isset($machines['info'])) break;
+                if (isset($factoryLoad['info'])) break;
                 /* Precio Producto */
                 // Calcular Precio products_costs
-                $machines = $priceProductDao->calcPrice($arr['id_product']);
+                $factoryLoad = $priceProductDao->calcPrice($arr['id_product']);
 
-                if (isset($machines['info'])) break;
+                if (isset($factoryLoad['info'])) break;
 
-                $machines = $GeneralProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+
+                if (isset($factoryLoad['info'])) break;
+                // Calcular costo material porq
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+                foreach ($productsCompositer as $j) {
+                    if (isset($factoryLoad['info'])) break;
+
+                    $data = [];
+                    $data['idProduct'] = $j['id_product'];
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $factoryLoad = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($factoryLoad['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($j['id_product']);
+                    $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                }
             }
         }
 
@@ -176,7 +200,25 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
                 if (isset($resolution['info'])) break;
 
-                $resolution = $GeneralProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+
+                if (isset($resolution['info'])) break;
+                // Calcular costo material porq
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+                foreach ($productsCompositer as $j) {
+                    if (isset($resolution['info'])) break;
+
+                    $data = [];
+                    $data['idProduct'] = $j['id_product'];
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($resolution['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($j['id_product']);
+                    $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                }
             }
         }
         if ($resolution == null)
@@ -195,7 +237,9 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     $costMinuteDao,
     $indirectCostDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $generalProductsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -230,7 +274,25 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
 
             if (isset($factoryLoad['info'])) break;
 
-            $factoryLoad = $GeneralProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+            $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+
+            if (isset($factoryLoad['info'])) break;
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+            foreach ($productsCompositer as $j) {
+                if (isset($factoryLoad['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $j['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $factoryLoad = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($factoryLoad['info'])) break;
+
+                $data = $priceProductDao->calcPrice($j['id_product']);
+                $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            }
         }
     }
 
@@ -250,7 +312,9 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
     $factoryloadDao,
     $indirectCostDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $generalProductsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -278,7 +342,25 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
 
             if (isset($factoryLoad['info'])) break;
 
-            $factoryLoad = $GeneralProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+            $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+
+            if (isset($factoryLoad['info'])) break;
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+            foreach ($productsCompositer as $j) {
+                if (isset($factoryLoad['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $j['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $factoryLoad = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($factoryLoad['info'])) break;
+
+                $data = $priceProductDao->calcPrice($j['id_product']);
+                $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            }
         }
     }
 

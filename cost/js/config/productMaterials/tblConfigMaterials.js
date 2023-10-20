@@ -18,7 +18,12 @@ $(document).ready(function () {
 
   /* Cargue tabla de Proyectos */
 
-  const loadtableMaterials = (idProduct) => {
+  loadtableMaterials = (idProduct) => {
+    if ($.fn.dataTable.isDataTable('#tblConfigMaterials')) {
+      $('#tblConfigMaterials').DataTable().destroy();
+      $('#tblConfigMaterials').empty();
+    }
+    
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
       destroy: true,
       pageLength: 50,
@@ -87,7 +92,7 @@ $(document).ready(function () {
           className: 'uniqueClassName',
           render: function (data) {
             return `<a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateMaterials" data-toggle='tooltip' title='Actualizar Materia Prima' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteFunction(2)"></i></a>`;
+                        <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Materia Prima' style="font-size: 30px;color:red" onclick="deleteFunction(1)"></i></a>`;
           },
         },
       ],

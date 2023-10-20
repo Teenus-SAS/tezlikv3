@@ -10,6 +10,7 @@ use tezlikv3\dao\ExpensesDistributionDao;
 use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\FactoryLoadDao;
 use tezlikv3\dao\FamiliesDao;
+use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\IndirectCostDao;
@@ -17,6 +18,7 @@ use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\PayrollDao;
+use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ProductsCostDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;
@@ -43,6 +45,9 @@ $assignableExpenseDao = new AssignableExpenseDao();
 $costMaterialsDao = new CostMaterialsDao();
 $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
+$generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$costMaterialsDao = new CostMaterialsDao();
+$priceProductDao = new PriceProductDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -117,7 +122,10 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $generalProductsDao,
     $costMaterialsDao,
     $costWorkforceDao,
-    $indirectCostDao
+    $indirectCostDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao,
+    $priceProductDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -134,6 +142,27 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     // Modificar 'product_cost'
     if ($resolution == null) {
         $resolution = $generalProductsDao->updatePrice($products['idProduct'], $simulator['products'][0]['price']);
+
+        if ($resolution == null) {
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products['idProduct']);
+
+            foreach ($productsCompositer as $arr) {
+                if (isset($resolution['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $arr['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($resolution['info'])) break;
+
+                $data = $priceProductDao->calcPrice($arr['id_product']);
+                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+            }
+        }
+
+
         $products['cost'] = $simulator['products'][0]['cost_materials'];
         $resolution = $costMaterialsDao->updateCostMaterials($products, $id_company);
         $resolution = $costWorkforceDao->updateTotalCostWorkforce($simulator['products'][0]['cost_workforce'], $products['idProduct'], $id_company);
