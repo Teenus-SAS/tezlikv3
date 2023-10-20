@@ -538,24 +538,24 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         if (isset($products['totalPrice']))
             $products = $generalProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
 
-        if ($product == null) {
-            // Calcular costo material porq
-            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
+        // if ($product == null) {
+        //     // Calcular costo material porq
+        //     $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
 
-            foreach ($productsCompositer as $arr) {
-                if (isset($product['info'])) break;
+        //     foreach ($productsCompositer as $arr) {
+        //         if (isset($product['info'])) break;
 
-                $data = [];
-                $data['idProduct'] = $arr['id_product'];
-                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                $product = $costMaterialsDao->updateCostMaterials($data, $id_company);
+        //         $data = [];
+        //         $data['idProduct'] = $arr['id_product'];
+        //         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+        //         $product = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                if (isset($product['info'])) break;
+        //         if (isset($product['info'])) break;
 
-                $data = $priceProductDao->calcPrice($arr['id_product']);
-                $product = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
-            }
-        }
+        //         $data = $priceProductDao->calcPrice($arr['id_product']);
+        //         $product = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+        //     }
+        // }
 
         if ($products == null)
             $resp = array('success' => true, 'message' => 'Producto actualizado correctamente');

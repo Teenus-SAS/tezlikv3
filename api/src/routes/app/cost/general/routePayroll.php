@@ -218,23 +218,23 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
                     $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
 
-                    if (isset($resolution['info'])) break;
-                    // Calcular costo material porq
-                    $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+                    // if (isset($resolution['info'])) break;
+                    // // Calcular costo material porq
+                    // $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
-                    foreach ($productsCompositer as $j) {
-                        if (isset($resolution['info'])) break;
+                    // foreach ($productsCompositer as $j) {
+                    //     if (isset($resolution['info'])) break;
 
-                        $data = [];
-                        $data['idProduct'] = $j['id_product'];
-                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                        $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                    //     $data = [];
+                    //     $data['idProduct'] = $j['id_product'];
+                    //     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    //     $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                        if (isset($resolution['info'])) break;
+                    //     if (isset($resolution['info'])) break;
 
-                        $data = $priceProductDao->calcPrice($j['id_product']);
-                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-                    }
+                    //     $data = $priceProductDao->calcPrice($j['id_product']);
+                    //     $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                    // }
                 }
             }
         }
@@ -311,23 +311,23 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
                     $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
 
-                    if (isset($payroll['info'])) break;
-                    // Calcular costo material porq
-                    $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+                    // if (isset($payroll['info'])) break;
+                    // // Calcular costo material porq
+                    // $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
-                    foreach ($productsCompositer as $j) {
-                        if (isset($payroll['info'])) break;
+                    // foreach ($productsCompositer as $j) {
+                    //     if (isset($payroll['info'])) break;
 
-                        $data = [];
-                        $data['idProduct'] = $j['id_product'];
-                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                        $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                    //     $data = [];
+                    //     $data['idProduct'] = $j['id_product'];
+                    //     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    //     $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                        if (isset($payroll['info'])) break;
+                    //     if (isset($payroll['info'])) break;
 
-                        $data = $priceProductDao->calcPrice($j['id_product']);
-                        $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-                    }
+                    //     $data = $priceProductDao->calcPrice($j['id_product']);
+                    //     $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                    // }
                 }
             }
         } else {
@@ -385,23 +385,23 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
 
             $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
 
-            if (isset($payroll['info'])) break;
-            // Calcular costo material porq
-            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+            // if (isset($payroll['info'])) break;
+            // // Calcular costo material porq
+            // $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
-            foreach ($productsCompositer as $j) {
-                if (isset($payroll['info'])) break;
+            // foreach ($productsCompositer as $j) {
+            //     if (isset($payroll['info'])) break;
 
-                $data = [];
-                $data['idProduct'] = $j['id_product'];
-                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
+            //     $data = [];
+            //     $data['idProduct'] = $j['id_product'];
+            //     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            //     $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                if (isset($payroll['info'])) break;
+            //     if (isset($payroll['info'])) break;
 
-                $data = $priceProductDao->calcPrice($j['id_product']);
-                $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-            }
+            //     $data = $priceProductDao->calcPrice($j['id_product']);
+            //     $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            // }
         }
     }
 
@@ -459,23 +459,23 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
                 $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
 
-                if (isset($payroll['info'])) break;
-                // Calcular costo material porq
-                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+                // if (isset($payroll['info'])) break;
+                // // Calcular costo material porq
+                // $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
-                foreach ($productsCompositer as $j) {
-                    if (isset($payroll['info'])) break;
+                // foreach ($productsCompositer as $j) {
+                //     if (isset($payroll['info'])) break;
 
-                    $data = [];
-                    $data['idProduct'] = $j['id_product'];
-                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                    $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                //     $data = [];
+                //     $data['idProduct'] = $j['id_product'];
+                //     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                //     $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                    if (isset($payroll['info'])) break;
+                //     if (isset($payroll['info'])) break;
 
-                    $data = $priceProductDao->calcPrice($j['id_product']);
-                    $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-                }
+                //     $data = $priceProductDao->calcPrice($j['id_product']);
+                //     $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                // }
             }
         }
         if ($payroll == null)

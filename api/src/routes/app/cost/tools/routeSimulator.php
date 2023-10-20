@@ -46,7 +46,6 @@ $costMaterialsDao = new CostMaterialsDao();
 $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
-$costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -124,7 +123,6 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $costWorkforceDao,
     $indirectCostDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao,
     $priceProductDao
 ) {
     session_start();
@@ -143,25 +141,24 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     if ($resolution == null) {
         $resolution = $generalProductsDao->updatePrice($products['idProduct'], $simulator['products'][0]['price']);
 
-        if ($resolution == null) {
-            // Calcular costo material porq
-            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products['idProduct']);
+        // if ($resolution == null) {
+        //     // Calcular costo material porq
+        //     $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products['idProduct']);
 
-            foreach ($productsCompositer as $arr) {
-                if (isset($resolution['info'])) break;
+        //     foreach ($productsCompositer as $arr) {
+        //         if (isset($resolution['info'])) break;
 
-                $data = [];
-                $data['idProduct'] = $arr['id_product'];
-                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+        //         $data = [];
+        //         $data['idProduct'] = $arr['id_product'];
+        //         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+        //         $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                if (isset($resolution['info'])) break;
+        //         if (isset($resolution['info'])) break;
 
-                $data = $priceProductDao->calcPrice($arr['id_product']);
-                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
-            }
-        }
-
+        //         $data = $priceProductDao->calcPrice($arr['id_product']);
+        //         $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+        //     }
+        // }
 
         $products['cost'] = $simulator['products'][0]['cost_materials'];
         $resolution = $costMaterialsDao->updateCostMaterials($products, $id_company);

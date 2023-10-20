@@ -1,6 +1,8 @@
 <?php
 
+use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\ExternalServicesDao;
+use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\PriceProductDao;
@@ -9,6 +11,8 @@ $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
 $productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
+$generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$costMaterialsDao = new CostMaterialsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -77,7 +81,8 @@ $app->post('/addExternalService', function (Request $request, Response $response
     $externalServicesDao,
     $productsDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -96,7 +101,26 @@ $app->post('/addExternalService', function (Request $request, Response $response
                 $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
             if (isset($externalServices['totalPrice']))
-                $externalServices = $GeneralProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+                $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+
+            // if ($externalServices == null) {
+            //     // Calcular costo material porq
+            //     $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExternalService['idProduct']);
+
+            //     foreach ($productsCompositer as $j) {
+            //         if (isset($externalService['info'])) break;
+
+            //         $data = [];
+            //         $data['idProduct'] = $j['id_product'];
+            //         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            //         $externalService = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+            //         if (isset($externalService['info'])) break;
+
+            //         $data = $priceProductDao->calcPrice($j['id_product']);
+            //         $externalService = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            //     }
+            // }
 
             if ($externalServices == null)
                 $resp = array('success' => true, 'message' => 'Servicio externo ingresado correctamente');
@@ -129,7 +153,25 @@ $app->post('/addExternalService', function (Request $request, Response $response
             if (isset($resolution['info']))
                 break;
 
-            $resolution = $GeneralProductsDao->updatePrice($externalService[$i]['idProduct'], $resolution['totalPrice']);
+            $resolution = $productsDao->updatePrice($externalService[$i]['idProduct'], $resolution['totalPrice']);
+
+            // if (isset($resolution['info'])) break;
+            // // Calcular costo material porq
+            // $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($externalService[$i]['idProduct']);
+
+            // // foreach ($productsCompositer as $j) {
+            // //     if (isset($resolution['info'])) break;
+
+            // //     $data = [];
+            // //     $data['idProduct'] = $j['id_product'];
+            // //     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            // //     $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+            // //     if (isset($resolution['info'])) break;
+
+            // //     $data = $priceProductDao->calcPrice($j['id_product']);
+            // //     $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            // // }
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Servicio externo importado correctamente');
@@ -146,7 +188,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $productsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -167,7 +209,7 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
             $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
         if (isset($externalServices['totalPrice']))
-            $externalServices = $GeneralProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+            $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
 
         if ($externalServices == null)
             $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
@@ -184,7 +226,7 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 $app->post('/deleteExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
     $priceProductDao,
-    $GeneralProductsDao
+    $productsDao
 ) {
     $dataExternalService = $request->getParsedBody();
 
@@ -195,7 +237,7 @@ $app->post('/deleteExternalService', function (Request $request, Response $respo
         $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
     if (isset($externalServices['totalPrice']))
-        $externalServices = $GeneralProductsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+        $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
 
     if ($externalServices == null)
         $resp = array('success' => true, 'message' => 'Servicio externo eliminado correctamente');
