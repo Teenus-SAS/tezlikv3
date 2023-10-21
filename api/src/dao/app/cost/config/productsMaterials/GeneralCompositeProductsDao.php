@@ -29,6 +29,21 @@ class GeneralCompositeProductsDao
         return $compositeProduct;
     }
 
+    public function findCompositeProductCost($id_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT pc.cost_materials
+                                      FROM composite_products cp
+                                        INNER JOIN products_costs pc ON pc.id_product = cp.id_product
+                                      WHERE cp.id_product = :id_product LIMIT 1");
+        $stmt->execute([
+            'id_product' => $id_product
+        ]);
+        $compositeProduct = $stmt->fetch($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $compositeProduct));
+        return $compositeProduct;
+    }
+
     public function findCompositeProductByChild($id_child_product)
     {
         $connection = Connection::getInstance()->getConnection();

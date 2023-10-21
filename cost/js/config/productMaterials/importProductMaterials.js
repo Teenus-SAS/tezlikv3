@@ -101,7 +101,8 @@ $(document).ready(function () {
           
           let idProduct = $('#selectNameProduct').val();  
           if (idProduct != null)
-            updateTable();
+            loadtableMaterials(idProduct);
+
 
           toastr.success(r.message);
           return false;
@@ -111,11 +112,7 @@ $(document).ready(function () {
           toastr.info(r.message);
         }
 
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblConfigMaterials').DataTable().clear();
-          $('#tblConfigMaterials').DataTable().ajax.reload();
-        }
+        /* Actualizar tabla */ 
       },
     });
   };

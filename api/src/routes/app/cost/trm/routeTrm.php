@@ -49,20 +49,11 @@ function updateLastTrm($trmDao, $today)
         return $e->getMessage();
     }
 }
-$date = date('Y-m-d');
+// $date = date('Y-m-d');
 
-$lastTrm = $trmDao->findLastInsertedTrm($date);
+// $lastTrm = $trmDao->findLastInsertedTrm($date);
 
-!is_array($lastTrm) ? $data['date_trm'] =  date('Y-m-d', strtotime($date . ' -1 day')) : $data = $lastTrm;
+// !is_array($lastTrm) ? $data['date_trm'] =  date('Y-m-d', strtotime($date . ' -1 day')) : $data = $lastTrm;
 
-if ($date > $data['date_trm'])
-    updateLastTrm($trmDao, $date);
-
-// function calcAllData($CompaniesDao, $machinesDao)
-// {
-//     // $companies = $CompaniesDao->findAllCompanies();
-
-//     // foreach ($companies as $arr) { 
-//     //     $machines = $machinesDao
-//     // }
-// }
+// if ($date > $data['date_trm'])
+    // updateLastTrm($trmDao, $date); 

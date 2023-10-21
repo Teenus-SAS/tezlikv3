@@ -39,16 +39,26 @@ class DashboardProductsDao
         return $costAnalysisProducts;
     }
 
-    public function findProductProcessByProduct($id_product, $id_company)
+    public function findProductProcessByProduct($id_product, $id_company, $op)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_product, pp.id_machine, pc.id_process, pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime, pp.enlistment_time, pp.operation_time,
+        if ($op == 1) {
+            $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_product, pp.id_machine, pc.id_process, pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime, pp.enlistment_time, pp.operation_time,
                                              IFNULL(m.machine, 'PROCESO MANUAL') AS machine, IFNULL(m.cost, 0) AS cost_machine, IFNULL(m.years_depreciation, 0) AS years_depreciation, IFNULL(m.residual_value, 0) AS residual_value, IFNULL(m.minute_depreciation, 0) AS minute_depreciation, IFNULL(m.hours_machine, 0) AS hours_machine, IFNULL(m.days_machine, 0) AS days_machine
                                       FROM products_process pp 
                                         INNER JOIN process pc ON pc.id_process = pp.id_process
                                         LEFT JOIN machines m ON m.id_machine = pp.id_machine
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
-        $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
+            $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
+        } else {
+            $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_product, pp.id_machine, pc.id_process, pc.process, (pp.enlistment_time + pp.operation_time) AS totalTime, pp.enlistment_time, pp.operation_time,
+                                         IFNULL(m.machine, 'PROCESO MANUAL') AS machine, IFNULL(m.cost, 0) AS cost_machine, IFNULL(m.years_depreciation, 0) AS years_depreciation, IFNULL(m.residual_value, 0) AS residual_value, IFNULL(m.minute_depreciation, 0) AS minute_depreciation, IFNULL(m.hours_machine, 0) AS hours_machine, IFNULL(m.days_machine, 0) AS days_machine
+                                  FROM products_process pp 
+                                    INNER JOIN process pc ON pc.id_process = pp.id_process
+                                    LEFT JOIN machines m ON m.id_machine = pp.id_machine
+                                  WHERE pp.id_product IN ($id_product) AND pp.id_company = :id_company");
+            $stmt->execute(['id_company' => $id_company]);
+        }
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -57,18 +67,30 @@ class DashboardProductsDao
         return $totalTimeProcess;
     }
 
-    public function findAverageTimeProcessByProduct($id_product, $id_company)
+    public function findAverageTimeProcessByProduct($id_product, $id_company, $op)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT IFNULL(SUM(pp.enlistment_time), 0) AS enlistment_time, IFNULL(SUM(pp.operation_time), 0) AS operation_time
+
+        if ($op == 1) {
+            $stmt = $connection->prepare("SELECT IFNULL(SUM(pp.enlistment_time), 0) AS enlistment_time, IFNULL(SUM(pp.operation_time), 0) AS operation_time
                                       FROM products p
                                         LEFT JOIN products_process pp ON pp.id_product = p.id_product
                                       WHERE p.id_product = :id_product AND p.id_company = :id_company
                                       ORDER BY `p`.`product` ASC");
-        $stmt->execute([
-            'id_product' => $id_product,
-            'id_company' => $id_company
-        ]);
+            $stmt->execute([
+                'id_product' => $id_product,
+                'id_company' => $id_company
+            ]);
+        } else {
+            $stmt = $connection->prepare("SELECT IFNULL(SUM(pp.enlistment_time), 0) AS enlistment_time, IFNULL(SUM(pp.operation_time), 0) AS operation_time
+                                      FROM products p
+                                        LEFT JOIN products_process pp ON pp.id_product = p.id_product
+                                      WHERE p.id_product IN ($id_product) AND p.id_company = :id_company
+                                      ORDER BY `p`.`product` ASC");
+            $stmt->execute([
+                'id_company' => $id_company
+            ]);
+        }
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -78,15 +100,24 @@ class DashboardProductsDao
         return $averageTimeProcess;
     }
 
-    public function findCostWorkforceByProduct($id_product, $id_company)
+    public function findCostWorkforceByProduct($id_product, $id_company, $op)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
+        if ($op == 1) {
+            $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
                                              WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process), 0) AS workforce	
                                       FROM process p
                                       INNER JOIN products_process pp ON pp.id_process = p.id_process
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
-        $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
+            $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
+        } else {
+            $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
+                                             WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process), 0) AS workforce	
+                                      FROM process p
+                                      INNER JOIN products_process pp ON pp.id_process = p.id_process
+                                      WHERE pp.id_product IN ($id_product) AND pp.id_company = :id_company");
+            $stmt->execute(['id_company' => $id_company]);
+        }
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -95,10 +126,11 @@ class DashboardProductsDao
         return $costWorkforce;
     }
 
-    public function findCostRawMaterialsByProduct($id_product, $id_company)
+    public function findCostRawMaterialsByProduct($id_product, $id_company, $op)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
+        if ($op == 1) {
+            $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
                                                 INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials
                                         FROM products_materials pm
                                         INNER JOIN materials m ON m.id_material = pm.id_material
@@ -106,7 +138,18 @@ class DashboardProductsDao
                                         INNER JOIN convert_magnitudes cm ON cm.id_magnitude = cu.id_magnitude
                                       WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
                                       ORDER BY totalCostMaterial DESC");
-        $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
+            $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
+        } else {
+            $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
+                                                INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials
+                                        FROM products_materials pm
+                                        INNER JOIN materials m ON m.id_material = pm.id_material
+                                        INNER JOIN convert_units cu ON cu.id_unit = m.unit
+                                        INNER JOIN convert_magnitudes cm ON cm.id_magnitude = cu.id_magnitude
+                                      WHERE pm.id_product IN ($id_product) AND pm.id_company = :id_company 
+                                      ORDER BY totalCostMaterial DESC");
+            $stmt->execute(['id_company' => $id_company]);
+        }
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

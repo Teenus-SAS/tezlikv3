@@ -230,7 +230,6 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
-    <script src="/cost/js/config/productMaterials/tblCompositeProducts.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/config/productMaterials/importProductMaterials.js"></script>
     <script src="../global/js/import/file.js"></script>

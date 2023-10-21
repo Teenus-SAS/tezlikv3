@@ -1,5 +1,5 @@
 $(document).ready(function () { 
-  /* Cargue tabla de Proyectos */
+  /* Cargue tabla de Proyectos 
   loadTblCompositeProducts = (idProduct) => {
     if ($.fn.dataTable.isDataTable('#tblConfigMaterials')) {
       $('#tblConfigMaterials').DataTable().destroy();
@@ -102,5 +102,5 @@ $(document).ready(function () {
         );
       },
     });
-  };
+  }; */
 });

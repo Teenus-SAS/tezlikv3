@@ -1,8 +1,10 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\GeneralPayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
+use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProductsProcessDao;
@@ -19,6 +21,8 @@ $machinesDao = new GeneralMachinesDao();
 $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
+$generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$costMaterialsDao = new CostMaterialsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -129,7 +133,9 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $machinesDao,
     $costWorkforceDao,
     $indirectCostDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -174,6 +180,24 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             if (isset($productProcess['totalPrice']))
                 $productProcess = $productsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
 
+            if ($productProcess == null) {
+                // Calcular costo material porq
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProductProcess['idProduct']);
+
+                foreach ($productsCompositer as $j) {
+                    if (isset($productProcess['info'])) break;
+
+                    $data = [];
+                    $data['idProduct'] = $j['id_product'];
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $productProcess = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($productProcess['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($j['id_product']);
+                    $productProcess = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                }
+            }
             if ($productProcess == null)
                 $resp = array('success' => true, 'message' => 'Proceso asignado correctamente');
             elseif ($productProcess == 1)
@@ -257,6 +281,24 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 break;
 
             $resolution = $productsDao->updatePrice($productProcess[$i]['idProduct'], $resolution['totalPrice']);
+
+            if (isset($resolution['info'])) break;
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($productProcess[$i]['id_product']);
+
+            foreach ($productsCompositer as $j) {
+                if (isset($resolution['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $j['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($resolution['info'])) break;
+
+                $data = $priceProductDao->calcPrice($j['id_product']);
+                $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            }
         }
 
         if ($resolution == null)
@@ -275,7 +317,9 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
-    $productsDao
+    $productsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -327,6 +371,24 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
             $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
         if (isset($productProcess['totalPrice']))
             $productProcess = $productsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+        if ($productProcess == null) {
+            // Calcular costo material porq
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProductProcess['idProduct']);
+
+            foreach ($productsCompositer as $j) {
+                if (isset($productProcess['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $j['id_product'];
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $productProcess = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($productProcess['info'])) break;
+
+                $data = $priceProductDao->calcPrice($j['id_product']);
+                $productProcess = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+            }
+        }
 
         if ($productProcess == null)
             $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
@@ -346,7 +408,9 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
-    $productsDao
+    $productsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -390,6 +454,25 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
     if (isset($product['totalPrice']))
         $resolution = $productsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
 
+    if ($resolution == null) {
+        // Calcular costo material porq
+        $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProductProcess['idProduct']);
+
+        foreach ($productsCompositer as $j) {
+            if (isset($resolution['info'])) break;
+
+            $data = [];
+            $data['idProduct'] = $j['id_product'];
+            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+            if (isset($resolution['info'])) break;
+
+            $data = $priceProductDao->calcPrice($j['id_product']);
+            $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+        }
+    }
+
     if ($resolution == null)
         $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
     else if (isset($productProcess['info']))
@@ -405,7 +488,9 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
-    $productsDao
+    $productsDao,
+    $generalCompositeProductsDao,
+    $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -439,6 +524,24 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     if (isset($product['totalPrice']))
         $product = $productsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
 
+    if ($product == null) {
+        // Calcular costo material porq
+        $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProductProcess['idProduct']);
+
+        foreach ($productsCompositer as $j) {
+            if (isset($product['info'])) break;
+
+            $data = [];
+            $data['idProduct'] = $j['id_product'];
+            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            $product = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+            if (isset($product['info'])) break;
+
+            $data = $priceProductDao->calcPrice($j['id_product']);
+            $product = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+        }
+    }
     if ($product == null)
         $resp = array('success' => true, 'message' => 'Proceso eliminado correctamente');
     else

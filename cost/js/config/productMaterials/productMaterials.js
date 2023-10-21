@@ -19,12 +19,6 @@ $(document).ready(function () {
     sessionStorage.removeItem('id_product_material');
 
     $('#formAddMaterials').trigger('reset');
-    let idProduct = $('#selectNameProduct').val();
-
-    if (!idProduct)
-      return false;
-
-    await loadtableMaterials(idProduct);
   });
 
   /* Adicionar unidad de materia prima */
@@ -192,7 +186,8 @@ $(document).ready(function () {
       $('.cardImportProductsMaterials').hide(800);
 
       $('#formAddMaterials').trigger('reset');
-      updateTable();
+      loadtableMaterials($('#selectNameProduct').val());
+      // updateTable();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);

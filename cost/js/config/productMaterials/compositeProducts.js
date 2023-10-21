@@ -12,13 +12,7 @@ $(document).ready(function () {
         
         sessionStorage.removeItem('id_composite_product');
         
-        $('#formAddNewProduct').trigger('reset');
-        let idProduct = $('#selectNameProduct').val();
-
-        if (!idProduct)
-            return false;
-
-        await loadTblCompositeProducts(idProduct);
+        $('#formAddNewProduct').trigger('reset'); 
     });
 
     $('#compositeProduct').change(function (e) {
