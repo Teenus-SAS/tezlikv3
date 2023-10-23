@@ -87,7 +87,7 @@ $(document).ready(function () {
         className: 'uniqueClassName',
         render: function (data) {
           return `
-                ${data.composite_product == '0' ? `<a href="javascript:;" <i id="${data.id_product}" class="${data.composite == 0 ? 'bi bi-plus-square-fill' : 'bi bi-dash-square-fill'} composite" data-toggle='tooltip' title='${data.composite == 0 ? 'Agregar' : 'Eliminar'} a producto compuesto' style="font-size:25px; color: #3e382c;"></i></a>` : ''}
+                <a href="javascript:;" <i id="${data.id_product}" class="${data.composite == 0 ? 'bi bi-plus-square-fill' : 'bi bi-dash-square-fill'} composite" data-toggle='tooltip' title='${data.composite == 0 ? 'Agregar' : 'Eliminar'} a producto compuesto' style="font-size:25px; color: #3e382c;"></i></a>
                 <a href="javascript:;" <i id="${data.id_product}" class="bx bx-copy-alt" data-toggle='tooltip' title='Clonar Producto' style="font-size: 30px; color:green" onclick="copyFunction()"></i></a>
                 <a href="javascript:;" <i id="${data.id_product}" class="bx bx-edit-alt updateProducts" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>
                 <a href="javascript:;" <i id="${data.id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
