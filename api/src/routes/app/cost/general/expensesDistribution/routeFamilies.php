@@ -155,6 +155,12 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
 
                 $data = [];
                 $data['idProduct'] = $arr['id_product'];
+                $data['compositeProduct'] = $arr['id_child_product'];
+
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -273,6 +279,12 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
 
             $data = [];
             $data['idProduct'] = $arr['id_product'];
+            $data['compositeProduct'] = $arr['id_child_product'];
+
+            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+            $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+            if (isset($resolution['info'])) break;
             $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
             $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 

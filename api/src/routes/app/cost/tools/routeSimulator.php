@@ -68,9 +68,9 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     // Consultar analisis de costos por producto
     $costAnalysisProducts = $dashboardProductsDao->findCostAnalysisByProduct($args['id_product'], $id_company);
     // Consultar Costo Materia prima por producto
-    $costRawMaterials = $dashboardProductsDao->findCostRawMaterialsByProduct($args['id_product'], $id_company);
+    $costRawMaterials = $dashboardProductsDao->findCostRawMaterialsByProduct($args['id_product'], $id_company, 1);
     // Consultar Ficha tecnica Proceso del producto
-    $totalTimeProcess = $dashboardProductsDao->findProductProcessByProduct($args['id_product'], $id_company);
+    $totalTimeProcess = $dashboardProductsDao->findProductProcessByProduct($args['id_product'], $id_company, 1);
     // Carga fabril
     $factoryLoad = $simulatorDao->findAllFactoryLoadByProduct($args['id_product'], $id_company);
     // Servicios Externos
@@ -150,6 +150,12 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
 
                 $data = [];
                 $data['idProduct'] = $arr['id_product'];
+                $data['compositeProduct'] = $arr['id_child_product'];
+
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 

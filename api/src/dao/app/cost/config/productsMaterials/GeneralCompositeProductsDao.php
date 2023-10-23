@@ -56,6 +56,47 @@ class GeneralCompositeProductsDao
         return $compositeProduct;
     }
 
+    public function findCostMaterialByCompositeProduct($dataProduct)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT IFNULL((cp.quantity * pc.price), 0) AS cost
+                                          FROM composite_products cp
+                                            LEFT JOIN products_costs pc ON cp.id_child_product = pc.id_product
+                                          WHERE cp.id_product = :id_product AND cp.id_child_product = :id_child_product");
+            $stmt->execute([
+                'id_product' => $dataProduct['idProduct'],
+                'id_child_product' => $dataProduct['compositeProduct']
+            ]);
+            $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
+
+            $dataProduct['cost'] = $costMaterialsProduct['cost'];
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $dataProduct = array('info' => true, 'message' => $message);
+        }
+
+        return $dataProduct;
+    }
+
+    public function updateCostCompositeProduct($dataProduct)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+
+            $stmt = $connection->prepare("UPDATE composite_products SET cost = :cost WHERE id_product = :id_product AND id_child_product = :id_child_product");
+            $stmt->execute([
+                'cost' => $dataProduct['cost'],
+                'id_product' => $dataProduct['idProduct'],
+                'id_child_product' => $dataProduct['compositeProduct']
+            ]);
+        } catch (\Exception $e) {
+            $error = array('info' => true, 'message' => $e->getMessage());
+            return $error;
+        }
+    }
+
     public function deleteCompositeProductByProduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();

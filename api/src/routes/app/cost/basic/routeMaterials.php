@@ -214,7 +214,12 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                             if (isset($resolution['info'])) break;
 
                             $data = [];
+                            $data['compositeProduct'] = $j['id_child_product'];
                             $data['idProduct'] = $j['id_product'];
+                            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                            $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                            if (isset($resolution['info'])) break;
                             $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                             $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -284,7 +289,8 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                         $generalMaterialsDao->updateCostProductMaterial($k, $quantities);
                     }
                     $j['idProduct'] = $j['id_product'];
-                    $j = $costMaterialsDao->calcCostMaterial($j, $id_company);
+                    // $j = $costMaterialsDao->calcCostMaterial($j, $id_company);
+                    $j = $costMaterialsDao->calcCostMaterialByCompositeProduct($j, $id_company);
 
                     $materials = $costMaterialsDao->updateCostMaterials($j, $id_company);
 
@@ -303,7 +309,12 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                         if (isset($materials['info'])) break;
 
                         $data = [];
+                        $data['compositeProduct'] = $j['id_child_product'];
                         $data['idProduct'] = $arr['id_product'];
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $materials = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($materials['info'])) break;
                         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                         $materials = $costMaterialsDao->updateCostMaterials($data, $id_company);
 

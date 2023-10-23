@@ -111,14 +111,19 @@ $app->post('/addExternalService', function (Request $request, Response $response
                     if (isset($externalService['info'])) break;
 
                     $data = [];
+                    $data['compositeProduct'] = $j['id_child_product'];
                     $data['idProduct'] = $j['id_product'];
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $externalServices = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($externalServices['info'])) break;
                     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                    $externalService = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                    $externalServices = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
                     if (isset($externalService['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $externalService = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                    $externalServices = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
                 }
             }
 
@@ -163,7 +168,12 @@ $app->post('/addExternalService', function (Request $request, Response $response
                 if (isset($resolution['info'])) break;
 
                 $data = [];
+                $data['compositeProduct'] = $j['id_child_product'];
                 $data['idProduct'] = $j['id_product'];
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 

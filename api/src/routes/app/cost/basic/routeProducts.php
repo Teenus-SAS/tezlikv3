@@ -546,7 +546,12 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
                 if (isset($products['info'])) break;
 
                 $data = [];
+                $data['compositeProduct'] = $arr['id_child_product'];
                 $data['idProduct'] = $arr['id_product'];
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $products = $costMaterialsDao->updateCostMaterials($data, $id_company);
 

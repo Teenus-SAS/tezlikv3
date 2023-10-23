@@ -99,24 +99,30 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
             $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
         if (isset($expenseRecover['totalPrice']))
-            $expenseRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
 
         if ($expensesRecover == null) {
             // Calcular costo material porq
             $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExpense['idProduct']);
 
             foreach ($productsCompositer as $arr) {
-                if (isset($expenseRecover['info'])) break;
+                if (isset($expensesRecover['info'])) break;
 
                 $data = [];
                 $data['idProduct'] = $arr['id_product'];
-                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                $expenseRecover = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                $data['compositeProduct'] = $arr['id_child_product'];
 
-                if (isset($expenseRecover['info'])) break;
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $expensesRecover = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($expensesRecover['info'])) break;
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $expensesRecover = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($expensesRecover['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $expenseRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             }
         }
 
@@ -158,6 +164,12 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 
                 $data = [];
                 $data['idProduct'] = $arr['id_product'];
+                $data['compositeProduct'] = $arr['id_child_product'];
+
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -197,24 +209,30 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
             $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
         if (isset($expenseRecover['totalPrice']))
-            $expenseRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
 
         if ($expensesRecover == null) {
             // Calcular costo material porq
             $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExpense['idProduct']);
 
             foreach ($productsCompositer as $arr) {
-                if (isset($expenseRecover['info'])) break;
+                if (isset($expensesRecover['info'])) break;
 
                 $data = [];
                 $data['idProduct'] = $arr['id_product'];
-                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                $expenseRecover = $costMaterialsDao->updateCostMaterials($data, $id_company);
+                $data['compositeProduct'] = $arr['id_child_product'];
 
-                if (isset($expenseRecover['info'])) break;
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $expensesRecover = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($expensesRecover['info'])) break;
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $expensesRecover = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($expensesRecover['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $expenseRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             }
         }
 
@@ -250,6 +268,12 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 
                 $data = [];
                 $data['idProduct'] = $arr['id_product'];
+                $data['compositeProduct'] = $arr['id_child_product'];
+
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -288,24 +312,30 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
         $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
     if (isset($expenseRecover['totalPrice']))
-        $expenseRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+        $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
 
     if ($expensesRecover == null) {
         // Calcular costo material porq
         $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExpense['idProduct']);
 
         foreach ($productsCompositer as $arr) {
-            if (isset($expenseRecover['info'])) break;
+            if (isset($expensesRecover['info'])) break;
 
             $data = [];
             $data['idProduct'] = $arr['id_product'];
-            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-            $expenseRecover = $costMaterialsDao->updateCostMaterials($data, $id_company);
+            $data['compositeProduct'] = $arr['id_child_product'];
 
-            if (isset($expenseRecover['info'])) break;
+            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+            $expensesRecover = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+            if (isset($expensesRecover['info'])) break;
+            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            $expensesRecover = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+            if (isset($expensesRecover['info'])) break;
 
             $data = $priceProductDao->calcPrice($arr['id_product']);
-            $expenseRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+            $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
         }
     }
 

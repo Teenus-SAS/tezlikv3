@@ -138,7 +138,12 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                     if (isset($factoryLoad['info'])) break;
 
                     $data = [];
+                    $data['compositeProduct'] = $j['id_child_product'];
                     $data['idProduct'] = $j['id_product'];
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $factoryLoad = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($factoryLoad['info'])) break;
                     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                     $factoryLoad = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -210,7 +215,12 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                     if (isset($resolution['info'])) break;
 
                     $data = [];
+                    $data['compositeProduct'] = $j['id_child_product'];
                     $data['idProduct'] = $j['id_product'];
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($resolution['info'])) break;
                     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                     $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -284,7 +294,12 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
                 if (isset($factoryLoad['info'])) break;
 
                 $data = [];
+                $data['compositeProduct'] = $j['id_child_product'];
                 $data['idProduct'] = $j['id_product'];
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $factoryLoad = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($factoryLoad['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $factoryLoad = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -352,7 +367,12 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
                 if (isset($factoryLoad['info'])) break;
 
                 $data = [];
+                $data['compositeProduct'] = $j['id_child_product'];
                 $data['idProduct'] = $j['id_product'];
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $factoryLoad = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($factoryLoad['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $factoryLoad = $costMaterialsDao->updateCostMaterials($data, $id_company);
 

@@ -60,12 +60,12 @@ class CostMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT IFNULL((cp.quantity * SUM(pc.price)), 0) AS cost
-                                          FROM composite_products cp
-                                            LEFT JOIN products_costs pc ON cp.id_child_product = pc.id_product
-                                          WHERE cp.id_product = :id_product");
+            $stmt = $connection->prepare("SELECT IFNULL((SUM(cp.cost) + (SELECT SUM(cost) FROM products_materials WHERE id_product = cp.id_product)), 0) AS cost
+                                          FROM composite_products cp 
+                                          WHERE cp.id_product = :id_product -- AND cp.id_child_product = :id_child_product");
             $stmt->execute([
-                'id_product' => $dataProduct['idProduct']
+                'id_product' => $dataProduct['idProduct'],
+                // 'id_child_product' => $dataProduct['compositeProduct']
             ]);
             $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
 

@@ -188,7 +188,12 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     if (isset($productProcess['info'])) break;
 
                     $data = [];
+                    $data['compositeProduct'] = $j['id_child_product'];
                     $data['idProduct'] = $j['id_product'];
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $productProcess = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($productProcess['info'])) break;
                     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                     $productProcess = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -290,7 +295,12 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 if (isset($resolution['info'])) break;
 
                 $data = [];
+                $data['compositeProduct'] = $j['id_child_product'];
                 $data['idProduct'] = $j['id_product'];
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -379,7 +389,12 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
                 if (isset($productProcess['info'])) break;
 
                 $data = [];
+                $data['compositeProduct'] = $j['id_child_product'];
                 $data['idProduct'] = $j['id_product'];
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $productProcess = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($productProcess['info'])) break;
                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                 $productProcess = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -462,7 +477,12 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
             if (isset($resolution['info'])) break;
 
             $data = [];
+            $data['compositeProduct'] = $j['id_child_product'];
             $data['idProduct'] = $j['id_product'];
+            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+            $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+            if (isset($resolution['info'])) break;
             $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
             $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -532,7 +552,12 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
             if (isset($product['info'])) break;
 
             $data = [];
+            $data['compositeProduct'] = $j['id_child_product'];
             $data['idProduct'] = $j['id_product'];
+            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+            $product = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+            if (isset($product['info'])) break;
             $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
             $product = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
