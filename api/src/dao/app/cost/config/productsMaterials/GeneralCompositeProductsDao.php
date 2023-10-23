@@ -55,4 +55,19 @@ class GeneralCompositeProductsDao
         $this->logger->notice("products", array('products' => $compositeProduct));
         return $compositeProduct;
     }
+
+    public function deleteCompositeProductByProduct($id_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM composite_products WHERE id_product = :id_product");
+        $stmt->execute(['id_product' => $id_product]);
+        $rows = $stmt->rowCount();
+
+        if ($rows > 0) {
+            $stmt = $connection->prepare("DELETE FROM composite_products WHERE id_product = :id_product");
+            $stmt->execute(['id_product' => $id_product]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        }
+    }
 }

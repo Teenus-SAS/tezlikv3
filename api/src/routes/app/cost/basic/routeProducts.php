@@ -576,7 +576,8 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $generalExpenseDistributionDao,
     $generalExpenseRecoverDao,
     $productsCostDao,
-    $productsDao
+    $productsDao,
+    $generalCompositeProductsDao
 ) {
     $dataProduct = $request->getParsedBody();
 
@@ -586,6 +587,7 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $expensesDistribution = $generalExpenseDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
     $expensesRecover = $generalExpenseRecoverDao->deleteRecoverExpenseByProduct($dataProduct);
     $productsCost = $productsCostDao->deleteProductsCost($dataProduct);
+    $productsCompositer = $generalCompositeProductsDao->deleteCompositeProductByProduct($dataProduct['idProduct']);
     $product = $productsDao->deleteProduct($dataProduct['idProduct']);
 
     if (

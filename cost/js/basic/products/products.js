@@ -39,8 +39,7 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product', idProduct);
     
     let row = $(this).parent().parent()[0];
-    let data = tblProducts.fnGetData(row);
-    sessionStorage.setItem('composite', data.composite);
+    let data = tblProducts.fnGetData(row); 
 
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);
@@ -63,10 +62,10 @@ $(document).ready(function () {
     prof = parseFloat(prof.replace(',', '.'));
     comission = parseFloat(comission.replace(',', '.'));
 
-    let data = 1 * prof;
-    let composite = sessionStorage.getItem('composite');
+    // let data = 1 * prof; 
+    // || ((data <= 0 || isNaN(data)) && (!composite || composite == '0'))
 
-    if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim() || ((data <= 0 || isNaN(data)) && (!composite || composite == '0'))) {
+    if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim()) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
