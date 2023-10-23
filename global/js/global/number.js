@@ -180,7 +180,7 @@ $(document).ready(function () {
     if (userAgentNum.indexOf("Mac") !== -1)
       decimalIndex = cadena.indexOf(',');
     else
-      decimalIndex = cadena.indexOf(',');
+      decimalIndex = cadena.indexOf('.');
     
     if (decimalIndex === -1) {
       return 0;
