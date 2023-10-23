@@ -92,6 +92,16 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Acceso Productos Compuestos',
+        data: 'flag_composite_product',
+        className: 'uniqueClassName',
+        render: function (data) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
         title: 'Acciones',
         data: 'id_company',
         className: 'uniqueClassName',

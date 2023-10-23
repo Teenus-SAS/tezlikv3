@@ -371,13 +371,17 @@ $(document).ready(function () {
       totalMaterial.push(data[i].totalCostMaterial);
     }
 
-    let maxDataValue = Math.max(...totalMaterial);
-    let minDataValue = Math.min(...totalMaterial);
-    let valueRange = maxDataValue - minDataValue;
+    if(totalMaterial.length > 1){
+      let maxDataValue = Math.max(...totalMaterial);
+      let minDataValue = Math.min(...totalMaterial);
+      let valueRange = maxDataValue - minDataValue;
 
-    let step = Math.ceil(valueRange / 10 / 10) * 10;
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    }else {
+      maxYValue = Math.max(...totalMaterial);
+    }
 
     chartMaterials ? chartMaterials.destroy() : chartMaterials;
 

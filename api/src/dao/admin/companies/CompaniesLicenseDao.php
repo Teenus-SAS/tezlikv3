@@ -22,9 +22,8 @@ class CompaniesLicenseDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT cp.id_company, cp.nit, cp.company, cl.license_start, cl.license_end,
-                                        cl.quantity_user, cl.license_status, CASE WHEN cl.license_end > CURRENT_DATE
-                                        THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END license_days, cl.plan, cl.cost_price_usd, cl.flag_employee
+        $stmt = $connection->prepare("SELECT cp.id_company, cp.nit, cp.company, cl.license_start, cl.license_end, cl.quantity_user, cl.license_status, 
+                                        CASE WHEN cl.license_end > CURRENT_DATE THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END license_days, cl.plan, cl.cost_price_usd, cl.flag_employee, cl.flag_composite_product
                                       FROM companies cp 
                                        INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company");
         $stmt->execute();
@@ -44,8 +43,8 @@ class CompaniesLicenseDao
                 $licenseStart = date('Y-m-d');
                 $licenseEnd = date("Y-m-d", strtotime($licenseStart . "+ 30 day"));
 
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost, planning, cost_price_usd, flag_employee)
-                                              VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost, :planning, :cost_price_usd, :flag_employee)");
+                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost, planning, cost_price_usd, flag_employee, flag_composite_product)
+                                              VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost, :planning, :cost_price_usd, :flag_employee, :flag_composite_product)");
                 $stmt->execute([
                     'id_company' => $id_company,
                     'license_start' => $licenseStart,
@@ -56,11 +55,12 @@ class CompaniesLicenseDao
                     'cost' => 1,
                     'planning' => 1,
                     'cost_price_usd' => 1,
-                    'flag_employee' => 1
+                    'flag_employee' => 1,
+                    'flag_composite_product' => 1
                 ]);
             } else {
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost_price_usd, flag_employee)
-                                          VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost_price_usd, :flag_employee)");
+                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost_price_usd, flag_employee, flag_composite_product)
+                                          VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost_price_usd, :flag_employee, :flag_composite_product)");
                 $stmt->execute([
                     'id_company' => $id_company,
                     'license_start' => $dataLicense['license_start'],
@@ -69,7 +69,8 @@ class CompaniesLicenseDao
                     'license_status' => 1,
                     'plan' => $dataLicense['plan'],
                     'cost_price_usd' => $dataLicense['pricesUSD'],
-                    'flag_employee' => $dataLicense['payrollEmployee']
+                    'flag_employee' => $dataLicense['payrollEmployee'],
+                    'flag_composite_product' => $dataLicense['compositeProducts']
                 ]);
             }
 
@@ -90,8 +91,8 @@ class CompaniesLicenseDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("UPDATE companies_licenses SET license_start = :license_start, license_end = :license_end,
-                                                 quantity_user = :quantity_user, plan = :plan, cost_price_usd = :cost_price_usd, flag_employee = :flag_employee
+            $stmt = $connection->prepare("UPDATE companies_licenses SET license_start = :license_start, license_end = :license_end, quantity_user = :quantity_user, 
+                                                 plan = :plan, cost_price_usd = :cost_price_usd, flag_employee = :flag_employee, flag_composite_product = :flag_composite_product
                                           WHERE id_company = :id_company");
             $stmt->execute([
                 'license_start' => $dataLicense['license_start'],
@@ -100,7 +101,8 @@ class CompaniesLicenseDao
                 'plan' => $dataLicense['plan'],
                 'id_company' => $dataLicense['company'],
                 'cost_price_usd' => $dataLicense['pricesUSD'],
-                'flag_employee' => $dataLicense['payrollEmployee']
+                'flag_employee' => $dataLicense['payrollEmployee'],
+                'flag_composite_product' => $dataLicense['compositeProducts']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
