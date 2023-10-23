@@ -88,7 +88,7 @@ $(document).ready(function () {
     if (userAgentNum.indexOf("Mac") !== -1)
       FullStringValue = arrayFullStringValue.join(',');
     else
-      FullStringValue = arrayFullStringValue.join(',');
+      FullStringValue = arrayFullStringValue.join('.');
 
     let floatFullValue = parseFloat(FullStringValue) + '';
 
