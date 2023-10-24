@@ -50,7 +50,7 @@ class TrmDao
 
             return $historicalTrm;
         } catch (\Exception $e) {
-            return array('info' => true);
+            return $e->getMessage();
         }
     }
 
@@ -64,7 +64,7 @@ class TrmDao
 
             return $historicalTrm;
         } catch (\Exception $e) {
-            return array('info' => true);
+            return $e->getMessage();
         }
     }
 

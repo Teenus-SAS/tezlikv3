@@ -16,44 +16,48 @@ $CompaniesDao = new CompaniesDao();
 function updateLastTrm($trmDao, $today)
 {
     try {
-        $resp = $trmDao->deleteAllHistoricalTrm();
+        $historicalTrm = $trmDao->getAllHistoricalTrm();
 
-        if ($resp == null) {
-            $historicalTrm = $trmDao->getAllHistoricalTrm();
-            $status = true;
+        if (is_array($historicalTrm)) {
+            $resp = $trmDao->deleteAllHistoricalTrm();
 
-            foreach ($historicalTrm as $arr) {
-                if ($status == false) break;
+            if ($resp == null) {
+                $historicalTrm = $trmDao->getAllHistoricalTrm();
+                $status = true;
 
-                $first_date = $arr['vigenciadesde'];
-                $last_date = $arr['vigenciahasta'];
-
-                for ($date = $first_date; $date <= $last_date;) {
+                foreach ($historicalTrm as $arr) {
                     if ($status == false) break;
 
-                    $trm_date = date('Y-m-d', strtotime($date . ' +2 years'));
+                    $first_date = $arr['vigenciadesde'];
+                    $last_date = $arr['vigenciahasta'];
 
-                    if ($trm_date == $today) $status = false;
+                    for ($date = $first_date; $date <= $last_date;) {
+                        if ($status == false) break;
 
-                    $resp = $trmDao->insertTrm($date, $arr['valor']);
+                        $trm_date = date('Y-m-d', strtotime($date . ' +2 years'));
 
-                    if (isset($resp['info'])) break;
+                        if ($trm_date == $today) $status = false;
 
-                    $date = date('Y-m-d', strtotime($date . ' +1 day'));
+                        $resp = $trmDao->insertTrm($date, $arr['valor']);
+
+                        if (isset($resp['info'])) break;
+
+                        $date = date('Y-m-d', strtotime($date . ' +1 day'));
+                    }
                 }
-            }
 
-            $trmDao->deleteTrm();
+                $trmDao->deleteTrm();
+            }
         }
     } catch (\Exception $e) {
         return $e->getMessage();
     }
 }
-// $date = date('Y-m-d');
+$date = date('Y-m-d');
 
-// $lastTrm = $trmDao->findLastInsertedTrm($date);
+$lastTrm = $trmDao->findLastInsertedTrm($date);
 
-// !is_array($lastTrm) ? $data['date_trm'] =  date('Y-m-d', strtotime($date . ' -1 day')) : $data = $lastTrm;
+!is_array($lastTrm) ? $data['date_trm'] =  date('Y-m-d', strtotime($date . ' -1 day')) : $data = $lastTrm;
 
-// if ($date > $data['date_trm'])
-    // updateLastTrm($trmDao, $date); 
+if ($date > $data['date_trm'])
+    updateLastTrm($trmDao, $date);
