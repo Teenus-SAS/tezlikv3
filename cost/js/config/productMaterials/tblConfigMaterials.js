@@ -23,10 +23,12 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
   loadtableMaterials = async (idProduct) => {
-    let dataProductMaterial = await searchData(`/api/productsMaterials/${idProduct}`);
-    let dataCompositeProduct = await searchData(`/api/compositeProducts/${idProduct}`);
+    let data = await searchData(`/api/productsMaterials/${idProduct}`);
+    if (flag_composite_product == '1') {
+      let dataCompositeProduct = await searchData(`/api/compositeProducts/${idProduct}`);
 
-    let data = [...dataProductMaterial, ...dataCompositeProduct];
+      data = [...data, ...dataCompositeProduct];
+    }
     
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
       destroy: true,

@@ -141,7 +141,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     if ($resolution == null) {
         $resolution = $generalProductsDao->updatePrice($products['idProduct'], $simulator['products'][0]['price']);
 
-        if ($resolution == null) {
+        if ($resolution == null && $_SESSION['flag_composite_product'] == '1') {
             // Calcular costo material porq
             $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products['idProduct']);
 

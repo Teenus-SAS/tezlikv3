@@ -57,9 +57,11 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnCreateProduct">Adicionar Nueva Materia Prima</button>
                                 </div>
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-secondary" id="btnAddNewProduct">Adicionar Nuevo Producto</button>
-                                </div>
+                                <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-secondary" id="btnAddNewProduct">Adicionar Nuevo Producto</button>
+                                    </div>
+                                <?php } ?>
                                 <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-info" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
                                 </div>
@@ -222,6 +224,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
     <script src="/global/js/global/configUnits.js"></script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>

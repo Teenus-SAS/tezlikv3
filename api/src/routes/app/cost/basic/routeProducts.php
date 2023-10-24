@@ -538,7 +538,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         if (isset($products['totalPrice']))
             $products = $generalProductsDao->updatePrice($dataProduct['idProduct'], $products['totalPrice']);
 
-        if ($products == null) {
+        if ($products == null && $_SESSION['flag_composite_product'] == '1') {
             // Calcular costo material porq
             $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
 

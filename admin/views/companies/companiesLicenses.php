@@ -64,11 +64,18 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <form id="formAddLicense">
-                                            <div class="row align-items-center">
-                                                <div class="col-sm">
+                                            <div class="row">
+                                                <div class="col-sm-4">
                                                     <div class="form-group m-0">
                                                         <label for="company">Empresa</label>
-                                                        <select name="company" class="form-control company" id="company"></select>
+                                                        <select name="company" class="form-control company" id="company" disabled="">
+                                                            <option disabled="" selected="">Seleccionar</option>
+                                                            <option value="1"> Samara Cosmetics </option>
+                                                            <option value="2"> Teenus SAs </option>
+                                                            <option value="5"> Teenus SAS </option>
+                                                            <option value="6"> Vialy SAS </option>
+                                                            <option value="7"> Proyecformas </option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm">
@@ -83,38 +90,46 @@ if (sizeof($_SESSION) == 0)
                                                         <input id="license_end" name="license_end" type="date" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm">
+                                                <div class="col-sm-1">
                                                     <div class="form-group m-0">
                                                         <label for="quantityUsers">Usuarios</label>
                                                         <input id="quantityUsers" name="quantityUsers" type="number" class="form-control text-center">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm">
+                                                <div class="col-sm-2">
                                                     <div class="form-group m-0">
                                                         <label for="">Tipo de Plan</label>
-                                                        <select name="plan" id="plan" class="form-control"></select>
+                                                        <select name="plan" id="plan" class="form-control">
+                                                            <option disabled="" selected="">Seleccionar</option>
+                                                            <option value="1"> Premium </option>
+                                                            <option value="2"> Pro </option>
+                                                            <option value="3"> Pyme </option>
+                                                            <option value="4"> Emprendedor </option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm">
+                                            </div>
+                                            <div class="row mt-4">
+                                                <div class="col-sm-2">
                                                     <div class="form-group m-0">
                                                         <label for="">Precios USD</label>
                                                         <select name="pricesUSD" id="pricesUSD" class="form-control">
-                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option selected="" disabled="" value="0">Seleccionar</option>
                                                             <option value="1">Si</option>
                                                             <option value="2">No</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-xs-4 text-center">
+                                                <div class="col-xs-4 text-center mr-2 mt-4">
                                                     <label for="">Procesos Nomina</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="payrollEmployee" id="payrollEmployee">
                                                 </div>
-                                                <div class="col-xs-4 text-center">
+                                                <div class="col-xs-4 text-center mr-2 mt-4">
                                                     <label for="">Productos Compuestos</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="compositeProducts" id="compositeProducts">
                                                 </div>
                                                 <div class="col-xs">
-                                                    <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 25px">Crear</button>
+                                                    <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 25px">Actualizar</button>
                                                 </div>
                                             </div>
                                         </form>
