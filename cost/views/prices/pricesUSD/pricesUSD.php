@@ -83,7 +83,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card disable-select">
                                     <div class="card-header">
-                                        <h5 class="card-title">Precios</h5>
+                                        <h5 class="card-title" id="headerPrices">Precios</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -110,10 +110,17 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
     </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/prices/pricesUSD/tblPricesUSD.js"></script>
     <script src="/cost/js/prices/pricesUSD/pricesUSD.js"></script>
+    <script src="/cost/js/tools/economyScale/configTypePrices.js"></script>
+    <script>
+        $(document).ready(function() {
+            checkFlagPrice(3);
+        });
+    </script>
 </body>
 
 </html>

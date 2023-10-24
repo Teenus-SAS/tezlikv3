@@ -22,11 +22,16 @@ $(document).ready(function () {
                         function (data, textStatus, jqXHR) {
                             if (data.success == true) {
                                 toastr.success(data.message);
-                                if (op == 1)
+                                if (op == 1) {
                                     $('#labelDescription').html(` Descripción (${flag_type_price == '0' ? 'Precio Actual' : 'Precio Sugerido'}) `);
-                                else {
+                                } else if (op == 2) {
                                     $('#lblPrice').html(flag_type_price == '0' ? 'Precio Actual' : 'Precio Sugerido');
                                     loadTblMultiproducts();
+                                    getUSDData(0);
+                                } else {
+                                    $('#headerPrices').html(` Precios (${flag_type_price == '0' ? 'Precio Actual' : 'Precio Sugerido'}) `);
+                                    $('#tblProcess').DataTable().clear();
+                                    $('#tblProcess').DataTable().ajax.reload();
                                 }
                             }
                             else if (data.error == true) toastr.error(data.message);
@@ -38,11 +43,13 @@ $(document).ready(function () {
         } else {
             if (op == 1)
                 $('#labelDescription').html(` Descripción (${flag_type_price == '0' ? 'Precio Actual' : 'Precio Sugerido'}) `);
-            else {
+            else if (op == 2) {
                 $('#lblPrice').html(flag_type_price == '0' ? 'Precio Actual' : 'Precio Sugerido');
                 loadTblMultiproducts();
+            } else {
+                $('#headerPrices').html(` Precios (${flag_type_price == '0' ? 'Actual' : 'Sugerido'}) `);
             }
         }
             
-    }; 
+    };
 });

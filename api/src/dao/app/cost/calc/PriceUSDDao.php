@@ -39,8 +39,10 @@ class PriceUSDDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
+            $_SESSION['flag_type_price'] == '0' ? $price = $dataProduct['sale_price'] : $price = $dataProduct['price'];
+
             // Calculo
-            $priceUsd = floatval($dataProduct['price']) / $coverage;
+            $priceUsd = floatval($price) / $coverage;
 
             // Actualizar
             $stmt = $connection->prepare("UPDATE products_costs SET price_usd = :price_usd WHERE id_product = :id_product AND id_company = :id_company");
