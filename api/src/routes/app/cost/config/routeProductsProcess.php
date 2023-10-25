@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\GeneralPayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
@@ -23,6 +24,7 @@ $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
+$costCompositeProductsDao = new CostCompositeProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -135,7 +137,8 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $indirectCostDao,
     $priceProductDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -190,6 +193,14 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     $data = [];
                     $data['compositeProduct'] = $j['id_child_product'];
                     $data['idProduct'] = $j['id_product'];
+
+                    $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                    $productProcess = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                    if (isset($productProcess['info'])) break;
+
+                    $productProcess = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                    if (isset($productProcess['info'])) break;
+
                     $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                     $productProcess = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -298,6 +309,14 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     $data = [];
                     $data['compositeProduct'] = $j['id_child_product'];
                     $data['idProduct'] = $j['id_product'];
+
+                    $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                    $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                    if (isset($resolution['info'])) break;
+
+                    $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                    if (isset($resolution['info'])) break;
+
                     $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                     $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -331,7 +350,8 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $priceProductDao,
     $productsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -394,6 +414,14 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
                 $data = [];
                 $data['compositeProduct'] = $j['id_child_product'];
                 $data['idProduct'] = $j['id_product'];
+
+                $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                $productProcess = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                if (isset($productProcess['info'])) break;
+
+                $productProcess = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                if (isset($productProcess['info'])) break;
+
                 $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                 $productProcess = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -428,7 +456,8 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
     $priceProductDao,
     $productsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -482,6 +511,14 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
             $data = [];
             $data['compositeProduct'] = $j['id_child_product'];
             $data['idProduct'] = $j['id_product'];
+
+            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+            $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+            if (isset($resolution['info'])) break;
+
+            $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+            if (isset($resolution['info'])) break;
+
             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -513,7 +550,8 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $priceProductDao,
     $productsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -557,6 +595,14 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
             $data = [];
             $data['compositeProduct'] = $j['id_child_product'];
             $data['idProduct'] = $j['id_product'];
+
+            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+            if (isset($product['info'])) break;
+
+            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+            if (isset($product['info'])) break;
+
             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
             $product = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 

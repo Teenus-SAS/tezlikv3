@@ -2,6 +2,7 @@
 
 use tezlikv3\Dao\BenefitsDao;
 use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\PayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
@@ -27,6 +28,7 @@ $risksDao = new RisksDao();
 $factorBenefitDao = new FactorBenefitDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
+$costCompositeProductsDao = new CostCompositeProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -123,7 +125,8 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $risksDao,
     $factorBenefitDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -230,6 +233,10 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                             $data['idProduct'] = $j['id_product'];
                             $data['compositeProduct'] = $j['id_child_product'];
 
+                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                            if (isset($resolution['info'])) break;
+
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -269,7 +276,8 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $benefitsDao,
     $factorBenefitDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -331,6 +339,10 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                             $data['idProduct'] = $j['id_product'];
                             $data['compositeProduct'] = $j['id_child_product'];
 
+                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                            if (isset($payroll['info'])) break;
+
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -369,7 +381,8 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     $priceProductDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -413,6 +426,10 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
                     $data['idProduct'] = $j['id_product'];
                     $data['compositeProduct'] = $j['id_child_product'];
 
+                    $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                    $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                    if (isset($payroll['info'])) break;
+
                     $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                     $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -449,7 +466,8 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $priceProductDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -494,6 +512,10 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                         $data = [];
                         $data['idProduct'] = $j['id_product'];
                         $data['compositeProduct'] = $j['id_child_product'];
+
+                        $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                        $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                        if (isset($payroll['info'])) break;
 
                         $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                         $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);

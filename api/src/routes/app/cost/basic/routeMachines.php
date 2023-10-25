@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\ConvertDataDao;
+use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
@@ -23,6 +24,7 @@ $generalProductsDao = new GeneralProductsDao();
 $generalProductProcessDao = new GeneralProductsProcessDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
+$costCompositeProductsDao = new CostCompositeProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -102,7 +104,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $priceProductDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -193,6 +196,10 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                             $data['idProduct'] = $j['id_product'];
                             $data['compositeProduct'] = $j['id_child_product'];
 
+                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                            if (isset($resolution['info'])) break;
+
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -238,7 +245,8 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $priceProductDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -301,10 +309,14 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                         $data['idProduct'] = $j['id_product'];
                         $data['compositeProduct'] = $j['id_child_product'];
 
-                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                        $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+                        $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                        $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                        if (isset($machines['info'])) break;
 
-                        if (isset($resolution['info'])) break;
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $machines = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($machines['info'])) break;
                         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                         $machines = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
@@ -337,7 +349,8 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
     $priceProductDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -384,10 +397,14 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                         $data['idProduct'] = $j['id_product'];
                         $data['compositeProduct'] = $j['id_child_product'];
 
-                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                        $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+                        $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                        $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                        if (isset($machines['info'])) break;
 
-                        if (isset($resolution['info'])) break;
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $machines = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($machines['info'])) break;
                         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                         $machines = $costMaterialsDao->updateCostMaterials($data, $id_company);
 

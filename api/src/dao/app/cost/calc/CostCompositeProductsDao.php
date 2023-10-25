@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class CostMaterialsDao
+class CostCompositeProductsDao
 {
     private $logger;
 
@@ -31,44 +31,23 @@ class CostMaterialsDao
         return $dataProduct;
     }
 
-    public function calcCostMaterial($dataMaterials, $id_company)
+    public function calcCostCompositeProduct($dataProduct)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT SUM(pm.cost) as cost 
-                                        FROM materials m 
-                                        INNER JOIN products_materials pm ON pm.id_material = m.id_material 
-                                        WHERE m.id_company = :id_company AND pm.id_product = :id_product");
-            $stmt->execute([
-                'id_company' => $id_company,
-                'id_product' => $dataMaterials['idProduct']
-            ]);
-            $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
-
-            $dataMaterials['cost'] = $costMaterialsProduct['cost'];
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $dataMaterials = array('info' => true, 'message' => $message);
-        }
-
-        return $dataMaterials;
-    }
-
-    public function calcCostMaterialByCompositeProduct($dataProduct)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            $stmt = $connection->prepare("SELECT IFNULL((SUM(cp.cost) + (SELECT SUM(cost) FROM products_materials WHERE id_product = cp.id_product)), 0) AS cost
+            $stmt = $connection->prepare("SELECT IFNULL(SUM(pc.cost_indirect_cost) + SUM(pp.indirect_cost), 0) AS cost_indirect_cost, IFNULL(SUM(pc.cost_workforce) + SUM(pp.workforce_cost), 0) AS workforce_cost
                                           FROM composite_products cp 
-                                          WHERE cp.id_product = :id_product");
+                                          INNER JOIN products_process pp ON pp.id_product = cp.id_child_product
+                                          INNER JOIN products_costs pc ON pc.id_product = cp.id_product
+                                          WHERE cp.id_product = :id_product;");
             $stmt->execute([
                 'id_product' => $dataProduct['idProduct'],
             ]);
             $costMaterialsProduct = $stmt->fetch($connection::FETCH_ASSOC);
 
-            $dataProduct['cost'] = $costMaterialsProduct['cost'];
+            $dataProduct['cost_indirect_cost'] = $costMaterialsProduct['cost_indirect_cost'];
+            $dataProduct['workforce_cost'] = $costMaterialsProduct['workforce_cost'];
         } catch (\Exception $e) {
             $message = $e->getMessage();
             $dataProduct = array('info' => true, 'message' => $message);
