@@ -1,9 +1,12 @@
 <?php
 
 use tezlikv3\dao\CompositeProductsDao;
+use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\PriceProductDao;
 
 $compositeProductsDao = new CompositeProductsDao();
@@ -11,6 +14,9 @@ $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
 $generalProductsDao = new GeneralProductsDao();
+$costCompositeProductsDao = new CostCompositeProductsDao();
+$costWorkforceDao = new CostWorkforceDao();
+$indirectCostDao = new IndirectCostDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -29,7 +35,10 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
-    $generalProductsDao
+    $generalProductsDao,
+    $costCompositeProductsDao,
+    $indirectCostDao,
+    $costWorkforceDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -39,6 +48,12 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 
     if (!$composite) {
         $resolution = $compositeProductsDao->insertCompositeProductByCompany($dataProduct, $id_company);
+
+        if ($resolution == null) {
+            $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
+            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+        }
 
         // Calcular costo materia prima compuesta
         if ($resolution == null) {
@@ -77,7 +92,10 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
-    $generalProductsDao
+    $generalProductsDao,
+    $costCompositeProductsDao,
+    $costWorkforceDao,
+    $indirectCostDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -90,6 +108,12 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 
     if ($data['id_composite_product'] == $dataProduct['idCompositeProduct'] || $data['id_composite_product'] == 0) {
         $resolution = $compositeProductsDao->updateCompositeProduct($dataProduct);
+
+        if ($resolution == null) {
+            $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
+            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+        }
 
         // Calcular costo materia prima compuesta
         if ($resolution == null) {
@@ -128,7 +152,10 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
     $costMaterialsDao,
     $priceProductDao,
     $generalProductsDao,
-    $generalCompositeProductsDao
+    $generalCompositeProductsDao,
+    $costCompositeProductsDao,
+    $costWorkforceDao,
+    $indirectCostDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -136,12 +163,23 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
 
     $resolution = $compositeProductsDao->deleteCompositeProduct($dataProduct['idCompositeProduct']);
 
+    if ($resolution == null) {
+        $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
+        $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+        $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+    }
+
     // Calcular costo materia prima compuesta
     if ($resolution == null) {
         $dataProduct = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($dataProduct);
         $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($dataProduct);
     }
 
+    // Calcular costo materia prima
+    if ($resolution == null) {
+        $dataProduct = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProduct);
+        $resolution = $costMaterialsDao->updateCostMaterials($dataProduct, $id_company);
+    }
     // Calcular costo materia prima
     if ($resolution == null) {
         $dataProduct = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProduct);
