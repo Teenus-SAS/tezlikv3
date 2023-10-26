@@ -36,7 +36,7 @@ class CostCompositeProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT IFNULL(SUM(pc.cost_indirect_cost) + SUM(pp.indirect_cost), 0) AS cost_indirect_cost, IFNULL(SUM(pc.cost_workforce) + SUM(pp.workforce_cost), 0) AS workforce_cost
+            $stmt = $connection->prepare("SELECT IFNULL(pc.cost_indirect_cost + SUM(pp.indirect_cost), 0) AS cost_indirect_cost, IFNULL(pc.cost_workforce + SUM(pp.workforce_cost), 0) AS workforce_cost
                                           FROM composite_products cp 
                                           INNER JOIN products_process pp ON pp.id_product = cp.id_child_product
                                           INNER JOIN products_costs pc ON pc.id_product = cp.id_product

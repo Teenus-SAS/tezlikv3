@@ -559,6 +559,30 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
                 $products = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($products['info'])) break;
+
+                $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+                foreach ($productsCompositer2 as $k) {
+                    if (isset($products['info'])) break;
+
+                    $data = [];
+                    $data['compositeProduct'] = $k['id_child_product'];
+                    $data['idProduct'] = $k['id_product'];
+
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $products = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($products['info'])) break;
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $products = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($products['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($k['id_product']);
+                    $products = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                }
             }
         }
 

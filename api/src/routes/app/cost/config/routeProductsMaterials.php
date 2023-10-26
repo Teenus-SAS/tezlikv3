@@ -217,6 +217,30 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
                     $productMaterials = $productMaterials->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($productMaterials['info'])) break;
+
+                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                    foreach ($productsCompositer2 as $k) {
+                        if (isset($productMaterials['info'])) break;
+
+                        $data = [];
+                        $data['compositeProduct'] = $k['id_child_product'];
+                        $data['idProduct'] = $k['id_product'];
+
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $productMaterials = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($productMaterials['info'])) break;
+                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                        $productMaterials = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                        if (isset($productMaterials['info'])) break;
+
+                        $data = $priceProductDao->calcPrice($k['id_product']);
+                        $productMaterials = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                    }
                 }
             }
             if ($productMaterials == null)
@@ -314,6 +338,30 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
                     $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($resolution['info'])) break;
+
+                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                    foreach ($productsCompositer2 as $k) {
+                        if (isset($resolution['info'])) break;
+
+                        $data = [];
+                        $data['compositeProduct'] = $k['id_child_product'];
+                        $data['idProduct'] = $k['id_product'];
+
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($resolution['info'])) break;
+                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                        $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                        if (isset($resolution['info'])) break;
+
+                        $data = $priceProductDao->calcPrice($k['id_product']);
+                        $resolution = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                    }
                 }
             }
         }
@@ -403,6 +451,30 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
 
                 $data = $priceProductDao->calcPrice($j['id_product']);
                 $productMaterials = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                if (isset($productMaterials['info'])) break;
+
+                $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                foreach ($productsCompositer2 as $k) {
+                    if (isset($productMaterials['info'])) break;
+
+                    $data = [];
+                    $data['compositeProduct'] = $k['id_child_product'];
+                    $data['idProduct'] = $k['id_product'];
+
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $productMaterials = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($productMaterials['info'])) break;
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $productMaterials = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($productMaterials['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($k['id_product']);
+                    $productMaterials = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                }
             }
         }
         if ($productMaterials == null)
@@ -487,6 +559,30 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
 
             $data = $priceProductDao->calcPrice($j['id_product']);
             $product = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+            if (isset($product['info'])) break;
+
+            $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+            foreach ($productsCompositer2 as $k) {
+                if (isset($product['info'])) break;
+
+                $data = [];
+                $data['compositeProduct'] = $k['id_child_product'];
+                $data['idProduct'] = $k['id_product'];
+
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $product = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($product['info'])) break;
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $product = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($product['info'])) break;
+
+                $data = $priceProductDao->calcPrice($k['id_product']);
+                $product = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+            }
         }
     }
 

@@ -248,6 +248,35 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
                             $data = $priceProductDao->calcPrice($j['id_product']);
                             $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                            if (isset($resolution['info'])) break;
+
+                            $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                            foreach ($productsCompositer2 as $k) {
+                                if (isset($resolution['info'])) break;
+
+                                $data = [];
+                                $data['compositeProduct'] = $k['id_child_product'];
+                                $data['idProduct'] = $k['id_product'];
+
+                                $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+
+                                $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                                if (isset($resolution['info'])) break;
+
+                                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                                if (isset($resolution['info'])) break;
+                                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                                if (isset($resolution['info'])) break;
+
+                                $data = $priceProductDao->calcPrice($k['id_product']);
+                                $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                            }
                         }
                     }
                 }
@@ -354,6 +383,35 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
                             $data = $priceProductDao->calcPrice($j['id_product']);
                             $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                            if (isset($payroll['info'])) break;
+
+                            $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                            foreach ($productsCompositer2 as $k) {
+                                if (isset($payroll['info'])) break;
+
+                                $data = [];
+                                $data['compositeProduct'] = $k['id_child_product'];
+                                $data['idProduct'] = $k['id_product'];
+
+                                $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+
+                                $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                                if (isset($payroll['info'])) break;
+
+                                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                                $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                                if (isset($payroll['info'])) break;
+                                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                                $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                                if (isset($payroll['info'])) break;
+
+                                $data = $priceProductDao->calcPrice($k['id_product']);
+                                $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                            }
                         }
                     }
                 }
@@ -441,6 +499,35 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
                     $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($payroll['info'])) break;
+
+                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                    foreach ($productsCompositer2 as $k) {
+                        if (isset($payroll['info'])) break;
+
+                        $data = [];
+                        $data['compositeProduct'] = $k['id_child_product'];
+                        $data['idProduct'] = $k['id_product'];
+
+                        $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+
+                        $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                        if (isset($payroll['info'])) break;
+
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($payroll['info'])) break;
+                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                        $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                        if (isset($payroll['info'])) break;
+
+                        $data = $priceProductDao->calcPrice($k['id_product']);
+                        $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                    }
                 }
             }
         }
@@ -528,6 +615,35 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
                         $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($payroll['info'])) break;
+
+                        $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                        foreach ($productsCompositer2 as $k) {
+                            if (isset($payroll['info'])) break;
+
+                            $data = [];
+                            $data['compositeProduct'] = $k['id_child_product'];
+                            $data['idProduct'] = $k['id_product'];
+
+                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+
+                            $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                            if (isset($payroll['info'])) break;
+
+                            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                            $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                            if (isset($payroll['info'])) break;
+                            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                            $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                            if (isset($payroll['info'])) break;
+
+                            $data = $priceProductDao->calcPrice($k['id_product']);
+                            $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                        }
                     }
                 }
             }

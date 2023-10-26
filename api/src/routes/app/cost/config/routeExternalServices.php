@@ -108,7 +108,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
                 $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataExternalService['idProduct']);
 
                 foreach ($productsCompositer as $j) {
-                    if (isset($externalService['info'])) break;
+                    if (isset($externalServices['info'])) break;
 
                     $data = [];
                     $data['compositeProduct'] = $j['id_child_product'];
@@ -124,6 +124,30 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
                     $externalServices = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($productProcess['info'])) break;
+
+                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                    foreach ($productsCompositer2 as $arr) {
+                        if (isset($externalServices['info'])) break;
+
+                        $data = [];
+                        $data['compositeProduct'] = $arr['id_child_product'];
+                        $data['idProduct'] = $arr['id_product'];
+
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $externalServices = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($externalServices['info'])) break;
+                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                        $externalServices = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                        if (isset($externalServices['info'])) break;
+
+                        $data = $priceProductDao->calcPrice($arr['id_product']);
+                        $externalServices = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                    }
                 }
             }
 
@@ -182,6 +206,30 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
                     $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($resolution['info'])) break;
+
+                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                    foreach ($productsCompositer2 as $arr) {
+                        if (isset($resolution['info'])) break;
+
+                        $data = [];
+                        $data['compositeProduct'] = $arr['id_child_product'];
+                        $data['idProduct'] = $arr['id_product'];
+
+                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                        $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                        if (isset($resolution['info'])) break;
+                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                        $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                        if (isset($resolution['info'])) break;
+
+                        $data = $priceProductDao->calcPrice($arr['id_product']);
+                        $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                    }
                 }
             }
         }
