@@ -60,7 +60,7 @@ class AssignableExpenseDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
+            $stmt = $connection->prepare("SELECT IFNULL(SUM(units_sold), 0) as units_sold, IFNULL(SUM(turnover), 0) as turnover
                                           FROM families
                                           WHERE id_company = :id_company AND (assignable_expense > 0 OR units_sold > 0 OR turnover > 0)");
             $stmt->execute(['id_company' => $id_company]);

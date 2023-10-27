@@ -766,7 +766,7 @@ $app->get('/changeComposite/{id_product}/{op}', function (Request $request, Resp
 
     if ($args['op'] == 0) {
         $product = $generalCompositeProductsDao->findCompositeProductByChild($args['id_product']);
-        if (sizeof($product) == 0)
+        if (sizeof($product) > 0)
             $status = false;
     }
 

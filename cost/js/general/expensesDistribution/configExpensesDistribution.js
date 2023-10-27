@@ -13,7 +13,7 @@ $(document).ready(function () {
     );
     $('#expensesToDistribution').prop('disabled', true);
 
-    data = await searchData('/api/checkTypeExpense');
+    data = await searchData('/api/checkTypeExpense'); 
 
     if (data.flag_expense == 0) {
       /* Seleccionar tipo de gasto */
@@ -71,10 +71,10 @@ $(document).ready(function () {
 
       buttons.insertAdjacentHTML(
         'beforebegin',
-        `<div class="col-xs-2 mr-2">
+        `<div class="col-xs-2 btnButtons mr-2">
           <button class="btn btn-secondary" id="btnAddNewFamily">Nueva Familia</button>
         </div>
-        <div class="col-xs-2 mr-2">
+        <div class="col-xs-2 btnButtons mr-2">
           <button class="btn btn-secondary btnAddProductsFamilies" id="btnAddProductsFamilies">Asignar Productos</button>
         </div>
         `
@@ -150,4 +150,43 @@ $(document).ready(function () {
       loadTableExpenseRecover();
     }
   };
+
+  $('.typeExpense').click(function (e) { 
+    e.preventDefault(); 
+
+    let op = this.value;
+
+    bootbox.confirm({
+      title: 'Cambiar Tipo Distribución',
+      message:
+        `Está seguro de cambiar el tipo de distribución a ${op == '1' ? 'distribución por producto': 'distribución por familia'}?`,
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `/api/changeTypeExpenseDistribution/${op}`,
+            function (data, textStatus, jqXHR) {
+              if (data.success) {
+                toastr.success(data.message);
+                flag_expense_distribution = data.flag;
+                $('.btnButtons').remove();
+                setDataExpense();
+              }
+              else toastr.error(data.message);
+            }
+          );
+        }
+      },
+    });
+    
+  });
 });

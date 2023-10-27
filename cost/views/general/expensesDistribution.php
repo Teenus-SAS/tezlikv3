@@ -49,7 +49,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-title-box">
                     <div class="container-fluid">
                         <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
+                            <div class="col-sm-4 col-xl-4">
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
@@ -57,7 +57,7 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                            <div class="col-sm-8 col-xl-8 form-inline justify-content-sm-end">
                                 <div class="col-xs-2 mr-2 cardBtnUpdateExpenses" style="display:none">
                                     <button class="btn btn-secondary" id="btnUpdateExpenses">Modificar Gastos</button>
                                 </div>
@@ -69,6 +69,10 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
                                     <button id="btnImportNewExpenses" class="btn btn-primary"></button>
+                                </div>
+                                <div class="col-xs-2 mr-2 btn-group cardBtnExpensesDistribution" style="display: none;">
+                                    <button class="btn btn-sm btn-primary typeExpense" id="distribute" value="1">Distribucion</button>
+                                    <button class="btn btn-sm btn-outline-primary typeExpense" id="family" value="2">Familia</button>
                                 </div>
                             </div>
                         </div>
