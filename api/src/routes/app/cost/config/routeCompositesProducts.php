@@ -50,9 +50,28 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
         $resolution = $compositeProductsDao->insertCompositeProductByCompany($dataProduct, $id_company);
 
         if ($resolution == null) {
+            /* Calcular costo indirecto */
+            // Buscar la maquina asociada al producto
+            $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProduct['idProduct'], $id_company);
+            // Calcular costo indirecto
+            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+            // Actualizar campo
+            $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
+        }
+
+
+        if ($resolution == null) {
+            // Calcular costo nomina total
+            $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProduct['idProduct'], $id_company);
+
+            $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
+        }
+
+
+        if ($resolution == null) {
             $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
-            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
+            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
         }
 
         // Calcular costo materia prima compuesta
@@ -133,9 +152,26 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
         $resolution = $compositeProductsDao->updateCompositeProduct($dataProduct);
 
         if ($resolution == null) {
+            /* Calcular costo indirecto */
+            // Buscar la maquina asociada al producto
+            $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProduct['idProduct'], $id_company);
+            // Calcular costo indirecto
+            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+            // Actualizar campo
+            $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
+        }
+
+        if ($resolution == null) {
+            // Calcular costo nomina total
+            $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProduct['idProduct'], $id_company);
+
+            $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
+        }
+
+        if ($resolution == null) {
             $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
-            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
+            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
         }
 
         // Calcular costo materia prima compuesta
@@ -210,9 +246,26 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
     $resolution = $compositeProductsDao->deleteCompositeProduct($dataProduct['idCompositeProduct']);
 
     if ($resolution == null) {
+        /* Calcular costo indirecto */
+        // Buscar la maquina asociada al producto
+        $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProduct['idProduct'], $id_company);
+        // Calcular costo indirecto
+        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+        // Actualizar campo
+        $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProduct['idProduct'], $id_company);
+    }
+
+    if ($resolution == null) {
+        // Calcular costo nomina total
+        $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProduct['idProduct'], $id_company);
+
+        $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
+    }
+
+    if ($resolution == null) {
         $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
-        $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-        $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+        $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
+        $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
     }
 
     // Calcular costo materia prima compuesta
