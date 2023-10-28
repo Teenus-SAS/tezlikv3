@@ -263,7 +263,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $costWorkforceDao,
     $indirectCostDao,
     $assignableExpenseDao,
-    $priceProductDao
+    $priceProductDao,
+    $generalCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -411,8 +412,19 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         // Modificar costo
                         $materialsDao->updateCostProductMaterial($arr, $quantities);
                     }
-                    // Metodo calcular precio total materias
-                    $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
+                    $status = false;
+
+                    if ($_SESSION['flag_composite_product'] == '1') {
+                        $composite = $generalCompositeProductsDao->findCompositeProductCost($dataProduct['idProduct']);
+
+                        !$composite ? $status = false : $status = true;
+
+                        if ($status == true)
+                            $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProduct, $id_company);
+                    }
+
+                    if ($_SESSION['flag_composite_product'] == '0' || $status == false)
+                        $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProduct, $id_company);
 
                     $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
                 }

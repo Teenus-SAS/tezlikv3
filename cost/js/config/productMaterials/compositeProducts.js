@@ -15,13 +15,17 @@ $(document).ready(function () {
         $('#formAddNewProduct').trigger('reset'); 
     });
 
-    $('#compositeProduct').change(function (e) {
+    $('#compositeProduct').change(async function (e) {
         e.preventDefault();
+
+        let data = await searchData('/api/units');
+
+        let filterData = data.filter(item => item.unit == 'UNIDAD');
         
         let $select = $(`#unit2`);
         $select.empty();
         $select.append(`<option disabled>Seleccionar</option>`);
-        $select.append(`<option value ="11" selected>UNIDAD</option>`);
+        $select.append(`<option value ="${filterData[0].id_unit}" selected>UNIDAD</option>`);
     });
 
     $('#btnAddProduct').click(function (e) {
@@ -54,15 +58,19 @@ $(document).ready(function () {
 
         sessionStorage.setItem('id_composite_product', data.id_composite_product);
         $(`#compositeProduct option[value=${data.id_child_product}]`).prop('selected', true);
-
-        let $select = $(`#unit2`);
-        $select.empty();
-        $select.append(`<option disabled>Seleccionar</option>`);
-        $select.append(`<option value ="11" selected>UNIDAD</option>`);
-
         let quantity = `${data.quantity}`;
 
         $('#quantity2').val(quantity.replace('.', ','));
+
+        data = await searchData('/api/units');
+
+        let filterData = data.filter(item => item.unit == 'UNIDAD');
+        
+        let $select = $(`#unit2`);
+        $select.empty();
+        $select.append(`<option disabled>Seleccionar</option>`);
+        $select.append(`<option value ="${filterData[0].id_unit}" selected>UNIDAD</option>`);
+
 
         $('html, body').animate(
             {

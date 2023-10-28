@@ -315,10 +315,19 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                         $generalMaterialsDao->updateCostProductMaterial($k, $quantities);
                     }
                     $j['idProduct'] = $j['id_product'];
-                    if ($_SESSION['flag_composite_product'] == '1')
-                        $j = $costMaterialsDao->calcCostMaterialByCompositeProduct($j, $id_company);
-                    else
-                        $j = $costMaterialsDao->calcCostMaterial($j, $id_company);
+                    $status = false;
+
+                    if ($_SESSION['flag_composite_product'] == '1') {
+                        $composite = $generalCompositeProductsDao->findCompositeProductCost($j['idProduct']);
+
+                        !$composite ? $status = false : $status = true;
+
+                        if ($status == true)
+                            $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($j, $id_company);
+                    }
+
+                    if ($_SESSION['flag_composite_product'] == '0' || $status == false)
+                        $dataMaterial = $costMaterialsDao->calcCostMaterial($j, $id_company);
 
                     $materials = $costMaterialsDao->updateCostMaterials($j, $id_company);
 

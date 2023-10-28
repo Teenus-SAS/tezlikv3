@@ -32,10 +32,7 @@ class GeneralCompositeProductsDao
     public function findCompositeProductCost($id_product)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pc.cost_materials
-                                      FROM composite_products cp
-                                        INNER JOIN products_costs pc ON pc.id_product = cp.id_product
-                                      WHERE cp.id_product = :id_product LIMIT 1");
+        $stmt = $connection->prepare("SELECT * FROM composite_products WHERE id_product = :id_product");
         $stmt->execute([
             'id_product' => $id_product
         ]);

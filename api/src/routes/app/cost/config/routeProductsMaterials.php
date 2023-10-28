@@ -415,9 +415,18 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
                 // Modificar costo
                 $materialsDao->updateCostProductMaterial($arr, $quantities);
             }
-            if ($_SESSION['flag_composite_product'] == '1')
-                $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProductMaterial, $id_company);
-            else
+            $status = false;
+
+            if ($_SESSION['flag_composite_product'] == '1') {
+                $composite = $generalCompositeProductsDao->findCompositeProductCost($dataProductMaterial['idProduct']);
+
+                !$composite ? $status = false : $status = true;
+
+                if ($status == true)
+                    $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($dataProductMaterial, $id_company);
+            }
+
+            if ($_SESSION['flag_composite_product'] == '0' || $status == false)
                 $dataMaterial = $costMaterialsDao->calcCostMaterial($dataProductMaterial, $id_company);
 
             $productMaterials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
