@@ -76,6 +76,15 @@
                                                     <input id="checkbox-6" name="costProductProcess" type="checkbox">
                                                     <label for="checkbox-6">Ficha Técnica Procesos</label>
                                                 </div>
+                                                <!-- <div class="form-group floating-label enable-floating-label show-label my-2 cardComposite" style="width: 150px">
+                                                    <select class="form-control" name="composite" id="composite">
+                                                        <option value="0" selected disabled>Seleccionar</option>
+                                                        <option value="1">Productos Compuestos</option>
+                                                        <option value="2">Productos</option>
+                                                    </select>
+                                                    <label for="typePayroll">Compuestos<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div> -->
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-7" name="payrollLoad" type="checkbox">
                                                     <label for="checkbox-7">Carga Fabril</label>

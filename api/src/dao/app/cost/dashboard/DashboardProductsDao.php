@@ -20,9 +20,9 @@ class DashboardProductsDao
     public function findCostAnalysisByProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.id_family, p.reference, p.product, pc.cost_materials, pc.cost_workforce, IF(p.id_family = 0, IFNULL(ed.assignable_expense, 0), IFNULL(f.assignable_expense, 0)) AS assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, pc.cost_indirect_cost, 
-                                                pc.profitability, IFNULL(IF((p.id_family != 0 AND cl.flag_family = 2), (SELECT units_sold FROM families WHERE id_family = p.id_family), (SELECT units_sold FROM expenses_distribution WHERE id_product = p.id_product)), 0) AS units_sold,
-                                                IFNULL(IF((p.id_family != 0 AND cl.flag_family = 2), (SELECT turnover FROM families WHERE id_family = p.id_family), (SELECT turnover FROM expenses_distribution WHERE id_product = p.id_product)), 0) AS turnover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, pc.commission_sale, pc.price, pc.sale_price, p.img
+        $stmt = $connection->prepare("SELECT p.id_product, p.id_family, p.reference, p.product, pc.cost_materials, pc.cost_workforce, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, pc.cost_indirect_cost, 
+                                                pc.profitability, IFNULL(IF(cl.flag_family = 2, (SELECT units_sold FROM families WHERE id_family = p.id_family), (SELECT units_sold FROM expenses_distribution WHERE id_product = p.id_product)), 0) AS units_sold,
+                                                IFNULL(IF(cl.flag_family = 2, (SELECT turnover FROM families WHERE id_family = p.id_family), (SELECT turnover FROM expenses_distribution WHERE id_product = p.id_product)), 0) AS turnover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, pc.commission_sale, pc.price, pc.sale_price, p.img
                                         FROM products_costs pc
                                             INNER JOIN products p ON p.id_product = pc.id_product
                                             LEFT JOIN expenses_distribution ed ON ed.id_product = pc.id_product
