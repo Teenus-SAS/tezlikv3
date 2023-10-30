@@ -76,15 +76,6 @@
                                                     <input id="checkbox-6" name="costProductProcess" type="checkbox">
                                                     <label for="checkbox-6">Ficha Técnica Procesos</label>
                                                 </div>
-                                                <!-- <div class="form-group floating-label enable-floating-label show-label my-2 cardComposite" style="width: 150px">
-                                                    <select class="form-control" name="composite" id="composite">
-                                                        <option value="0" selected disabled>Seleccionar</option>
-                                                        <option value="1">Productos Compuestos</option>
-                                                        <option value="2">Productos</option>
-                                                    </select>
-                                                    <label for="typePayroll">Compuestos<span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div> -->
                                                 <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-7" name="payrollLoad" type="checkbox">
                                                     <label for="checkbox-7">Carga Fabril</label>
@@ -118,6 +109,16 @@
                                                     <input id="checkbox-11" name="expenseDistribution" type="checkbox">
                                                     <label for="checkbox-11">Distribuir Gastos</label>
                                                 </div>
+                                                <!-- <div class="form-group floating-label enable-floating-label show-label my-2 cardTypeExpenses" style="width: 150px">
+                                                    <select class="form-control" name="typeExpenses" id="typeExpenses">
+                                                        <option selected disabled>Seleccionar</option>
+                                                        <option value="0">TODO</option>
+                                                        <option value="2">PRODUCTOS</option>
+                                                        <option value="3">FAMILIA</option>
+                                                    </select>
+                                                    <label for="typePayroll">Tipo Distriucion<span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div> -->
                                             </div>
                                             <div class="col-sm-2 pb-3">
                                                 Creación Usuarios
