@@ -28,6 +28,8 @@ $(document).ready(function () {
   $(document).on('click', '.typeCheckbox', function () {
     if (this.id == 'checkbox-9')
       $('.cardTypePayroll').toggle(800);
+    if (this.id == 'checkbox-11')
+      $('.cardTypeExpenses').toggle(800);
     if (this.id == 'checkbox-19')
       $('.cardTypePrices').toggle(800);
   });
@@ -112,11 +114,23 @@ $(document).ready(function () {
         }  
       }
 
+      let typeExpenses = [];
+
+      if ($(`#checkbox-11`).is(':checked')) {
+        typeExpenses = $('#typeExpenses').val();
+
+        if (typeExpenses == 0 || !typeExpenses) {
+          toastr.error('Debe seleccionar tipo de distribución');
+          return false;
+        }  
+      }
+
       let dataUser = {};
       dataUser['nameUser'] = nameUser;
       dataUser['lastnameUser'] = lastnameUser;
       dataUser['emailUser'] = emailUser;
       dataUser['typePayroll'] = typePayroll;
+      dataUser['typeExpenses'] = typeExpenses;
       dataUser['typeCustomPrices'] = typeCustomPrices;
 
       dataUser = setCheckBoxes(dataUser);
@@ -187,8 +201,10 @@ $(document).ready(function () {
     });
 
     if ($(`#checkbox-9`).is(':checked')) $('.cardTypePayroll').show();
+    if ($(`#checkbox-11`).is(':checked')) $('.cardTypeExpenses').show();
     if ($(`#checkbox-19`).is(':checked')) $('.cardTypePrices').show();
 
+    $(`#typeExpenses option[value=${data.type_expense}]`).prop('selected', true);
     $(`#typePayroll option[value=${data.type_payroll}]`).prop('selected', true);
 
     typeCustomPrices = [];
@@ -212,9 +228,6 @@ $(document).ready(function () {
       }
     }
 
-
-    // $(`#pricesList option[value=${data.type_custom_price}]`).prop('selected', true);
-
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -237,12 +250,23 @@ $(document).ready(function () {
       }
 
     }
+
+    let typeExpenses = [];
+
+    if ($(`#checkbox-11`).is(':checked')) {
+      typeExpenses = $('#typeExpenses').val();
+
+      if (!typeExpenses) {
+        toastr.error('Debe seleccionar tipo de distribución');
+        return false;
+      }
+    }
     
     if ($(`#checkbox-19`).is(':checked')) {
       if (typeCustomPrices.length == 0) {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
-      } 
+      }
     } else {
       typeCustomPrices.push(0);
     }
@@ -254,6 +278,7 @@ $(document).ready(function () {
     dataUser['emailUser'] = $('#emailUser').val();
     dataUser['typeCustomPrices'] = typeCustomPrices;
     dataUser['typePayroll'] = typePayroll;
+    dataUser['typeExpenses'] = typeExpenses;
 
     dataUser = setCheckBoxes(dataUser);
 

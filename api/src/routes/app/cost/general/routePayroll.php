@@ -76,6 +76,15 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
 
         for ($i = 0; $i < sizeof($payroll); $i++) {
             if (
+                empty($payroll[$i]['process']) || empty($payroll[$i]['employee']) || empty($payroll[$i]['basicSalary']) || empty($payroll[$i]['workingDaysMonth']) ||
+                empty($payroll[$i]['workingHoursDay']) || empty($payroll[$i]['typeFactor']) || empty($payroll[$i]['benefit']) || empty($payroll[$i]['riskLevel'])
+            ) {
+                $i = $i + 2;
+                $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
+
+            if (
                 empty(trim($payroll[$i]['process'])) || empty(trim($payroll[$i]['employee'])) || empty(trim($payroll[$i]['basicSalary'])) || empty(trim($payroll[$i]['workingDaysMonth'])) ||
                 empty(trim($payroll[$i]['workingHoursDay'])) || empty(trim($payroll[$i]['typeFactor'])) || empty(trim($payroll[$i]['benefit'])) || empty(trim($payroll[$i]['riskLevel']))
             ) {
@@ -83,6 +92,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
                 $dataImportPayroll = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
             }
+
             if ($payroll[$i]['workingDaysMonth'] > 31 || $payroll[$i]['workingHoursDay'] > 24) {
                 $i = $i + 2;
                 $dataImportPayroll = array('error' => true, 'message' => "El campo dias trabajo x mes debe ser menor a 31 <br>y horas trabajo x dia menor a 24, fila: {$i}");

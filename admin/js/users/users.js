@@ -176,6 +176,7 @@ $(document).ready(function () {
     dataUser['typeCustomPrices'] = [];
     dataUser['typeCustomPrices'].push(-1);
     dataUser['typePayroll'] = 1;
+    dataUser['typeExpenses'] = 1;
     dataUser['analysisMaterial'] = 1;
     dataUser['simulator'] = 1;
     dataUser['economyScale'] = 1;

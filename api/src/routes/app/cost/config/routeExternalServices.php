@@ -58,6 +58,11 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
                 break;
             } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
 
+            if (empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])) {
+                $i = $i + 2;
+                $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
             if (empty(trim($externalService[$i]['service'])) || empty(trim($externalService[$i]['costService']))) {
                 $i = $i + 2;
                 $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");

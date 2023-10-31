@@ -27,6 +27,11 @@ $app->post('/orderTypesDataValidation', function (Request $request, Response $re
                 $i = $i + 2;
                 $dataImportOrderTypes = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
                 break;
+            }
+            if (empty(trim($orderTypes[$i]['orderType']))) {
+                $i = $i + 2;
+                $dataImportOrderTypes = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
             } else {
                 $findOrderType = $orderTypesDao->findOrderType($orderTypes[$i]);
                 if (!$findOrderType) $insert = $insert + 1;

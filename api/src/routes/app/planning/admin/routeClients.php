@@ -31,6 +31,12 @@ $app->post('/clientsDataValidation', function (Request $request, Response $respo
                 $i = $i + 2;
                 $dataImportClients = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                 break;
+            }
+
+            if (empty(trim($clients[$i]['ean'])) || empty(trim($clients[$i]['nit'])) || empty(trim($clients[$i]['client']))) {
+                $i = $i + 2;
+                $dataImportClients = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
+                break;
             } else {
                 $findClient = $clientsDao->findClient($clients[$i], $id_company);
                 if (!$findClient) $insert = $insert + 1;

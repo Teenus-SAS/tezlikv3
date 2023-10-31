@@ -90,6 +90,14 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
 
 
             if (
+                empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || trim($productMaterials[$i]['refRawMaterial']) ||
+                empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == ''
+            ) {
+                $i = $i + 2;
+                $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
+            if (
                 empty(trim($productMaterials[$i]['referenceProduct'])) || empty(trim($productMaterials[$i]['product'])) || empty(trim($productMaterials[$i]['refRawMaterial'])) ||
                 empty(trim($productMaterials[$i]['nameRawMaterial'])) || trim($productMaterials[$i]['quantity']) == ''
             ) {

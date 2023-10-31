@@ -131,8 +131,16 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
             $profitability = 1 * $profitability;
 
             if (
-                empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) ||
+                empty($products[$i]['referenceProduct']) || trim($products[$i]['product']) ||
                 $products[$i]['commissionSale'] == '' || is_nan($profitability) || $profitability <= 0
+            ) {
+                $i = $i + 2;
+                $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            }
+            if (
+                empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) ||
+                trim($products[$i]['commissionSale']) == ''
             ) {
                 $i = $i + 2;
                 $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");

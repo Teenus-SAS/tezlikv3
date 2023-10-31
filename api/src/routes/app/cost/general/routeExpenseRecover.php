@@ -59,6 +59,12 @@ $app->post('/expenseRecoverDataValidation', function (Request $request, Response
                 break;
             } else $expensesRecover[$i]['idProduct'] = $findProduct['id_product'];
 
+            if (empty($expensesRecover[$i]['percentage'])) {
+                $i = $i + 2;
+                $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
+
             if (empty(trim($expensesRecover[$i]['percentage']))) {
                 $i = $i + 2;
                 $dataImportExpenseRecover = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
