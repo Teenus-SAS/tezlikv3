@@ -19,9 +19,15 @@ class ConvertDataDao
     /* Maquinas */
     public function strReplaceMachines($dataMachine)
     {
-        $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
+        if (strpos(php_uname('s'), 'Windows') !== false) {
+            $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
+            $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
+        } else {
+            $dataMachine['costMachine'] = str_replace(',', '', $dataMachine['cost']);
+            $dataMachine['residualValue'] = str_replace(',', '', $dataMachine['residualValue']);
+        }
+
         $dataMachine['costMachine'] = str_replace(',', '.', $dataMachine['costMachine']);
-        $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
         $dataMachine['residualValue'] = str_replace(',', '.', $dataMachine['residualValue']);
         $dataMachine['depreciationYears'] = str_replace(',', '.', $dataMachine['depreciationYears']);
         $dataMachine['hoursMachine'] = str_replace(',', '.', $dataMachine['hoursMachine']);
@@ -41,9 +47,15 @@ class ConvertDataDao
     /* Productos Procesos */
     public function strReplaceProductsProcess($dataProductProcess)
     {
-        $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
+        if (strpos(php_uname('s'), 'Windows') !== false) {
+            $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
+            $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
+        } else {
+            $dataProductProcess['enlistmentTime'] = str_replace(',', '', $dataProductProcess['enlistmentTime']);
+            $dataProductProcess['operationTime'] = str_replace(',', '', $dataProductProcess['operationTime']);
+        }
+
         $dataProductProcess['enlistmentTime'] = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
-        $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
         $dataProductProcess['operationTime'] = str_replace(',', '.', $dataProductProcess['operationTime']);
 
         return $dataProductProcess;
@@ -52,11 +64,20 @@ class ConvertDataDao
     /* Nomina */
     public function strReplacePayroll($dataPayroll)
     {
-        $salaryBasic = str_replace('.', '', $dataPayroll['basicSalary']);
-        $transport = str_replace('.', '', $dataPayroll['transport']);
-        $bonification = str_replace('.', '', $dataPayroll['bonification']);
-        $extraTime = str_replace('.', '', $dataPayroll['extraTime']);
-        $endowment = str_replace('.', '', $dataPayroll['endowment']);
+        if (strpos(php_uname('s'), 'Windows') !== false) {
+            $salaryBasic = str_replace('.', '', $dataPayroll['basicSalary']);
+            $transport = str_replace('.', '', $dataPayroll['transport']);
+            $bonification = str_replace('.', '', $dataPayroll['bonification']);
+            $extraTime = str_replace('.', '', $dataPayroll['extraTime']);
+            $endowment = str_replace('.', '', $dataPayroll['endowment']);
+        } else {
+            $salaryBasic = str_replace(',', '', $dataPayroll['basicSalary']);
+            $transport = str_replace(',', '', $dataPayroll['transport']);
+            $bonification = str_replace(',', '', $dataPayroll['bonification']);
+            $extraTime = str_replace(',', '', $dataPayroll['extraTime']);
+            $endowment = str_replace(',', '', $dataPayroll['endowment']);
+        }
+
         $factor = str_replace(',', '.', $dataPayroll['factor']);
 
         $transport == '' ? $transport = 0 : $transport;
@@ -78,11 +99,17 @@ class ConvertDataDao
     /* Cotizacion */
     public function strReplaceQuotes($dataQuote)
     {
-        $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
+        if (strpos(php_uname('s'), 'Windows') !== false)
+            $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
+        else
+            $dataQuote['quantity'] = str_replace(',', '', $dataQuote['quantity']);
 
         $price = str_replace('$ ', '', $dataQuote['price']);
-        $price = str_replace('.', '', $price);
-        $dataQuote['price'] = str_replace(',', '.', $price);
+
+        if (strpos(php_uname('s'), 'Windows') !== false)
+            $price = str_replace('.', '', $price);
+        else
+            $dataQuote['price'] = str_replace(',', '.', $price);
 
         return $dataQuote;
     }

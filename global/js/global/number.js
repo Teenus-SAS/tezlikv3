@@ -110,13 +110,13 @@ $(document).ready(function () {
       while (num.includes(',')) {
         num = num.replace(',', '');
       }
-      num = num.replace('.', ',');
+      // num = num.replace('.', ',');
     } else {
       while (num.includes('.')) {
         num = num.replace('.', '');
       }
-      num = num.replace(',', '.');
     }
+    num = num.replace(',', '.');
     return num;
   };
 

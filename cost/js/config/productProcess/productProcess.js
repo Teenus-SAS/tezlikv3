@@ -1,6 +1,7 @@
 $(document).ready(function () {
   let idProduct;
   let dataProductProcess = {};
+  let checkBoxEmployees;
 
   /* Ocultar panel crear producto */
 
@@ -116,7 +117,7 @@ $(document).ready(function () {
     let dataProductProcess = new FormData(formAddProcess);
     dataProductProcess.append('idProduct', idProduct);
     
-    if (idProductProcess != '' || idProcess != null) {
+    if (idProductProcess != '' || idProductProcess != null) {
       dataProductProcess.append('idProductProcess', idProductProcess);
 
       flag_employee == '1' ? employees = checkBoxEmployees : employees = '';
