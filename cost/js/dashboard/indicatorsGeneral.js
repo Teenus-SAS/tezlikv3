@@ -184,7 +184,10 @@ $(document).ready(function () {
 
   /* Ventas generales */
   generalSales = (data) => {
-    $('#productsSold').html(data[0].units_sold.toLocaleString('es-CO'));
-    $('#salesRevenue').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
+    !data[0]? units_sold = 0 : units_sold=data[0].units_sold;
+    !data[0] ? turnover = 0 : turnover=data[0].turnover;
+
+    $('#productsSold').html(units_sold.toLocaleString('es-CO'));
+    $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-CO')}`);
   };  
 });

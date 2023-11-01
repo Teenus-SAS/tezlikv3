@@ -29,7 +29,7 @@ $(document).ready(function () {
   $(document).on('click', '.typeCheckbox', function () {
     if (this.id == 'checkbox-9')
       $('.cardTypePayroll').toggle(800);
-    if (this.id == 'checkbox-11')
+    if (this.id == 'checkbox-11' && (flag_expense == '1' || flag_expense == '0'))
       $('.cardTypeExpenses').toggle(800);
     if (this.id == 'checkbox-19')
       $('.cardTypePrices').toggle(800);
@@ -115,12 +115,12 @@ $(document).ready(function () {
         }  
       }
 
-      let typeExpenses = [];
+      let typeExpenses = flag_expense_distribution;
 
-      if ($(`#checkbox-11`).is(':checked')) {
+      if ($(`#checkbox-11`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
         typeExpenses = $('#typeExpenses').val();
 
-        if (typeExpenses == 0 || !typeExpenses) {
+        if (!typeExpenses) {
           toastr.error('Debe seleccionar tipo de distribución');
           return false;
         }  
@@ -202,7 +202,7 @@ $(document).ready(function () {
     });
 
     if ($(`#checkbox-9`).is(':checked')) $('.cardTypePayroll').show();
-    if ($(`#checkbox-11`).is(':checked')) $('.cardTypeExpenses').show();
+    if ($(`#checkbox-11`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) $('.cardTypeExpenses').show();
     if ($(`#checkbox-19`).is(':checked')) $('.cardTypePrices').show();
 
     $(`#typeExpenses option[value=${data.type_expense}]`).prop('selected', true);
@@ -252,9 +252,9 @@ $(document).ready(function () {
 
     }
 
-    let typeExpenses = [];
+    let typeExpenses = flag_expense_distribution;
 
-    if ($(`#checkbox-11`).is(':checked')) {
+    if ($(`#checkbox-11`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
       typeExpenses = $('#typeExpenses').val();
 
       if (!typeExpenses) {

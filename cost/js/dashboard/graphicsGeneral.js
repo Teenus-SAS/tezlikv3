@@ -11,6 +11,8 @@ $(document).ready(function () {
   graphicMultiproducts = (data) => {
     let percentage = (data.total_units_sold * 100) / data.total_units;
 
+    isNaN(percentage) ? percentage = 0 : percentage;
+
     $('#percentageMultiproducts').html(`${percentage.toLocaleString("es-CO", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,

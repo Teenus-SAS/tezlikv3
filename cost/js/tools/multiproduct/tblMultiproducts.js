@@ -53,8 +53,11 @@ $(document).ready(function () {
       );
     }
 
-    expenseAsignation = multiproducts[0].expense;
-    costPayroll = multiproducts[0].sum_payroll;
+    !multiproducts[0] ? expense = 0 : expense=multiproducts[0].expense;
+    !multiproducts[0] ? sum_payroll = 0 : sum_payroll=multiproducts[0].sum_payroll;
+
+    expenseAsignation = expense;
+    costPayroll = sum_payroll;
 
     if (expenseAsignation == 0) $('.cardExpenseAssignation').show(800);
 
