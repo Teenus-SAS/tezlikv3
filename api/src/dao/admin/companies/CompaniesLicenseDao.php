@@ -112,6 +112,24 @@ class CompaniesLicenseDao
         }
     }
 
+    public function changeFlagExpense($dataLicense, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("UPDATE companies_licenses SET flag_family = :flag_family
+                                          WHERE id_company = :id_company");
+            $stmt->execute([
+                'flag_family' => $dataLicense['typeExpenses'],
+                'id_company' => $id_company
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     public function deleteCompanyDemo()
     {
         $connection = Connection::getInstance()->getConnection();

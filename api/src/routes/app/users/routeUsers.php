@@ -52,6 +52,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     $sendEmailDao,
     $quantityUsersDao,
     $costAccessUserDao,
+    $companiesLicenseDao,
     $generalCostUserAccessDao
 ) {
     session_start();
@@ -101,6 +102,10 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                             $typeCustomPrice = implode(',', $dataUser['typeCustomPrices']);
 
                         $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $typeCustomPrice);
+
+                        if ($dataUser['typeExpenses'] != 0) {
+                            $companiesLicenseDao->changeFlagExpense($dataUser, $id_company);
+                        }
 
                         if ($usersAccess == null && $dataUser['check'] == 'true')
                             $usersAccess = $generalCostUserAccessDao->changePrincipalUser($dataUser);

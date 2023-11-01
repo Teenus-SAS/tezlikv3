@@ -106,16 +106,17 @@
                                                     <label for="checkbox-10">Asignar Gastos</label>
                                                 </div>
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-11" name="expenseDistribution" type="checkbox">
+                                                    <input class="typeCheckbox" id="checkbox-11" name="expenseDistribution" type="checkbox">
                                                     <label for="checkbox-11">Distribuir Gastos</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label my-2 cardTypeExpenses" style="width: 150px">
                                                     <select class="form-control" name="typeExpenses" id="typeExpenses">
                                                         <option selected disabled>Seleccionar</option>
                                                         <option value="0">TODO</option>
-                                                        <option value="1">NORMAL</option>
+                                                        <option value="1">PRODUCTO</option>
+                                                        <option value="2">FAMILIA</option>
                                                     </select>
-                                                    <label for="typePayroll">Cambio de Distribución<span class="text-danger">*</span></label>
+                                                    <label for="typePayroll"><span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>

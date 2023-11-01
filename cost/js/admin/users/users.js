@@ -1,5 +1,6 @@
 $(document).ready(function () {
   $('.cardTypePayroll').hide();
+  $('.cardTypeExpenses').hide();
   $('.cardTypePrices').hide();
   typeCustomPrices = [];
 

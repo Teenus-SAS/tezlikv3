@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LastDataDao;
@@ -9,6 +10,7 @@ $usersDao = new UsersDao();
 $lastDataDao = new LastDataDao();
 $userAccessDao = new CostUserAccessDao();
 $generalUAccessDao = new GeneralUserAccessDao();
+$companiesLicenseDao = new CompaniesLicenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -33,7 +35,13 @@ $app->get('/costUserAccess', function (Request $request, Response $response, $ar
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $lastDataDao, $generalUAccessDao, $usersDao) {
+$app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use (
+    $userAccessDao,
+    $lastDataDao,
+    $generalUAccessDao,
+    $usersDao,
+    $companiesLicenseDao
+) {
     session_start();
     $dataUserAccess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -53,6 +61,10 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
 
         $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_company);
 
+        if ($dataUserAccess['typeExpenses'] != 0) {
+            $companiesLicenseDao->changeFlagExpense($dataUserAccess, $id_company);
+        }
+
         /* Modificar accesos */
         $generalUAccessDao->setGeneralAccess($user['idUser']);
 
@@ -67,7 +79,11 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao, $generalUAccessDao) {
+$app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use (
+    $userAccessDao,
+    $generalUAccessDao,
+    $companiesLicenseDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $idUser = $_SESSION['idUser'];
@@ -85,6 +101,10 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
         $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess, $typeCustomPrice);
     else
         $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $typeCustomPrice);
+
+    if ($dataUserAccess['typeExpenses'] != 0) {
+        $companiesLicenseDao->changeFlagExpense($dataUserAccess, $id_company);
+    }
 
     /* Modificar accesos */
     if ($idUser == $dataUserAccess['idUser'])
