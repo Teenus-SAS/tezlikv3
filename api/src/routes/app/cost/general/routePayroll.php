@@ -616,7 +616,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $dataPayroll = $request->getParsedBody();
 
-    $payrolls = $generalPayrollDao->findAllPayrollByEmployee($dataPayroll['employee'], $id_company);
+    // $payrolls = $generalPayrollDao->findAllPayrollByEmployee($dataPayroll['employee'], $id_company);
 
     // if (sizeof($payrolls) > 1) {
     $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);

@@ -174,11 +174,11 @@ $(document).ready(function () {
     // dataPayroll['employee'] = data.employee;
     let resp = await searchData(`/api/checkEmployee/${data.employee}`);
 
-    resp.length > 1 ? message = '' : message = 'Es el unico empleado de nomina.<br>';
+    resp.length > 1 ? msg = '' : msg = 'Es el unico empleado de nomina.<br>';
 
     bootbox.confirm({
       title: 'Eliminar',
-      message: message+
+      message: msg+
         'Está seguro de eliminar esta nómina? Esta acción no se puede reversar.',
       buttons: {
         confirm: {
