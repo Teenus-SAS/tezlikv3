@@ -131,7 +131,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
             $profitability = 1 * $profitability;
 
             if (
-                empty($products[$i]['referenceProduct']) || trim($products[$i]['product']) ||
+                empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
                 $products[$i]['commissionSale'] == '' || is_nan($profitability) || $profitability <= 0
             ) {
                 $i = $i + 2;

@@ -90,7 +90,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
 
 
             if (
-                empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || trim($productMaterials[$i]['refRawMaterial']) ||
+                empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) ||
                 empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == ''
             ) {
                 $i = $i + 2;
@@ -224,7 +224,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                     if (isset($productMaterials['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $productMaterials = $productMaterials->updatePrice($j['id_product'], $data['totalPrice']);
+                    $productMaterials = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($productMaterials['info'])) break;
 

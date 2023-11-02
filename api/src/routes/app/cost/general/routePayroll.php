@@ -342,7 +342,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     !is_array($payroll) ? $data['id_payroll'] = 0 : $data = $payroll;
 
     if ($data['id_payroll'] == $dataPayroll['idPayroll'] || $data['id_payroll'] == 0) {
-        if ($type_payroll == '1') {
+        if ($type_payroll == 1) {
             $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
             // Calcular factor benefico
@@ -455,6 +455,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                 }
             }
         } else {
+            $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
             $payroll = $generalPayrollDao->updatePayroll($dataPayroll);
         }
 
