@@ -460,7 +460,12 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
         }
 
         if ($payroll == null)
-            $resp = array('success' => true, 'message' => 'Nomina actualizada correctamente');
+            $resp = array(
+                'success' => true, 'message' => 'Nomina actualizada correctamente',
+                'basicSalary' => $dataPayroll['basicSalary'],
+                'salary' => $dataPayroll['salary'],
+                'salaryNet' => $dataPayroll['salaryNet']
+            );
         else if (isset($payroll['info']))
             $resp = array('info' => true, 'message' => $payroll['message']);
         else
