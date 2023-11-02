@@ -336,7 +336,6 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $type_payroll = $_SESSION['type_payroll'];
     $dataPayroll = $request->getParsedBody();
-    $dataPayroll2 = $dataPayroll;
 
     $payroll = $generalPayrollDao->findPayroll($dataPayroll, $id_company);
 
@@ -353,7 +352,6 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
             // Calcular Valor x Minuto
             $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
-            $dataPayroll2['salaryNet'] = $dataPayroll['salaryNet'];
 
             $payroll = $payrollDao->updatePayroll($dataPayroll);
 
@@ -463,10 +461,10 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
         if ($payroll == null)
             $resp = array(
-                'success' => true, 'message' => 'Nomina actualizada correctamente',
-                'basicSalary' => $dataPayroll2['basicSalary'],
-                'salary' => $dataPayroll2['salary'],
-                'salaryNet' => $dataPayroll2['salaryNet']
+                'success' => true, 'message' => 'Nomina actualizada correctamente'
+                // 'basicSalary' => $dataPayroll2['basicSalary'],
+                // 'salary' => $dataPayroll2['salary'],
+                // 'salaryNet' => $dataPayroll2['salaryNet']
             );
         else if (isset($payroll['info']))
             $resp = array('info' => true, 'message' => $payroll['message']);
@@ -604,8 +602,6 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-
-
 $app->post('/deletePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
     $generalPayrollDao,
@@ -622,43 +618,77 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
     $payrolls = $generalPayrollDao->findAllPayrollByEmployee($dataPayroll['employee'], $id_company);
 
-    if (sizeof($payrolls) > 1) {
-        $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);
+    // if (sizeof($payrolls) > 1) {
+    $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);
 
-        if ($payroll == null) {
+    if ($payroll == null) {
 
-            $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
+        $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
 
-            foreach ($dataProducts as $arr) {
-                // Calcular costo nomina
-                $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+        foreach ($dataProducts as $arr) {
+            // Calcular costo nomina
+            $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
 
+            if (isset($payroll['info'])) break;
+            // Calcular costo nomina total
+            $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($arr['id_product'], $id_company);
+
+            $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
+
+            if (isset($payroll['info'])) break;
+
+            // Calcular precio products_costs
+            $payroll = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($payroll['info'])) break;
+
+            $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+
+            if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($payroll['info'])) break;
-                // Calcular costo nomina total
-                $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($arr['id_product'], $id_company);
+                // Calcular costo material porq
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
-                $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
-
-                if (isset($payroll['info'])) break;
-
-                // Calcular precio products_costs
-                $payroll = $priceProductDao->calcPrice($arr['id_product']);
-
-                if (isset($payroll['info'])) break;
-
-                $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
-
-                if ($_SESSION['flag_composite_product'] == '1') {
+                foreach ($productsCompositer as $j) {
                     if (isset($payroll['info'])) break;
-                    // Calcular costo material porq
-                    $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
-                    foreach ($productsCompositer as $j) {
+                    $data = [];
+                    $data['idProduct'] = $j['id_product'];
+                    $data['compositeProduct'] = $j['id_child_product'];
+
+                    // Calcular costo nomina total
+                    $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+
+                    $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+
+                    if (isset($payroll['info'])) break;
+
+                    $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                    $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                    if (isset($payroll['info'])) break;
+
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($payroll['info'])) break;
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($payroll['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($j['id_product']);
+                    $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($payroll['info'])) break;
+
+                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+
+                    foreach ($productsCompositer2 as $k) {
                         if (isset($payroll['info'])) break;
 
                         $data = [];
-                        $data['idProduct'] = $j['id_product'];
-                        $data['compositeProduct'] = $j['id_child_product'];
+                        $data['compositeProduct'] = $k['id_child_product'];
+                        $data['idProduct'] = $k['id_product'];
 
                         // Calcular costo nomina total
                         $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
@@ -668,6 +698,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                         if (isset($payroll['info'])) break;
 
                         $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+
                         $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
                         if (isset($payroll['info'])) break;
 
@@ -680,56 +711,30 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
                         if (isset($payroll['info'])) break;
 
-                        $data = $priceProductDao->calcPrice($j['id_product']);
-                        $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-
-                        if (isset($payroll['info'])) break;
-
-                        $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
-
-                        foreach ($productsCompositer2 as $k) {
-                            if (isset($payroll['info'])) break;
-
-                            $data = [];
-                            $data['compositeProduct'] = $k['id_child_product'];
-                            $data['idProduct'] = $k['id_product'];
-
-                            // Calcular costo nomina total
-                            $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
-
-                            $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
-
-                            if (isset($payroll['info'])) break;
-
-                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-
-                            $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                            if (isset($payroll['info'])) break;
-
-                            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                            $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
-
-                            if (isset($payroll['info'])) break;
-                            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                            $payroll = $costMaterialsDao->updateCostMaterials($data, $id_company);
-
-                            if (isset($payroll['info'])) break;
-
-                            $data = $priceProductDao->calcPrice($k['id_product']);
-                            $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
-                        }
+                        $data = $priceProductDao->calcPrice($k['id_product']);
+                        $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                     }
                 }
             }
         }
-        if ($payroll == null)
-            $resp = array('success' => true, 'message' => 'Nomina eliminada correctamente');
-        else if (isset($payroll['info']))
-            $resp = array('info' => true, 'message' => $payroll['message']);
-        else
-            $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, existe información asociada a ella');
-    } else
-        $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, ultimo empleado de nomina');
+    }
+    if ($payroll == null)
+        $resp = array('success' => true, 'message' => 'Nomina eliminada correctamente');
+    else if (isset($payroll['info']))
+        $resp = array('info' => true, 'message' => $payroll['message']);
+    else
+        $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, existe información asociada a ella');
+    // } else
+    //     $resp = array('error' => true, 'message' => 'No es posible eliminar la nomina, ultimo empleado de nomina');
     $response->getBody()->write(json_encode($resp));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/checkEmployee/{employee}', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $payroll = $generalPayrollDao->findAllPayrollByEmployee($args['employee'], $id_company);
+    $response->getBody()->write(json_encode($payroll));
     return $response->withHeader('Content-Type', 'application/json');
 });

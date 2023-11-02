@@ -165,17 +165,20 @@ $(document).ready(function () {
 
   /* Eliminar carga nomina */
 
-  deleteFunction = () => {
+  deleteFunction = async() => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
 
     dataPayroll['idPayroll'] = data.id_payroll;
     dataPayroll['idProcess'] = data.id_process;
-    dataPayroll['employee'] = data.employee;
+    // dataPayroll['employee'] = data.employee;
+    let resp = await searchData(`/api/checkEmployee/${data.employee}`);
+
+    resp.length > 1 ? message = '' : message = 'Es el unico empleado de nomina.<br>';
 
     bootbox.confirm({
       title: 'Eliminar',
-      message:
+      message: message+
         'Está seguro de eliminar esta nómina? Esta acción no se puede reversar.',
       buttons: {
         confirm: {
