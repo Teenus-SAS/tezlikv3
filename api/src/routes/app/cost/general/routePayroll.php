@@ -336,6 +336,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $type_payroll = $_SESSION['type_payroll'];
     $dataPayroll = $request->getParsedBody();
+    $dataPayroll2 = $dataPayroll;
 
     $payroll = $generalPayrollDao->findPayroll($dataPayroll, $id_company);
 
@@ -352,6 +353,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
             // Calcular Valor x Minuto
             $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
+            $dataPayroll2['salaryNet'] = $dataPayroll['salaryNet'];
 
             $payroll = $payrollDao->updatePayroll($dataPayroll);
 
@@ -462,9 +464,9 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
         if ($payroll == null)
             $resp = array(
                 'success' => true, 'message' => 'Nomina actualizada correctamente',
-                'basicSalary' => $dataPayroll['basicSalary'],
-                'salary' => $dataPayroll['salary'],
-                'salaryNet' => $dataPayroll['salaryNet']
+                'basicSalary' => $dataPayroll2['basicSalary'],
+                'salary' => $dataPayroll2['salary'],
+                'salaryNet' => $dataPayroll2['salaryNet']
             );
         else if (isset($payroll['info']))
             $resp = array('info' => true, 'message' => $payroll['message']);

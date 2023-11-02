@@ -106,6 +106,7 @@ $(document).ready(function () {
       let factor = $('#factor').val();
 
       salary = parseFloat(strReplaceNumber(salary));
+      basicSalary = salary;
       transport = parseFloat(strReplaceNumber(transport));
       endowment = parseFloat(strReplaceNumber(endowment));
       extraTime = parseFloat(strReplaceNumber(extraTime));
@@ -137,6 +138,7 @@ $(document).ready(function () {
       }
 
       $('#factor').prop('disabled', false);
+      dataPayroll.append('basicSalary', basicSalary);
       dataPayroll.append('transport', transport);
       dataPayroll.append('endowment', endowment);
       dataPayroll.append('extraTime', extraTime);

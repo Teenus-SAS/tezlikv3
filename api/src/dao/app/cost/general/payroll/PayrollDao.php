@@ -75,7 +75,7 @@ class PayrollDao
                                     WHERE id_payroll = :id_payroll");
       $stmt->execute([
         'id_payroll' => trim($dataPayroll['idPayroll']),                  'employee' => strtoupper(trim($dataPayroll['employee'])),
-        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['salary']),
+        'id_process' => trim($dataPayroll['idProcess']),                  'salary' => trim($dataPayroll['basicSalary']),
         'transport' => trim($dataPayroll['transport']),                   'extra_time' => trim($dataPayroll['extraTime']),
         'bonification' => trim($dataPayroll['bonification']),             'endowment' => trim($dataPayroll['endowment']),
         'working_days_month' => trim($dataPayroll['workingDaysMonth']),   'hours_day' => trim($dataPayroll['workingHoursDay']),
