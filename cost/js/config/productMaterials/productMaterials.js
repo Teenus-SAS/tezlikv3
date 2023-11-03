@@ -101,7 +101,7 @@ $(document).ready(function () {
   checkDataProductsMaterials = async (url, idProductMaterial) => {
     let ref = parseInt($('#material').val());
     let unit = parseInt($('#units').val());
-    let quan = $('#quantity').val();
+    let quan = parseFloat($('#quantity').val());
     idProduct = parseInt($('#selectNameProduct').val());
 
     let data = ref * unit * idProduct;
@@ -111,7 +111,7 @@ $(document).ready(function () {
       return false;
     }
 
-    quan = parseFloat(strReplaceNumber(quan));
+    // quan = parseFloat(strReplaceNumber(quan));
 
     quant = 1 * quan;
 

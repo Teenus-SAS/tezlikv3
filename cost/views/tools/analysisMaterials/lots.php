@@ -85,7 +85,7 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <input class="form-control text-center numberCalc" type="text" id="unitsmanufacturated" style="width: 200px;" />
+                                                    <input class="form-control text-center" type="number" id="unitsmanufacturated" style="width: 200px;" />
                                                     <label>Unidades a Fabricar</label>
                                                 </div>
                                                 <div class="col-xs-2 mt-1">

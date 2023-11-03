@@ -50,9 +50,9 @@ $(document).ready(function () {
     await loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
-    let decimals = contarDecimales(data.cost);
-    let cost = formatNumber(data.cost, decimals);
-    $('#costRawMaterial').val(cost);
+    // let decimals = contarDecimales(data.cost);
+    // let cost = formatNumber(data.cost, decimals);
+    $('#costRawMaterial').val(data.cost);
 
     $('html, body').animate(
       {
@@ -67,7 +67,7 @@ $(document).ready(function () {
     let ref = $('#refRawMaterial').val().trim();
     let material = $('#nameRawMaterial').val().trim();
     let unity = $('#units').val();
-    let cost = $('#costRawMaterial').val();
+    let cost = parseFloat($('#costRawMaterial').val());
 
     if (
       ref == '' ||
@@ -82,7 +82,7 @@ $(document).ready(function () {
       return false;
     }
 
-    cost = parseFloat(strReplaceNumber(cost));
+    // cost = parseFloat(strReplaceNumber(cost));
 
     cost = 1 * cost;
 

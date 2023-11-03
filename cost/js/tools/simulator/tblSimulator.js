@@ -133,7 +133,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="form-control number text-center inputSimulator id_machine ${data.id_machine
+            return `<input type="number" class="form-control text-center inputSimulator id_machine ${data.id_machine
               }" id="cost_machine-${meta.row + 1
               }" value="${data.cost_machine.toLocaleString('es-CO')}">`;
           },
@@ -147,7 +147,7 @@ $(document).ready(function () {
             <tr>
                 <th>Valor Residual:</td>
                 <td style="width:400px">
-                  <input type="text" class="form-control number text-center inputSimulator id_machine ${
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${
                     d.id_machine
                   }" id="residual_value-${row}" value="${d.residual_value.toLocaleString('es-CO')}"
                 </td>
@@ -155,7 +155,7 @@ $(document).ready(function () {
             <tr>
                 <th>Años Depreciacion:</th>
                 <td>
-                  <input type="number" class="form-control text-center number inputSimulator id_machine ${
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${
                     d.id_machine
                   }" id="years_depreciation-${row}" value="${d.years_depreciation}"
                 </td>
@@ -163,7 +163,7 @@ $(document).ready(function () {
             <tr>
                 <th>Horas de Trabajo:</th>
                 <td>
-                  <input type="number" class="form-control text-center number inputSimulator id_machine ${
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${
                     d.id_machine
                   }" id="hours_machine-${row}" value="${d.hours_machine}"
                 </td>
@@ -171,7 +171,7 @@ $(document).ready(function () {
             <tr>
                 <th>Dias de Trabajo:</th>
                 <td>
-                  <input type="number" class="form-control text-center number inputSimulator id_machine ${
+                  <input type="number" class="form-control text-center inputSimulator id_machine ${
                     d.id_machine
                   }" id="days_machine-${row}" value="${d.days_machine}"
                 </td>
@@ -228,7 +228,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="form-control number text-center inputSimulator id_material ${data.id_material
+            return `<input type="number" class="form-control text-center inputSimulator id_material ${data.id_material
               }" id="cost_material-${meta.row + 1
               }" value="${data.cost_material.toLocaleString('es-CO')}">`;
           },
@@ -317,7 +317,7 @@ $(document).ready(function () {
             <tr>
                 <th>Cantidad:</th>
                 <td>
-                  <input type="text" class="form-control number text-center inputSimulator id_product_material ${
+                  <input type="number" class="form-control text-center inputSimulator id_product_material ${
                     d.id_product_material
                   }" id="quantity-${row}" value="${d.quantity.toLocaleString('es-CO')}">
                 </td>
@@ -471,7 +471,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="text-center number form-control inputSimulator id_manufacturing_load ${
+            return `<input type="number" class="text-center form-control inputSimulator id_manufacturing_load ${
               data.id_manufacturing_load
             }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
               'es-CO'
@@ -521,7 +521,7 @@ $(document).ready(function () {
         </div>
         <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
             <label for="">Costo</label>
-            <input type="text" class="form-control number data" id="cost">
+            <input type="number" class="form-control data" id="cost">
         </div>
         <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
           <button class="btn btn-success btnCreateDataSimulator" id="externalServices">Crear Servicio</button>
@@ -566,7 +566,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="text-center number form-control inputSimulator id_service ${
+            return `<input type="number" class="text-center form-control inputSimulator id_service ${
               data.id_service
             }" id="cost-${meta.row + 1}" value="${data.cost.toLocaleString(
               'es-CO'
@@ -611,7 +611,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName payroll',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="text-center number form-control inputSimulator basicSalary id_payroll ${
+            return `<input type="number" class="text-center form-control inputSimulator basicSalary id_payroll ${
               data.id_payroll
             }" id="salary-${meta.row + 1}" value="${data.salary.toLocaleString(
               'es-CO'
@@ -657,7 +657,7 @@ $(document).ready(function () {
             <tr>
                 <th>Transporte:</th>
                 <td>
-                  <input type="text" class="text-center number form-control inputSimulator id_payroll ${
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
                     d.id_payroll
                   }" id="transport-${row}" value="${d.transport.toLocaleString('es-CO')}">
                 </td>
@@ -665,7 +665,7 @@ $(document).ready(function () {
             <tr>
                 <th>Dotaciones:</th>
                 <td>
-                  <input type="text" class="text-center number form-control inputSimulator id_payroll ${
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
                     d.id_payroll
                   }" id="endowment-${row}" value="${d.endowment.toLocaleString('es-CO')}">
                 </td>
@@ -673,7 +673,7 @@ $(document).ready(function () {
             <tr>
                 <th>Horas Extras:</th>
                 <td>
-                  <input type="text" class="text-center number form-control inputSimulator id_payroll ${
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
                     d.id_payroll
                   }" id="extra_time-${row}" value="${d.extra_time.toLocaleString('es-CO')}">
                 </td>
@@ -681,7 +681,7 @@ $(document).ready(function () {
             <tr>
                 <th>Otros Ingresos:</th>
                 <td>
-                  <input type="text" class="text-center number form-control inputSimulator id_payroll ${
+                  <input type="number" class="text-center form-control inputSimulator id_payroll ${
                     d.id_payroll
                   }" id="bonification-${row}" value="${d.bonification.toLocaleString('es-CO')}">
                 </td>
@@ -781,11 +781,11 @@ $(document).ready(function () {
         'beforeend',
         `<div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
             <label for="">Und Vendidas (Mes)</label>
-            <input type="text" class="form-control number data" id="units_sold">
+            <input type="number" class="form-control data" id="units_sold">
         </div>
         <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
             <label for="">Total Ventas (Mes)</label>
-            <input type="text" class="form-control number data" id="turnover">
+            <input type="number" class="form-control data" id="turnover">
         </div>
         <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
           <button class="btn btn-success btnCreateDataSimulator" id="expensesDistribution">Crear Gasto</button>
@@ -827,7 +827,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="text-center form-control number inputSimulator id_expenses_distribution ${
+            return `<input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${
               data.id_expenses_distribution
             }" id="units_sold-${
               meta.row + 1
@@ -843,7 +843,7 @@ $(document).ready(function () {
             <tr>
                 <th>Vol de Ventas:</th>
                 <td style="width:400px">
-                  <input type="text" class="text-center form-control number inputSimulator id_expenses_distribution ${
+                  <input type="number" class="text-center form-control inputSimulator id_expenses_distribution ${
                     d.id_expenses_distribution
                   }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
                 </td>
@@ -940,7 +940,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="text-center form-control number inputSimulator id_family ${
+            return `<input type="number" class="text-center form-control inputSimulator id_family ${
               data.id_family
             }" id="units_sold-${
               meta.row + 1
@@ -956,7 +956,7 @@ $(document).ready(function () {
             <tr>
                 <th>Vol de Ventas:</th>
                 <td style="width:400px">
-                  <input type="text" class="text-center form-control number inputSimulator id_family ${
+                  <input type="number" class="text-center form-control inputSimulator id_family ${
                     d.id_family
                   }" id="turnover-${row}" value="${d.turnover.toLocaleString('es-CO')}">
                 </td>

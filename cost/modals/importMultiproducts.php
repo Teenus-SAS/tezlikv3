@@ -14,7 +14,7 @@
                             <div class="col-md-12 col-lg-12">
                                 <div class="d-flex flex-row-reverse">
                                     <div class="p-2 floating-label enable-floating-label show-label form-inline">
-                                        <input type="text" class="form-control number text-center" id="importExpense">
+                                        <input type="number" class="form-control text-center" id="importExpense">
                                         <label for="">Gastos</label>
                                     </div>
                                 </div>

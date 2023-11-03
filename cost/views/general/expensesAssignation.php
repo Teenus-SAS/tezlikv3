@@ -80,7 +80,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-xs-3 floating-label enable-floating-label show-label">
                                                     <label for="">Valor</label>
-                                                    <input type="text" class="form-control number text-center" id="expenseValue" name="expenseValue">
+                                                    <input type="number" class="form-control text-center" id="expenseValue" name="expenseValue">
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-primary" id="btnCreateExpense">Crear Gasto</button>

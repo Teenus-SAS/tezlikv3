@@ -39,10 +39,10 @@ $(document).ready(function () {
     let data = tblMachines.fnGetData(row);
 
     $('#machine').val(data.machine);
-    let decimals = contarDecimales(data.cost);
-    let cost = formatNumber(data.cost, decimals);
-    $('#costMachine').val(cost);
-    $('#residualValue').val(data.residual_value.toLocaleString('es-CO'));
+    // let decimals = contarDecimales(data.cost);
+    // let cost = formatNumber(data.cost, decimals);
+    $('#costMachine').val(data.cost);
+    $('#residualValue').val(data.residual_value);
     $('#depreciationYears').val(data.years_depreciation);
 
     $('#hoursMachine').val(data.hours_machine);
@@ -64,10 +64,10 @@ $(document).ready(function () {
     let hoursMachine = $('#hoursMachine').val();
     let daysMachine = $('#daysMachine').val();
 
-    costMachine = parseFloat(strReplaceNumber(costMachine));
-    yearsDepreciation = parseFloat(strReplaceNumber(yearsDepreciation));
-    hoursMachine = parseFloat(hoursMachine.replace(',', '.'));
-    daysMachine = parseFloat(daysMachine.replace(',', '.'));
+    costMachine = parseFloat(costMachine);
+    yearsDepreciation = parseFloat(yearsDepreciation);
+    hoursMachine = parseFloat(hoursMachine);
+    daysMachine = parseFloat(daysMachine);
 
     let data = costMachine * yearsDepreciation * hoursMachine * daysMachine;
 

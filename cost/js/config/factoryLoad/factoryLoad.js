@@ -45,9 +45,9 @@ $(document).ready(function () {
 
     $(`#machine option[value=${data.id_machine}]`).prop('selected', true);
     $('#descriptionFactoryLoad').val(data.input);
-    let decimals = contarDecimales(data.cost);
-    let cost = formatNumber(data.cost, decimals);
-    $('#costFactory').val(cost);
+    // let decimals = contarDecimales(data.cost);
+    // let cost = formatNumber(data.cost, decimals);
+    $('#costFactory').val(data.cost);
 
     $('html, body').animate(
       {
@@ -61,9 +61,9 @@ $(document).ready(function () {
   checkDataFactoryLoad = async (url, idManufacturingLoad) => {
     let machine = $('#machine').val();
     let descriptionFactoryLoad = $('#descriptionFactoryLoad').val();
-    let costFactory = $('#costFactory').val();
+    let costFactory = parseFloat($('#costFactory').val());
 
-    costFactory = parseFloat(strReplaceNumber(costFactory));
+    // costFactory = parseFloat(strReplaceNumber(costFactory));
 
     costFactory = 1 * costFactory;
 

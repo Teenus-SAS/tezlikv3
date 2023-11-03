@@ -54,11 +54,11 @@ $(document).ready(function () {
     $('#employee').val(data.employee);
     $(`#idProcess option:contains(${data.process})`).prop('selected', true);
 
-    $('#basicSalary').val(data.salary.toLocaleString('es-CO'));
-    $('#transport').val(data.transport.toLocaleString('es-CO'));
-    $('#endowment').val(data.endowment.toLocaleString('es-CO'));
-    $('#extraTime').val(data.extra_time.toLocaleString('es-CO'));
-    $('#bonification').val(data.bonification.toLocaleString('es-CO'));
+    $('#basicSalary').val(data.salary);
+    $('#transport').val(data.transport);
+    $('#endowment').val(data.endowment);
+    $('#extraTime').val(data.extra_time);
+    $('#bonification').val(data.bonification);
 
     $('#workingHoursDay').val(data.hours_day);
     $('#workingDaysMonth').val(data.working_days_month);
@@ -98,20 +98,20 @@ $(document).ready(function () {
     let dataPayroll = new FormData(formCreatePayroll);
 
     if (type_payroll == '1') {
-      let salary = $('#basicSalary').val();
-      let transport = $('#transport').val();
-      let endowment = $('#endowment').val();
-      let extraTime = $('#extraTime').val();
-      let bonification = $('#bonification').val();
-      let factor = $('#factor').val();
+      let salary = parseFloat($('#basicSalary').val());
+      let transport = parseFloat($('#transport').val());
+      let endowment = parseFloat($('#endowment').val());
+      let extraTime = parseFloat($('#extraTime').val());
+      let bonification = parseFloat($('#bonification').val());
+      let factor = parseFloat($('#factor').val());
 
-      salary = parseFloat(strReplaceNumber(salary));
+      // salary = parseFloat(strReplaceNumber(salary));
       basicSalary = salary;
-      transport = parseFloat(strReplaceNumber(transport));
-      endowment = parseFloat(strReplaceNumber(endowment));
-      extraTime = parseFloat(strReplaceNumber(extraTime));
-      bonification = parseFloat(strReplaceNumber(bonification));
-      factor = parseFloat(factor);
+      // transport = parseFloat(strReplaceNumber(transport));
+      // endowment = parseFloat(strReplaceNumber(endowment));
+      // extraTime = parseFloat(strReplaceNumber(extraTime));
+      // bonification = parseFloat(strReplaceNumber(bonification));
+      // factor = parseFloat(factor);
 
       isNaN(transport) ? (transport = 0) : transport;
       isNaN(endowment) ? (endowment = 0) : endowment;

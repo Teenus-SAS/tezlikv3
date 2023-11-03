@@ -86,11 +86,11 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Precio - Lista de Precios</label>
-                                                    <input type="text" class="form-control number text-center" id="customPricesValue2" readonly>
+                                                    <input type="text" class="form-control text-center" id="customPricesValue2" readonly>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label for="">Valor</label>
-                                                    <input type="text" class="form-control number text-center" id="customPricesValue" name="customPricesValue">
+                                                    <input type="number" class="form-control text-center" id="customPricesValue" name="customPricesValue">
                                                 </div>
                                                 <div class="col-sm-1 mt-1">
                                                     <button class="btn btn-primary" id="btnCreateCustomPrice">Actualizar</button>

@@ -102,7 +102,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label for="">Costo</label>
-                                                    <input class="form-control text-center number" type="text" name="costService" id="costService">
+                                                    <input class="form-control text-center" type="number" name="costService" id="costService">
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-primary" id="btnAddService">Adicionar</button>

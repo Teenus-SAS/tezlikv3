@@ -115,8 +115,8 @@ $(document).ready(function () {
       `<option value ='${data.id_family}'> ${data.family} </option>`
     );
 
-    $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
-    $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));
+    $('#undVendidas').val(data.units_sold);
+    $('#volVendidas').val(data.turnover);
 
     $('html, body').animate(
       {

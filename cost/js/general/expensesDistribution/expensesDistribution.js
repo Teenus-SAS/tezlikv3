@@ -97,8 +97,8 @@ $(document).ready(function () {
       );
     }
 
-    $('#undVendidas').val(data.units_sold.toLocaleString('es-CO'));
-    $('#volVendidas').val(data.turnover.toLocaleString('es-CO'));
+    $('#undVendidas').val(data.units_sold);
+    $('#volVendidas').val(data.turnover);
 
     $('html, body').animate(
       {
@@ -113,11 +113,11 @@ $(document).ready(function () {
     let refProduct = parseInt($('#EDRefProduct').val());
     let nameProduct = parseInt($('#EDNameProduct').val());
     let family = parseInt($('#familiesDistribute').val());
-    let unitExp = $('#undVendidas').val();
-    let volExp = $('#volVendidas').val();
+    let unitExp = parseFloat($('#undVendidas').val());
+    let volExp = parseFloat($('#volVendidas').val());
 
-    unitExp = parseFloat(strReplaceNumber(unitExp));
-    volExp = parseFloat(strReplaceNumber(volExp));
+    // unitExp = parseFloat(strReplaceNumber(unitExp));
+    // volExp = parseFloat(strReplaceNumber(volExp));
 
     let data = refProduct * nameProduct * unitExp * volExp;
 

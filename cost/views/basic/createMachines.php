@@ -78,15 +78,15 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Nombre</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <input type="text" class="form-control number text-center" name="cost" id="costMachine" data-toggle="tooltip" title="Ingrese el precio de compra">
+                                                    <input type="number" class="form-control text-center" name="cost" id="costMachine" data-toggle="tooltip" title="Ingrese el precio de compra">
                                                     <label for="">Precio</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <input type="text" class="form-control number text-center" name="residualValue" id="residualValue" data-toggle="tooltip" title="Ingrese el valor que podria vender la máquina al finalizar su vida util, si aplica">
+                                                    <input type="number" class="form-control text-center" name="residualValue" id="residualValue" data-toggle="tooltip" title="Ingrese el valor que podria vender la máquina al finalizar su vida util, si aplica">
                                                     <label for="">Valor Residual</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <input type="text" class="form-control number text-center" name="depreciationYears" id="depreciationYears">
+                                                    <input type="number" class="form-control text-center" name="depreciationYears" id="depreciationYears">
                                                     <label for="">Años Depreciación</label>
                                                 </div>
                                             </div>

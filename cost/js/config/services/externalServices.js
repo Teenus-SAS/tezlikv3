@@ -51,9 +51,9 @@ $(document).ready(function () {
 
     $('#service').val(data.name_service);
 
-    let decimals = contarDecimales(data.cost);
-    let cost = formatNumber(data.cost, decimals);
-    $('#costService').val(cost);
+    // let decimals = contarDecimales(data.cost);
+    // let cost = formatNumber(data.cost, decimals);
+    $('#costService').val(data.cost);
 
     $('html, body').animate(
       {
@@ -67,9 +67,9 @@ $(document).ready(function () {
   checkDataServices = async (url, idService) => {
     let idProduct = parseInt($('#selectNameProduct').val());
     let service = $('#service').val();
-    let cost = $('#costService').val();
+    let cost = parseFloat($('#costService').val());
 
-    cost = parseFloat(strReplaceNumber(cost));
+    // cost = parseFloat(strReplaceNumber(cost));
 
     let data = idProduct * cost;
 

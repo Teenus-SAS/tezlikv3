@@ -101,7 +101,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="form-row">
                                             <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                <input class="form-control text-center numberCalc" type="text" id="unitsmanufacturated" style="width: 200px;" />
+                                                <input class="form-control text-center" type="number" id="unitsmanufacturated" style="width: 200px;" />
                                                 <label>Unidades a Fabricar</label>
                                             </div>
                                             <div class="col-xs-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">

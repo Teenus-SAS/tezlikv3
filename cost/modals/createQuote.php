@@ -98,14 +98,14 @@
                                             <?php } ?>
                                             <div class="col-12 col-lg-2">
                                                 <div class="form-group floating-label enable-floating-label show-label">
-                                                    <input class="form-control number text-center calcPrice" type="text" name="quantity" id="quantity">
+                                                    <input class="form-control text-center calcPrice" type="number" name="quantity" id="quantity">
                                                     <label for="quantity" class="form-label">Cantidad <span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-lg-3">
                                                 <div class="form-group floating-label enable-floating-label show-label">
-                                                    <input class="form-control number text-center calcPrice" type="text" name="price" id="price">
+                                                    <input class="form-control text-center calcPrice" type="number" name="price" id="price">
                                                     <label for="prices" class="form-label">Precio Unitario <span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>

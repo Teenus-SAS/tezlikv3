@@ -78,9 +78,9 @@ $(document).ready(function () {
     let enlistment_time = formatNumber(data.enlistment_time, decimals);
     $('#enlistmentTime').val(enlistment_time);
 
-    decimals = contarDecimales(data.operation_time);
-    let operation_time = formatNumber(data.operation_time, decimals);
-    $('#operationTime').val(operation_time);
+    // decimals = contarDecimales(data.operation_time);
+    // let operation_time = formatNumber(data.operation_time, decimals);
+    $('#operationTime').val(data.operation_time);
 
     $('#enlistmentTime').click();
 
@@ -100,12 +100,11 @@ $(document).ready(function () {
     idProduct = parseInt($('#selectNameProduct').val());
     let refP = parseInt($('#idProcess').val());
     let refM = parseInt($('#idMachine').val());
+    let enlistmentTime = parseFloat($('#enlistmentTime').val());
+    let operationTime = parseFloat($('#operationTime').val());
 
-    let enlistmentTime = $('#enlistmentTime').val();
-    let operationTime = $('#operationTime').val();
-
-    enlistmentTime = parseFloat(strReplaceNumber(enlistmentTime));
-    operationTime = parseFloat(strReplaceNumber(operationTime));
+    // enlistmentTime = parseFloat(strReplaceNumber(enlistmentTime));
+    // operationTime = parseFloat(strReplaceNumber(operationTime));
 
     let data = idProduct * refP * enlistmentTime + operationTime;
 

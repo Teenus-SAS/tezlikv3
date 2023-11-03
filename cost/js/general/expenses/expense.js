@@ -39,9 +39,9 @@ $(document).ready(function () {
       true
     );
 
-    let decimals = contarDecimales(data.expense_value);
-    let expense_value = formatNumber(data.expense_value, decimals);
-    $('#expenseValue').val(expense_value);
+    // let decimals = contarDecimales(data.expense_value);
+    // let expense_value = formatNumber(data.expense_value, decimals);
+    $('#expenseValue').val(data.expense_value);
 
     $('html, body').animate(
       {
@@ -54,9 +54,9 @@ $(document).ready(function () {
   /* Revision data gasto */
   checkDataExpense = async (url, idExpense) => {
     let puc = parseInt($('#idPuc').val());
-    let value = $('#expenseValue').val();
+    let value = parseFloat($('#expenseValue').val());
 
-    value = parseFloat(strReplaceNumber(value));
+    // value = parseFloat(strReplaceNumber(value));
 
     let data = puc * value;
 

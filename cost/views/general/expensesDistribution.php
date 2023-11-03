@@ -148,7 +148,7 @@ if (sizeof($_SESSION) == 0)
                                                 <label for="">Gastos a distribuir</label>
                                             </div>
                                             <div class="col-sm-4">
-                                                <input type="text" class="form-control number text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">
+                                                <input type="text" class="form-control text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">
                                             </div>
                                         </div>
                                     </div>
@@ -176,11 +176,11 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="EDNameProduct">Nombre Producto</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <input type="text" class="form-control number text-center" id="undVendidas" name="unitsSold">
+                                                    <input type="number" class="form-control text-center" id="undVendidas" name="unitsSold">
                                                     <label for="undVendidas">Und Vendidas (Mes)</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
-                                                    <input type="text" class="form-control number text-center" id="volVendidas" name="turnover">
+                                                    <input type="number" class="form-control text-center" id="volVendidas" name="turnover">
                                                     <label for="volVendidas">Total Ventas (Mes)</label>
                                                 </div>
                                                 <div class="col-xs-2" style="margin-top:12px">

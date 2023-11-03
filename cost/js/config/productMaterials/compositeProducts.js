@@ -83,7 +83,7 @@ $(document).ready(function () {
     /* Revision data Productos materiales */
     checkDataProducts = async (url, idCompositeProduct) => {
         let ref = parseInt($('#compositeProduct').val());
-        let quan = $('#quantity2').val();
+        let quan = parseFloat($('#quantity2').val());
         let idProduct = parseInt($('#selectNameProduct').val());
 
         let data = ref * idProduct;
@@ -98,7 +98,7 @@ $(document).ready(function () {
             return false;
         }
 
-        quan = parseFloat(strReplaceNumber(quan));
+        // quan = parseFloat(strReplaceNumber(quan));
 
         quant = 1 * quan;
 

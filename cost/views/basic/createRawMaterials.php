@@ -94,7 +94,7 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <input type="text" class="form-control text-center number" step="any" id="costRawMaterial" name="costRawMaterial">
+                                                    <input type="number" class="form-control text-center" step="any" id="costRawMaterial" name="costRawMaterial">
                                                     <label for="">Costo</label>
                                                 </div>
                                                 <div class="col-xs-2" style="margin-bottom:0px;margin-top:5px">

@@ -115,22 +115,22 @@ if (sizeof($_SESSION) == 0)
                                                     <tr>
                                                         <td class="font-weight-bold">Precio</td>
                                                         <td>
-                                                            <input class="form-control text-center price general" type="text" id="price-0" readonly>
+                                                            <input class="form-control text-center price general" type="number" id="price-0" readonly>
                                                         </td>
                                                         <td>
-                                                            <input class="form-control number text-center price totalRevenue general" type="text" id="price-1">
+                                                            <input class="form-control text-center price totalRevenue general" type="number" id="price-1">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control number text-center price totalRevenue general" type="text" id="price-2">
+                                                            <input class="form-control text-center price totalRevenue general" type="number" id="price-2">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control number text-center price totalRevenue general" type="text" id="price-3">
+                                                            <input class="form-control text-center price totalRevenue general" type="number" id="price-3">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control number text-center price totalRevenue general" type="text" id="price-4">
+                                                            <input class="form-control text-center price totalRevenue general" type="number" id="price-4">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control number text-center price totalRevenue general" type="text" id="price-5">
+                                                            <input class="form-control text-center price totalRevenue general" type="number" id="price-5">
                                                         </td>
                                                     </tr>
                                                     <tr>

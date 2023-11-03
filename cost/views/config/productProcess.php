@@ -106,15 +106,15 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="" class="text-center">t.alistamiento (min)</label>
-                                                    <input class="form-control text-center number time" type="text" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
+                                                    <input class="form-control text-center time" type="number" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="" class="text-center">t.operacion (min)</label>
-                                                    <input class="form-control text-center number time" type="text" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
+                                                    <input class="form-control text-center time" type="number" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label for="" class="text-center">t.total (min)</label>
-                                                    <input class="form-control text-center number" type="text" name="totalTime" id="totalTime" disabled>
+                                                    <input class="form-control text-center" type="number" name="totalTime" id="totalTime" disabled>
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>

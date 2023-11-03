@@ -73,9 +73,9 @@ $(document).ready(function () {
   /* Revision Data gasto */
   checkDataExpenseRecover = async (url, idExpenseRecover) => {
     let idProduct = parseInt($('#ERNameProduct').val());
-    let percentage = $('#percentage').val();
+    let percentage = parseFloat($('#percentage').val());
 
-    percentage = parseFloat(percentage.replace(',', '.'));
+    // percentage = parseFloat(percentage.replace(',', '.'));
 
     let data = idProduct * percentage;
 
