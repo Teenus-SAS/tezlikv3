@@ -35,10 +35,10 @@ $(document).ready(function () {
     let tEnlistment = $('#enlistmentTime').val();
 
     tOperation == '' ? (tOperation = '0') : tOperation;
-    tOperation = strReplaceNumber(tOperation);
+    // tOperation = strReplaceNumber(tOperation);
 
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
-    tEnlistment = strReplaceNumber(tEnlistment);
+    // tEnlistment = strReplaceNumber(tEnlistment);
 
     let val = parseFloat(tEnlistment) + parseFloat(tOperation);
     $('#totalTime').val(val.toLocaleString('es-CO'));

@@ -340,7 +340,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                     if ($_SESSION['flag_composite_product'] == '0' || $status == false)
                         $dataMaterial = $costMaterialsDao->calcCostMaterial($j, $id_company);
 
-                    $materials = $costMaterialsDao->updateCostMaterials($j, $id_company);
+                    $materials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
 
                     // Calcular precio
                     $materials = $priceProductDao->calcPrice($j['id_product']);
