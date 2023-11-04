@@ -41,7 +41,7 @@ $(document).ready(function () {
     // tEnlistment = strReplaceNumber(tEnlistment);
 
     let val = parseFloat(tEnlistment) + parseFloat(tOperation);
-    $('#totalTime').val(val.toLocaleString('es-CO'));
+    $('#totalTime').val(val);
   });
 
   /* Adicionar nuevo proceso */

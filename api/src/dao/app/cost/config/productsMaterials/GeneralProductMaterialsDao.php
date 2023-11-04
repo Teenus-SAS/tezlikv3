@@ -60,4 +60,12 @@ class GeneralProductMaterialsDao
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
+
+    // public function updateUnitProductMaterial($dataProductMaterial){
+    //     try{
+
+    //     }catch(\Exception $e){
+    //         $error = array
+    //     }
+    // }
 }
