@@ -54,7 +54,7 @@ class ExpensesDao
   public function insertExpensesByCompany($dataExpense, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $expenseValue = str_replace('.', '', $dataExpense['expenseValue']);
+    // $expenseValue = str_replace('.', '', $dataExpense['expenseValue']);
 
     try {
       $stmt = $connection->prepare("INSERT INTO expenses (id_puc, id_company, expense_value)
@@ -62,7 +62,7 @@ class ExpensesDao
       $stmt->execute([
         'id_puc' => trim($dataExpense['idPuc']),
         'id_company' => $id_company,
-        'expense_value' => trim($expenseValue)
+        'expense_value' => trim($dataExpense['expenseValue'])
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -76,14 +76,14 @@ class ExpensesDao
   public function updateExpenses($dataExpense)
   {
     $connection = Connection::getInstance()->getConnection();
-    $expenseValue = str_replace('.', '', $dataExpense['expenseValue']);
+    // $expenseValue = str_replace('.', '', $dataExpense['expenseValue']);
 
     try {
       $stmt = $connection->prepare("UPDATE expenses SET id_puc = :id_puc, expense_value = :expense_value
                                       WHERE id_expense = :id_expense");
       $stmt->execute([
         'id_puc' => trim($dataExpense['idPuc']),
-        'expense_value' => trim($expenseValue),
+        'expense_value' => trim($dataExpense['expenseValue']),
         'id_expense' => trim($dataExpense['idExpense'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

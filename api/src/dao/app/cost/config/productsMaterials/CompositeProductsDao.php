@@ -36,8 +36,8 @@ class CompositeProductsDao
     public function insertCompositeProductByCompany($dataProduct, $id_company)
     {
         try {
-            $quantity = str_replace('.', '', $dataProduct['quantity']);
-            $quantity = str_replace(',', '.', $quantity);
+            // $quantity = str_replace('.', '', $dataProduct['quantity']);
+            // $quantity = str_replace(',', '.', $quantity);
 
             $connection = Connection::getInstance()->getConnection();
 
@@ -59,8 +59,8 @@ class CompositeProductsDao
     public function updateCompositeProduct($dataProduct)
     {
         try {
-            $quantity = str_replace('.', '', $dataProduct['quantity']);
-            $quantity = str_replace(',', '.', $quantity);
+            // $quantity = str_replace('.', '', $dataProduct['quantity']);
+            // $quantity = str_replace(',', '.', $quantity);
 
             $connection = Connection::getInstance()->getConnection();
 
@@ -70,7 +70,7 @@ class CompositeProductsDao
                 'id_composite_product' => $dataProduct['idCompositeProduct'],
                 'id_child_product' => $dataProduct['compositeProduct'],
                 'id_unit' => $dataProduct['unit'],
-                'quantity' => $quantity
+                'quantity' => $dataProduct['quantity']
             ]);
         } catch (\Exception $e) {
             $error = array('info' => true, 'message' => $e->getMessage());

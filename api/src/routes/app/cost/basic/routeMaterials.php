@@ -195,7 +195,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             $unit = $unitsDao->findUnit($materials[$i]);
             $materials[$i]['unit'] = $unit['id_unit'];
 
-            $materials[$i]['costRawMaterial'] = str_replace('.', ',', $materials[$i]['costRawMaterial']);
+            // $materials[$i]['costRawMaterial'] = str_replace('.', ',', $materials[$i]['costRawMaterial']);
 
             $material = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
 

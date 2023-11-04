@@ -149,7 +149,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
         $payroll = $generalPayrollDao->findPayroll($dataPayroll, $id_company);
 
         if (!$payroll) {
-            $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+            // $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
             // Calcular factor benefico
             $dataBenefits = $benefitsDao->findAllBenefits();
@@ -343,7 +343,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
     if ($data['id_payroll'] == $dataPayroll['idPayroll'] || $data['id_payroll'] == 0) {
         if ($type_payroll == 1) {
-            $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+            // $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
 
             // Calcular factor benefico
             $dataBenefits = $benefitsDao->findAllBenefits();
@@ -455,7 +455,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                 }
             }
         } else {
-            $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
+            // $dataPayroll = $convertDataDao->strReplacePayroll($dataPayroll);
             $payroll = $generalPayrollDao->updatePayroll($dataPayroll);
         }
 

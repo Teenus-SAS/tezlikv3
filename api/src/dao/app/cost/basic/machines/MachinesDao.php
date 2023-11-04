@@ -46,7 +46,7 @@ class MachinesDao
       $stmt->execute([
         'id_company' => $id_company,
         'machine' => strtoupper(trim($dataMachine['machine'])),
-        'cost' => trim($dataMachine['costMachine']),
+        'cost' => trim($dataMachine['cost']),
         'years_depreciation' => trim($dataMachine['depreciationYears']),
         'residual_value' => trim($dataMachine['residualValue']),
         'hours_machine' => trim($dataMachine['hoursMachine']),
@@ -72,7 +72,7 @@ class MachinesDao
       $stmt->execute([
         'id_machine' => trim($dataMachine['idMachine']),
         'machine' => strtoupper(trim($dataMachine['machine'])),
-        'cost' => trim($dataMachine['costMachine']),
+        'cost' => trim($dataMachine['cost']),
         'years_depreciation' => trim($dataMachine['depreciationYears']),
         'residual_value' => trim($dataMachine['residualValue']),
         'hours_machine' => trim($dataMachine['hoursMachine']),

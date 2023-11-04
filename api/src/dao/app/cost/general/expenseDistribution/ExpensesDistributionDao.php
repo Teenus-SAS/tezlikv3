@@ -51,12 +51,12 @@ class ExpensesDistributionDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $unitsSold = str_replace('.', '', $dataExpensesDistribution['unitsSold']);
-        if (str_contains($unitsSold, ','))
-            $unitsSold = str_replace(',', '.', $unitsSold);
-        $turnover = str_replace('.', '', $dataExpensesDistribution['turnover']);
-        if (str_contains($turnover, ','))
-            $turnover = str_replace(',', '.', $turnover);
+        // $unitsSold = str_replace('.', '', $dataExpensesDistribution['unitsSold']);
+        // if (str_contains($unitsSold, ','))
+        //     $unitsSold = str_replace(',', '.', $unitsSold);
+        // $turnover = str_replace('.', '', $dataExpensesDistribution['turnover']);
+        // if (str_contains($turnover, ','))
+        //     $turnover = str_replace(',', '.', $turnover);
 
         try {
             $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, units_sold, turnover)
@@ -64,8 +64,8 @@ class ExpensesDistributionDao
             $stmt->execute([
                 'id_product' => trim($dataExpensesDistribution['selectNameProduct']),
                 'id_company' => $id_company,
-                'units_sold' => trim($unitsSold),
-                'turnover' => trim($turnover)
+                'units_sold' => $dataExpensesDistribution['unitsSold'],
+                'turnover' => $dataExpensesDistribution['turnover']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -81,12 +81,12 @@ class ExpensesDistributionDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $unitsSold = str_replace('.', '', $dataExpensesDistribution['unitsSold']);
-        if (str_contains($unitsSold, ','))
-            $unitsSold = str_replace(',', '.', $unitsSold);
-        $turnover = str_replace('.', '', $dataExpensesDistribution['turnover']);
-        if (str_contains($turnover, ','))
-            $turnover = str_replace(',', '.', $turnover);
+        // $unitsSold = str_replace('.', '', $dataExpensesDistribution['unitsSold']);
+        // if (str_contains($unitsSold, ','))
+        //     $unitsSold = str_replace(',', '.', $unitsSold);
+        // $turnover = str_replace('.', '', $dataExpensesDistribution['turnover']);
+        // if (str_contains($turnover, ','))
+        //     $turnover = str_replace(',', '.', $turnover);
 
         try {
             $stmt = $connection->prepare("UPDATE expenses_distribution SET id_product = :id_product, units_sold = :units_sold, turnover = :turnover
@@ -94,8 +94,8 @@ class ExpensesDistributionDao
             $stmt->execute([
                 'id_expenses_distribution' => trim($dataExpensesDistribution['idExpensesDistribution']),
                 'id_product' => trim($dataExpensesDistribution['selectNameProduct']),
-                'units_sold' => trim($unitsSold),
-                'turnover' => trim($turnover)
+                'units_sold' => $dataExpensesDistribution['unitsSold'],
+                'turnover' => $dataExpensesDistribution['turnover']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

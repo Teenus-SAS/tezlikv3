@@ -39,7 +39,7 @@ class FactoryLoadDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $costFactory = str_replace('.', '', $dataFactoryLoad['costFactory']);
+    // $costFactory = str_replace('.', '', $dataFactoryLoad['costFactory']);
 
     try {
       $stmt = $connection->prepare("INSERT INTO manufacturing_load (id_machine, id_company, input, cost)
@@ -48,7 +48,7 @@ class FactoryLoadDao
         'id_machine' => $dataFactoryLoad['idMachine'],
         'id_company' => $id_company,
         'input' => strtoupper(trim($dataFactoryLoad['descriptionFactoryLoad'])),
-        'cost' => $costFactory,
+        'cost' => $dataFactoryLoad['costFactory'],
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
@@ -62,7 +62,7 @@ class FactoryLoadDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $costFactory = str_replace('.', '', $dataFactoryLoad['costFactory']);
+    // $costFactory = str_replace('.', '', $dataFactoryLoad['costFactory']);
 
     try {
       $stmt = $connection->prepare("UPDATE manufacturing_load SET id_machine = :id_machine, input = :input, cost = :cost
@@ -71,7 +71,7 @@ class FactoryLoadDao
         'id_manufacturing_load' => $dataFactoryLoad['idManufacturingLoad'],
         'id_machine' => $dataFactoryLoad['idMachine'],
         'input' => strtoupper(trim($dataFactoryLoad['descriptionFactoryLoad'])),
-        'cost' => $costFactory
+        'cost' => $dataFactoryLoad['costFactory']
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {

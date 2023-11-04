@@ -120,7 +120,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $dataMachines = sizeof($dataMachine);
 
     if ($dataMachines > 1) {
-        $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
+        // $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
 
         $findMachine = $generalMachinesDao->findMachine($dataMachine, $id_company);
 
@@ -304,7 +304,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
     $dataMachine = $request->getParsedBody();
 
-    $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
+    // $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
 
     $data = [];
 

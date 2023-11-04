@@ -165,14 +165,14 @@ class FamiliesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $unitsSold = str_replace('.', '', $dataFamily['unitsSold']);
-        $turnover = str_replace('.', '', $dataFamily['turnover']);
+        // $unitsSold = str_replace('.', '', $dataFamily['unitsSold']);
+        // $turnover = str_replace('.', '', $dataFamily['turnover']);
 
         try {
             $stmt = $connection->prepare("UPDATE families SET units_sold = :units_sold, turnover = :turnover WHERE id_family = :id_family");
             $stmt->execute([
-                'units_sold' => $unitsSold,
-                'turnover' => $turnover,
+                'units_sold' => $dataFamily['unitsSold'],
+                'turnover' => $dataFamily['turnover'],
                 'id_family' => $dataFamily['idFamily']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

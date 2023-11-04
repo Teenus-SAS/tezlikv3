@@ -59,8 +59,8 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
     $lastQuote = $lastDataDao->findLastQuote();
 
     for ($i = 0; $i < sizeof($products); $i++) {
-        $product = $convertDataDao->strReplaceQuotes($products[$i]);
-        $resp = $quoteProductsDao->insertQuotesProducts($product, $lastQuote['id_quote']);
+        // $product = $convertDataDao->strReplaceQuotes($products[$i]);
+        $resp = $quoteProductsDao->insertQuotesProducts($products[$i], $lastQuote['id_quote']);
     }
 
     if ($respquote == null && $resp == null)
@@ -112,7 +112,7 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
 
         /* Inserta todos los productos de la cotizacion */
         for ($i = 0; $i < sizeof($products); $i++) {
-            $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
+            // $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
 
             $quotesProducts = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
         }
@@ -144,9 +144,9 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
         $products = $dataQuote['products'];
 
         for ($i = 0; $i < sizeof($products); $i++) {
-            $product = $convertDataDao->strReplaceQuotes($products[$i]);
+            // $product = $convertDataDao->strReplaceQuotes($products[$i]);
 
-            $quotesProducts = $quoteProductsDao->insertQuotesProducts($product, $dataQuote['idQuote']);
+            $quotesProducts = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
         }
     }
 

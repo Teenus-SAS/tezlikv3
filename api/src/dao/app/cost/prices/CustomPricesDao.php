@@ -42,8 +42,8 @@ class CustomPricesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $price = str_replace('.', '', $dataPrice['customPricesValue']);
-        $price = str_replace(',', '.', $price);
+        // $price = str_replace('.', '', $dataPrice['customPricesValue']);
+        // $price = str_replace(',', '.', $price);
 
         try {
             $stmt = $connection->prepare("INSERT INTO custom_prices (id_company, id_product, id_price_list, price) 
@@ -52,7 +52,7 @@ class CustomPricesDao
                 'id_company' => $id_company,
                 'id_product' => $dataPrice['idProduct'],
                 'id_price_list' => $dataPrice['idPriceList'],
-                'price' => $price,
+                'price' => $dataPrice['customPricesValue'],
                 // 'flag_price' => $dataPrice['typePrice']
             ]);
 
@@ -68,8 +68,8 @@ class CustomPricesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $price = str_replace('.', '', $dataPrice['customPricesValue']);
-        $price = str_replace(',', '.', $price);
+        // $price = str_replace('.', '', $dataPrice['customPricesValue']);
+        // $price = str_replace(',', '.', $price);
 
         try {
             $stmt = $connection->prepare("UPDATE custom_prices SET id_product = :id_product, id_price_list = :id_price_list, price = :price 
@@ -78,7 +78,7 @@ class CustomPricesDao
                 'id_custom_price' => $dataPrice['idCustomPrice'],
                 'id_product' => $dataPrice['idProduct'],
                 'id_price_list' => $dataPrice['idPriceList'],
-                'price' => $price,
+                'price' => $dataPrice['customPricesValue'],
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

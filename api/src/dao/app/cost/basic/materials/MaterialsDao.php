@@ -21,8 +21,8 @@ class MaterialsDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
-    $costRawMaterial = str_replace(',', '.', $costRawMaterial);
+    // $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
+    // $costRawMaterial = str_replace(',', '.', $costRawMaterial);
 
     try {
       $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, cost) 
@@ -32,7 +32,7 @@ class MaterialsDao
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
         'unit' => $dataMaterial['unit'],
-        'cost' => $costRawMaterial
+        'cost' => $dataMaterial['costRawMaterial']
       ]);
 
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -52,8 +52,8 @@ class MaterialsDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
-    $costRawMaterial = str_replace(',', '.', $costRawMaterial);
+    // $costRawMaterial = str_replace('.', '', $dataMaterial['costRawMaterial']);
+    // $costRawMaterial = str_replace(',', '.', $costRawMaterial);
 
     try {
       $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, cost = :cost 
@@ -63,7 +63,7 @@ class MaterialsDao
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
         'unit' => $dataMaterial['unit'],
-        'cost' => $costRawMaterial,
+        'cost' => $dataMaterial['costRawMaterial'],
         'id_company' => $id_company
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

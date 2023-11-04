@@ -35,15 +35,15 @@ class ProductsCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $salePrice = str_replace('.', '', $dataProduct['salePrice']);
-            $salePrice = str_replace(',', '.', $salePrice);
+            // $salePrice = str_replace('.', '', $dataProduct['salePrice']);
+            // $salePrice = str_replace(',', '.', $salePrice);
 
             $stmt = $connection->prepare("INSERT INTO products_costs(id_product, id_company, sale_price, profitability, commission_sale) 
                                         VALUES (:id_product, :id_company, :sale_price, :profitability, :commission_sale)");
             $stmt->execute([
                 'id_product' => trim($dataProduct['idProduct']),
                 'id_company' => $id_company,
-                'sale_price' => $salePrice,
+                'sale_price' => $dataProduct['salePrice'],
                 'profitability' => trim($dataProduct['profitability']),
                 'commission_sale' => trim($dataProduct['commissionSale'])
             ]);
@@ -58,14 +58,14 @@ class ProductsCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $salePrice = str_replace('.', '', $dataProduct['salePrice']);
-            $salePrice = str_replace(',', '.', $salePrice);
+            // $salePrice = str_replace('.', '', $dataProduct['salePrice']);
+            // $salePrice = str_replace(',', '.', $salePrice);
 
             $stmt = $connection->prepare("UPDATE products_costs SET sale_price = :sale_price, profitability = :profitability, commission_sale = :commission_sale
                                       WHERE id_product = :id_product");
             $stmt->execute([
                 'id_product' => trim($dataProduct['idProduct']),
-                'sale_price' => $salePrice,
+                'sale_price' => $dataProduct['salePrice'],
                 'profitability' => trim($dataProduct['profitability']),
                 'commission_sale' => trim($dataProduct['commissionSale'])
             ]);

@@ -151,7 +151,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
         $productProcess = $productsProcessDao->findProductProcess($dataProductProcess, $id_company);
 
         if (!$productProcess) {
-            $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
+            // $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
             $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
 
             /* Calcular costo nomina */
@@ -490,7 +490,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     !is_array($productProcess) ? $data['id_product_process'] = 0 : $data = $productProcess;
 
     if ($data['id_product_process'] == $dataProductProcess['idProductProcess'] || $data['id_product_process'] == 0) {
-        $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
+        // $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
         $productProcess = $productsProcessDao->updateProductsProcess($dataProductProcess);
 
         /* Calcular costo nomina */

@@ -48,7 +48,7 @@ class ExternalServicesDao
     public function insertExternalServicesByCompany($dataExternalService, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $costService = str_replace('.', '', $dataExternalService['costService']);
+        // $costService = str_replace('.', '', $dataExternalService['costService']);
 
         try {
             $stmt = $connection->prepare("INSERT INTO services(name_service, cost, id_product, id_company)
@@ -56,7 +56,7 @@ class ExternalServicesDao
             $stmt->execute([
                 'id_product' => $dataExternalService['idProduct'],
                 'name_service' => strtoupper(trim($dataExternalService['service'])),
-                'cost' => $costService,
+                'cost' => $dataExternalService['costService'],
                 'id_company' => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -72,7 +72,7 @@ class ExternalServicesDao
     public function updateExternalServices($dataExternalService)
     {
         $connection = Connection::getInstance()->getConnection();
-        $costService = str_replace('.', '', $dataExternalService['costService']);
+        // $costService = str_replace('.', '', $dataExternalService['costService']);
 
         try {
             $stmt = $connection->prepare("UPDATE services SET name_service=:name_service, cost=:cost, id_product=:id_product
@@ -80,7 +80,7 @@ class ExternalServicesDao
             $stmt->execute([
                 'id_product' => $dataExternalService['idProduct'],
                 'name_service' => strtoupper(trim($dataExternalService['service'])),
-                'cost' => $costService,
+                'cost' => $dataExternalService['costService'],
                 'id_service' => $dataExternalService['idService']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

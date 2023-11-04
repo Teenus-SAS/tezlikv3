@@ -57,10 +57,9 @@ $(document).ready(function () {
         let data = tblConfigMaterials.fnGetData(row);
 
         sessionStorage.setItem('id_composite_product', data.id_composite_product);
-        $(`#compositeProduct option[value=${data.id_child_product}]`).prop('selected', true);
-        let quantity = `${data.quantity}`;
+        $(`#compositeProduct option[value=${data.id_child_product}]`).prop('selected', true); 
 
-        $('#quantity2').val(quantity.replace('.', ','));
+        $('#quantity2').val(data.quantity);
 
         data = await searchData('/api/units');
 

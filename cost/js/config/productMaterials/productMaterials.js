@@ -85,9 +85,9 @@ $(document).ready(function () {
     await loadUnitsByMagnitude(data, 2);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
-    let quantity = `${data.quantity}`;
+    // let quantity = `${data.quantity}`;
 
-    $('#quantity').val(quantity.replace('.', ','));
+    $('#quantity').val(data.quantity);
 
     $('html, body').animate(
       {

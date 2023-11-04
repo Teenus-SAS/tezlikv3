@@ -19,13 +19,13 @@ class ConvertDataDao
     /* Maquinas */
     public function strReplaceMachines($dataMachine)
     {
-        if (strpos(php_uname('s'), 'Windows') !== false) {
-            $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
-            $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
-        } else {
-            $dataMachine['costMachine'] = str_replace(',', '', $dataMachine['cost']);
-            $dataMachine['residualValue'] = str_replace(',', '', $dataMachine['residualValue']);
-        }
+        // if (strpos(php_uname('s'), 'Windows') !== false) {
+        $dataMachine['costMachine'] = str_replace('.', '', $dataMachine['cost']);
+        $dataMachine['residualValue'] = str_replace('.', '', $dataMachine['residualValue']);
+        // } else {
+        //     $dataMachine['costMachine'] = str_replace(',', '', $dataMachine['cost']);
+        //     $dataMachine['residualValue'] = str_replace(',', '', $dataMachine['residualValue']);
+        // }
 
         $dataMachine['costMachine'] = str_replace(',', '.', $dataMachine['costMachine']);
         $dataMachine['residualValue'] = str_replace(',', '.', $dataMachine['residualValue']);
@@ -47,13 +47,13 @@ class ConvertDataDao
     /* Productos Procesos */
     public function strReplaceProductsProcess($dataProductProcess)
     {
-        if (strpos(php_uname('s'), 'Windows') !== false) {
-            $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
-            $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
-        } else {
-            $dataProductProcess['enlistmentTime'] = str_replace(',', '', $dataProductProcess['enlistmentTime']);
-            $dataProductProcess['operationTime'] = str_replace(',', '', $dataProductProcess['operationTime']);
-        }
+        // if (strpos(php_uname('s'), 'Windows') !== false) {
+        $dataProductProcess['enlistmentTime'] = str_replace('.', '', $dataProductProcess['enlistmentTime']);
+        $dataProductProcess['operationTime'] = str_replace('.', '', $dataProductProcess['operationTime']);
+        // } else {
+        //     $dataProductProcess['enlistmentTime'] = str_replace(',', '', $dataProductProcess['enlistmentTime']);
+        //     $dataProductProcess['operationTime'] = str_replace(',', '', $dataProductProcess['operationTime']);
+        // }
 
         $dataProductProcess['enlistmentTime'] = str_replace(',', '.', $dataProductProcess['enlistmentTime']);
         $dataProductProcess['operationTime'] = str_replace(',', '.', $dataProductProcess['operationTime']);
@@ -64,19 +64,19 @@ class ConvertDataDao
     /* Nomina */
     public function strReplacePayroll($dataPayroll)
     {
-        if (strpos(php_uname('s'), 'Windows') !== false) {
-            $salaryBasic = str_replace('.', '', $dataPayroll['basicSalary']);
-            $transport = str_replace('.', '', $dataPayroll['transport']);
-            $bonification = str_replace('.', '', $dataPayroll['bonification']);
-            $extraTime = str_replace('.', '', $dataPayroll['extraTime']);
-            $endowment = str_replace('.', '', $dataPayroll['endowment']);
-        } else {
-            $salaryBasic = str_replace(',', '', $dataPayroll['basicSalary']);
-            $transport = str_replace(',', '', $dataPayroll['transport']);
-            $bonification = str_replace(',', '', $dataPayroll['bonification']);
-            $extraTime = str_replace(',', '', $dataPayroll['extraTime']);
-            $endowment = str_replace(',', '', $dataPayroll['endowment']);
-        }
+        // if (strpos(php_uname('s'), 'Windows') !== false) {
+        $salaryBasic = str_replace('.', '', $dataPayroll['basicSalary']);
+        $transport = str_replace('.', '', $dataPayroll['transport']);
+        $bonification = str_replace('.', '', $dataPayroll['bonification']);
+        $extraTime = str_replace('.', '', $dataPayroll['extraTime']);
+        $endowment = str_replace('.', '', $dataPayroll['endowment']);
+        // } else {
+        //     $salaryBasic = str_replace(',', '', $dataPayroll['basicSalary']);
+        //     $transport = str_replace(',', '', $dataPayroll['transport']);
+        //     $bonification = str_replace(',', '', $dataPayroll['bonification']);
+        //     $extraTime = str_replace(',', '', $dataPayroll['extraTime']);
+        //     $endowment = str_replace(',', '', $dataPayroll['endowment']);
+        // }
 
         $factor = str_replace(',', '.', $dataPayroll['factor']);
 
@@ -99,17 +99,17 @@ class ConvertDataDao
     /* Cotizacion */
     public function strReplaceQuotes($dataQuote)
     {
-        if (strpos(php_uname('s'), 'Windows') !== false)
-            $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
-        else
-            $dataQuote['quantity'] = str_replace(',', '', $dataQuote['quantity']);
+        // if (strpos(php_uname('s'), 'Windows') !== false)
+        $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
+        // else
+        // $dataQuote['quantity'] = str_replace(',', '', $dataQuote['quantity']);
 
         $price = str_replace('$ ', '', $dataQuote['price']);
 
-        if (strpos(php_uname('s'), 'Windows') !== false)
-            $price = str_replace('.', '', $price);
-        else
-            $dataQuote['price'] = str_replace(',', '.', $price);
+        // if (strpos(php_uname('s'), 'Windows') !== false)
+        $price = str_replace('.', '', $price);
+
+        $dataQuote['price'] = str_replace(',', '.', $price);
 
         return $dataQuote;
     }
