@@ -70,10 +70,9 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
                                     <button id="btnImportNewExpenses" class="btn btn-primary"></button>
                                 </div>
-                                <?php if ($_SESSION['type_expense'] == 0) { ?>
+                                <?php if ($_SESSION['type_expense'] == 1) { ?>
                                     <div class="col-xs-2 mr-2 btn-group cardBtnExpensesDistribution" style="display: none;">
-                                        <button class="btn btn-sm btn-primary typeExpense" id="distribute" value="1">Distribucion</button>
-                                        <button class="btn btn-sm btn-outline-primary typeExpense" id="family" value="2">Familia</button>
+
                                     </div>
                                 <?php } ?>
                             </div>
@@ -310,6 +309,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        type_expense = "<?= $_SESSION['type_expense'] ?>";
     </script>
     <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
     <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>

@@ -103,9 +103,9 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
                         $usersAccess = $costAccessUserDao->insertUserAccessByUser($dataUser, $typeCustomPrice);
 
-                        if ($dataUser['typeExpenses'] != 0) {
-                            $companiesLicenseDao->changeFlagExpense($dataUser, $id_company);
-                        }
+                        // if ($dataUser['typeExpenses'] != 0) {
+                        //     $companiesLicenseDao->changeFlagExpense($dataUser, $id_company);
+                        // }
 
                         if ($usersAccess == null && $dataUser['check'] == 'true')
                             $usersAccess = $generalCostUserAccessDao->changePrincipalUser($dataUser);

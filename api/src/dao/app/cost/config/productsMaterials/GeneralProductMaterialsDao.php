@@ -61,11 +61,19 @@ class GeneralProductMaterialsDao
         }
     }
 
-    // public function updateUnitProductMaterial($dataProductMaterial){
-    //     try{
+    public function updateUnitProductMaterial($dataProductMaterial)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
 
-    //     }catch(\Exception $e){
-    //         $error = array
-    //     }
-    // }
+            $stmt = $connection->prepare("UPDATE products_materials SET id_unit = :id_unit WHERE id_product_material = id_product_material");
+            $stmt->execute([
+                'id_unit' => $dataProductMaterial['id_unit'],
+                'id_product_material' => $dataProductMaterial['id_product_material']
+            ]);
+        } catch (\Exception $e) {
+            $error = array('info' => true, 'message' => $e->getMessage());
+            return $error;
+        }
+    }
 }

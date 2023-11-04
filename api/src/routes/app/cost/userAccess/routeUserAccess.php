@@ -61,9 +61,9 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
 
         $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $id_company);
 
-        if ($dataUserAccess['typeExpenses'] != 0) {
-            $companiesLicenseDao->changeFlagExpense($dataUserAccess, $id_company);
-        }
+        // if ($dataUserAccess['typeExpenses'] != 0) {
+        //     $companiesLicenseDao->changeFlagExpense($dataUserAccess, $id_company);
+        // }
 
         /* Modificar accesos */
         $generalUAccessDao->setGeneralAccess($user['idUser']);
@@ -102,9 +102,9 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
     else
         $userAccess = $userAccessDao->insertUserAccessByUser($dataUserAccess, $typeCustomPrice);
 
-    if ($dataUserAccess['typeExpenses'] != 0) {
-        $companiesLicenseDao->changeFlagExpense($dataUserAccess, $id_company);
-    }
+    // if ($dataUserAccess['typeExpenses'] != 0) {
+    //     $companiesLicenseDao->changeFlagExpense($dataUserAccess, $id_company);
+    // }
 
     /* Modificar accesos */
     if ($idUser == $dataUserAccess['idUser'])

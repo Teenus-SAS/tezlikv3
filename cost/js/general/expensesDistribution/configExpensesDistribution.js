@@ -104,6 +104,21 @@ $(document).ready(function () {
     if (option == 1) {
       $('.distributionExpenses').html('Distribución de Gastos');
       $('.cardBtnExpensesDistribution').show(800);
+
+      if (type_expense == '1') {
+        let buttons = document.getElementsByClassName(
+          'cardBtnExpensesDistribution'
+          )[1];
+        buttons.innerHTML = "";
+
+        buttons.insertAdjacentHTML(
+          'beforeend',
+          `<button class="${flag_expense_distribution == '1' ? 'btn btn-sm btn-primary':'btn btn-sm btn-outline-primary'} typeExpense" id="distribute" value="1">Por Producto</button>
+           <button class="${flag_expense_distribution == '2' ? 'btn btn-sm btn-primary':'btn btn-sm btn-outline-primary'} typeExpense" id="family" value="2">Por Familia</button>
+        `
+        );
+      }
+
       $('.cardBtnImportExpenses').show(800);
       $('#btnImportNewExpenses').html('Importar Distribución');
       $('#lblImportExpense').html('Importar Distribución de Gasto');
@@ -151,9 +166,7 @@ $(document).ready(function () {
     }
   };
 
-  $('.typeExpense').click(function (e) { 
-    e.preventDefault(); 
-
+  $(document).on('click','.typeExpense', function () { 
     let op = this.value;
 
     bootbox.confirm({
@@ -176,6 +189,7 @@ $(document).ready(function () {
             `/api/changeTypeExpenseDistribution/${op}`,
             function (data, textStatus, jqXHR) {
               if (data.success) {
+
                 toastr.success(data.message);
                 flag_expense_distribution = data.flag;
                 $('.btnButtons').remove();

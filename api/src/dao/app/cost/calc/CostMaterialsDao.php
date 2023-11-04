@@ -21,10 +21,12 @@ class CostMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT pm.id_product 
+        $stmt = $connection->prepare("SELECT pm.id_product, m.id_magnitude
                                       FROM products p
-                                      INNER JOIN products_materials pm ON pm.id_product = p.id_product
-                                        WHERE pm.id_material =:id_material AND p.id_company = :id_company");
+                                        INNER JOIN products_materials pm ON pm.id_product = p.id_product
+                                        INNER JOIN convert_units c ON c.id_unit = pm.id_unit
+                                        INNER JOIN convert_magnitudes m ON m.id_magnitude = c.id_magnitude
+                                      WHERE pm.id_material =:id_material AND p.id_company = :id_company");
         $stmt->execute(['id_material' => $idMaterial, 'id_company' => $id_company]);
         $dataProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
 

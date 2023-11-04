@@ -112,11 +112,10 @@
                                                 <div class="form-group floating-label enable-floating-label show-label my-2 cardTypeExpenses" style="width: 150px">
                                                     <select class="form-control" name="typeExpenses" id="typeExpenses">
                                                         <option selected disabled>Seleccionar</option>
-                                                        <option value="0">TODO</option>
-                                                        <option value="1">PRODUCTO</option>
-                                                        <option value="2">FAMILIA</option>
+                                                        <option value="0">Desactivado</option>
+                                                        <option value="1">Activado</option>
                                                     </select>
-                                                    <label for="typePayroll"><span class="text-danger">*</span></label>
+                                                    <label for="typePayroll">Metodo<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
