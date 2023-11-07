@@ -244,15 +244,15 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                             $data['compositeProduct'] = $j['id_child_product'];
 
                             // Calcular costo nomina total
-                            $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+                            // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-                            $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+                            // $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-                            if (isset($resolution['info'])) break;
+                            // if (isset($resolution['info'])) break;
 
-                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                            $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                            if (isset($resolution['info'])) break;
+                            // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            // $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                            // if (isset($resolution['info'])) break;
 
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -278,16 +278,16 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                                 $data['idProduct'] = $k['id_product'];
 
                                 // Calcular costo nomina total
-                                $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+                                // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-                                $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+                                // $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-                                if (isset($resolution['info'])) break;
+                                // if (isset($resolution['info'])) break;
 
-                                $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                                // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
 
-                                $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                                if (isset($resolution['info'])) break;
+                                // $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                                // if (isset($resolution['info'])) break;
 
                                 $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                                 $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -393,15 +393,15 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                             $data['compositeProduct'] = $j['id_child_product'];
 
                             // Calcular costo nomina total
-                            $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+                            // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-                            $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+                            // $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-                            if (isset($payroll['info'])) break;
+                            // if (isset($payroll['info'])) break;
 
-                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                            $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                            if (isset($payroll['info'])) break;
+                            // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            // $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                            // if (isset($payroll['info'])) break;
 
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -427,16 +427,16 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                                 $data['idProduct'] = $k['id_product'];
 
                                 // Calcular costo nomina total
-                                $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+                                // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-                                $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+                                // $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-                                if (isset($payroll['info'])) break;
+                                // if (isset($payroll['info'])) break;
 
-                                $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                                // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
 
-                                $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                                if (isset($payroll['info'])) break;
+                                // $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                                // if (isset($payroll['info'])) break;
 
                                 $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                                 $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -657,15 +657,15 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                     $data['compositeProduct'] = $j['id_child_product'];
 
                     // Calcular costo nomina total
-                    $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+                    // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-                    $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+                    // $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-                    if (isset($payroll['info'])) break;
+                    // if (isset($payroll['info'])) break;
 
-                    $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                    $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                    if (isset($payroll['info'])) break;
+                    // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                    // $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                    // if (isset($payroll['info'])) break;
 
                     $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                     $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -691,16 +691,16 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                         $data['idProduct'] = $k['id_product'];
 
                         // Calcular costo nomina total
-                        $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+                        // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-                        $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+                        // $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-                        if (isset($payroll['info'])) break;
+                        // if (isset($payroll['info'])) break;
 
-                        $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                        // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
 
-                        $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                        if (isset($payroll['info'])) break;
+                        // $payroll = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+                        // if (isset($payroll['info'])) break;
 
                         $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                         $payroll = $generalCompositeProductsDao->updateCostCompositeProduct($data);

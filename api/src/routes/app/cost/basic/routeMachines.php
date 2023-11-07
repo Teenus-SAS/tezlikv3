@@ -204,16 +204,16 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                             /* Calcular costo indirecto */
                             // Buscar la maquina asociada al producto
-                            $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                            // Calcular costo indirecto
-                            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                            // Actualizar campo
-                            $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                            if (isset($resolution['info'])) break;
+                            // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+                            // // Calcular costo indirecto
+                            // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                            // // Actualizar campo
+                            // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+                            // if (isset($resolution['info'])) break;
 
-                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                            $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                            if (isset($resolution['info'])) break;
+                            // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                            // if (isset($resolution['info'])) break;
 
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -241,16 +241,16 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                                 /* Calcular costo indirecto */
                                 // Buscar la maquina asociada al producto
-                                $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+                                // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
                                 // Calcular costo indirecto
-                                $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                                // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                                 // Actualizar campo
-                                $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                                if (isset($resolution['info'])) break;
+                                // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+                                // if (isset($resolution['info'])) break;
 
-                                $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                                $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                                if (isset($resolution['info'])) break;
+                                // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                                // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                                // if (isset($resolution['info'])) break;
 
                                 $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                                 $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -363,16 +363,16 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
                         /* Calcular costo indirecto */
                         // Buscar la maquina asociada al producto
-                        $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                        // Calcular costo indirecto
-                        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                        // Actualizar campo
-                        $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                        if (isset($machines['info'])) break;
+                        // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+                        // // Calcular costo indirecto
+                        // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                        // // Actualizar campo
+                        // $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+                        // if (isset($machines['info'])) break;
 
-                        $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                        $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                        if (isset($machines['info'])) break;
+                        // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                        // $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                        // if (isset($machines['info'])) break;
 
                         $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                         $machines = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -398,16 +398,16 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
                             /* Calcular costo indirecto */
                             // Buscar la maquina asociada al producto
-                            $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                            // Calcular costo indirecto
-                            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                            // Actualizar campo
-                            $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                            if (isset($machines['info'])) break;
+                            // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+                            // // Calcular costo indirecto
+                            // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                            // // Actualizar campo
+                            // $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+                            // if (isset($machines['info'])) break;
 
-                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                            $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                            if (isset($machines['info'])) break;
+                            // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            // $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                            // if (isset($machines['info'])) break;
 
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $machines = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -497,16 +497,16 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
                         /* Calcular costo indirecto */
                         // Buscar la maquina asociada al producto
-                        $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                        // Calcular costo indirecto
-                        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                        // Actualizar campo
-                        $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                        if (isset($machines['info'])) break;
+                        // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+                        // // Calcular costo indirecto
+                        // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                        // // Actualizar campo
+                        // $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+                        // if (isset($machines['info'])) break;
 
-                        $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                        $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                        if (isset($machines['info'])) break;
+                        // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                        // $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                        // if (isset($machines['info'])) break;
 
                         $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                         $machines = $generalCompositeProductsDao->updateCostCompositeProduct($data);
@@ -533,16 +533,16 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
                             /* Calcular costo indirecto */
                             // Buscar la maquina asociada al producto
-                            $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                            // Calcular costo indirecto
-                            $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                            // Actualizar campo
-                            $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                            if (isset($machines['info'])) break;
+                            // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+                            // // Calcular costo indirecto
+                            // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                            // // Actualizar campo
+                            // $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+                            // if (isset($machines['info'])) break;
 
-                            $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                            $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                            if (isset($machines['info'])) break;
+                            // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+                            // $machines = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+                            // if (isset($machines['info'])) break;
 
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $machines = $generalCompositeProductsDao->updateCostCompositeProduct($data);
