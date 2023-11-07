@@ -23,7 +23,8 @@ class ProductsDao
                                          IFNULL((SELECT id_composite_product FROM composite_products WHERE id_product = p.id_product LIMIT 1), 0) AS composite_product
                                   FROM products p
                                     INNER JOIN products_costs pc ON p.id_product = pc.id_product
-                                  WHERE p.id_company = :id_company AND p.active = 1 ORDER BY `p`.`product`, `p`.`reference` ASC");
+                                  WHERE p.id_company = :id_company AND p.active = 1 
+                                  ORDER BY `p`.`product`, `p`.`reference` ASC");
     $stmt->execute(['id_company' => $id_company]);
 
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
