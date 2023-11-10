@@ -396,10 +396,10 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     // $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
                     // if (isset($resolution['info'])) break;
 
-                    // $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                    // $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
-                    // if (isset($resolution['info'])) break;
+                    if (isset($resolution['info'])) break;
                     $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
                     $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
