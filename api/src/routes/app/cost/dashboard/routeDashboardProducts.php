@@ -17,42 +17,41 @@ $app->get('/dashboardPricesProducts/{id_product}', function (Request $request, R
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $op = 1;
     $id_product = $args['id_product'];
 
-    // $products = $compositeProductsDao->findAllCompositeProductsByIdProduct($args['id_product'], $id_company);
+    $products = $compositeProductsDao->findAllCompositeProductsByIdProduct($args['id_product'], $id_company);
 
-    // if (!$products) {
-    //     $id_product = $args['id_product'];
-    //     $op = 1;
-    // } else {
-    //     $op = 2;
-    //     $specificKeys = [];
+    if (!$products) {
+        $id_product = $args['id_product'];
+        $op = 1;
+    } else {
+        $op = 2;
+        $specificKeys = [];
 
-    //     foreach ($products as $item) {
-    //         if (isset($item['id_child_product'])) {
-    //             $specificKeys[] = $item['id_child_product'];
-    //         }
-    //     }
+        foreach ($products as $item) {
+            if (isset($item['id_child_product'])) {
+                $specificKeys[] = $item['id_child_product'];
+            }
+        }
 
-    //     array_push($specificKeys, $args['id_product']);
-    //     $id_product = implode(',', $specificKeys);
-    // }
+        array_push($specificKeys, $args['id_product']);
+        $id_product = implode(',', $specificKeys);
+    }
 
     // Consultar analisis de costos por producto
     $costAnalysisProducts = $dashboardProductsDao->findCostAnalysisByProduct($args['id_product'], $id_company);
 
     /* Consultar Proceso del producto */
-    $totalTimeProcess = $dashboardProductsDao->findProductProcessByProduct($id_product, $id_company, $op);
+    $totalTimeProcess = $dashboardProductsDao->findProductProcessByProduct($id_product, $id_company, 1);
 
     // Consultar Costo Mano de obra por producto
-    $costWorkforce = $dashboardProductsDao->findCostWorkforceByProduct($id_product, $id_company, $op);
+    $costWorkforce = $dashboardProductsDao->findCostWorkforceByProduct($id_product, $id_company, 1);
 
     // Consultar Costo Materia prima por producto
     $costRawMaterials = $dashboardProductsDao->findCostRawMaterialsByProduct($id_product, $id_company, $op);
 
     // Consultar promedio de tiempos procesos
-    $averageTimeProcess = $dashboardProductsDao->findAverageTimeProcessByProduct($id_product, $id_company, $op);
+    $averageTimeProcess = $dashboardProductsDao->findAverageTimeProcessByProduct($id_product, $id_company, 1);
 
     /* Creacion de arrays */
 
