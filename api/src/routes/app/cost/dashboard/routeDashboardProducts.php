@@ -22,20 +22,9 @@ $app->get('/dashboardPricesProducts/{id_product}', function (Request $request, R
     $products = $compositeProductsDao->findAllCompositeProductsByIdProduct($args['id_product'], $id_company);
 
     if (!$products) {
-        $id_product = $args['id_product'];
         $op = 1;
     } else {
         $op = 2;
-        $specificKeys = [];
-
-        foreach ($products as $item) {
-            if (isset($item['id_child_product'])) {
-                $specificKeys[] = $item['id_child_product'];
-            }
-        }
-
-        array_push($specificKeys, $args['id_product']);
-        $id_product = implode(',', $specificKeys);
     }
 
     // Consultar analisis de costos por producto

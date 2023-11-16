@@ -129,31 +129,39 @@ class DashboardProductsDao
     public function findCostRawMaterialsByProduct($id_product, $id_company, $op)
     {
         $connection = Connection::getInstance()->getConnection();
-        if ($op == 1) {
-            $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
-                                                INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials
+        $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
+                                            INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials
+                                    FROM products_materials pm
+                                    INNER JOIN materials m ON m.id_material = pm.id_material
+                                    INNER JOIN convert_units cu ON cu.id_unit = m.unit
+                                    INNER JOIN convert_magnitudes cm ON cm.id_magnitude = cu.id_magnitude
+                                  WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
+                                  ORDER BY totalCostMaterial DESC");
+        $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $costRawMaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+        if ($op == 2) {
+            $stmt = $connection->prepare("SELECT p.product AS material, cp.cost AS totalCostMaterial
                                         FROM products_materials pm
-                                        INNER JOIN materials m ON m.id_material = pm.id_material
-                                        INNER JOIN convert_units cu ON cu.id_unit = m.unit
-                                        INNER JOIN convert_magnitudes cm ON cm.id_magnitude = cu.id_magnitude
+                                        LEFT JOIN composite_products cp ON pm.id_product = cp.id_product
+                                        LEFT JOIN products p ON p.id_product = cp.id_child_product 
                                       WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
+                                      GROUP BY p.id_product 
                                       ORDER BY totalCostMaterial DESC");
             $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
-        } else {
-            $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
-                                                INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials
-                                        FROM products_materials pm
-                                        INNER JOIN materials m ON m.id_material = pm.id_material
-                                        INNER JOIN convert_units cu ON cu.id_unit = m.unit
-                                        INNER JOIN convert_magnitudes cm ON cm.id_magnitude = cu.id_magnitude
-                                      WHERE pm.id_product IN ($id_product) AND pm.id_company = :id_company 
-                                      ORDER BY totalCostMaterial DESC");
-            $stmt->execute(['id_company' => $id_company]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            $data = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+            $costRawMaterials = array_merge($costRawMaterials, $data);
+
+            foreach ($costRawMaterials as $key => $row) {
+                $cost[$key]  = $row['totalCostMaterial'];
+            }
+
+            array_multisort($cost, SORT_DESC, $costRawMaterials);
         }
 
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-
-        $costRawMaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("costRawMaterials", array('costRawMaterials' => $costRawMaterials));
         return $costRawMaterials;
     }
