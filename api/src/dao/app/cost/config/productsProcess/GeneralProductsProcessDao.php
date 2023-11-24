@@ -25,7 +25,10 @@ class GeneralProductsProcessDao
                                   INNER JOIN products_process pp ON pp.id_product = p.id_product
                                   LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
                                   INNER JOIN process pc ON pc.id_process = pp.id_process
-                                  WHERE p.id_company = :id_company ORDER BY pp.id_machine ASC");
+                                  INNER JOIN payroll py ON py.id_process = pp.id_process
+                                  WHERE p.id_company = :id_company 
+                                  GROUP BY pp.id_product_process
+                                  ORDER BY pp.id_machine ASC");
         $stmt->execute(['id_company' => $id_company]);
         $productsprocess = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $productsprocess));

@@ -7,6 +7,7 @@ use tezlikv3\dao\GeneralPayrollDao;
 use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
+use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\ProductsProcessDao;
@@ -17,6 +18,7 @@ $productsProcessDao = new ProductsProcessDao();
 $generalProductsProcessDao = new GeneralProductsProcessDao();
 $convertDataDao = new ConvertDataDao();
 $productsDao = new GeneralProductsDao();
+$generalProcessDao = new GeneralProcessDao();
 $generalPayrollDao = new GeneralPayrollDao();
 $machinesDao = new GeneralMachinesDao();
 $costWorkforceDao = new CostWorkforceDao();
@@ -59,6 +61,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
     $productsProcessDao,
     $productsDao,
     $generalPayrollDao,
+    $generalProcessDao,
     $machinesDao
 ) {
     $dataProductProcess = $request->getParsedBody();
@@ -82,10 +85,17 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
 
             // Obtener id proceso
-            $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
+            $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
             if (!$findProcess) {
                 $i = $i + 2;
                 $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
+                break;
+            }
+
+            $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
+            if (!$findProcess) {
+                $i = $i + 2;
+                $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la nomina<br>Fila: {$i}");
                 break;
             } else
                 $productProcess[$i]['idProcess'] = $findProcess['id_process'];
