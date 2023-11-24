@@ -25,7 +25,7 @@ class ProductsProcessDao
                                   INNER JOIN products_process pp ON pp.id_product = p.id_product
                                   LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
                                   INNER JOIN process pc ON pc.id_process = pp.id_process
-                                  INNER JOIN payroll py ON py.id_process = pp.id_process
+                                  -- INNER JOIN payroll py ON py.id_process = pp.id_process
                                   WHERE p.id_product = :id_product AND p.id_company = :id_company GROUP BY pp.id_product_process");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $productsprocess = $stmt->fetchAll($connection::FETCH_ASSOC);
