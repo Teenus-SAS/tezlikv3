@@ -46,7 +46,7 @@ $(document).ready(function () {
   checkMultiproducts = async (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/multiproductsDataValidation',
+      url: '../../api/multiproductsDataValidation',
       data: { importMultiproducts: data },
       success: function (resp) {
         if (resp.error == true) {
@@ -136,9 +136,9 @@ $(document).ready(function () {
 
     for (let i = 0; i < multiproducts.length; i++) {
       data.push({
-        Referencia: multiproducts[i].reference,
-        Producto: multiproducts[i].product,
-        'No Unidades Vendidas': multiproducts[i].soldUnit,
+        referencia: multiproducts[i].reference,
+        producto: multiproducts[i].product,
+        unidades_vendidas: multiproducts[i].soldUnit,
       });
     }
 
