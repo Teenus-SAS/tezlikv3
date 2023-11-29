@@ -147,22 +147,7 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $('#btnDownloadImportsExpenses').click(async function (e) {
-    e.preventDefault();
-
-    // option == 1
-    //   ? (url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx')
-    //   : (url = 'assets/formatsXlsx/Recuperacion_Gastos.xlsx');
-
-    // let link = document.createElement('a');
-    // link.target = '_blank';
-
-    // link.href = url;
-    // document.body.appendChild(link);
-    // link.click();
-
-    // document.body.removeChild(link);
-    // delete link;
-    /* Tipo de gasto */
+    e.preventDefault(); 
     let wb = XLSX.utils.book_new();
 
     let data = [];
@@ -191,7 +176,7 @@ $(document).ready(function () {
             referencia_producto: dataTypeExpense[i].reference,
             producto: dataTypeExpense[i].product,
             unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-            total_ventas: parseFloat(dataTypeExpense[i].turnover),
+            volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
           });
         }
 
@@ -206,7 +191,7 @@ $(document).ready(function () {
             // referencia: dataProducts[i].id_family,
             familia: dataTypeExpense[i].family,
             unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-            total_ventas: parseFloat(dataTypeExpense[i].turnover),
+            volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
           });
         }
 

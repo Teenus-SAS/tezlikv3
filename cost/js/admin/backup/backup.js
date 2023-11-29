@@ -222,7 +222,7 @@ $(document).ready(function () {
               referencia_producto: dataTypeExpense[i].reference,
               producto: dataTypeExpense[i].product,
               unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-              total_ventas: parseFloat(dataTypeExpense[i].turnover),
+              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
             });
           }
 
@@ -237,7 +237,7 @@ $(document).ready(function () {
               // referencia: dataProducts[i].id_family,
               familia: dataTypeExpense[i].family,
               unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-              total_ventas: parseFloat(dataTypeExpense[i].turnover),
+              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
             });
           }
 
