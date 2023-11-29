@@ -68,7 +68,7 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
             }
         }
         if ($status == true)
-            $dataImportMultiproducts = $multiproducts;
+            $dataImportMultiproducts = sizeof($multiproducts);
     } else
         $dataImportMultiproducts = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
 

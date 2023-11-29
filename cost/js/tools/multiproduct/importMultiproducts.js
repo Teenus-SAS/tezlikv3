@@ -51,64 +51,69 @@ $(document).ready(function () {
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
+          $('#fileMultiproducts').val('');
           return false;
         }
+        bootbox.confirm({
+          title: '¿Desea continuar con la importación?',
+          message: `Se han encontrado los siguientes registros:<br>Datos a actualizar: ${resp}`,
+          buttons: {
+            confirm: {
+              label: 'Si',
+              className: 'btn-success',
+            },
+            cancel: {
+              label: 'No',
+              className: 'btn-danger',
+            },
+          },
+          callback: function (result) {
+            if (result == true) {
+              saveImportMultiproducts();
+            } else $('#fileMultiproducts').val('');
+          },
+        });
 
-        try {
-          if (resp[0].expense > 0) {
-            $('#importExpense').val(resp[0].expense.toLocaleString('es-CO'));
-            $('#importExpense').prop('disabled', true);
-          } else {
-            $('#importExpense').val();
-            $('#importExpense').prop('disabled', false);
-          }
+        // try {
+        //   // if (resp[0].expense > 0) {
+        //   //   $('#importExpense').val(resp[0].expense);
+        //   //   $('#importExpense').prop('disabled', true);
+        //   // } else {
+        //   //   $('#importExpense').val();
+        //   //   $('#importExpense').prop('disabled', false);
+        //   // }
 
-          let tblMultiproductsImportBody = document.getElementById(
-            'multiproductsImportBody'
-          );
+        //   // let tblMultiproductsImportBody = document.getElementById(
+        //   //   'multiproductsImportBody'
+        //   // );
 
-          for (let i = 0; i < resp.length; i++) {
-            tblMultiproductsImportBody.insertAdjacentHTML(
-              'beforeend',
-              `<tr>
-                <td>${i + 1}</td>
-                <td>${resp[i].referenceProduct}</td>
-                <td>${resp[i].product}</td>
-                <td>${resp[i].soldUnit}</td>
-               </tr>`
-            );
-          }
+        //   // for (let i = 0; i < resp.length; i++) {
+        //   //   tblMultiproductsImportBody.insertAdjacentHTML(
+        //   //     'beforeend',
+        //   //     `<tr>
+        //   //       <td>${i + 1}</td>
+        //   //       <td>${resp[i].referenceProduct}</td>
+        //   //       <td>${resp[i].product}</td>
+        //   //       <td>${resp[i].soldUnit}</td>
+        //   //      </tr>`
+        //   //   );
+        //   // }
 
-          $('#tblImportMultiproducts').dataTable({
-            destroy: true,
-            pageLength: 5,
-          });
+        //   // $('#tblImportMultiproducts').dataTable({
+        //   //   destroy: true,
+        //   //   pageLength: 5,
+        //   // });
 
-          $('#modalImportMultiproducts').modal('show');
-        } catch (error) {
-          console.log(error);
-        }
+        //   $('#modalImportMultiproducts').modal('show');
+        // } catch (error) {
+        //   console.log(error);
+        // }
       },
     });
   };
 
-  $('#btnCloseImportProducts').click(function (e) {
-    e.preventDefault();
-    $('#fileMultiproducts').val('');
-    $('#importExpense').val('');
-    $('#multiproductsImportBody').empty();
-    $('#modalImportMultiproducts').modal('hide');
-  });
-
-  $('#btnImportProducts').click(function (e) {
-    e.preventDefault();
-
-    let expenseAsignation = parseFloat(
-      strReplaceNumber($('#importExpense').val())
-    );
-
+  saveImportMultiproducts = async () => {
     multiproductsToImport[0].expense = expenseAsignation;
-
     $.ajax({
       type: 'POST',
       url: '/api/addMultiproduct',
@@ -127,7 +132,44 @@ $(document).ready(function () {
         else if (r.info == true) toastr.info(r.message);
       },
     });
-  });
+  };
+
+  // $('#btnCloseImportProducts').click(function (e) {
+  //   e.preventDefault();
+  //   $('#fileMultiproducts').val('');
+  //   $('#importExpense').val('');
+  //   $('#multiproductsImportBody').empty();
+  //   $('#modalImportMultiproducts').modal('hide');
+  // });
+
+  // $('#btnImportProducts').click(function (e) {
+  //   e.preventDefault();
+
+  //   let expenseAsignation = parseFloat(
+  //     strReplaceNumber($('#importExpense').val())
+  //   );
+
+  //   multiproductsToImport[0].expense = expenseAsignation;
+
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: '/api/addMultiproduct',
+  //     data: { importMultiproducts: multiproductsToImport },
+  //     success: function (r) {
+  //       if (r.success == true) {
+  //         $('#fileMultiproducts').val('');
+  //         $('#importExpense').val('');
+  //         $('#multiproductsImportBody').empty();
+  //         $('#modalImportMultiproducts').modal('hide');
+  //         $('.cardImportMultiproducts').hide(800);
+  //         loadTblMultiproducts();
+  //         toastr.success(r.message);
+  //         return false;
+  //       } else if (r.error == true) toastr.error(r.message);
+  //       else if (r.info == true) toastr.info(r.message);
+  //     },
+  //   });
+  // });
 
   /* Descargar formato XLSX */
   $('#btnDownloadMultiproducts').click(function (e) {
