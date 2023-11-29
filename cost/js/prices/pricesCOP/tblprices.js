@@ -96,8 +96,8 @@ $(document).ready(function () {
       let dataCost = getDataCost(data);
       !isFinite(dataCost.actualProfitability) ? dataCost.actualProfitability = 0 : dataCost.actualProfitability;
 
-      if (dataCost.actualProfitability < data.profitability && dataCost.actualProfitability > 0) $(row).css('color', 'orange');
-      else if (dataCost.actualProfitability < data.profitability) $(row).css('color', 'red');
+      if (dataCost.actualProfitability < data.profitability && dataCost.actualProfitability > 0 && data.sale_price > 0) $(row).css('color', 'orange');
+      else if (dataCost.actualProfitability < data.profitability && data.sale_price > 0) $(row).css('color', 'red');
       
       if (data.details_product == 0) {
         tblPrices.column(7).visible(false);

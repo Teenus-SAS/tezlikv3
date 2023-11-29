@@ -136,6 +136,7 @@ $(document).ready(function () {
 
     for (let i = 0; i < multiproducts.length; i++) {
       data.push({
+        Referencia: multiproducts[i].reference,
         Producto: multiproducts[i].product,
         'No Unidades Vendidas': multiproducts[i].soldUnit,
       });

@@ -138,6 +138,7 @@ if (sizeof($_SESSION) == 0)
                                             <table class="table table-striped text-center" id="tblMultiproducts">
                                                 <thead>
                                                     <tr>
+                                                        <th style="width: 150px">Referencia</th>
                                                         <th style="width: 350px">Producto</th>
                                                         <th>No Unidades Vendidas</th>
                                                         <th style="width: 150px;" id="lblPrice">Precio</th>
@@ -152,6 +153,7 @@ if (sizeof($_SESSION) == 0)
                                                 <tfoot>
                                                     <tr>
                                                         <td>Total:</td>
+                                                        <td></td>
                                                         <td id="totalSoldsUnits"></td>
                                                         <!-- <td></td> -->
                                                         <td></td>

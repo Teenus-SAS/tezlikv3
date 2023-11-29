@@ -34,6 +34,7 @@ $(document).ready(function () {
       tblMultiproductsBody.insertAdjacentHTML(
         'beforeend',
         `<tr>
+          <td>${multiproducts[i].reference}</td>
           <td>${multiproducts[i].product}</td>
           <td>
             <input type="number" class="form-control text-center general soldUnits" id="soldUnit-${i}">
