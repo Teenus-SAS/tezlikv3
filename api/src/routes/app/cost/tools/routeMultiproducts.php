@@ -49,7 +49,7 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
         for ($i = 0; $i < sizeof($multiproducts); $i++) {
             if (
                 empty($multiproducts[$i]['referenceProduct']) || empty($multiproducts[$i]['product']) ||
-                empty($multiproducts[$i]['soldUnit'])
+                $multiproducts[$i]['soldUnit'] == ''
             ) {
                 $status = false;
                 $i = $i + 2;
