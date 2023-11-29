@@ -76,8 +76,6 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-
-
 $app->post('/addMultiproduct', function (Request $request, Response $response, $args) use (
     $multiproductsDao,
     $productsDao
@@ -110,6 +108,7 @@ $app->post('/addMultiproduct', function (Request $request, Response $response, $
             $product = $productsDao->findProduct($multiproducts[$i], $id_company);
             $multiproducts[$i]['id_product'] = $product['id_product'];
             $multiproducts[$i]['expense'] = $multiproducts[0]['expense'];
+            $multiproducts[$i]['participation'] = 0;
 
             $product = $multiproductsDao->findMultiproduct($multiproducts[$i]['id_product']);
 
