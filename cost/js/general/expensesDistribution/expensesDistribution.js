@@ -119,9 +119,9 @@ $(document).ready(function () {
     // unitExp = parseFloat(strReplaceNumber(unitExp));
     // volExp = parseFloat(strReplaceNumber(volExp));
 
-    let data = refProduct * nameProduct * unitExp * volExp;
+    let data = refProduct * nameProduct; //* unitExp * volExp;
 
-    if (flag_expense_distribution == 2) data = family * unitExp * volExp;
+    if (flag_expense_distribution == 2) data = family //* unitExp * volExp;
 
     if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');

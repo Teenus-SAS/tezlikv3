@@ -71,7 +71,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
             if (
                 empty($expensesDistribution[$i]['referenceProduct']) || empty($expensesDistribution[$i]['product']) ||
-                empty($expensesDistribution[$i]['unitsSold']) || empty($expensesDistribution[$i]['turnover'])
+                $expensesDistribution[$i]['unitsSold'] == '' || $expensesDistribution[$i]['turnover'] == ''
             ) {
                 $i = $i + 2;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
@@ -80,7 +80,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 
             if (
                 empty(trim($expensesDistribution[$i]['referenceProduct'])) || empty(trim($expensesDistribution[$i]['product'])) ||
-                empty(trim($expensesDistribution[$i]['unitsSold'])) || empty(trim($expensesDistribution[$i]['turnover']))
+                trim($expensesDistribution[$i]['unitsSold']) == '' || trim($expensesDistribution[$i]['turnover']) == ''
             ) {
                 $i = $i + 2;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
