@@ -42,10 +42,15 @@ $(document).ready(function () {
             let unitsSold = '';
             let turnover = '';
 
-            if(item.unidades_vendidas)
+            if (item.unidades_vendidas)
               unitsSold = item.unidades_vendidas.toString().replace('.', ',');
-            if(item.volumen_ventas)
+            else
+              unitsSold = 0;
+            
+            if (item.volumen_ventas)
               turnover = item.volumen_ventas.toString().replace('.', ',');
+            else
+              turnover = 0;
             
             return {
               referenceProduct: item.referencia_producto,

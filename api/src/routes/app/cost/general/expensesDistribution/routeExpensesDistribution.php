@@ -102,7 +102,6 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
                 break;
             }
 
-
             // Obtener id producto
             $findProduct = $generalProductsDao->findProduct($expensesDistribution[$i], $id_company);
             if (!$findProduct) {
