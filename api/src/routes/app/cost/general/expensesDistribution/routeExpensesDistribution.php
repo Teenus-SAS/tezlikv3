@@ -35,6 +35,14 @@ $app->get('/expensesDistribution', function (Request $request, Response $respons
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/allProductsDistribution', function (Request $request, Response $response, $args) use ($expensesDistributionDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company);
+    $response->getBody()->write(json_encode($expensesDistribution));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/expensesDistributionProducts', function (Request $request, Response $response, $args) use ($generalExpenseDistributionDao) {
     session_start();
     $id_company = $_SESSION['id_company'];

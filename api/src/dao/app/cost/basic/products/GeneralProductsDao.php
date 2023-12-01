@@ -85,6 +85,39 @@ class GeneralProductsDao
         return $products;
     }
 
+    public function findAllExpensesDistributionByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT ed.id_expenses_distribution, p.id_product, p.reference, p.product, IFNULL(ed.units_sold, 0) AS units_sold, IFNULL(ed.turnover, 0) AS turnover, ed.assignable_expense 
+                                      FROM products p
+                                        LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                      WHERE p.id_company = :id_company AND p.active = 1");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $expenses = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("expenses", array('expenses' => $expenses));
+        return $expenses;
+    }
+
+    public function findAllExpenseRecoverByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT er.id_expense_recover, p.id_product, p.reference, p.product, IFNULL(er.expense_recover, 0) AS expense_recover
+                                      FROM products p
+                                        LEFT JOIN expenses_recover er ON p.id_product = er.id_product
+                                      WHERE p.id_company = :id_company AND p.active = 1");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $recoverExpense = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("recoverExpense", array('recoverExpense' => $recoverExpense));
+        return $recoverExpense;
+    }
+
     public function findAllInactivesProducts($id_company)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -154,7 +154,7 @@ $(document).ready(function () {
     if (flag_expense == '1') {
       if (flag_expense_distribution == '1') {
         namexlsx = 'distribucion_gastos.xlsx';
-        url = '/api/expensesDistribution';
+        url = '/api/allProductsDistribution';
         op = 1;
       }
       else {
