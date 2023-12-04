@@ -143,25 +143,7 @@ $(document).ready(function () {
       url: '../../api/addPayroll',
       data: { importPayroll: data },
       success: function (r) {
-        /* Mensaje de exito */
-        $('#filePayroll').val('');
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-
-        if (r.success == true) {
-          $('.cardImportPayroll').hide(800);
-          $('#formImportPayroll').trigger('reset');
-          updateTable();
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblPayroll').DataTable().clear();
-          $('#tblPayroll').DataTable().ajax.reload();
-        }
+        message(r);
       },
     });
   };

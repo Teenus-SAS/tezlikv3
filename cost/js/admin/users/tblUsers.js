@@ -24,6 +24,10 @@ $(document).ready(function () {
   plan_cost_simulator == 1
     ? (plan_cost_simulator = true)
     : (plan_cost_simulator = false);
+  
+  plan_cost_historical == 1
+    ? (plan_cost_historical = true)
+    : (plan_cost_historical = false);
 
   plan_cost_quote == 1 ? (plan_cost_quote = true) : (plan_cost_quote = false);
 
@@ -275,6 +279,17 @@ $(document).ready(function () {
         data: 'simulator',
         className: 'uniqueClassName',
         visible: plan_cost_simulator,
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
+      },
+      {
+        title: 'Historico',
+        data: 'historical',
+        className: 'uniqueClassName',
+        visible: plan_cost_historical,
         render: function (data, type, row) {
           return data == 1
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'

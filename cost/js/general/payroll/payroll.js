@@ -165,7 +165,7 @@ $(document).ready(function () {
 
   /* Eliminar carga nomina */
 
-  deleteFunction = async() => {
+  deleteFunction = async () => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
 
@@ -178,7 +178,7 @@ $(document).ready(function () {
 
     bootbox.confirm({
       title: 'Eliminar',
-      message: msg+
+      message: msg +
         'Está seguro de eliminar esta nómina? Esta acción no se puede reversar.',
       buttons: {
         confirm: {
@@ -215,8 +215,8 @@ $(document).ready(function () {
       return false;
     }
 
-    for (var i = 0; i < dataProcess.length; i++) { 
-        options += `<option value="${dataProcess[i].id_process}"> ${dataProcess[i].process} </option>`;
+    for (var i = 0; i < dataProcess.length; i++) {
+      options += `<option value="${dataProcess[i].id_process}"> ${dataProcess[i].process} </option>`;
     }
 
     let row = $(this.activeElement).parent().parent()[0];
@@ -284,7 +284,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    $('#filePayroll').val('');
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    
     if (data.success == true) {
+      $('.cardImportPayroll').hide(800);
+      $('#formImportPayroll').trigger('reset');
       sessionStorage.removeItem('percentage');
       sessionStorage.removeItem('salary');
       sessionStorage.removeItem('type_salary');
@@ -295,7 +301,7 @@ $(document).ready(function () {
       updateTable();
       toastr.success(data.message);
       setTimeout(() => {
-        loadFooterPayroll(); 
+        loadFooterPayroll();
       }, 1000);
       return false;
     } else if (data.error == true) toastr.error(data.message);

@@ -171,34 +171,7 @@ $(document).ready(function () {
       url: url,
       data: { importExpense: data },
       success: function (r) {
-        /* Mensaje de exito */
-        $('#fileExpenses').val('');
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-
-        if (r.success == true) {
-          $('.cardImportExpenses').hide(800);
-          $('#formImportExpenses').trigger('reset');
-          updateTable();
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        async function updateTable() {
-          if ($.fn.dataTable.isDataTable('#tblExpenses')) {
-            $('#tblExpenses').DataTable().destroy();
-            $('#tblExpenses').empty();
-          }
-          if (flag_expense_distribution == 2) {
-            await loadTableFamilies();
-            await loadTableExpensesDistributionFamilies();
-          } else
-            option == 1
-              ? loadTableExpensesDistribution()
-              : loadTableExpenseRecover();
-        }
+        message(r);
       },
     });
   };

@@ -188,6 +188,7 @@ $(document).ready(function () {
       economyScale: data.economy_scale,
       multiproduct: data.multiproduct,
       simulator: data.simulator,
+      historical: data.historical,
       quotes: data.quote,
       support: data.support,
     };
@@ -321,6 +322,7 @@ $(document).ready(function () {
       economyScale: 0,
       multiproduct: 0,
       simulator: 0,
+      historical: 0,
       quote: 0,
       support: 0,
     };

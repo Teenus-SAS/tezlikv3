@@ -187,7 +187,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = async (data, op) => {
+    $('#fileExpenses').val('');
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    
     if (data.success == true) {
+      $('.cardImportExpenses').hide(800);
+      $('#formImportExpenses').trigger('reset');
       $('.cardExpensesDistribution').hide(800);
       $('.cardAddNewFamily').hide(800);
       $('.cardAddProductFamily').hide(800);

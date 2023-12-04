@@ -82,6 +82,11 @@
                                         <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
                                     </a>
                                 <?php } ?>
+                                <?php if ($_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) { ?>
+                                    <a class="dropdown-item aHistorical" href="/cost/historical">
+                                        <i class="bi bi-gear-wide-connected mr-1"></i> Historico
+                                    </a>
+                                <?php } ?>
                             </ul>
                         </li>
                     <?php } ?>

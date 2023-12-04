@@ -210,20 +210,26 @@
                                                         <label for="checkbox-23">Simulador</label>
                                                     </div>
                                                 <?php } ?>
+                                                <?php if ($_SESSION['plan_cost_historical'] == 1) { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-24" name="historical" type="checkbox">
+                                                        <label for="checkbox-24">Historico</label>
+                                                    </div>
+                                                <?php } ?>
                                             </div>
                                             <?php if ($_SESSION['plan_cost_quote'] == 1) { ?>
                                                 <div class="mt-4 col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-24" name="quotes" type="checkbox">
-                                                        <label for="checkbox-24">Cotización</label>
+                                                        <input id="checkbox-25" name="quotes" type="checkbox">
+                                                        <label for="checkbox-25">Cotización</label>
                                                     </div>
                                                 </div>
                                             <?php } ?>
                                             <?php if ($_SESSION['plan_cost_support'] == 1) { ?>
                                                 <div class="mt-4 col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-25" name="tools" type="checkbox">
-                                                        <label for="checkbox-25">Soporte</label>
+                                                        <input id="checkbox-26" name="tools" type="checkbox">
+                                                        <label for="checkbox-26">Soporte</label>
                                                     </div>
                                                 </div>
                                             <?php } ?>

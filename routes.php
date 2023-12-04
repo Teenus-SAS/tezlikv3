@@ -48,6 +48,8 @@ get('/cost/custom-prices', '/cost/views/prices/customPrices/customPrices.php');
 get('/cost/details-quote', '/cost/views/quotes/detailsQuote.php');
 get('/cost/economyScale', '/cost/views/tools/economyScale.php');
 get('/cost/simulator', '/cost/views/tools/simulator.php');
+get('/cost/historical', '/cost/views/tools/historical/historical.php');
+get('/cost/details-historical', '/cost/views/tools/historical/detailsHistorical.php');
 get('/cost/profile', '/cost/views/perfil/perfil.php');
 get('/cost/configuration', '/cost/views/perfil/configuracion.php');
 //Header

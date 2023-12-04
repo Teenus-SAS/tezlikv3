@@ -26,6 +26,7 @@ $(document).ready(function () {
             aEconomyScale: data.economy_scale,
             aMultiproducts: data.multiproduct,
             aSimulator: data.simulator,
+            aHistorical: data.historical,
             aQuotes: data.quote,
             aSupport: data.support,
         }
@@ -97,7 +98,8 @@ $(document).ready(function () {
             access.aAnalysisMaterials == 0 &&
             access.aEconomyScale == 0 &&
             access.aMultiproducts == 0 &&
-            access.aSimulator == 0
+            access.aSimulator == 0 &&
+            access.aHistorical == 0
         ) {
             $('#navTools').hide();
         } else

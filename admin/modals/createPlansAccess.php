@@ -66,16 +66,20 @@
                                                         <input id="checkbox-6" name="simulator" type="checkbox">
                                                         <label for="checkbox-6">Simulacion</label>
                                                     </div>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-7" name="historical" type="checkbox">
+                                                        <label for="checkbox-7">Historico</label>
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-sm-4">
                                                     <div class="mt-4 checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-7" name="quotes" type="checkbox">
-                                                        <label for="checkbox-7">Cotizaciones</label>
+                                                        <input id="checkbox-8" name="quotes" type="checkbox">
+                                                        <label for="checkbox-8">Cotizaciones</label>
                                                     </div>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-8" name="support" type="checkbox">
-                                                        <label for="checkbox-8">Soporte</label>
+                                                        <input id="checkbox-9" name="support" type="checkbox">
+                                                        <label for="checkbox-9">Soporte</label>
                                                     </div>
                                                 </div>
                                             </div>

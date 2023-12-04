@@ -46,6 +46,7 @@ $(document).ready(function () {
       economyScale: data.cost_economy_scale,
       multiproduct: data.cost_multiproduct,
       simulator: data.cost_simulator,
+      historical: data.cost_historical,
       quotes: data.cost_quote,
       support: data.cost_support,
     };
@@ -74,6 +75,7 @@ $(document).ready(function () {
       economyScale: 0,
       multiproduct: 0,
       simulator: 0,
+      historical: 0,
       quotes: 0,
       support: 0,
     };
