@@ -180,7 +180,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    $('#fileProductsMaterials').val('');
+    
     if (data.success == true) {
+      $('.cardImportProductsMaterials').hide(800);
+      $('#formImportProductMaterial').trigger('reset');
       $('.cardAddMaterials').hide(800);
       $('.cardAddNewProduct').hide(800);
       $('.cardImportProductsMaterials').hide(800);

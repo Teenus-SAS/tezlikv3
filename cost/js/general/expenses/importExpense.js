@@ -24,8 +24,35 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formExpenses');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['numero_cuenta', 'cuenta', 'valor'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileExpensesAssignation').val('');
+
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let expenseToImport = data.map((item) => {
           let expenseValue = '';
 
@@ -54,6 +81,8 @@ $(document).ready(function () {
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
           $('#fileExpensesAssignation').val('');
           return false;
         }
@@ -74,7 +103,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveExpense(data);
-            } else $('#fileExpensesAssignation').val('');
+            } else {
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+              $('#fileExpensesAssignation').val('');
+            }
           },
         });
       },
@@ -87,23 +120,7 @@ $(document).ready(function () {
       url: '/api/addExpenses',
       data: { importExpense: data },
       success: function (r) {
-        /* Mensaje de exito */
-          $('#fileExpensesAssignation').val('');
-
-        if (r.success == true) {
-          $('.cardImportExpensesAssignation').hide(800);
-          $('#formImportExpesesAssignation').trigger('reset');
-          updateTable();
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblExpenses').DataTable().clear();
-          $('#tblExpenses').DataTable().ajax.reload();
-        }
+        message(r);
       },
     });
   };

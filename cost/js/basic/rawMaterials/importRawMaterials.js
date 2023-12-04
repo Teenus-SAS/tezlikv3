@@ -39,6 +39,20 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileMaterials').val('');
+
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let materialsToImport = data.map((item) => {
           let costRawMaterial = '';
 
@@ -109,26 +123,7 @@ $(document).ready(function () {
       url: '../api/addMaterials',
       data: { importMaterials: data },
       success: function (r) {
-        $('#fileMaterials').val('');
-
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-
-        /* Mensaje de exito */
-        if (r.success == true) {
-          $('.cardImportMaterials').hide(800);
-          $('#formImportMaterials').trigger('reset');
-          updateTable();
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblRawMaterials').DataTable().clear();
-          $('#tblRawMaterials').DataTable().ajax.reload();
-        }
+        message(r);
       },
     });
   };

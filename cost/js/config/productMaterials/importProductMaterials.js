@@ -24,8 +24,35 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formProductMaterials');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['referencia_producto', 'producto', 'referencia_material', 'material', 'magnitud', 'unidad', 'cantidad'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProductsMaterials').val('');
+
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let productMaterialsToImport = data.map((item) => {
           let quantity = '';
 
@@ -57,6 +84,8 @@ $(document).ready(function () {
       data: { importProductsMaterials: data },
       success: function (resp) {
         if (resp.error == true) {
+                    $('.cardLoading').remove();
+          $('.cardBottons').show(400);
           $('#fileProductsMaterials').val('');
           toastr.error(resp.message);
           return false;
@@ -78,7 +107,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveProductMaterialTable(data);
-            } else $('#fileProductsMaterials').val('');
+            } else {
+                        $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+              $('#fileProductsMaterials').val('');
+            }
           },
         });
       },
@@ -86,33 +119,13 @@ $(document).ready(function () {
   };
 
   saveProductMaterialTable = (data) => {
-    console.log(data);
+    // console.log(data);
     $.ajax({
       type: 'POST',
       url: '/api/addProductsMaterials',
       data: { importProductsMaterials: data },
       success: function (r) {
-        /* Mensaje de exito */
-          $('#fileProductsMaterials').val('');
-
-        if (r.success == true) { 
-          $('.cardImportProductsMaterials').hide(800);
-          $('#formImportProductMaterial').trigger('reset');
-          
-          let idProduct = $('#selectNameProduct').val();  
-          if (idProduct != null)
-            loadtableMaterials(idProduct);
-
-
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) {
-          toastr.error(r.message);
-        } else if (r.info == true) { 
-          toastr.info(r.message);
-        }
-
-        /* Actualizar tabla */ 
+        message(r);
       },
     });
   };

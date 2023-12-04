@@ -24,8 +24,35 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formProcess');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['proceso'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProcess').val('');
+
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let ProcessToImport = data.map((item) => {
           return {
             process: item.proceso,
@@ -46,7 +73,9 @@ $(document).ready(function () {
       data: { importProcess: data },
       success: function (resp) {
         if (resp.error == true) {
-        $('#fileProcess').val('');
+          $('#fileProcess').val('');
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
 
           toastr.error(resp.message);
           return false;
@@ -68,7 +97,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveProcessTable(data);
-            } else $('#fileProcess').val('');
+            } else {
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+              $('#fileProcess').val('');
+            }
           },
         });
       },
@@ -81,22 +114,7 @@ $(document).ready(function () {
       url: '../../api/addProcess',
       data: { importProcess: data },
       success: function (r) {
-        $('#fileProcess').val('');
-        /* Mensaje de exito */
-        if (r.success == true) {
-          $('.cardImportProcess').hide(800);
-          $('#formImportProcess').trigger('reset');
-          updateTable();
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblProcess').DataTable().clear();
-          $('#tblProcess').DataTable().ajax.reload();
-        }
+        message(r);
       },
     });
   };

@@ -112,9 +112,16 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
   message = (data) => {
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    $('#fileProcess').val('');
+    
     if (data.success == true) {
+      $('.cardImportProcess').hide(800);
+      $('#formImportProcess').trigger('reset');
       $('.cardCreateProcess').hide(800);
       $('#formCreateProcess').trigger('reset');
+      
       updateTable();
       toastr.success(data.message);
       return false;

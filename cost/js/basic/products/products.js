@@ -39,7 +39,7 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product', idProduct);
     
     let row = $(this).parent().parent()[0];
-    let data = tblProducts.fnGetData(row); 
+    let data = tblProducts.fnGetData(row);
 
     $('#referenceProduct').val(data.reference);
     $('#product').val(data.product);
@@ -218,8 +218,14 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  const message = (data) => {
+  message = (data) => {
+    $('#fileProducts').val('');
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    
     if (data.success == true) {
+      $('.cardImportProducts').hide(800);
+      $('#formImportProduct').trigger('reset');
       $('#createInactivesProducts').modal('hide');
       $('.cardCreateProduct').hide(800);
       $('#formCreateProduct').trigger('reset');

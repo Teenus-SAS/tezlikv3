@@ -24,8 +24,35 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formPayroll');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['nombres_y_apellidos', 'proceso', 'salario_basico', 'transporte', 'dotaciones', 'horas_extras', 'otros_ingresos', 'prestacional', 'horas_trabajo_x_dia', 'dias_trabajo_x_mes', 'tipo_riesgo', 'tipo_nomina', 'factor'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#filePayroll').val('');
+
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let payrollToImport = data.map((item) => {
           let basicSalary = '';
           let transport = '';
@@ -77,6 +104,8 @@ $(document).ready(function () {
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
           $('#filePayroll').val('');
           return false;
         }
@@ -97,7 +126,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               savePayroll(data);
-            } else $('#filePayroll').val('');
+            } else {
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+              $('#filePayroll').val('');
+            }
           },
         });
       },
@@ -111,7 +144,9 @@ $(document).ready(function () {
       data: { importPayroll: data },
       success: function (r) {
         /* Mensaje de exito */
-          $('#filePayroll').val('');
+        $('#filePayroll').val('');
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
 
         if (r.success == true) {
           $('.cardImportPayroll').hide(800);

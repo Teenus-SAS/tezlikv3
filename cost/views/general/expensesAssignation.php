@@ -101,15 +101,15 @@ if (sizeof($_SESSION) == 0)
                                 <form id="formImportExpesesAssignation" enctype="multipart/form-data">
                                     <div class="card">
                                         <div class="card-body pt-3">
-                                            <div class="form-row">
+                                            <div class="form-row" id="formExpenses">
                                                 <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
                                                     <input class="form-control" type="file" id="fileExpensesAssignation" accept=".xls,.xlsx">
                                                     <label for="formFile" class="form-label">Importar Asignacion de Gastos</label>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-top:7px">
+                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
                                                     <button type="text" class="btn btn-success" id="btnImportExpensesAssignation">Importar</button>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-top:7px">
+                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
                                                     <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignation">Descarga Formato</button>
                                                 </div>
                                             </div>

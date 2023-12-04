@@ -24,8 +24,34 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formProducts');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['referencia', 'producto', 'rentabilidad', 'comision_ventas'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProducts').val('');
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+        
         let productsToImport = data.map((item) => {
           let salePrice = '';
 
@@ -56,9 +82,12 @@ $(document).ready(function () {
       data: { importProducts: data },
       success: function (resp) {
         if (resp.error == true) {
-         $('#fileProducts').val('');
-          toastr.error(resp.message);
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProducts').val('');
           $('#formImportProduct').trigger('reset');
+
+          toastr.error(resp.message);
           return false;
         }
         bootbox.confirm({
@@ -77,7 +106,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveProductTable(data);
-            } else $('#fileProducts').val('');
+            } else {
+              $('#fileProducts').val('');
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+            }
           },
         });
       },
@@ -92,22 +125,7 @@ $(document).ready(function () {
       //data: data,
       data: { importProducts: data },
       success: function (r) {
-        /* Mensaje de exito */
-         $('#fileProducts').val('');
-        if (r.success == true) {
-          $('.cardImportProducts').hide(800);
-          $('#formImportProduct').trigger('reset');
-          updateTable();
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblProducts').DataTable().clear();
-          $('#tblProducts').DataTable().ajax.reload();
-        }
+        message(r);
       },
     });
   };

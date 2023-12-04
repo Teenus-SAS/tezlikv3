@@ -255,7 +255,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    $('#fileProductsProcess').val('');
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    
     if (data.success == true) {
+      $('.cardImportProductsProcess').hide(800);
+      $('#formImportProductProcess').trigger('reset');
       $('.cardAddProcess').hide(800);
       $('#formAddProcess').trigger('reset');
       updateTable();

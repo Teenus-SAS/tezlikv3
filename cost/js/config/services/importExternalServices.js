@@ -24,8 +24,35 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formExternalServices');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['referencia_producto', 'producto', 'servicio', 'costo'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileExternalServices').val('');
+
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let externalServiceToImport = data.map((item) => {
           let costService = '';
 
@@ -54,8 +81,11 @@ $(document).ready(function () {
       data: { importExternalService: data },
       success: function (resp) {
         if (resp.error == true) {
-          toastr.error(resp.message);
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
           $('#fileExternalServices').val('');
+
+          toastr.error(resp.message);
           return false;
         }
 
@@ -75,7 +105,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveExternalServiceTable(data);
-            } else $('#fileExternalServices').val('');
+            } else {
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+              $('#fileExternalServices').val('');
+            }
           },
         });
       },
@@ -88,7 +122,10 @@ $(document).ready(function () {
       url: '../../api/addExternalService',
       data: { importExternalService: data },
       success: function (r) {
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
         $('#fileExternalServices').val('');
+
         /* Mensaje de exito */
         if (r.success == true) {
           let idProduct = $('#selectNameProduct').val(); 

@@ -141,7 +141,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
-    if (data.success == true) {
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    $('#fileMachines').val('');
+    
+    if (data.success == true) { 
+      $('.cardImportMachines').hide(800);
+      $('#formImportMachines').trigger('reset');
       $('.cardCreateMachines').hide(800);
       $('#formCreateMachine').trigger('reset');
       toastr.success(data.message);

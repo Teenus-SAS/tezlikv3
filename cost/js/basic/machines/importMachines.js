@@ -24,8 +24,32 @@ $(document).ready(function () {
       return false;
     }
 
+    let form = document.getElementById('formMachines');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['maquina', 'costo', 'años_depreciacion', 'horas_maquina', 'dias_maquina'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileMachines').val('');
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let machinesToImport = data.map((item) => {
           let cost = '';
           let residualValue = '';
@@ -59,7 +83,9 @@ $(document).ready(function () {
       data: { importMachines: data },
       success: function (resp) {
         if (resp.error == true) {
-        $('#fileMachines').val('');
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileMachines').val('');
           toastr.error(resp.message);
           return false;
         }
@@ -80,7 +106,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveMachineTable(data);
-            } else $('#fileMachines').val('');
+            } else {
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+              $('#fileMachines').val('');
+            }
           },
         });
       },
@@ -93,22 +123,7 @@ $(document).ready(function () {
       url: '/api/addMachines',
       data: { importMachines: data },
       success: function (r) {
-        /* Mensaje de exito */
-        $('#fileMachines').val('');
-        if (r.success == true) {
-          $('.cardImportMachines').hide(800);
-          $('#formImportMachines').trigger('reset');
-          updateTable();
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblMachines').DataTable().clear();
-          $('#tblMachines').DataTable().ajax.reload();
-        }
+        message(r);
       },
     });
   };

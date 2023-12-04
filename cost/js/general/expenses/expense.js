@@ -121,7 +121,13 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
   message = (data) => {
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    $('#fileExpensesAssignation').val('');
+    
     if (data.success == true) {
+      $('.cardImportExpensesAssignation').hide(800);
+      $('#formImportExpesesAssignation').trigger('reset');
       $('.cardCreateExpenses').hide(800);
       $('#formCreateExpenses').trigger('reset');
       updateTable();

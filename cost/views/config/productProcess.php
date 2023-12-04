@@ -137,15 +137,15 @@ if (sizeof($_SESSION) == 0)
                             <form class="col-12" id="formImportProductProcess" enctype="multipart/form-data">
                                 <div class="card">
                                     <div class="card-body pt-3">
-                                        <div class="form-row">
+                                        <div class="form-row" id="formProductProcess">
                                             <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
                                                 <input class="form-control" type="file" id="fileProductsProcess" accept=".xls,.xlsx">
                                                 <label for="formFile" class="form-label"> Importar Productos*Procesos</label>
                                             </div>
-                                            <div class="col-xs-2" style="margin-top:7px">
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
                                                 <button type="text" class="btn btn-success" id="btnImportProductsProcess">Importar</button>
                                             </div>
-                                            <div class="col-xs-2" style="margin-top:7px">
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
                                                 <button type="text" class="btn btn-info" id="btnDownloadImportsProductsProcess">Descarga Formato</button>
                                             </div>
                                         </div>

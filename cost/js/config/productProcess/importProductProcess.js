@@ -23,8 +23,35 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formProductProcess');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion'];
+        const actualHeaders = Object.keys(data[0]);
+
+        const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+        if (missingHeaders.length > 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProductsProcess').val('');
+
+          toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+          return false;
+        }
+
         let productProcessToImport = data.map((item) => {
           // let enlistmentTime = '';
           // let operationTime = '';
@@ -59,6 +86,9 @@ $(document).ready(function () {
       success: function (resp) {
 
         if (resp.error == true) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+
           $('#fileProductsProcess').val('');
           toastr.error(resp.message);
           return false;
@@ -80,7 +110,11 @@ $(document).ready(function () {
           callback: function (result) {
             if (result == true) {
               saveProductProcessTable(data);
-            } else $('#fileProductsProcess').val('');
+            } else {
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+              $('#fileProductsProcess').val('');
+            }
           },
         });
       },
@@ -93,29 +127,7 @@ $(document).ready(function () {
       url: '/api/addProductsProcess',
       data: { importProductsProcess: data },
       success: function (r) {
-        $('#fileProductsProcess').val('');
-        
-        /* Mensaje de exito */
-        if (r.success == true) {
-          // $('#selectNameProduct').prop('selectedIndex', 1);
-          // $('#selectNameProduct').change();
-          let idProduct = $('#selectNameProduct').val(); 
-          
-          $('.cardImportProductsProcess').hide(800);
-          $('#formImportProductProcess').trigger('reset');
-          if (idProduct != null)
-            updateTable();
-
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblConfigProcess').DataTable().clear();
-          $('#tblConfigProcess').DataTable().ajax.reload();
-        }
+        message(r);
       },
     });
   };

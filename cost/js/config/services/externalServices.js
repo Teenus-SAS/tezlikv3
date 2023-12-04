@@ -131,7 +131,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    $('#fileExternalServices').val('');
+    
     if (data.success == true) {
+      $('.cardImportExternalServices').hide(800);
+      $('#formImportExternalServices').trigger('reset');
       $('.cardAddService').hide(800);
       $('#formAddService').trigger('reset');
       updateTable();

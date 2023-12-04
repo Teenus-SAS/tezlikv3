@@ -34,8 +34,52 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('formExpenses');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     importFile(selectedFile)
       .then((data) => {
+        if (option == 1) {
+          const expectedHeaders = ['unidades_vendidas', 'volumen_ventas', 'referencia_producto', 'producto'];
+          const actualHeaders = Object.keys(data[0]);
+
+          const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+          if (missingHeaders.length > 0) {
+            $('.cardLoading').remove();
+            $('.cardBottons').show(400);
+            $('#fileExpenses').val('');
+
+            toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+            return false;
+          }
+        } else if (option == 2) {
+          const expectedHeaders = ['referencia_producto', 'producto', 'porcentaje_recuperado'];
+          const actualHeaders = Object.keys(data[0]);
+
+          const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
+
+          if (missingHeaders.length > 0) {
+            $('.cardLoading').remove();
+            $('.cardBottons').show(400);
+            $('#fileExpenses').val('');
+
+            toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
+            return false;
+          }
+        }
+
+
         let expenseToImport = data.map((item) => {
           if (option == 1) {
             url = '/api/expenseDistributionDataValidation';
@@ -84,6 +128,9 @@ $(document).ready(function () {
         if (resp.error == true) {
           toastr.error(resp.message);
           $('#fileExpenses').val('');
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+
           return false;
         }
 
@@ -107,7 +154,11 @@ $(document).ready(function () {
                 : (url = '/api/addExpenseRecover');
 
               saveExpenses(data, url);
-            } else $('#fileExpenses').val('');
+            } else {
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
+              $('#fileExpenses').val('');
+            }
           },
         });
       },
@@ -121,7 +172,9 @@ $(document).ready(function () {
       data: { importExpense: data },
       success: function (r) {
         /* Mensaje de exito */
-          $('#fileExpenses').val('');
+        $('#fileExpenses').val('');
+        $('.cardLoading').remove();
+        $('.cardBottons').show(400);
 
         if (r.success == true) {
           $('.cardImportExpenses').hide(800);
@@ -152,7 +205,7 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $('#btnDownloadImportsExpenses').click(async function (e) {
-    e.preventDefault(); 
+    e.preventDefault();
     let wb = XLSX.utils.book_new();
 
     let data = [];

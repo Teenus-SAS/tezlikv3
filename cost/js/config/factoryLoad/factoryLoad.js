@@ -132,7 +132,13 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   message = (data) => {
+    $('.cardLoading').remove();
+    $('.cardBottons').show(400);
+    $('#fileFactoryLoad').val('');
+    
     if (data.success == true) {
+      $('.cardImportFactoryLoad').hide(800);
+      $('#formImportFactoryLoad').trigger('reset');
       $('.cardFactoryLoad').hide(800);
       $('#formNewFactoryLoad').trigger('reset');
       updateTable();
