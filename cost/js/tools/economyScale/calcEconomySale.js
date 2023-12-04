@@ -134,8 +134,9 @@ $(document).ready(function () {
           /* Porcentaje */
           // percentage = (netUtility / (totalRevenue - commission)) * 100;
           percentage = (netUtility / totalRevenue) * 100;
+          
           // if (i != 0) {
-          //   // percentage += ((price * (profitability / 100)) / prices[0]) * 100;
+          //   percentage += ((price * (profitability / 100)) / prices[0]) * 100;
           // }
 
           $(`#percentage-${i}`).html(
@@ -146,17 +147,19 @@ $(document).ready(function () {
           );
 
           // Verificar si el margen de utilidad es negativo
-          if (i == 0 && percentage >= 0 && percentage < 1) {
-            percentage += profitability;
+          if (i == 0 && percentage >= profitability) {
+            // percentage += profitability;
             $(`#percentage-${i}`).html(
               `${percentage.toLocaleString('es-CO', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })} %`
             );
-          } else if (i == 0 && percentage < 0) {
+          } else if (i == 0 && percentage < profitability) {
             // let division = totalCostsAndExpense / price;
-            let division = totalCostsAndExpense / price + 1;
+            percentage > 0 ? cant += 2 : cant = 1;
+
+            let division = (totalCostsAndExpense / price) + cant;
 
             $(`#unity-${i}`).val(
               division.toLocaleString('es-CO', {
