@@ -27,7 +27,7 @@ class HistoricalDao
                                          IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS actual_turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS actual_assignable_expense,
                                          IFNULL(er.expense_recover, 0) AS expense_recover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS actual_services
                                       FROM products p
-                                        JOIN tezlikhistproduccion.historical_products hp ON hp.id_product = p.id_product
+                                        JOIN tezlikso_histproduccion.historical_products hp ON hp.id_product = p.id_product
                                         LEFT JOIN products_costs pc ON pc.id_product = p.id_product
                                         LEFT JOIN companies_licenses cl ON cl.id_company = p.id_company
                                         LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
