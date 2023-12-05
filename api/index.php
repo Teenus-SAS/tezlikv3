@@ -123,6 +123,7 @@ require_once('../api/src/routes/app/cost/tools/routeMultiproducts.php');
 require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeProducts.php');
 require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeLots.php');
 require_once('../api/src/routes/app/cost/tools/routeSimulator.php');
+require_once('../api/src/routes/app/cost/tools/routeHistorical.php');
 
 // User Access
 require_once('../api/src/routes/app/cost/userAccess/routeUserAccess.php');

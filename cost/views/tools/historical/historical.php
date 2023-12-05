@@ -54,10 +54,15 @@ if (sizeof($_SESSION) == 0)
 									</ol> -->
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-xl-6">
+                            <div class="col-sm-5 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <!-- <button class="btn btn-warning" id="btnNewQuotes">Nueva Cotización</button> -->
-                                    <!-- <button class="btn btn-info ml-3" id="btnImportNewQuotes">Importar Cotizaciones</button> -->
+                                    <div class="col-sm-3 mb-3 d-flex align-items-center">
+                                        <select id="typeHistorical" class="form-control">
+                                            <option disabled selected>Seleccionar</option>
+                                            <option value="1">Tabla</option>
+                                            <option value="2">Graficos</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -76,7 +81,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblPrices">
+                                            <table class="table table-striped" id="tblHistorical">
 
                                             </table>
                                         </div>
@@ -97,14 +102,14 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
 
-    <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
-    <?php } ?>
+    <script src="/global/js/global/orderData.js"></script>
     <script>
-        custom_price = "<?= $_SESSION['custom_price'] ?>";
-        type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
     </script>
+    <script src="/cost/js/tools/historical/graphicsHistorical.js"></script>
+    <script src="/cost/js/tools/historical/tblHistorical.js"></script>
+    <script src="/cost/js/tools/historical/historical.js"></script>
 </body>
 
 </html>
