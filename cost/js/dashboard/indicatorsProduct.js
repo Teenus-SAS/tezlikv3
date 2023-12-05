@@ -287,5 +287,5 @@ $(document).ready(function () {
   function setProduct() {
     $(`#product option[value=${id_product}]`).prop('selected', true);
   }
-  setTimeout(setProduct, 5000);
+  setTimeout(setProduct, 2000);
 });

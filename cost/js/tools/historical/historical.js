@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    $('#typeHistorical').change(function (e) { 
+    $('#typeHistorical').change(function (e) {
         e.preventDefault();
         
-        
+
     });
 });

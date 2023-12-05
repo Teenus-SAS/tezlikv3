@@ -107,7 +107,6 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
     </script>
-    <script src="/cost/js/tools/historical/graphicsHistorical.js"></script>
     <script src="/cost/js/tools/historical/tblHistorical.js"></script>
     <script src="/cost/js/tools/historical/historical.js"></script>
 </body>

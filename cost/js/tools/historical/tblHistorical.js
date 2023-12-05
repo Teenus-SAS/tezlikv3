@@ -1,8 +1,8 @@
 $(document).ready(function () {
     $(document).on('click', '.seeDetail', function (e) {
-        sessionStorage.removeItem('idHistorical');
-        let id_historical = this.id;
-        sessionStorage.setItem('idHistorical', id_historical);
+        sessionStorage.removeItem('idProduct');
+        let id_product = this.id;
+        sessionStorage.setItem('idProduct', id_product);
     });
     /* Cargue tabla de Precios */
   
@@ -94,7 +94,7 @@ $(document).ready(function () {
             // },
             {
                 title: 'Acciones',
-                data: 'id_historical',
+                data: 'id_product',
                 className: 'uniqueClassName',
                 render: function (data) {
                     return `<a href="/cost/details-historical" <i id="${data}" class="mdi mdi-playlist-check seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>`;
