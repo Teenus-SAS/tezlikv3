@@ -45,8 +45,7 @@ $(document).ready(function () {
       analysisMaterials: data.cost_analysis_material,
       economyScale: data.cost_economy_scale,
       multiproduct: data.cost_multiproduct,
-      simulator: data.cost_simulator,
-      historical: data.cost_historical,
+      simulator: data.cost_simulator, 
       quotes: data.cost_quote,
       support: data.cost_support,
     };

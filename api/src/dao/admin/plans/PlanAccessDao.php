@@ -47,15 +47,14 @@ class PlanAccessDao
         $connection = Connection::getInstance()->getConnection();
         try {
             $stmt = $connection->prepare("UPDATE plans_access SET cant_products = :cant_products, cost_price = :cost_price, custom_price = :custom_price, cost_analysis_material= :cost_analysis_material, cost_support= :cost_support, 
-                                                                  cost_quote = :cost_quote, cost_multiproduct = :cost_multiproduct, cost_economy_scale = :cost_economy_scale, cost_simulator = :cost_simulator, cost_historical = :cost_historical
+                                                                  cost_quote = :cost_quote, cost_multiproduct = :cost_multiproduct, cost_economy_scale = :cost_economy_scale, cost_simulator = :cost_simulator
                                           WHERE id_plan= :id_plan");
             $stmt->execute([
                 'id_plan' => $dataPlan['idPlan'],                                   'cost_economy_scale' => $dataPlan['economyScale'],
                 'cant_products' => $dataPlan['cantProducts'],                       'cost_quote' => $dataPlan['quotes'],
                 'cost_price' => $dataPlan['prices'],                                'cost_multiproduct' => $dataPlan['multiproduct'],
                 'custom_price' => $dataPlan['customPrices'],                        'cost_simulator' => $dataPlan['simulator'],
-                'cost_analysis_material' => $dataPlan['analysisRawMaterials'],      'cost_historical' => $dataPlan['historical'],
-                'cost_support' => $dataPlan['support']
+                'cost_analysis_material' => $dataPlan['analysisRawMaterials'],      'cost_support' => $dataPlan['support']
             ]);
 
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

@@ -100,6 +100,16 @@ $(document).ready(function () {
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
             : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
         },
+      }, 
+      {
+        title: 'Historico',
+        data: 'cost_historical',
+        className: 'uniqueClassName',
+        render: function (data, type, row) {
+          return data == 1
+            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
+            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        },
       },
       {
         title: 'Acciones',

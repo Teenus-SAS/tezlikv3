@@ -59,8 +59,8 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-sm-3 mb-3 d-flex align-items-center">
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
-                                            <option value="1">Tabla</option>
-                                            <option value="2">Graficos</option>
+                                            <option value="1">Mes</option>
+                                            <option value="2">Año</option>
                                         </select>
                                     </div>
                                 </div>

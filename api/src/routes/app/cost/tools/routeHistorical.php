@@ -16,6 +16,26 @@ $app->get('/historical', function (Request $request, Response $response, $args) 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+// $app->get('/historicalMonth', function (Request $request, Response $response, $args) use ($historicalDao) {
+//     session_start();
+//     $id_company = $_SESSION['id_company'];
+
+//     $data = $historicalDao->findAllHistoricalByMonth($id_company);
+
+//     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
+
+// $app->get('/historicalYear', function (Request $request, Response $response, $args) use ($historicalDao) {
+//     session_start();
+//     $id_company = $_SESSION['id_company'];
+
+//     $data = $historicalDao->findAllHistoricalByYear($id_company);
+
+//     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
 // $app->get('/calcEconomyScale/{id_product}', function (Request $request, Response $response, $args) use ($priceDao, $economyScaleDao) {
 //     session_start();
 //     $id_company = $_SESSION['id_company'];
