@@ -67,9 +67,9 @@ $(document).ready(function () {
 
   $('#btnCreateUserAndAccess').click(function (e) {
     e.preventDefault();
-    let idUser = sessionStorage.getItem('id_user');
+    let id_user = sessionStorage.getItem('id_user');
 
-    if (idUser == '' || idUser == null) {
+    if (id_user == '' || id_user == null) {
       let nameUser = $('#nameUser').val();
       let lastnameUser = $('#lastnameUser').val();
       let emailUser = $('#emailUser').val();
@@ -157,8 +157,8 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUser = this.id;
-    sessionStorage.setItem('id_user', idUser);
+    let id_user = this.id;
+    sessionStorage.setItem('id_user', id_user);
 
     $('#nameUser').val(data.firstname);
     $('#lastnameUser').val(data.lastname);
@@ -239,7 +239,7 @@ $(document).ready(function () {
   });
 
   updateUserAccess = () => {
-    let idUser = sessionStorage.getItem('id_user');
+    let id_user = sessionStorage.getItem('id_user');
 
     let typePayroll = 0;
     
@@ -274,7 +274,7 @@ $(document).ready(function () {
     }
 
     let dataUser = {};
-    dataUser['idUser'] = idUser;
+    dataUser['id_user'] = id_user;
     dataUser['nameUser'] = $('#nameUser').val();
     dataUser['lastnameUser'] = $('#lastnameUser').val();
     dataUser['emailUser'] = $('#emailUser').val();
@@ -288,7 +288,7 @@ $(document).ready(function () {
       '/api/updateCostUserAccess',
       dataUser,
       function (data, textStatus, jqXHR) {
-        message(data, idUser);
+        message(data, id_user);
         updateTable();
       }
     );
@@ -341,10 +341,10 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUser = data.id_user;
+    let id_user = data.id_user;
     let factoryLoad = data.factory_load;
     let dataUser = {};
-    dataUser['idUser'] = idUser;
+    dataUser['id_user'] = id_user;
     dataUser['factoryLoad'] = factoryLoad;
 
     bootbox.confirm({
@@ -367,7 +367,7 @@ $(document).ready(function () {
             '/api/deleteUser',
             dataUser,
             function (data, textStatus, jqXHR) {
-              message(data, idUser);
+              message(data, id_user);
             }
           );
         }

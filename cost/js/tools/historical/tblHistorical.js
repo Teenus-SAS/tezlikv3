@@ -6,28 +6,18 @@ $(document).ready(function () {
     });
     /* Cargue tabla de Precios */
   
-    loadTblPrices = async (op) => {
+    loadTblPrices = async (op, month, year) => {
         let data = await searchData('/api/historical');
-        const fechaActual = new Date();
+        // const fechaActual = new Date();
 
         // Obtener el año actual
         if (op == 1) {
-            const month = fechaActual.getMonth() + 1;
+            // const month = fechaActual.getMonth() + 1;
             data = data.filter((item) => item.month == month);
         } else if (op == 2) {
-            const year = fechaActual.getFullYear();
+            // const year = fechaActual.getFullYear();
             data = data.filter((item) => item.year == year);
-        }
-            
-        
-        //     let data = await searchData('/api/prices');
-        //     let acumulated = 0;
-
-        //     for (let i = 0; i < data.length; i++) {
-        //       acumulated += data[i].sale_price;
-        //     }
-
-        //     acumulated == 0 ? visible = false : visible = true;
+        } 
 
         tblHistorical = $('#tblHistorical').DataTable({
             destroy:true,
@@ -83,16 +73,16 @@ $(document).ready(function () {
                     data: 'profitability',
                     className: 'classCenter',
                 },
-                {
-                    title: 'Mes',
-                    data: 'month',
-                    className: 'classCenter',
-                },
-                {
-                    title: 'Año',
-                    data: 'year',
-                    className: 'classCenter',
-                },
+                // {
+                //     title: 'Mes',
+                //     data: 'month',
+                //     className: 'classCenter',
+                // },
+                // {
+                //     title: 'Año',
+                //     data: 'year',
+                //     className: 'classCenter',
+                // },
                 {
                     title: 'Acciones',
                     data: 'id_product',
@@ -116,5 +106,5 @@ $(document).ready(function () {
         });
     }
 
-    loadTblPrices(null);
+    loadTblPrices(null, null, null);
 });

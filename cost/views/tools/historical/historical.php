@@ -56,11 +56,43 @@ if (sizeof($_SESSION) == 0)
                             </div>
                             <div class="col-sm-5 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
-                                    <div class="col-sm-3 mb-3 d-flex align-items-center">
+                                    <div class="col-sm-3 mb-3 d-flex align-items-center floating-label enable-floating-label show-label">
+                                        <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
-                                            <option value="1">Mes</option>
-                                            <option value="2">Año</option>
+                                            <option value="1">Tabla</option>
+                                            <option value="2">Grafico</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 mb-3 d-flex align-items-center floating-label enable-floating-label show-label">
+                                        <label class="font-weight-bold text-dark">Mes</label>
+                                        <select id="month" class="form-control">
+                                            <option disabled selected>Seleccionar</option>
+                                            <option value="0">Todo</option>
+                                            <option value="1">Enero</option>
+                                            <option value="2">Febrero</option>
+                                            <option value="3">Marzo</option>
+                                            <option value="4">Abril</option>
+                                            <option value="5">Mayo</option>
+                                            <option value="6">Junio</option>
+                                            <option value="7">Julio</option>
+                                            <option value="8">Agosto</option>
+                                            <option value="9">Septiembre</option>
+                                            <option value="10">Octubre</option>
+                                            <option value="11">Noviembre</option>
+                                            <option value="12">Diciembre</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-3 mb-3 d-flex align-items-center floating-label enable-floating-label show-label">
+                                        <label class="font-weight-bold text-dark">Año</label>
+                                        <select id="year" class="form-control">
+                                            <option disabled selected>Seleccionar</option>
+                                            <option value="0">Todo</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2019">2019</option>
                                         </select>
                                     </div>
                                 </div>
@@ -70,7 +102,7 @@ if (sizeof($_SESSION) == 0)
                 </div>
 
                 <!-- page content -->
-                <div class="page-content-wrapper mt--45">
+                <div class="page-content-wrapper mt--45 cardTblPrices">
                     <div class="container-fluid">
                         <!-- Row 5 -->
                         <div class="row">
@@ -85,6 +117,24 @@ if (sizeof($_SESSION) == 0)
 
                                             </table>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 cardDashboard">
+                    <div class="container-fluid">
+                        <!-- Row 5 -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card disable-select">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Dashboard</h5>
+                                    </div>
+                                    <div class="card-body">
+
                                     </div>
                                 </div>
                             </div>
