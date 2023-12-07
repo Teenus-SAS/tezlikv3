@@ -53,7 +53,7 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
         $resp = array('error' => true, 'message' => 'Ingrese todos los datos');
     else {
 
-        if (isset($dataUserAccess['idUser']))
+        if (isset($dataUserAccess['id_user']))
             $user = $dataUserAccess;
         else {
             $user = $lastDataDao->findLastInsertedUser($id_company);
@@ -90,7 +90,7 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
 
     $dataUserAccess = $request->getParsedBody();
 
-    $findUserAccess = $userAccessDao->findUserAccess($id_company, $dataUserAccess['idUser']);
+    $findUserAccess = $userAccessDao->findUserAccess($id_company, $dataUserAccess['id_user']);
 
     if (sizeof($dataUserAccess['typeCustomPrices']) == 1)
         $typeCustomPrice = $dataUserAccess['typeCustomPrices'][0];
@@ -107,8 +107,8 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
     // }
 
     /* Modificar accesos */
-    if ($idUser == $dataUserAccess['idUser'])
-        $generalUAccessDao->setGeneralAccess($dataUserAccess['idUser']);
+    if ($idUser == $dataUserAccess['id_user'])
+        $generalUAccessDao->setGeneralAccess($dataUserAccess['id_user']);
 
     if ($userAccess == null)
         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');

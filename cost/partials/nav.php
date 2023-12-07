@@ -16,35 +16,47 @@
                         ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1)
                     ) { ?>
                         <li class="nav-item dropdown" id="navPrices">
-                            <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="bi bi-cash mr-1"></i> Precios
-                                <i class="bx bx-chevron-right"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
-                                <?php if ($_SESSION['price'] == 1 && $_SESSION['plan_cost_price'] == 1) { ?>
-                                    <a class="dropdown-item aPricesCOP" href="/cost/prices">
-                                        <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(COP)</span>
+                        <?php } else { ?>
+                        <li class="nav-item dropdown" id="navPrices" style="display: none;">
+                        <?php } ?>
+                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bi bi-cash mr-1"></i> Precios
+                            <i class="bx bx-chevron-right"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
+                            <?php if ($_SESSION['price'] == 1 && $_SESSION['plan_cost_price'] == 1) { ?>
+                                <a class="dropdown-item aPricesCOP" href="/cost/prices">
+                                <?php } else { ?>
+                                    <a class="dropdown-item aPricesCOP" href="/cost/prices" style="display: none;">
+                                    <?php } ?>
+                                    <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(COP)</span>
                                     </a>
-                                <?php } ?>
-                                <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
-                                    <a class="dropdown-item aPricesUSD" href="/cost/prices-usd">
-                                        <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(USD)</span>
-                                    </a>
-                                <?php } ?>
-                                <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
-                                    <a class="dropdown-item aCustomPrices" href="/cost/custom-prices">
-                                        <span><i class="bx bx-dollar-circle mr-1"></i>Lista de Precios Personalizado</span>
-                                    </a>
-                                <?php } ?>
-                            </ul>
+                                    <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                        <a class="dropdown-item aPricesUSD" href="/cost/prices-usd">
+                                        <?php } else { ?>
+                                            <a class="dropdown-item aPricesUSD" href="/cost/prices-usd" style="display: none;">
+                                            <?php } ?>
+                                            <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(USD)</span>
+                                            </a>
+                                            <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
+                                                <a class="dropdown-item aCustomPrices" href="/cost/custom-prices">
+                                                <?php } else { ?>
+                                                    <a class="dropdown-item aCustomPrices" href="/cost/custom-prices" style="display: none;">
+                                                    <?php } ?>
+                                                    <span><i class="bx bx-dollar-circle mr-1"></i>Lista de Precios Personalizado</span>
+                                                    </a>
+                        </ul>
                         </li>
-                    <?php } ?>
-                    <?php if (
-                        $_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1 ||
-                        $_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1 ||
-                        $_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1
-                    ) { ?>
-                        <li class="nav-item dropdown" id="navTools">
+
+                        <?php if (
+                            $_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1 ||
+                            $_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1 ||
+                            $_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1
+                        ) { ?>
+                            <li class="nav-item dropdown" id="navTools">
+                            <?php } else { ?>
+                            <li class="nav-item dropdown" id="navTools" style="display: none;">
+                            <?php } ?>
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="bi bi-tools mr-1"></i> Herramientas
                                 <i class="bx bx-chevron-right"></i>
@@ -52,62 +64,77 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <?php if ($_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1) { ?>
                                     <li class="dropdown-submenu aAnalysisMaterials" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
-                                        <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="bi bi-card-heading mr-1"></i>Análisis Materia Prima
-                                            <i class="bx bx-chevron-right"></i>
+                                    <?php } else { ?>
+                                    <li class="dropdown-submenu aAnalysisMaterials" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px; display: none;">
+                                    <?php } ?>
+                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="bi bi-card-heading mr-1"></i>Análisis Materia Prima
+                                        <i class="bx bx-chevron-right"></i>
+                                    </a>
+                                    <ul class="dropdown-menu1">
+                                        <a class="dropdown-item" href="/cost/analysis-materials-product">
+                                            <i class="bi bi-graph-up mr-1"></i> Producto
                                         </a>
-                                        <ul class="dropdown-menu1">
-                                            <a class="dropdown-item" href="/cost/analysis-materials-product">
-                                                <i class="bi bi-graph-up mr-1"></i> Producto
-                                            </a>
-                                            <a class="dropdown-item" href="/cost/analysis-materials-lot">
-                                                <i class="bi bi-graph-down mr-1"></i> Lote
-                                            </a>
-                                        </ul>
+                                        <a class="dropdown-item" href="/cost/analysis-materials-lot">
+                                            <i class="bi bi-graph-down mr-1"></i> Lote
+                                        </a>
+                                    </ul>
                                     </li>
-                                <?php } ?>
 
-                                <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
-                                    <a class="dropdown-item aEconomyScale" href="/cost/economyScale">
-                                        <i class="bx bx-dollar-circle mr-1"></i> Economias de Escala
-                                    </a>
-                                <?php } ?>
-                                <?php if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { ?>
-                                    <a class="dropdown-item aMultiproducts" href="/cost/multiproduct">
-                                        <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
-                                    </a>
-                                <?php } ?>
-                                <?php if ($_SESSION['simulator'] == 1 && $_SESSION['plan_cost_simulator'] == 1) { ?>
-                                    <a class="dropdown-item aSimulator" href="/cost/simulator">
-                                        <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
-                                    </a>
-                                <?php } ?>
-                                <?php if ($_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) { ?>
-                                    <a class="dropdown-item aHistorical" href="/cost/historical">
-                                        <i class="bi bi-clock-history mr-1"></i> Historico
-                                    </a>
-                                <?php } ?>
+
+                                    <?php if ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
+                                        <a class="dropdown-item aEconomyScale" href="/cost/economyScale">
+                                        <?php } else { ?>
+                                            <a class="dropdown-item aEconomyScale" href="/cost/economyScale" style="display: none;">
+                                            <?php } ?>
+                                            <i class="bx bx-dollar-circle mr-1"></i> Economias de Escala
+                                            </a>
+                                            <?php if ($_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1) { ?>
+                                                <a class="dropdown-item aMultiproducts" href="/cost/multiproduct">
+                                                <?php } else { ?>
+                                                    <a class="dropdown-item aMultiproducts" href="/cost/multiproduct" style="display: none;">
+                                                    <?php } ?>
+                                                    <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
+                                                    </a>
+                                                    <?php if ($_SESSION['simulator'] == 1 && $_SESSION['plan_cost_simulator'] == 1) { ?>
+                                                        <a class="dropdown-item aSimulator" href="/cost/simulator">
+                                                        <?php } else { ?>
+                                                            <a class="dropdown-item aSimulator" href="/cost/simulator" style="display: none;">
+                                                            <?php } ?>
+                                                            <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
+                                                            </a>
+                                                            <?php if ($_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) { ?>
+                                                                <a class="dropdown-item aHistorical" href="/cost/historical">
+                                                                <?php } else { ?>
+                                                                    <a class="dropdown-item aHistorical" href="/cost/historical" style="display: none;">
+                                                                    <?php } ?>
+                                                                    <i class="bi bi-clock-history mr-1"></i> Historico
+                                                                    </a>
                             </ul>
-                        </li>
-                    <?php } ?>
-                    <?php if ($_SESSION['quotes'] == 1 && $_SESSION['plan_cost_quote'] == 1) { ?>
-                        <li class="nav-item aQuotes">
-                            <a class="nav-link" href="/cost/quotes">
-                                <i class="bx bx-columns mr-1"></i> Cotizar
-                                <i class="bx bx-chevron-right"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
+                            </li>
 
-                    <?php if ($_SESSION['support'] == 1 && $_SESSION['plan_cost_support'] == 1) { ?>
-                        <li class="nav-item aSupport">
-                            <a class="nav-link" href="/cost/support">
-                                <i class="bx bxs-bar-chart-alt-2 mr-1"></i>
-                                <span> Soporte</span>
-                                <i class="bx bx-chevron-right"></i>
-                            </a>
-                        </li>
-                    <?php } ?>
+                            <?php if ($_SESSION['quotes'] == 1 && $_SESSION['plan_cost_quote'] == 1) { ?>
+                                <li class="nav-item aQuotes">
+                                <?php } else { ?>
+                                <li class="nav-item aQuotes" style="display: none;">
+                                <?php } ?>
+                                <a class="nav-link" href="/cost/quotes">
+                                    <i class="bx bx-columns mr-1"></i> Cotizar
+                                    <i class="bx bx-chevron-right"></i>
+                                </a>
+                                </li>
+
+                                <?php if ($_SESSION['support'] == 1 && $_SESSION['plan_cost_support'] == 1) { ?>
+                                    <li class="nav-item aSupport">
+                                    <?php } else { ?>
+                                    <li class="nav-item aSupport" style="display: none;">
+                                    <?php } ?>
+                                    <a class="nav-link" href="/cost/support">
+                                        <i class="bx bxs-bar-chart-alt-2 mr-1"></i>
+                                        <span> Soporte</span>
+                                        <i class="bx bx-chevron-right"></i>
+                                    </a>
+                                    </li>
                 </ul>
             </div>
         </nav>

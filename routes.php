@@ -101,10 +101,10 @@ get('/planning/sales', '/planning/views/general/sales.php');
 get('/planning/clients', '/planning/views/admin/clients.php');
 get('/planning/order-types', '/planning/views/admin/order_types.php');
 get('/planning/users', '/planning/views/admin/users.php');
-get('/planning/profile', '/planning/views/perfil/perfil.php');
+get('/planning/profile', '/planning/views/perfil/perfil.php');*/
 
 
- SELECTOR 
-get('/selector', '/selector/index.php');
-get('/selector/profile', '/selector/views/perfil/perfil.php');
-get('/selector/users', '/selector/views/users/users.php'); */
+//SELECTOR 
+// get('/selector', '/selector/index.php');
+// get('/selector/profile', '/selector/views/perfil/perfil.php');
+// get('/selector/users', '/selector/views/users/users.php');

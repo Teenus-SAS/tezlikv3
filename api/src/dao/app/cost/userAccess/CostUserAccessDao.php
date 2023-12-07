@@ -70,7 +70,7 @@ class CostUserAccessDao
                                                   :factory_load, :external_service, :payroll_load, :type_payroll, :expense, :expense_distribution, :type_expense, :user, :backup, :economy_scale, :multiproduct,
                                                   :quote_payment_method, :quote_company, :quote_contact, :price, :price_usd, :custom_price, :type_custom_price, :analysis_material, :simulator, :historical, :support, :quote)");
             $stmt->execute([
-                'id_user' => $dataUser['idUser'],                               'economy_scale' => $dataUser['economyScale'],
+                'id_user' => $dataUser['id_user'],                              'economy_scale' => $dataUser['economyScale'],
                 'create_product' => $dataUser['costCreateProducts'],            'multiproduct' => $dataUser['multiproduct'],
                 'create_materials' => $dataUser['costCreateMaterials'],         'quote_payment_method' => $dataUser['quotePaymentMethod'],
                 'create_machines' => $dataUser['costCreateMachines'],           'quote_company' => $dataUser['quoteCompany'],
@@ -96,7 +96,7 @@ class CostUserAccessDao
 
     public function setDataUserAccessDemo($id_user)
     {
-        $dataUser['idUser'] = $id_user;
+        $dataUser['id_user'] = $id_user;
         $dataUser['costUser'] = 1;
         $dataUser['costBackup'] = 1;
         $dataUser['costCreateProducts'] = 1;
@@ -150,7 +150,7 @@ class CostUserAccessDao
                                                                            price = :price, price_usd = :price_usd, custom_price = :custom_price, type_custom_price = :type_custom_price, analysis_material = :analysis_material, simulator = :simulator, historical = :historical, support = :support, quote = :quote, quote_payment_method = :quote_payment_method, quote_company = :quote_company, quote_contact = :quote_contact
                                               WHERE id_user = :id_user");
                 $stmt->execute([
-                    'id_user' => $dataUser['idUser'],                               'economy_scale' => $dataUser['economyScale'],
+                    'id_user' => $dataUser['id_user'],                               'economy_scale' => $dataUser['economyScale'],
                     'create_product' => $dataUser['costCreateProducts'],            'multiproduct' => $dataUser['multiproduct'],
                     'create_materials' => $dataUser['costCreateMaterials'],         'quote_payment_method' => $dataUser['quotePaymentMethod'],
                     'create_machines' => $dataUser['costCreateMachines'],           'quote_company' => $dataUser['quoteCompany'],
@@ -181,7 +181,7 @@ class CostUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("DELETE FROM cost_users_access WHERE id_user = :id_user");
-        $stmt->execute(['id_user' => $dataUser['idUser']]);
+        $stmt->execute(['id_user' => $dataUser['id_user']]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     }
 }

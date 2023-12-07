@@ -56,6 +56,9 @@ if (sizeof($_SESSION) == 0)
                             </div>
                             <div class="col-sm-5 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-warning" id="btnSaveManualHistorical" name="btnSaveManualHistorical">Guardar Historico</button>
+                                    </div>
                                     <div class="col-sm-3 mb-3 d-flex align-items-center floating-label enable-floating-label show-label">
                                         <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">

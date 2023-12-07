@@ -8,6 +8,7 @@ if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
 <?php require_once __DIR__ . '/modals/modalGeneralDashboard.php'; ?>
+<?php require_once __DIR__ . '/modals/historical.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -479,6 +480,10 @@ if (sizeof($_SESSION) == 0)
                                 <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
                                 <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
                                 <script src="/global/js/global/printPdf.js"></script>
+                                <?php if ($_SESSION['status_historical'] == 1) { ?>
+                                    <script src="/global/js/global/saveHistorical.js"></script>
+                                <?php $_SESSION['status_historical'] = 2;
+                                }  ?>
                             </div>
 </body>
 
