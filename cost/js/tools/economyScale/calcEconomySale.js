@@ -155,17 +155,18 @@ $(document).ready(function () {
                 maximumFractionDigits: 2,
               })} %`
             );
-          } else if (i == 0 && percentage < profitability) {
-            // let division = totalCostsAndExpense / price;
+          } else if (i == 0 && percentage < profitability) { 
             percentage > 0 ? cant += 2 : cant = 1;
 
-            let division = (totalCostsAndExpense / price) + cant;
+            // if (percentage >= 19.13) {
+            //   debugger;
+            // }
+ 
+            let division = Math.ceil((totalCostsAndExpense / price) + cant);
 
-            $(`#unity-${i}`).val(
-              division.toLocaleString('es-CO', {
-                maximumFractionDigits: 0,
-              })
-            );
+            $(`#unity-${i}`).val(division.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            }));
 
             unitys[i] = division;
 
