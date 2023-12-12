@@ -24,6 +24,8 @@ $(document).ready(function () {
       return false;
     }
 
+    $('.cardBottons').hide();
+
     let form = document.getElementById('formMachines');
 
     form.insertAdjacentHTML(
