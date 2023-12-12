@@ -210,6 +210,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
+        DatatableTblMultiproducts = 1;
     </script>
     <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
     <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>

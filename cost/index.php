@@ -470,6 +470,7 @@ if (sizeof($_SESSION) == 0)
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
+                                    DatatableTblMultiproducts = 0;
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>

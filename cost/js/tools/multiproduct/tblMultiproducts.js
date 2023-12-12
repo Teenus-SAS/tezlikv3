@@ -54,8 +54,8 @@ $(document).ready(function () {
       );
     }
 
-    !multiproducts[0] ? expense = 0 : expense=multiproducts[0].expense;
-    !multiproducts[0] ? sum_payroll = 0 : sum_payroll=multiproducts[0].sum_payroll;
+    !multiproducts[0] ? expense = 0 : expense = multiproducts[0].expense;
+    !multiproducts[0] ? sum_payroll = 0 : sum_payroll = multiproducts[0].sum_payroll;
 
     expenseAsignation = expense;
     costPayroll = sum_payroll;
@@ -95,20 +95,21 @@ $(document).ready(function () {
       })}`
     );
 
-    $('#tblMultiproducts').dataTable({
-      destroy: true,
-      pageLength: 50,
-      autoWidth: true,
-      // language: {
-      //   url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-      // },
-      dom: '<"datatable-error-console">frtip', 
-      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-          console.error(oSettings.json.error);
-        }
-      },
-    });
+    if (DatatableTblMultiproducts == 1)
+      $('#tblMultiproducts').dataTable({
+        destroy: true,
+        pageLength: 50,
+        autoWidth: true,
+        // language: {
+        //   url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+        // },
+        dom: '<"datatable-error-console">frtip',
+        fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+          if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+            console.error(oSettings.json.error);
+          }
+        },
+      });
   };
 
   loadTblMultiproducts();

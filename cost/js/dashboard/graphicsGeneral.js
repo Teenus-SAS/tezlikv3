@@ -84,7 +84,9 @@ $(document).ready(function () {
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     const cmc = document.getElementById("chartTimeProcessProducts");
     const chartTimeProcessProducts = new Chart(cmc, {
@@ -414,6 +416,8 @@ $(document).ready(function () {
 
     let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
+    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
     const cmc = document.getElementById("chartProductsCost");
@@ -502,7 +506,9 @@ $(document).ready(function () {
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 

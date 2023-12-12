@@ -21,9 +21,14 @@ $(document).ready(function () {
 
     costCommissionSale = price * (data.commission_sale / 100);
 
-    profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100; 
+    profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
 
     costActualProfitability = data.sale_price * (profitability / 100);
+
+    isNaN(profitability) ? profitability = 0 : profitability;
+    isNaN(costProfitability) ? costProfitability = 0 : costProfitability;
+    isNaN(costCommissionSale) ? costCommissionSale = 0 : costCommissionSale;
+    isNaN(costActualProfitability) ? costActualProfitability = 0 : costActualProfitability;
 
     dataCost = {
       cost: cost,

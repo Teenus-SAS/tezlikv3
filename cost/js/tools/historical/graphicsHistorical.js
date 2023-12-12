@@ -31,7 +31,9 @@ $(document).ready(function () {
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     /* Ordenar el array */
 

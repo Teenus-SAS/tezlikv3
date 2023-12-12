@@ -140,7 +140,9 @@ $(document).ready(function () {
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     ctx = document.getElementById("chartMultiproductsBar").getContext("2d");
     chartMultiproductsBar = new Chart(ctx, {
