@@ -38,17 +38,24 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
         }
     }
 
-    if ($profile == null) {
-        $user = $usersDao->findByEmail($dataUser['emailUser']);
+    $user = $usersDao->findByEmail($dataUser['emailUser']);
+
+    if ($profile == null && $dataUser['admin'] != 1) {
         $dataCompany = $licenseDao->findLicenseCompany($user['id_company']);
 
         $_SESSION['name'] = $user['firstname'];
         $_SESSION['lastname'] = $user['lastname'];
         $_SESSION['avatar'] = $user['avatar'];
         $_SESSION['logoCompany'] = $dataCompany['logo'];
+    } else {
+        $_SESSION['name'] = $user['firstname'];
+        $_SESSION['lastname'] = $user['lastname'];
+        $_SESSION['avatar'] = $user['avatar'];
+    }
 
+    if ($profile == null)
         $resp = array('success' => true, 'message' => 'Perfil actualizado correctamente');
-    } else if (isset($profile['info']))
+    else if (isset($profile['info']))
         $resp = array('info' => true, 'message' => $profile['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');

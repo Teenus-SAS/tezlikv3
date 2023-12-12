@@ -123,7 +123,7 @@ class UsersDao
         'firstname' => ucwords(strtolower(trim($dataUser['nameUser']))),
         'lastname' => ucwords(strtolower(trim($dataUser['lastnameUser']))),
         'active' => 1,
-        'id_user' => $dataUser['idUser']
+        'id_user' => $dataUser['id_user']
       ]);
     } else {
 
@@ -134,7 +134,7 @@ class UsersDao
         'lastname' => ucwords(strtolower(trim($dataUser['lastnameUser']))),
         'avatar' => $pathAvatar,
         'active' => 1,
-        'id_user' => $dataUser['idUser']
+        'id_user' => $dataUser['id_user']
       ]);
     }
     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -147,7 +147,7 @@ class UsersDao
 
     try {
       $stmt = $connection->prepare("DELETE FROM users WHERE id_user = :id");
-      $stmt->execute(['id' => $dataUser['idUser']]);
+      $stmt->execute(['id' => $dataUser['id_user']]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
     } catch (\Exception $e) {
       $message = $e->getMessage();

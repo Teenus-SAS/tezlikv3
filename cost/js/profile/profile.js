@@ -80,6 +80,9 @@ $(document).ready(function () {
     let imageProd = $('#formFile')[0].files[0];
     let imageCompany = $('#formFileC')[0].files[0];
     let dataProfile = new FormData(formSaveProfile);
+
+    sessionStorage.setItem('name', firstname);
+    sessionStorage.setItem('lastname', lastname);
     
     dataProfile.append('avatar', imageProd);
     dataProfile.append('logo', imageCompany);
@@ -119,15 +122,20 @@ $(document).ready(function () {
   message = (data) => {
     if (data.success == true) {
       $('.general').css('border', '');
-
       toastr.success(data.message);
-      setTimeout(reloadPage, 2000);
+      // avatar = sessionStorage.getItem('avatar');
+      firstname = sessionStorage.getItem('name');
+      lastname = sessionStorage.getItem('lastname');
+
+      // sessionStorage.removeItem('avatar');
+      sessionStorage.removeItem('name');
+      sessionStorage.removeItem('lastname');
+
+      // if (avatar) hAvatar.src = avatar;
+      $('.userName').html(`${firstname} ${lastname}`);
+      $('#email').prop('disabled', true);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  function reloadPage() {
-    window.location.reload();
-  }
 });

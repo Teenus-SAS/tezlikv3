@@ -59,7 +59,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     //data
     $dataUser = $request->getParsedBody();
 
-    !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] :        $id_company = $_SESSION['id_company'];
+    !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
 
     //selecciona quantity_user de companies_licenses que tengan el id_company
     $quantityAllowsUsers = $quantityUsersDao->quantityUsersAllows($id_company);
@@ -94,7 +94,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
 
                     if ($users == null) {
                         $user = $userDao->findUser($dataUser['emailUser']);
-                        $dataUser['idUser'] = $user['id_user'];
+                        $dataUser['id_user'] = $user['id_user'];
 
                         if (sizeof($dataUser['typeCustomPrices']) == 1)
                             $typeCustomPrice = $dataUser['typeCustomPrices'][0];
@@ -107,7 +107,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                         //     $companiesLicenseDao->changeFlagExpense($dataUser, $id_company);
                         // }
 
-                        if ($usersAccess == null && $dataUser['check'] == 'true')
+                        if ($usersAccess == null && isset($dataUser['check']) && $dataUser['check'] == 'true')
                             $usersAccess = $generalCostUserAccessDao->changePrincipalUser($dataUser);
                     }
                 }
@@ -217,7 +217,7 @@ $app->post('/deleteUser', function (Request $request, Response $response, $args)
     session_start();
     $idUser = $_SESSION['idUser'];
 
-    if ($dataUser['idUser'] != $idUser) {
+    if ($dataUser['id_user'] != $idUser) {
         $usersAccess = $costAccessUserDao->deleteUserAccess($dataUser);
 
         if ($usersAccess == null)

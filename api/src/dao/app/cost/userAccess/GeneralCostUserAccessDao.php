@@ -42,7 +42,7 @@ class GeneralCostUserAccessDao
             $stmt = $connection->prepare("UPDATE cost_users_access SET contract = :contract WHERE id_user = :id_user");
             $stmt->execute([
                 'contract' => 1,
-                'id_user' => $dataUser['idUser']
+                'id_user' => $dataUser['id_user']
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();

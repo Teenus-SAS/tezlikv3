@@ -18,9 +18,9 @@ $(document).ready(function () {
   /* Agregar nuevo usuario */
   $('#btnCreateUser').click(function (e) {
     e.preventDefault();
-    let idUser = sessionStorage.getItem('id_user');
+    let id_user = sessionStorage.getItem('id_user');
 
-    if (idUser == '' || idUser == null) {
+    if (id_user == '' || id_user == null) {
       company = $('#company').val();
       firstname = $('#firstname').val();
       lastname = $('#lastname').val();
@@ -66,8 +66,8 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
 
-    let idUser = this.id;
-    sessionStorage.setItem('id_user', idUser);
+    let id_user = this.id;
+    sessionStorage.setItem('id_user', id_user);
 
     $('#firstname').val(data.firstname);
     $('#lastname').val(data.lastname);
@@ -95,12 +95,12 @@ $(document).ready(function () {
       return false;
     }
 
-    idUser = sessionStorage.getItem('id_user');
+    id_user = sessionStorage.getItem('id_user');
 
     $('#company').prop('disabled', false);
     dataUser = $('#formCreateUser').serialize();
     
-    dataUser = `${dataUser}&idUser=${idUser}`;
+    dataUser = `${dataUser}&id_user=${id_user}`;
     
     $.post('/api/updateUser', dataUser, function (data, textStatus, jqXHR) {
       $('#email').prop('disabled', false);
@@ -120,7 +120,7 @@ $(document).ready(function () {
     }
 
     dataUser = {};
-    dataUser['idUser'] = data.id_user;
+    dataUser['id_user'] = data.id_user;
     dataUser['email'] = data.email;
 
     dataUser = setDataUserAccess(dataUser);
@@ -162,6 +162,7 @@ $(document).ready(function () {
     dataUser['costProductProcess'] = 1;
     dataUser['factoryLoad'] = 1;
     dataUser['externalService'] = 1;
+    dataUser['historical'] = 1;
     dataUser['payrollLoad'] = 1;
     dataUser['expense'] = 1;
     dataUser['expenseDistribution'] = 1;
@@ -197,7 +198,7 @@ $(document).ready(function () {
     let data = tblUsers.fnGetData(row);
 
     dataUser = {};
-    dataUser['idUser'] = data.id_user;
+    dataUser['id_user'] = data.id_user;
     dataUser['company'] = data.id_company;
 
     bootbox.confirm({

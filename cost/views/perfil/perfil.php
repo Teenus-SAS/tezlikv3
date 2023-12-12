@@ -63,6 +63,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card mb-4">
                                     <div class="card-body">
                                         <div class="form-row" style="margin-bottom:-30px">
+                                            <input type="" id="idUser" name="idUser" hidden>
                                             <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control text-center firstname general" placeholder="" aria-label="First name" id="firstname" name="nameUser">
                                                 <label for="">Nombres *</label>
@@ -163,7 +164,6 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
