@@ -18,8 +18,8 @@ class HistoricalDao
 
     public function findAllHistoricalByCompany($id_company)
     {
-        $connection = Connection::getInstance()->getConnection();
-
+        // $connection = Connection::getInstance()->getConnection();
+        $connection = Connection::getInstance()->getConnection1();
 
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, pc.cost_workforce AS actual_cost_workforce, pc.cost_materials AS actual_cost_materials, pc.cost_indirect_cost AS actual_cost_indirect_cost, pc.profitability AS actual_profitability, pc.commission_sale AS actual_commission_sale, pc.sale_price AS actual_sale_price, pc.price AS actual_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_company = p.id_company)) AS actual_units_sold,
                                          IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS actual_turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS actual_assignable_expense,
@@ -43,7 +43,7 @@ class HistoricalDao
 
     public function findLastHistorical($id_company)
     {
-        $connection = Connection::getInstance()->getConnection();
+        $connection = Connection::getInstance()->getConnection1();
 
         $stmt = $connection->prepare("SELECT hp.date_product
                                       FROM products p
@@ -59,8 +59,7 @@ class HistoricalDao
     public function insertHistoricalByCompany($dataHistorical, $id_company)
     {
         try {
-            $_SESSION['op_historical'] = 1;
-            $connection = Connection::getInstance()->getConnection();
+            $connection = Connection::getInstance()->getConnection1();
 
             $month = date('m');
             $year = date('Y');

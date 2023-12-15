@@ -20,6 +20,7 @@ class Connection
     protected $dbh;
     private static $_instance;
     private $logger;
+    protected $dbh1;
 
     /**
      * Connection constructor.
@@ -38,6 +39,14 @@ class Connection
             $this->dbh = new PDO($dsn, $_ENV["DB_USER"], $_ENV["DB_PASS"]);
             $this->dbh->exec('SET NAMES utf8');
             $this->logger->info("Connection SuccesFully DB", array("pdo" => $this->dbh));
+
+            // Conexión a la segunda base de datos
+            $host1 = $_ENV["DB_HOST"];
+            $dbname1 = $_ENV["DB_NAME1"];
+            $dsn1 = "mysql:host=$host1;port=$dbport;dbname=$dbname1;charset=utf8";
+            $this->dbh1 = new PDO($dsn1, $_ENV["DB_USER"], $_ENV["DB_PASS"]);
+            $this->dbh1->exec('SET NAMES utf8');
+            $this->logger->info("Connection Successfully to DB1", array("pdo" => $this->dbh1));
         } catch (PDOException $e) {
             $this->logger->error($e->getMessage());
         }
@@ -64,5 +73,10 @@ class Connection
     public function getConnection()
     {
         return $this->dbh;
+    }
+
+    public function getConnection1()
+    {
+        return $this->dbh1;
     }
 }

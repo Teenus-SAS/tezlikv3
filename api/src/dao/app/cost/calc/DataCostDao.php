@@ -19,21 +19,21 @@ class DataCostDao
     public function calcMinProfitability($data, $flag_expense)
     {
         $cost =
-            floatval($data['cost_materials']) +
-            floatval($data['cost_workforce']) +
-            floatval($data['cost_indirect_cost']) +
-            floatval($data['services']);
+            floatval($data['costMaterials']) +
+            floatval($data['costWorkforce']) +
+            floatval($data['costIndirect']) +
+            floatval($data['externalServices']);
 
         if ($flag_expense == 0 || $flag_expense == 1) {
-            $costTotal = $cost + $data['assignable_expense'];
+            $costTotal = $cost + $data['assignableExpense'];
         } elseif ($flag_expense == 2) {
-            $costTotal = $cost / (1 - $data['expense_recover'] / 100);
+            $costTotal = $cost / (1 - $data['expenseRecover'] / 100);
         }
 
-        if ($data['sale_price'] == 0)
+        if ($data['salePrice'] == 0)
             $profitability = 0;
         else
-            $profitability = ((($data['sale_price'] * (1 - ($data['commission_sale'] / 100))) - $costTotal) / $data['sale_price']) * 100;
+            $profitability = ((($data['salePrice'] * (1 - ($data['commisionSale'] / 100))) - $costTotal) / $data['salePrice']) * 100;
 
         return $profitability;
     }

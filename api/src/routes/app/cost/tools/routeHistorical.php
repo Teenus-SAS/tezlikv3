@@ -60,14 +60,13 @@ $app->get('/saveHistorical', function (Request $request, Response $response, $ar
         $data['unitsSold'] = $arr['units_sold'];
         $data['turnover'] = $arr['turnover'];
         $data['assignableExpense'] = $arr['assignable_expense'];
+        $data['expenseRecover'] = $arr['expense_recover'];
 
         $k = $dataCostDao->calcMinProfitability($data, $flag_expense);
 
         $data['minProfitability'] = $k;
 
         $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
-
-        unset($_SESSION['op_historical']);
     }
 
     if ($resolution == null)
