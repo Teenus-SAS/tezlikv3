@@ -21,17 +21,15 @@ class HistoricalDao
         $connection = Connection::getInstance()->getConnection();
         // $connection = Connection::getInstance()->getConnection1();
 
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, pc.cost_workforce AS actual_cost_workforce, pc.cost_materials AS actual_cost_materials, pc.cost_indirect_cost AS actual_cost_indirect_cost, pc.profitability AS actual_profitability, pc.commission_sale AS actual_commission_sale, pc.sale_price AS actual_sale_price, pc.price AS actual_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_company = p.id_company)) AS actual_units_sold,
-                                         IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS actual_turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS actual_assignable_expense,
-                                         IFNULL(er.expense_recover, 0) AS expense_recover, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS actual_services
-                                      FROM products p
-                                        JOIN tezlikso_histproduccion.historical_products hp ON hp.id_product = p.id_product
-                                        LEFT JOIN products_costs pc ON pc.id_product = p.id_product
-                                        LEFT JOIN companies_licenses cl ON cl.id_company = p.id_company
-                                        LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
-                                        LEFT JOIN expenses_recover er ON er.id_product = p.id_product
-                                        LEFT JOIN families f ON f.id_family = p.id_family
-                                      WHERE p.id_company = :id_company");
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, pc.cost_workforce AS actual_cost_workforce, pc.cost_materials AS actual_cost_materials, pc.cost_indirect_cost AS actual_cost_indirect_cost, pc.profitability AS actual_profitability, pc.commission_sale AS actual_commission_sale, pc.sale_price AS actual_sale_price, pc.price AS actual_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) 
+                                        FROM tezlikso_tezlikProduccion.families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM tezlikso_tezlikProduccion.expenses_distribution WHERE id_company = p.id_company)) AS actual_units_sold, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM tezlikso_tezlikProduccion.families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover), 0) FROM tezlikso_tezlikProduccion.expenses_distribution WHERE id_company = p.id_company)) AS actual_turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS actual_assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, IFNULL((SELECT SUM(cost) FROM tezlikso_tezlikProduccion.services WHERE id_product = p.id_product), 0) AS actual_services FROM tezlikso_tezlikProduccion.products p
+                                        JOIN tezlikso_HistProduccion.historical_products hp ON hp.id_product = p.id_product
+                                        LEFT JOIN tezlikso_tezlikProduccion.products_costs pc ON pc.id_product = p.id_product
+                                        LEFT JOIN tezlikso_tezlikProduccion.companies_licenses cl ON cl.id_company = p.id_company
+                                        LEFT JOIN tezlikso_tezlikProduccion.expenses_distribution ed ON ed.id_product = p.id_product
+                                        LEFT JOIN tezlikso_tezlikProduccion.expenses_recover er ON er.id_product = p.id_product
+                                        LEFT JOIN tezlikso_tezlikProduccion.families f ON f.id_family = p.id_family
+                                        WHERE p.id_company = :id_company");
         $stmt->execute([
             'id_company' => $id_company
         ]);

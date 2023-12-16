@@ -88,7 +88,7 @@ if (sizeof($_SESSION) == 0)
                                                     <div class="text-center">
                                                         <div id="t-rev"></div>
                                                         <span class="text-info font-weight-bold font-size-23">
-                                                            <i class='bx bxs-spreadsheet fs-xl'></i>
+                                                            <i class='bi bi-box-fill fs-xl'></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -118,7 +118,7 @@ if (sizeof($_SESSION) == 0)
                                                             <div class="text-center">
                                                                 <div id="t-rev"></div>
                                                                 <span class="text-info font-weight-bold font-size-13">
-                                                                    <i class='bx bxs-package fs-xl'></i>
+                                                                    <i class='bi bi-gear fs-xl'></i>
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -137,7 +137,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <div class="text-center">
                                                                     <div id="t-user"></div>
                                                                     <span class="text-success font-weight-bold font-size-13">
-                                                                        <i class='bx bx-money fs-xl'></i>
+                                                                        <i class='bi bi-cash fs-xl'></i>
                                                                     </span>
                                                                 </div>
                                                             </div>

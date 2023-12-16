@@ -40,6 +40,7 @@
                                                 <?php } else { ?>
                                                 <li class="aProducts" style="display: none;">
                                                 <?php } ?>
+                                                <i class='bi bi-box-fill mr-1'></i>
                                                 <a href="/cost/products">Productos</a>
                                                 </li>
                                                 <?php if ($_SESSION['cost_material'] == 1) { ?>
@@ -47,6 +48,7 @@
                                                     <?php } else { ?>
                                                     <li class="aMaterials" style="display: none;">
                                                     <?php } ?>
+                                                    <i class='bi bi-gear mr-1'></i>
                                                     <a href="/cost/materials">Materia Prima</a>
                                                     </li>
                                                     <?php if ($_SESSION['cost_machine'] == 1) { ?>
@@ -54,6 +56,7 @@
                                                         <?php } else { ?>
                                                         <li class="aMachines" style="display: none;">
                                                         <?php } ?>
+                                                        <i class="bi bi-gear-wide mr-1"></i>
                                                         <a href="/cost/machines">Máquinas</a>
                                                         </li>
                                                         <?php if ($_SESSION['cost_process'] == 1) { ?>
@@ -61,6 +64,7 @@
                                                             <?php } else { ?>
                                                             <li class="aProcess" style="display: none;">
                                                             <?php } ?>
+                                                            <i class="bi bi-diagram-2 mr-1"></i>
                                                             <a href="/cost/process">Procesos</a>
                                                             </li>
                                         </ul>
@@ -80,6 +84,7 @@
                                                         <?php } else { ?>
                                                         <li class="aProductsMaterials" style="display: none;">
                                                         <?php } ?>
+                                                        <i class="bi bi-file-text mr-1"></i>
                                                         <a href="/cost/product-materials">Ficha Técnica Materia Prima</a>
                                                         </li>
                                                         <?php if ($_SESSION['cost_products_process'] == 1) { ?>
@@ -87,6 +92,7 @@
                                                             <?php } else { ?>
                                                             <li class="aProductsProcess" style="display: none;">
                                                             <?php } ?>
+                                                            <i class="bi bi-clock-history mr-1"></i>
                                                             <a href="/cost/product-process">Ficha Técnica Tiempos y Procesos</a>
                                                             </li>
                                                             <?php if ($_SESSION['factory_load'] == 1) { ?>
@@ -94,6 +100,7 @@
                                                                 <?php } else { ?>
                                                                 <li class="aFactoryLoad" style="display: none;">
                                                                 <?php } ?>
+                                                                <i class="bi bi-gear-wide-connected mr-1"></i>
                                                                 <a href="/cost/factory-load">Carga Fabril</a>
                                                                 </li>
                                                                 <?php if ($_SESSION['external_service'] == 1) { ?>
@@ -101,6 +108,7 @@
                                                                     <?php } else { ?>
                                                                     <li class="aServices" style="display: none;">
                                                                     <?php } ?>
+                                                                    <i class="bi bi-link mr-1"></i>
                                                                     <a href="/cost/external-services">Servicios Externos</a>
                                                                     </li>
                                                 </ul>
@@ -121,6 +129,7 @@
                                                                 <?php } else { ?>
                                                                 <li class="aPayroll" style="display: none;">
                                                                 <?php } ?>
+                                                                <i class="bi bi-people-fill mr-1"></i>
                                                                 <a href="/cost/payroll">Nómina Producción</a>
                                                                 </li>
                                                                 <?php if (
@@ -131,6 +140,7 @@
                                                                     <?php } else { ?>
                                                                     <li class="aExpenses" style="display: none;">
                                                                     <?php } ?>
+                                                                    <i class="bi bi-currency-dollar mr-1"></i>
                                                                     <a href="/cost/general-expenses">Asignación Gastos Generales</a>
                                                                     </li>
                                                                     <?php if ($_SESSION['expense_distribution'] == 1) { ?>
@@ -139,6 +149,7 @@
                                                                             <?php } else { ?>
                                                                             <li class="aExpensesDistribution" style="display: none;">
                                                                             <?php } ?>
+                                                                            <i class="bi bi-box-arrow-up-right mr-1"></i>
                                                                             <a href="/cost/expenses-distribution">Distribución de Gastos</a>
                                                                             </li>
                                                                             <?php if ($_SESSION['flag_expense'] == 2) { ?>
@@ -154,6 +165,7 @@
                                                                                 <?php } else { ?>
                                                                                 <li class="aCustomPrices" style="display: none;">
                                                                                 <?php } ?>
+                                                                                <i class="bi bi-list"></i>
                                                                                 <a href="/cost/price-list">Lista de Precios</a>
                                                                                 </li>
                                                         </ul>
@@ -171,6 +183,7 @@
                                                                         <?php } else { ?>
                                                                         <li class="aBackup" style="display: none;">
                                                                         <?php } ?>
+                                                                        <i class="bi bi-shield-lock mr-1"></i>
                                                                         <a href="javascript:;">Backup</a>
                                                                         </li>
                                                                         <?php if ($_SESSION['cost_user'] == 1) { ?>
@@ -178,6 +191,7 @@
                                                                             <?php } else { ?>
                                                                             <li class="aUsers" style="display: none;">
                                                                             <?php } ?>
+                                                                            <i class="bi bi-lock-fill mr-1"></i>
                                                                             <a href="/cost/users">Usuarios y Accesos</a>
                                                                             </li>
                                                                 </ul>
