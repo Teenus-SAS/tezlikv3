@@ -61,18 +61,18 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="bi bi-calendar-event mr-1"></i> Total: 310</span>
+                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-up mr-1"></i> Rentab +Alta: 15%</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-warning">
+                                        <div class="card bg-danger">
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="bi bi-file-earmark-x mr-1"></i>Completados: 95%</span>
+                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-down mr-1"></i>Rentab +Baja: -9%</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,11 +80,11 @@ if (sizeof($_SESSION) == 0)
                                     </div>
 
                                     <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-danger">
+                                        <div class="card bg-warning">
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-down mr-1"></i>Atrasados: 5%</span>
+                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-right mr-1"></i>Rentab Prom: 15%</span>
                                                     </div>
                                                 </div>
                                             </div>
