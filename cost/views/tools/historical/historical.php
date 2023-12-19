@@ -57,7 +57,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-sm-7 col-xl-5">
                                 <div class="row">
                                     <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-success">
+                                        <div class="card bg-success shadow-lg">
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
@@ -68,7 +68,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                     <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-danger">
+                                        <div class="card bg-danger shadow-lg">
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
@@ -80,7 +80,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
 
                                     <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
-                                        <div class="card bg-warning">
+                                        <div class="card bg-warning shadow-lg">
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
