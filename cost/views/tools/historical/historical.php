@@ -46,59 +46,58 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-title-box">
                     <div class="container-fluid">
                         <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
+                            <div class="col-sm-5 col-xl-7">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Historico de precios</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark">Historico de Costos y Precios</h3>
                                     <!-- <ol class="breadcrumb mb-3 mb-md-0">
 										<li class="breadcrumb-item active">Creación de Cotizaciones</li>
 									</ol> -->
                                 </div>
                             </div>
-                            <div class="col-sm-5 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
-                                    <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnSaveManualHistorical" name="btnSaveManualHistorical">Guardar Historico</button>
-                                    </div>
-                                    <div class="col-sm-3 mb-3 d-flex align-items-center floating-label enable-floating-label show-label">
-                                        <label>Tipo</label>
+                            <div class="col-sm-5 col-xl-5 form-inline justify-content-sm-end">
+                                <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
+                                    <label class="font-weight-bold text-dark">Mes</label>
+                                    <select id="month" class="form-control">
+                                        <option disabled selected>Seleccionar</option>
+                                        <option value="0">Todo</option>
+                                        <option value="1">Enero</option>
+                                        <option value="2">Febrero</option>
+                                        <option value="3">Marzo</option>
+                                        <option value="4">Abril</option>
+                                        <option value="5">Mayo</option>
+                                        <option value="6">Junio</option>
+                                        <option value="7">Julio</option>
+                                        <option value="8">Agosto</option>
+                                        <option value="9">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
+                                    <label class="font-weight-bold text-dark">Año</label>
+                                    <select id="year" class="form-control">
+                                        <option disabled selected>Seleccionar</option>
+                                        <option value="0">Todo</option>
+                                        <option value="2023">2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2019">2019</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
+                                    <!-- <button class="btn btn-warning" id="btnSaveManualHistorical" name="btnSaveManualHistorical">Guardar Historico</button> -->
+                                    <button class="btn btn-success  mr-1"><i class="fas fa-list-ul"></i></button>
+                                    <button class="btn btn-primary mr-1"><i class="fas fa-chart-line"></i></button>
+                                    <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
                                             <option value="1">Tabla</option>
                                             <option value="2">Grafico</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3 mb-3 d-flex align-items-center floating-label enable-floating-label show-label">
-                                        <label class="font-weight-bold text-dark">Mes</label>
-                                        <select id="month" class="form-control">
-                                            <option disabled selected>Seleccionar</option>
-                                            <option value="0">Todo</option>
-                                            <option value="1">Enero</option>
-                                            <option value="2">Febrero</option>
-                                            <option value="3">Marzo</option>
-                                            <option value="4">Abril</option>
-                                            <option value="5">Mayo</option>
-                                            <option value="6">Junio</option>
-                                            <option value="7">Julio</option>
-                                            <option value="8">Agosto</option>
-                                            <option value="9">Septiembre</option>
-                                            <option value="10">Octubre</option>
-                                            <option value="11">Noviembre</option>
-                                            <option value="12">Diciembre</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-sm-3 mb-3 d-flex align-items-center floating-label enable-floating-label show-label">
-                                        <label class="font-weight-bold text-dark">Año</label>
-                                        <select id="year" class="form-control">
-                                            <option disabled selected>Seleccionar</option>
-                                            <option value="0">Todo</option>
-                                            <option value="2023">2023</option>
-                                            <option value="2022">2022</option>
-                                            <option value="2021">2021</option>
-                                            <option value="2020">2020</option>
-                                            <option value="2019">2019</option>
-                                        </select>
-                                    </div>
+                                        </select> -->
                                 </div>
+
                             </div>
                         </div>
                     </div>
