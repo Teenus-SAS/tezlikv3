@@ -102,7 +102,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="card-body">
                                 <div class="row align-items-center justify-content-sm-end">
                                     <div class="col-sm-5 col-xl-5 form-inline">
-                                        <div class="col-sm-3 mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
+                                        <div class="mb-1 mr-3 d-flex align-items-center floating-label enable-floating-label show-label">
                                             <label class="font-weight-bold text-dark">Mes</label>
                                             <select id="month" class="form-control">
                                                 <option disabled selected>Seleccionar</option>
@@ -121,7 +121,7 @@ if (sizeof($_SESSION) == 0)
                                                 <option value="12">Diciembre</option>
                                             </select>
                                         </div>
-                                        <div class="col-sm-3 mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
+                                        <div class="mb-1 mr-3 d-flex align-items-center floating-label enable-floating-label show-label">
                                             <label class="font-weight-bold text-dark">Año</label>
                                             <select id="year" class="form-control">
                                                 <option disabled selected>Seleccionar</option>
@@ -133,10 +133,11 @@ if (sizeof($_SESSION) == 0)
                                                 <option value="2019">2019</option>
                                             </select>
                                         </div>
-                                        <div class="col-sm-6 mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
+                                        <div class="mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
                                             <button class="btn btn-warning  mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista"><i class="fas fa-list-ul"></i></button>
                                             <button class="btn btn-primary mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos"><i class="fas fa-chart-line"></i></button>
-                                            <button class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos del mes actual puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-file mr-1"></i>Guardar Hist</button>
+                                            <p style="font-size:40px; margin-bottom:0px; line-height:0px">|</p>
+                                            <button class="btn btn-success ml-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-save"></i></button>
                                             <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
