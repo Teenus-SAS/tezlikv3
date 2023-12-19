@@ -87,9 +87,9 @@ if (sizeof($_SESSION) == 0)
                                     </select>
                                 </div>
                                 <div class="col-sm-6 mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
-                                    <button class="btn btn-success  mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista"><i class="fas fa-list-ul"></i></button>
+                                    <button class="btn btn-warning  mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista"><i class="fas fa-list-ul"></i></button>
                                     <button class="btn btn-primary mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos"><i class="fas fa-chart-line"></i></button>
-                                    <button class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos del mes actual puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-file mr-1"></i>Guardar Hist</button>
+                                    <button class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos del mes actual puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-file mr-1"></i>Guardar Hist</button>
                                     <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
