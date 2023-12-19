@@ -134,10 +134,10 @@ if (sizeof($_SESSION) == 0)
                                             </select>
                                         </div>
                                         <div class="mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
-                                            <button class="btn btn-warning  mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista"><i class="fas fa-list-ul"></i></button>
-                                            <button class="btn btn-primary mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos"><i class="fas fa-chart-line"></i></button>
+                                            <button class="btn btn-warning mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista"><i class="fas fa-list-ul"></i></button>
+                                            <button class="btn btn-success mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos"><i class="fas fa-chart-line"></i></button>
                                             <p style="font-size:40px; margin-bottom:0px; line-height:0px">|</p>
-                                            <button class="btn btn-success ml-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-save"></i></button>
+                                            <button class="btn btn-primary ml-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-save"></i></button>
                                             <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
