@@ -50,12 +50,12 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Historico de Costos y Precios</h3>
                                     <!-- <ol class="breadcrumb mb-3 mb-md-0">
-										<li class="breadcrumb-item active">Creación de Cotizaciones</li>
+										<li class="breadcrumb-item active">Si sus costos se almaceron, puede encontrarlo aquí</li>
 									</ol> -->
                                 </div>
                             </div>
-                            <div class="col-sm-5 col-xl-5 form-inline justify-content-sm-end">
-                                <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
+                            <div class="col-sm-5 col-xl-5 form-inline">
+                                <div class="col-sm-3 mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
                                     <label class="font-weight-bold text-dark">Mes</label>
                                     <select id="month" class="form-control">
                                         <option disabled selected>Seleccionar</option>
@@ -74,7 +74,7 @@ if (sizeof($_SESSION) == 0)
                                         <option value="12">Diciembre</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
+                                <div class="col-sm-3 mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
                                     <label class="font-weight-bold text-dark">Año</label>
                                     <select id="year" class="form-control">
                                         <option disabled selected>Seleccionar</option>
@@ -86,10 +86,10 @@ if (sizeof($_SESSION) == 0)
                                         <option value="2019">2019</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
-                                    <!-- <button class="btn btn-warning" id="btnSaveManualHistorical" name="btnSaveManualHistorical">Guardar Historico</button> -->
-                                    <button class="btn btn-success  mr-1"><i class="fas fa-list-ul"></i></button>
-                                    <button class="btn btn-primary mr-1"><i class="fas fa-chart-line"></i></button>
+                                <div class="col-sm-6 mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
+                                    <button class="btn btn-success  mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista"><i class="fas fa-list-ul"></i></button>
+                                    <button class="btn btn-primary mr-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos"><i class="fas fa-chart-line"></i></button>
+                                    <button class="btn btn-warning" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos del mes actual puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-file mr-1"></i>Guardar Hist</button>
                                     <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
@@ -110,9 +110,9 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card disable-select">
-                                    <div class="card-header">
+                                    <!-- <div class="card-header">
                                         <h5 class="card-title">Precios</h5>
-                                    </div>
+                                    </div> -->
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblHistorical">
