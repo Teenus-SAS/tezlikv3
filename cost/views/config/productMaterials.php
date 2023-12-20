@@ -65,6 +65,9 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 py-2 mr-2">
                                     <button class="btn btn-info" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
                                 </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <button class="btn btn-secondary" id="btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                                </div>
                             </div>
                         </div>
                     </div>

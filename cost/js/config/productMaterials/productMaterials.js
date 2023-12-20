@@ -199,5 +199,43 @@ $(document).ready(function () {
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
+
+  $('#btnDownloadXlsx').click(function (e) {
+    e.preventDefault();
+
+    let wb = XLSX.utils.book_new();
+
+    let data = [];
+    
+    namexlsx = 'Ficha_Tecnica.xlsx';
+    
+    let id_product = $('#refProduct').val();
+
+    let ref = $('#refProduct :selected').text().trim();
+    let product = $('#selectNameProduct :selected').text().trim();
+
+    if (id_product) {
+      let productMaterials = tblConfigMaterials.fnGetData();
+
+      for (i = 0; i < productMaterials.length; i++) {
+        data.push({
+          referencia_producto: ref,
+          producto: product,
+          referencia_material: productMaterials[i].reference,
+          material: productMaterials[i].material,
+          magnitud: productMaterials[i].magnitude,
+          unidad: productMaterials[i].unit,
+          quantity: parseFloat(productMaterials[i].quantity),
+        });
+      }
+
+      let ws = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, 'Ficha Tecnica Producto');
+      XLSX.writeFile(wb, namexlsx);
+    }
+    
+    
+    
+  });
  
 });
