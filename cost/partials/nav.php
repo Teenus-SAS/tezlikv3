@@ -5,7 +5,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="/cost">
-                            <i class="bx bxs-dashboard mr-1"></i> Dashboards
+                            <i class="bi bi-speedometer mr-1"></i> Dashboards
                             <i class="bx bx-chevron-right"></i>
                         </a>
                     </li>
@@ -119,7 +119,7 @@
                                 <li class="nav-item aQuotes" style="display: none;">
                                 <?php } ?>
                                 <a class="nav-link" href="/cost/quotes">
-                                    <i class="bx bx-columns mr-1"></i> Cotizar
+                                    <i class="bi bi-cash-stack mr-1"></i> Cotizar
                                     <i class="bx bx-chevron-right"></i>
                                 </a>
                                 </li>
@@ -130,7 +130,7 @@
                                     <li class="nav-item aSupport" style="display: none;">
                                     <?php } ?>
                                     <a class="nav-link" href="/cost/support">
-                                        <i class="bx bxs-bar-chart-alt-2 mr-1"></i>
+                                        <i class="bi bi-headset mr-1"></i>
                                         <span> Soporte</span>
                                         <i class="bx bx-chevron-right"></i>
                                     </a>
