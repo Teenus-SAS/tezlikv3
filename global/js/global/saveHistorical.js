@@ -18,7 +18,7 @@ $(document).ready(function () {
         
     }
 
-    // if(date.getDay() == 1)
+    if(date.getDay() == 1)
         checkFirstDay();
 
     $('#btnCloseHistorical').click(function (e) { 
@@ -69,8 +69,6 @@ $(document).ready(function () {
                         toastr.error('Ingrese los campos');
                         return false;
                     }
-
-          
                 }
             },
         });

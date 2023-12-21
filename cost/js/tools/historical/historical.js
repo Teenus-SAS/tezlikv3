@@ -12,10 +12,10 @@ $(document).ready(function () {
         this.value != '0' ? loadTblPrices(2, null, this.value) : loadTblPrices(null, null, null);
     }); 
 
-    $('#typeHistorical').change(function (e) {
+    $('.typeHistorical').click(function (e) {
         e.preventDefault();
         
-        if (this.value == '1') { 
+        if (this.id == 'btnList') { 
             $('.cardTblPrices').show(800);
             $('.cardDashboard').hide(800);
         }
