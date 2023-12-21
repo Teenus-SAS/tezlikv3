@@ -60,6 +60,16 @@ $(document).ready(function () {
         },
       },
       {
+        title: "Acciones",
+        data: "id_user",
+        className: "uniqueClassName",
+        render: function (data) {
+          return `
+                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateUser" data-toggle='tooltip' title='Actualizar Usuario' style="font-size: 30px;"></i></a>
+                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Usuario' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+        },
+      },
+      {
         title: "Nombres",
         data: "firstname",
         className: "uniqueClassName",
@@ -84,7 +94,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Materias Primas",
             icon: data.create_materials
@@ -92,7 +102,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Maquinas",
             icon: data.create_machines
@@ -100,7 +110,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Procesos",
             icon: data.create_process
@@ -109,7 +119,6 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          
           let output = '<div class="stacked-column" style="width:140px">';
           for (const permission of permissions) {
             output += `<span class="text-${permission.color} mx-1" style="display: flex; justify-content: flex-start">
@@ -120,7 +129,8 @@ $(document).ready(function () {
 
           return output;
         },
-      },{
+      },
+      {
         title: "Configuración",
         data: null,
         //width: "200px",
@@ -134,7 +144,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Ficha Técnica Procesos y Tiempos",
             icon: data.product_process
@@ -157,7 +167,6 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
 
           let output = '<div class="stacked-column" style="width:270px">';
           for (const permission of permissions) {
@@ -169,7 +178,8 @@ $(document).ready(function () {
 
           return output;
         },
-      },{
+      },
+      {
         title: "General",
         data: null,
         //width: "200px",
@@ -183,7 +193,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Asignación Gastos",
             icon: data.expense
@@ -191,7 +201,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Distribución Gastos",
             icon: data.expense_distribution
@@ -225,7 +235,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Compañias",
             icon: data.quote_company
@@ -267,7 +277,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Backup",
             icon: data.backup
@@ -301,7 +311,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Precios USD",
             icon: data.price_usd
@@ -351,7 +361,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Economia De Escala",
             icon: data.economy_scale
@@ -367,7 +377,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          
+
           permissions.push({
             name: "Simulador",
             icon: data.simulator
@@ -384,7 +394,8 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          let output = '<div class="stacked-column text-left" style="width:190px">';
+          let output =
+            '<div class="stacked-column text-left" style="width:190px">';
           for (const permission of permissions) {
             output += `<span class="text-${permission.color} mx-1" style="display: flex; justify-content: flex-start;">
             <i class="${permission.icon}"></i> ${permission.name}
@@ -395,7 +406,7 @@ $(document).ready(function () {
           return output;
         },
       },
-      
+
       /* 
       {
         title: 'Crear Productos',
@@ -668,16 +679,6 @@ $(document).ready(function () {
             : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
         },
       },*/
-      {
-        title: 'Acciones',
-        data: 'id_user',
-        className: 'uniqueClassName',
-        render: function (data) {
-          return `
-                <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateUser" data-toggle='tooltip' title='Actualizar Usuario' style="font-size: 30px;"></i></a>
-                <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Usuario' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
-        },
-      },
     ],
     columnDefs: [
       {
