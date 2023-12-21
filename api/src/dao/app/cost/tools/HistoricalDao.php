@@ -104,9 +104,11 @@ class HistoricalDao
 
             $stmt = $connection->prepare("UPDATE historical_products SET price = :price, sale_price = :sale_price, profitability = :profitability, min_profitability = :min_profitability, commision_sale = :commision_sale, cost_material = :cost_material, 
                                                                      cost_workforce = :cost_workforce, cost_indirect = :cost_indirect, external_services = :external_services, units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense 
-                                          WHERE id_product = :id_product");
+                                          WHERE id_product = :id_product AND month = :month AND year = :year");
             $stmt->execute([
                 'id_product' => $dataHistorical['idProduct'],
+                'month' => $dataHistorical['month'],
+                'year' => $dataHistorical['year'],
                 'price' => $dataHistorical['price'],
                 'sale_price' => $dataHistorical['salePrice'],
                 'profitability' => $dataHistorical['profitability'],
