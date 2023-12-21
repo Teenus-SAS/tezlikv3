@@ -1,26 +1,65 @@
 $(document).ready(function () {
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    
     $(document).on('click', '.seeDetail', function (e) {
         sessionStorage.removeItem('idProduct');
         let id_product = this.id;
         sessionStorage.setItem('idProduct', id_product);
     });
     /* Cargue tabla de Precios */
-  
-    loadTblPrices = async (op, month, year) => {
-        let data = await searchData('/api/historical');
-        // const fechaActual = new Date();
 
-        // Obtener el año actual
-        if (op == 1) {
-            // const month = fechaActual.getMonth() + 1;
-            data = data.filter((item) => item.month == month);
-        } else if (op == 2) {
-            // const year = fechaActual.getFullYear();
-            data = data.filter((item) => item.year == year);
-        } 
+    loadAllData = async () => {
+        try {
+            historical = await searchData('/api/historical');
+            const mesesInvertidos = {};
+            const yearsInvertidos = {};
+
+            historical.forEach(item => {
+                mesesInvertidos[item.month] = months[item.month - 1];
+            });
+
+            historical.forEach(item => {
+                yearsInvertidos[item.year] = item.year;
+            });
+
+            let $select = $(`#month`);
+            $select.empty();
+            $select.append(`<option disabled selected>Seleccionar</option>`);
+            $.each(mesesInvertidos, function (i, value) {
+                $select.append(
+                    `<option value="${i}">${value}</option>`
+                );
+            });
+
+            let $select1 = $('#year');
+            $select1.empty();
+            $select1.append('<option disabled selected>Seleccionar</option>');
+
+            $.each(yearsInvertidos, function (i, value) {
+                $select1.append(
+                    `<option value="${i}">${value}</option>`
+                );
+            });
+
+            loadTblPrices(historical, null, null);
+        } catch (error) {
+            console.error('Error loading data:', error);
+        }
+    }
+  
+    loadTblPrices = async (data, key, value) => {
+        if (key && value) {
+            data = data.filter((item) => item[key] == value);
+        }
+
+        if ($.fn.dataTable.isDataTable("#tblHistorical")) {
+            $("#tblHistorical").DataTable().clear();
+            $("#tblHistorical").DataTable().rows.add(data).draw();
+            return;
+        }
 
         tblHistorical = $('#tblHistorical').DataTable({
-            destroy:true,
+            destroy: true,
             pageLength: 50,
             data: data,
             dom: '<"datatable-error-console">frtip',
@@ -106,5 +145,5 @@ $(document).ready(function () {
         });
     }
 
-    loadTblPrices(null, null, null);
+    loadAllData();
 });

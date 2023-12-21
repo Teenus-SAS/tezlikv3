@@ -21,7 +21,9 @@ class HistoricalDao
         $connection = Connection::getInstance()->getConnection();
         // $connection = Connection::getInstance()->getConnection1();
 
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, pc.cost_workforce AS actual_cost_workforce, pc.cost_materials AS actual_cost_materials, pc.cost_indirect_cost AS actual_cost_indirect_cost, pc.profitability AS actual_profitability, pc.commission_sale AS actual_commission_sale, pc.sale_price AS actual_sale_price, pc.price AS actual_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM tezlikso_tezlikProduccion.families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM tezlikso_tezlikProduccion.expenses_distribution WHERE id_company = p.id_company)) AS actual_units_sold, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM tezlikso_tezlikProduccion.families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover), 0) FROM tezlikso_tezlikProduccion.expenses_distribution WHERE id_company = p.id_company)) AS actual_turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS actual_assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, IFNULL((SELECT SUM(cost) FROM tezlikso_tezlikProduccion.services WHERE id_product = p.id_product), 0) AS actual_services FROM tezlikso_tezlikProduccion.products p
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, pc.cost_workforce AS actual_cost_workforce, pc.cost_materials AS actual_cost_materials, pc.cost_indirect_cost AS actual_cost_indirect_cost, pc.profitability AS actual_profitability, pc.commission_sale AS actual_commission_sale, pc.sale_price AS actual_sale_price, pc.price AS actual_price, 
+        IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM tezlikso_tezlikProduccion.families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM tezlikso_tezlikProduccion.expenses_distribution WHERE id_company = p.id_company)) AS actual_units_sold, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM tezlikso_tezlikProduccion.families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover), 0) FROM tezlikso_tezlikProduccion.expenses_distribution WHERE id_company = p.id_company)) AS actual_turnover, 
+        IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS actual_assignable_expense, IFNULL(er.expense_recover, 0) AS expense_recover, IFNULL((SELECT SUM(cost) FROM tezlikso_tezlikProduccion.services WHERE id_product = p.id_product), 0) AS actual_services FROM tezlikso_tezlikProduccion.products p
         JOIN tezlikso_HistProduccion.historical_products hp ON hp.id_product = p.id_product
         LEFT JOIN tezlikso_tezlikProduccion.products_costs pc ON pc.id_product = p.id_product
         LEFT JOIN tezlikso_tezlikProduccion.companies_licenses cl ON cl.id_company = p.id_company
@@ -35,6 +37,18 @@ class HistoricalDao
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $products;
+    }
+
+    public function findHistorical($id_product)
+    {
+        $connection = Connection::getInstance()->getConnection1();
+
+        $stmt = $connection->prepare("SELECT * FROM historical_products WHERE id_product = :id_product");
+        $stmt->execute(['id_product' => $id_product]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $products = $stmt->fetch($connection::FETCH_ASSOC);
         return $products;
     }
 
@@ -58,15 +72,43 @@ class HistoricalDao
         try {
             $connection = Connection::getInstance()->getConnection1();
 
-            $month = date('m');
-            $year = date('Y');
-
             $stmt = $connection->prepare("INSERT INTO historical_products (month, year, id_company, id_product, price, sale_price, profitability, min_profitability, commision_sale, cost_material, cost_workforce, cost_indirect, external_services, units_sold, turnover, assignable_expense)
                                           VALUES (:month, :year, :id_company, :id_product, :price, :sale_price, :profitability, :min_profitability, :commision_sale, :cost_material, :cost_workforce, :cost_indirect, :external_services, :units_sold, :turnover, :assignable_expense)");
             $stmt->execute([
-                'month' => $month,
-                'year' => $year,
+                'month' => $dataHistorical['month'],
+                'year' => $dataHistorical['year'],
                 'id_company' => $id_company,
+                'id_product' => $dataHistorical['idProduct'],
+                'price' => $dataHistorical['price'],
+                'sale_price' => $dataHistorical['salePrice'],
+                'profitability' => $dataHistorical['profitability'],
+                'min_profitability' => $dataHistorical['minProfitability'],
+                'commision_sale' => $dataHistorical['commisionSale'],
+                'cost_material' => $dataHistorical['costMaterials'],
+                'cost_workforce' => $dataHistorical['costWorkforce'],
+                'cost_indirect' => $dataHistorical['costIndirect'],
+                'external_services' => $dataHistorical['externalServices'],
+                'units_sold' => $dataHistorical['unitsSold'],
+                'turnover' => $dataHistorical['turnover'],
+                'assignable_expense' => $dataHistorical['assignableExpense']
+            ]);
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
+    }
+
+    public function updateHistoricalByCompany($dataHistorical)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection1();
+
+            $stmt = $connection->prepare("UPDATE historical_products SET month = :month, year = :year, id_product = :id_product, price = :price, sale_price = :sale_price, profitability = :profitability, min_profitability = :min_profitability, commision_sale = :commision_sale, cost_material = :cost_material, 
+                                                                     cost_workforce = :cost_workforce, cost_indirect = :cost_indirect, external_services = :external_services, units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense 
+                                          WHERE id_historic = :id_historic");
+            $stmt->execute([
+                'id_historic' => $dataHistorical['idHistoric'],
+                'month' => $dataHistorical['month'],
+                'year' => $dataHistorical['year'],
                 'id_product' => $dataHistorical['idProduct'],
                 'price' => $dataHistorical['price'],
                 'sale_price' => $dataHistorical['salePrice'],

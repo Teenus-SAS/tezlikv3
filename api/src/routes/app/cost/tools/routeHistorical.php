@@ -31,7 +31,7 @@ $app->get('/lastHistorical', function (Request $request, Response $response, $ar
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/saveHistorical', function (Request $request, Response $response, $args) use (
+$app->post('/saveHistorical', function (Request $request, Response $response, $args) use (
     $pricesDao,
     $dataCostDao,
     $historicalDao
@@ -39,34 +39,76 @@ $app->get('/saveHistorical', function (Request $request, Response $response, $ar
     session_start();
     $id_company = $_SESSION['id_company'];
     $flag_expense = $_SESSION['flag_expense'];
+    $dataHistorical = $request->getParsedBody();
+    $type = $dataHistorical['type'];
 
     $products = $pricesDao->findAllPricesByCompany($id_company);
 
     $resolution = null;
+    if ($type == 'auto') {
+        $month = date('m');
+        $year = date('Y');
 
-    foreach ($products as $arr) {
-        if (isset($resolution['info'])) break;
+        foreach ($products as $arr) {
+            if (isset($resolution['info'])) break;
 
-        $data = [];
-        $data['idProduct'] = $arr['id_product'];
-        $data['price'] = $arr['price'];
-        $data['salePrice'] = $arr['sale_price'];
-        $data['profitability'] = $arr['profitability'];
-        $data['commisionSale'] = $arr['commission_sale'];
-        $data['costMaterials'] = $arr['cost_materials'];
-        $data['costWorkforce'] = $arr['cost_workforce'];
-        $data['costIndirect'] = $arr['cost_indirect_cost'];
-        $data['externalServices'] = $arr['services'];
-        $data['unitsSold'] = $arr['units_sold'];
-        $data['turnover'] = $arr['turnover'];
-        $data['assignableExpense'] = $arr['assignable_expense'];
-        $data['expenseRecover'] = $arr['expense_recover'];
+            $data = [];
+            $data['idProduct'] = $arr['id_product'];
+            $data['price'] = $arr['price'];
+            $data['salePrice'] = $arr['sale_price'];
+            $data['profitability'] = $arr['profitability'];
+            $data['commisionSale'] = $arr['commission_sale'];
+            $data['costMaterials'] = $arr['cost_materials'];
+            $data['costWorkforce'] = $arr['cost_workforce'];
+            $data['costIndirect'] = $arr['cost_indirect_cost'];
+            $data['externalServices'] = $arr['services'];
+            $data['unitsSold'] = $arr['units_sold'];
+            $data['turnover'] = $arr['turnover'];
+            $data['assignableExpense'] = $arr['assignable_expense'];
+            $data['expenseRecover'] = $arr['expense_recover'];
+            $data['month'] = $month;
+            $data['year'] = $year;
 
-        $k = $dataCostDao->calcMinProfitability($data, $flag_expense);
+            $k = $dataCostDao->calcMinProfitability($data, $flag_expense);
 
-        $data['minProfitability'] = $k;
+            $data['minProfitability'] = $k;
 
-        $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
+            $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
+        }
+    } else {
+        foreach ($products as $arr) {
+            if (isset($resolution['info'])) break;
+
+            $data = [];
+            $data['idProduct'] = $arr['id_product'];
+            $data['price'] = $arr['price'];
+            $data['salePrice'] = $arr['sale_price'];
+            $data['profitability'] = $arr['profitability'];
+            $data['commisionSale'] = $arr['commission_sale'];
+            $data['costMaterials'] = $arr['cost_materials'];
+            $data['costWorkforce'] = $arr['cost_workforce'];
+            $data['costIndirect'] = $arr['cost_indirect_cost'];
+            $data['externalServices'] = $arr['services'];
+            $data['unitsSold'] = $arr['units_sold'];
+            $data['turnover'] = $arr['turnover'];
+            $data['assignableExpense'] = $arr['assignable_expense'];
+            $data['expenseRecover'] = $arr['expense_recover'];
+            $data['month'] = $dataHistorical['month'];
+            $data['year'] = $dataHistorical['year'];
+
+            $k = $dataCostDao->calcMinProfitability($data, $flag_expense);
+
+            $data['minProfitability'] = $k;
+
+            $historical = $historicalDao->findHistorical($data['idProduct']);
+
+            if (!$historical)
+                $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
+            else {
+                $data['idHistoric'] = $historical['id_historic'];
+                $resolution = $historicalDao->updateHistoricalByCompany($data);
+            }
+        }
     }
 
     if ($resolution == null)

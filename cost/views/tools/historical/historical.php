@@ -7,6 +7,7 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
+<?php require_once dirname(dirname(dirname(__DIR__))) . '/modals/manualHistorical.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -105,39 +106,18 @@ if (sizeof($_SESSION) == 0)
                                         <div class="mb-1 mr-3 d-flex align-items-center floating-label enable-floating-label show-label">
                                             <label class="font-weight-bold text-dark">Mes</label>
                                             <select id="month" class="form-control">
-                                                <option disabled selected>Seleccionar</option>
-                                                <option value="0">Todo</option>
-                                                <option value="1">Enero</option>
-                                                <option value="2">Febrero</option>
-                                                <option value="3">Marzo</option>
-                                                <option value="4">Abril</option>
-                                                <option value="5">Mayo</option>
-                                                <option value="6">Junio</option>
-                                                <option value="7">Julio</option>
-                                                <option value="8">Agosto</option>
-                                                <option value="9">Septiembre</option>
-                                                <option value="10">Octubre</option>
-                                                <option value="11">Noviembre</option>
-                                                <option value="12">Diciembre</option>
                                             </select>
                                         </div>
                                         <div class="mb-1 mr-3 d-flex align-items-center floating-label enable-floating-label show-label">
                                             <label class="font-weight-bold text-dark">Año</label>
                                             <select id="year" class="form-control">
-                                                <option disabled selected>Seleccionar</option>
-                                                <option value="0">Todo</option>
-                                                <option value="2023">2023</option>
-                                                <option value="2022">2022</option>
-                                                <option value="2021">2021</option>
-                                                <option value="2020">2020</option>
-                                                <option value="2019">2019</option>
                                             </select>
                                         </div>
                                         <div class="mb-1 d-flex align-items-center floating-label enable-floating-label show-label">
-                                            <button class="btn btn-warning mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista"><i class="fas fa-list-ul"></i></button>
-                                            <button class="btn btn-success mr-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos"><i class="fas fa-chart-line"></i></button>
+                                            <button class="btn btn-warning mr-1 shadow-lg typeHistorical" data-bs-toggle="tooltip" data-bs-placement="top" title="Lista" id="btnList"><i class="fas fa-list-ul"></i></button>
+                                            <button class="btn btn-success mr-1 shadow-lg typeHistorical" data-bs-toggle="tooltip" data-bs-placement="top" title="Graficos" id="btnGraphic"><i class="fas fa-chart-line"></i></button>
                                             <p style="font-size:40px; margin-bottom:0px; line-height:0px">|</p>
-                                            <button class="btn btn-primary ml-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos puede hacerlo dando clik aquí" id="btnSaveManualHistorical" name="btnSaveManualHistorical" class="btn btn-secondary"><i class="fas fa-save"></i></button>
+                                            <button class="btn btn-primary ml-1 shadow-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Si no ha guardado la información de costos puede hacerlo dando clik aquí" id="btnNewManualHistorical" name="btnNewManualHistorical" class="btn btn-secondary"><i class="fas fa-save"></i></button>
                                             <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
@@ -209,7 +189,9 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        type = 'manual';
     </script>
+    <script src="/global/js/global/saveHistorical.js"></script>
     <script src="/cost/js/tools/historical/tblHistorical.js"></script>
     <script src="/cost/js/tools/historical/historical.js"></script>
 </body>

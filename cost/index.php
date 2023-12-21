@@ -8,7 +8,7 @@ if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
 <?php require_once __DIR__ . '/modals/modalGeneralDashboard.php'; ?>
-<?php require_once __DIR__ . '/modals/historical.php'; ?>
+<?php require_once __DIR__ . '/modals/autoHistorical.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -471,6 +471,7 @@ if (sizeof($_SESSION) == 0)
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
                                     DatatableTblMultiproducts = 0;
+                                    type = 'auto';
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
