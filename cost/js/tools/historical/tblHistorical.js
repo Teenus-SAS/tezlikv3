@@ -1,5 +1,19 @@
 $(document).ready(function () {
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const months1 = {
+        1: 'Enero',
+        2: 'Febrero',
+        3: 'Marzo',
+        4: 'Abril',
+        5: 'Mayo',
+        6: 'Junio',
+        7: 'Julio',
+        8: 'Agosto',
+        9: 'Septiembre',
+        10: 'Octubre',
+        11: 'Noviembre',
+        12: 'Diciembre'
+    };
     
     $(document).on('click', '.seeDetail', function (e) {
         sessionStorage.removeItem('idProduct');
@@ -79,6 +93,14 @@ $(document).ready(function () {
                     render: function (data, type, full, meta) {
                         return meta.row + 1;
                     },
+                },
+                {
+                    title: 'Año / Mes',
+                    data: null,
+                    className: 'uniqueClassName',
+                    render: function (data) {
+                        return `${data.year} / ${months1[data.month]}`;
+                    }
                 },
                 {
                     title: 'Referencia',
