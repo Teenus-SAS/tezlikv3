@@ -1,19 +1,5 @@
 $(document).ready(function () {
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    const months1 = {
-        1: 'Enero',
-        2: 'Febrero',
-        3: 'Marzo',
-        4: 'Abril',
-        5: 'Mayo',
-        6: 'Junio',
-        7: 'Julio',
-        8: 'Agosto',
-        9: 'Septiembre',
-        10: 'Octubre',
-        11: 'Noviembre',
-        12: 'Diciembre'
-    };
     
     $(document).on('click', '.seeDetail', function (e) {
         sessionStorage.removeItem('idProduct');
@@ -39,6 +25,7 @@ $(document).ready(function () {
             let $select = $(`#month`);
             $select.empty();
             $select.append(`<option disabled selected>Seleccionar</option>`);
+            $select.append('<option value="0">Todo</option>');
             $.each(mesesInvertidos, function (i, value) {
                 $select.append(
                     `<option value="${i}">${value}</option>`
@@ -48,6 +35,7 @@ $(document).ready(function () {
             let $select1 = $('#year');
             $select1.empty();
             $select1.append('<option disabled selected>Seleccionar</option>');
+            $select1.append('<option value="0">Todo</option>');
 
             $.each(yearsInvertidos, function (i, value) {
                 $select1.append(
@@ -63,6 +51,12 @@ $(document).ready(function () {
   
     loadTblPrices = async (data, key, value) => {
         if (key && value) {
+            if (key.includes(',') && value.includes(',')) {
+                key = key.split(',');
+                value = value.split(',');
+                data = data.filter((item) => item[key[0]] == value[0] && item[key[1]] == value[1]);
+            }
+            else
             data = data.filter((item) => item[key] == value);
         }
 

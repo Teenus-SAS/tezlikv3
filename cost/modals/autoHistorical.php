@@ -12,7 +12,7 @@
                     <div class="container-fluid">
                         <div class="vertical-app-tabs" id="rootwizard">
                             <div class="col-md-12 col-lg-12" id="HistoricalContent">
-                                ¿Desea Guardar los productos creados el anterior mes?
+
                             </div>
                         </div>
                     </div>

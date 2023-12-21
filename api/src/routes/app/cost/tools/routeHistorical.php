@@ -40,12 +40,11 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
     $flag_expense = $_SESSION['flag_expense'];
     $dataHistorical = $request->getParsedBody();
-    $type = $dataHistorical['type'];
 
     $products = $pricesDao->findAllPricesByCompany($id_company);
 
     $resolution = null;
-    if ($type == 'auto') {
+    if (isset($dataHistorical['type'])) {
         $month = date('m');
         $year = date('Y');
 
@@ -76,6 +75,9 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
             $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
         }
     } else {
+        $historical = $dataHistorical['data'];
+        $historicalProducts = $historical['products'];
+
         foreach ($products as $arr) {
             if (isset($resolution['info'])) break;
 
@@ -93,19 +95,25 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
             $data['turnover'] = $arr['turnover'];
             $data['assignableExpense'] = $arr['assignable_expense'];
             $data['expenseRecover'] = $arr['expense_recover'];
-            $data['month'] = $dataHistorical['month'];
-            $data['year'] = $dataHistorical['year'];
+            $data['month'] = $historical['month'];
+            $data['year'] = $historical['year'];
 
             $k = $dataCostDao->calcMinProfitability($data, $flag_expense);
 
             $data['minProfitability'] = $k;
 
-            $historical = $historicalDao->findHistorical($data['idProduct']);
+            $insert = true;
 
-            if (!$historical)
+            for ($i = 0; $i < sizeof($historicalProducts); $i++) {
+                if ($data['idProduct'] == $historicalProducts[$i]['id_product']) {
+                    $insert = false;
+                    break;
+                }
+            }
+
+            if ($insert == true)
                 $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
             else {
-                $data['idHistoric'] = $historical['id_historic'];
                 $resolution = $historicalDao->updateHistoricalByCompany($data);
             }
         }

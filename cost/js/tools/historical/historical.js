@@ -4,12 +4,27 @@ $(document).ready(function () {
     $('#month').change(function (e) {
         e.preventDefault();
         
-        this.value == '0' ? loadTblPrices(historical, null, null) : loadTblPrices(historical, 'month', this.value);
+        if(this.value == '0')
+            loadTblPrices(historical, null, null)
+        else {
+            let year = $('#year').val();
+            if (year && year != '0')
+                loadTblPrices(historical, 'month,year', `${this.value},${year}`);
+            else
+                loadTblPrices(historical, 'month', this.value);
+        }
     });
 
     $('#year').change(function (e) {
         e.preventDefault();
-        this.value == '0' ? loadTblPrices(historical, null, null) : loadTblPrices(historical, 'year', this.value);
+        if(this.value == '0')
+            loadTblPrices(historical, null, null)
+        else {
+            month = $('#month').val();
+            if (month && month != '0')loadTblPrices(historical, 'month,year', `${month},${this.value}`);
+            else
+                loadTblPrices(historical, 'year', this.value);
+        }
     }); 
 
     $('.typeHistorical').click(function (e) {
