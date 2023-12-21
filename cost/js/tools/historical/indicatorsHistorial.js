@@ -1,19 +1,18 @@
 $(document).ready(function () {     
-    let id_product = sessionStorage.getItem('idProduct');
+    let id_historic = sessionStorage.getItem('idHistoric');
 
-    loadIndicatorsProducts = async (id_product) => {
-        let data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
-        await generalIndicators(data.cost_product);
-        await UnitsVolSold(data.cost_product);
-        await totalCostData(data.cost_product);
-        await graphicCostExpenses(data.cost_product); 
+    loadIndicatorsProducts = async (id_historic) => {  
+        let data = await searchData(`/api/historical/${id_historic}`);
+        await generalIndicators(data);
+        await UnitsVolSold(data);
+        await totalCostData(data);
+        await graphicCostExpenses(data); 
     };
     /* Colors */
 
     dynamicColors = () => {
         let letters = '0123456789ABCDEF'.split('');
         let color = '#';
-
         for (var i = 0; i < 6; i++)
             color += letters[Math.floor(Math.random() * 16)];
         return color;
@@ -28,30 +27,30 @@ $(document).ready(function () {
     /* Indicadores Generales */
 
     generalIndicators = (data) => {
-        $('#nameProduct').html(data[0].product);
+        $('#nameProduct').html(data.product);
 
-        !data[0].img
+        !data.img
             ? (txt = '')
-            : (txt = ` <img src="${data[0].img}" class="mx-auto d-block" style="width:60px;border-radius:100px"> `);
+            : (txt = ` <img src="${data.img}" class="mx-auto d-block" style="width:60px;border-radius:100px"> `);
 
         $('.imageProduct').html(txt);
 
-        dataCost = getDataCost(data[0]);
+        dataCost = getDataCost(data);
 
         $('#rawMaterial').html(
-            `$ ${data[0].cost_materials.toLocaleString('es-CO', {
+            `$ ${data.cost_material.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
         );
         $('#workforce').html(
-            `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
+            `$ ${data.cost_workforce.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
         );
         $('#indirectCost').html(
-            `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
+            `$ ${data.cost_indirect.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
@@ -64,10 +63,10 @@ $(document).ready(function () {
             })}`
         );
 
-        percentRawMaterial = (data[0].cost_materials / dataCost.costTotal) * 100;
-        percentWorkforce = (data[0].cost_workforce / dataCost.costTotal) * 100;
+        percentRawMaterial = (data.cost_material / dataCost.costTotal) * 100;
+        percentWorkforce = (data.cost_workforce / dataCost.costTotal) * 100;
         percentIndirectCost =
-            (data[0].cost_indirect_cost / dataCost.costTotal) * 100;
+            (data.cost_indirect / dataCost.costTotal) * 100;
         percentAssignableExpenses = (dataCost.expense / dataCost.costTotal) * 100;
 
         $('#percentRawMaterial').html(`${percentRawMaterial.toFixed(0)} %`);
@@ -81,10 +80,10 @@ $(document).ready(function () {
     /* Ventas */
 
     UnitsVolSold = (data) => {
-        $('#unitsSold').html(data[0].units_sold.toLocaleString('es-CO'));
-        $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
+        $('#unitsSold').html(data.units_sold.toLocaleString('es-CO'));
+        $('#turnover').html(`$ ${data.turnover.toLocaleString('es-CO')}`);
         $('#recomendedPrice').html(
-            `$ ${data[0].price.toLocaleString('es-CO', {
+            `$ ${data.price.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
@@ -93,15 +92,15 @@ $(document).ready(function () {
 
     /* Costeo Total */
     totalCostData = (data) => {
-        dataCost = getDataCost(data[0]);
+        dataCost = getDataCost(data);
 
-        if (data[0].cost_materials == 0) $('.payRawMaterial').hide();
+        if (data.cost_material == 0) $('.payRawMaterial').hide();
         else $('.payRawMaterial').show();
-        if (data[0].cost_workforce == 0) $('.payWorkforce').hide();
+        if (data.cost_workforce == 0) $('.payWorkforce').hide();
         else $('.payWorkforce').show();
-        if (data[0].cost_indirect_cost == 0) $('.payIndirectCost').hide();
+        if (data.cost_indirect == 0) $('.payIndirectCost').hide();
         else $('.payIndirectCost').show();
-        if (data[0].services == 0) $('.services').hide();
+        if (data.external_services == 0) $('.services').hide();
         else $('.services').show();
         if (dataCost.expense == 0) $('.payAssignableExpenses').hide();
         else $('.payAssignableExpenses').show();
@@ -109,7 +108,7 @@ $(document).ready(function () {
         else $('.commission').show();
         if (dataCost.costProfitability == 0) $('.profit').hide();
         else $('.profit').show();
-        if (data[0].sale_price == 0) $('.actualSalePrice').hide();
+        if (data.sale_price == 0) $('.actualSalePrice').hide();
         else $('.actualSalePrice').show();
 
         $('#costTotal').html(
@@ -125,33 +124,33 @@ $(document).ready(function () {
             })}`
         );
         $('#payRawMaterial').html(
-            `$ ${data[0].cost_materials.toLocaleString('es-CO', {
+            `$ ${data.cost_material.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
         );
         $('#payWorkforce').html(
-            `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
+            `$ ${data.cost_workforce.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
         );
         $('#payIndirectCost').html(
-            `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
+            `$ ${data.cost_indirect.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
         );
 
         $('#services').html(
-            `$ ${data[0].services.toLocaleString('es-CO', {
+            `$ ${data.external_services.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
         );
 
         if (flag_expense == 2)
-            $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
+            $('#expenses').html(`Gastos (${data.expense_recover}%)`);
 
         $('#payAssignableExpenses').html(
             `$ ${dataCost.expense.toLocaleString('es-CO', {
@@ -161,7 +160,7 @@ $(document).ready(function () {
         );
 
         $('#commission').html(
-            `Comisión Vts (${data[0].commission_sale.toLocaleString('es-CO', {
+            `Comisión Vts (${data.commision_sale.toLocaleString('es-CO', {
                 maximumFractionDigits: 2,
             })}%)`
         );
@@ -170,7 +169,7 @@ $(document).ready(function () {
         );
 
         $('#profit').html(
-            `Rentabilidad (${data[0].profitability.toLocaleString('es-CO', {
+            `Rentabilidad (${data.profitability.toLocaleString('es-CO', {
                 maximumFractionDigits: 2,
             })}%)`
         );
@@ -179,18 +178,18 @@ $(document).ready(function () {
         );
 
         $('.suggestedPrice').html(
-            `$ ${data[0].price.toLocaleString('es-CO', {
+            `$ ${data.price.toLocaleString('es-CO', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0,
             })}`
         );
 
-        $('#actualSalePrice').html(`$ ${data[0].sale_price.toLocaleString('es-CO', {
+        $('#actualSalePrice').html(`$ ${data.sale_price.toLocaleString('es-CO', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
         })}`);
 
-        $('#minProfit').html(`${data[0].profitability.toLocaleString('es-CO', {
+        $('#minProfit').html(`${data.profitability.toLocaleString('es-CO', {
             maximumFractionDigits: 2,
         })}%`);
     
@@ -203,7 +202,7 @@ $(document).ready(function () {
         $('#actualSalePrice').removeClass('text-success');
         $('#actualSalePrice').removeClass('text-danger');
     
-        if (dataCost.actualProfitability == data[0].profitability) {
+        if (dataCost.actualProfitability == data.profitability) {
             content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -221,7 +220,7 @@ $(document).ready(function () {
                   </div>`;
             $('#actualSalePrice').addClass('text-warning');
         }
-        else if (dataCost.actualProfitability > data[0].profitability) {
+        else if (dataCost.actualProfitability > data.profitability) {
             content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -261,18 +260,5 @@ $(document).ready(function () {
         $('.cardTrafficLight').append(content);
     };
 
-    loadIndicatorsProducts(id_product);
-
-    $('#product').change(function (e) {
-        e.preventDefault();
-
-        id_product = this.value;
-
-        loadIndicatorsProducts(id_product);
-    });
-
-    function setProduct() {
-        $(`#product option[value=${id_product}]`).prop('selected', true);
-    }
-    setTimeout(setProduct, 2000);
+    loadIndicatorsProducts(id_historic);
 });

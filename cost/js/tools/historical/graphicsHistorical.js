@@ -6,11 +6,11 @@ $(document).ready(function () {
   graphicCostExpenses = (data) => {
     let product = [];
 
-    let dataCost = getDataCost(data[0]);
+    let dataCost = getDataCost(data);
     product.push(
-      { name: 'Mano de Obra', cost: data[0].cost_workforce },
-      { name: 'Materia Prima', cost: data[0].cost_materials },
-      { name: 'Costos Indirectos', cost: data[0].cost_indirect_cost },
+      { name: 'Mano de Obra', cost: data.cost_workforce },
+      { name: 'Materia Prima', cost: data.cost_materials },
+      { name: 'Costos Indirectos', cost: data.cost_indirect_cost },
       { name: 'Gastos Generales', cost: dataCost.expense }
     );
 

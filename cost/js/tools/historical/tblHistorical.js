@@ -2,9 +2,9 @@ $(document).ready(function () {
     const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     
     $(document).on('click', '.seeDetail', function (e) {
-        sessionStorage.removeItem('idProduct');
-        let id_product = this.id;
-        sessionStorage.setItem('idProduct', id_product);
+        sessionStorage.removeItem('idHistoric');
+        let id_historic = this.id;
+        sessionStorage.setItem('idHistoric', id_historic);
     });
     /* Cargue tabla de Precios */
 
@@ -153,36 +153,15 @@ $(document).ready(function () {
                         }
                     }
                 },
-                // {
-                //     title: 'Mes',
-                //     data: 'month',
-                //     className: 'classCenter',
-                // },
-                // {
-                //     title: 'Año',
-                //     data: 'year',
-                //     className: 'classCenter',
-                // },
                 {
                     title: 'Acciones',
-                    data: 'id_product',
+                    data: 'id_historic',
                     className: 'uniqueClassName',
                     render: function (data) {
                         return `<a href="/cost/details-historical" <i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ficha Técnica de Costos' style="font-size: 30px;"></i></a>`;
                     },
                 },
             ],
-            // rowCallback: function (row, data, index) {
-            //   let dataCost = getDataCost(data);
-            //   !isFinite(dataCost.actualProfitability) ? dataCost.actualProfitability = 0 : dataCost.actualProfitability;
-
-            //   if (dataCost.actualProfitability < data.profitability && dataCost.actualProfitability > 0 && data.sale_price > 0) $(row).css('color', 'orange');
-            //   else if (dataCost.actualProfitability < data.profitability && data.sale_price > 0) $(row).css('color', 'red');
-      
-            //   if (data.details_product == 0) {
-            //     tblPrices.column(7).visible(false);
-            //   }
-            // },
         });
     }
 

@@ -40,17 +40,35 @@ class HistoricalDao
         return $products;
     }
 
-    public function findHistorical($id_product)
+    public function findHistorical($id_historic)
     {
-        $connection = Connection::getInstance()->getConnection1();
+        $connection = Connection::getInstance()->getConnection();
+        // $connection = Connection::getInstance()->getConnection1();
 
-        $stmt = $connection->prepare("SELECT * FROM historical_products WHERE id_product = :id_product");
-        $stmt->execute(['id_product' => $id_product]);
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.img, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, hp.commision_sale, hp.cost_material, hp.cost_material AS cost_materials, hp.cost_workforce, hp.cost_indirect, hp.cost_indirect AS cost_indirect_cost, hp.external_services, hp.external_services AS services, hp.units_sold, hp.turnover, hp.assignable_expense
+                                        FROM tezlikso_tezlikProduccion.products p
+                                        JOIN tezlikso_HistProduccion.historical_products hp ON hp.id_product = p.id_product
+                                      WHERE hp.id_historic = :id_historic");
+        $stmt->execute([
+            'id_historic' => $id_historic
+        ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $products = $stmt->fetch($connection::FETCH_ASSOC);
         return $products;
     }
+
+    // public function findHistorical($id_product)
+    // {
+    //     $connection = Connection::getInstance()->getConnection1();
+
+    //     $stmt = $connection->prepare("SELECT * FROM historical_products WHERE id_product = :id_product");
+    //     $stmt->execute(['id_product' => $id_product]);
+    //     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+    //     $products = $stmt->fetch($connection::FETCH_ASSOC);
+    //     return $products;
+    // }
 
     public function findLastHistorical($id_company)
     {
