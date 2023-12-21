@@ -394,7 +394,7 @@ $(document).ready(function () {
 
           return output;
         },
-      }
+      },
       
       /* 
       {
@@ -667,7 +667,7 @@ $(document).ready(function () {
             ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
             : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
         },
-      },
+      },*/
       {
         title: 'Acciones',
         data: 'id_user',
@@ -677,7 +677,7 @@ $(document).ready(function () {
                 <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateUser" data-toggle='tooltip' title='Actualizar Usuario' style="font-size: 30px;"></i></a>
                 <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Usuario' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
         },
-      }, */
+      },
     ],
     columnDefs: [
       {
