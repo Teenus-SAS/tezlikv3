@@ -43,14 +43,14 @@ if (sizeof($_SESSION) == 0)
             <!-- Content -->
             <div class="page-content">
                 <!-- Page header -->
-                <div class="page-title-box">
+                <div class="page-title-box" style="padding-bottom: 45px;">
                     <div class="container-fluid">
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-7">
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Historico de Costos y Precios</h3>
                                     <!-- <ol class="breadcrumb mb-3 mb-md-0">
-										<li class="breadcrumb-item active">Creación de Cotizaciones</li>
+										<li class="breadcrumb-item active">Si sus costos se almaceron, puede encontrarlo aquí</li>
 									</ol> -->
                                 </div>
                             </div>
@@ -88,8 +88,8 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
                                     <!-- <button class="btn btn-warning" id="btnSaveManualHistorical" name="btnSaveManualHistorical">Guardar Historico</button> -->
-                                    <button class="btn btn-success mr-1 typeHistorical" id="btnList"><i class="fas fa-list-ul"></i></button>
-                                    <button class="btn btn-primary mr-1 typeHistorical" id="btnGraphic"><i class="fas fa-chart-line"></i></button>
+                                    <button class="btn btn-success  mr-1"><i class="fas fa-list-ul"></i></button>
+                                    <button class="btn btn-primary mr-1"><i class="fas fa-chart-line"></i></button>
                                     <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
@@ -102,42 +102,25 @@ if (sizeof($_SESSION) == 0)
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <!-- page content -->
-                <div class="page-content-wrapper mt--45 cardTblPrices">
-                    <div class="container-fluid">
-                        <!-- Row 5 -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card disable-select">
-                                    <div class="card-header">
+
+        <!-- page content -->
+        <div class="page-content-wrapper mt--45 cardTblPrices">
+            <div class="container-fluid">
+                <!-- Row 5 -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card disable-select">
+                            <!-- <div class="card-header">
                                         <h5 class="card-title">Precios</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="tblHistorical">
+                                    </div> -->
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped" id="tblHistorical">
 
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content-wrapper mt--45 cardDashboard">
-                    <div class="container-fluid">
-                        <!-- Row 5 -->
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card disable-select">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Dashboard</h5>
-                                    </div>
-                                    <div class="card-body">
-
-                                    </div>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -145,10 +128,30 @@ if (sizeof($_SESSION) == 0)
                 </div>
             </div>
         </div>
-        <!-- Main content end -->
 
-        <!-- Footer -->
-        <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
+        <div class="page-content-wrapper mt--45 cardDashboard">
+            <div class="container-fluid">
+                <!-- Row 5 -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card disable-select">
+                            <div class="card-header">
+                                <h5 class="card-title">Dashboard</h5>
+                            </div>
+                            <div class="card-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Main content end -->
+
+    <!-- Footer -->
+    <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/footer.php'; ?>
     </div>
     <!-- Page End -->
 

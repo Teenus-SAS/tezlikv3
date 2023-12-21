@@ -88,7 +88,7 @@ $(document).ready(function () {
                     data: 'id_product',
                     className: 'uniqueClassName',
                     render: function (data) {
-                        return `<a href="/cost/details-historical" <i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ver Detalle' style="font-size: 30px;"></i></a>`;
+                        return `<a href="/cost/details-historical" <i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ficha Técnica de Costos' style="font-size: 30px;"></i></a>`;
                     },
                 },
             ],
