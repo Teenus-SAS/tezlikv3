@@ -21,6 +21,12 @@ $app->get('/historical', function (Request $request, Response $response, $args) 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use ($historicalDao) {
+    $data = $historicalDao->findHistorical($args['id_historic']);
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/lastHistorical', function (Request $request, Response $response, $args) use ($historicalDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
