@@ -108,6 +108,7 @@ if (sizeof($_SESSION) == 0)
         plan_cost_historical = "<?= $_SESSION['plan_cost_historical'] ?>";
         plan_cost_quote = "<?= $_SESSION['plan_cost_quote'] ?>";
         plan_cost_support = "<?= $_SESSION['plan_cost_support'] ?>";
+        plan_cost_historical = "<?= $_SESSION['plan_cost_historical'] ?>";
         idUser = "<?= $_SESSION['idUser'] ?>";
     </script>
     <script src="/cost/js/general/priceList/configPriceList.js"></script>

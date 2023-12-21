@@ -102,13 +102,10 @@ class HistoricalDao
         try {
             $connection = Connection::getInstance()->getConnection1();
 
-            $stmt = $connection->prepare("UPDATE historical_products SET month = :month, year = :year, id_product = :id_product, price = :price, sale_price = :sale_price, profitability = :profitability, min_profitability = :min_profitability, commision_sale = :commision_sale, cost_material = :cost_material, 
+            $stmt = $connection->prepare("UPDATE historical_products SET price = :price, sale_price = :sale_price, profitability = :profitability, min_profitability = :min_profitability, commision_sale = :commision_sale, cost_material = :cost_material, 
                                                                      cost_workforce = :cost_workforce, cost_indirect = :cost_indirect, external_services = :external_services, units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense 
-                                          WHERE id_historic = :id_historic");
+                                          WHERE id_product = :id_product");
             $stmt->execute([
-                'id_historic' => $dataHistorical['idHistoric'],
-                'month' => $dataHistorical['month'],
-                'year' => $dataHistorical['year'],
                 'id_product' => $dataHistorical['idProduct'],
                 'price' => $dataHistorical['price'],
                 'sale_price' => $dataHistorical['salePrice'],
