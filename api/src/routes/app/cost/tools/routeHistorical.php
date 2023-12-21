@@ -76,7 +76,9 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
         }
     } else {
         $historical = $dataHistorical['data'];
-        $historicalProducts = $historical['products'];
+
+        if (isset($historical['products']))
+            $historicalProducts = $historical['products'];
 
         foreach ($products as $arr) {
             if (isset($resolution['info'])) break;
@@ -104,10 +106,12 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
 
             $insert = true;
 
-            for ($i = 0; $i < sizeof($historicalProducts); $i++) {
-                if ($data['idProduct'] == $historicalProducts[$i]['id_product']) {
-                    $insert = false;
-                    break;
+            if (isset($historical['products'])) {
+                for ($i = 0; $i < sizeof($historicalProducts); $i++) {
+                    if ($data['idProduct'] == $historicalProducts[$i]['id_product']) {
+                        $insert = false;
+                        break;
+                    }
                 }
             }
 
