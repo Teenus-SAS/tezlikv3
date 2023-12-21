@@ -57,7 +57,7 @@ $(document).ready(function () {
                 data = data.filter((item) => item[key[0]] == value[0] && item[key[1]] == value[1]);
             }
             else
-            data = data.filter((item) => item[key] == value);
+                data = data.filter((item) => item[key] == value);
         }
 
         if ($.fn.dataTable.isDataTable("#tblHistorical")) {
@@ -125,8 +125,33 @@ $(document).ready(function () {
                 },
                 {
                     title: 'Rentabilidad',
-                    data: 'min_profitability',
+                    data: null,
                     className: 'classCenter',
+                    render: function (data) {
+                        let profitabilityText = `${data.min_profitability.toLocaleString(
+                            "es-CO",
+                            { maximumFractionDigits: 0 }
+                        )} %`;
+                        let badgeClass = "";
+
+                        if (
+                            data.min_profitability < data.profitability &&
+                            data.min_profitability > 0 &&
+                            data.sale_price > 0
+                        ) {
+                            badgeClass = "badge badge-warning"; // Use "badge badge-warning" for orange
+                        } else if (
+                            data.min_profitability < data.profitability &&
+                            data.sale_price > 0
+                        ) {
+                            badgeClass = "badge badge-danger"; // Use "badge badge-danger" for red
+                        } else badgeClass = "badge badge-success"; // Use "badge badge-danger" for red
+                        if (badgeClass) {
+                            return `<span class="${badgeClass}" style="font-size: medium;" >${profitabilityText}</span>`;
+                        } else {
+                            return profitabilityText;
+                        }
+                    }
                 },
                 // {
                 //     title: 'Mes',
