@@ -125,7 +125,7 @@ $(document).ready(function () {
                 },
                 {
                     title: 'Rentabilidad',
-                    data: 'profitability',
+                    data: 'min_profitability',
                     className: 'classCenter',
                 },
                 // {
