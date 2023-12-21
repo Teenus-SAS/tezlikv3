@@ -88,8 +88,8 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-sm-3 mb-4 d-flex align-items-center floating-label enable-floating-label show-label">
                                     <!-- <button class="btn btn-warning" id="btnSaveManualHistorical" name="btnSaveManualHistorical">Guardar Historico</button> -->
-                                    <button class="btn btn-success  mr-1"><i class="fas fa-list-ul"></i></button>
-                                    <button class="btn btn-primary mr-1"><i class="fas fa-chart-line"></i></button>
+                                    <button class="btn btn-success typeHistorical mr-1" id="btnList"><i class="fas fa-list-ul"></i></button>
+                                    <button class="btn btn-primary typeHistorical mr-1" id="btnGraphic"><i class="fas fa-chart-line"></i></button>
                                     <!-- <label>Tipo</label>
                                         <select id="typeHistorical" class="form-control">
                                             <option disabled selected>Seleccionar</option>
