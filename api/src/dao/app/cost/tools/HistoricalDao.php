@@ -45,7 +45,7 @@ class HistoricalDao
         $connection = Connection::getInstance()->getConnection();
         // $connection = Connection::getInstance()->getConnection1();
 
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.img, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, hp.commision_sale, hp.commision_sale AS commission_sale, hp.expense_recover
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.img, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, hp.commision_sale, hp.commision_sale AS commission_sale, hp.expense_recover,
                                              hp.cost_material, hp.cost_material AS cost_materials, hp.cost_workforce, hp.cost_indirect, hp.cost_indirect AS cost_indirect_cost, hp.external_services, hp.external_services AS services, hp.units_sold, hp.turnover, hp.assignable_expense
                                         FROM tezlikso_tezlikProduccion.products p
                                         JOIN tezlikso_HistProduccion.historical_products hp ON hp.id_product = p.id_product
