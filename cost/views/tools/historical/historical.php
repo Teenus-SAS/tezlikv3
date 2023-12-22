@@ -47,7 +47,7 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-title-box" style="padding-bottom: 45px;">
                     <div class="container-fluid">
                         <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-7">
+                            <div class="col-sm-5 col-xl-5">
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Historico de Costos y Precios</h3>
                                     <!-- <ol class="breadcrumb mb-3 mb-md-0">
@@ -55,14 +55,14 @@ if (sizeof($_SESSION) == 0)
 									</ol> -->
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-5">
+                            <div class="col-sm-7 col-xl-7">
                                 <div class="row">
                                     <div class="col-md-6 col-xl-4" style="padding-right: 0px;">
                                         <div class="card bg-success shadow-lg">
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-up mr-1"></i> Rentab +Alta: 15%</span>
+                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="max" <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-up mr-1" id="lblMaxProfitability"></i></span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -73,7 +73,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-down mr-1"></i>Rentab +Baja: -9%</span>
+                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="min" <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-down mr-1" id="lblMinProfitability"></i></span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -85,7 +85,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-right mr-1"></i>Rentab Prom: 15%</span>
+                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-right mr-1" id="lblAverageProfitability"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
