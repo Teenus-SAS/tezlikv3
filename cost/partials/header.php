@@ -33,7 +33,7 @@
                                     <?php } else { ?>
                                         <div class="col-md-3" id="navCostBasics">
                                         <?php } ?>
-                                        <h5 class="font-size-14 font-weight-600">Básico</h5>
+                                        <h5 class="font-size-14 font-weight-600">Maestros</h5>
                                         <ul class="list-unstyled megamenu-list">
                                             <?php if ($_SESSION['cost_product'] == 1) { ?>
                                                 <li class="aProducts">
