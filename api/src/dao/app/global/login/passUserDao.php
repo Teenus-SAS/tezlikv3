@@ -62,7 +62,7 @@ class PassUserDao
             //$pass = hash("sha256", $new_pass);
             $pass = password_hash($new_pass, PASSWORD_DEFAULT);
 
-            if ($admins)
+            if ($admins == 1)
                 $stmt = $connection->prepare("UPDATE admins SET password = :pass WHERE email = :email");
             else
                 $stmt = $connection->prepare("UPDATE users SET password = :pass WHERE email = :email");

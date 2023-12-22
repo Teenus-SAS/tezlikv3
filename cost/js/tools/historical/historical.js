@@ -3,28 +3,37 @@ $(document).ready(function () {
 
     $('#month').change(function (e) {
         e.preventDefault();
-        
-        if(this.value == '0')
-            loadTblPrices(historical, null, null)
-        else {
+
+        let data = historical;
+
+        if(this.value != '0'){
             let year = $('#year').val();
+
             if (year && year != '0')
-                loadTblPrices(historical, 'month,year', `${this.value},${year}`);
+                data = data.filter((item) => item.month == month && item.year == this.value); 
             else
-                loadTblPrices(historical, 'month', this.value);
+                data = data.filter((item) => item.month == this.value);
         }
+
+        loadTblPrices(data);
+        historicalIndicatiors(data); 
     });
 
     $('#year').change(function (e) {
         e.preventDefault();
-        if(this.value == '0')
-            loadTblPrices(historical, null, null)
-        else {
+        let data = historical;
+
+        if(this.value != '0'){
             month = $('#month').val();
-            if (month && month != '0')loadTblPrices(historical, 'month,year', `${month},${this.value}`);
+            if (month && month != '0') {
+                data = data.filter((item) => item.month == month && item.year == this.value);
+            }
             else
-                loadTblPrices(historical, 'year', this.value);
+                data = data.filter((item) => item.year == this.value);
         }
+
+        loadTblPrices(data);
+        historicalIndicatiors(data);
     }); 
 
     $('.typeHistorical').click(function (e) {

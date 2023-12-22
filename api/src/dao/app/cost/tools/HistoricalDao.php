@@ -45,7 +45,8 @@ class HistoricalDao
         $connection = Connection::getInstance()->getConnection();
         // $connection = Connection::getInstance()->getConnection1();
 
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.img, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, hp.commision_sale, hp.cost_material, hp.cost_material AS cost_materials, hp.cost_workforce, hp.cost_indirect, hp.cost_indirect AS cost_indirect_cost, hp.external_services, hp.external_services AS services, hp.units_sold, hp.turnover, hp.assignable_expense
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.img, hp.id_historic, hp.month, hp.year, hp.price, hp.sale_price, hp.profitability, hp.min_profitability, hp.commision_sale, hp.commision_sale AS commission_sale, hp.expense_recover
+                                             hp.cost_material, hp.cost_material AS cost_materials, hp.cost_workforce, hp.cost_indirect, hp.cost_indirect AS cost_indirect_cost, hp.external_services, hp.external_services AS services, hp.units_sold, hp.turnover, hp.assignable_expense
                                         FROM tezlikso_tezlikProduccion.products p
                                         JOIN tezlikso_HistProduccion.historical_products hp ON hp.id_product = p.id_product
                                       WHERE hp.id_historic = :id_historic");
@@ -90,8 +91,8 @@ class HistoricalDao
         try {
             $connection = Connection::getInstance()->getConnection1();
 
-            $stmt = $connection->prepare("INSERT INTO historical_products (month, year, id_company, id_product, price, sale_price, profitability, min_profitability, commision_sale, cost_material, cost_workforce, cost_indirect, external_services, units_sold, turnover, assignable_expense)
-                                          VALUES (:month, :year, :id_company, :id_product, :price, :sale_price, :profitability, :min_profitability, :commision_sale, :cost_material, :cost_workforce, :cost_indirect, :external_services, :units_sold, :turnover, :assignable_expense)");
+            $stmt = $connection->prepare("INSERT INTO historical_products (month, year, id_company, id_product, price, sale_price, profitability, min_profitability, commision_sale, cost_material, cost_workforce, cost_indirect, external_services, units_sold, turnover, assignable_expense, expense_recover)
+                                          VALUES (:month, :year, :id_company, :id_product, :price, :sale_price, :profitability, :min_profitability, :commision_sale, :cost_material, :cost_workforce, :cost_indirect, :external_services, :units_sold, :turnover, :assignable_expense, :expense_recover)");
             $stmt->execute([
                 'month' => $dataHistorical['month'],
                 'year' => $dataHistorical['year'],
@@ -108,7 +109,8 @@ class HistoricalDao
                 'external_services' => $dataHistorical['externalServices'],
                 'units_sold' => $dataHistorical['unitsSold'],
                 'turnover' => $dataHistorical['turnover'],
-                'assignable_expense' => $dataHistorical['assignableExpense']
+                'assignable_expense' => $dataHistorical['assignableExpense'],
+                'expense_recover' => $dataHistorical['expenseRecover']
             ]);
         } catch (\Exception $e) {
             return array('info' => true, 'message' => $e->getMessage());
@@ -120,8 +122,8 @@ class HistoricalDao
         try {
             $connection = Connection::getInstance()->getConnection1();
 
-            $stmt = $connection->prepare("UPDATE historical_products SET price = :price, sale_price = :sale_price, profitability = :profitability, min_profitability = :min_profitability, commision_sale = :commision_sale, cost_material = :cost_material, 
-                                                                     cost_workforce = :cost_workforce, cost_indirect = :cost_indirect, external_services = :external_services, units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense 
+            $stmt = $connection->prepare("UPDATE historical_products SET price = :price, sale_price = :sale_price, profitability = :profitability, min_profitability = :min_profitability, commision_sale = :commision_sale, cost_material = :cost_material, cost_workforce = :cost_workforce, 
+                                                                     cost_indirect = :cost_indirect, external_services = :external_services, units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense, expense_recover = :expense_recover
                                           WHERE id_product = :id_product AND month = :month AND year = :year");
             $stmt->execute([
                 'id_product' => $dataHistorical['idProduct'],
@@ -138,7 +140,8 @@ class HistoricalDao
                 'external_services' => $dataHistorical['externalServices'],
                 'units_sold' => $dataHistorical['unitsSold'],
                 'turnover' => $dataHistorical['turnover'],
-                'assignable_expense' => $dataHistorical['assignableExpense']
+                'assignable_expense' => $dataHistorical['assignableExpense'],
+                'expense_recover' => $dataHistorical['expenseRecover']
             ]);
         } catch (\Exception $e) {
             return array('info' => true, 'message' => $e->getMessage());

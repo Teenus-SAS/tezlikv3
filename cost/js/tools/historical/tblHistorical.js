@@ -22,6 +22,8 @@ $(document).ready(function () {
                 yearsInvertidos[item.year] = item.year;
             });
 
+            historicalIndicatiors(historical);
+
             let $select = $(`#month`);
             $select.empty();
             $select.append(`<option disabled selected>Seleccionar</option>`);
@@ -43,22 +45,40 @@ $(document).ready(function () {
                 );
             });
 
-            loadTblPrices(historical, null, null);
+            loadTblPrices(historical);
         } catch (error) {
             console.error('Error loading data:', error);
         }
     }
-  
-    loadTblPrices = async (data, key, value) => {
-        if (key && value) {
-            if (key.includes(',') && value.includes(',')) {
-                key = key.split(',');
-                value = value.split(',');
-                data = data.filter((item) => item[key[0]] == value[0] && item[key[1]] == value[1]);
-            }
-            else
-                data = data.filter((item) => item[key] == value);
+
+    historicalIndicatiors = (data) => {
+        maxProfitability = 0;
+        minProfitability = 0;
+        let totalProfitability = 0;
+        let averageProfitability = 0;
+
+        if (data.length > 0) {
+            maxProfitability = Math.max(...data.map(obj => obj.min_profitability));
+            minProfitability = Math.min(...data.map(obj => obj.min_profitability));
+            totalProfitability = data.reduce((acc, obj) => acc + obj.min_profitability, 0);
+            averageProfitability = totalProfitability / data.length;
         }
+
+        $('#lblMaxProfitability').html(` Rentab +Alta: ${maxProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
+        $('#lblMinProfitability').html(` Rentab +Baja: ${minProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
+        $('#lblAverageProfitability').html(` Rentab Prom: ${averageProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
+    }
+  
+    loadTblPrices = async (data) => {
+        // if (key && value) {
+        //     if (key.includes(',') && value.includes(',')) {
+        //         key = key.split(',');
+        //         value = value.split(',');
+        //         data = data.filter((item) => item[key[0]] == value[0] && item[key[1]] == value[1]);
+        //     }
+        //     else
+        //         data = data.filter((item) => item[key] == value);
+        // }
 
         if ($.fn.dataTable.isDataTable("#tblHistorical")) {
             $("#tblHistorical").DataTable().clear();
@@ -130,7 +150,7 @@ $(document).ready(function () {
                     render: function (data) {
                         let profitabilityText = `${data.min_profitability.toLocaleString(
                             "es-CO",
-                            { maximumFractionDigits: 0 }
+                            { maximumFractionDigits: 2 }
                         )} %`;
                         let badgeClass = "";
 
@@ -166,4 +186,17 @@ $(document).ready(function () {
     }
 
     loadAllData();
+
+    $('.btnsProfit').click(function (e) {
+        e.preventDefault();
+
+        let data = [];
+
+        if (this.id == 'max')
+            data = historical.filter(item => item.min_profitability == maxProfitability);
+        else
+            data = historical.filter(item => item.min_profitability == minProfitability);
+            
+        loadTblPrices(data);
+    });
 });
