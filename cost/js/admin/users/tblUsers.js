@@ -304,29 +304,50 @@ $(document).ready(function () {
         render: function (data, type, row) {
           const permissions = [];
 
-          permissions.push({
-            name: "Precios",
-            icon: data.price
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (plan_cost_price == true)
+            permissions.push({
+              name: "Precios",
+              icon: data.price
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
-          permissions.push({
-            name: "Precios USD",
-            icon: data.price_usd
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (price_usd == true)
+            permissions.push({
+              name: "Precios USD",
+              icon: data.price_usd
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
-          permissions.push({
-            name: "Precios Personalizados",
-            icon: data.custom_price
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (plan_custom_price == true)
+            permissions.push({
+              name: "Precios Personalizados",
+              icon: data.custom_price
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+          
+          if (plan_cost_quote == true)
+            permissions.push({
+              name: "Cotizacion",
+              icon: data.quote
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+          
+          if (plan_cost_support == true)
+            permissions.push({
+              name: "Soporte",
+              icon: data.support
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
           let output = '<div class="stacked-column" style="width:190px">';
           for (const permission of permissions) {
@@ -346,45 +367,50 @@ $(document).ready(function () {
         render: function (data, type, row) {
           const permissions = [];
 
-          permissions.push({
-            name: "Analisis Materia Prima",
-            icon: data.analysis_material
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (plan_cost_analysis_material == true)
+            permissions.push({
+              name: "Analisis Materia Prima",
+              icon: data.analysis_material
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
-          permissions.push({
-            name: "Economia De Escala",
-            icon: data.economy_scale
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (plan_cost_economy_sale == true)
+            permissions.push({
+              name: "Economia De Escala",
+              icon: data.economy_scale
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
-          permissions.push({
-            name: "Pto de Equilibrio",
-            icon: data.multiproduct
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (plan_cost_multiproduct == true)
+            permissions.push({
+              name: "Pto de Equilibrio",
+              icon: data.multiproduct
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
-          permissions.push({
-            name: "Simulador",
-            icon: data.simulator
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (plan_cost_simulator == true)
+            permissions.push({
+              name: "Simulador",
+              icon: data.simulator
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
-          permissions.push({
-            name: "Historico",
-            icon: data.historical
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (plan_cost_historical == true)
+            permissions.push({
+              name: "Historico",
+              icon: data.historical
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
           let output =
             '<div class="stacked-column text-left" style="width:190px">';
@@ -397,280 +423,7 @@ $(document).ready(function () {
 
           return output;
         },
-      },
-
-      /* 
-      {
-        title: 'Crear Productos',
-        data: 'create_product',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Crear Materiales',
-        data: 'create_materials',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Crear Máquinas',
-        data: 'create_machines',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Crear Procesos',
-        data: 'create_process',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Ficha Técnica Materiales',
-        data: 'product_materials',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Ficha Técnica Procesos',
-        data: 'product_process',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-
-      {
-        title: 'Carga fabril',
-        data: 'factory_load',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Servicios Externos',
-        data: 'external_service',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Carga Nómina',
-        data: 'payroll_load',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Asignación Gastos',
-        data: 'expense',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Distribución Gastos',
-        data: 'expense_distribution',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Usuarios',
-        data: 'user',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Backup',
-        data: 'backup',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Metodos de pago',
-        data: 'quote_payment_method',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Compañias',
-        data: 'quote_company',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Contactos',
-        data: 'quote_contact',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Precios',
-        data: 'price',
-        className: 'uniqueClassName',
-        visible: plan_cost_price,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Precios USD',
-        data: 'price_usd',
-        className: 'uniqueClassName',
-        visible: price_usd,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Precios Personalizados',
-        data: 'custom_price',
-        className: 'uniqueClassName',
-        visible: plan_custom_price,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Analisis Materia Prima',
-        data: 'analysis_material',
-        className: 'uniqueClassName',
-        visible: plan_cost_analysis_material,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Simulador',
-        data: 'simulator',
-        className: 'uniqueClassName',
-        visible: plan_cost_simulator,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Historico',
-        data: 'historical',
-        className: 'uniqueClassName',
-        visible: plan_cost_historical,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Economia De Escala',
-        data: 'economy_scale',
-        className: 'uniqueClassName',
-        visible: plan_cost_economy_sale,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Pto De Equilibrio Multiproducto',
-        data: 'multiproduct',
-        className: 'uniqueClassName',
-        visible: plan_cost_multiproduct,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Cotizaciones',
-        data: 'quote',
-        className: 'uniqueClassName',
-        visible: plan_cost_quote,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Soporte',
-        data: 'support',
-        className: 'uniqueClassName',
-        visible: plan_cost_support,
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },*/
+      }, 
     ],
     columnDefs: [
       {
