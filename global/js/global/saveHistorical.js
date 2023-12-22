@@ -49,17 +49,6 @@ $(document).ready(function () {
             e.preventDefault();
 
             saveHistorical({ type: 'auto' });
-        
-            // $.post('/api/saveHistorical', { type: 'auto' },
-            //     function (data, textStatus, jqXHR) {
-            //         if (data.success == true) {
-            //             toastr.success(data.message);
-            //             $('#modalHistorical').modal('hide');
-            //         }
-            //         else if (data.error == true) toastr.error(data.message);
-            //         else if (data.info == true) toastr.info(data.message);
-            //     },
-            // );
         });
     } else {
         $('#btnNewManualHistorical').click(function (e) {
@@ -68,13 +57,7 @@ $(document).ready(function () {
             $('#datepicker').val('');
 
             $('#modalHistorical').modal('show');
-        });
-
-        $("#datepicker").datepicker({
-            format: "mm/yyyy",
-            startView: "year",
-            minView: "year"
-        });
+        }); 
 
         $('#btnSaveManualHistorical').click(function (e) {
             e.preventDefault();
@@ -86,13 +69,13 @@ $(document).ready(function () {
                 return false;
             }
 
-            date = date.split('/');
+            date = date.split('-');
             let data = {};
 
-            data['month'] = date[0];
-            data['year'] = date[1];
+            data['year'] = date[0];
+            data['month'] = date[1];
 
-            let historicalProducts = historical.filter((item) => item.month == date[0] && item.year == date[1]);
+            let historicalProducts = historical.filter((item) => item.month == date[1] && item.year == date[0]);
             data['products'] = historicalProducts;
             $('#modalHistorical').modal('hide');
 
