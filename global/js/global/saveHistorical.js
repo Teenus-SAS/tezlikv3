@@ -79,29 +79,47 @@ $(document).ready(function () {
             data['products'] = historicalProducts;
             $('#modalHistorical').modal('hide');
 
-            if (historicalProducts.length > 0) {
-                bootbox.confirm({
-                    title: 'Reescribir',
-                    message:
-                        '¿Desea reescribir datos de ese mes?',
-                    buttons: {
-                        confirm: {
-                            label: 'Si',
-                            className: 'btn-success',
-                        },
-                        cancel: {
-                            label: 'No',
-                            className: 'btn-danger',
-                        },
+            bootbox.confirm({
+                title: 'Confirmar',
+                message:
+                    '¿Desea guardar datos de ese mes? Esta acción no se puede reversar.',
+                buttons: {
+                    confirm: {
+                        label: 'Si',
+                        className: 'btn-success',
                     },
-                    callback: function (result) {
-                        if (result == true) {
-                            saveHistorical({ data: data });
-                        }
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger',
                     },
-                });
-            } else saveHistorical({ data: data });
-            
+                },
+                callback: function (result) {
+                    if (result == true) {
+                        if (historicalProducts.length > 0) {
+                            bootbox.confirm({
+                                title: 'Reescribir',
+                                message:
+                                    '¿Desea reescribir datos de ese mes?',
+                                buttons: {
+                                    confirm: {
+                                        label: 'Si',
+                                        className: 'btn-success',
+                                    },
+                                    cancel: {
+                                        label: 'No',
+                                        className: 'btn-danger',
+                                    },
+                                },
+                                callback: function (result) {
+                                    if (result == true) {
+                                        saveHistorical({ data: data });
+                                    }
+                                },
+                            });
+                        } else saveHistorical({ data: data });
+                    }
+                },
+            }); 
         });
 
         
