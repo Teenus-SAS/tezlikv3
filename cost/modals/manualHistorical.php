@@ -18,7 +18,7 @@
                                     </div>
                                     <div class="col-12 col-lg-6">
                                         <div class="form-group floating-label enable-floating-label show-label">
-                                            <input id="datepicker" name="date" type="text" class="form-control">
+                                            <input type="month" name="datepicker" id="datepicker" class="form-control">
                                             <label for="datepicker"><span class="text-danger">*</span></label>
                                             <div class="validation-error d-none font-size-13">Requerido</div>
                                         </div>
