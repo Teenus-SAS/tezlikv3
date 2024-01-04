@@ -225,8 +225,8 @@ $(document).ready(function () {
           material: productMaterials[i].material,
           magnitud: productMaterials[i].magnitude,
           unidad: productMaterials[i].unit,
-          quantity: parseFloat(productMaterials[i].quantity),
-          costMaterial: parseFloat(productMaterials[i].cost_product_material),
+          Cantidad: parseFloat(productMaterials[i].quantity),
+          Precio: parseFloat(productMaterials[i].cost_product_material),
         });
       }
 
