@@ -226,6 +226,7 @@ $(document).ready(function () {
           magnitud: productMaterials[i].magnitude,
           unidad: productMaterials[i].unit,
           quantity: parseFloat(productMaterials[i].quantity),
+          costMaterial: parseFloat(productMaterials[i].cost_product_material),
         });
       }
 
