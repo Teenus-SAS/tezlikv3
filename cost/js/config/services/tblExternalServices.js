@@ -84,7 +84,7 @@ $(document).ready(function () {
         }
 
         $(this.api().column(3).footer()).html(
-          quantity.toLocaleString("es-CO", {
+          totalCost.toLocaleString("es-CO", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })
