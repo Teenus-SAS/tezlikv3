@@ -1,62 +1,62 @@
 $(document).ready(function () {
   /* Seleccion producto */
 
-  $('#refProduct').change(function (e) {
+  $("#refProduct").change(function (e) {
     e.preventDefault();
     let id = this.value;
-    $('#selectNameProduct option').removeAttr('selected');
-    $(`#selectNameProduct option[value=${id}]`).attr('selected', true);
+    $("#selectNameProduct option").removeAttr("selected");
+    $(`#selectNameProduct option[value=${id}]`).attr("selected", true);
     loadtableExternalServices(id);
   });
 
-  $('#selectNameProduct').change(function (e) {
+  $("#selectNameProduct").change(function (e) {
     e.preventDefault();
     let id = this.value;
-    $('#refProduct option').removeAttr('selected');
-    $(`#refProduct option[value=${id}]`).attr('selected', true);
+    $("#refProduct option").removeAttr("selected");
+    $(`#refProduct option[value=${id}]`).attr("selected", true);
     loadtableExternalServices(id);
   });
 
   /* Cargue tabla de Proyectos */
 
   const loadtableExternalServices = (idProduct) => {
-    tblExternalServices = $('#tblExternalServices').dataTable({
+    tblExternalServices = $("#tblExternalServices").dataTable({
       destroy: true,
       pageLength: 50,
       ajax: {
         url: `../../api/externalservices/${idProduct}`,
-        dataSrc: '',
+        dataSrc: "",
       },
       dom: '<"datatable-error-console">frtip',
       language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+        url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
       },
       fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+        if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
           console.error(oSettings.json.error);
         }
       },
       columns: [
         {
-          title: 'No.',
+          title: "No.",
           data: null,
-          className: 'uniqueClassName',
+          className: "uniqueClassName",
           render: function (data, type, full, meta) {
             return meta.row + 1;
           },
         },
         {
-          title: 'Referencia',
-          data: 'reference',
+          title: "Referencia",
+          data: "reference",
         },
         {
-          title: 'Servicio',
-          data: 'name_service',
+          title: "Servicio",
+          data: "name_service",
         },
         {
-          title: 'Costo',
-          data: 'cost',
-          className: 'classRight',
+          title: "Costo",
+          data: "cost",
+          className: "classRight",
           render: function (data) {
             let decimals = contarDecimales(data);
             let cost = formatNumber(data, decimals);
@@ -65,9 +65,9 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Acciones',
-          data: 'id_service',
-          className: 'uniqueClassName',
+          title: "Acciones",
+          data: "id_service",
+          className: "uniqueClassName",
           render: function (data) {
             return `
                         <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateExternalService" data-toggle='tooltip' title='Actualizar Servicio' style="font-size: 30px;"></i></a>
@@ -75,6 +75,22 @@ $(document).ready(function () {
           },
         },
       ],
+      footerCallback: function (row, data, start, end, display) {
+        let quantity = 0;
+        let cost = 0;
+
+        for (let i = 0; i < data.length; i++) {
+          quantity += parseFloat(data[i].quantity);
+          cost += parseFloat(data[i].cost_product_material);
+        }
+
+        $(this.api().column(3).footer()).html(
+          quantity.toLocaleString("es-CO", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })
+        );
+      },
     });
   };
 });
