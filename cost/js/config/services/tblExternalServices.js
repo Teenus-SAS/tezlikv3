@@ -82,13 +82,15 @@ $(document).ready(function () {
           totalCost += parseFloat(data[i].cost);
         }
 
+        $(this.api().column(3).footer()).css("width", "100px");
+
         $(this.api().column(3).footer()).html(
           `$ ${totalCost.toLocaleString("es-CO", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}`
         );
-        $('#status').html('<b>TOTAL PENDENT SALARIES:</b> <u>$'+ totalCost + '</u>');
+        
       },
     });
   };
