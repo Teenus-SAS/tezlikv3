@@ -63,6 +63,7 @@ $(document).ready(function () {
 
             return cost;
           },
+          footer: "Total Costo", // Añadir el pie de columna
         },
         {
           title: "Acciones",
@@ -76,12 +77,10 @@ $(document).ready(function () {
         },
       ],
       footerCallback: function (row, data, start, end, display) {
-        let quantity = 0;
-        let cost = 0;
+       let totalCost = 0;
 
         for (let i = 0; i < data.length; i++) {
-          quantity += parseFloat(data[i].quantity);
-          cost += parseFloat(data[i].cost_product_material);
+          totalCost += parseFloat(data[i].cost);
         }
 
         $(this.api().column(3).footer()).html(
