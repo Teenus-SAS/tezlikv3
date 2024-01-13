@@ -88,7 +88,7 @@ $(document).ready(function () {
             maximumFractionDigits: 0,
           })}`
         );
-        $('#status').html('<b>TOTAL PENDENT SALARIES:</b> <u>$'+ total + '</u>');
+        $('#status').html('<b>TOTAL PENDENT SALARIES:</b> <u>$'+ totalCost + '</u>');
       },
     });
   };
