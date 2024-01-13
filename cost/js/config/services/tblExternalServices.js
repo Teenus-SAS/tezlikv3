@@ -82,12 +82,11 @@ $(document).ready(function () {
           totalCost += parseFloat(data[i].cost);
         }
 
-        // Crear una fila adicional para mostrar el total
-        $(this.api().table().footer()).html(
-          `<tr><td colspan="4" class="text-right">Total Costo:</td><td class="classRight">${totalCost.toLocaleString(
-            "es-CO",
-            { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-          )}</td></tr>`
+        $(this.api().column(3).footer()).html(
+          `$ ${totalCost.toLocaleString("es-CO", {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}`
         );
       },
     });
