@@ -84,10 +84,10 @@ $(document).ready(function () {
         }
 
         $(this.api().column(3).footer()).html(
-          totalCost.toLocaleString("es-CO", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
+          `$ ${totalCost.toLocaleString('es-CO', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}`
         );
       },
     });
