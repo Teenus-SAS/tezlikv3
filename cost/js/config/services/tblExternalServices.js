@@ -83,7 +83,7 @@ $(document).ready(function () {
           totalCost += parseFloat(data[i].cost);
         }
 
-        $(this.api().column(4).footer()).html(
+        $(this.api().column(3).footer()).html(
           totalCost.toLocaleString("es-CO", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
