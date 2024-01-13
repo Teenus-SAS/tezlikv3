@@ -63,7 +63,7 @@ $(document).ready(function () {
 
             return cost;
           },
-          footer: "Total Costo", // Añadir el pie de columna
+          //footer: "Total Costo", // Añadir el pie de columna
         },
         {
           title: "Acciones",
