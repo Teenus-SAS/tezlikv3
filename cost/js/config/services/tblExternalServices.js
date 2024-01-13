@@ -63,7 +63,7 @@ $(document).ready(function () {
 
             return cost;
           },
-          //footer: "Total Costo", // Añadir el pie de columna
+          footer: "Total Costo", // Añadir el pie de columna
         },
         {
           title: "Acciones",
@@ -83,7 +83,7 @@ $(document).ready(function () {
           totalCost += parseFloat(data[i].cost);
         }
 
-        $(this.api().column(3).footer()).html(
+        $(this.api().column(4).footer()).html(
           totalCost.toLocaleString("es-CO", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
