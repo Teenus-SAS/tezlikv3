@@ -62,7 +62,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="max" <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-up mr-1" id="lblMaxProfitability"></i></span></a>
+                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="max" <span class="font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-up mr-1" id="lblMaxProfitability"></i></span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -73,7 +73,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="min" <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-down mr-1" id="lblMinProfitability"></i></span></a>
+                                                        <a href="javascript:;" class="btnsProfit" style="color:white;" id="min" <span class="font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-down mr-1" id="lblMinProfitability"></i></span></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -85,7 +85,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body" style="padding: 10px;">
                                                 <div class="media text-white">
                                                     <div class="media-body" style="text-align: center;">
-                                                        <span class="text-uppercase font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-right mr-1" id="lblAverageProfitability"></i></span>
+                                                        <span class="font-size-12 font-weight-bold" style="font-size: smaller;"><i class="fas fa-arrow-circle-right mr-1" id="lblAverageProfitability"></i></span>
                                                     </div>
                                                 </div>
                                             </div>
