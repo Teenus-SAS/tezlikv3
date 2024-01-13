@@ -63,7 +63,6 @@ $(document).ready(function () {
 
             return cost;
           },
-          //footer: "Total Costo", // Añadir el pie de columna
         },
         {
           title: "Acciones",
@@ -77,18 +76,19 @@ $(document).ready(function () {
         },
       ],
       footerCallback: function (row, data, start, end, display) {
-       let totalCost = 0;
+        let totalCost = 0;
 
         for (let i = 0; i < data.length; i++) {
           totalCost += parseFloat(data[i].cost);
         }
 
         $(this.api().column(3).footer()).html(
-          `$ ${totalCost.toLocaleString('es-CO', {
+          `$ ${totalCost.toLocaleString("es-CO", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}`
         );
+        $('#status').html('<b>TOTAL PENDENT SALARIES:</b> <u>$'+ total + '</u>');
       },
     });
   };
