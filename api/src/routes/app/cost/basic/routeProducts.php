@@ -626,9 +626,17 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     $generalExpenseRecoverDao,
     $productsCostDao,
     $productsDao,
-    $generalCompositeProductsDao
+    $generalCompositeProductsDao,
+    $costMaterialsDao,
+    $priceProductDao,
+    $generalProductsDao
 ) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
+
+    if ($_SESSION['flag_composite_product'] == '1')
+        $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
 
     $resolution = $generalPMaterialsDao->deleteProductMaterialByProduct($dataProduct);
     if ($resolution == null)
@@ -647,6 +655,52 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
         $resolution = $generalCompositeProductsDao->deleteChildProductByProduct($dataProduct['idProduct']);
     if ($resolution == null)
         $resolution = $productsDao->deleteProduct($dataProduct['idProduct']);
+
+    if ($resolution == null && $_SESSION['flag_composite_product'] == '1') {
+        // Calcular costo material porq
+        foreach ($productsCompositer as $arr) {
+            if (isset($resolution['info'])) break;
+
+            $data = [];
+            // $data['compositeProduct'] = $arr['id_child_product'];
+            $data['idProduct'] = $arr['id_product'];
+            // $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+            // $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+            if (isset($resolution['info'])) break;
+            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+            $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+            if (isset($resolution['info'])) break;
+
+            $data = $priceProductDao->calcPrice($arr['id_product']);
+            $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+            if (isset($resolution['info'])) break;
+
+            $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+            foreach ($productsCompositer2 as $k) {
+                if (isset($resolution['info'])) break;
+
+                $data = [];
+                // $data['compositeProduct'] = $k['id_child_product'];
+                $data['idProduct'] = $k['id_product'];
+
+                // $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                // $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($resolution['info'])) break;
+
+                $data = $priceProductDao->calcPrice($k['id_product']);
+                $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+            }
+        }
+    }
 
     if ($resolution == null)
         $resp = array('success' => true, 'message' => 'Producto eliminado correctamente');
