@@ -68,11 +68,11 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
         }
 
 
-        if ($resolution == null) {
-            $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
-            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
-            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
-        }
+        // if ($resolution == null) {
+        //     $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
+        //     $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
+        //     $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
+        // }
 
         // Calcular costo materia prima compuesta
         if ($resolution == null) {
@@ -168,11 +168,11 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
             $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
         }
 
-        if ($resolution == null) {
-            $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
-            $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
-            $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
-        }
+        // if ($resolution == null) {
+        //     $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
+        //     $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
+        //     $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
+        // }
 
         // Calcular costo materia prima compuesta
         if ($resolution == null) {
@@ -262,11 +262,11 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
         $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProduct['idProduct'], $id_company);
     }
 
-    if ($resolution == null) {
-        $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
-        $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
-        $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
-    }
+    // if ($resolution == null) {
+    //     $data = $costCompositeProductsDao->calcCostCompositeProduct($dataProduct);
+    //     $product = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $dataProduct['idProduct'], $id_company);
+    //     $product = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $dataProduct['idProduct'], $id_company);
+    // }
 
     // Calcular costo materia prima compuesta
     // if ($resolution == null) {
