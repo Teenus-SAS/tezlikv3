@@ -49,6 +49,14 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
+         if (data.length == 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileExpenses').val('');
+          toastr.error('Archivo vacio. Verifique nuevamente');
+          return false;
+        }
+
         if (option == 1) {
           const expectedHeaders = ['unidades_vendidas', 'volumen_ventas', 'referencia_producto', 'producto'];
           const actualHeaders = Object.keys(data[0]);

@@ -147,7 +147,7 @@ $(document).ready(function () {
       dataP['idProductMaterial'] = idProductMaterial;
       url = '/api/deleteProductMaterial';
     } else {
-      dataP['idCompositeProduct'] = data.id_composite_product;
+      dataP['idCompositeProduct'] = data.id_composite_product; 
       url = '/api/deleteCompositeProduct';
     }
 

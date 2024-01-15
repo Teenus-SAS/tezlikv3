@@ -39,7 +39,16 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
+        if (data.length == 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileMachines').val('');
+          toastr.error('Archivo vacio. Verifique nuevamente');
+          return false;
+        }
+        
         const expectedHeaders = ['maquina', 'costo', 'años_depreciacion', 'horas_maquina', 'dias_maquina'];
+
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));

@@ -62,8 +62,8 @@ class CostMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT IFNULL((SUM(cp.cost) + (SELECT SUM(cost) FROM products_materials WHERE id_product = cp.id_product)), 0) AS cost
-                                          FROM composite_products cp 
+            $stmt = $connection->prepare("SELECT IFNULL((SUM(cp.cost) + (SELECT IFNULL(SUM(cost), 0) FROM products_materials WHERE id_product = cp.id_product)), 0) AS cost
+                                          FROM composite_products cp
                                           WHERE cp.id_product = :id_product");
             $stmt->execute([
                 'id_product' => $dataProduct['idProduct'],

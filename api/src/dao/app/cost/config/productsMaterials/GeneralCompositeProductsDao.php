@@ -110,4 +110,19 @@ class GeneralCompositeProductsDao
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         }
     }
+
+    public function deleteChildProductByProduct($id_child_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM composite_products WHERE id_child_product = :id_child_product");
+        $stmt->execute(['id_child_product' => $id_child_product]);
+        $rows = $stmt->rowCount();
+
+        if ($rows > 0) {
+            $stmt = $connection->prepare("DELETE FROM composite_products WHERE id_child_product = :id_child_product");
+            $stmt->execute(['id_child_product' => $id_child_product]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        }
+    }
 }

@@ -39,6 +39,14 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
+         if (data.length == 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileExternalServices').val('');
+          toastr.error('Archivo vacio. Verifique nuevamente');
+          return false;
+        }
+
         const expectedHeaders = ['referencia_producto', 'producto', 'servicio', 'costo'];
         const actualHeaders = Object.keys(data[0]);
 

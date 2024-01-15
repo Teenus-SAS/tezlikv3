@@ -38,6 +38,14 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
+         if (data.length == 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProductsProcess').val('');
+          toastr.error('Archivo vacio. Verifique nuevamente');
+          return false;
+        }
+
         const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion'];
         const actualHeaders = Object.keys(data[0]);
 

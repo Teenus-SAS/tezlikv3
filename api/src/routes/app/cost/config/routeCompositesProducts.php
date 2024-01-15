@@ -269,10 +269,10 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
     }
 
     // Calcular costo materia prima compuesta
-    if ($resolution == null) {
-        $dataProduct = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($dataProduct);
-        $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($dataProduct);
-    }
+    // if ($resolution == null) {
+    //     $dataProduct = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($dataProduct);
+    //     $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($dataProduct);
+    // }
 
     // Calcular costo materia prima
     if ($resolution == null) {

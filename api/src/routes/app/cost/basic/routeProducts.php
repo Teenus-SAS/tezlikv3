@@ -630,22 +630,28 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 ) {
     $dataProduct = $request->getParsedBody();
 
-    $productsMaterials = $generalPMaterialsDao->deleteProductMaterialByProduct($dataProduct);
-    $productsProcess = $generalPProcessDao->deleteProductProcessByProduct($dataProduct);
-    $externalServices = $generalServicesDao->deleteExternalServiceByProduct($dataProduct);
-    $expensesDistribution = $generalExpenseDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
-    $expensesRecover = $generalExpenseRecoverDao->deleteRecoverExpenseByProduct($dataProduct);
-    $productsCost = $productsCostDao->deleteProductsCost($dataProduct);
-    $productsCompositer = $generalCompositeProductsDao->deleteCompositeProductByProduct($dataProduct['idProduct']);
-    $product = $productsDao->deleteProduct($dataProduct['idProduct']);
+    $resolution = $generalPMaterialsDao->deleteProductMaterialByProduct($dataProduct);
+    if ($resolution == null)
+        $resolution = $generalPProcessDao->deleteProductProcessByProduct($dataProduct);
+    if ($resolution == null)
+        $resolution = $generalServicesDao->deleteExternalServiceByProduct($dataProduct);
+    if ($resolution == null)
+        $resolution = $generalExpenseDistributionDao->deleteExpensesDistributionByProduct($dataProduct);
+    if ($resolution == null)
+        $resolution = $generalExpenseRecoverDao->deleteRecoverExpenseByProduct($dataProduct);
+    if ($resolution == null)
+        $resolution = $productsCostDao->deleteProductsCost($dataProduct);
+    if ($resolution == null)
+        $resolution = $generalCompositeProductsDao->deleteCompositeProductByProduct($dataProduct['idProduct']);
+    if ($resolution == null)
+        $resolution = $generalCompositeProductsDao->deleteChildProductByProduct($dataProduct['idProduct']);
+    if ($resolution == null)
+        $resolution = $productsDao->deleteProduct($dataProduct['idProduct']);
 
-    if (
-        $product == null && $productsCost == null && $productsMaterials == null && $productsProcess == null &&
-        $externalServices == null && $expensesDistribution == null && $expensesRecover == null
-    )
+    if ($resolution == null)
         $resp = array('success' => true, 'message' => 'Producto eliminado correctamente');
-    else if (isset($product['info']))
-        $resp = array('info' => true, 'message' => $product['message']);
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el producto');
 

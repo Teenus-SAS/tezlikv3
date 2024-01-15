@@ -374,7 +374,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
                 // Calcular costo material porq
-                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($productProcess[$i]['id_product']);
+                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($productProcess[$i]['idProduct']);
 
                 foreach ($productsCompositer as $j) {
                     if (isset($resolution['info'])) break;

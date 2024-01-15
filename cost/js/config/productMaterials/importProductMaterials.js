@@ -39,6 +39,14 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
+         if (data.length == 0) {
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+          $('#fileProductsMaterials').val('');
+          toastr.error('Archivo vacio. Verifique nuevamente');
+          return false;
+        }
+
         const expectedHeaders = ['referencia_producto', 'producto', 'referencia_material', 'material', 'magnitud', 'unidad', 'cantidad'];
         const actualHeaders = Object.keys(data[0]);
 

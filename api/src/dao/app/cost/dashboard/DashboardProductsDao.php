@@ -143,10 +143,9 @@ class DashboardProductsDao
 
         if ($op == 2) {
             $stmt = $connection->prepare("SELECT p.product AS material, cp.cost AS totalCostMaterial
-                                        FROM products_materials pm
-                                        LEFT JOIN composite_products cp ON pm.id_product = cp.id_product
+                                        FROM composite_products cp
                                         LEFT JOIN products p ON p.id_product = cp.id_child_product 
-                                      WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
+                                      WHERE cp.id_product = :id_product AND cp.id_company = :id_company 
                                       GROUP BY p.id_product 
                                       ORDER BY totalCostMaterial DESC");
             $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
