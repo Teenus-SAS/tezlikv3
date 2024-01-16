@@ -203,6 +203,37 @@ $(document).ready(function () {
     $('#productsByMaterial').modal('show');
   });
 
+  $(document).on('click', '.indirect', function () {
+    let row = $(this).parent().parent()[0];
+    let data = tblRawMaterials.fnGetData(row);
+
+    bootbox.confirm({
+      title: data.flag_indirect == '0' ? 'Agregar' : 'Eliminar',
+      message:
+        `Está seguro de que esta materia ${data.flag_indirect == '0' ? 'se agregue a material indirecto' : 'se elimine de material indirecto'}? Esta acción no se puede reversar.`,
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          $.get(
+            `/api/changeIndirect/${data.id_material}/${data.flag_indirect == '0' ? '1' : '0'}`,
+            function (data, textStatus, jqXHR) {
+              message(data);
+            }
+          );
+        }
+      },
+    });
+  });
+
   $(document).on('click', '.billRawMaterial', function () {
     let row = $(this).parent().parent()[0];
     let data = tblRawMaterials.fnGetData(row);

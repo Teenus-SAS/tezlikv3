@@ -27,6 +27,18 @@ class GeneralQuotesDao
         return $quotes;
     }
 
+    public function findMaterial($id_material)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("");
+        $stmt->execute([
+            //'' => 
+        ]);
+        $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $materials));
+        return $materials;
+    }
+
     public function findAllQuotesProductsByIdProduct($id_product)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -71,8 +71,11 @@
                                         <div class="col-12 col-lg-12 titlePayroll">
                                             <label for=""><b>Productos</b></label>
                                         </div>
-                                        <div class="col-12 col-lg-12">
+                                        <div class="col-12 col-lg-3">
                                             <button class="btn btn-warning mb-4" id="btnAddNewProduct">Seleccionar Productos</button>
+                                        </div>
+                                        <div class="col-12 col-lg-6">
+                                            <button class="btn btn-info mb-4" id="btnAddMaterial">Adicionar Material</button>
                                         </div>
 
                                         <div class="addProd row px-3">

@@ -452,3 +452,30 @@ $app->post('/deleteMaterial', function (Request $request, Response $response, $a
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+$app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao
+) {
+    $status = true;
+
+    // if ($args['op'] == 0) {
+    //     $product = $generalCompositeProductsDao->findCompositeProductByChild($args['id_material']);
+    //     if (sizeof($product) > 0)
+    //         $status = false;
+    // }
+
+    if ($status == true) {
+        $material = $generalMaterialsDao->changeFlagMaterial($args['id_material'], $args['op']);
+
+        if ($material == null)
+            $resp = array('success' => true, 'message' => 'material modificado correctamente');
+        else if (isset($material['info']))
+            $resp = array('info' => true, 'message' => $material['message']);
+        else
+            $resp = array('error' => true, 'message' => 'No se pudo modificar la información. Intente de nuevo');
+    } else
+        $resp = array('error' => true, 'message' => 'No se pudo desactivar el material. Tiene datos relacionados a él');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withHeader('Content-Type', 'application/json');
+});

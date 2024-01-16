@@ -24,7 +24,7 @@ $(document).ready(function () {
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
 
-    let op = 0;
+    let op = 1;
     if (custom_price == 1)
       op = await loadPriceListByProduct(id);
 
@@ -42,22 +42,22 @@ $(document).ready(function () {
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
 
-    let op = 0;
+    let op = 1;
     if (custom_price == 1)
      op = await loadPriceListByProduct(id);
-    loadDataProduct(id);
+    loadDataProduct(id, op);
   });
 
   loadDataProduct = async (id, op) => {
     let data = await searchData(`/api/productCost/${id}`);
 
-    data.sale == '0' ? price = parseFloat(data.price) : price = parseFloat(data.sale_price);
+    data.sale_price == '0' ? price = parseFloat(data.price).toFixed() : price = parseFloat(data.sale_price).toFixed();
 
-    if (price == false) {
-      price = 0;
-    } else {
-      price = parseFloat(data.price).toLocaleString('es-CO');
-    }
+    // if (price == false) {
+    //   price = 0;
+    // } else {
+    //   price = parseFloat(data.price).toLocaleString('es-CO');
+    // }
 
     oldPrice = price;
     priceProduct = price;
