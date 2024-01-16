@@ -102,9 +102,9 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
     $id_company = $_SESSION['id_company'];
     $dataQuote = $request->getParsedBody();
 
-    $quote = $quotesDao->insertQuote($dataQuote, $id_company);
+    $resolution = $quotesDao->insertQuote($dataQuote, $id_company);
 
-    if ($quote == null) {
+    if ($resolution == null) {
         /* Obtener id cotizacion */
         $quote = $lastDataDao->findLastQuote();
 
@@ -112,48 +112,68 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
 
         /* Inserta todos los productos de la cotizacion */
         for ($i = 0; $i < sizeof($products); $i++) {
-            // $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
+            $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
+            if (!isset($products[$i]['idMaterial']))
+                $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
+            else {
+                $quotesProduct = $lastDataDao->findLastQuoteProducts();
 
-            $quotesProducts = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
+                $resolution = $generalQuotesDao->updateQuotesProducts($products[$i], $quotesProduct['id_quote_product']);
+            }
+
+            if (isset($resolution['info'])) break;
         }
+    }
 
-        if ($quotesProducts == null)
-            $resp = array('success' => true, 'message' => 'Cotización insertada correctamente');
-        else if (isset($quotesProducts['info']))
-            $resp = array('info' => true, 'message' => $quotesProducts['message']);
-        else
-            $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
-    } else
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Cotización insertada correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras ingresaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateQuote', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao, $convertDataDao) {
+$app->post('/updateQuote', function (Request $request, Response $response, $args) use (
+    $quotesDao,
+    $quoteProductsDao,
+    $lastDataDao,
+    $generalQuotesDao,
+    $convertDataDao
+) {
     $dataQuote = $request->getParsedBody();
 
-    $quote = $quotesDao->updateQuote($dataQuote);
+    $resolution = $quotesDao->updateQuote($dataQuote);
 
-    if ($quote == null)
+    if ($resolution == null)
         /* Elimina todos los productos de la cotizacion */
-        $quotesProducts = $quoteProductsDao->deleteQuotesProducts($dataQuote['idQuote']);
+        $resolution = $quoteProductsDao->deleteQuotesProducts($dataQuote['idQuote']);
 
-    if ($quotesProducts == null) {
+    if ($resolution == null) {
         /* Inserta todos los productos de la cotizacion */
         $products = $dataQuote['products'];
 
         for ($i = 0; $i < sizeof($products); $i++) {
-            // $product = $convertDataDao->strReplaceQuotes($products[$i]);
+            $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
 
-            $quotesProducts = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
+            if (!isset($products[$i]['idMaterial']))
+                $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
+            else {
+                $quotesProduct = $lastDataDao->findLastQuoteProducts();
+
+                $resolution = $generalQuotesDao->updateQuotesProducts($products[$i], $quotesProduct['id_quote_product']);
+            }
+
+            if (isset($resolution['info'])) break;
         }
     }
 
-    if ($quotesProducts == null)
+    if ($resolution == null)
         $resp = array('success' => true, 'message' => 'Cotizacion modificada correctamente');
-    else if (isset($quotesProducts['info']))
-        $resp = array('info' => true, 'message' => $quotesProducts['message']);
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras modificaba la información. Intente nuevamente');
 

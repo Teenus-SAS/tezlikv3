@@ -108,12 +108,14 @@ if (sizeof($_SESSION) == 0)
 		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
 	</script>
 	<script src="/global/js/global/orderData.js"></script>
+	<script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>
 	<script src="/cost/js/quotes/companies/configCompanies.js"></script>
 	<script src="/cost/js/quotes/paymentMethods/configPaymentMethods.js"></script>
 	<script src="/cost/js/quotes/copyQuote.js"></script>
 	<script src="/cost/js/quotes/quotes.js"></script>
 	<script src="/cost/js/quotes/addProduct.js"></script>
+	<script src="/cost/js/quotes/addMaterials.js"></script>
 	<script src="/cost/js/quotes/tblQuotes.js"></script>
 </body>
 

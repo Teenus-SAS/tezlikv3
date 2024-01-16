@@ -75,7 +75,7 @@
                                             <button class="btn btn-warning mb-4" id="btnAddNewProduct">Seleccionar Productos</button>
                                         </div>
                                         <div class="col-12 col-lg-6">
-                                            <button class="btn btn-info mb-4" id="btnAddMaterial">Adicionar Material</button>
+                                            <button class="btn btn-info mb-4" id="btnNewMaterial">Adicionar Material</button>
                                         </div>
 
                                         <div class="addProd row px-3">
@@ -145,6 +145,32 @@
                                                 <button class="btn btn-warning mb-4" id="btnAddProduct">Adicionar producto</button>
                                             </div>
                                         </div>
+                                        <div class="addMaterial row px-3">
+                                            <div class="col-12 col-lg-4">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <select class="form-control" id="refMaterial" name="idMaterial"></select>
+                                                    <label for="refMaterial" class="form-label">Referencia <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-8">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <select class="form-control" id="nameMaterial" name="idMaterial"></select>
+                                                    <label for="nameMaterial" class="form-label">Material <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-2">
+                                                <div class="form-group floating-label enable-floating-label show-label">
+                                                    <input class="form-control text-center" type="number" name="quantity" id="quantityMaterial">
+                                                    <label for="quantityMaterial" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                                                    <div class="validation-error d-none font-size-13">Requerido</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-12">
+                                                <button class="btn btn-warning mb-4" id="btnAddMaterial">Guardar</button>
+                                            </div>
+                                        </div>
                                         <hr>
                                         <div class="col-12 col-lg-12">
                                             <div class="card mt-4">
@@ -159,6 +185,8 @@
                                                                     <th class="text-center">Valor Unitario</th>
                                                                     <th class="text-center">Descuento</th>
                                                                     <th class="text-center">Valor Total</th>
+                                                                    <!-- <th class="text-center indirect">Material</th>
+                                                                    <th class="text-center indirect">Cantidad</th> -->
                                                                     <th class="text-center">Acciones</th>
                                                                 </tr>
                                                             </thead>

@@ -107,6 +107,18 @@ class LastDataDao
         return $quote;
     }
 
+    public function findLastQuoteProducts()
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(id_quote_product) AS id_quote_product FROM quotes_products");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $quote = $stmt->fetch($connection::FETCH_ASSOC);
+        return $quote;
+    }
+
     public function findLastInsertedQCompany()
     {
         $connection = Connection::getInstance()->getConnection();

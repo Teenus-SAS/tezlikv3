@@ -30,9 +30,9 @@ class GeneralQuotesDao
     public function findMaterial($id_material)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("");
+        $stmt = $connection->prepare("SELECT * FROM quotes_products WHERE id_material = :id_material");
         $stmt->execute([
-            //'' => 
+            'id_material' => $id_material
         ]);
         $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $materials));
@@ -48,6 +48,26 @@ class GeneralQuotesDao
 
         $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $quotesProducts;
+    }
+
+    public function updateQuotesProducts($dataQuote, $id_quote_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE quotes_products SET id_material = :id_material, quantity_material = :quantity_material 
+                                          WHERE id_quote_product = :id_quote_product");
+            $stmt->execute([
+                'id_quote_product' => $id_quote_product,
+                'id_material' => $dataQuote['idMaterial'],
+                'quantity_material' => $dataQuote['quantity']
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
     }
 
     public function updateFlagQuote($dataQuote)

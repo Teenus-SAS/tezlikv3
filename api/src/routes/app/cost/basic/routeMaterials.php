@@ -468,7 +468,7 @@ $app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Resp
         $material = $generalMaterialsDao->changeFlagMaterial($args['id_material'], $args['op']);
 
         if ($material == null)
-            $resp = array('success' => true, 'message' => 'material modificado correctamente');
+            $resp = array('success' => true, 'message' => 'Material modificado correctamente');
         else if (isset($material['info']))
             $resp = array('info' => true, 'message' => $material['message']);
         else

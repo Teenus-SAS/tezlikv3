@@ -44,7 +44,7 @@ $(document).ready(function () {
 
     let op = 1;
     if (custom_price == 1)
-     op = await loadPriceListByProduct(id);
+      op = await loadPriceListByProduct(id);
     loadDataProduct(id, op);
   });
 
@@ -90,7 +90,6 @@ $(document).ready(function () {
   });
 
   /* Calcular precio total */
-
   $(document).on('blur', '#price', function (e) {
     let idProduct = $('#refProduct').val();
     if (idProduct > 0) {
@@ -127,7 +126,6 @@ $(document).ready(function () {
   });
 
   /* Adicionar productos a la tabla */
-
   $('#btnAddProduct').on('click', function (e) {
     e.preventDefault();
     let ref = $('#refProduct :selected').text();
@@ -168,6 +166,7 @@ $(document).ready(function () {
         quantity: quantity,
         discount: discount,
         totalPrice: `$ ${totalPrice}`,
+        indirect: 0
       };
 
       products.push(product);
@@ -259,10 +258,11 @@ $(document).ready(function () {
             <td class="text-center">${products[i].price}</td>
             <td class="text-center">${products[i].discount} %</td>
             <td class="text-center">${products[i].totalPrice}</td>
-            <td class="text-center">
-            <a href="javascript:;" id="${i}" <i class="bx bx-edit updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 18px"></i></a>
-              <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>
-            </td>
+            <td class="text-center"> 
+            ${products[i].indirect == 1 ? `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateMaterial" data-toggle='tooltip' title='Actualizar Material' style="font-size: 18px"></i></a>`
+          : `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 18px"></i></a>`}
+            <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>
+          </td>
         </tr>`
       );
     }
