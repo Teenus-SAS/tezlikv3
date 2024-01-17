@@ -255,8 +255,8 @@ $(document).ready(function () {
         <tr>
             <td class="text-center">${products[i].ref}</td>              
             <td class="text-center">${products[i].nameProduct}</td>              
-            <td class="text-center">${products[i].quantity}</td>              
-            <td class="text-center">${products[i].price}</td>
+            <td class="text-center">${products[i].indirect == 1 ? products[i].quantityMaterial : products[i].quantity}</td>              
+            <td class="text-center">${products[i].indirect == 1 ? products[i].cost : products[i].price}</td>
             <td class="text-center">${products[i].discount} %</td>
             <td class="text-center">${products[i].totalPrice}</td>
             <td class="text-center"> 

@@ -72,8 +72,11 @@ $(document).ready(function () {
 
     let previousIdQuote = null;
     let rowspanCount = 1;
+    let contPrice = 0;
 
-    for (let i = 0; i < data.length; i++) { 
+    for (let i = 0; i < data.length; i++) {
+      contPrice += data[i].indirect == 1 ? parseInt(strReplaceNumber(data[i].cost).replace('$ ', '')) : parseInt(strReplaceNumber(data[i].price).replace('$ ', ''));
+
       let body = `<tr>
         <td>${i + 1}</td>
         <td class="text-left">${data[i].ref}</td>
@@ -94,9 +97,9 @@ $(document).ready(function () {
           tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[5].rowSpan = rowspanCount;
           tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[6].rowSpan = rowspanCount;
 
-          let price1 = strReplaceNumber(data[i].price);
-          price1 = price1.replace('$ ', '');
-          price1 = parseInt(price1) + parseInt(price);
+          // let price1 = strReplaceNumber(data[i].price);
+          // price1 = price1.replace('$ ', '');
+          // price1 = parseInt(price1) + parseInt(contPrice);
 
           let total1 = strReplaceNumber(data[i].totalPrice);
           total1 = total1.replace('$ ', '');
@@ -106,9 +109,10 @@ $(document).ready(function () {
             <td>${i + 1}</td>
             <td class="text-left">${data[i].ref}</td>
             <td class="text-left">${data[i].nameProduct}</td>
-            <td class="text-center">${data[i].quantity.toLocaleString('es-CO')}</td>
+            <td class="text-center">${data[i].quantityMaterial.toLocaleString('es-CO')}</td>
           </tr>`;
-          $('#price1').html(`$ ${price1.toLocaleString('es-CO')}`);
+
+          $('#price1').html(`$ ${contPrice.toLocaleString('es-CO')}`);
           $('#total1').html(`$ ${total1.toLocaleString('es-CO')}`);
         }
       } else {
@@ -120,7 +124,7 @@ $(document).ready(function () {
       previousIdQuote = data[i].id_quote;
       previousIdMaterial = data[i].id_material;
 
-      price = strReplaceNumber(data[i].price);
+      let price = data[i].indirect == 1 ? strReplaceNumber(data[i].cost) : strReplaceNumber(data[i].price);
       price = price.replace('$ ', '');
 
       let subtotalPrice =

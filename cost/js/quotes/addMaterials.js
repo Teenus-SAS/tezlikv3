@@ -9,10 +9,10 @@ $(document).ready(function () {
             return false;
         }
 
-        if (products.length == 2) {
-            toastr.error('Maximo una materia prima');
-            return false;
-        }
+        // if (products.length == 2) {
+        //     toastr.error('Maximo una materia prima');
+        //     return false;
+        // }
 
         sessionStorage.removeItem('actualizar');
         
@@ -49,11 +49,15 @@ $(document).ready(function () {
 
         if (!op || op == null) {
             data = {
+                idProduct: products[0].idProduct,
                 idMaterial: idMaterial,
                 ref: ref.trim(),
                 nameProduct: material.trim(),
-                price: `$ ${indirectMaterial[0].cost.toLocaleString('es-CO')}`,
-                quantity: quantity,
+                price: products[0].price,
+                cost: `$ ${indirectMaterial[0].cost.toLocaleString('es-CO')}`,
+                idPriceList: '',
+                quantity: products[0].quantity, 
+                quantityMaterial: quantity, 
                 discount: '0',
                 totalPrice: `$ ${totalPrice.toLocaleString('es-CO')}`,
                 indirect: 1
@@ -63,7 +67,7 @@ $(document).ready(function () {
             products[op].idMaterial = idMaterial;
             products[op].ref = ref.trim();
             products[op].nameProduct = material.trim();
-            products[op].quantity = quantity;
+            products[op].quantityMaterial = quantity;
             products[op].price = `$ ${indirectMaterial[0].cost.toLocaleString('es-CO')}`;
             products[op].discount = '0';
             products[op].totalPrice = `$ ${totalPrice}`;
