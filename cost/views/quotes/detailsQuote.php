@@ -124,6 +124,7 @@ if (sizeof($_SESSION) == 0)
 													<th class="text-left">Referencia</th>
 													<th class="text-left">Descripción</th>
 													<th class="text-center">Cantidad</th>
+													<!-- <th class="text-center indirect">Rentabilidad</th> -->
 													<th class="text-center">Precio</th>
 													<th class="text-center">Descuento</th>
 													<th class="text-center">Total</th>

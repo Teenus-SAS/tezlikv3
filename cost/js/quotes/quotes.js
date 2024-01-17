@@ -124,6 +124,8 @@ $(document).ready(function () {
 
     await addProducts();
 
+    $('.addMaterial').hide();
+    $('.addProd').hide();
     $('#btnSaveQuote').html('Actualizar');
     $('#modalCreateQuote').modal('show');
 

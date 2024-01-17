@@ -33,6 +33,7 @@ $(document).ready(function () {
         let ref = $('#refMaterial :selected').text();
         let material = $('#nameMaterial :selected').text();
         let quantity = parseInt($('#quantityMaterial').val());
+        let profitability = $('#profitability').val();
 
         let data = idMaterial * quantity;
 
@@ -41,9 +42,17 @@ $(document).ready(function () {
             return false;
         }
 
+        if (indirect == 1 && !profitability) {
+            toastr.error('Ingrese rentabilidad');
+            return false;
+        }
+
         let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
         let indirectMaterial = dataMaterials.filter((item) => item.id_material == idMaterial);
         let totalPrice = quantity * indirectMaterial[0].cost;
+        
+        indirect == 1 ? price = indirectMaterial[0].cost / (1 - (profitability / 100)) : price = indirectMaterial[0].cost;
+        indirect == 1 ? totalPrice = totalPrice / (1 - (profitability / 100)) : totalPrice;
 
         let op = sessionStorage.getItem('actualizar');
 
@@ -54,12 +63,13 @@ $(document).ready(function () {
                 ref: ref.trim(),
                 nameProduct: material.trim(),
                 // price: products[0].price,
-                price: `$ ${indirectMaterial[0].cost.toLocaleString('es-CO')}`,
+                price: `$ ${price.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`,
                 idPriceList: '',
-                quantity: products[0].quantity, 
-                quantityMaterial: quantity, 
+                quantity: products[0].quantity,
+                quantityMaterial: quantity,
+                profitability: profitability,
                 discount: '0',
-                totalPrice: `$ ${totalPrice.toLocaleString('es-CO')}`,
+                totalPrice: `$ ${totalPrice.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`,
                 indirect: 1
             };
             products.push(data);
@@ -68,12 +78,14 @@ $(document).ready(function () {
             products[op].ref = ref.trim();
             products[op].nameProduct = material.trim();
             products[op].quantityMaterial = quantity;
-            products[op].price = `$ ${indirectMaterial[0].cost.toLocaleString('es-CO')}`;
+            products[op].price = `$ ${price.toLocaleString('es-CO'), { maximumFractionDigits: 0 }}`;
             products[op].discount = '0';
-            products[op].totalPrice = `$ ${totalPrice}`;
+            products[op].profitability = profitability;
+            products[op].totalPrice = `$ ${totalPrice.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
             products[op].indirect = 1;
         }
         
+        $('#profitability').val('');
         $('.addMaterial').hide(800);
 
         addProducts();
@@ -94,6 +106,7 @@ $(document).ready(function () {
         );
 
         $('#quantityMaterial').val(data.quantity.toLocaleString());
+        $('#profitability').val(data.profitability);
 
         sessionStorage.setItem('actualizar', id);
 

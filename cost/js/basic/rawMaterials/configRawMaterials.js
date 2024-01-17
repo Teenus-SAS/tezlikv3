@@ -36,9 +36,8 @@ $(document).ready(function () {
     // let indirect = 1;
 
     if (indirectMaterial.length == 0) {
-      // indirect = 0;
-      // $('.indirect').hide();
-      $('#btnNewMaterial').hide();
+      $('.indirectMaterial').hide();
+      indirect = 0;
     } else {
       let $select1 = $(`#refMaterial`);
       $select1.empty();

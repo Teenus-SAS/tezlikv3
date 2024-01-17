@@ -74,8 +74,14 @@
                                         <div class="col-12 col-lg-3">
                                             <button class="btn btn-warning mb-4" id="btnAddNewProduct">Seleccionar Productos</button>
                                         </div>
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-3 indirectMaterial">
                                             <button class="btn btn-info mb-4" id="btnNewMaterial">Adicionar Material</button>
+                                        </div>
+                                        <div class="col-12 col-lg-2 indirectMaterial">
+                                            <div class="form-group floating-label enable-floating-label show-label">
+                                                <input type="number" class="text-center form-control" name="profitability" id="profitability">
+                                                <label for="profitability" class="form-label">Rentabilidad</label>
+                                            </div>
                                         </div>
 
                                         <div class="addProd row px-3">
@@ -153,7 +159,7 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-lg-8">
+                                            <div class="col-12 col-lg-6">
                                                 <div class="form-group floating-label enable-floating-label show-label">
                                                     <select class="form-control" id="nameMaterial" name="idMaterial"></select>
                                                     <label for="nameMaterial" class="form-label">Material <span class="text-danger">*</span></label>
@@ -184,9 +190,8 @@
                                                                     <th class="text-center">Cantidad</th>
                                                                     <th class="text-center">Valor Unitario</th>
                                                                     <th class="text-center">Descuento</th>
+                                                                    <th class="text-center indirectMaterial">Rentabilidad</th>
                                                                     <th class="text-center">Valor Total</th>
-                                                                    <!-- <th class="text-center indirect">Material</th>
-                                                                    <th class="text-center indirect">Cantidad</th> -->
                                                                     <th class="text-center">Acciones</th>
                                                                 </tr>
                                                             </thead>

@@ -71,12 +71,10 @@ $(document).ready(function () {
     let tblQuotesProductsBody = document.getElementById('tblQuotesProductsBody');
 
     let previousIdQuote = null;
-    let rowspanCount = 1;
-    let contPrice = 0;
+    let rowspanCount = 1; 
+    let subtotalPrice1 = 0;
 
-    for (let i = 0; i < data.length; i++) {
-      contPrice += parseInt(strReplaceNumber(data[i].price).replace('$ ', ''));
-
+    for (let i = 0; i < data.length; i++) { 
       let body = `<tr>
         <td>${i + 1}</td>
         <td class="text-left">${data[i].ref}</td>
@@ -97,9 +95,9 @@ $(document).ready(function () {
           tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[5].rowSpan = rowspanCount;
           tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[6].rowSpan = rowspanCount;
 
-          // let price1 = strReplaceNumber(data[i].price);
-          // price1 = price1.replace('$ ', '');
-          // price1 = parseInt(price1) + parseInt(contPrice);
+          let price1 = strReplaceNumber(data[i].price);
+          price1 = price1.replace('$ ', '');
+          price1 = subtotalPrice1 + (parseInt(price1) * data[i].quantityMaterial);
 
           let total1 = strReplaceNumber(data[i].totalPrice);
           total1 = total1.replace('$ ', '');
@@ -112,7 +110,7 @@ $(document).ready(function () {
             <td class="text-center">${data[i].quantityMaterial.toLocaleString('es-CO')}</td>
           </tr>`;
 
-          $('#price1').html(`$ ${contPrice.toLocaleString('es-CO')}`);
+          $('#price1').html(`$ ${price1.toLocaleString('es-CO')}`);
           $('#total1').html(`$ ${total1.toLocaleString('es-CO')}`);
         }
       } else {
@@ -122,11 +120,12 @@ $(document).ready(function () {
       tblQuotesProductsBody.insertAdjacentHTML('beforeend', body);
 
       previousIdQuote = data[i].id_quote;
-      previousIdMaterial = data[i].id_material;
+      previousIdMaterial = data[i].id_material; 
 
       let price = strReplaceNumber(data[i].price);
       price = price.replace('$ ', '');
-
+      subtotalPrice1 += data[i].quantity * price;
+      
       let subtotalPrice =
         data[i].quantity * price * (1 - data[i].discount / 100);
       subtotal = subtotal + subtotalPrice;

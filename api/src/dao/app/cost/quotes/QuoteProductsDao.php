@@ -36,8 +36,8 @@ class QuoteProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO quotes_products (id_quote, id_product, id_price_list, id_material, quantity_material, quantity, price, discount) 
-                                          VALUES (:id_quote, :id_product, :id_price_list, :id_material, :quantity_material, :quantity, :price, :discount)");
+            $stmt = $connection->prepare("INSERT INTO quotes_products (id_quote, id_product, id_price_list, id_material, quantity_material, quantity, price, discount, profitability) 
+                                          VALUES (:id_quote, :id_product, :id_price_list, :id_material, :quantity_material, :quantity, :price, :discount, :profitability)");
             $stmt->execute([
                 'id_quote' => $id_quote,
                 'id_product' => $dataQuote['idProduct'],
@@ -46,7 +46,8 @@ class QuoteProductsDao
                 'quantity_material' => $dataQuote['quantityMaterial'],
                 'quantity' => $dataQuote['quantity'],
                 'price' => $dataQuote['price'],
-                'discount' => $dataQuote['discount']
+                'discount' => $dataQuote['discount'],
+                'profitability' => $dataQuote['profitability']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

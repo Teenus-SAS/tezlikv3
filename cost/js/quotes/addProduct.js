@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     $('.imgProduct').empty();
 
+    $('#profitability').val('');
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value='0']`).prop('selected', true);
     $('#refProduct option').removeAttr('selected');
@@ -131,6 +132,7 @@ $(document).ready(function () {
     let ref = $('#refProduct :selected').text();
     let price = $('#price').val();
     let quantity = $('#quantity').val();
+    let profitability = $('#profitability').val();
 
     if (
       ref == 'Seleccionar' ||
@@ -147,12 +149,24 @@ $(document).ready(function () {
       return false;
     }
 
+    if (indirect == 1 && !profitability) {
+      toastr.error('Ingrese rentabilidad');
+      return false;
+    }
+
     let idProduct = $('#selectNameProduct').val();
     let nameProduct = $('#selectNameProduct :selected').text();
     let discount = $('#discount').val();
     let totalPrice = $('#totalPrice').val();
 
     price = strReplaceNumber(price);
+
+    if (indirect == 1) {
+      price = price / (1 - (profitability / 100));
+      totalPrice = strReplaceNumber(totalPrice);
+      totalPrice = totalPrice.replace('$ ', '');
+      totalPrice = (totalPrice / (1 - (profitability / 100))).toLocaleString('es-CO', { maximumFractionDigits: 0 });
+    }
 
     op = sessionStorage.getItem('actualizar');
 
@@ -163,9 +177,10 @@ $(document).ready(function () {
         ref: ref.trim(),
         nameProduct: nameProduct.trim(),
         idPriceList: $('#pricesList').val(),
-        price: `$ ${parseInt(price).toLocaleString('es-CO')}`,
+        price: `$ ${parseInt(price).toLocaleString('es-CO', { maximumFractionDigits: 0 })}`,
         quantity: quantity,
-        quantityMaterial: 0, 
+        quantityMaterial: 0,
+        profitability: profitability,
         discount: discount,
         totalPrice: `$ ${totalPrice}`,
         indirect: 0
@@ -178,11 +193,13 @@ $(document).ready(function () {
       products[op].nameProduct = nameProduct.trim();
       products[op].idPriceList = $('#pricesList').val();
       products[op].quantity = quantity;
-      products[op].price = `$ ${parseInt(price).toLocaleString('es-CO')}`;
+      products[op].price = `$ ${parseInt(price).toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+      products[op].profitability = profitability;
       products[op].discount = discount;
       products[op].totalPrice = `$ ${totalPrice}`;
     }
-
+    
+    $('#profitability').val('');
     $('.addProd').hide();
     addProducts();
 
@@ -224,9 +241,12 @@ $(document).ready(function () {
     totalPrice = data.totalPrice;
     totalPrice = totalPrice.replace('$ ', '');
     $('#totalPrice').val(totalPrice);
+    $('#profitability').val(data.profitability);
 
     $('#btnAddProduct').html('Actualizar producto');
 
+    if (custom_price == 1)
+      op = await loadPriceListByProduct(id);
     sessionStorage.setItem('actualizar', id);
 
     $('.addProd').show(1000);
@@ -260,6 +280,7 @@ $(document).ready(function () {
             <td class="text-center">${products[i].indirect == 1 ? products[i].quantityMaterial : products[i].quantity}</td>              
             <td class="text-center">${products[i].price}</td>
             <td class="text-center">${products[i].discount} %</td>
+            ${indirect == 1 ? `<td class="text-center">${products[i].profitability} %</td>` : ''}
             <td class="text-center">${products[i].totalPrice}</td>
             <td class="text-center"> 
             ${products[i].indirect == 1 ? `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateMaterial" data-toggle='tooltip' title='Actualizar Material' style="font-size: 18px"></i></a>`
