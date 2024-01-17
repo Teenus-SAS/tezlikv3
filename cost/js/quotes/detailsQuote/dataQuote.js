@@ -75,7 +75,7 @@ $(document).ready(function () {
     let contPrice = 0;
 
     for (let i = 0; i < data.length; i++) {
-      contPrice += data[i].indirect == 1 ? parseInt(strReplaceNumber(data[i].cost).replace('$ ', '')) : parseInt(strReplaceNumber(data[i].price).replace('$ ', ''));
+      contPrice += parseInt(strReplaceNumber(data[i].price).replace('$ ', ''));
 
       let body = `<tr>
         <td>${i + 1}</td>
@@ -124,7 +124,7 @@ $(document).ready(function () {
       previousIdQuote = data[i].id_quote;
       previousIdMaterial = data[i].id_material;
 
-      let price = data[i].indirect == 1 ? strReplaceNumber(data[i].cost) : strReplaceNumber(data[i].price);
+      let price = strReplaceNumber(data[i].price);
       price = price.replace('$ ', '');
 
       let subtotalPrice =

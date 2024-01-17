@@ -128,17 +128,19 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
         /* Inserta todos los productos de la cotizacion */
         for ($i = 0; $i < sizeof($products); $i++) {
             $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
-            if ($products[$i]['indirect'] == '0')
-                $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
-            else {
-                if ($i > 1) {
-                    $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
-                }
+            $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
 
-                $quotesProduct = $lastDataDao->findLastQuoteProducts();
+            // if ($products[$i]['indirect'] == '0')
+            //     $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
+            // else {
+            //     if ($i > 1) {
+            //         $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $quote['id_quote']);
+            //     }
 
-                $resolution = $generalQuotesDao->updateQuotesProducts($products[$i], $quotesProduct['id_quote_product']);
-            }
+            //     $quotesProduct = $lastDataDao->findLastQuoteProducts();
+
+            //     $resolution = $generalQuotesDao->updateQuotesProducts($products[$i], $quotesProduct['id_quote_product']);
+            // }
 
             if (isset($resolution['info'])) break;
         }
@@ -177,17 +179,18 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
         for ($i = 0; $i < sizeof($products); $i++) {
             $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
 
-            if ($products[$i]['indirect'] == 0)
-                $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
-            else {
-                if ($i > 1) {
-                    $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
-                }
+            $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
+            // if ($products[$i]['indirect'] == 0)
+            //     $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
+            // else {
+            //     // if ($i > 1) {
+            //     $resolution = $quoteProductsDao->insertQuotesProducts($products[$i], $dataQuote['idQuote']);
+            //     // }
 
-                $quotesProduct = $lastDataDao->findLastQuoteProducts();
+            //     // $quotesProduct = $lastDataDao->findLastQuoteProducts();
 
-                $resolution = $generalQuotesDao->updateQuotesProducts($products[$i], $quotesProduct['id_quote_product']);
-            }
+            //     // $resolution = $generalQuotesDao->updateQuotesProducts($products[$i], $quotesProduct['id_quote_product']);
+            // }
 
             if (isset($resolution['info'])) break;
         }

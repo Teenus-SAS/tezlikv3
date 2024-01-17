@@ -36,12 +36,14 @@ class QuoteProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO quotes_products (id_quote, id_product, id_price_list, quantity, price, discount) 
-                                          VALUES (:id_quote, :id_product, :id_price_list, :quantity, :price, :discount)");
+            $stmt = $connection->prepare("INSERT INTO quotes_products (id_quote, id_product, id_price_list, id_material, quantity_material, quantity, price, discount) 
+                                          VALUES (:id_quote, :id_product, :id_price_list, :id_material, :quantity_material, :quantity, :price, :discount)");
             $stmt->execute([
                 'id_quote' => $id_quote,
                 'id_product' => $dataQuote['idProduct'],
                 'id_price_list' => $dataQuote['idPriceList'],
+                'id_material' => $dataQuote['idMaterial'],
+                'quantity_material' => $dataQuote['quantityMaterial'],
                 'quantity' => $dataQuote['quantity'],
                 'price' => $dataQuote['price'],
                 'discount' => $dataQuote['discount']
