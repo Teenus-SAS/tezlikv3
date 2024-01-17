@@ -199,7 +199,8 @@ $(document).ready(function () {
 
     let id = this.id;
     let data = products[id];
-
+    $('.addMaterial').hide();
+    
     $(`#refProduct option:contains(${data.ref})`).prop('selected', true);
     $(`#selectNameProduct option:contains(${data.nameProduct})`).prop(
       'selected',

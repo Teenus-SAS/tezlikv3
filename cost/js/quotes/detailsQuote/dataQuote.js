@@ -34,30 +34,93 @@ $(document).ready(function () {
 
   /* Tabla productos cotizados */
   loadDataQuoteProducts = (data) => {
+    // console.log(data);
     let subtotal = 0;
 
-    $('#tblQuotesProductsBody').empty();
-    let tblQuotesProductsBody = document.getElementById(
-      'tblQuotesProductsBody'
-    );
+    // $('#tblQuotesProductsBody').empty();
+    // let tblQuotesProductsBody = document.getElementById(
+    //   'tblQuotesProductsBody'
+    // );
 
-    for (i = 0; i < data.length; i++) {
-      tblQuotesProductsBody.insertAdjacentHTML(
-        'beforeend',
-        `
-      <tr>
+    // for (i = 0; i < data.length; i++) {
+    //   tblQuotesProductsBody.insertAdjacentHTML(
+    //     'beforeend',
+    //     `
+    //   <tr>
+    //     <td>${i + 1}</td>
+    //     <td class="text-left">${data[i].ref}</td>
+    //     <td class="text-left">${data[i].nameProduct}</td>
+    //     <td class="text-center">${data[i].quantity.toLocaleString('es-CO')}</td>
+    //     <td class="text-center">${data[i].price}</td>
+    //     <td class="text-center">${data[i].discount} %</td>
+    //     <td class="text-center">${data[i].totalPrice}</td>
+    //   </tr>
+    // `
+    //   );
+
+    //   let price = strReplaceNumber(data[i].price);
+    //   price = price.replace('$ ', '');
+
+    //   let subtotalPrice =
+    //     data[i].quantity * price * (1 - data[i].discount / 100);
+    //   subtotal = subtotal + subtotalPrice;
+    // }
+
+    
+    $('#tblQuotesProductsBody').empty();
+    let tblQuotesProductsBody = document.getElementById('tblQuotesProductsBody');
+
+    let previousIdQuote = null;
+    let rowspanCount = 1;
+
+    for (let i = 0; i < data.length; i++) { 
+      let body = `<tr>
         <td>${i + 1}</td>
         <td class="text-left">${data[i].ref}</td>
         <td class="text-left">${data[i].nameProduct}</td>
         <td class="text-center">${data[i].quantity.toLocaleString('es-CO')}</td>
-        <td class="text-center">${data[i].price}</td>
-        <td class="text-center">${data[i].discount} %</td>
-        <td class="text-center">${data[i].totalPrice}</td>
-      </tr>
-    `
-      );
+        <td class="text-center" id ="price1">${data[i].price}</td>
+        <td class="text-center" id ="discount1">${data[i].discount} %</td>
+        <td class="text-center" id ="total1">${data[i].totalPrice}</td>
+      </tr>`;
 
-      let price = strReplaceNumber(data[i].price);
+      if (
+        data[i].id_quote === previousIdQuote &&
+        data[i].id_material != 0
+      ) {
+        rowspanCount++;
+        if (rowspanCount > 1) {
+          tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[4].rowSpan = rowspanCount;
+          tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[5].rowSpan = rowspanCount;
+          tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[6].rowSpan = rowspanCount;
+
+          let price1 = strReplaceNumber(data[i].price);
+          price1 = price1.replace('$ ', '');
+          price1 = parseInt(price1) + parseInt(price);
+
+          let total1 = strReplaceNumber(data[i].totalPrice);
+          total1 = total1.replace('$ ', '');
+          total1 = parseInt(total1) + subtotal;
+
+          body = `<tr>
+            <td>${i + 1}</td>
+            <td class="text-left">${data[i].ref}</td>
+            <td class="text-left">${data[i].nameProduct}</td>
+            <td class="text-center">${data[i].quantity.toLocaleString('es-CO')}</td>
+          </tr>`;
+          $('#price1').html(`$ ${price1.toLocaleString('es-CO')}`);
+          $('#total1').html(`$ ${total1.toLocaleString('es-CO')}`);
+        }
+      } else {
+        rowspanCount = 1;
+      }
+
+      tblQuotesProductsBody.insertAdjacentHTML('beforeend', body);
+
+      previousIdQuote = data[i].id_quote;
+      previousIdMaterial = data[i].id_material;
+
+      price = strReplaceNumber(data[i].price);
       price = price.replace('$ ', '');
 
       let subtotalPrice =

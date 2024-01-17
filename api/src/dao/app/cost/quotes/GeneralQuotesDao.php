@@ -50,6 +50,28 @@ class GeneralQuotesDao
         return $quotesProducts;
     }
 
+    public function findAllQuotesProductsAndMaterialsByIdQuote($id_quote)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT qp.id_quote, 0 AS id_material, qp.id_product AS idProduct, p.reference AS ref, p.product AS nameProduct, qp.id_price_list AS idPriceList, qp.quantity,
+                                             CONCAT('$ ', FORMAT(qp.price, 0, 'de_DE')) AS price, qp.discount, CONCAT('$ ', FORMAT((qp.quantity * qp.price * (1- qp.discount / 100)),0,'de_DE')) AS totalPrice, 0 AS indirect
+                                      FROM quotes_products qp
+                                      INNER JOIN products p ON qp.id_product = p.id_product
+                                      INNER JOIN products_costs pc ON pc.id_product = p.id_product
+                                      WHERE qp.id_quote = :id_quote
+                                      UNION
+                                      SELECT qp.id_quote, qp.id_material, qp.id_material AS idProduct, m.reference AS ref, m.material AS nameProduct, qp.id_price_list AS idPriceList, qp.quantity_material AS quantity, 
+                                             CONCAT('$ ', FORMAT(m.cost, 0, 'de_DE')) AS price, qp.discount, CONCAT('$ ', FORMAT((qp.quantity_material * m.cost * (1- qp.discount / 100)),0,'de_DE')) AS totalPrice, 1 AS indirect
+                                      FROM quotes_products qp
+                                      INNER JOIN materials m ON qp.id_material = m.id_material
+                                      WHERE qp.id_quote = :id_quote");
+        $stmt->execute(['id_quote' => $id_quote]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $quotesProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $quotesProducts;
+    }
+
     public function updateQuotesProducts($dataQuote, $id_quote_product)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -8,9 +8,16 @@ $(document).ready(function () {
             toastr.error('Adicione un producto');
             return false;
         }
+
+        if (products.length == 2) {
+            toastr.error('Maximo una materia prima');
+            return false;
+        }
+
         sessionStorage.removeItem('actualizar');
         
         $('.addMaterial').toggle(800);
+        $('.addProd').hide();
 
         $('#refMaterial option').removeAttr('selected');
         $(`#refMaterial option[value='0']`).prop('selected', true);
@@ -74,6 +81,7 @@ $(document).ready(function () {
 
         let id = this.id;
         let data = products[id];
+        $('.addprod').hide();
 
         $(`#refMaterial option:contains(${data.ref})`).prop('selected', true);
         $(`#nameMaterial option:contains(${data.nameProduct})`).prop(

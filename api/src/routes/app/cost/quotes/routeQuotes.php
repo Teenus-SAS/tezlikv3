@@ -37,7 +37,8 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
     $quotesDao,
     $quoteProductsDao,
     $lastDataDao,
-    $convertDataDao
+    $convertDataDao,
+    $generalQuotesDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -54,12 +55,12 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 
     $respquote = $quotesDao->insertQuote($dataQuote, $id_company);
 
-    $products = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+    $products = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $lastQuote = $lastDataDao->findLastQuote();
 
     for ($i = 0; $i < sizeof($products); $i++) {
-        // $product = $convertDataDao->strReplaceQuotes($products[$i]);
+        $products[$i] = $convertDataDao->strReplaceQuotes($products[$i]);
         $resp = $quoteProductsDao->insertQuotesProducts($products[$i], $lastQuote['id_quote']);
     }
 
@@ -73,10 +74,17 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 });
 
 /* Consultar detalle de cotizacion */
-$app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao) {
+$app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use (
+    $quotesDao,
+    $quoteProductsDao,
+    $generalQuotesDao
+) {
     $quote = $quotesDao->findQuote($args['id_quote']);
 
-    $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+    // $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+
+    // if ($quotesProducts[0]['id_material'] != 0)
+    $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $data['quote'] = $quote;
     $data['quotesProducts'] = $quotesProducts;
@@ -85,8 +93,15 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao) {
-    $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+$app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use (
+    $quotesDao,
+    $quoteProductsDao,
+    $generalQuotesDao
+) {
+    // $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+    // if ($quotesProducts[0]['id_material'] != 0)
+    $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
+
     $response->getBody()->write(json_encode($quotesProducts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
