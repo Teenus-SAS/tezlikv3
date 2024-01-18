@@ -79,38 +79,30 @@
                                                 <?php } ?>
                                                 <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                                 <ul class="list-unstyled megamenu-list">
-                                                    <?php if ($_SESSION['cost_products_material'] == 1) { ?>
+                                                    <?php if ($_SESSION['cost_products_material'] == 1 || $_SESSION['cost_products_process'] == 1) { ?>
                                                         <li class="aProductsMaterials">
                                                         <?php } else { ?>
                                                         <li class="aProductsMaterials" style="display: none;">
                                                         <?php } ?>
                                                         <i class="bi bi-file-text mr-1"></i>
-                                                        <a href="/cost/product-materials">Ficha Técnica Materia Prima</a>
+                                                        <a href="/cost/product-materials">Ficha Técnica Productos</a>
                                                         </li>
-                                                        <?php if ($_SESSION['cost_products_process'] == 1) { ?>
-                                                            <li class="aProductsProcess">
+                                                        <?php if ($_SESSION['factory_load'] == 1) { ?>
+                                                            <li class="aFactoryLoad">
                                                             <?php } else { ?>
-                                                            <li class="aProductsProcess" style="display: none;">
+                                                            <li class="aFactoryLoad" style="display: none;">
                                                             <?php } ?>
-                                                            <i class="bi bi-clock-history mr-1"></i>
-                                                            <a href="/cost/product-process">Ficha Técnica Tiempos y Procesos</a>
+                                                            <i class="bi bi-gear-wide-connected mr-1"></i>
+                                                            <a href="/cost/factory-load">Carga Fabril</a>
                                                             </li>
-                                                            <?php if ($_SESSION['factory_load'] == 1) { ?>
-                                                                <li class="aFactoryLoad">
+                                                            <?php if ($_SESSION['external_service'] == 1) { ?>
+                                                                <li class="aServices">
                                                                 <?php } else { ?>
-                                                                <li class="aFactoryLoad" style="display: none;">
+                                                                <li class="aServices" style="display: none;">
                                                                 <?php } ?>
-                                                                <i class="bi bi-gear-wide-connected mr-1"></i>
-                                                                <a href="/cost/factory-load">Carga Fabril</a>
+                                                                <i class="bi bi-link mr-1"></i>
+                                                                <a href="/cost/external-services">Servicios Externos</a>
                                                                 </li>
-                                                                <?php if ($_SESSION['external_service'] == 1) { ?>
-                                                                    <li class="aServices">
-                                                                    <?php } else { ?>
-                                                                    <li class="aServices" style="display: none;">
-                                                                    <?php } ?>
-                                                                    <i class="bi bi-link mr-1"></i>
-                                                                    <a href="/cost/external-services">Servicios Externos</a>
-                                                                    </li>
                                                 </ul>
                                                 </div>
 

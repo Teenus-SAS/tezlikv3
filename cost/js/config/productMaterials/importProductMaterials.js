@@ -133,7 +133,7 @@ $(document).ready(function () {
       url: '/api/addProductsMaterials',
       data: { importProductsMaterials: data },
       success: function (r) {
-        message(r);
+        messageMaterials(r);
       },
     });
   };
