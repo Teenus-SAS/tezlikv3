@@ -79,8 +79,7 @@ $(document).ready(function () {
         <td>${i + 1}</td>
         <td class="text-left">${data[i].ref}</td>
         <td class="text-left">${data[i].nameProduct}</td>
-        <td class="text-center">${data[i].quantity.toLocaleString('es-CO')}</td>
-        ${indirect == 1 ? `<td class="text-center">${data[i].profitability} %</td>` : ''}
+        <td class="text-center">${data[i].quantity.toLocaleString('es-CO')}</td> 
         <td class="text-center" id ="price1">${data[i].price}</td>
         <td class="text-center" id ="discount1">${data[i].discount} %</td>
         <td class="text-center" id ="total1">${data[i].totalPrice}</td>
@@ -92,13 +91,13 @@ $(document).ready(function () {
       ) {
         rowspanCount++;
         if (rowspanCount > 1) {
+          tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[4].rowSpan = rowspanCount;
           tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[5].rowSpan = rowspanCount;
           tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[6].rowSpan = rowspanCount;
-          tblQuotesProductsBody.rows[i - rowspanCount + 1].cells[7].rowSpan = rowspanCount;
 
           let price1 = strReplaceNumber(data[i].price);
           price1 = price1.replace('$ ', '');
-          price1 = subtotalPrice1 + (parseInt(price1) * data[i].quantityMaterial);
+          price1 = subtotalPrice1 + ((parseInt(price1) * data[i].quantityMaterial) / (1 - (data[i].profitability / 100)));
 
           let total1 = strReplaceNumber(data[i].totalPrice);
           total1 = total1.replace('$ ', '');
@@ -108,12 +107,11 @@ $(document).ready(function () {
             <td>${i + 1}</td>
             <td class="text-left">${data[i].ref}</td>
             <td class="text-left">${data[i].nameProduct}</td>
-            <td class="text-center">${data[i].quantityMaterial.toLocaleString('es-CO')}</td>
-            ${indirect == 1 ? `<td class="text-center">${data[i].profitability} %</td>` : ''}
+            <td class="text-center">${data[i].quantityMaterial.toLocaleString('es-CO')}</td> 
           </tr>`;
 
-          $('#price1').html(`$ ${price1.toLocaleString('es-CO')}`);
-          $('#total1').html(`$ ${total1.toLocaleString('es-CO')}`);
+          $('#price1').html(`$ ${price1.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
+          $('#total1').html(`$ ${total1.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
         }
       } else {
         rowspanCount = 1;
@@ -126,7 +124,7 @@ $(document).ready(function () {
 
       let price = strReplaceNumber(data[i].price);
       price = parseInt(price.replace('$ ', ''));
-      subtotalPrice1 += data[i].quantity * price;
+      subtotalPrice1 += (data[i].quantity * price) / (1 - (data[i].profitability / 100));
       
       let totalPrice = strReplaceNumber(data[i].totalPrice);
       totalPrice = parseInt(totalPrice.replace('$ ', ''));
@@ -135,11 +133,11 @@ $(document).ready(function () {
       subtotal = subtotal + totalPrice;
     }
 
-    if (indirect == 1) {
-      tblQuotesProductsFoot.rows[0].cells[0].colSpan = 5;
-      tblQuotesProductsFoot.rows[1].cells[0].colSpan = 5;
-      tblQuotesProductsFoot.rows[2].cells[0].colSpan = 5; 
-    }
+    // if (indirect == 1) {
+    //   tblQuotesProductsFoot.rows[0].cells[0].colSpan = 5;
+    //   tblQuotesProductsFoot.rows[1].cells[0].colSpan = 5;
+    //   tblQuotesProductsFoot.rows[2].cells[0].colSpan = 5; 
+    // }
 
     $('#subtotal').html(`$ ${parseInt(subtotal).toLocaleString('es-CO')}`);
     $('#iva').html(
