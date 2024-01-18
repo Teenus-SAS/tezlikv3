@@ -134,7 +134,7 @@
                                                                     <li class="aExpenses" style="display: none;">
                                                                     <?php } ?>
                                                                     <i class="bi bi-currency-dollar mr-1"></i>
-                                                                    <a href="/cost/general-expenses">Asignación Gastos Generales</a>
+                                                                    <a href="/cost/general-expenses">Gastos Generales</a>
                                                                     </li>
                                                                     <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
                                                                         <li class="aCustomPrices">
