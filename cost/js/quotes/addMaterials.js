@@ -17,6 +17,7 @@ $(document).ready(function () {
         sessionStorage.removeItem('actualizar');
         
         $('.addMaterial').toggle(800);
+        $('.inputProf').show(800);
         $('.addProd').hide();
 
         $('#refMaterial option').removeAttr('selected');
@@ -51,7 +52,7 @@ $(document).ready(function () {
         let indirectMaterial = dataMaterials.filter((item) => item.id_material == idMaterial);
         let totalPrice = quantity * indirectMaterial[0].cost;
         
-        indirect == 1 ? price = indirectMaterial[0].cost / (1 - (profitability / 100)) : price = indirectMaterial[0].cost;
+        // indirect == 1 ? price = indirectMaterial[0].cost / (1 - (profitability / 100)) : price = indirectMaterial[0].cost;
         indirect == 1 ? totalPrice = totalPrice / (1 - (profitability / 100)) : totalPrice;
 
         let op = sessionStorage.getItem('actualizar');
@@ -63,7 +64,7 @@ $(document).ready(function () {
                 ref: ref.trim(),
                 nameProduct: material.trim(),
                 // price: products[0].price,
-                price: `$ ${price.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`,
+                price: `$ ${indirectMaterial[0].cost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`,
                 idPriceList: '',
                 quantity: products[0].quantity,
                 quantityMaterial: quantity,
@@ -78,15 +79,16 @@ $(document).ready(function () {
             products[op].ref = ref.trim();
             products[op].nameProduct = material.trim();
             products[op].quantityMaterial = quantity;
-            products[op].price = `$ ${price.toLocaleString('es-CO'), { maximumFractionDigits: 0 }}`;
+            products[op].price = `$ ${indirectMaterial[0].cost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
             products[op].discount = '0';
             products[op].profitability = profitability;
             products[op].totalPrice = `$ ${totalPrice.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
             products[op].indirect = 1;
         }
         
-        $('#profitability').val('');
         $('.addMaterial').hide(800);
+        $('.inputProf').hide(800);
+        $('#profitability').val('');
 
         addProducts();
     });
@@ -111,5 +113,6 @@ $(document).ready(function () {
         sessionStorage.setItem('actualizar', id);
 
         $('.addMaterial').show(1000);
+        $('.inputProf').show(1000);
     });
 });

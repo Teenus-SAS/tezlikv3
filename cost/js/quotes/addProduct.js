@@ -1,16 +1,22 @@
 $(document).ready(function () {
   $('.addProd').hide();
+  $('.inputProf').hide();
 
   products = [];
 
   $('#btnAddNewProduct').click(function (e) {
     e.preventDefault();
     $('.addProd').toggle(800);
+    $('.inputProf').show(800);
     sessionStorage.removeItem('actualizar');
 
     $('.imgProduct').empty();
 
     $('#profitability').val('');
+    $('#quantity').val('');
+    $('#price').val('');
+    $('#discount').val('');
+    $('#totalPrice').val('');
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value='0']`).prop('selected', true);
     $('#refProduct option').removeAttr('selected');
@@ -109,6 +115,7 @@ $(document).ready(function () {
     let quantity = $('#quantity').val();
     let price = $('#price').val();
     let discount = $('#discount').val();
+    let profitability = $('#profitability').val();
 
     quantity == '' ? (quantity = '0') : quantity;
     quantity = strReplaceNumber(quantity);
@@ -121,6 +128,10 @@ $(document).ready(function () {
         parseFloat(quantity) *
         parseFloat(price) *
         (1 - parseFloat(discount) / 100);
+
+      if (indirect == 1 && profitability > 0)
+        val = val / (1 - (profitability / 100));
+      
 
       $('#totalPrice').val(parseInt(val).toLocaleString('es-CO'));
     }
@@ -161,12 +172,12 @@ $(document).ready(function () {
 
     price = strReplaceNumber(price);
 
-    if (indirect == 1) {
-      price = price / (1 - (profitability / 100));
-      totalPrice = strReplaceNumber(totalPrice);
-      totalPrice = totalPrice.replace('$ ', '');
-      totalPrice = (totalPrice / (1 - (profitability / 100))).toLocaleString('es-CO', { maximumFractionDigits: 0 });
-    }
+    // if (indirect == 1) {
+    //   price = price / (1 - (profitability / 100));
+    //   totalPrice = strReplaceNumber(totalPrice);
+    //   totalPrice = totalPrice.replace('$ ', '');
+    //   totalPrice = (totalPrice / (1 - (profitability / 100))).toLocaleString('es-CO', { maximumFractionDigits: 0 });
+    // }
 
     op = sessionStorage.getItem('actualizar');
 
@@ -199,10 +210,11 @@ $(document).ready(function () {
       products[op].totalPrice = `$ ${totalPrice}`;
     }
     
-    $('#profitability').val('');
     $('.addProd').hide();
+    $('.inputProf').hide();
     addProducts();
-
+    
+    $('#profitability').val('');
     $('#refProduct').prop('selectedIndex', 0);
     $('#selectNameProduct').prop('selectedIndex', 0);
     $('#pricesList').prop('selectedIndex', 0);
@@ -230,11 +242,11 @@ $(document).ready(function () {
 
     $('#quantity').val(data.quantity.toLocaleString());
 
-    price = data.price;
+    price = strReplaceNumber(data.price);
     price = price.replace('$ ', '');
-    oldPrice = price;
+    oldPrice = data.price;
 
-    $('#price').val(price.toLocaleString());
+    $('#price').val(price);
 
     $(`#discount option[value="${data.discount}"]`).prop('selected', true);
 
@@ -243,13 +255,14 @@ $(document).ready(function () {
     $('#totalPrice').val(totalPrice);
     $('#profitability').val(data.profitability);
 
-    $('#btnAddProduct').html('Actualizar producto');
+    // $('#btnAddProduct').html('Actualizar producto');
 
     if (custom_price == 1)
       op = await loadPriceListByProduct(id);
     sessionStorage.setItem('actualizar', id);
 
     $('.addProd').show(1000);
+    $('.inputProf').show(1000);
   });
 
   /* Borrar productos seleccionados de la tabla */

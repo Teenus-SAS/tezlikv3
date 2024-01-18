@@ -77,9 +77,9 @@
                                         <div class="col-12 col-lg-3 indirectMaterial">
                                             <button class="btn btn-info mb-4" id="btnNewMaterial">Adicionar Material</button>
                                         </div>
-                                        <div class="col-12 col-lg-2 indirectMaterial">
+                                        <div class="col-12 col-lg-2 indirectMaterial inputProf">
                                             <div class="form-group floating-label enable-floating-label show-label">
-                                                <input type="number" class="text-center form-control" name="profitability" id="profitability">
+                                                <input type="number" class="text-center form-control calcPrice" name="profitability" id="profitability">
                                                 <label for="profitability" class="form-label">Rentabilidad</label>
                                             </div>
                                         </div>
@@ -148,7 +148,7 @@
                                             <div class="col-12 col-lg-6 mb-4 imgProduct">
                                             </div>
                                             <div class="col-12 col-lg-12">
-                                                <button class="btn btn-warning mb-4" id="btnAddProduct">Adicionar producto</button>
+                                                <button class="btn btn-warning mb-4" id="btnAddProduct">Guardar</button>
                                             </div>
                                         </div>
                                         <div class="addMaterial row px-3">

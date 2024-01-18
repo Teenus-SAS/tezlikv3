@@ -124,7 +124,7 @@ if (sizeof($_SESSION) == 0)
 													<th class="text-left">Referencia</th>
 													<th class="text-left">Descripción</th>
 													<th class="text-center">Cantidad</th>
-													<!-- <th class="text-center indirect">Rentabilidad</th> -->
+													<th class="text-center indirectMaterial">Rentabilidad</th>
 													<th class="text-center">Precio</th>
 													<th class="text-center">Descuento</th>
 													<th class="text-center">Total</th>
@@ -132,7 +132,7 @@ if (sizeof($_SESSION) == 0)
 											</thead>
 											<tbody id="tblQuotesProductsBody">
 											</tbody>
-											<tfoot>
+											<tfoot id="tblQuotesProductsFoot">
 												<tr>
 													<td colspan="4"></td>
 													<td colspan="2">SUBTOTAL</td>
@@ -177,7 +177,9 @@ if (sizeof($_SESSION) == 0)
 	<script>
 		flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+		indirect = 1;
 	</script>
+	<script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
 	<script src="/global/js/global/companyData.js"></script>
 	<script src="/cost/js/quotes/copyQuote.js"></script>
 	<script src="/cost/js/quotes/detailsQuote/dataQuote.js"></script>

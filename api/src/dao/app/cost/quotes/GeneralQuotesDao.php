@@ -54,7 +54,7 @@ class GeneralQuotesDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT qp.id_quote, 0 AS idMaterial, qp.id_product AS idProduct, p.reference AS ref, p.product AS nameProduct, qp.id_price_list AS idPriceList, qp.quantity, 0 AS quantityMaterial,
-                                             CONCAT('$ ', FORMAT(qp.price, 0, 'de_DE')) AS price, qp.discount, qp.profitability, CONCAT('$ ', FORMAT((qp.quantity * qp.price * (1- qp.discount / 100)),0,'de_DE')) AS totalPrice, 0 AS indirect
+                                             CONCAT('$ ', FORMAT(qp.price, 0, 'de_DE')) AS price, qp.discount, qp.profitability, CONCAT('$ ', FORMAT(((qp.quantity * qp.price * (1- qp.discount / 100) / (1 - (qp.profitability / 100)))),0,'de_DE')) AS totalPrice, 0 AS indirect
                                       FROM quotes_products qp
                                       INNER JOIN products p ON qp.id_product = p.id_product
                                       INNER JOIN products_costs pc ON pc.id_product = p.id_product
@@ -62,7 +62,7 @@ class GeneralQuotesDao
                                       GROUP BY qp.id_product
                                       UNION
                                       SELECT qp.id_quote, qp.id_material AS idMaterial, qp.id_product AS idProduct, m.reference AS ref, m.material AS nameProduct, qp.id_price_list AS idPriceList, qp.quantity_material AS quantity, qp.quantity_material AS quantityMaterial, 
-                                             CONCAT('$ ', FORMAT(m.cost, 0, 'de_DE')) AS price, qp.discount, qp.profitability, CONCAT('$ ', FORMAT((qp.quantity_material * m.cost * (1- qp.discount / 100)),0,'de_DE')) AS totalPrice, 1 AS indirect
+                                             CONCAT('$ ', FORMAT(m.cost, 0, 'de_DE')) AS price, qp.discount, qp.profitability, CONCAT('$ ', FORMAT(((qp.quantity_material * m.cost * (1- qp.discount / 100)) / (1 - (qp.profitability / 100))),0,'de_DE')) AS totalPrice, 1 AS indirect
                                       FROM quotes_products qp
                                       INNER JOIN materials m ON qp.id_material = m.id_material
                                       WHERE qp.id_quote = :id_quote");
