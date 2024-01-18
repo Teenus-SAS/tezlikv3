@@ -79,7 +79,7 @@
                                                 <?php } ?>
                                                 <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                                 <ul class="list-unstyled megamenu-list">
-                                                    <?php if ($_SESSION['cost_products_material'] == 1 || $_SESSION['cost_products_process'] == 1) { ?>
+                                                    <?php if ($_SESSION['cost_products_material'] == 1) { ?>
                                                         <li class="aProductsMaterials">
                                                         <?php } else { ?>
                                                         <li class="aProductsMaterials" style="display: none;">
@@ -126,7 +126,8 @@
                                                                 </li>
                                                                 <?php if (
                                                                     $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
-                                                                    || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2
+                                                                    || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2 ||
+                                                                    $_SESSION['expense_distribution'] == 1
                                                                 ) { ?>
                                                                     <li class="aExpenses">
                                                                     <?php } else { ?>
@@ -135,31 +136,14 @@
                                                                     <i class="bi bi-currency-dollar mr-1"></i>
                                                                     <a href="/cost/general-expenses">Asignación Gastos Generales</a>
                                                                     </li>
-                                                                    <?php if ($_SESSION['expense_distribution'] == 1) { ?>
-                                                                        <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                                            <li class="aExpensesDistribution">
-                                                                            <?php } else { ?>
-                                                                            <li class="aExpensesDistribution" style="display: none;">
-                                                                            <?php } ?>
-                                                                            <i class="bi bi-box-arrow-up-right mr-1"></i>
-                                                                            <a href="/cost/expenses-distribution">Distribución de Gastos</a>
-                                                                            </li>
-                                                                            <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                                                <li class="aExpensesDistribution">
-                                                                                <?php } else { ?>
-                                                                                <li class="aExpensesDistribution" style="display: none;">
-                                                                                <?php } ?>
-                                                                                <a href="/cost/expenses-distribution">Recuperación de Gastos</a>
-                                                                                </li>
-                                                                            <?php } ?>
-                                                                            <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
-                                                                                <li class="aCustomPrices">
-                                                                                <?php } else { ?>
-                                                                                <li class="aCustomPrices" style="display: none;">
-                                                                                <?php } ?>
-                                                                                <i class="bi bi-list"></i>
-                                                                                <a href="/cost/price-list">Lista de Precios</a>
-                                                                                </li>
+                                                                    <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
+                                                                        <li class="aCustomPrices">
+                                                                        <?php } else { ?>
+                                                                        <li class="aCustomPrices" style="display: none;">
+                                                                        <?php } ?>
+                                                                        <i class="bi bi-list"></i>
+                                                                        <a href="/cost/price-list">Lista de Precios</a>
+                                                                        </li>
                                                         </ul>
                                                         </div>
 

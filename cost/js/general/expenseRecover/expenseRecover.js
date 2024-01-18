@@ -97,7 +97,7 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataExpenseRecover);
 
-    message(resp, 2);
+    messageDistribution(resp, 2);
   };
 
   /* Eliminar recuperacion de gasto */
@@ -136,7 +136,7 @@ $(document).ready(function () {
             '/api/deleteExpenseRecover',
             dataExpenseRecover,
             function (data, textStatus, jqXHR) {
-              message(data, 2);
+              messageDistribution(data, 2);
             }
           );
         }

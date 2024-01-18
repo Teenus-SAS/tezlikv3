@@ -179,7 +179,7 @@ $(document).ready(function () {
       url: url,
       data: { importExpense: data },
       success: function (r) {
-        message(r);
+        messageDistribution(r);
       },
     });
   };

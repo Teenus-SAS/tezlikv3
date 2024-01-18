@@ -1,7 +1,7 @@
 $(document).ready(function () {
   /* Cargue tabla de Gastos distribuidos */
 
-  tblExpenses = $('#tblExpenses').dataTable({
+  tblAssExpenses = $('#tblAssExpenses').dataTable({
     destroy: true,
     pageLength: 50,
     ajax: {

@@ -107,7 +107,7 @@ $(document).ready(function () {
               $('.cardBtnUpdateExpenses').hide(800);
               expensesRecover = [];
 
-              message(resp, 2);
+              messageDistribution(resp, 2);
             },
           });
         } else {

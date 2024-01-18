@@ -288,62 +288,54 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                                    <?php if ($_SESSION['cost_products_material'] == 1) { ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link active selectNavigation" id="materials" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                                <i class="fas fa-flask mr-1"></i>Materias Primas
-                                            </a>
-                                        </li>
-                                    <?php } ?>
-                                    <?php if ($_SESSION['cost_products_process'] == 1) { ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link selectNavigation" id="process" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
-                                                <i class="bi bi-arrow-repeat mr-1"></i>Tiempos Procesos
-                                            </a>
-                                        </li>
-                                    <?php } ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link active selectNavigation" id="materials" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                            <i class="fas fa-flask mr-1"></i>Materias Primas
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link selectNavigation" id="process" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                            <i class="bi bi-arrow-repeat mr-1"></i>Tiempos Procesos
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <?php if ($_SESSION['cost_products_material'] == 1) { ?>
-                                        <div class="tab-pane cardProductsMaterials">
-                                            <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <table class="fixed-table-loading table table-hover text-center" id="tblConfigMaterials" name="tblConfigMaterials">
+                                    <div class="tab-pane cardProductsMaterials">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="fixed-table-loading table table-hover text-center" id="tblConfigMaterials" name="tblConfigMaterials">
 
-                                                    </table>
-                                                </div>
+                                                </table>
                                             </div>
                                         </div>
-                                    <?php } ?>
-                                    <?php if ($_SESSION['cost_products_process'] == 1) { ?>
-                                        <div class="tab-pane cardProductsProcess" style="display: none;">
-                                            <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped text-center" id="tblConfigProcess" name="tblConfigProcess">
-                                                        <tfoot>
-                                                            <tr>
+                                    </div>
+                                    <div class="tab-pane cardProductsProcess" style="display: none;">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped text-center" id="tblConfigProcess" name="tblConfigProcess">
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th>Total:</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <?php if ($_SESSION['flag_employee'] == 1) { ?>
                                                                 <th></th>
-                                                                <th></th>
-                                                                <th>Total:</th>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <?php if ($_SESSION['flag_employee'] == 1) { ?>
-                                                                    <th></th>
-                                                                <?php } ?>
-                                                                <th></th>
-                                                            </tr>
-                                                        </tfoot>
-                                                    </table>
-                                                </div>
+                                                            <?php } ?>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
                                             </div>
                                         </div>
-                                    <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
