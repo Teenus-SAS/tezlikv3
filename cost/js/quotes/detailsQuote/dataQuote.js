@@ -28,7 +28,7 @@ $(document).ready(function () {
 
     /* Notices */
     $('#qDescription').html(`<h3>Condiciones Comerciales:</h3> 
-            <h6><Garantia><b>Condiciones de Pago:</b> ${data.method}, <br><b>Validez de la oferta:</b> ${data.offer_validity}, <br><b>Garantia del producto:</b> ${data.warranty}</h6>`);
+            <h6><Garantia><b>Condiciones de Pago:</b> ${data.method} <br><b>Validez de la oferta:</b> ${data.offer_validity} <br><b>Garantia del producto:</b> ${data.warranty}</h6>`);
     $('#observation').html(data.observation);
   };
 
