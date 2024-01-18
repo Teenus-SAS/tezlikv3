@@ -21,7 +21,7 @@ class QuotesDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT q.id_quote, q.id_contact, q.offer_validity, q.warranty, q.id_payment_method, q.id_quote_company, CONCAT(c.firstname, ' ' , c.lastname) AS contact, 
-                                            cp.company_name, SUM(((qp.quantity * qp.price) * (1 - (qp.discount/100))) / (1 - (qp.profitability / 100))) AS price,
+                                            cp.company_name, SUM(((IF(qp.id_material = 0, qp.quantity, qp.quantity_material) * qp.price) * (1 - (qp.discount/100)) / (1 - (qp.profitability / 100)))) AS price,
                                             q.delivery_date, q.observation, pm.method, q.flag_quote
                                       FROM quotes q 
                                         INNER JOIN quote_customers c ON c.id_contact = q.id_contact 
