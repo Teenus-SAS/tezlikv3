@@ -20,6 +20,16 @@ class QuotesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        /* $stmt = $connection->prepare("SELECT q.id_quote, q.id_contact, q.offer_validity, q.warranty, q.id_payment_method, q.id_quote_company, CONCAT(c.firstname, ' ' , c.lastname) AS contact, 
+                                            cp.company_name, IF(cl.flag_indirect = 1, SUM(((IF(qp.id_material = 0, qp.quantity, qp.quantity_material) * qp.price) * (1 - (qp.discount/100)) / (1 - (qp.profitability / 100)))), SUM((((qp.quantity * qp.price) * (1 - (qp.discount/100)))))) AS price,
+                                            q.delivery_date, q.observation, pm.method, q.flag_quote
+                                      FROM quotes q 
+                                        INNER JOIN quote_customers c ON c.id_contact = q.id_contact 
+                                        INNER JOIN quote_companies cp ON cp.id_quote_company  = c.id_quote_company  
+                                        INNER JOIN quotes_products qp ON qp.id_quote = q.id_quote
+                                        INNER JOIN quote_payment_methods pm ON pm.id_method = q.id_payment_method
+                                        INNER JOIN companies_licenses cl ON cl.id_company = q.id_company
+                                      WHERE q.id_company = :id_company GROUP BY qp.id_quote ORDER BY qp.id_quote DESC"); */
         $stmt = $connection->prepare("SELECT q.id_quote, q.id_contact, q.offer_validity, q.warranty, q.id_payment_method, q.id_quote_company, CONCAT(c.firstname, ' ' , c.lastname) AS contact, 
                                             cp.company_name, SUM(((IF(qp.id_material = 0, qp.quantity, qp.quantity_material) * qp.price) * (1 - (qp.discount/100)) / (1 - (qp.profitability / 100)))) AS price,
                                             q.delivery_date, q.observation, pm.method, q.flag_quote
@@ -28,7 +38,7 @@ class QuotesDao
                                         INNER JOIN quote_companies cp ON cp.id_quote_company  = c.id_quote_company  
                                         INNER JOIN quotes_products qp ON qp.id_quote = q.id_quote
                                         INNER JOIN quote_payment_methods pm ON pm.id_method = q.id_payment_method
-                                      WHERE q.id_company = :id_company GROUP BY qp.id_quote ORDER BY qp.id_quote DESC;");
+                                      WHERE q.id_company = :id_company GROUP BY qp.id_quote ORDER BY qp.id_quote DESC");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 

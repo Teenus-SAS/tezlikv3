@@ -42,6 +42,7 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    // $flag_indirect = $_SESSION['flag_indirect'];
     $quote = $quotesDao->findQuote($args['id_quote']);
 
     $dataQuote['company'] = $quote['id_company'];
@@ -55,6 +56,9 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 
     $respquote = $quotesDao->insertQuote($dataQuote, $id_company);
 
+    // if ($flag_indirect == '0')
+    //     $products = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+    // else
     $products = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $lastQuote = $lastDataDao->findLastQuote();
@@ -79,11 +83,13 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
     $quoteProductsDao,
     $generalQuotesDao
 ) {
+    // session_start();
+    // $flag_indirect = $_SESSION['flag_indirect'];
     $quote = $quotesDao->findQuote($args['id_quote']);
 
-    // $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
-
-    // if ($quotesProducts[0]['id_material'] != 0)
+    // if ($flag_indirect == '0')
+    //     $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+    // else
     $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $data['quote'] = $quote;
@@ -98,8 +104,12 @@ $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $re
     $quoteProductsDao,
     $generalQuotesDao
 ) {
-    // $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
-    // if ($quotesProducts[0]['id_material'] != 0)
+    // session_start();
+    // $flag_indirect = $_SESSION['flag_indirect'];
+
+    // if ($flag_indirect == '0')
+    //     $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
+    // else
     $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $response->getBody()->write(json_encode($quotesProducts, JSON_NUMERIC_CHECK));

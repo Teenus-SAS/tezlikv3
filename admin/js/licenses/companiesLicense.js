@@ -27,6 +27,7 @@ $(document).ready(function () {
       let payrollEmployee = $('#payrollEmployee').is(':checked');
       let compositeProducts = $('#compositeProducts').is(':checked');
       let historical = $('#historical').is(':checked');
+      let indirect = $('#indirect').is(':checked');
 
       data = company * quantityUsers * plan * pricesUSD;
 
@@ -44,10 +45,11 @@ $(document).ready(function () {
       payrollEmployee == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
       compositeProducts == true ? (compositeProducts = '1') : (compositeProducts = '0');
       historical == true ? (historical = '1') : (historical = '0');
+      indirect == true ? (indirect = '1') : (indirect = '0');
 
       license = $('#formAddLicense').serialize();
 
-      license = `${license}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}`;
+      license = `${license}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}&indirect=${indirect}`;
 
       $.post('/api/addLicense', license, function (data, textStatus, jqXHR) {
         message(data);
@@ -82,6 +84,8 @@ $(document).ready(function () {
       $(`#compositeProducts`).prop('checked', true);
     if (data.cost_historical == '1')
       $(`#historical`).prop('checked', true);
+    if (data.flag_indirect == '1')
+      $(`#indirect`).prop('checked', true);
       
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);
@@ -96,10 +100,11 @@ $(document).ready(function () {
     $('#payrollEmployee').is(':checked') == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
     $('#compositeProducts').is(':checked') == true ? (compositeProducts = '1') : (compositeProducts = '0');
     $('#historical').is(':checked') == true ? (historical = '1') : (historical = '0');
+    $('#indirect').is(':checked') == true ? (indirect = '1') : (indirect = '0');
 
     dataCompany = $('#formAddLicense').serialize();
 
-    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}`;
+    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}&indirect=${indirect}`;
 
     $.post('/api/updateLicense', dataCompany, function (data) {
       message(data);
