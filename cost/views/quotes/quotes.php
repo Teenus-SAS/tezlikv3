@@ -106,6 +106,7 @@ if (sizeof($_SESSION) == 0)
 		type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
 		flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+		flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
 		indirect = 1;
 	</script>
 	<script src="/global/js/global/orderData.js"></script>

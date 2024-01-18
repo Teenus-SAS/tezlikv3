@@ -7,12 +7,15 @@ $(document).ready(function () {
   $('#btnAddNewProduct').click(function (e) {
     e.preventDefault();
     $('.addProd').toggle(800);
-    $('.inputProf').show(800);
     sessionStorage.removeItem('actualizar');
-
+    
     $('.imgProduct').empty();
+    
+    if (flag_indirect == '1') {
+      $('.inputProf').show(800);
+      $('#profitability').val('');
+    }
 
-    $('#profitability').val('');
     $('#quantity').val('');
     $('#price').val('');
     $('#discount').val('');
@@ -129,7 +132,7 @@ $(document).ready(function () {
         parseFloat(price) *
         (1 - parseFloat(discount) / 100);
 
-      if (indirect == 1 && profitability > 0)
+      if (indirect == 1 && profitability > 0 && flag_indirect == '1')
         val = val / (1 - (profitability / 100));
       
 
@@ -160,7 +163,7 @@ $(document).ready(function () {
       return false;
     }
 
-    if (indirect == 1 && !profitability) {
+    if (indirect == 1 && !profitability && flag_indirect == '1') {
       toastr.error('Ingrese rentabilidad');
       return false;
     }
@@ -262,7 +265,8 @@ $(document).ready(function () {
     sessionStorage.setItem('actualizar', id);
 
     $('.addProd').show(1000);
-    $('.inputProf').show(1000);
+    if (flag_indirect == '1')
+      $('.inputProf').show(1000);
   });
 
   /* Borrar productos seleccionados de la tabla */
@@ -284,22 +288,29 @@ $(document).ready(function () {
     );
 
     for (let i = 0; i < products.length; i++) {
+
+      let action = '';
+      if (products[i].indirect == 1 && flag_indirect == '1')
+        action = `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateMaterial" data-toggle='tooltip' title='Actualizar Material' style="font-size: 18px"></i></a>
+        <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>`;
+      else if (products[i].indirect == 0)
+        action = `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 18px"></i></a>
+        <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>`;
+      
       tableProductsQuoteBody.insertAdjacentHTML(
         'beforeend',
         `
         <tr>
             <td class="text-center">${products[i].ref}</td>              
             <td class="text-center">${products[i].nameProduct}</td>              
-            <td class="text-center">${products[i].indirect == 1 ? products[i].quantityMaterial : products[i].quantity}</td>              
+            <td class="text-center">${products[i].indirect == 1 && flag_indirect == '1' ? products[i].quantityMaterial : products[i].quantity}</td>              
             <td class="text-center">${products[i].price}</td>
             <td class="text-center">${products[i].discount} %</td>
-            ${indirect == 1 ? `<td class="text-center">${products[i].profitability} %</td>` : ''}
+            ${indirect == 1 && flag_indirect == '1' ? `<td class="text-center">${products[i].profitability} %</td>` : ''}
             <td class="text-center">${products[i].totalPrice}</td>
             <td class="text-center"> 
-            ${products[i].indirect == 1 ? `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateMaterial" data-toggle='tooltip' title='Actualizar Material' style="font-size: 18px"></i></a>`
-          : `<a href="javascript:;" id="${i}" <i class="bx bx-edit updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 18px"></i></a>`}
-            <a href="javascript:;" id="${i}" <i class="bx bx-trash deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 18px;color:red"></i></a>
-          </td>
+             ${action}
+            </td>
         </tr>`
       );
     }

@@ -35,7 +35,7 @@ $(document).ready(function () {
     let indirectMaterial = data.filter((item) => item.flag_indirect == 1);
     // let indirect = 1;
 
-    if (indirectMaterial.length == 0) {
+    if (indirectMaterial.length == 0 || flag_indirect == '0') {
       $('.indirectMaterial').hide();
       indirect = 0;
     } else {
