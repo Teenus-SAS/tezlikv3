@@ -93,6 +93,8 @@ $(document).ready(function () {
     let commissionSale = 0;
     let actualProfitability = 0;
     let contProfitability = 0;
+
+    data = data.filter((item) => item.profitability > 0);
     
     if (data.length > 0) {
       for (let i in data) {
@@ -104,8 +106,7 @@ $(document).ready(function () {
           contProfitability += 1;
           actualProfitability += dataCost.actualProfitability;
         }
-      }
-      
+      }       
       let averageprofitability = profitability / data.length;
       let averagecommissionSale = commissionSale / data.length;
       let averageActualProfitability = actualProfitability / contProfitability;

@@ -29,6 +29,14 @@ $app->get('/compositeProducts/{id_product}', function (Request $request, Respons
     $response->getBody()->write(json_encode($compositeProducts));
     return $response->withHeader('Content-Type', 'application/json');
 });
+$app->get('/allCompositeProducts', function (Request $request, Response $response, $args) use ($generalCompositeProductsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $compositeProducts = $generalCompositeProductsDao->findAllCompositeProductsByCompany($id_company);
+    $response->getBody()->write(json_encode($compositeProducts));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 
 $app->post('/addCompositeProduct', function (Request $request, Response $response, $args) use (
     $compositeProductsDao,

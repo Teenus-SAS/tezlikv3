@@ -1,6 +1,33 @@
 $(document).ready(function () {
   let idProduct;
 
+  $('.selectNavigation').click(function (e) {
+    e.preventDefault();
+
+    if (this.id == 'materials') {
+      $('.cardProductsMaterials').show();
+      $('.cardProductsProcess').hide(); 
+      $('.cardAddProcess').hide();
+      $('.cardImportProductsProcess').hide(); 
+    } else if (this.id == 'process') {
+      $('.cardProductsProcess').show();
+      $('.cardProductsMaterials').hide(); 
+      $('.cardAddMaterials').hide();
+      $('.cardImportProductsMaterials').hide();
+      $('.cardAddNewProduct').hide();
+    }
+    let tables = document.getElementsByClassName(
+      'dataTable'
+    );
+
+    for (let i = 0; i < tables.length; i++) {
+      let attr = tables[i];
+      attr.style.width = '100%';
+      attr = tables[i].firstElementChild;
+      attr.style.width = '100%';
+    }
+  });
+
   /* Ocultar panel crear producto */
 
   $('.cardAddMaterials').hide();
@@ -128,7 +155,7 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataProductMaterial);
 
-    message(resp);
+    messageMaterials(resp);
   };
 
   /* Eliminar materia prima */
@@ -169,7 +196,7 @@ $(document).ready(function () {
         if (result == true) {
           $.post(url, dataP,
             function (data, textStatus, jqXHR) {
-              message(data);
+              messageMaterials(data);
             }
           );
         }
@@ -179,7 +206,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  messageMaterials = (data) => {
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileProductsMaterials').val('');

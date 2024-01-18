@@ -125,7 +125,7 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataProductProcess);
 
-    message(resp);
+    messageProcess(resp);
   };
 
   /* Eliminar proceso */
@@ -159,7 +159,7 @@ $(document).ready(function () {
             '/api/deleteProductProcess',
             dataProductProcess,
             function (data, textStatus, jqXHR) {
-              message(data);
+              messageProcess(data);
             }
           );
         }
@@ -227,7 +227,7 @@ $(document).ready(function () {
 
           $.post('/api/saveEmployees', data,
             function (data, textStatus, jqXHR) {
-              message(data);
+              messageProcess(data);
             },
           );
         }
@@ -254,7 +254,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  messageProcess = (data) => {
     $('#fileProductsProcess').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);

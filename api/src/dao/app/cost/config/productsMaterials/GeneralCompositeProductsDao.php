@@ -16,6 +16,23 @@ class GeneralCompositeProductsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllCompositeProductsByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT cp.id_composite_product, 0 AS id_product_material, cp.id_child_product, cp.id_product, p.reference, p.product AS material, mg.id_magnitude, mg.magnitude, 
+                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, pc.cost_materials, pc.price, pc.sale_price
+                                      FROM products p 
+                                        INNER JOIN composite_products cp ON cp.id_child_product = p.id_product 
+                                        INNER JOIN products_costs pc ON pc.id_product = cp.id_child_product
+                                        INNER JOIN convert_units u ON u.id_unit = cp.id_unit
+                                        INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
+                                      WHERE cp.id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+        $compositeProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $compositeProducts));
+        return $compositeProducts;
+    }
+
     public function findCompositeProduct($dataProduct)
     {
         $connection = Connection::getInstance()->getConnection();

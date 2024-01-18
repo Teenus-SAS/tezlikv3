@@ -98,6 +98,22 @@ $(document).ready(function () {
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'F. Tecnica Materias Prima');
       }
+      /* Productos Compuestos */
+      let dataCompositeProduct = await searchData('/api/allCompositeProducts');
+      if (dataCompositeProduct.length > 0) {
+        data = [];
+
+        for (i = 0; i < dataCompositeProduct.length; i++) {
+          data.push({
+            referencia_producto: dataCompositeProduct[i].reference,
+            producto: dataCompositeProduct[i].material,
+            cantidad: parseFloat(dataCompositeProduct[i].quantity),
+          });
+        }
+
+        ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Productos Compuestos');
+      }
 
       /* Productos Procesos */
       let dataProductsProcess = await searchData('/api/allProductsProcess');
