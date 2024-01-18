@@ -60,7 +60,7 @@ $(document).ready(function () {
       dataFamily.append('idFamily', idFamily);
 
     let resp = await sendDataPOST(url, dataFamily);
-    message(resp, 3);
+    messageDistribution(resp, 3);
   };
 
   /* Eliminar Familia */
@@ -89,7 +89,7 @@ $(document).ready(function () {
           $.get(
             `/api/deleteFamily/${id_family}`,
             function (data, textStatus, jqXHR) {
-              message(data, 3);
+              messageDistribution(data, 3);
             }
           );
         }
@@ -152,7 +152,7 @@ $(document).ready(function () {
           $.get(
             `/api/deleteExpensesDistributionFamily/${id_family}`,
             function (data, textStatus, jqXHR) {
-              message(data, 3);
+              messageDistribution(data, 3);
             }
           );
         }
@@ -212,7 +212,7 @@ $(document).ready(function () {
     data = $('#formProductFamily').serialize();
 
     $.post('/api/saveProductFamily', data, function (data, textStatus, jqXHR) {
-      message(data, 4);
+      messageDistribution(data, 4);
     });
   });
 
@@ -273,7 +273,7 @@ $(document).ready(function () {
             '/api/saveProductFamily',
             dataFamily,
             function (data, textStatus, jqXHR) {
-              message(data, 4);
+              messageDistribution(data, 4);
             }
           );
         }

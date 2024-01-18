@@ -1,6 +1,37 @@
 $(document).ready(function () {
   $('.cardCreateExpenses').hide();
 
+  $('.selectNavigation').click(function (e) {
+    e.preventDefault();
+
+    if (this.id == 'expenses') {
+      $('.cardExpenses').show();
+      $('.cardExpenseDistribution').hide();
+      $('cardAddNewFamily').hide();
+      $('cardAddProductFamily').hide();
+      $('cardExpensesDistribution').hide();
+      $('cardExpensesDistribution').hide();
+      $('cardExpenseRecover').hide();
+      $('cardImportExpenses').hide();
+    } else if (this.id == 'distribution') {
+      $('.cardExpenseDistribution').show();
+      $('.cardExpenses').hide();
+      $('.cardCreateExpenses').hide();
+      $('.cardImportExpensesAssignation').hide();
+    }
+
+    let tables = document.getElementsByClassName(
+      'dataTable'
+    );
+
+    for (let i = 0; i < tables.length; i++) {
+      let attr = tables[i];
+      attr.style.width = '100%';
+      attr = tables[i].firstElementChild;
+      attr.style.width = '100%';
+    }
+  });
+  
   $('#btnNewExpense').click(function (e) {
     e.preventDefault();
 
@@ -31,7 +62,7 @@ $(document).ready(function () {
     $('#btnCreateExpense').html('Actualizar');
 
     let row = $(this).parent().parent()[0];
-    let data = tblExpenses.fnGetData(row);
+    let data = tblAssExpenses.fnGetData(row);
 
     sessionStorage.setItem('id_expense', data.id_expense);
     $(`#idPuc option:contains(${data.number_count} - ${data.count})`).prop(
@@ -83,12 +114,12 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataExpense);
 
-    message(resp);
+    messageExpense(resp);
   };
 
   deleteFunction = () => {
     let row = $(this.activeElement).parent().parent()[0];
-    let data = tblExpenses.fnGetData(row);
+    let data = tblAssExpenses.fnGetData(row);
 
     let id_expense = data.id_expense;
 
@@ -111,7 +142,7 @@ $(document).ready(function () {
           $.get(
             `../../api/deleteExpenses/${id_expense}`,
             function (data, textStatus, jqXHR) {
-              message(data);
+              messageExpense(data);
             }
           );
         }
@@ -120,7 +151,7 @@ $(document).ready(function () {
   };
 
   /* Mensaje de exito */
-  message = (data) => {
+  messageExpense = (data) => {
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileExpensesAssignation').val('');
@@ -140,7 +171,7 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   function updateTable() {
-    $('#tblExpenses').DataTable().clear();
-    $('#tblExpenses').DataTable().ajax.reload();
+    $('#tblAssExpenses').DataTable().clear();
+    $('#tblAssExpenses').DataTable().ajax.reload();
   }
 });

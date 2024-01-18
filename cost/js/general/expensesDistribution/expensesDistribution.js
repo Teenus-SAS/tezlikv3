@@ -138,7 +138,7 @@ $(document).ready(function () {
     let resp = await sendDataPOST(url, dataExpense);
     let op = 1;
     if (flag_expense_distribution == 2) op = 3;
-    message(resp, op);
+    messageDistribution(resp, op);
   };
 
   /* Eliminar gasto */
@@ -176,7 +176,7 @@ $(document).ready(function () {
             '../../api/deleteExpensesDistribution',
             dataExpensesDistribution,
             function (data, textStatus, jqXHR) {
-              message(data, 1);
+              messageDistribution(data, 1);
             }
           );
         }
@@ -186,7 +186,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = async (data, op) => {
+  messageDistribution = async (data, op) => {
     $('#fileExpenses').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);

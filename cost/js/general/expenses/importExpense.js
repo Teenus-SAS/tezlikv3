@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   $('.cardImportExpensesAssignation').hide();
 
-  $('#btnImportNewExpenses').click(function (e) {
+  $('#btnImportNewAssExpenses').click(function (e) {
     e.preventDefault();
     $('.cardCreateExpenses').hide(800);
     $('.cardImportExpensesAssignation').toggle(800);
@@ -128,7 +128,7 @@ $(document).ready(function () {
       url: '/api/addExpenses',
       data: { importExpense: data },
       success: function (r) {
-        message(r);
+        messageExpense(r);
       },
     });
   };
