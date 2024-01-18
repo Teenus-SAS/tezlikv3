@@ -151,10 +151,9 @@ if (sizeof($_SESSION) == 0)
 											</tfoot>
 										</table>
 										<div class="row">
-											<div class="col notices" id="qDescription">
+											<div class="col-md-4 notices" id="qDescription">
 											</div>
-											<br>
-											<div class="col notices py-5">
+											<div class="col-md-8 notices py-5">
 												<h3>Observaciones Generales:</h3>
 												<div id="observation"></div>
 											</div>
