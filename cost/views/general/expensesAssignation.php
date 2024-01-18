@@ -342,7 +342,7 @@ if (sizeof($_SESSION) == 0)
                                     ) { ?>
                                         <li class="nav-item">
                                             <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                                <i class="fas fa-flask mr-1"></i>Gastos
+                                                <i class="fas fa-flask mr-1"></i>Asignación Gts Generales
                                             </a>
                                         </li>
                                     <?php } ?>
@@ -350,7 +350,7 @@ if (sizeof($_SESSION) == 0)
                                         <li class="nav-item">
                                             <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
                                                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                    <i class="bi bi-arrow-repeat mr-1"></i>Distribución de Gastos
+                                                    <i class="bi bi-arrow-repeat mr-1"></i>Distribución Gastos Generales
                                                 <?php } ?>
                                                 <?php if ($_SESSION['flag_expense'] == 2) { ?>
                                                     <i class="bi bi-arrow-repeat mr-1"></i>Recuperación de Gastos
