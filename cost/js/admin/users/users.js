@@ -394,7 +394,7 @@ $(document).ready(function () {
       i++;
     });
 
-    if ($(`#chckExpenses${i}`).is(':checked')) {
+    if ($(`#chckExpenses`).is(':checked')) {
       dataUser[`expense`] = 1;
       dataUser[`expenseDistribution`] = 1;
     }
