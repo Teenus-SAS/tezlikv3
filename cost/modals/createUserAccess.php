@@ -101,7 +101,13 @@
                                                     <label for="">Tipo de Nomina<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
-                                                <div class="form-group floating-label enable-floating-label show-label my-2" style="width: 150px">
+
+                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                    <input class="typeCheckbox" id="chckExpenses" name="expense" type="checkbox">
+                                                    <label for="chckExpenses">Gastos</label>
+                                                </div>
+
+                                                <div class="form-group floating-label enable-floating-label show-label my-2 cardChkExpenses" style="width: 150px; display: none;">
                                                     <select class="form-control" name="selectExpenses" id="selectExpenses">
                                                         <option selected disabled>Seleccionar</option>
                                                         <option value="0">TODO</option>
@@ -111,14 +117,11 @@
                                                     <label for="">Tipo Gastos<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
-                                                <div class="checkbox checkbox-success checkbox-circle cardTypeExpenses">
+                                                <div class="checkbox checkbox-success checkbox-circle cardChkExpenses cardTypeExpenses" style="display: none;">
                                                     <input id="typeExpenses" name="typeExpenses" type="checkbox">
                                                     <label for="typeExpenses">Metodo Distribución</label>
                                                 </div>
-                                                <!-- <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input class="typeCheckbox" id="checkbox-9" name="expense" type="checkbox">
-                                                    <label for="checkbox-9">Gastos</label>
-                                                </div> 
+                                                <!-- 
                                                 <div class="form-group floating-label enable-floating-label show-label my-2 cardTypeExpenses" style="width: 150px">
                                                     <select class="form-control" name="typeExpenses" id="typeExpenses">
                                                         <option selected disabled>Seleccionar</option>

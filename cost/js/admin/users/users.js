@@ -19,6 +19,7 @@ $(document).ready(function () {
     $('.cardTypePayroll').hide();
     $('.cardTypeExpenses').hide();
     $('.cardTypePrices').hide();
+    $('.cardChkExpenses').hide();
     typeCustomPrices = [];
     $('#nameUser').prop('disabled', false);
     $('#lastnameUser').prop('disabled', false);
@@ -30,6 +31,8 @@ $(document).ready(function () {
   $(document).on('click', '.typeCheckbox', function () {
     if (this.id == 'checkbox-8')
       $('.cardTypePayroll').toggle(800); 
+    if (this.id == 'chckExpenses')
+      $('.cardChkExpenses').toggle(800);
     if (this.id == 'checkbox-16')
       $('.cardTypePrices').toggle(800);
   });
@@ -225,14 +228,20 @@ $(document).ready(function () {
     });
 
     let selectExpenses = 0;
+    if (data.expense_distribution == 1 && data.expense == 1) 
+      $(`#chckExpenses`).prop('checked', true); 
 
-    if (data.expense_distribution == 0 && data.expense == 1)
+    if (data.expense_distribution == 0 && data.expense == 1) 
       selectExpenses = 1;
+    
     else if (data.expense_distribution == 1 && data.expense == 0)
       selectExpenses = 2;
       
     if ($(`#checkbox-8`).is(':checked')) $('.cardTypePayroll').show();
-    if ((selectExpenses == 0 || selectExpenses == 2) && (flag_expense == '1' || flag_expense == '0')) $('.cardTypeExpenses').show();
+    if ((selectExpenses == 0 || selectExpenses == 2) && (flag_expense == '1' || flag_expense == '0')) {
+      $('.cardChkExpenses').show();
+      $('.cardTypeExpenses').show();
+    }
     if ($(`#checkbox-16`).is(':checked')) $('.cardTypePrices').show();
     
     $(`#selectExpenses option[value=${selectExpenses}]`).prop('selected', true);

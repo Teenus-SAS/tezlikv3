@@ -342,6 +342,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
                     <?php } ?>
+
                     <!-- page content -->
                     <div class="page-content-wrapper mt--45">
                         <div class="container-fluid">
