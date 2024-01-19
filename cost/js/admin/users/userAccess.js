@@ -13,7 +13,7 @@ $(document).ready(function () {
             aServices: data.external_service,
             aPayroll: data.payroll_load,
             aExpenses: data.expense,
-            //aExpensesDistribution: data.expense_distribution,
+            aExpensesDistribution: data.expense_distribution,
             aCustomPrices: data.custom_price,
             aBackup: data.backup,
             aUsers: data.user,
@@ -60,6 +60,7 @@ $(document).ready(function () {
         if (
             access.aPayroll == 0 &&
             access.aExpenses == 0 && 
+            access.aExpensesDistribution == 0 && 
             access.aCustomPrices == 0
         ) {
             $('#navCostGeneral').hide();

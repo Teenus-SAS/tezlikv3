@@ -202,13 +202,13 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          // permissions.push({
-          //   name: "Distribución Gastos",
-          //   icon: data.expense_distribution
-          //     ? "bi bi-check-circle-fill text-success"
-          //     : "bi bi-x-circle-fill text-danger",
-          //   color: { text: "black" },
-          // });
+          permissions.push({
+            name: "Distribución Gastos",
+            icon: data.expense_distribution
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
 
           let output = '<div class="stacked-column" style="width:170px">';
           for (const permission of permissions) {

@@ -125,7 +125,7 @@
                                                                 </li>
                                                                 <?php if (
                                                                     $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
-                                                                    || $_SESSION['plan_cost_multiproduct'] == 1
+                                                                    || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['expense_distribution'] == 1
                                                                 ) { ?>
                                                                     <li class="aExpenses">
                                                                     <?php } else { ?>

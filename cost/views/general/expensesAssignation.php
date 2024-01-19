@@ -45,415 +45,444 @@ if (sizeof($_SESSION) == 0)
                 <!-- page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <div class="tab-pane cardExpenses">
-                            <div class="row align-items-center">
-                                <div class="col-sm-5 col-xl-6">
-                                    <div class="page-title">
-                                        <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
-                                        <ol class="breadcrumb mb-3 mb-md-0">
-                                            <li class="breadcrumb-item active">Ingrese todos los gastos de su empresa de acuerdo con su contabilidad</li>
-                                        </ol>
+                        <?php if ($_SESSION['expense'] == 1) { ?>
+                            <div class="tab-pane cardExpenses">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5 col-xl-6">
+                                        <div class="page-title">
+                                            <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
+                                            <ol class="breadcrumb mb-3 mb-md-0">
+                                                <li class="breadcrumb-item active">Ingrese todos los gastos de su empresa de acuerdo con su contabilidad</li>
+                                            </ol>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                    <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnNewExpense">Nuevo Gasto</button>
-                                    </div>
-                                    <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
+                                    <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                        <div class="col-xs-2 mr-2">
+                                            <button class="btn btn-warning" id="btnNewExpense">Nuevo Gasto</button>
+                                        </div>
+                                        <div class="col-xs-2 py-2 mr-2">
+                                            <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="tab-pane cardExpenseDistribution" style="display: none;">
-                            <div class="row align-items-center">
-                                <div class="col-sm-4 col-xl-4">
-                                    <div class="page-title">
-                                        <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
-                                        <ol class="breadcrumb mb-3 mb-md-0">
-                                            <li class="breadcrumb-item active mt-2" id="descrExpense"></li>
-                                        </ol>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8 col-xl-8 form-inline justify-content-sm-end">
-                                    <div class="col-xs-2 mr-2 cardBtnUpdateExpenses" style="display:none">
-                                        <button class="btn btn-secondary" id="btnUpdateExpenses">Modificar Gastos</button>
-                                    </div>
-                                    <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
-                                        <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
-                                    </div>
-                                    <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
-                                        <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
-                                    </div>
-                                    <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
-                                        <button id="btnImportNewExpenses" class="btn btn-primary"></button>
-                                    </div>
-                                    <?php if ($_SESSION['type_expense'] == 1) { ?>
-                                        <div class="col-xs-2 mr-2 btn-group cardBtnExpensesDistribution" style="display: none;">
-
-                                        </div>
+                        <?php } ?>
+                        <?php if ($_SESSION['expense_distribution'] == 1) { ?>
+                            <?php if ($_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1) { ?>
+                                <div class="tab-pane cardExpenseDistribution" style="display: none;">
+                                <?php } else { ?>
+                                    <div class="tab-pane cardExpenseDistribution">
                                     <?php } ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Asignacion -->
-                <div class="page-content-wrapper mt--45 mb-5 cardCreateExpenses">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form id="formCreateExpenses">
-                                            <div class="form-row">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label">
-                                                    <label for="">Cuenta</label>
-                                                    <select class="form-control" name="idPuc" id="idPuc"></select>
-                                                </div>
-                                                <div class="col-xs-3 floating-label enable-floating-label show-label">
-                                                    <label for="">Valor</label>
-                                                    <input type="number" class="form-control text-center" id="expenseValue" name="expenseValue">
-                                                </div>
-                                                <div class="col-xs-2 mt-1">
-                                                    <button class="btn btn-primary" id="btnCreateExpense">Crear Gasto</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content-wrapper mt--45 mb-5 cardImportExpensesAssignation">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <form id="formImportExpesesAssignation" enctype="multipart/form-data">
-                                    <div class="card">
-                                        <div class="card-body pt-3">
-                                            <div class="form-row" id="formExpenses">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
-                                                    <input class="form-control" type="file" id="fileExpensesAssignation" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label">Importar Asignacion de Gastos</label>
-                                                </div>
-                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportExpensesAssignation">Importar</button>
-                                                </div>
-                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignation">Descarga Formato</button>
-                                                </div>
+                                    <div class="row align-items-center">
+                                        <div class="col-sm-4 col-xl-4">
+                                            <div class="page-title">
+                                                <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales</h3>
+                                                <ol class="breadcrumb mb-3 mb-md-0">
+                                                    <li class="breadcrumb-item active mt-2" id="descrExpense"></li>
+                                                </ol>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Distribucion -->
-                <div class="page-content-wrapper mt--45 mb-5 cardAddNewFamily" style="display: none;">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form id="formFamily">
-                                            <div class="form-row">
-                                                <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <input type="text" class="form-control" id="family" name="family">
-                                                    <label for="family">Nombre Familia</label>
-                                                </div>
-                                                <div class="col-xs-2" style="margin-top:12px">
-                                                    <button class="btn btn-primary" id="btnSaveFamily">Guardar</button>
-                                                </div>
+                                        <div class="col-sm-8 col-xl-8 form-inline justify-content-sm-end">
+                                            <div class="col-xs-2 mr-2 cardBtnUpdateExpenses" style="display:none">
+                                                <button class="btn btn-secondary" id="btnUpdateExpenses">Modificar Gastos</button>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content-wrapper mt--45 mb-5 cardAddProductFamily" style="display: none;">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form id="formProductFamily">
-                                            <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control refProduct" name="refProduct" id="familyRefProduct"></select>
-                                                    <label for="familyRefProduct">Referencia</label>
-                                                </div>
-                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="familyNameProduct"></select>
-                                                    <label for="familyNameProduct">Nombre Producto</label>
-                                                </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control families" name="idFamily" id="families"></select>
-                                                    <label for="families">Familia</label>
-                                                </div>
-                                                <div class="col-xs-2" style="margin-top:12px">
-                                                    <button class="btn btn-primary" id="btnAddProductFamily">Asignar</button>
-                                                </div>
+                                            <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
+                                                <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
                                             </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="form-row">
-                                            <div class="col-sm-3">
-                                                <label for="">Gastos a distribuir</label>
+                                            <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
+                                                <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">
+                                            <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
+                                                <button id="btnImportNewExpenses" class="btn btn-primary"></button>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                            <?php if ($_SESSION['type_expense'] == 1) { ?>
+                                                <div class="col-xs-2 mr-2 btn-group cardBtnExpensesDistribution" style="display: none;">
 
-                <!-- Distribuir Gastos -->
-                <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form id="formExpensesDistribution">
-                                            <div class="form-row">
-                                                <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
-                                                    <label for="EDRefProduct">Referencia</label>
                                                 </div>
-                                                <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
-                                                    <label for="EDNameProduct">Nombre Producto</label>
-                                                </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <input type="number" class="form-control text-center" id="undVendidas" name="unitsSold">
-                                                    <label for="undVendidas">Und Vendidas (Mes)</label>
-                                                </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
-                                                    <input type="number" class="form-control text-center" id="volVendidas" name="turnover">
-                                                    <label for="volVendidas">Total Ventas (Mes)</label>
-                                                </div>
-                                                <div class="col-xs-2" style="margin-top:12px">
-                                                    <button class="btn btn-primary" id="btnAssignExpenses">Asignar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Recuperar Gastos -->
-                <div class="page-content-wrapper mt--45 mb-5 cardExpenseRecover">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form id="formExpenseRecover">
-                                            <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control refProduct" name="idProduct" id="ERRefProduct"></select>
-                                                    <label for="ERRefProduct">Referencia</label>
-                                                </div>
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                    <select class="form-control selectNameProduct" name="nameProduct" id="ERNameProduct"></select>
-                                                    <label for="ERNameProduct">Nombre Producto</label>
-                                                </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
-                                                    <input type="number" class="form-control text-center" id="percentage" name="percentage">
-                                                    <label for="percentage">Porcentaje</label>
-                                                </div>
-                                                <div class="col-xs-2" style="margin-top:12px">
-                                                    <button class="btn btn-primary" id="btnExpenseRecover">Guardar Gasto</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="page-content-wrapper mt--45 mb-5 cardImportExpenses">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <form id="formImportExpenses" enctype="multipart/form-data">
-                                    <div class="card">
-                                        <div class="card-body pt-3">
-                                            <div class="form-row" id="formExpenses">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
-                                                    <input class="form-control" type="file" id="fileExpenses" accept=".xls,.xlsx">
-                                                    <label for="formFile" id="lblImportExpense" class="form-label"></label>
-                                                </div>
-                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportExpenses">Importar</button>
-                                                </div>
-                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses">Descarga Formato</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- page content -->
-                <div class="page-content-wrapper mt--45">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                            <i class="fas fa-flask mr-1"></i>Asignación
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
-                                            <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                <i class="bi bi-arrow-repeat mr-1"></i>Distribución
                                             <?php } ?>
-                                            <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                <i class="bi bi-arrow-repeat mr-1"></i>Recuperación
-                                            <?php } ?>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="tab-pane cardExpenses">
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped" id="tblAssExpenses">
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th class="classRight">Total:</th>
-                                                            <th></th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
                                         </div>
                                     </div>
-                                    <div class="row cardExpenseDistribution" style="display: none;">
-                                        <div class="col-12 cardTblExpensesDistribution">
+                                    </div>
+                                <?php } ?>
+                                </div>
+                    </div>
+
+                    <!-- Asignacion -->
+                    <?php if ($_SESSION['expense'] == 1) { ?>
+                        <div class="page-content-wrapper mt--45 mb-5 cardCreateExpenses">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
                                             <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped" id="tblExpenses">
-                                                        <?php if ($_SESSION['flag_expense'] == 1) { ?>
+                                                <form id="formCreateExpenses">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label">
+                                                            <label for="">Cuenta</label>
+                                                            <select class="form-control" name="idPuc" id="idPuc"></select>
+                                                        </div>
+                                                        <div class="col-xs-3 floating-label enable-floating-label show-label">
+                                                            <label for="">Valor</label>
+                                                            <input type="number" class="form-control text-center" id="expenseValue" name="expenseValue">
+                                                        </div>
+                                                        <div class="col-xs-2 mt-1">
+                                                            <button class="btn btn-primary" id="btnCreateExpense">Crear Gasto</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-content-wrapper mt--45 mb-5 cardImportExpensesAssignation">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form id="formImportExpesesAssignation" enctype="multipart/form-data">
+                                            <div class="card">
+                                                <div class="card-body pt-3">
+                                                    <div class="form-row" id="formExpenses">
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                            <input class="form-control" type="file" id="fileExpensesAssignation" accept=".xls,.xlsx">
+                                                            <label for="formFile" class="form-label">Importar Asignacion de Gastos</label>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-success" id="btnImportExpensesAssignation">Importar</button>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignation">Descarga Formato</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    <?php } ?>
+                    <?php if ($_SESSION['expense_distribution'] == 1) { ?>
+                        <!-- Distribucion -->
+                        <div class="page-content-wrapper mt--45 mb-5 cardAddNewFamily" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formFamily">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <input type="text" class="form-control" id="family" name="family">
+                                                            <label for="family">Nombre Familia</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="margin-top:12px">
+                                                            <button class="btn btn-primary" id="btnSaveFamily">Guardar</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-content-wrapper mt--45 mb-5 cardAddProductFamily" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formProductFamily">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control refProduct" name="refProduct" id="familyRefProduct"></select>
+                                                            <label for="familyRefProduct">Referencia</label>
+                                                        </div>
+                                                        <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="familyNameProduct"></select>
+                                                            <label for="familyNameProduct">Nombre Producto</label>
+                                                        </div>
+                                                        <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control families" name="idFamily" id="families"></select>
+                                                            <label for="families">Familia</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="margin-top:12px">
+                                                            <button class="btn btn-primary" id="btnAddProductFamily">Asignar</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="form-row">
+                                                    <div class="col-sm-3">
+                                                        <label for="">Gastos a distribuir</label>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Distribuir Gastos -->
+                        <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formExpensesDistribution">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
+                                                            <label for="EDRefProduct">Referencia</label>
+                                                        </div>
+                                                        <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
+                                                            <label for="EDNameProduct">Nombre Producto</label>
+                                                        </div>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <input type="number" class="form-control text-center" id="undVendidas" name="unitsSold">
+                                                            <label for="undVendidas">Und Vendidas (Mes)</label>
+                                                        </div>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
+                                                            <input type="number" class="form-control text-center" id="volVendidas" name="turnover">
+                                                            <label for="volVendidas">Total Ventas (Mes)</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="margin-top:12px">
+                                                            <button class="btn btn-primary" id="btnAssignExpenses">Asignar</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recuperar Gastos -->
+                        <div class="page-content-wrapper mt--45 mb-5 cardExpenseRecover">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formExpenseRecover">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control refProduct" name="idProduct" id="ERRefProduct"></select>
+                                                            <label for="ERRefProduct">Referencia</label>
+                                                        </div>
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control selectNameProduct" name="nameProduct" id="ERNameProduct"></select>
+                                                            <label for="ERNameProduct">Nombre Producto</label>
+                                                        </div>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
+                                                            <input type="number" class="form-control text-center" id="percentage" name="percentage">
+                                                            <label for="percentage">Porcentaje</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="margin-top:12px">
+                                                            <button class="btn btn-primary" id="btnExpenseRecover">Guardar Gasto</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-content-wrapper mt--45 mb-5 cardImportExpenses">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form id="formImportExpenses" enctype="multipart/form-data">
+                                            <div class="card">
+                                                <div class="card-body pt-3">
+                                                    <div class="form-row" id="formExpenses">
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                            <input class="form-control" type="file" id="fileExpenses" accept=".xls,.xlsx">
+                                                            <label for="formFile" id="lblImportExpense" class="form-label"></label>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-success" id="btnImportExpenses">Importar</button>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpenses">Descarga Formato</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <!-- page content -->
+                    <div class="page-content-wrapper mt--45">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                                        <?php if ($_SESSION['expense'] == 1) { ?>
+                                            <li class="nav-item">
+                                                <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                    <i class="fas fa-flask mr-1"></i>Asignación
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['expense_distribution'] == 1) { ?>
+                                            <li class="nav-item">
+                                                <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                                    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                        <i class="bi bi-arrow-repeat mr-1"></i>Distribución
+                                                    <?php } ?>
+                                                    <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                                        <i class="bi bi-arrow-repeat mr-1"></i>Recuperación
+                                                    <?php } ?>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <?php if ($_SESSION['expense'] == 1) { ?>
+                                            <div class="tab-pane cardExpenses">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped" id="tblAssExpenses">
                                                             <tfoot>
                                                                 <tr>
                                                                     <th></th>
                                                                     <th></th>
-                                                                    <th>Total:</th>
                                                                     <th></th>
-                                                                    <th></th>
+                                                                    <th class="classRight">Total:</th>
                                                                     <th></th>
                                                                     <th></th>
                                                                 </tr>
                                                             </tfoot>
-                                                        <?php } ?>
-                                                    </table>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-12 cardTblFamilies" style="display: none;">
-                                            <div class="card-body">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped" id="tblFamilies">
+                                        <?php } ?>
+                                        <?php if ($_SESSION['expense_distribution'] == 1) { ?>
+                                            <?php if ($_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1) { ?>
+                                                <div class="row cardExpenseDistribution" style="display: none;">
+                                                <?php } else { ?>
+                                                    <div class="row cardExpenseDistribution">
+                                                    <?php } ?>
+                                                    <div class="col-12 cardTblExpensesDistribution">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped" id="tblExpenses">
+                                                                    <?php if ($_SESSION['flag_expense'] == 1) { ?>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th>Total:</th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    <?php } ?>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12 cardTblFamilies" style="display: none;">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped" id="tblFamilies">
 
-                                                    </table>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                <?php } ?>
                                                 </div>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Main content end -->
+
+                <!-- Footer -->
+                <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
             </div>
-        </div>
-        <!-- Main content end -->
+            <!-- Page End -->
 
-        <!-- Footer -->
-        <?php include_once  dirname(dirname(dirname(__DIR__))) . '/global/partials/footer.php'; ?>
-    </div>
-    <!-- Page End -->
+            <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+            <script>
+                flag_expense = "<?= $_SESSION['flag_expense'] ?>";
+                flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+                type_expense = "<?= $_SESSION['type_expense'] ?>";
+            </script>
 
-    <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
-    <script>
-        flag_expense = "<?= $_SESSION['flag_expense'] ?>";
-        flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
-        type_expense = "<?= $_SESSION['type_expense'] ?>";
-    </script>
-    <script src="/cost/js/general/expenses/tblExpenses.js"></script>
-    <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
-    <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>
-    <script src="/cost/js/general/puc/configPuc.js"></script>
-    <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
-    <script src="/cost/js/general/expenses/expense.js"></script>
-    <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
-    <script src="/cost/js/general/expenseRecover/updateExpenses.js"></script>
-    <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
-    <script src="../global/js/import/import.js"></script>
-    <script src="/cost/js/general/expenses/importExpense.js"></script>
-    <script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
-    <script src="../global/js/import/file.js"></script>
-    <script src="/global/js/global/orderData.js"></script>
+            <script src="../global/js/import/import.js"></script>
+            <script src="../global/js/import/file.js"></script>
+            <script src="/global/js/global/orderData.js"></script>
 
-    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-        <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>
-        <script src="/cost/js/general/expensesDistribution/families/configFamilies.js"></script>
-        <script src="/cost/js/general/expensesDistribution/families/family.js"></script>
-        <script src="/cost/js/general/expensesDistribution/families/tblFamilies.js"></script>
-        <script src="/cost/js/general/expensesDistribution/families/tblExpensesDistributionFamilies.js"></script>
-        <script src="/cost/js/general/expensesDistribution/families/configProducts.js"></script>
-    <?php } ?>
+            <?php if ($_SESSION['expense'] == 1) { ?>
+                <script src="/cost/js/general/expenses/expense.js"></script>
+                <script src="/cost/js/general/expenses/tblExpenses.js"></script>
+                <script src="/cost/js/general/puc/configPuc.js"></script>
+                <script src="/cost/js/general/expenses/importExpense.js"></script>
+            <?php } ?>
+            <?php if ($_SESSION['expense_distribution'] == 1) { ?>
+                <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
+                <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>
+                <script src="/cost/js/general/expensesDistribution/configExpensesDistribution.js"></script>
+                <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
+                <script src="/cost/js/general/expenseRecover/updateExpenses.js"></script>
+                <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
+                <script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
+                <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                    <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>
+                    <script src="/cost/js/general/expensesDistribution/families/configFamilies.js"></script>
+                    <script src="/cost/js/general/expensesDistribution/families/family.js"></script>
+                    <script src="/cost/js/general/expensesDistribution/families/tblFamilies.js"></script>
+                    <script src="/cost/js/general/expensesDistribution/families/tblExpensesDistributionFamilies.js"></script>
+                    <script src="/cost/js/general/expensesDistribution/families/configProducts.js"></script>
+                <?php } ?>
 
-    <?php if ($_SESSION['flag_expense'] == 2) { ?>
-        <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
-    <?php } ?>
+                <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                    <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
+                <?php } ?>
+            <?php } ?>
 
 </body>
 

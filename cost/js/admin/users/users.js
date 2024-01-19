@@ -1,8 +1,5 @@
-$(document).ready(function () {
-  $('.cardTypePayroll').hide();
-  $('.cardTypeExpenses').hide();
-  $('.cardTypePrices').hide();
-  typeCustomPrices = [];
+$(document).ready(function () { 
+  typeCustomPrices = [];  
 
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
@@ -19,6 +16,10 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_user');
 
+    $('.cardTypePayroll').hide();
+    $('.cardTypeExpenses').hide();
+    $('.cardTypePrices').hide();
+    typeCustomPrices = [];
     $('#nameUser').prop('disabled', false);
     $('#lastnameUser').prop('disabled', false);
     $('#emailUser').prop('disabled', false);
@@ -28,11 +29,18 @@ $(document).ready(function () {
 
   $(document).on('click', '.typeCheckbox', function () {
     if (this.id == 'checkbox-8')
-      $('.cardTypePayroll').toggle(800);
-    if (this.id == 'checkbox-9' && (flag_expense == '1' || flag_expense == '0'))
-      $('.cardTypeExpenses').toggle(800);
-    if (this.id == 'checkbox-17')
+      $('.cardTypePayroll').toggle(800); 
+    if (this.id == 'checkbox-16')
       $('.cardTypePrices').toggle(800);
+  });
+
+  $('#selectExpenses').change(function (e) {
+    e.preventDefault();
+
+    if (this.value == '0' || this.value == '2' && (flag_expense == '1' || flag_expense == '0'))
+      $('.cardTypeExpenses').show(800);
+    else
+      $('.cardTypeExpenses').hide(800);
   });
 
   $(document).on('click', '.typePriceList', function () {
@@ -86,6 +94,13 @@ $(document).ready(function () {
         return false;
       }
 
+      let selectExpenses = $('#selectExpenses').val();
+
+      if (!selectExpenses) {
+        toastr.error('Seleccione tipo de gasto');
+        return false;
+      }
+
       /* Validar que al menos un acceso sea otorgado */
       if ($('input[type=checkbox]:checked').length === 0) {
         toastr.error('Debe seleccionar al menos un acceso');
@@ -94,7 +109,7 @@ $(document).ready(function () {
 
       /* Obtener los checkbox seleccionados */
       
-      if ($(`#checkbox-17`).is(':checked')) {
+      if ($(`#checkbox-16`).is(':checked')) {
         if (typeCustomPrices.length == 0) {
           toastr.error('Debe seleccionar tipo de precio');
           return false;
@@ -115,17 +130,25 @@ $(document).ready(function () {
       }
 
       let typeExpenses = flag_expense_distribution;
-
-      if ($(`#checkbox-10`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
-        typeExpenses = $('#typeExpenses').val();
-
-        if (!typeExpenses) {
-          toastr.error('Debe seleccionar tipo de distribución');
-          return false;
-        }  
+      
+      if ((selectExpenses == '0' || selectExpenses == '2') && (flag_expense == '1' || flag_expense == '0')) { 
+        if ($(`#typeExpenses`).is(':checked')) typeExpenses = 1;
+        else typeExpenses = 0;
       }
 
       let dataUser = {};
+
+      if (selectExpenses == '0'){
+        dataUser['expense'] = 1;
+        dataUser['expenseDistribution'] = 1;
+      } else if (selectExpenses == '1') {
+        dataUser['expense'] = 1;
+        dataUser['expenseDistribution'] = 0;
+      } else {
+        dataUser['expense'] = 0;
+        dataUser['expenseDistribution'] = 1;
+      }
+      
       dataUser['nameUser'] = nameUser;
       dataUser['lastnameUser'] = lastnameUser;
       dataUser['emailUser'] = emailUser;
@@ -173,7 +196,7 @@ $(document).ready(function () {
       factoryLoad: data.factory_load,
       servicesExternal: data.external_service,
       payroll: data.payroll_load,
-      generalExpenses: data.expense,
+      // generalExpenses: data.expense,
       //distributionExpenses: data.expense_distribution,
       users: data.user,
       backup: data.backup,
@@ -201,11 +224,24 @@ $(document).ready(function () {
       i++;
     });
 
-    if ($(`#checkbox-8`).is(':checked')) $('.cardTypePayroll').show();
-    if ($(`#checkbox-9`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) $('.cardTypeExpenses').show();
-    if ($(`#checkbox-17`).is(':checked')) $('.cardTypePrices').show();
+    let selectExpenses = 0;
 
-    $(`#typeExpenses option[value=${data.type_expense}]`).prop('selected', true);
+    if (data.expense_distribution == 0 && data.expense == 1)
+      selectExpenses = 1;
+    else if (data.expense_distribution == 1 && data.expense == 0)
+      selectExpenses = 2;
+      
+    if ($(`#checkbox-8`).is(':checked')) $('.cardTypePayroll').show();
+    if ((selectExpenses == 0 || selectExpenses == 2) && (flag_expense == '1' || flag_expense == '0')) $('.cardTypeExpenses').show();
+    if ($(`#checkbox-16`).is(':checked')) $('.cardTypePrices').show();
+    
+    $(`#selectExpenses option[value=${selectExpenses}]`).prop('selected', true);
+
+    if(data.type_expense == 1)
+      $(`#typeExpenses`).prop('checked', true);
+    else
+      $(`#typeExpenses`).prop('checked', false);
+
     $(`#typePayroll option[value=${data.type_payroll}]`).prop('selected', true);
 
     typeCustomPrices = [];
@@ -252,18 +288,21 @@ $(document).ready(function () {
 
     }
 
+    let selectExpenses = $('#selectExpenses').val();
+
+    if (!selectExpenses) {
+      toastr.error('Seleccione tipo de gasto');
+      return false;
+    }
+
     let typeExpenses = flag_expense_distribution;
 
-    if ($(`#checkbox-9`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
-      typeExpenses = $('#typeExpenses').val();
-
-      if (!typeExpenses) {
-        toastr.error('Debe seleccionar tipo de distribución');
-        return false;
-      }
+    if ((selectExpenses == '0' || selectExpenses == '2') && (flag_expense == '1' || flag_expense == '0')) {
+      if ($(`#typeExpenses`).is(':checked')) typeExpenses = 1;
+      else typeExpenses = 0;
     }
     
-    if ($(`#checkbox-17`).is(':checked')) {
+    if ($(`#checkbox-16`).is(':checked')) {
       if (typeCustomPrices.length == 0) {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
@@ -273,6 +312,18 @@ $(document).ready(function () {
     }
 
     let dataUser = {};
+
+    if (selectExpenses == '0') {
+      dataUser['expense'] = 1;
+      dataUser['expenseDistribution'] = 1;
+    } else if (selectExpenses == '1') {
+      dataUser['expense'] = 1;
+      dataUser['expenseDistribution'] = 0;
+    } else {
+      dataUser['expense'] = 0;
+      dataUser['expenseDistribution'] = 1;
+    }
+    
     dataUser['id_user'] = id_user;
     dataUser['nameUser'] = $('#nameUser').val();
     dataUser['lastnameUser'] = $('#lastnameUser').val();
@@ -307,8 +358,8 @@ $(document).ready(function () {
       factoryLoad: 0,
       externalService: 0,
       payrollLoad: 0,
-      expense: 0,
-      //expenseDistribution: 0,
+      // expense: 0,
+      // expenseDistribution: 0,
       costUser: 0,
       costBackup: 0,
       quotePaymentMethod: 0,
