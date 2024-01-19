@@ -336,91 +336,77 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                                    <?php if (
-                                        $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
-                                        || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2
-                                    ) { ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                                <i class="fas fa-flask mr-1"></i>Asignación Gts Generales
-                                            </a>
-                                        </li>
-                                    <?php } ?>
-                                    <?php if ($_SESSION['expense_distribution'] == 1) { ?>
-                                        <li class="nav-item">
-                                            <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
-                                                <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                    <i class="bi bi-arrow-repeat mr-1"></i>Distribución Gastos Generales
-                                                <?php } ?>
-                                                <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                    <i class="bi bi-arrow-repeat mr-1"></i>Recuperación de Gastos
-                                                <?php } ?>
-                                            </a>
-                                        </li>
-                                    <?php } ?>
+                                    <li class="nav-item">
+                                        <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                            <i class="fas fa-flask mr-1"></i>Asignación Gts Generales
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                            <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                <i class="bi bi-arrow-repeat mr-1"></i>Distribución Gastos Generales
+                                            <?php } ?>
+                                            <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                                <i class="bi bi-arrow-repeat mr-1"></i>Recuperación de Gastos
+                                            <?php } ?>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <?php if (
-                                        $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
-                                        || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2
-                                    ) { ?>
-                                        <div class="tab-pane cardExpenses">
+                                    <div class="tab-pane cardExpenses">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped" id="tblAssExpenses">
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th class="classRight">Total:</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row cardExpenseDistribution" style="display: none;">
+                                        <div class="col-12 cardTblExpensesDistribution">
                                             <div class="card-body">
                                                 <div class="table-responsive">
-                                                    <table class="table table-striped" id="tblAssExpenses">
-                                                        <tfoot>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th class="classRight">Total:</th>
-                                                                <th></th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </tfoot>
+                                                    <table class="table table-striped" id="tblExpenses">
+                                                        <?php if ($_SESSION['flag_expense'] == 1) { ?>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th>Total:</th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </tfoot>
+                                                        <?php } ?>
                                                     </table>
                                                 </div>
                                             </div>
                                         </div>
-                                    <?php } ?>
-                                    <?php if ($_SESSION['expense_distribution'] == 1) { ?>
-                                        <div class="row cardExpenseDistribution" style="display: none;">
-                                            <div class="col-12 cardTblExpensesDistribution">
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped" id="tblExpenses">
-                                                            <?php if ($_SESSION['flag_expense'] == 1) { ?>
-                                                                <tfoot>
-                                                                    <tr>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th>Total:</th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                        <th></th>
-                                                                    </tr>
-                                                                </tfoot>
-                                                            <?php } ?>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 cardTblFamilies" style="display: none;">
-                                                <div class="card-body">
-                                                    <div class="table-responsive">
-                                                        <table class="table table-striped" id="tblFamilies">
+                                        <div class="col-12 cardTblFamilies" style="display: none;">
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped" id="tblFamilies">
 
-                                                        </table>
-                                                    </div>
+                                                    </table>
                                                 </div>
                                             </div>
                                         </div>
-                                    <?php } ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
