@@ -26,7 +26,7 @@ $(document).ready(function () {
       );
       $.each(prod, function (i, value) {
         $select1.append(
-          `<option value = ${value.id_product}> ${value.product} </option>`
+          `<option value ='${value.id_product}' class='${value.composite}'> ${value.product} </option>`
         );
       });
 

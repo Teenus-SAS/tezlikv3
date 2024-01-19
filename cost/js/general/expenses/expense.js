@@ -7,12 +7,12 @@ $(document).ready(function () {
     if (this.id == 'expenses') {
       $('.cardExpenses').show();
       $('.cardExpenseDistribution').hide();
-      $('cardAddNewFamily').hide();
-      $('cardAddProductFamily').hide();
-      $('cardExpensesDistribution').hide();
-      $('cardExpensesDistribution').hide();
-      $('cardExpenseRecover').hide();
-      $('cardImportExpenses').hide();
+      $('.cardAddNewFamily').hide();
+      $('.cardAddProductFamily').hide();
+      $('.cardExpensesDistribution').hide();
+      $('.cardExpensesDistribution').hide();
+      $('.cardExpenseRecover').hide();
+      $('.cardImportExpenses').hide();
     } else if (this.id == 'distribution') {
       $('.cardExpenseDistribution').show();
       $('.cardExpenses').hide();

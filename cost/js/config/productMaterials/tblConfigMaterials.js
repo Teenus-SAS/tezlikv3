@@ -3,6 +3,13 @@ $(document).ready(function () {
   $('#refProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
+    let composite = parseInt($(this).find('option:selected').attr('class'));
+
+    if (composite == 0) {
+      $('#btnAddNewProduct').show();
+    }else
+      $('#btnAddNewProduct').hide();
+
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
     $('.cardAddNewProduct').hide(800);
@@ -13,6 +20,13 @@ $(document).ready(function () {
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
+    let composite = parseInt($(this).find('option:selected').attr('class'));
+
+    if (composite == 0) {
+      $('#btnAddNewProduct').show();
+    }else
+      $('#btnAddNewProduct').hide();
+
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     $('.cardAddNewProduct').hide(800);

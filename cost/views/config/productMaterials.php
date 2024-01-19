@@ -61,7 +61,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
                                         <div class="col-xs-2 mr-2">
-                                            <button class="btn btn-secondary" id="btnAddNewProduct">Adicionar Nuevo Producto</button>
+                                            <button class="btn btn-secondary" id="btnAddNewProduct" style="display: none;">Adicionar Nuevo Producto</button>
                                         </div>
                                     <?php } ?>
                                     <div class="col-xs-2 py-2 mr-2">
@@ -96,7 +96,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5">
+                <div class="page-content-wrapper mt--45 mb-5 cardProducts">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">

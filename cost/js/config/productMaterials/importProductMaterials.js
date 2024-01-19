@@ -7,7 +7,8 @@ $(document).ready(function () {
     e.preventDefault();
     $('.cardAddMaterials').hide(800);
     $('.cardAddNewProduct').hide(800);
-    $('.cardImportProductsMaterials').toggle(800);
+    $('.cardImportProductsMaterials').toggle(800); 
+    $('.cardProducts').toggle(800);
   });
 
   $('#fileProductsMaterials').change(function (e) {
