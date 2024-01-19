@@ -230,7 +230,9 @@ $(document).ready(function () {
     let selectExpenses;
     if (data.expense_distribution == 1 && data.expense == 1) {
     $(`#chckExpenses`).prop('checked', true); 
-    selectExpenses =0;}
+      selectExpenses = 0;
+      $('.cardChkExpenses').show();
+    }
     
     if (data.expense_distribution == 0 && data.expense == 1) {
       $(`#chckExpenses`).prop('checked', true); 
