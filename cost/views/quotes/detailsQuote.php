@@ -150,12 +150,13 @@ if (sizeof($_SESSION) == 0)
 												</tr>
 											</tfoot>
 										</table>
-										<div class="notices" id="qDescription">
-										</div>
-										<br>
-										<div class="notices py-5">
-											<h3>Observaciones Generales:</h3>
-											<div id="observation"></div>
+										<div class="row">
+											<div class="col-md-4 notices" id="qDescription">
+											</div>
+											<div class="col-md-8 notices py-5">
+												<h3>Observaciones Generales:</h3>
+												<div id="observation"></div>
+											</div>
 										</div>
 										<div style="width: 100%;text-align: center;color: #777;border-top: 1px solid #aaa;padding: 8px 0;" id="qFooter"></div>
 									</div>
