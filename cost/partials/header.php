@@ -107,8 +107,7 @@
                                                 </div>
 
                                                 <?php if (
-                                                    $_SESSION['payroll_load'] == 0 && $_SESSION['expense'] == 0 &&
-                                                    $_SESSION['expense_distribution'] == 0
+                                                    $_SESSION['payroll_load'] == 0 && $_SESSION['expense'] == 0
                                                 ) { ?>
                                                     <div class="col-md-3" id="navCostGeneral" style="display: none;">
                                                     <?php } else { ?>
@@ -126,8 +125,7 @@
                                                                 </li>
                                                                 <?php if (
                                                                     $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1
-                                                                    || $_SESSION['plan_cost_multiproduct'] == 1 || $_SESSION['flag_expense'] != 2 ||
-                                                                    $_SESSION['expense_distribution'] == 1
+                                                                    || $_SESSION['plan_cost_multiproduct'] == 1
                                                                 ) { ?>
                                                                     <li class="aExpenses">
                                                                     <?php } else { ?>
