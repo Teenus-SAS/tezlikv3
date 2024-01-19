@@ -13,7 +13,7 @@ $(document).ready(function () {
             aServices: data.external_service,
             aPayroll: data.payroll_load,
             aExpenses: data.expense,
-            aExpensesDistribution: data.expense_distribution,
+            aExpenses: data.expense_distribution,
             aCustomPrices: data.custom_price,
             aBackup: data.backup,
             aUsers: data.user,

@@ -231,8 +231,10 @@ $(document).ready(function () {
     if (data.expense_distribution == 1 && data.expense == 1) 
       $(`#chckExpenses`).prop('checked', true); 
 
-    if (data.expense_distribution == 0 && data.expense == 1) 
+    if (data.expense_distribution == 0 && data.expense == 1) {
       selectExpenses = 1;
+      $('.cardChkExpenses').show();
+    }
     
     else if (data.expense_distribution == 1 && data.expense == 0)
       selectExpenses = 2;
@@ -391,6 +393,15 @@ $(document).ready(function () {
       else dataUser[`${index}`] = 0;
       i++;
     });
+
+    if ($(`#chckExpenses${i}`).is(':checked')) {
+      dataUser[`expense`] = 1;
+      dataUser[`expenseDistribution`] = 1;
+    }
+    else {
+      dataUser[`expense`] = 0;
+      dataUser[`expenseDistribution`] = 0; 
+    }
     return dataUser;
   };
 
