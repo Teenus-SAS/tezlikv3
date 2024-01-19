@@ -295,7 +295,7 @@ if (sizeof($_SESSION) == 0)
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link selectNavigation" id="process" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
-                                            <i class="bi bi-arrow-repeat mr-1"></i>Tiempos Procesos
+                                            <i class="bi bi-arrow-repeat mr-1"></i>Tiempos y Procesos
                                         </a>
                                     </li>
                                 </ul>

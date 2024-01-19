@@ -338,16 +338,16 @@ if (sizeof($_SESSION) == 0)
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                            <i class="fas fa-flask mr-1"></i>Asignación Gts Generales
+                                            <i class="fas fa-flask mr-1"></i>Asignación
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
                                             <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                <i class="bi bi-arrow-repeat mr-1"></i>Distribución Gastos Generales
+                                                <i class="bi bi-arrow-repeat mr-1"></i>Distribución
                                             <?php } ?>
                                             <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                <i class="bi bi-arrow-repeat mr-1"></i>Recuperación de Gastos
+                                                <i class="bi bi-arrow-repeat mr-1"></i>Recuperación
                                             <?php } ?>
                                         </a>
                                     </li>
