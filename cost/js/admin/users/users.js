@@ -27,11 +27,11 @@ $(document).ready(function () {
   });
 
   $(document).on('click', '.typeCheckbox', function () {
-    if (this.id == 'checkbox-9')
+    if (this.id == 'checkbox-8')
       $('.cardTypePayroll').toggle(800);
-    if (this.id == 'checkbox-11' && (flag_expense == '1' || flag_expense == '0'))
+    if (this.id == 'checkbox-9' && (flag_expense == '1' || flag_expense == '0'))
       $('.cardTypeExpenses').toggle(800);
-    if (this.id == 'checkbox-19')
+    if (this.id == 'checkbox-17')
       $('.cardTypePrices').toggle(800);
   });
 
@@ -92,10 +92,9 @@ $(document).ready(function () {
         return false;
       }
 
-      
       /* Obtener los checkbox seleccionados */
       
-      if ($(`#checkbox-19`).is(':checked')) {
+      if ($(`#checkbox-17`).is(':checked')) {
         if (typeCustomPrices.length == 0) {
           toastr.error('Debe seleccionar tipo de precio');
           return false;
@@ -106,7 +105,7 @@ $(document).ready(function () {
 
       let typePayroll = 0;
 
-      if ($(`#checkbox-9`).is(':checked')) {
+      if ($(`#checkbox-8`).is(':checked')) {
         typePayroll = $('#typePayroll').val();
 
         if (typePayroll == 0 || !typePayroll) {
@@ -117,7 +116,7 @@ $(document).ready(function () {
 
       let typeExpenses = flag_expense_distribution;
 
-      if ($(`#checkbox-11`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
+      if ($(`#checkbox-10`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
         typeExpenses = $('#typeExpenses').val();
 
         if (!typeExpenses) {
@@ -170,12 +169,12 @@ $(document).ready(function () {
       costCreateMachines: data.create_machines,
       costCreateProcess: data.create_process,
       productsMaterials: data.product_materials,
-      productsProcess: data.product_process,
+      //productsProcess: data.product_process,
       factoryLoad: data.factory_load,
       servicesExternal: data.external_service,
       payroll: data.payroll_load,
       generalExpenses: data.expense,
-      distributionExpenses: data.expense_distribution,
+      //distributionExpenses: data.expense_distribution,
       users: data.user,
       backup: data.backup,
       quotePaymentMethod: data.quote_payment_method,
@@ -202,9 +201,9 @@ $(document).ready(function () {
       i++;
     });
 
-    if ($(`#checkbox-9`).is(':checked')) $('.cardTypePayroll').show();
-    if ($(`#checkbox-11`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) $('.cardTypeExpenses').show();
-    if ($(`#checkbox-19`).is(':checked')) $('.cardTypePrices').show();
+    if ($(`#checkbox-8`).is(':checked')) $('.cardTypePayroll').show();
+    if ($(`#checkbox-9`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) $('.cardTypeExpenses').show();
+    if ($(`#checkbox-17`).is(':checked')) $('.cardTypePrices').show();
 
     $(`#typeExpenses option[value=${data.type_expense}]`).prop('selected', true);
     $(`#typePayroll option[value=${data.type_payroll}]`).prop('selected', true);
@@ -243,7 +242,7 @@ $(document).ready(function () {
 
     let typePayroll = 0;
     
-    if ($(`#checkbox-9`).is(':checked')) {
+    if ($(`#checkbox-8`).is(':checked')) {
       typePayroll = $('#typePayroll').val();
       
       if (typePayroll == 0 || !typePayroll) {
@@ -255,7 +254,7 @@ $(document).ready(function () {
 
     let typeExpenses = flag_expense_distribution;
 
-    if ($(`#checkbox-11`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
+    if ($(`#checkbox-9`).is(':checked') && (flag_expense == '1' || flag_expense == '0')) {
       typeExpenses = $('#typeExpenses').val();
 
       if (!typeExpenses) {
@@ -264,7 +263,7 @@ $(document).ready(function () {
       }
     }
     
-    if ($(`#checkbox-19`).is(':checked')) {
+    if ($(`#checkbox-17`).is(':checked')) {
       if (typeCustomPrices.length == 0) {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
@@ -304,12 +303,12 @@ $(document).ready(function () {
       costCreateMachines: 0,
       costCreateProcess: 0,
       costProductMaterials: 0,
-      costProductProcess: 0,
+      //costProductProcess: 0,
       factoryLoad: 0,
       externalService: 0,
       payrollLoad: 0,
       expense: 0,
-      expenseDistribution: 0,
+      //expenseDistribution: 0,
       costUser: 0,
       costBackup: 0,
       quotePaymentMethod: 0,

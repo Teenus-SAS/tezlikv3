@@ -138,20 +138,20 @@ $(document).ready(function () {
           const permissions = [];
 
           permissions.push({
-            name: "Ficha Técnica Materia Prima",
+            name: "Ficha Técnica Productos",
             icon: data.product_materials
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
 
-          permissions.push({
-            name: "Ficha Técnica Procesos y Tiempos",
-            icon: data.product_process
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          // permissions.push({
+          //   name: "Ficha Técnica Procesos y Tiempos",
+          //   icon: data.product_process
+          //     ? "bi bi-check-circle-fill text-success"
+          //     : "bi bi-x-circle-fill text-danger",
+          //   color: { text: "black" },
+          // });
 
           permissions.push({
             name: "Carga Fabril",
@@ -195,20 +195,20 @@ $(document).ready(function () {
           });
 
           permissions.push({
-            name: "Asignación Gastos",
+            name: "Gastos",
             icon: data.expense
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
 
-          permissions.push({
-            name: "Distribución Gastos",
-            icon: data.expense_distribution
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          // permissions.push({
+          //   name: "Distribución Gastos",
+          //   icon: data.expense_distribution
+          //     ? "bi bi-check-circle-fill text-success"
+          //     : "bi bi-x-circle-fill text-danger",
+          //   color: { text: "black" },
+          // });
 
           let output = '<div class="stacked-column" style="width:170px">';
           for (const permission of permissions) {

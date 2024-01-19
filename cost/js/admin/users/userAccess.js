@@ -8,12 +8,12 @@ $(document).ready(function () {
             aMachines: data.create_machines,
             aProcess: data.create_process,
             aProductsMaterials: data.product_materials,
-            aProductsProcess: data.product_process,
+            //aProductsProcess: data.product_process,
             aFactoryLoad: data.factory_load,
             aServices: data.external_service,
             aPayroll: data.payroll_load,
             aExpenses: data.expense,
-            aExpensesDistribution: data.expense_distribution,
+            //aExpensesDistribution: data.expense_distribution,
             aCustomPrices: data.custom_price,
             aBackup: data.backup,
             aUsers: data.user,
@@ -49,8 +49,7 @@ $(document).ready(function () {
             $('#navCostBasics').show();
 
         if (
-            access.aProductsMaterials == 0 &&
-            access.aProductsProcess == 0 &&
+            access.aProductsMaterials == 0 && 
             access.aFactoryLoad == 0 &&
             access.aServices == 0
         ) {
@@ -60,8 +59,7 @@ $(document).ready(function () {
 
         if (
             access.aPayroll == 0 &&
-            access.aExpenses == 0 &&
-            access.aExpensesDistribution == 0 &&
+            access.aExpenses == 0 && 
             access.aCustomPrices == 0
         ) {
             $('#navCostGeneral').hide();
