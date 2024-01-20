@@ -64,7 +64,7 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / pp.operation_time)) AS cost
+            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost
                                           FROM products_process pp 
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                             INNER JOIN machines m ON m.id_machine = pp.id_machine 
@@ -92,7 +92,7 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / pp.operation_time)) AS cost
+            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost
                                           FROM products_process pp 
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                             INNER JOIN machines m ON m.id_machine = pp.id_machine 

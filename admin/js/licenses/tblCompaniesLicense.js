@@ -80,7 +80,7 @@ $(document).ready(function () {
 
           permissions.push({
             name: "Precios USD",
-            icon: data.cost_price_usd
+            icon: data.cost_price_usd == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
@@ -88,7 +88,7 @@ $(document).ready(function () {
 
           permissions.push({
             name: "Procesos Nomina",
-            icon: data.flag_employee
+            icon: data.flag_employee == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
@@ -96,7 +96,7 @@ $(document).ready(function () {
 
           permissions.push({
             name: "Productos Compuestos",
-            icon: data.flag_composite_product
+            icon: data.flag_composite_product == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
@@ -104,7 +104,7 @@ $(document).ready(function () {
 
           permissions.push({
             name: "Historico",
-            icon: data.cost_historical
+            icon: data.cost_historical == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
@@ -112,7 +112,7 @@ $(document).ready(function () {
 
           permissions.push({
             name: "Materiales",
-            icon: data.flag_indirect
+            icon: data.flag_indirect == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
@@ -120,7 +120,7 @@ $(document).ready(function () {
 
           permissions.push({
             name: "Inyección",
-            icon: data.inyection
+            icon: data.inyection == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },

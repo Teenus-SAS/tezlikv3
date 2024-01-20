@@ -18,9 +18,8 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product_process');
 
-    if (inyection == '1') {
-      $('#enlistmentTime').hide();
-    }
+    if (inyection == '1') 
+      $('#enlistmentTime').prop('readonly', true);
 
     $('#formAddProcess').trigger('reset');
   });
@@ -44,7 +43,13 @@ $(document).ready(function () {
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
     // tEnlistment = strReplaceNumber(tEnlistment);
 
-    let val = parseFloat(tEnlistment) + parseFloat(tOperation);
+    if(inyection == 1)
+      val = (parseFloat(tEnlistment) / (parseFloat(tOperation) / 100)).toFixed(2);
+    else
+      val = parseFloat(tEnlistment) + parseFloat(tOperation);
+
+    !isFinite(val) ? val = 0 : val;
+
     $('#totalTime').val(val);
   });
 

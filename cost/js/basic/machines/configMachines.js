@@ -21,7 +21,7 @@ $(document).ready(function () {
       $select.append(`<option value = "0" selected>PROCESO MANUAL</option>`);
       $.each(r, function (i, value) {
         $select.append(
-          `<option value = ${value.id_machine}> ${value.machine} </option>`
+          `<option value = '${value.id_machine}'> ${value.machine} </option>`
         );
       });
 
@@ -36,4 +36,15 @@ $(document).ready(function () {
       });
     },
   });
+
+  $('#idMachine').change(function (e) { 
+    e.preventDefault();
+    
+    let data = JSON.parse(sessionStorage.getItem('dataMachines'));
+
+    data = data.filter(item => item.id_machine == this.value);
+
+    $('#enlistmentTime').val(data[0].unity_time);
+  });
+
 });

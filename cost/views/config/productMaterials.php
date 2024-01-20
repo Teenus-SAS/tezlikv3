@@ -228,15 +228,27 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control" name="idMachine" id="idMachine"></select>
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label for="" class="text-center">t.alistamiento (min)</label>
+                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
+                                                        <label for="" class="text-center">Tiempo/Und</label>
+                                                    <?php } else { ?>
+                                                        <label for="" class="text-center">t.alistamiento (min)</label>
+                                                    <?php } ?>
                                                     <input class="form-control text-center time" type="number" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label for="" class="text-center">t.operacion (min)</label>
+                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
+                                                        <label for="" class="text-center">% Eficiencia</label>
+                                                    <?php } else { ?>
+                                                        <label for="" class="text-center">t.operacion (min)</label>
+                                                    <?php } ?>
                                                     <input class="form-control text-center time" type="number" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label for="" class="text-center">t.total (min)</label>
+                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
+                                                        <label for="" class="text-center">Total</label>
+                                                    <?php } else { ?>
+                                                        <label for="" class="text-center">t.total (min)</label>
+                                                    <?php } ?>
                                                     <input class="form-control text-center" type="number" name="totalTime" id="totalTime" disabled>
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
