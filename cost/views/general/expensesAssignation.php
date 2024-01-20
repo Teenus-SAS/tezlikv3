@@ -46,8 +46,8 @@ if (sizeof($_SESSION) == 0)
                 <div class="page-title-box">
                     <div class="container-fluid">
                         <?php if (
-                            $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1 ||
-                            $_SESSION['plan_cost_multiproduct'] == 1
+                            $_SESSION['expense'] == 1 || ($_SESSION['cost_multiproduct'] == 1 &&
+                                $_SESSION['plan_cost_multiproduct'] == 1)
                         ) { ?>
                             <div class="tab-pane cardExpenses">
                                 <div class="row align-items-center">
@@ -73,8 +73,8 @@ if (sizeof($_SESSION) == 0)
                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                             <?php if (
                                 $_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1
-                                || $_SESSION['cost_multiproduct'] == 1 ||
-                                $_SESSION['plan_cost_multiproduct'] == 1
+                                || ($_SESSION['cost_multiproduct'] == 1 &&
+                                    $_SESSION['plan_cost_multiproduct'] == 1)
                             ) { ?>
                                 <div class="tab-pane cardExpenseDistribution" style="display: none;">
                                 <?php } else { ?>
@@ -117,8 +117,8 @@ if (sizeof($_SESSION) == 0)
                     <!-- Asignacion -->
                     <?php if (
                         $_SESSION['expense'] == 1 ||
-                        $_SESSION['cost_multiproduct'] == 1 ||
-                        $_SESSION['plan_cost_multiproduct'] == 1
+                        ($_SESSION['cost_multiproduct'] == 1 &&
+                            $_SESSION['plan_cost_multiproduct'] == 1)
                     ) { ?>
                         <div class="page-content-wrapper mt--45 mb-5 cardCreateExpenses">
                             <div class="container-fluid">
@@ -362,8 +362,8 @@ if (sizeof($_SESSION) == 0)
                                     <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                         <?php if (
                                             $_SESSION['expense'] == 1 ||
-                                            $_SESSION['cost_multiproduct'] == 1 ||
-                                            $_SESSION['plan_cost_multiproduct'] == 1
+                                            ($_SESSION['cost_multiproduct'] == 1 &&
+                                                $_SESSION['plan_cost_multiproduct'] == 1)
                                         ) { ?>
                                             <li class="nav-item">
                                                 <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
@@ -375,8 +375,8 @@ if (sizeof($_SESSION) == 0)
                                             <li class="nav-item">
                                                 <?php if (
                                                     $_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1
-                                                    || $_SESSION['cost_multiproduct'] == 1 ||
-                                                    $_SESSION['plan_cost_multiproduct'] == 1
+                                                    || ($_SESSION['cost_multiproduct'] == 1 &&
+                                                        $_SESSION['plan_cost_multiproduct'] == 1)
                                                 ) { ?>
                                                     <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
                                                     <?php } else { ?>
@@ -399,8 +399,8 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card">
                                         <?php if (
                                             $_SESSION['expense'] == 1 ||
-                                            $_SESSION['cost_multiproduct'] == 1 ||
-                                            $_SESSION['plan_cost_multiproduct'] == 1
+                                            ($_SESSION['cost_multiproduct'] == 1 &&
+                                                $_SESSION['plan_cost_multiproduct'] == 1)
                                         ) { ?>
                                             <div class="tab-pane cardExpenses">
                                                 <div class="card-body">
@@ -424,8 +424,8 @@ if (sizeof($_SESSION) == 0)
                                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                                             <?php if (
                                                 $_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1
-                                                || $_SESSION['cost_multiproduct'] == 1 ||
-                                                $_SESSION['plan_cost_multiproduct'] == 1
+                                                || ($_SESSION['cost_multiproduct'] == 1 &&
+                                                    $_SESSION['plan_cost_multiproduct'] == 1)
                                             ) { ?>
                                                 <div class="row cardExpenseDistribution" style="display: none;">
                                                 <?php } else { ?>
@@ -490,8 +490,8 @@ if (sizeof($_SESSION) == 0)
 
             <?php if (
                 $_SESSION['expense'] == 1 ||
-                $_SESSION['cost_multiproduct'] == 1 ||
-                $_SESSION['plan_cost_multiproduct'] == 1
+                ($_SESSION['cost_multiproduct'] == 1 &&
+                    $_SESSION['plan_cost_multiproduct'] == 1)
             ) { ?>
                 <script src="/cost/js/general/expenses/expense.js"></script>
                 <script src="/cost/js/general/expenses/tblExpenses.js"></script>
