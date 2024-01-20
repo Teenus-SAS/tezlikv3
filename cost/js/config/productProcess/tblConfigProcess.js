@@ -57,6 +57,7 @@ $(document).ready(function () {
         },
         {
           title: 'Tiempo Alistamiento (min)',
+          // title: 'Tiempo/Und',
           data: 'enlistment_time',
           className: 'classCenter',
           render: function (data) {
@@ -67,7 +68,8 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Tiempo Operación  (min)',
+          // title: 'Tiempo Operación  (min)',
+          title: '%Eficiencia',
           data: 'operation_time',
           className: 'classCenter',
           render: function (data) {

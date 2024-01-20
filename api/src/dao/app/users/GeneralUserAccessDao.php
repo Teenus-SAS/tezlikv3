@@ -53,11 +53,11 @@ class GeneralUserAccessDao
         $_SESSION['payroll_load'] = $userAccess['payroll_load'];
         $_SESSION['type_payroll'] = $userAccess['type_payroll'];
 
-        if ($userAccess['flag_expense'] == 2) {
-            $_SESSION['expense'] = 0;
-        } else {
-            $_SESSION['expense'] = $userAccess['expense'];
-        }
+        // if ($userAccess['flag_expense'] == 2) {
+        // $_SESSION['expense'] = 0;
+        // } else {
+        $_SESSION['expense'] = $userAccess['expense'];
+        // }
 
         $_SESSION['expense_distribution'] = $userAccess['expense_distribution'];
         $_SESSION['type_expense'] = $userAccess['type_expense'];

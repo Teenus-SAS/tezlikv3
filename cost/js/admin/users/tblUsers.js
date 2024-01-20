@@ -194,14 +194,14 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          if (flag_expense != 2)
-            permissions.push({
-              name: "Gastos",
-              icon: data.expense
-                ? "bi bi-check-circle-fill text-success"
-                : "bi bi-x-circle-fill text-danger",
-              color: { text: "black" },
-            });
+          // if (flag_expense != 2)
+          permissions.push({
+            name: "Gastos",
+            icon: data.expense
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
 
           permissions.push({
             name: `${flag_expense == 2 ? 'Recuperación Gastos' : 'Distribución Gastos'}`,
@@ -424,7 +424,7 @@ $(document).ready(function () {
 
           return output;
         },
-      }, 
+      },
     ],
     columnDefs: [
       {

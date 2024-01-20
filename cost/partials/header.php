@@ -126,19 +126,15 @@
                                                                 <?php if (
                                                                     $_SESSION['expense'] == 1
                                                                     || $_SESSION['expense_distribution'] == 1
-                                                                    //|| $_SESSION['cost_multiproduct'] == 1
-                                                                    //|| $_SESSION['plan_cost_multiproduct'] == 1 
+                                                                    || $_SESSION['cost_multiproduct'] == 1
+                                                                    || $_SESSION['plan_cost_multiproduct'] == 1
                                                                 ) { ?>
                                                                     <li class="aExpenses">
                                                                     <?php } else { ?>
                                                                     <li class="aExpenses" style="display: none;">
                                                                     <?php } ?>
                                                                     <i class="bi bi-currency-dollar mr-1"></i>
-                                                                    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                                        <a href="/cost/general-expenses">Gastos Generales</a>
-                                                                    <?php } else { ?>
-                                                                        <a href="/cost/general-expenses">Recuperación Gastos</a>
-                                                                    <?php } ?>
+                                                                    <a href="/cost/general-expenses">Gastos Generales</a>
                                                                     </li>
                                                                     <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
                                                                         <li class="aCustomPrices">

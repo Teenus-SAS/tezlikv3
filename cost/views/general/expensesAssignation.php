@@ -45,7 +45,10 @@ if (sizeof($_SESSION) == 0)
                 <!-- page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <?php if ($_SESSION['expense'] == 1) { ?>
+                        <?php if (
+                            $_SESSION['expense'] == 1 || $_SESSION['cost_multiproduct'] == 1 ||
+                            $_SESSION['plan_cost_multiproduct'] == 1
+                        ) { ?>
                             <div class="tab-pane cardExpenses">
                                 <div class="row align-items-center">
                                     <div class="col-sm-5 col-xl-6">
@@ -68,7 +71,11 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         <?php } ?>
                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
-                            <?php if ($_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1) { ?>
+                            <?php if (
+                                $_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1
+                                || $_SESSION['cost_multiproduct'] == 1 ||
+                                $_SESSION['plan_cost_multiproduct'] == 1
+                            ) { ?>
                                 <div class="tab-pane cardExpenseDistribution" style="display: none;">
                                 <?php } else { ?>
                                     <div class="tab-pane cardExpenseDistribution">
@@ -108,7 +115,11 @@ if (sizeof($_SESSION) == 0)
                     </div>
 
                     <!-- Asignacion -->
-                    <?php if ($_SESSION['expense'] == 1) { ?>
+                    <?php if (
+                        $_SESSION['expense'] == 1 ||
+                        $_SESSION['cost_multiproduct'] == 1 ||
+                        $_SESSION['plan_cost_multiproduct'] == 1
+                    ) { ?>
                         <div class="page-content-wrapper mt--45 mb-5 cardCreateExpenses">
                             <div class="container-fluid">
                                 <div class="row">
@@ -349,7 +360,11 @@ if (sizeof($_SESSION) == 0)
                             <div class="row">
                                 <div class="col-12">
                                     <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                                        <?php if ($_SESSION['expense'] == 1) { ?>
+                                        <?php if (
+                                            $_SESSION['expense'] == 1 ||
+                                            $_SESSION['cost_multiproduct'] == 1 ||
+                                            $_SESSION['plan_cost_multiproduct'] == 1
+                                        ) { ?>
                                             <li class="nav-item">
                                                 <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
                                                     <i class="fas fa-flask mr-1"></i>Asignación
@@ -358,7 +373,11 @@ if (sizeof($_SESSION) == 0)
                                         <?php } ?>
                                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                                             <li class="nav-item">
-                                                <?php if ($_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1) { ?>
+                                                <?php if (
+                                                    $_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1
+                                                    || $_SESSION['cost_multiproduct'] == 1 ||
+                                                    $_SESSION['plan_cost_multiproduct'] == 1
+                                                ) { ?>
                                                     <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
                                                     <?php } else { ?>
                                                         <a class="nav-link selectNavigation active" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="true">
@@ -378,7 +397,11 @@ if (sizeof($_SESSION) == 0)
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card">
-                                        <?php if ($_SESSION['expense'] == 1) { ?>
+                                        <?php if (
+                                            $_SESSION['expense'] == 1 ||
+                                            $_SESSION['cost_multiproduct'] == 1 ||
+                                            $_SESSION['plan_cost_multiproduct'] == 1
+                                        ) { ?>
                                             <div class="tab-pane cardExpenses">
                                                 <div class="card-body">
                                                     <div class="table-responsive">
@@ -399,7 +422,11 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                         <?php } ?>
                                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
-                                            <?php if ($_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1) { ?>
+                                            <?php if (
+                                                $_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1
+                                                || $_SESSION['cost_multiproduct'] == 1 ||
+                                                $_SESSION['plan_cost_multiproduct'] == 1
+                                            ) { ?>
                                                 <div class="row cardExpenseDistribution" style="display: none;">
                                                 <?php } else { ?>
                                                     <div class="row cardExpenseDistribution">
@@ -461,7 +488,11 @@ if (sizeof($_SESSION) == 0)
             <script src="../global/js/import/file.js"></script>
             <script src="/global/js/global/orderData.js"></script>
 
-            <?php if ($_SESSION['expense'] == 1) { ?>
+            <?php if (
+                $_SESSION['expense'] == 1 ||
+                $_SESSION['cost_multiproduct'] == 1 ||
+                $_SESSION['plan_cost_multiproduct'] == 1
+            ) { ?>
                 <script src="/cost/js/general/expenses/expense.js"></script>
                 <script src="/cost/js/general/expenses/tblExpenses.js"></script>
                 <script src="/cost/js/general/puc/configPuc.js"></script>
