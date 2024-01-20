@@ -214,7 +214,11 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
                 foreach ($dataProducts as $arr) {
                     // Calcular costo nomina
-                    $resolution = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+                    if ($_SESSION['inyection'])
+                        $resolution = $costWorkforceDao->calcCostPayrollInyection($arr['id_product'], $id_company);
+                    else
+                        $resolution = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+
                     if (isset($resolution['info'])) break;
 
                     // Calcular costo nomina total  
@@ -363,7 +367,10 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                     if (isset($payroll['info'])) break;
 
                     // Calcular costo nomina
-                    $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+                    if ($_SESSION['inyection'])
+                        $payroll = $costWorkforceDao->calcCostPayrollInyection($arr['id_product'], $id_company);
+                    else
+                        $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
                     if (isset($payroll['info'])) break;
 
                     // Calcular costo nomina total 
@@ -499,7 +506,11 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
         foreach ($dataProducts as $arr) {
             if (isset($payroll['info'])) break;
             // Calcular costo nomina
-            $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+            if ($_SESSION['inyection'] == 1)
+                $payroll = $costWorkforceDao->calcCostPayrollInyection($arr['id_product'], $id_company);
+            else
+                $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+
             if (isset($payroll['info'])) break;
 
             // Calcular costo nomina total
@@ -627,7 +638,10 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
         foreach ($dataProducts as $arr) {
             // Calcular costo nomina
-            $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
+            if ($_SESSION['inyection'] == 1)
+                $payroll = $costWorkforceDao->calcCostPayrollInyection($arr['id_product'], $id_company);
+            else
+                $payroll = $costWorkforceDao->calcCostPayroll($arr['id_product'], $id_company);
 
             if (isset($payroll['info'])) break;
             // Calcular costo nomina total

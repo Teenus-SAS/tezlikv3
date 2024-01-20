@@ -28,4 +28,35 @@ class TpInyectionDao
         $machine = $stmt->fetch($connection::FETCH_ASSOC);
         return $machine;
     }
+
+    public function updateInyection($dataMachine)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE machines SET cicles_machine = :cicles_machine, cavities = :cavities WHERE id_machine = :id_machine");
+            $stmt->execute([
+                'cicles_machine' => $dataMachine['ciclesMachine'],
+                'cavities' => $dataMachine['cavities'],
+                'id_machine' => $dataMachine['idMachine']
+            ]);
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
+    }
+
+    public function updateUnityTime($id_machine, $machine)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE machines SET unity_time = :unity_time WHERE id_machine = :id_machine");
+            $stmt->execute([
+                'unity_time' => $machine['unityTime'],
+                'id_machine' => $id_machine
+            ]);
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
+    }
 }

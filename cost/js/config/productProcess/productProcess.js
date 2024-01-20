@@ -18,6 +18,10 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product_process');
 
+    if (inyection == '1') {
+      $('#enlistmentTime').hide();
+    }
+
     $('#formAddProcess').trigger('reset');
   });
 
@@ -76,7 +80,12 @@ $(document).ready(function () {
 
     // let decimals = contarDecimales(data.enlistment_time);
     // let enlistment_time = formatNumber(data.enlistment_time, decimals);
-    $('#enlistmentTime').val(data.enlistment_time);
+    if (inyection == '1') {
+      $('#enlistmentTime').val(data.unity_time);
+      $('#enlistmentTime').prop('readonly', true);
+    }
+    else
+      $('#enlistmentTime').val(data.enlistment_time);
 
     // decimals = contarDecimales(data.operation_time);
     // let operation_time = formatNumber(data.operation_time, decimals);
@@ -106,8 +115,11 @@ $(document).ready(function () {
     // enlistmentTime = parseFloat(strReplaceNumber(enlistmentTime));
     // operationTime = parseFloat(strReplaceNumber(operationTime));
 
-    let data = idProduct * refP * enlistmentTime + operationTime;
+    let data = idProduct * refP * operationTime;
 
+    if (inyection == '0')
+      data += enlistmentTime;
+    
     if (!data || isNaN(refM) || data == 0) {
       toastr.error('Ingrese todos los campos');
       return false;

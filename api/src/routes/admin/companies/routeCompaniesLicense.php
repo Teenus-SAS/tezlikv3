@@ -17,7 +17,6 @@ $app->get('/licenses', function (Request $request, Response $response, $args) us
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-
 $app->post('/addLicense', function (Request $request, Response $response, $args) use ($companiesLicenseDao) {
     $dataLicense = $request->getParsedBody();
     empty($dataLicense['plan']) ? $dataLicense['plan'] = 4 : $dataLicense['plan'];

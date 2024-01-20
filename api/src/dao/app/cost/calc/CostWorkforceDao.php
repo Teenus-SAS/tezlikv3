@@ -59,6 +59,63 @@ class CostWorkforceDao
         }
     }
 
+    // Calcular MO Inyeccion
+    public function calcCostPayrollInyection($idProduct, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / pp.operation_time)) AS cost
+                                          FROM products_process pp 
+                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
+                                            INNER JOIN machines m ON m.id_machine = pp.id_machine 
+                                          WHERE pp.id_product = :id_product AND pp.id_company = :id_company GROUP BY `pp`.`id_product_process`");
+            $stmt->execute([
+                'id_product' => $idProduct,
+                'id_company' => $id_company
+            ]);
+            $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+            for ($i = 0; $i < sizeof($payroll); $i++) {
+                $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+                $stmt->execute([
+                    'workforce_cost' => $payroll[$i]['cost'],
+                    'id_product_process' => $payroll[$i]['id_product_process']
+                ]);
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $payroll = array('info' => true, 'message' => $message);
+        }
+    }
+
+    public function calcCostPayrollInyectionGroupEmployee($idProduct, $employees)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / pp.operation_time)) AS cost
+                                          FROM products_process pp 
+                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
+                                            INNER JOIN machines m ON m.id_machine = pp.id_machine 
+                                          WHERE pp.id_product = :id_product AND p.id_payroll IN ($employees)
+                                          GROUP BY `pp`.`id_product_process`");
+            $stmt->execute([
+                'id_product' => $idProduct
+            ]);
+            $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
+
+            for ($i = 0; $i < sizeof($payroll); $i++) {
+                $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+                $stmt->execute([
+                    'workforce_cost' => $payroll[$i]['cost'],
+                    'id_product_process' => $payroll[$i]['id_product_process']
+                ]);
+            }
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $payroll = array('info' => true, 'message' => $message);
+        }
+    }
+
     public function calcCostPayrollGroupByEmployee($idProduct, $id_company, $employees)
     {
         $connection = Connection::getInstance()->getConnection();

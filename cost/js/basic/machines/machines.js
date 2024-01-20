@@ -47,7 +47,10 @@ $(document).ready(function () {
 
     $('#hoursMachine').val(data.hours_machine);
     $('#daysMachine').val(data.days_machine);
-
+    
+    $('#ciclesMachine').val(data.cicles_machine);
+    $('#cavities').val(data.cavities);
+    
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -63,6 +66,8 @@ $(document).ready(function () {
     let yearsDepreciation = $('#depreciationYears').val();
     let hoursMachine = $('#hoursMachine').val();
     let daysMachine = $('#daysMachine').val();
+    let ciclesMachine = $('#ciclesMachine').val();
+    let cavities = $('#cavities').val();
 
     costMachine = parseFloat(costMachine);
     yearsDepreciation = parseFloat(yearsDepreciation);
@@ -70,6 +75,9 @@ $(document).ready(function () {
     daysMachine = parseFloat(daysMachine);
 
     let data = costMachine * yearsDepreciation * hoursMachine * daysMachine;
+    
+    if (inyection == 1)
+      data = data * ciclesMachine * cavities;
 
     if (Machine.trim() == '' || Machine.trim() == null || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');

@@ -136,6 +136,10 @@ if (sizeof($_SESSION) == 0)
                                                     <label for="">Materiales</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="indirect" id="indirect">
                                                 </div>
+                                                <div class="col-xs-3 text-center mr-2 mt-4">
+                                                    <label for="">Inyección</label><br>
+                                                    <input type="checkBox" class="form-control-updated" name="inyection" id="inyection">
+                                                </div>
                                                 <div class="col-xs">
                                                     <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 25px">Actualizar</button>
                                                 </div>

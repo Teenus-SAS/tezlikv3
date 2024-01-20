@@ -28,6 +28,7 @@ $(document).ready(function () {
       let compositeProducts = $('#compositeProducts').is(':checked');
       let historical = $('#historical').is(':checked');
       let indirect = $('#indirect').is(':checked');
+      let inyection = $('#inyection').is(':checked');
 
       data = company * quantityUsers * plan * pricesUSD;
 
@@ -46,10 +47,11 @@ $(document).ready(function () {
       compositeProducts == true ? (compositeProducts = '1') : (compositeProducts = '0');
       historical == true ? (historical = '1') : (historical = '0');
       indirect == true ? (indirect = '1') : (indirect = '0');
+      inyection == true ? (inyection = '1') : (inyection = '0');
 
       license = $('#formAddLicense').serialize();
 
-      license = `${license}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}&indirect=${indirect}`;
+      license = `${license}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
 
       $.post('/api/addLicense', license, function (data, textStatus, jqXHR) {
         message(data);
@@ -86,6 +88,8 @@ $(document).ready(function () {
       $(`#historical`).prop('checked', true);
     if (data.flag_indirect == '1')
       $(`#indirect`).prop('checked', true);
+    if (data.inyection == '1')
+      $(`#inyection`).prop('checked', true);
       
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);
@@ -101,10 +105,11 @@ $(document).ready(function () {
     $('#compositeProducts').is(':checked') == true ? (compositeProducts = '1') : (compositeProducts = '0');
     $('#historical').is(':checked') == true ? (historical = '1') : (historical = '0');
     $('#indirect').is(':checked') == true ? (indirect = '1') : (indirect = '0');
+    $('#inyection').is(':checked') == true ? (inyection = '1') : (inyection = '0');
 
     dataCompany = $('#formAddLicense').serialize();
 
-    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}&indirect=${indirect}`;
+    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
 
     $.post('/api/updateLicense', dataCompany, function (data) {
       message(data);

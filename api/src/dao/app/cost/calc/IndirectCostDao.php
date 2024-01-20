@@ -22,7 +22,7 @@ class IndirectCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT id_product 
+            $stmt = $connection->prepare("SELECT id_product, employee
                                       FROM products_process
                                       WHERE id_machine = :id_machine AND id_company = :id_company");
             $stmt->execute([

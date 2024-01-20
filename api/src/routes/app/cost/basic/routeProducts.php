@@ -439,7 +439,10 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                 if ($resolution == null) {
                     // Calcular costo nomina
-                    $resolution = $costWorkforceDao->calcCostPayroll($dataProduct['idProduct'], $id_company);
+                    if ($_SESSION['inyection'] == 1)
+                        $resolution = $costWorkforceDao->calcCostPayrollInyection($dataProduct['idProduct'], $id_company);
+                    else
+                        $resolution = $costWorkforceDao->calcCostPayroll($dataProduct['idProduct'], $id_company);
                     // Calcular costo nomina total
                     if ($resolution == null) {
                         $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProduct['idProduct'], $id_company);

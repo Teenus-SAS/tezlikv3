@@ -357,6 +357,7 @@ if (sizeof($_SESSION) == 0)
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
+        inyection = "<?= $_SESSION['inyection'] ?>";
     </script>
     <script src="/global/js/global/configUnits.js"></script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>

@@ -3,6 +3,7 @@
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMachinesDao;
@@ -12,9 +13,12 @@ use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\dao\TpInyectionDao;
 
 $machinesDao = new MachinesDao();
 $generalMachinesDao = new GeneralMachinesDao();
+$tpInyectionDao = new TpInyectionDao();
+$costWorkforceDao = new CostWorkforceDao();
 $convertDataDao = new ConvertDataDao();
 $lastDataDao = new LastDataDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();
@@ -103,6 +107,8 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
 $app->post('/addMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
     $generalMachinesDao,
+    $tpInyectionDao,
+    $costWorkforceDao,
     $convertDataDao,
     $lastDataDao,
     $minuteDepreciationDao,
@@ -137,6 +143,14 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                 $dataMachine['minuteDepreciation'] = $minuteDepreciation;
                 $machine = $minuteDepreciationDao->updateMinuteDepreciation($dataMachine, $id_company);
 
+                // Inyeccion
+                if ($machine == null && $_SESSION['inyection'] == 1) {
+                    $machine = $tpInyectionDao->updateInyection($dataMachine);
+
+                    $machine = $tpInyectionDao->calcUnityTime($dataMachine['idMachine']);
+                    $machine = $tpInyectionDao->updateUnityTime($dataMachine['idMachine'], $machine);
+                }
+
                 if ($machine == null)
                     $resp = array('success' => true, 'message' => 'Maquina creada correctamente');
             } else if (isset($machines['info']))
@@ -161,11 +175,26 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                 $lastMachine = $lastDataDao->lastInsertedMachineId($id_company);
                 $machines[$i]['idMachine'] = $lastMachine['id_machine'];
+
+                if (isset($resolution['info'])) break;
+                $resolution = $tpInyectionDao->updateInyection($machines[$i]);
+
+                if (isset($resolution['info'])) break;
+                $machine = $tpInyectionDao->calcUnityTime($machines[$i]['idMachine']);
+                $resolution = $tpInyectionDao->updateUnityTime($machines[$i]['idMachine'], $machine);
+                if (isset($resolution['info'])) break;
             } else {
                 $machines[$i]['idMachine'] = $machine['id_machine'];
                 $resolution = $machinesDao->updateMachine($machines[$i]);
 
-                if ($resolution != null) break;
+                if (isset($resolution['info'])) break;
+                $resolution = $tpInyectionDao->updateInyection($machines[$i]);
+
+                if (isset($resolution['info'])) break;
+                $machine = $tpInyectionDao->calcUnityTime($machines[$i]['idMachine']);
+                $resolution = $tpInyectionDao->updateUnityTime($machines[$i]['idMachine'], $machine);
+
+                if (isset($resolution['info'])) break;
 
                 // Buscar producto por idMachine
                 $dataProducts = $indirectCostDao->findProductByMachine($machines[$i]['idMachine'], $id_company);
@@ -180,6 +209,14 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                     // Actualizar campo
                     $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
+                    if (isset($resolution['info'])) break;
+                    if ($_SESSION['inyection'] == '1') {
+                        // Calcular Mano de obra
+                        if ($arr['employee'] == '')
+                            $machines = $costWorkforceDao->calcCostPayrollInyection($arr['id_product'], $id_company);
+                        else
+                            $machines = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($arr['id_product'], $arr['employee']);
+                    }
                     if (isset($resolution['info'])) break;
 
                     /* Precio Producto */
@@ -291,6 +328,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 $app->post('/updateMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
     $generalMachinesDao,
+    $tpInyectionDao,
+    $costWorkforceDao,
     $convertDataDao,
     $minuteDepreciationDao,
     $indirectCostDao,
@@ -314,6 +353,12 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     if ($data['id_machine'] == $dataMachine['idMachine'] || $data['id_machine'] == 0) {
         $machines = $machinesDao->updateMachine($dataMachine);
+        if ($machines == null && $_SESSION['inyection'] == 1) {
+            $machines = $tpInyectionDao->updateInyection($dataMachine);
+
+            $machine = $tpInyectionDao->calcUnityTime($dataMachine['idMachine']);
+            $machines = $tpInyectionDao->updateUnityTime($dataMachine['idMachine'], $machine);
+        }
 
         // Calcular depreciacion por minuto
         if ($machines == null) {
@@ -337,6 +382,14 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                 // Actualizar campo
                 $machines = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
 
+                if (isset($machines['info'])) break;
+                if ($_SESSION['inyection'] == '1') {
+                    // Calcular Mano de obra
+                    if ($arr['employee'] == '')
+                        $machines = $costWorkforceDao->calcCostPayrollInyection($arr['id_product'], $id_company);
+                    else
+                        $machines = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($arr['id_product'], $arr['employee']);
+                }
                 if (isset($machines['info'])) break;
 
                 /* Precio Producto */

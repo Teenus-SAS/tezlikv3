@@ -1,6 +1,9 @@
 $(document).ready(function () {
-  /* Seleccion producto */
+  let title3 = `${inyection == 1 ? 'Tiempo/Und' : 'Tiempo Alistamiento (min)'}`;
+  let value3 = `${inyection == 1 ? 'unity_time' : 'enlistment_time'}`;
+  let title4 = `${inyection == 1 ? '% Eficiencia' : 'Tiempo Operación (min)'}`;
 
+  /* Seleccion producto */
   $('#refProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
@@ -56,9 +59,8 @@ $(document).ready(function () {
           data: 'machine',
         },
         {
-          title: 'Tiempo Alistamiento (min)',
-          // title: 'Tiempo/Und',
-          data: 'enlistment_time',
+          title: title3,
+          data: value3,
           className: 'classCenter',
           render: function (data) {
             let decimals = contarDecimales(data);
@@ -68,8 +70,7 @@ $(document).ready(function () {
           },
         },
         {
-          // title: 'Tiempo Operación  (min)',
-          title: '%Eficiencia',
+          title: title4, 
           data: 'operation_time',
           className: 'classCenter',
           render: function (data) {
@@ -90,7 +91,7 @@ $(document).ready(function () {
         {
           title: 'Costo Indirecto',
           data: 'indirect_cost',
-          className: 'classCenter', 
+          className: 'classCenter',
           render: function (data) {
             return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
           },

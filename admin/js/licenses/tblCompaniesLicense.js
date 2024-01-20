@@ -72,55 +72,72 @@ $(document).ready(function () {
         },
       },
       {
-        title: 'Acceso Precios USD',
-        data: 'cost_price_usd',
-        className: 'uniqueClassName',
-        render: function (data) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Acceso Procesos Nomina',
-        data: 'flag_employee',
-        className: 'uniqueClassName',
-        render: function (data) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Acceso Productos Compuestos',
-        data: 'flag_composite_product',
-        className: 'uniqueClassName',
-        render: function (data) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+        title: "Accesos",
+        data: null,
+        //width: "200px",
+        render: function (data, type, row) {
+          const permissions = [];
+
+          permissions.push({
+            name: "Precios USD",
+            icon: data.cost_price_usd
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Procesos Nomina",
+            icon: data.flag_employee
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Productos Compuestos",
+            icon: data.flag_composite_product
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Historico",
+            icon: data.cost_historical
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Materiales",
+            icon: data.flag_indirect
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Inyección",
+            icon: data.inyection
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          let output =
+            '<div class="stacked-column text-left" style="width:190px">';
+          for (const permission of permissions) {
+            output += `<span class="text-${permission.color} mx-1" style="display: flex; justify-content: flex-start;">
+            <i class="${permission.icon}"></i> ${permission.name}
+          </span>`;
+          }
+          output += "</div>";
+
+          return output;
         },
       }, 
-      {
-        title: 'Historico',
-        data: 'cost_historical',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Materiales',
-        data: 'flag_indirect',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
       {
         title: 'Acciones',
         data: 'id_company',

@@ -1,5 +1,6 @@
 $(document).ready(function () {
   /* Cargue tabla de Máquinas */
+  inyection == 1 ? visible = true : visible = false;
 
   tblMachines = $('#tblMachines').dataTable({
     pageLength: 50,
@@ -51,6 +52,18 @@ $(document).ready(function () {
         data: 'minute_depreciation',
         className: 'classCenter',
         render: $.fn.dataTable.render.number('.', ',', 5),
+      },
+      {
+        title: 'Ciclos Maquina',
+        data: 'cicles_machine',
+        className: 'classCenter',
+        visible: visible,
+      },
+      {
+        title: 'No Cavidades',
+        data: 'cavities',
+        className: 'classCenter',
+        visible: visible,
       },
       {
         title: 'Acciones',
