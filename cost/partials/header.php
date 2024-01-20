@@ -134,7 +134,11 @@
                                                                     <li class="aExpenses" style="display: none;">
                                                                     <?php } ?>
                                                                     <i class="bi bi-currency-dollar mr-1"></i>
-                                                                    <a href="/cost/general-expenses">Gastos Generales</a>
+                                                                    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                                        <a href="/cost/general-expenses">Gastos Generales</a>
+                                                                    <?php } else { ?>
+                                                                        <a href="/cost/general-expenses">Recuperación Gastos</a>
+                                                                    <?php } ?>
                                                                     </li>
                                                                     <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
                                                                         <li class="aCustomPrices">

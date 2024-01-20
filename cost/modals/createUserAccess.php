@@ -102,35 +102,33 @@
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
 
-                                                <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input class="typeCheckbox" id="chckExpenses" name="expense" type="checkbox">
-                                                    <label for="chckExpenses">Gastos</label>
-                                                </div>
+                                                <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input class="typeCheckbox" id="chckExpenses" name="expense" type="checkbox">
+                                                        <label for="chckExpenses">Gastos</label>
+                                                    </div>
 
-                                                <div class="form-group floating-label enable-floating-label show-label my-2 cardChkExpenses" style="width: 150px; display: none;">
-                                                    <select class="form-control" name="selectExpenses" id="selectExpenses">
-                                                        <option selected disabled>Seleccionar</option>
-                                                        <option value="0">TODO</option>
-                                                        <option value="1">ASIGNACIÓN</option>
-                                                        <option value="2">DISTRIBUCIÓN</option>
-                                                    </select>
-                                                    <label for="">Tipo Gastos<span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div>
-                                                <div class="checkbox checkbox-success checkbox-circle cardChkExpenses cardTypeExpenses" style="display: none;">
-                                                    <input id="typeExpenses" name="typeExpenses" type="checkbox">
-                                                    <label for="typeExpenses">Metodo Distribución</label>
-                                                </div>
-                                                <!-- 
-                                                <div class="form-group floating-label enable-floating-label show-label my-2 cardTypeExpenses" style="width: 150px">
-                                                    <select class="form-control" name="typeExpenses" id="typeExpenses">
-                                                        <option selected disabled>Seleccionar</option>
-                                                        <option value="0">Desactivado</option>
-                                                        <option value="1">Activado</option>
-                                                    </select>
-                                                    <label for="typePayroll">Metodo<span class="text-danger">*</span></label>
-                                                    <div class="validation-error d-none font-size-13">Requerido</div>
-                                                </div> -->
+                                                    <div class="form-group floating-label enable-floating-label show-label my-2 cardChkExpenses" style="width: 150px; display: none;">
+                                                        <select class="form-control" name="selectExpenses" id="selectExpenses">
+                                                            <option selected disabled>Seleccionar</option>
+                                                            <option value="0">TODO</option>
+                                                            <option value="1">ASIGNACIÓN</option>
+                                                            <option value="2">DISTRIBUCIÓN</option>
+                                                        </select>
+                                                        <label for="">Tipo Gastos<span class="text-danger">*</span></label>
+                                                        <div class="validation-error d-none font-size-13">Requerido</div>
+                                                    </div>
+
+                                                    <div class="checkbox checkbox-success checkbox-circle cardChkExpenses cardTypeExpenses" style="display: none;">
+                                                        <input id="typeExpenses" name="typeExpenses" type="checkbox">
+                                                        <label for="typeExpenses">Metodo Distribución</label>
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="expenseRecover" name="expenseRecover" type="checkbox">
+                                                        <label for="expenseRecover">Recuperación</label>
+                                                    </div>
+                                                <?php } ?>
                                             </div>
                                             <div class="col-sm-2 pb-3">
                                                 Creación Usuarios

@@ -12,8 +12,8 @@ $(document).ready(function () {
             aFactoryLoad: data.factory_load,
             aServices: data.external_service,
             aPayroll: data.payroll_load,
-            aExpenses: data.expense,
-            aExpenses: data.expense_distribution,
+            // aExpenses: data.expense,
+            // aExpenses: data.expense_distribution,
             aCustomPrices: data.custom_price,
             aBackup: data.backup,
             aUsers: data.user,
@@ -37,6 +37,12 @@ $(document).ready(function () {
             } else
                 $(`.${index}`).show();
         });
+
+        if (data.expense == 0 && data.expense_distribution == 0) {
+            $('.aExpenses').hide();
+        } else {
+            $('.aExpenses').show();
+        }
 
         if (
             access.aProducts == 0 &&

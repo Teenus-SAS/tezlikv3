@@ -194,16 +194,17 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          permissions.push({
-            name: "Gastos",
-            icon: data.expense
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (flag_expense != 2)
+            permissions.push({
+              name: "Gastos",
+              icon: data.expense
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
           permissions.push({
-            name: "Distribución Gastos",
+            name: `${flag_expense == 2 ? 'Recuperación Gastos' : 'Distribución Gastos'}`,
             icon: data.expense_distribution
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",

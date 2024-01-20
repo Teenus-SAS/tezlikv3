@@ -358,14 +358,18 @@ if (sizeof($_SESSION) == 0)
                                         <?php } ?>
                                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                                             <li class="nav-item">
-                                                <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
-                                                    <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                        <i class="bi bi-arrow-repeat mr-1"></i>Distribución
-                                                    <?php } ?>
-                                                    <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                        <i class="bi bi-arrow-repeat mr-1"></i>Recuperación
-                                                    <?php } ?>
-                                                </a>
+                                                <?php if ($_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1) { ?>
+                                                    <a class="nav-link selectNavigation" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                                    <?php } else { ?>
+                                                        <a class="nav-link selectNavigation active" id="distribution" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="true">
+                                                        <?php } ?>
+                                                        <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
+                                                            <i class="bi bi-arrow-repeat mr-1"></i>Distribución
+                                                        <?php } ?>
+                                                        <?php if ($_SESSION['flag_expense'] == 2) { ?>
+                                                            <i class="bi bi-arrow-repeat mr-1"></i>Recuperación
+                                                        <?php } ?>
+                                                        </a>
                                             </li>
                                         <?php } ?>
                                     </ul>

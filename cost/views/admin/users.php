@@ -97,6 +97,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        expense = "<?= $_SESSION['expense'] ?>";
         plan_cost_price = "<?= $_SESSION['plan_cost_price'] ?>";
         price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         plan_custom_price = "<?= $_SESSION['plan_custom_price'] ?>";
