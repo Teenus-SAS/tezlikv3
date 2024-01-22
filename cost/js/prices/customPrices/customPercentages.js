@@ -16,6 +16,11 @@ $(document).ready(function () {
     $('#btnNewCustomPercentage').click(function (e) {
         e.preventDefault();
 
+        if (combinedData.length == 0) {
+            toastr.error('Ingrese lista de precios');
+            return false;
+        }
+
         let data = combinedData[0];
 
         let btxMessage = ''; 
