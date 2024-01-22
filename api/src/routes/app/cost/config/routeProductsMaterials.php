@@ -150,7 +150,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
                 $findProduct = $productsDao->findProduct($data, $id_company);
                 if (!$findProduct) {
                     $i = $i + 2;
-                    $dataImportProductsMaterials = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
+                    $dataImportProductsMaterials = array('error' => true, 'message' => "roducto no existe en la base de datos<br>Fila: {$i}");
                     break;
                 } else {
                     if ($findProduct['composite'] == 0) {

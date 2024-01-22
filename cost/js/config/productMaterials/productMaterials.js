@@ -42,6 +42,7 @@ $(document).ready(function () {
     $('.cardAddMaterials').toggle(800);
     $('#btnAddMaterials').html('Asignar');
     $('#units').empty();
+    $('.cardProducts').show(800);
 
     sessionStorage.removeItem('id_product_material');
 

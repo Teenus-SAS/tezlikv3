@@ -106,10 +106,10 @@ $(document).ready(function () {
             data1.push({
               referencia_producto: dataProducts1[0].reference,
               producto: dataProducts1[0].product,
-              referencia_material: dataProductsMaterials[i].reference_material,
-              material: dataProductsMaterials[i].material,
-              magnitud: dataProductsMaterials[i].magnitude,
-              unidad: dataProductsMaterials[i].unit,
+              referencia_material: dataCompositeProduct[i].reference,
+              material: dataCompositeProduct[i].material,
+              magnitud: dataCompositeProduct[i].magnitude,
+              unidad: dataCompositeProduct[i].unit,
               cantidad: parseFloat(dataCompositeProduct[i].quantity),
               tipo: 'Producto',
             });

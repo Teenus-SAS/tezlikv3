@@ -135,7 +135,7 @@ $(document).ready(function () {
       url: '/api/addProductsMaterials',
       data: { importProductsMaterials: data },
       success: function (r) {
-        $('.cardProducts').toggle(800);
+        $('.cardProducts').show(800);
 
         messageMaterials(r);
       },
