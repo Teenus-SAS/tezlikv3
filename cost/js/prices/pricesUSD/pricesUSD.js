@@ -53,8 +53,9 @@ $(document).ready(function () {
       $('.spinner-border').remove();
       $('.USDInputs').show(400);
 
-      $('#tblPricesUSD').DataTable().clear();
-      $('#tblPricesUSD').DataTable().ajax.reload();
+      loadAllData();
+      // $('#tblPricesUSD').DataTable().clear();
+      // $('#tblPricesUSD').DataTable().ajax.reload();
     }
   };
 

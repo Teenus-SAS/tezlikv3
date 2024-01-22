@@ -1,8 +1,37 @@
 $(document).ready(function () {
-  /* Cargue tabla de Precios */
+  $('#btnComposite').click(function (e) { 
+    e.preventDefault();
 
-  loadTblPrices = async () => {
-    let data = await searchData("/api/prices");
+    if (op == 1) {
+      op = 2;
+      loadTblPrices(composites);
+    }
+    else {
+      op = 1;
+      loadTblPrices(parents);
+    }
+  });
+
+  loadAllData = async () => {
+    try {
+      const prices = await searchData('/api/prices');
+      op = 1;
+
+      parents = prices.filter(item => item.composite == 0);
+      composites = prices.filter(item => item.composite == 1);
+
+      if (flag_composite_product == '1') {
+        loadTblPrices(parents);
+      } else
+        loadTblPrices(prices)
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
+
+  /* Cargue tabla de Precios */
+  loadTblPrices = async (data) => {
+    // let data = await searchData("/api/prices");
     let acumulated = 0;
 
     for (let i = 0; i < data.length; i++) {
@@ -11,7 +40,14 @@ $(document).ready(function () {
 
     acumulated == 0 ? (visible = false) : (visible = true);
 
+    // if ($.fn.dataTable.isDataTable("#tblPrices")) {
+    //   $("#tblPrices").DataTable().clear();
+    //   $("#tblPrices").DataTable().rows.add(data).draw();
+    //   return;
+    // }
+
     tblPrices = $("#tblPrices").DataTable({
+      destroy:true,
       pageLength: 50,
       data: data,
       dom: '<"datatable-error-console">frtip',
@@ -141,5 +177,5 @@ $(document).ready(function () {
     });
   };
 
-  loadTblPrices();
+  loadAllData();
 });

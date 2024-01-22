@@ -20,15 +20,22 @@ class CustomPricesDao
     {
         $connection = Connection::getInstance()->getConnection();
 
+        // $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.reference, p.product, IF(cp.flag_price = 0, pc.sale_price, pc.price) AS price_cost, cp.id_price_list, pl.price_name, cp.price AS price_custom, cp.flag_price, pl.percentage
+        //                                      -- , (((pc.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (pc.price) * 100) AS profitability_price,
+        //                                      -- (((cp.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (cp.price)* 100) AS profitability_custom
+        //                               FROM custom_prices cp
+        //                                 INNER JOIN products p ON p.id_product = cp.id_product
+        //                                 INNER JOIN products_costs pc ON pc.id_product = cp.id_product
+        //                                 INNER JOIN price_list pl ON pl.id_price_list = cp.id_price_list
+        //                               WHERE cp.id_company = :id_company AND p.active = 1 
+        //                               AND IF(cp.flag_price = 0, pc.sale_price, pc.price) != 0 AND cp.price != 0");
         $stmt = $connection->prepare("SELECT cp.id_custom_price, cp.id_product, p.reference, p.product, IF(cp.flag_price = 0, pc.sale_price, pc.price) AS price_cost, cp.id_price_list, pl.price_name, cp.price AS price_custom, cp.flag_price, pl.percentage
-                                             -- , (((pc.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (pc.price) * 100) AS profitability_price,
-                                             -- (((cp.price) - (pc.cost_workforce + pc.cost_materials + pc.cost_indirect_cost + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = cp.id_product))) / (cp.price)* 100) AS profitability_custom
                                       FROM custom_prices cp
                                         INNER JOIN products p ON p.id_product = cp.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = cp.id_product
                                         INNER JOIN price_list pl ON pl.id_price_list = cp.id_price_list
-                                      WHERE cp.id_company = :id_company AND p.active = 1 
-                                      AND IF(cp.flag_price = 0, pc.sale_price, pc.price) != 0 AND cp.price != 0");
+                                      WHERE cp.id_company = 22 AND p.active = 1 
+                                      AND IF(cp.flag_price = 0, pc.sale_price, pc.price) != 0 AND p.composite = 1");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

@@ -4,10 +4,12 @@ use tezlikv3\dao\CompositeProductsDao;
 use tezlikv3\Dao\ConversionUnitsDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\CostMaterialsDao;
+use tezlikv3\dao\CostWorkforceDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\GeneralProductMaterialsDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\Dao\MagnitudesDao;
 use tezlikv3\dao\PriceProductDao;
@@ -23,7 +25,10 @@ $materialsDao = new GeneralMaterialsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $conversionUnitsDao = new ConversionUnitsDao();
 $priceProductDao = new PriceProductDao();
+$compositeProductsDao = new CompositeProductsDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$indirectCostDao = new IndirectCostDao();
+$costWorkforceDao = new CostWorkforceDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -53,7 +58,8 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
     $magnitudesDao,
     $unitsDao,
     $productsDao,
-    $materialsDao
+    $materialsDao,
+    $generalCompositeProductsDao
 ) {
     $dataProductMaterial = $request->getParsedBody();
 
@@ -88,10 +94,9 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
                 break;
             }
 
-
             if (
                 empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) ||
-                empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == ''
+                empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == '' || empty($productMaterials[$i]['type'])
             ) {
                 $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
@@ -99,7 +104,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
             }
             if (
                 empty(trim($productMaterials[$i]['referenceProduct'])) || empty(trim($productMaterials[$i]['product'])) || empty(trim($productMaterials[$i]['refRawMaterial'])) ||
-                empty(trim($productMaterials[$i]['nameRawMaterial'])) || trim($productMaterials[$i]['quantity']) == ''
+                empty(trim($productMaterials[$i]['nameRawMaterial'])) || trim($productMaterials[$i]['quantity']) == '' || empty(trim($productMaterials[$i]['type']))
             ) {
                 $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
@@ -124,16 +129,41 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
                 break;
             } else $productMaterials[$i]['idProduct'] = $findProduct['id_product'];
 
-            // Obtener id materia prima
-            $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
-            if (!$findMaterial) {
-                $i = $i + 2;
-                $dataImportProductsMaterials = array('error' => true, 'message' => "Materia prima no existe en la base de datos<br>Fila: {$i}");
-                break;
-            } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
+            $type = $productMaterials[$i]['type'];
 
+            if ($type == 'Material') {
+                // Obtener id materia prima
+                $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
+                if (!$findMaterial) {
+                    $i = $i + 2;
+                    $dataImportProductsMaterials = array('error' => true, 'message' => "Materia prima no existe en la base de datos<br>Fila: {$i}");
+                    break;
+                } else $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
+                $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
+            } else {
+                $data = [];
+                $data['referenceProduct'] = $productMaterials[$i]['refRawMaterial'];
+                $data['product'] = $productMaterials[$i]['nameRawMaterial'];
+
+                // Obtener id producto compuesto
+                $findProduct = $productsDao->findProduct($data, $id_company);
+                if (!$findProduct) {
+                    $i = $i + 2;
+                    $dataImportProductsMaterials = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
+                    break;
+                } else {
+                    if ($findProduct['composite'] == 0) {
+                        $i = $i + 2;
+                        $dataImportProductsMaterials = array('error' => true, 'message' => "Producto no esta definido como compuesto<br>Fila: {$i}");
+                        break;
+                    }
+                    $productMaterials[$i]['compositeProduct'] = $findProduct['id_product'];
+                }
+
+                $findProductsMaterials = $generalCompositeProductsDao->findCompositeProduct($productMaterials[$i], $id_company);
+            }
+
             if (!$findProductsMaterials) $insert = $insert + 1;
             else $update = $update + 1;
             $dataImportProductsMaterials['insert'] = $insert;
@@ -156,7 +186,10 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
     $conversionUnitsDao,
     $costMaterialsDao,
     $priceProductDao,
-    $generalCompositeProductsDao
+    $compositeProductsDao,
+    $generalCompositeProductsDao,
+    $indirectCostDao,
+    $costWorkforceDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -267,10 +300,6 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             $findProduct = $productsDao->findProduct($productMaterials[$i], $id_company);
             $productMaterials[$i]['idProduct'] = $findProduct['id_product'];
 
-            // Obtener id materia prima
-            $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
-            $productMaterials[$i]['material'] = $findMaterial['id_material'];
-
             // Consultar magnitud
             $magnitude = $magnitudesDao->findMagnitude($productMaterials[$i]);
             $productMaterials[$i]['idMagnitude'] = $magnitude['id_magnitude'];
@@ -279,40 +308,96 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             $unit = $unitsDao->findUnit($productMaterials[$i]);
             $productMaterials[$i]['unit'] = $unit['id_unit'];
 
-            $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
+            if ($productMaterials[$i]['type'] == 'Material') { // Obtener id materia prima
+                $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
+                $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
-            $productMaterials[$i] = $convertDataDao->strReplaceProductsMaterials($productMaterials[$i]);
+                $findProductsMaterials = $productsMaterialsDao->findProductMaterial($productMaterials[$i], $id_company);
 
-            if (!$findProductsMaterials) $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($productMaterials[$i], $id_company);
-            else {
-                $productMaterials[$i]['idProductMaterial'] = $findProductsMaterials['id_product_material'];
-                $resolution = $productsMaterialsDao->updateProductsMaterials($productMaterials[$i]);
+                $productMaterials[$i] = $convertDataDao->strReplaceProductsMaterials($productMaterials[$i]);
+
+                if (!$findProductsMaterials) $resolution = $productsMaterialsDao->insertProductsMaterialsByCompany($productMaterials[$i], $id_company);
+                else {
+                    $productMaterials[$i]['idProductMaterial'] = $findProductsMaterials['id_product_material'];
+                    $resolution = $productsMaterialsDao->updateProductsMaterials($productMaterials[$i]);
+                }
+
+                //Metodo calcular precio total materias
+                if ($resolution != null) break;
+
+                // Consultar todos los datos del producto
+                $products = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($productMaterials[$i]['idProduct'], $id_company);
+
+                // $totalQuantity = 0;
+
+                foreach ($products as $arr) {
+                    // Obtener materia prima
+                    $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
+
+                    // Convertir unidades
+                    $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
+
+                    // Modificar costo
+                    $materialsDao->updateCostProductMaterial($arr, $quantities);
+                }
+
+                if ($_SESSION['flag_composite_product'] == '1')
+                    $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($productMaterials[$i], $id_company);
+                else
+                    $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
+
+                $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
+            } else {
+                // Obtener id producto compuesto
+                $data = [];
+                $data['referenceProduct'] = $productMaterials[$i]['refRawMaterial'];
+                $data['product'] = $productMaterials[$i]['nameRawMaterial'];
+
+                // Obtener id producto compuesto
+                $findProduct = $productsDao->findProduct($data, $id_company);
+
+                $productMaterials[$i]['compositeProduct'] = $findProduct['id_product'];
+
+                $composite = $generalCompositeProductsDao->findCompositeProduct($productMaterials[$i]);
+
+                if (!$composite) {
+                    $resolution = $compositeProductsDao->insertCompositeProductByCompany($productMaterials[$i], $id_company);
+                } else {
+                    $productMaterials[$i]['idCompositeProduct'] = $composite['id_composite_product'];
+                    $resolution = $compositeProductsDao->updateCompositeProduct($productMaterials[$i]);
+                }
+
+                if ($resolution == null) {
+                    /* Calcular costo indirecto */
+                    // Buscar la maquina asociada al producto
+                    $dataProductMachine = $indirectCostDao->findMachineByProduct($productMaterials[$i]['idProduct'], $id_company);
+                    // Calcular costo indirecto
+                    $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+                    // Actualizar campo
+                    $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $productMaterials[$i]['idProduct'], $id_company);
+                }
+
+
+                if ($resolution == null) {
+                    // Calcular costo nomina total
+                    $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($productMaterials[$i]['idProduct'], $id_company);
+
+                    $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $productMaterials[$i]['idProduct'], $id_company);
+                }
+
+
+                // Calcular costo materia prima compuesta
+                if ($resolution == null) {
+                    $productMaterials[$i] = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($productMaterials[$i]);
+                    $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($productMaterials[$i]);
+                }
+
+                // Calcular costo materia prima
+                if ($resolution == null) {
+                    $productMaterials[$i] = $costMaterialsDao->calcCostMaterialByCompositeProduct($productMaterials[$i]);
+                    $resolution = $costMaterialsDao->updateCostMaterials($productMaterials[$i], $id_company);
+                }
             }
-
-            //Metodo calcular precio total materias
-            if ($resolution != null) break;
-
-            // Consultar todos los datos del producto
-            $products = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($productMaterials[$i]['idProduct'], $id_company);
-
-            // $totalQuantity = 0;
-
-            foreach ($products as $arr) {
-                // Obtener materia prima
-                $material = $materialsDao->findMaterialAndUnits($arr['id_material'], $id_company);
-
-                // Convertir unidades
-                $quantities = $conversionUnitsDao->convertUnits($material, $arr, $arr['quantity']);
-
-                // Modificar costo
-                $materialsDao->updateCostProductMaterial($arr, $quantities);
-            }
-            if ($_SESSION['flag_composite_product'] == '1')
-                $dataMaterial = $costMaterialsDao->calcCostMaterialByCompositeProduct($productMaterials[$i], $id_company);
-            else
-                $dataMaterial = $costMaterialsDao->calcCostMaterial($productMaterials[$i], $id_company);
-
-            $resolution = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
 
             // Calcular Precio del producto
             if ($resolution != null) break;

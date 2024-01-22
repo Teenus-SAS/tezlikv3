@@ -1,11 +1,11 @@
 $(document).ready(function () {
   $(document).on('click', '.aBackup', async function () {
-    try { 
+    try {
       $('.loading').show(800);
       document.body.style.overflow = 'hidden';
 
       let wb = XLSX.utils.book_new();
-      let data = []; 
+      let data = [];
 
       /* Productos */
       let dataProducts = await searchData('/api/products');
@@ -94,26 +94,31 @@ $(document).ready(function () {
             cantidad: parseFloat(dataProductsMaterials[i].quantity),
           });
         }
+        /* Productos Compuestos */
+        let dataCompositeProduct = await searchData('/api/allCompositeProducts');
+        if (dataCompositeProduct.length > 0) {
+          data1 = [];
 
+          for (i = 0; i < dataCompositeProduct.length; i++) {
+            let dataProducts1 = dataProducts.filter((item) => item.id_product == dataCompositeProduct[i].id_product);
+
+            data1.push({
+              referencia_producto: dataProducts1[0].reference,
+              producto: dataProducts1[0].product,
+              referencia_material: dataProductsMaterials[i].reference_material,
+              material: dataProductsMaterials[i].material,
+              magnitud: dataProductsMaterials[i].magnitude,
+              unidad: dataProductsMaterials[i].unit,
+              cantidad: parseFloat(dataCompositeProduct[i].quantity),
+            });
+          }
+ 
+          data = [...data, ...data1];
+        }
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'F. Tecnica Materias Prima');
       }
-      /* Productos Compuestos */
-      let dataCompositeProduct = await searchData('/api/allCompositeProducts');
-      if (dataCompositeProduct.length > 0) {
-        data = [];
-
-        for (i = 0; i < dataCompositeProduct.length; i++) {
-          data.push({
-            referencia_producto: dataCompositeProduct[i].reference,
-            producto: dataCompositeProduct[i].material,
-            cantidad: parseFloat(dataCompositeProduct[i].quantity),
-          });
-        }
-
-        ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, 'Productos Compuestos');
-      }
+      
 
       /* Productos Procesos */
       let dataProductsProcess = await searchData('/api/allProductsProcess');
@@ -217,7 +222,7 @@ $(document).ready(function () {
       /* Tipo de gasto */
       data = [];
       if (flag_expense == '1') {
-        if (flag_expense_distribution == '1'){
+        if (flag_expense_distribution == '1') {
           url = '/api/expensesDistribution';
           op = 1;
         }

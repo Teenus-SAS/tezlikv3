@@ -219,7 +219,9 @@ $(document).ready(function () {
       $('.cardImportProductsMaterials').hide(800);
 
       $('#formAddMaterials').trigger('reset');
-      loadtableMaterials($('#selectNameProduct').val());
+      let idProduct = $('#selectNameProduct').val();
+      if (idProduct)
+        loadtableMaterials(idProduct);
       // updateTable();
       toastr.success(data.message);
       return false;

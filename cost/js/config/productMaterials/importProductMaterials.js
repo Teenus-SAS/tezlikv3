@@ -7,7 +7,7 @@ $(document).ready(function () {
     e.preventDefault();
     $('.cardAddMaterials').hide(800);
     $('.cardAddNewProduct').hide(800);
-    $('.cardImportProductsMaterials').toggle(800); 
+    $('.cardImportProductsMaterials').toggle(800);
     $('.cardProducts').toggle(800);
   });
 
@@ -40,7 +40,7 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        if (data.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileProductsMaterials').val('');
@@ -48,7 +48,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'referencia_material', 'material', 'magnitud', 'unidad', 'cantidad'];
+        const expectedHeaders = ['referencia_producto', 'producto', 'referencia_material', 'material', 'magnitud', 'unidad', 'cantidad', 'tipo'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -76,6 +76,7 @@ $(document).ready(function () {
             magnitude: item.magnitud,
             unit: item.unidad,
             quantity: quantity,
+            type: item.tipo,
           };
         });
         checkProductMaterial(productMaterialsToImport);
@@ -93,7 +94,7 @@ $(document).ready(function () {
       data: { importProductsMaterials: data },
       success: function (resp) {
         if (resp.error == true) {
-                    $('.cardLoading').remove();
+          $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileProductsMaterials').val('');
           toastr.error(resp.message);
@@ -117,8 +118,8 @@ $(document).ready(function () {
             if (result == true) {
               saveProductMaterialTable(data);
             } else {
-                        $('.cardLoading').remove();
-          $('.cardBottons').show(400);
+              $('.cardLoading').remove();
+              $('.cardBottons').show(400);
               $('#fileProductsMaterials').val('');
             }
           },
@@ -134,6 +135,8 @@ $(document).ready(function () {
       url: '/api/addProductsMaterials',
       data: { importProductsMaterials: data },
       success: function (r) {
+        $('.cardProducts').toggle(800);
+
         messageMaterials(r);
       },
     });

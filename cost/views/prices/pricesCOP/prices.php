@@ -53,11 +53,13 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
-                                    <button class="btn btn-primary" id="btnCreateMachine">Análisis de Precios</button>
+                            <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
+                                <div class="col-sm-7 col-xl-6">
+                                    <div class="form-inline justify-content-sm-end">
+                                        <button class="btn btn-primary" id="btnComposite">Productos Compuestos</button>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -97,6 +99,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
