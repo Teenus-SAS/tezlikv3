@@ -92,6 +92,7 @@ $(document).ready(function () {
             magnitud: dataProductsMaterials[i].magnitude,
             unidad: dataProductsMaterials[i].unit,
             cantidad: parseFloat(dataProductsMaterials[i].quantity),
+            tipo: 'Material',
           });
         }
         /* Productos Compuestos */
@@ -110,6 +111,7 @@ $(document).ready(function () {
               magnitud: dataProductsMaterials[i].magnitude,
               unidad: dataProductsMaterials[i].unit,
               cantidad: parseFloat(dataCompositeProduct[i].quantity),
+              tipo: 'Producto',
             });
           }
  
