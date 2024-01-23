@@ -33,7 +33,7 @@ $(document).ready(function () {
         let idMaterial = parseInt($('#refMaterial').val());
         let ref = $('#refMaterial :selected').text();
         let material = $('#nameMaterial :selected').text();
-        let quantity = parseInt($('#quantityMaterial').val());
+        let quantity = parseFloat($('#quantityMaterial').val());
         let profitability = $('#profitability').val();
 
         let data = idMaterial * quantity;
