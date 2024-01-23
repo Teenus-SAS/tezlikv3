@@ -107,7 +107,7 @@
                                                 </div>
 
                                                 <?php if (
-                                                    $_SESSION['payroll_load'] == 0 && $_SESSION['expense'] == 0
+                                                    $_SESSION['payroll_load'] == 0 && $_SESSION['expense'] == 0 && $_SESSION['expense_distribution'] == 0
                                                 ) { ?>
                                                     <div class="col-md-3" id="navCostGeneral" style="display: none;">
                                                     <?php } else { ?>
