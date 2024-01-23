@@ -96,6 +96,8 @@ $(document).ready(function () {
       }
     }
 
+    oldPrice = price;
+
     $('#price').val(price.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
   });
 
