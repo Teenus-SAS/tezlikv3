@@ -42,9 +42,6 @@ $(document).ready(function () {
               op = true;
             }
             arr.push(data[i]);
-            // arr[i] = data[i];
-            // arr[i]['price_name'] = 'PRECIOS';
-            // break;
           }
         }
       }
