@@ -134,7 +134,7 @@ $(document).ready(function () {
           },
         });
       } else { 
-        combinedData = [];
+        // combinedData = [];
         
         $('#tblCustomPrices').dataTable({
           destroy: true,

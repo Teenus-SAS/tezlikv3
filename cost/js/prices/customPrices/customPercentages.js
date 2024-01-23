@@ -16,7 +16,9 @@ $(document).ready(function () {
     $('#btnNewCustomPercentage').click(function (e) {
         e.preventDefault();
 
-        if (combinedData.length == 0) {
+        let dataPriceList = JSON.parse(sessionStorage.getItem('dataPriceList'));
+
+        if (dataPriceList.length == 0) {
             toastr.error('Ingrese lista de precios');
             return false;
         }
