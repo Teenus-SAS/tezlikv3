@@ -12,7 +12,7 @@ $(document).ready(function () {
       );
       $.each(ref, function (i, value) {
         $select.append(
-          `<option value =${value.id_product}> ${value.reference} </option>`
+          `<option value ='${value.id_product}' class='${value.composite}'> ${value.reference} </option>`
         );
       });
 

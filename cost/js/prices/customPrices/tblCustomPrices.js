@@ -19,10 +19,8 @@ $(document).ready(function () {
               if (op == false) {
                 data = [];
                 op = true;
-              }
-              // data[i] = arr[i];
-              data.push(arr[i]);
-              // break;
+              } 
+              data.push(arr[i]); 
             }
           
           }
@@ -88,8 +86,7 @@ $(document).ready(function () {
               price_cost: current.price_cost,
               flag_price: current.flag_price,
               price_names: [current.price_name],
-              prices: [current.price_custom],
-              //profitability_customs: [current.profitability_custom],
+              prices: [current.price_custom], 
             });
           }
 
@@ -173,9 +170,6 @@ $(document).ready(function () {
               title: "Acciones",
               data: '',
               className: "uniqueClassName",
-              // render: function (data) {
-              //   return `<a href="/cost/details-prices" <i id="${data}" class="bi bi-zoom-in seeDetail" data-toggle='tooltip' title='Ficha de Costos' style="font-size: 30px;"></i></a>`;
-              // },
             },
           ],
         });
