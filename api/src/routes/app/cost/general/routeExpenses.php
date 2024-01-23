@@ -145,6 +145,8 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 
     $dataExpenses = sizeof($dataExpense);
 
+    $resolution = null;
+
     if ($dataExpenses > 1) {
         $expense = $expensesDao->findExpense($dataExpense, $id_company);
 

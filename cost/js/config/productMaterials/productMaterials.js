@@ -161,7 +161,7 @@ $(document).ready(function () {
 
   /* Eliminar materia prima */
 
-  deleteFunction = (op) => {
+  deleteMaterial = (op) => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblConfigMaterials.fnGetData(row);
 

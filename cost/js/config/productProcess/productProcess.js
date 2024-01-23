@@ -147,7 +147,7 @@ $(document).ready(function () {
 
   /* Eliminar proceso */
 
-  deleteFunction = () => {
+  deleteProcess = () => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblConfigProcess.fnGetData(row);
 
