@@ -138,7 +138,7 @@ $(document).ready(function () {
         val = val / (1 - (profitability / 100));
       
 
-      $('#totalPrice').val(parseInt(val).toLocaleString('es-CO'));
+      $('#totalPrice').val(parseFloat(val).toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     }
   });
 
@@ -245,7 +245,7 @@ $(document).ready(function () {
 
     $(`#pricesList option[value=${data.idPriceList}]`).prop('selected', true);
 
-    $('#quantity').val(data.quantity.toLocaleString());
+    $('#quantity').val(data.quantity);
 
     price = strReplaceNumber(data.price);
     price = price.replace('$ ', '');

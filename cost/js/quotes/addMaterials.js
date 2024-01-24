@@ -107,7 +107,7 @@ $(document).ready(function () {
             true
         );
 
-        $('#quantityMaterial').val(data.quantity.toLocaleString());
+        $('#quantityMaterial').val(data.quantityMaterial);
         $('#profitability').val(data.profitability);
 
         sessionStorage.setItem('actualizar', id);
