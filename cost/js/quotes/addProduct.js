@@ -107,6 +107,7 @@ $(document).ready(function () {
     if (idProduct > 0) {
       let price = strReplaceNumber(this.value);
       oldPrice = strReplaceNumber(oldPrice);
+      oldPrice = oldPrice.replace('$ ','');
 
       if (price < oldPrice) {
         $('#price').val(oldPrice.toLocaleString('es-CO'));
@@ -117,16 +118,16 @@ $(document).ready(function () {
   });
 
   $(document).on('click keyup', '.calcPrice', function (e) {
-    let quantity = $('#quantity').val();
-    let price = $('#price').val();
+    let quantity = parseFloat($('#quantity').val());
+    let price = parseFloat($('#price').val());
     let discount = $('#discount').val();
-    let profitability = $('#profitability').val();
+    let profitability = parseFloat($('#profitability').val());
 
-    quantity == '' ? (quantity = '0') : quantity;
-    quantity = strReplaceNumber(quantity);
+    quantity == '' || isNaN(quantity) ? (quantity = 0) : quantity;
+    // quantity = strReplaceNumber(quantity);
 
-    price == '' ? (price = '0') : price;
-    price = strReplaceNumber(price);
+    price == '' || isNaN(price)? (price = 0) : price;
+    // price = strReplaceNumber(price);
 
     if (price >= parseInt(oldPrice)) {
       let val =
