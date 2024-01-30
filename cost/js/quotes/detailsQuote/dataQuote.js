@@ -46,7 +46,7 @@ $(document).ready(function () {
 
     for (let i = 0; i < data.length; i++) {
 
-      if (flag_indirect == '1') {
+      if (flag_indirect == '0') {
         body = `<tr>
           <td>${i + 1}</td>
           <td class="text-left">${data[i].ref}</td>

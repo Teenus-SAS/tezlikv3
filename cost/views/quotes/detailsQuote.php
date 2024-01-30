@@ -124,7 +124,7 @@ if (sizeof($_SESSION) == 0)
 													<th class="text-left">Referencia</th>
 													<th class="text-left">Descripción</th>
 													<th class="text-center">Cantidad</th>
-													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+													<?php if ($_SESSION['flag_indirect'] == 0) { ?>
 														<th class="text-center">Precio</th>
 														<th class="text-center">Descuento</th>
 														<th class="text-center">Total</th>
@@ -135,7 +135,7 @@ if (sizeof($_SESSION) == 0)
 											</tbody>
 											<tfoot id="tblQuotesProductsFoot">
 												<tr>
-													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+													<?php if ($_SESSION['flag_indirect'] == 0) { ?>
 														<td colspan="4"></td>
 													<?php } else { ?>
 														<td colspan="1"></td>
@@ -144,7 +144,7 @@ if (sizeof($_SESSION) == 0)
 													<td id="subtotal"></td>
 												</tr>
 												<tr>
-													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+													<?php if ($_SESSION['flag_indirect'] == 0) { ?>
 														<td colspan="4"></td>
 													<?php } else { ?>
 														<td colspan="1"></td>
@@ -153,7 +153,7 @@ if (sizeof($_SESSION) == 0)
 													<td id="iva"></td>
 												</tr>
 												<tr>
-													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+													<?php if ($_SESSION['flag_indirect'] == 0) { ?>
 														<td colspan="4"></td>
 													<?php } else { ?>
 														<td colspan="1"></td>
