@@ -277,7 +277,7 @@ $(document).ready(function () {
     e.preventDefault();
     let id = this.id;
 
-    if (products[id].idMaterial == 0) {
+    if (products[id].idMaterial == 0 && flag_indirect == '1') {
       let materials = products.filter(item => item.idProduct == products[id].idProduct && item.idMaterial != 0);
 
       if (materials.length > 0) {
