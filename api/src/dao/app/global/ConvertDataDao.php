@@ -100,7 +100,7 @@ class ConvertDataDao
     public function strReplaceQuotes($dataQuote)
     {
         // if (strpos(php_uname('s'), 'Windows') !== false)
-        $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
+        // $dataQuote['quantity'] = str_replace('.', '', $dataQuote['quantity']);
         // else
         // $dataQuote['quantity'] = str_replace(',', '', $dataQuote['quantity']);
 

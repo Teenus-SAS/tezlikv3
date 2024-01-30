@@ -275,8 +275,17 @@ $(document).ready(function () {
   /* Borrar productos seleccionados de la tabla */
   $(document).on('click', '.deleteProduct', function (e) {
     e.preventDefault();
-
     let id = this.id;
+
+    if (products[id].idMaterial == 0) {
+      let materials = products.filter(item => item.idProduct == products[id].idProduct && item.idMaterial != 0);
+
+      if (materials.length > 0) {
+        toastr.error('Elimine primero los materiales asociados a ese producto');
+        return false;
+      }
+    }
+
     products.splice(id, 1);
     addProducts();
   });

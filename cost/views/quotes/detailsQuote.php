@@ -124,27 +124,40 @@ if (sizeof($_SESSION) == 0)
 													<th class="text-left">Referencia</th>
 													<th class="text-left">Descripción</th>
 													<th class="text-center">Cantidad</th>
-													<!-- <th class="text-center indirectMaterial">Rentabilidad</th> -->
-													<th class="text-center">Precio</th>
-													<th class="text-center">Descuento</th>
-													<th class="text-center">Total</th>
+													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+														<th class="text-center">Precio</th>
+														<th class="text-center">Descuento</th>
+														<th class="text-center">Total</th>
+													<?php } ?>
 												</tr>
 											</thead>
 											<tbody id="tblQuotesProductsBody">
 											</tbody>
 											<tfoot id="tblQuotesProductsFoot">
 												<tr>
-													<td colspan="4"></td>
+													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+														<td colspan="4"></td>
+													<?php } else { ?>
+														<td colspan="1"></td>
+													<?php } ?>
 													<td colspan="2">SUBTOTAL</td>
 													<td id="subtotal"></td>
 												</tr>
 												<tr>
-													<td colspan="4"></td>
+													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+														<td colspan="4"></td>
+													<?php } else { ?>
+														<td colspan="1"></td>
+													<?php } ?>
 													<td colspan="2">IVA 19%</td>
 													<td id="iva"></td>
 												</tr>
 												<tr>
-													<td colspan="4"></td>
+													<?php if ($_SESSION['flag_indirect'] == 1) { ?>
+														<td colspan="4"></td>
+													<?php } else { ?>
+														<td colspan="1"></td>
+													<?php } ?>
 													<td colspan="2" style="color: #8DAC18;"><b>TOTAL</b></td>
 													<td id="total" style="color: #8DAC18;"><b></b></td>
 												</tr>
