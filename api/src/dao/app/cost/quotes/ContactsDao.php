@@ -16,14 +16,15 @@ class ContactsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllContacts()
+    public function findAllContacts($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT c.id_contact, c.firstname, c.lastname, c.phone, c.phone1, c.email, c.position, qc.id_quote_company, qc.company_name 
                                       FROM quote_customers c
-                                      INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_quote_company");
-        $stmt->execute();
+                                      INNER JOIN quote_companies qc ON qc.id_quote_company = c.id_quote_company
+                                      WHERE qc.id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $contacts = $stmt->fetchAll($connection::FETCH_ASSOC);

@@ -16,12 +16,15 @@ class PaymentMethodsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllPaymentMethods()
+    public function findAllPaymentMethods($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM quote_payment_methods WHERE flag = 0");
-        $stmt->execute();
+        $stmt = $connection->prepare("SELECT pm.id_method, pm.method, pm.flag
+                                      FROM quote_payment_methods pm
+                                        INNER JOIN quotes q ON q.id_payment_method = pm.id_method
+                                      WHERE pm.flag = 0 AND q.id_company = :id_company GROUP BY pm.id_method;");
+        $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $paymentMethods = $stmt->fetchAll($connection::FETCH_ASSOC);
