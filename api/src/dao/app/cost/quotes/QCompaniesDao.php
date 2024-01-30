@@ -16,12 +16,14 @@ class QCompaniesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllCompanies()
+    public function findAllCompanies($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM quote_companies");
-        $stmt->execute();
+        $stmt = $connection->prepare("SELECT * FROM quote_companies WHERE id_company = :id_company");
+        $stmt->execute([
+            'id_company' => $id_company
+        ]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $companies = $stmt->fetchAll($connection::FETCH_ASSOC);
