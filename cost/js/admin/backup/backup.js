@@ -272,7 +272,7 @@ $(document).ready(function () {
         if (dataTypeExpense.length > 0) {
           for (i = 0; i < dataTypeExpense.length; i++) {
             data.push({
-              reference_producto: dataProducts[i].reference,
+              reference_producto: dataTypeExpense[i].reference,
               producto: dataTypeExpense[i].product,
               porcentaje_recuperado: parseFloat(dataTypeExpense[i].expense_recover),
             });
