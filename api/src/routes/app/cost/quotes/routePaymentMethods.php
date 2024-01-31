@@ -19,12 +19,15 @@ $app->get('/paymentMethods', function (Request $request, Response $response, $ar
 });
 
 $app->post('/addPaymentMethod', function (Request $request, Response $response, $arsg) use ($paymentMethodsDao) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
     $dataMethod = $request->getParsedBody();
 
     if (empty($dataMethod['method']))
         $resp = array('error' => true, 'message' => 'Ingrese los campos');
     else {
-        $paymentMethods = $paymentMethodsDao->insertPaymentMethod($dataMethod);
+        $paymentMethods = $paymentMethodsDao->insertPaymentMethod($dataMethod, $id_company);
 
         if ($paymentMethods == null)
             $resp = array('success' => true, 'message' => 'Metodo de pago insertado correctamente');
