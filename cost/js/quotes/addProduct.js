@@ -297,6 +297,31 @@ $(document).ready(function () {
 
   addProducts = () => {
     $('#tableProductsQuoteBody').empty();
+    $('#tableProductsQuote').empty();
+    
+    let tableProductsQuote = document.getElementById(
+      'tableProductsQuote'
+    );
+
+    tableProductsQuote.insertAdjacentHTML('beforeend',
+      `<thead>
+        <tr>
+          <th class="text-center">Referencia</th>
+          <th class="text-center">Producto</th>
+          <th class="text-center">Cantidad</th>
+          <th class="text-center">Valor Unitario</th>
+          <th class="text-center">Descuento</th>
+          <th class="text-center indirectMaterial">Rentabilidad</th>
+          <th class="text-center">Valor Total</th>
+          <th class="text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tableProductsQuoteBody"></tbody>`);
+    
+    // if ($.fn.dataTable.isDataTable("#tableProductsQuote")) {
+    //   $("#tableProductsQuote").DataTable().destroy();
+    //   $("#tableProductsQuote").empty();
+    // }
 
     let tableProductsQuoteBody = document.getElementById(
       'tableProductsQuoteBody'
@@ -329,5 +354,26 @@ $(document).ready(function () {
         </tr>`
       );
     }
+
+    $('#tableProductsQuote').DataTable({
+      destroy: true,
+      scrollY: '150px',
+      scrollCollapse: true,
+      dom: '<"datatable-error-console">frtip',
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
+      },
+    });
+
+    let tables = document.getElementsByClassName(
+      'dataTables_scrollHeadInner'
+    );
+
+    let attr = tables[0];
+    attr.style.width = '90%';
+    attr = tables[0].firstElementChild;
+    attr.style.width = '90%';
   };
 });

@@ -182,7 +182,7 @@
                                             <div class="card mt-4">
                                                 <div class="card-body">
                                                     <div class="table-responsive">
-                                                        <table class="table table-striped table-bordered">
+                                                        <table class="table table-striped table-bordered" id="tableProductsQuote">
                                                             <thead>
                                                                 <tr>
                                                                     <th class="text-center">Referencia</th>
