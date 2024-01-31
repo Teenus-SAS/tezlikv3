@@ -238,11 +238,14 @@ $(document).ready(function () {
     let data = products[id];
     $('.addMaterial').hide();
     
-    $(`#refProduct option:contains(${data.ref})`).prop('selected', true);
-    $(`#selectNameProduct option:contains(${data.nameProduct})`).prop(
-      'selected',
-      true
-    );
+    // $(`#refProduct option:contains(${data.ref})`).prop('selected', true);
+    // $(`#selectNameProduct option:contains(${data.nameProduct})`).prop(
+    //   'selected',
+    //   true
+    // );
+
+    $(`#refProduct option[value=${data.idProduct}]`).prop('selected', true);
+    $(`#selectNameProduct option[value=${data.idProduct}]`).prop('selected', true);
 
     $(`#pricesList option[value=${data.idPriceList}]`).prop('selected', true);
 
