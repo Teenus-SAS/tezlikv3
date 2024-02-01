@@ -212,7 +212,6 @@ $(document).ready(function () {
       maximumFractionDigits: 2,
     })}%`);
     
-
     $('#actualProfitability').html(``);
 
     $('.cardTrafficLight').empty();
@@ -220,8 +219,11 @@ $(document).ready(function () {
     $('#actualSalePrice').removeClass('text-warning');
     $('#actualSalePrice').removeClass('text-success');
     $('#actualSalePrice').removeClass('text-danger');
-    
-    if (dataCost.actualProfitability == data[0].profitability) {
+
+    /* if (dataCost.actualProfitability == data[0].profitability) { border-warning 
+       else if (dataCost.actualProfitability > data[0].profitability) { border-success */
+     
+    if (dataCost.actualProfitability < data[0].profitability && dataCost.actualProfitability > 0 && data[0].sale_price > 0) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -239,7 +241,25 @@ $(document).ready(function () {
                   </div>`;
       $('#actualSalePrice').addClass('text-warning');
     }
-    else if (dataCost.actualProfitability > data[0].profitability) {
+    else if (dataCost.actualProfitability < data[0].profitability && data[0].sale_price > 0) {
+    content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                        </div>
+                        <div class="text-center">
+                          <span class="text-danger font-weight-bold" style="font-size:large">
+                            <i style="font-style: initial;"><i class="bx bxs-x-circle" style="font-size: xxx-large;color:red"></i></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
+      $('#actualSalePrice').addClass('text-danger');
+    }
+    else {
       content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -256,24 +276,6 @@ $(document).ready(function () {
                     </div>
                   </div>`;
       $('#actualSalePrice').addClass('text-success');
-    }
-    else {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
-                    <div class="card-body">
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
-                        </div>
-                        <div class="text-center">
-                          <span class="text-danger font-weight-bold" style="font-size:large">
-                            <i style="font-style: initial;"><i class="bx bxs-x-circle" style="font-size: xxx-large;color:red"></i></i>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>`;
-      $('#actualSalePrice').addClass('text-danger');
     }
     
     $('.cardTrafficLight').append(content);
