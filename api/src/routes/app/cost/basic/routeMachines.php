@@ -229,8 +229,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                     $resolution = $priceProductDao->calcPrice($arr['id_product']);
 
                     if (isset($resolution['info'])) break;
-
-                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    if (isset($resolution['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
 
                     if ($_SESSION['flag_composite_product'] == '1') {
                         if (isset($resolution['info'])) break;
@@ -255,7 +255,9 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                             if (isset($resolution['info'])) break;
 
                             $data = $priceProductDao->calcPrice($j['id_product']);
-                            $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                            if (isset($data['totalPrice']))
+                                $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                             if (isset($resolution['info'])) break;
 
@@ -278,7 +280,9 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                                 if (isset($resolution['info'])) break;
 
                                 $data = $priceProductDao->calcPrice($k['id_product']);
-                                $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                                if (isset($data['totalPrice']))
+                                    $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                             }
                         }
                     }
@@ -415,7 +419,9 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
                         if (isset($machines['info'])) break;
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $machines = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $machines = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                         if (isset($machines['info'])) break;
 
@@ -451,7 +457,9 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                             if (isset($machines['info'])) break;
 
                             $data = $priceProductDao->calcPrice($k['id_product']);
-                            $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                            if (isset($data['totalPrice']))
+                                $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                         }
                     }
                 }
@@ -513,7 +521,8 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
                 if (isset($machines['info'])) break;
 
-                $machines = $generalProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                if (isset($machine['totalPrice']))
+                    $machines = $generalProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     if (isset($machines['info'])) break;
@@ -550,7 +559,9 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                         if (isset($machines['info'])) break;
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $machines = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $machines = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                         if (isset($machines['info'])) break;
 
@@ -586,7 +597,9 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                             if (isset($machines['info'])) break;
 
                             $data = $priceProductDao->calcPrice($k['id_product']);
-                            $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                            if (isset($data['totalPrice']))
+                                $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                         }
                     }
                 }

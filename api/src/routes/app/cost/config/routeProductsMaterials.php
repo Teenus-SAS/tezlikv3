@@ -552,7 +552,9 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
                 if (isset($productMaterials['info'])) break;
 
                 $data = $priceProductDao->calcPrice($j['id_product']);
-                $productMaterials = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $productMaterials = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                 if (isset($productMaterials['info'])) break;
 
@@ -575,7 +577,9 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
                     if (isset($productMaterials['info'])) break;
 
                     $data = $priceProductDao->calcPrice($k['id_product']);
-                    $productMaterials = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $productMaterials = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
                 }
             }
         }
@@ -660,7 +664,9 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
             if (isset($product['info'])) break;
 
             $data = $priceProductDao->calcPrice($j['id_product']);
-            $product = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+            if (isset($data['totalPrice']))
+                $product = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
             if (isset($product['info'])) break;
 
@@ -683,7 +689,9 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
                 if (isset($product['info'])) break;
 
                 $data = $priceProductDao->calcPrice($k['id_product']);
-                $product = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $product = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
             }
         }
     }
