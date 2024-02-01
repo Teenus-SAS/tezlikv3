@@ -74,10 +74,11 @@ class ConversionUnitsDao
                         );
                         break;
                     case 'VOLUMEN':
-                        $arr['CM3'] = array('M3' => array('value' => 1000000, 'op' => '*'), 'L' => array('value' => 1000, 'op' => '*'), 'ML' => array('value' => 1, 'op' => '*'));
-                        $arr['M3'] = array('CM3' => array('value' => 1000000, 'op' => '/'), 'L' => array('value' => 1000, 'op' => '/'), 'ML' => array('value' => 1000000, 'op' => '/'));
-                        $arr['L'] = array('CM3' => array('value' => 1000, 'op' => '/'), 'M3' => array('value' => 1000, 'op' => '*'), 'ML' => array('value' => 1000, 'op' => '/'));
-                        $arr['ML'] = array('CM3' => array('value' => 1, 'op' => '*'), 'M3' => array('value' => 1000000, 'op' => '*', 'L' => array('value' => 1000, 'op' => '*')));
+                        $arr['CM3'] = array('M3' => array('value' => 1000000, 'op' => '*'), 'L' => array('value' => 1000, 'op' => '*'), 'ML' => array('value' => 1, 'op' => '*'), 'GL' => array('value' => 0.000264172, 'op' => '*'));
+                        $arr['M3'] = array('CM3' => array('value' => 1000000, 'op' => '/'), 'L' => array('value' => 1000, 'op' => '/'), 'ML' => array('value' => 1000000, 'op' => '/'), 'GL' => array('value' => 264.172, 'op' => '*'));
+                        $arr['L'] = array('CM3' => array('value' => 1000, 'op' => '/'), 'M3' => array('value' => 1000, 'op' => '*'), 'ML' => array('value' => 1000, 'op' => '/'), 'GL' => array('value' => 0.264172, 'op' => '*'));
+                        $arr['ML'] = array('CM3' => array('value' => 1, 'op' => '*'), 'M3' => array('value' => 1000000, 'op' => '*'), 'L' => array('value' => 1000, 'op' => '*'), 'GL' => array('value' => 0.000264172, 'op' => '*'));
+                        $arr['GL'] = array('CM3' => array('value' => 3785.41, 'op' => '*'), 'M3' => array('value' => 0.00378541, 'op' => '*'), 'L' => array('value' => 3.78541, 'op' => '*'), 'M3' => array('value' => 0.00378541, 'op' => '*'));
                         break;
                     case 'ÁREA':
                         $arr['DM2'] = array('M2' => array('value' => 100, 'op' => '*'), 'FT2' => array('value' => 9.29, 'op' => '*'), 'INCH2' => array('value' => 15.5, 'op' => '/'));
