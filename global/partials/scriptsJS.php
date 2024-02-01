@@ -61,5 +61,8 @@
 
 <script src="/global/js/global/searchData.js"></script>
 <script src="/global/js/global/number.js"></script>
+<script>
+    flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
+</script>
 <script src="/cost/js/admin/backup/backup.js"></script>
 <script src="/global/js/global/lastText.js"></script>

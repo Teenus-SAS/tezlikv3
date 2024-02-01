@@ -95,9 +95,10 @@ $(document).ready(function () {
             tipo: 'Material',
           });
         }
+
         /* Productos Compuestos */
         let dataCompositeProduct = await searchData('/api/allCompositeProducts');
-        if (dataCompositeProduct.length > 0) {
+        if (dataCompositeProduct.length > 0 && flag_composite_product == '1') {
           data1 = [];
 
           for (i = 0; i < dataCompositeProduct.length; i++) {
