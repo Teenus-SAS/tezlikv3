@@ -10,7 +10,7 @@ $(document).ready(function () {
             aProductsMaterials: data.product_materials,
             //aProductsProcess: data.product_process,
             aFactoryLoad: data.factory_load,
-            aServices: data.external_service,
+            // aServices: data.external_service,
             aPayroll: data.payroll_load,
             // aExpenses: data.expense,
             // aExpenses: data.expense_distribution,

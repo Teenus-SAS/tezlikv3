@@ -93,6 +93,26 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane cardServices" style="display: none;">
+                            <div class="row align-items-center">
+                                <div class="col-sm-5 col-xl-6">
+                                    <div class="page-title">
+                                        <h3 class="mb-1 font-weight-bold text-dark">Servicios Externos</h3>
+                                        <ol class="breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active">Ingrese los productos o servicios complementarios para un producto en especifico y que solo se haya utilizado en este. Ejm: transporte, envio, etc</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-warning" id="btnNewService">Nuevo Servicio</button>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2">
+                                        <button class="btn btn-info" id="btnImportNewExternalServices">Importar Servicios Externos</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -294,6 +314,62 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
+                <!-- Servicios Externos -->
+                <div class="page-content-wrapper mt--45 mb-5 cardAddService">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formAddService">
+                                            <div class="form-row">
+                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label for="">Servicio</label>
+                                                    <input class="form-control" type="text" name="service" id="service">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <label for="">Costo</label>
+                                                    <input class="form-control text-center" type="number" name="costService" id="costService">
+                                                </div>
+                                                <div class="col-xs-2 mt-1">
+                                                    <button class="btn btn-primary" id="btnAddService">Adicionar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 mb-5 cardImportExternalServices">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <form id="formImportExternalServices" enctype="multipart/form-data">
+                                    <div class="card">
+                                        <div class="card-body pt-3">
+                                            <div class="form-row" id="formExternalServices">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                    <input class="form-control" type="file" id="fileExternalServices" accept=".xls,.xlsx">
+                                                    <label for="formFile" class="form-label">Importar Servicios Externos</label>
+                                                </div>
+                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                    <button type="text" class="btn btn-success" id="btnImportExternalServices">Importar</button>
+                                                </div>
+                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices">Descarga Formato</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
@@ -308,6 +384,11 @@ if (sizeof($_SESSION) == 0)
                                     <li class="nav-item">
                                         <a class="nav-link selectNavigation" id="process" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
                                             <i class="bi bi-arrow-repeat mr-1"></i>Tiempos y Procesos
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link selectNavigation" id="services" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                            <i class="bi bi-arrow-repeat mr-1"></i>Servicios Externos
                                         </a>
                                     </li>
                                 </ul>
@@ -358,6 +439,23 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="tab-pane cardServices" style="display: none;">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped" id="tblExternalServices">
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th></th>
+                                                            <th>Total</th>
+                                                            <th id="totalCost"></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -384,6 +482,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/global/configUnits.js"></script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
+    <script src="/cost/js/config/services/tblExternalServices.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/general/payroll/configProcessPayroll.js"></script>
     <script src="/cost/js/basic/machines/configMachines.js"></script>
@@ -392,9 +491,11 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
     <script src="/cost/js/config/productProcess/productProcess.js"></script>
+    <script src="/cost/js/config/services/externalServices.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/config/productMaterials/importProductMaterials.js"></script>
     <script src="/cost/js/config/productProcess/importProductProcess.js"></script>
+    <script src="/cost/js/config/services/importExternalServices.js"></script>
     <script src="../global/js/import/file.js"></script>
 </body>
 

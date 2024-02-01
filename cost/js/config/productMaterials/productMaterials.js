@@ -8,14 +8,30 @@ $(document).ready(function () {
       $('.cardProductsMaterials').show();
       $('.cardProductsProcess').hide(); 
       $('.cardAddProcess').hide();
+      $('.cardServices').hide();
       $('.cardImportProductsProcess').hide(); 
+      $('.cardAddService').hide(); 
+      $('.cardImportExternalServices').hide(); 
     } else if (this.id == 'process') {
       $('.cardProductsProcess').show();
       $('.cardProductsMaterials').hide(); 
       $('.cardAddMaterials').hide();
+      $('.cardServices').hide();
+      $('.cardImportProductsMaterials').hide();
+      $('.cardAddNewProduct').hide(); 
+      $('.cardAddService').hide();
+      $('.cardImportExternalServices').hide();
+    } else {
+      $('.cardServices').show();
+      $('.cardProductsProcess').hide();
+      $('.cardProductsMaterials').hide(); 
+      $('.cardAddMaterials').hide();
       $('.cardImportProductsMaterials').hide();
       $('.cardAddNewProduct').hide();
+      $('.cardAddService').hide(); 
+      $('.cardImportExternalServices').hide();       
     }
+    
     let tables = document.getElementsByClassName(
       'dataTable'
     );

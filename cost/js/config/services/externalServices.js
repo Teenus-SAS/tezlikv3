@@ -86,12 +86,12 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataExternalService);
 
-    message(resp);
+    messageServices(resp);
   };
 
   /* Eliminar servicio */
 
-  deleteFunction = () => {
+  deleteService = () => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblExternalServices.fnGetData(row);
 
@@ -120,7 +120,7 @@ $(document).ready(function () {
             '../../api/deleteExternalService',
             dataExternalService,
             function (data, textStatus, jqXHR) {
-              message(data);
+              messageServices(data);
             }
           );
         }
@@ -130,7 +130,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  messageServices = (data) => {
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
     $('#fileExternalServices').val('');
@@ -140,7 +140,9 @@ $(document).ready(function () {
       $('#formImportExternalServices').trigger('reset');
       $('.cardAddService').hide(800);
       $('#formAddService').trigger('reset');
-      updateTable();
+      let idProduct = $('#selectNameProduct').val();
+      if (idProduct)
+        updateTable();
       toastr.success(data.message);
       //return false
     } else if (data.error == true) toastr.error(data.message);

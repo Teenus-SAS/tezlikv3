@@ -80,16 +80,16 @@
                                                     <input id="checkbox-6" name="payrollLoad" type="checkbox">
                                                     <label for="checkbox-6">Carga Fabril</label>
                                                 </div>
-                                                <div class="checkbox checkbox-success checkbox-circle">
+                                                <!-- <div class="checkbox checkbox-success checkbox-circle">
                                                     <input id="checkbox-7" name="externalService" type="checkbox">
                                                     <label for="checkbox-7">Servicios Externos</label>
-                                                </div>
+                                                </div> -->
                                             </div>
                                             <div class="col-sm-3 pb-2">
                                                 Configuración General
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input class="typeCheckbox" id="checkbox-8" name="factoryLoad" type="checkbox">
-                                                    <label for="checkbox-8">Cargar Nómina</label>
+                                                    <input class="typeCheckbox" id="checkbox-7" name="factoryLoad" type="checkbox">
+                                                    <label for="checkbox-7">Cargar Nómina</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label my-2 cardTypePayroll" style="width: 150px">
                                                     <select class="form-control" name="typePayroll" id="typePayroll">
@@ -132,12 +132,12 @@
                                             <div class="col-sm-2 pb-3">
                                                 Creación Usuarios
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-9" name="costUser" type="checkbox">
-                                                    <label for="checkbox-9">Usuarios</label>
+                                                    <input id="checkbox-8" name="costUser" type="checkbox">
+                                                    <label for="checkbox-8">Usuarios</label>
                                                 </div>
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-10" name="costBackup" type="checkbox">
-                                                    <label for="checkbox-10">Backup</label>
+                                                    <input id="checkbox-9" name="costBackup" type="checkbox">
+                                                    <label for="checkbox-9">Backup</label>
                                                 </div>
                                             </div>
 
@@ -146,20 +146,20 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-11" name="quotePaymentMethod" type="checkbox">
-                                                    <label for="checkbox-11">Metodos De Pago</label>
+                                                    <input id="checkbox-10" name="quotePaymentMethod" type="checkbox">
+                                                    <label for="checkbox-10">Metodos De Pago</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-12" name="quoteCompany" type="checkbox">
-                                                    <label for="checkbox-12">Compañias</label>
+                                                    <input id="checkbox-11" name="quoteCompany" type="checkbox">
+                                                    <label for="checkbox-11">Compañias</label>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 pb-3">
                                                 <div class="checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-13" name="quoteContact" type="checkbox">
-                                                    <label for="checkbox-13">Contactos</label>
+                                                    <input id="checkbox-12" name="quoteContact" type="checkbox">
+                                                    <label for="checkbox-12">Contactos</label>
                                                 </div>
                                             </div>
 
@@ -170,21 +170,21 @@
                                             <div class="col-sm-3 pb-2">Precios
                                                 <?php if ($_SESSION['plan_cost_price'] == 1) { ?>
                                                     <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-14" name="prices" type="checkbox">
-                                                        <label for="checkbox-14">Precios COP</label>
+                                                        <input id="checkbox-13" name="prices" type="checkbox">
+                                                        <label for="checkbox-13">Precios COP</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-15" name="pricesUSD" type="checkbox">
-                                                        <label for="checkbox-15">Precios USD</label>
+                                                        <input id="checkbox-14" name="pricesUSD" type="checkbox">
+                                                        <label for="checkbox-14">Precios USD</label>
                                                     </div>
                                                 <?php } ?>
 
                                                 <?php if ($_SESSION['plan_custom_price'] == 1) { ?>
                                                     <div class="mb-2 checkbox checkbox-success checkbox-circle">
-                                                        <input class="typeCheckbox" id="checkbox-16" name="customPrices" type="checkbox">
-                                                        <label for="checkbox-16">Precios Personalizados</label>
+                                                        <input class="typeCheckbox" id="checkbox-15" name="customPrices" type="checkbox">
+                                                        <label for="checkbox-15">Precios Personalizados</label>
                                                     </div>
                                                 <?php } ?>
                                                 <li class="col-sm-8 pb-2 cardTypePrices pricesList">
@@ -192,54 +192,52 @@
                                                 </li>
                                             </div>
 
-
-
                                             <div class="col-sm-3">Herramientas
 
                                                 <?php if ($_SESSION['plan_cost_analysis_material'] == 1) { ?>
                                                     <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-17" name="analysisRawMaterials" type="checkbox">
-                                                        <label for="checkbox-17">Analisis Materia Prima</label>
+                                                        <input id="checkbox-16" name="analysisRawMaterials" type="checkbox">
+                                                        <label for="checkbox-16">Analisis Materia Prima</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_economy_sale'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-18" name="economyScale" type="checkbox">
-                                                        <label for="checkbox-18">Economia De Escala</label>
+                                                        <input id="checkbox-17" name="economyScale" type="checkbox">
+                                                        <label for="checkbox-17">Economia De Escala</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-19" name="multiproduct" type="checkbox">
-                                                        <label for="checkbox-19">Pto De Equilibrio Multiproducto</label>
+                                                        <input id="checkbox-18" name="multiproduct" type="checkbox">
+                                                        <label for="checkbox-18">Pto De Equilibrio Multiproducto</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_simulator'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-20" name="simulator" type="checkbox">
-                                                        <label for="checkbox-20">Simulador</label>
+                                                        <input id="checkbox-19" name="simulator" type="checkbox">
+                                                        <label for="checkbox-19">Simulador</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_historical'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-21" name="historical" type="checkbox">
-                                                        <label for="checkbox-21">Historico</label>
+                                                        <input id="checkbox-20" name="historical" type="checkbox">
+                                                        <label for="checkbox-20">Historico</label>
                                                     </div>
                                                 <?php } ?>
                                             </div>
                                             <?php if ($_SESSION['plan_cost_quote'] == 1) { ?>
                                                 <div class="mt-4 col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-22" name="quotes" type="checkbox">
-                                                        <label for="checkbox-22">Cotización</label>
+                                                        <input id="checkbox-21" name="quotes" type="checkbox">
+                                                        <label for="checkbox-21">Cotización</label>
                                                     </div>
                                                 </div>
                                             <?php } ?>
                                             <?php if ($_SESSION['plan_cost_support'] == 1) { ?>
                                                 <div class="mt-4 col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-23" name="tools" type="checkbox">
-                                                        <label for="checkbox-23">Soporte</label>
+                                                        <input id="checkbox-22" name="tools" type="checkbox">
+                                                        <label for="checkbox-22">Soporte</label>
                                                     </div>
                                                 </div>
                                             <?php } ?>

@@ -88,60 +88,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardAddService">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form id="formAddService">
-                                            <div class="form-row">
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label for="">Servicio</label>
-                                                    <input class="form-control" type="text" name="service" id="service">
-                                                </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label for="">Costo</label>
-                                                    <input class="form-control text-center" type="number" name="costService" id="costService">
-                                                </div>
-                                                <div class="col-xs-2 mt-1">
-                                                    <button class="btn btn-primary" id="btnAddService">Adicionar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportExternalServices">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <form id="formImportExternalServices" enctype="multipart/form-data">
-                                    <div class="card">
-                                        <div class="card-body pt-3">
-                                            <div class="form-row" id="formExternalServices">
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
-                                                    <input class="form-control" type="file" id="fileExternalServices" accept=".xls,.xlsx">
-                                                    <label for="formFile" class="form-label">Importar Servicios Externos</label>
-                                                </div>
-                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-success" id="btnImportExternalServices">Importar</button>
-                                                </div>
-                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices">Descarga Formato</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">

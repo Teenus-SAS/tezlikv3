@@ -160,13 +160,13 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          permissions.push({
-            name: "Servicios Externos",
-            icon: data.external_service
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          // permissions.push({
+          //   name: "Servicios Externos",
+          //   icon: data.external_service
+          //     ? "bi bi-check-circle-fill text-success"
+          //     : "bi bi-x-circle-fill text-danger",
+          //   color: { text: "black" },
+          // });
 
           let output = '<div class="stacked-column" style="width:270px">';
           for (const permission of permissions) {

@@ -29,11 +29,11 @@ $(document).ready(function () {
   });
 
   $(document).on('click', '.typeCheckbox', function () {
-    if (this.id == 'checkbox-8')
+    if (this.id == 'checkbox-7')
       $('.cardTypePayroll').toggle(800); 
     if (this.id == 'chckExpenses')
       $('.cardChkExpenses').toggle(800);
-    if (this.id == 'checkbox-16')
+    if (this.id == 'checkbox-15')
       $('.cardTypePrices').toggle(800);
   });
 
@@ -114,7 +114,7 @@ $(document).ready(function () {
 
       /* Obtener los checkbox seleccionados */
       
-      if ($(`#checkbox-16`).is(':checked')) {
+      if ($(`#checkbox-15`).is(':checked')) {
         if (typeCustomPrices.length == 0) {
           toastr.error('Debe seleccionar tipo de precio');
           return false;
@@ -125,7 +125,7 @@ $(document).ready(function () {
 
       let typePayroll = 0;
 
-      if ($(`#checkbox-8`).is(':checked')) {
+      if ($(`#checkbox-7`).is(':checked')) {
         typePayroll = $('#typePayroll').val();
 
         if (typePayroll == 0 || !typePayroll) {
@@ -205,7 +205,7 @@ $(document).ready(function () {
       productsMaterials: data.product_materials,
       //productsProcess: data.product_process,
       factoryLoad: data.factory_load,
-      servicesExternal: data.external_service,
+      // servicesExternal: data.external_service,
       payroll: data.payroll_load,
       // generalExpenses: data.expense,
       //distributionExpenses: data.expense_distribution,
@@ -269,9 +269,9 @@ $(document).ready(function () {
     //     $(`#expenseRecover`).prop('checked', false);
     // }
       
-    if ($(`#checkbox-8`).is(':checked')) $('.cardTypePayroll').show();
+    if ($(`#checkbox-7`).is(':checked')) $('.cardTypePayroll').show();
 
-    if ($(`#checkbox-16`).is(':checked')) $('.cardTypePrices').show();
+    if ($(`#checkbox-15`).is(':checked')) $('.cardTypePrices').show();
 
     $(`#typePayroll option[value=${data.type_payroll}]`).prop('selected', true);
 
@@ -309,7 +309,7 @@ $(document).ready(function () {
 
     let typePayroll = 0;
     
-    if ($(`#checkbox-8`).is(':checked')) {
+    if ($(`#checkbox-7`).is(':checked')) {
       typePayroll = $('#typePayroll').val();
       
       if (typePayroll == 0 || !typePayroll) {
@@ -352,7 +352,7 @@ $(document).ready(function () {
     //   dataUser['expense'] = expense;
     // }
     
-    if ($(`#checkbox-16`).is(':checked')) {
+    if ($(`#checkbox-15`).is(':checked')) {
       if (typeCustomPrices.length == 0) {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
@@ -393,7 +393,7 @@ $(document).ready(function () {
       costProductMaterials: 0,
       //costProductProcess: 0,
       factoryLoad: 0,
-      externalService: 0,
+      // externalService: 0,
       payrollLoad: 0,
       // expense: 0,
       // expenseDistribution: 0,

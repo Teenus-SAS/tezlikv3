@@ -70,8 +70,7 @@
                                         </ul>
                                         </div>
                                         <?php if (
-                                            $_SESSION['cost_products_material'] == 0 && $_SESSION['cost_products_process'] == 0 &&
-                                            $_SESSION['factory_load'] == 0 && $_SESSION['external_service'] === 0
+                                            $_SESSION['cost_products_material'] == 0 && $_SESSION['factory_load'] == 0
                                         ) { ?>
                                             <div class="col-md-3" id="navCostSetting" style="display: none;">
                                             <?php } else { ?>
@@ -95,13 +94,13 @@
                                                             <i class="bi bi-gear-wide-connected mr-1"></i>
                                                             <a href="/cost/factory-load">Carga Fabril</a>
                                                             </li>
-                                                            <?php if ($_SESSION['external_service'] == 1) { ?>
-                                                                <li class="aServices">
+                                                            <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
+                                                                <li class="aCustomPrices">
                                                                 <?php } else { ?>
-                                                                <li class="aServices" style="display: none;">
+                                                                <li class="aCustomPrices" style="display: none;">
                                                                 <?php } ?>
-                                                                <i class="bi bi-link mr-1"></i>
-                                                                <a href="/cost/external-services">Servicios Externos</a>
+                                                                <i class="bi bi-list"></i>
+                                                                <a href="/cost/price-list">Lista de Precios</a>
                                                                 </li>
                                                 </ul>
                                                 </div>
@@ -136,14 +135,6 @@
                                                                     <i class="bi bi-currency-dollar mr-1"></i>
                                                                     <a href="/cost/general-expenses">Gastos Generales</a>
                                                                     </li>
-                                                                    <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
-                                                                        <li class="aCustomPrices">
-                                                                        <?php } else { ?>
-                                                                        <li class="aCustomPrices" style="display: none;">
-                                                                        <?php } ?>
-                                                                        <i class="bi bi-list"></i>
-                                                                        <a href="/cost/price-list">Lista de Precios</a>
-                                                                        </li>
                                                         </ul>
                                                         </div>
 
