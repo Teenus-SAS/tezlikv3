@@ -211,9 +211,9 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
                 foreach ($unitVol as $arr) {
                     if (isset($resolution['info'])) break;
                     // Calcular gasto asignable
-                    $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                    $k = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                     // Actualizar gasto asignable
-                    $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+                    $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $k['assignableExpense']);
                 }
             }
         }

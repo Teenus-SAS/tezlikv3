@@ -51,7 +51,8 @@
                         <?php if (
                             $_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1 ||
                             $_SESSION['cost_economy_scale'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1 ||
-                            $_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1
+                            $_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1 ||
+                            $_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1
                         ) { ?>
                             <li class="nav-item dropdown" id="navTools">
                             <?php } else { ?>

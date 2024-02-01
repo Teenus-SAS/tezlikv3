@@ -281,9 +281,10 @@ $(document).ready(function () {
       $('#formImportProductProcess').trigger('reset');
       $('.cardAddProcess').hide(800);
       $('#formAddProcess').trigger('reset');
-      updateTable();
-      toastr.success(data.message);
-      //return false
+      let idProduct = $('#selectNameProduct').val();
+      if (idProduct)
+        updateTable();
+      toastr.success(data.message); 
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };

@@ -119,7 +119,7 @@ $(document).ready(function () {
             };
           }
         });
-        checkExpense(expenseToImport, url);
+        checkExpenseD(expenseToImport, url);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -127,7 +127,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkExpense = (data, url) => {
+  checkExpenseD = (data, url) => {
     $.ajax({
       type: 'POST',
       url: url,

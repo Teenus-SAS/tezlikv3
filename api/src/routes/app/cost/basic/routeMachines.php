@@ -177,24 +177,29 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                 $machines[$i]['idMachine'] = $lastMachine['id_machine'];
 
                 if (isset($resolution['info'])) break;
-                $resolution = $tpInyectionDao->updateInyection($machines[$i]);
 
-                if (isset($resolution['info'])) break;
-                $machine = $tpInyectionDao->calcUnityTime($machines[$i]['idMachine']);
-                $resolution = $tpInyectionDao->updateUnityTime($machines[$i]['idMachine'], $machine);
-                if (isset($resolution['info'])) break;
+                if ($_SESSION['inyection'] == '1') {
+                    $resolution = $tpInyectionDao->updateInyection($machines[$i]);
+
+                    if (isset($resolution['info'])) break;
+                    $machine = $tpInyectionDao->calcUnityTime($machines[$i]['idMachine']);
+                    $resolution = $tpInyectionDao->updateUnityTime($machines[$i]['idMachine'], $machine);
+                    if (isset($resolution['info'])) break;
+                }
             } else {
                 $machines[$i]['idMachine'] = $machine['id_machine'];
                 $resolution = $machinesDao->updateMachine($machines[$i]);
 
                 if (isset($resolution['info'])) break;
-                $resolution = $tpInyectionDao->updateInyection($machines[$i]);
 
-                if (isset($resolution['info'])) break;
-                $machine = $tpInyectionDao->calcUnityTime($machines[$i]['idMachine']);
-                $resolution = $tpInyectionDao->updateUnityTime($machines[$i]['idMachine'], $machine);
+                if ($_SESSION['inyection'] == '1') {
+                    $resolution = $tpInyectionDao->updateInyection($machines[$i]);
 
-                if (isset($resolution['info'])) break;
+                    if (isset($resolution['info'])) break;
+                    $machine = $tpInyectionDao->calcUnityTime($machines[$i]['idMachine']);
+                    $resolution = $tpInyectionDao->updateUnityTime($machines[$i]['idMachine'], $machine);
+                    if (isset($resolution['info'])) break;
+                }
 
                 // Buscar producto por idMachine
                 $dataProducts = $indirectCostDao->findProductByMachine($machines[$i]['idMachine'], $id_company);
@@ -239,19 +244,6 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                             $data['idProduct'] = $j['id_product'];
                             $data['compositeProduct'] = $j['id_child_product'];
 
-                            /* Calcular costo indirecto */
-                            // Buscar la maquina asociada al producto
-                            // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                            // // Calcular costo indirecto
-                            // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                            // // Actualizar campo
-                            // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                            // if (isset($resolution['info'])) break;
-
-                            // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                            // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                            // if (isset($resolution['info'])) break;
-
                             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
@@ -275,19 +267,6 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                                 $data = [];
                                 $data['compositeProduct'] = $k['id_child_product'];
                                 $data['idProduct'] = $k['id_product'];
-
-                                /* Calcular costo indirecto */
-                                // Buscar la maquina asociada al producto
-                                // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                                // Calcular costo indirecto
-                                // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                                // Actualizar campo
-                                // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                                // if (isset($resolution['info'])) break;
-
-                                // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                                // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                                // if (isset($resolution['info'])) break;
 
                                 $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
                                 $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
