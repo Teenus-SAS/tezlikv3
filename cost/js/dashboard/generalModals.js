@@ -53,7 +53,7 @@ $(document).ready(function () {
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
@@ -179,10 +179,10 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
       else {
         isFinite(dataCost.costActualProfitability) ? costActualProfitability = dataCost.costActualProfitability : costActualProfitability = 0;
 
-          products.push({
-            name: data[i].product,
-            cost: costActualProfitability,
-          });
+        products.push({
+          name: data[i].product,
+          cost: costActualProfitability,
+        });
         
       }
     }
@@ -206,7 +206,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
@@ -309,7 +309,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
                                               <p class="text-muted mb-1 font-weight-600">Total Gasto </p>
                                               <h4 class="mb-0 font-weight-bold">$ ${value.toLocaleString('es-ES')}</h4>
                                           </div>
-                                      </div>`); 
+                                      </div>`);
 
     let expenses = [];
     let expense = [];

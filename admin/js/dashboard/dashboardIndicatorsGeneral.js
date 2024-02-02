@@ -6,22 +6,25 @@ fetch(`/api/dashboardCountsGeneral`)
     generalCompaniesCounts(data.allCompanies);
     generalUsersCounts(data.allUsers);
     generalUsersSessionCounts(data.allUsersSession);
+    graphicCompanies(data.sCompany);
+    graphicUsers(data.sCompany);
+    graphicMonth(data.month);
   });
 
 /* Colors */
-// dynamicColors = () => {
-//   let letters = '0123456789ABCDEF'.split('');
-//   let color = '#';
+dynamicColors = () => {
+  let letters = '0123456789ABCDEF'.split('');
+  let color = '#';
 
-//   for (var i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
-//   return color;
-// };
+  for (var i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
+  return color;
+};
 
-// getRandomColor = (a) => {
-//   let color = [];
-//   for (i = 0; i < a; i++) color.push(dynamicColors());
-//   return color;
-// };
+getRandomColor = (a) => {
+  let color = [];
+  for (i = 0; i < a; i++) color.push(dynamicColors());
+  return color;
+};
 
 /* Cantidad de Productos */
 generalProductsCounts = (data) => {

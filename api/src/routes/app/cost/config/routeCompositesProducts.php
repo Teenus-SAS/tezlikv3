@@ -97,7 +97,9 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
         // Calcular precio producto
         if ($resolution == null) {
             $product = $priceProductDao->calcPrice($dataProduct['idProduct']);
-            $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
+
+            if (isset($product['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
         }
 
         if ($resolution == null) {
@@ -119,7 +121,9 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
                 if (isset($resolution['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             }
         }
 
@@ -197,7 +201,9 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
         // Calcular precio producto
         if ($resolution == null) {
             $product = $priceProductDao->calcPrice($dataProduct['idProduct']);
-            $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
+
+            if (isset($resolution['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
         }
 
         if ($resolution == null) {
@@ -219,7 +225,9 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
                 if (isset($resolution['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             }
         }
 
@@ -296,7 +304,9 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
     // Calcular precio producto
     if ($resolution == null) {
         $product = $priceProductDao->calcPrice($dataProduct['idProduct']);
-        $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
+
+        if (isset($product['totalPrice']))
+            $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
     }
 
     if ($resolution == null) {
@@ -318,7 +328,9 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
             if (isset($resolution['info'])) break;
 
             $data = $priceProductDao->calcPrice($arr['id_product']);
-            $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+            if (isset($data['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
         }
     }
 

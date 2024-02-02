@@ -23,52 +23,56 @@ $(document).ready(function () {
             return false;
         }
 
-        let data = combinedData[0];
-
-        let btxMessage = ''; 
-
-        if (!data) {
+        // let data = combinedData[0];
+        
+        if (flag_type_price == '') {
+            let btxMessage = '';
             btxMessage = `<label>Seleccione Precio</label>
                        <select class="form-control" id="selectPricesCustom">
                             <option disabled selected>Seleccionar</option>
                             <option value="0">ACTUAL</option>
                             <option value="1">SUGERIDO</option>
                        </select>`;
-        } else {
-            btxMessage = `<select class="form-control" id="selectPricesCustom">
-                            <option disabled>Seleccionar</option>
-                            ${data.flag_price == '0' ?
-                                '<option value="0" selected>ACTUAL</option>' :
-                                '<option value="1">SUGERIDO</option>'}
-                        </select>`;
-        }
+        
+            // else {
+            //     btxMessage = `<select class="form-control" id="selectPricesCustom">
+            //                     <option disabled>Seleccionar</option>
+            //                     ${data.flag_price == '0' ?
+            //                         '<option value="0" selected>ACTUAL</option>' :
+            //                         '<option value="1">SUGERIDO</option>'}
+            //                 </select>`;
+            // }
 
-        bootbox.confirm({
-            title: 'Tipo de Precio',
-            message: btxMessage,
-            buttons: {
-                confirm: {
-                    label: 'Si',
-                    className: 'btn-success',
+            bootbox.confirm({
+                title: 'Tipo de Precio',
+                message: btxMessage,
+                buttons: {
+                    confirm: {
+                        label: 'Si',
+                        className: 'btn-success',
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger',
+                    },
                 },
-                cancel: {
-                    label: 'No',
-                    className: 'btn-danger',
-                },
-            },
-            callback: function (result) {
-                if (result == true) {
-                    typePrice = parseFloat($('#selectPricesCustom').val());
+                callback: function (result) {
+                    if (result == true) {
+                        typePrice = parseFloat($('#selectPricesCustom').val());
                     
-                    if ((!typePrice && typePrice != 0)) {
-                        toastr.error('Seleccione tipo de precio');
-                        return false;
-                    }
+                        if ((!typePrice && typePrice != 0)) {
+                            toastr.error('Seleccione tipo de precio');
+                            return false;
+                        }
 
-                    newCustomPercentage();
-                }
-            },
-        });
+                        newCustomPercentage();
+                    }
+                },
+            });
+        } else {
+            typePrice = flag_type_price;
+            newCustomPercentage();
+        }
     });
 
     newCustomPercentage = async () => {

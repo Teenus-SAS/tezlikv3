@@ -506,8 +506,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 
                         if (isset($resolution['info']))
                             break;
-
-                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                        if (isset($resolution['totalPrice']))
+                            $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
                     }
                 }
             }
@@ -581,7 +581,9 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
                 if (isset($products['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $products = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $products = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($products['info'])) break;
 
@@ -604,7 +606,9 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
                     if (isset($products['info'])) break;
 
                     $data = $priceProductDao->calcPrice($k['id_product']);
-                    $products = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $products = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                 }
             }
         }
@@ -677,7 +681,9 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
             if (isset($resolution['info'])) break;
 
             $data = $priceProductDao->calcPrice($arr['id_product']);
-            $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+            if (isset($data['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
             if (isset($resolution['info'])) break;
 
@@ -700,7 +706,9 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
                 if (isset($resolution['info'])) break;
 
                 $data = $priceProductDao->calcPrice($k['id_product']);
-                $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
             }
         }
     }

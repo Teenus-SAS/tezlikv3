@@ -10,7 +10,7 @@ $(document).ready(function () {
   var anchura = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
-  ); 
+  );
 
   /* Costo del producto */
 
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
@@ -71,7 +71,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
         scales: {
           y: {
             beginAtZero: true,
-            max:maxYValue,
+            max: maxYValue,
           },
           x: {
             display: false,
@@ -373,7 +373,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
       totalMaterial.push(data[i].totalCostMaterial);
     }
 
-    if(totalMaterial.length > 1){
+    if (totalMaterial.length > 1) {
       let maxDataValue = Math.max(...totalMaterial);
       let minDataValue = Math.min(...totalMaterial);
       let valueRange = maxDataValue - minDataValue;
@@ -381,7 +381,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
       let step = Math.ceil(valueRange / 10 / 10) * 10;
 
       maxYValue = Math.ceil(maxDataValue / step) * step + step;
-    }else {
+    } else {
       maxYValue = Math.max(...totalMaterial);
     }
 

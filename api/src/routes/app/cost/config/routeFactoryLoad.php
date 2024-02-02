@@ -136,8 +136,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                 $factoryLoad = $priceProductDao->calcPrice($arr['id_product']);
 
                 if (isset($factoryLoad['info'])) break;
-
-                $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+                if (isset($factoryLoad['totalPrice']))
+                    $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     if (isset($factoryLoad['info'])) break;
@@ -174,7 +174,9 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                         if (isset($factoryLoad['info'])) break;
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                         if (isset($factoryLoad['info'])) break;
 
@@ -210,7 +212,9 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                             if (isset($factoryLoad['info'])) break;
 
                             $data = $priceProductDao->calcPrice($k['id_product']);
-                            $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                            if (isset($data['totalPrice']))
+                                $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                         }
                     }
                 }
@@ -266,8 +270,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                 $resolution = $priceProductDao->calcPrice($arr['id_product']);
 
                 if (isset($resolution['info'])) break;
-
-                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                if (isset($resolution['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     if (isset($resolution['info'])) break;
@@ -304,7 +308,9 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                         if (isset($resolution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                         if (isset($resolution['info'])) break;
 
@@ -340,7 +346,9 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                             if (isset($resolution['info'])) break;
 
                             $data = $priceProductDao->calcPrice($k['id_product']);
-                            $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                            if (isset($data['totalPrice']))
+                                $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                         }
                     }
                 }
@@ -399,8 +407,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
             $factoryLoad = $priceProductDao->calcPrice($arr['id_product']);
 
             if (isset($factoryLoad['info'])) break;
-
-            $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+            if (isset($factoryLoad['totalPrice']))
+                $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($factoryLoad['info'])) break;
@@ -437,8 +445,9 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
                     if (isset($factoryLoad['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
+                    if (isset($data['totalPrice']))
+                        $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($factoryLoad['info'])) break;
 
@@ -474,7 +483,9 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
                         if (isset($factoryLoad['info'])) break;
 
                         $data = $priceProductDao->calcPrice($k['id_product']);
-                        $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -527,8 +538,8 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
             $factoryLoad = $priceProductDao->calcPrice($arr['id_product']);
 
             if (isset($factoryLoad['info'])) break;
-
-            $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
+            if (isset($factoryLoad['totalPrice']))
+                $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $factoryLoad['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($factoryLoad['info'])) break;
@@ -565,8 +576,9 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
                     if (isset($factoryLoad['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
+                    if (isset($data['totalPrice']))
+                        $factoryLoad = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($factoryLoad['info'])) break;
 
@@ -602,7 +614,9 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
                         if (isset($factoryLoad['info'])) break;
 
                         $data = $priceProductDao->calcPrice($k['id_product']);
-                        $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                     }
                 }
             }

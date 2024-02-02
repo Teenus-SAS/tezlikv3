@@ -128,7 +128,9 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                 if (isset($expensesRecover['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($expensesRecover['info'])) break;
 
@@ -151,7 +153,9 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                     if (isset($expensesRecover['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                 }
             }
         }
@@ -182,8 +186,8 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 
             if (isset($resolution['info']))
                 break;
-
-            $resolution = $generalProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($resolution['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $resolution['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -207,7 +211,9 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                     if (isset($resolution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($arr['id_product']);
-                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
 
@@ -230,7 +236,9 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                         if (isset($resolution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -288,7 +296,9 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                 if (isset($expensesRecover['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($expensesRecover['info'])) break;
 
@@ -311,7 +321,9 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                     if (isset($expensesRecover['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                 }
             }
         }
@@ -336,8 +348,8 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
             if ($resolution == null)
                 $resolution = $priceProductDao->calcPrice($expensesRecover[$i]['idProduct']);
             else break;
-
-            $resolution = $generalProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($resolution['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $resolution['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -361,7 +373,9 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                     if (isset($resolution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($arr['id_product']);
-                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
 
@@ -384,7 +398,9 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                         if (isset($resolution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -441,7 +457,9 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
             if (isset($expensesRecover['info'])) break;
 
             $data = $priceProductDao->calcPrice($arr['id_product']);
-            $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+            if (isset($data['totalPrice']))
+                $expensesRecover = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
             if (isset($expensesRecover['info'])) break;
 
@@ -464,7 +482,9 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
                 if (isset($expensesRecover['info'])) break;
 
                 $data = $priceProductDao->calcPrice($j['id_product']);
-                $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
             }
         }
     }

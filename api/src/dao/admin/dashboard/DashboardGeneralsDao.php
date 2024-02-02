@@ -63,4 +63,41 @@ class DashboardGeneralsDao
         $this->logger->notice("UsersSessionActiveCount", array('UsersSessionActiveCount' => $usersSessionActive));
         return $usersSessionActive;
     }
+
+    public function findAllComaniesAndUsersActives()
+    {
+        $connection = Connection::getInstance()->getConnection();
+        // $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname
+        //                               FROM companies c
+        //                                 INNER JOIN users u ON u.id_company = c.id_company
+        //                               WHERE u.session_active = 1");
+        $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname, hu.date
+                                       FROM companies c
+                                         INNER JOIN users u ON u.id_company = c.id_company
+                                         LEFT JOIN historical_users hu ON hu.id_user = u.id_user
+                                      WHERE u.session_active = 1 AND hu.date = CURRENT_DATE()");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $companies = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("companies", array('companies' => $companies));
+        return $companies;
+    }
+
+    public function findAllCountByMonth()
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SET lc_time_names = 'es_ES'");
+        $stmt->execute();
+
+        $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname, hu.date, DAY(hu.date) AS day, CONCAT(UCASE(LEFT(MONTHNAME(hu.date), 1)), LOWER(SUBSTRING(MONTHNAME(hu.date), 2))) AS month
+                                      FROM companies c
+                                        INNER JOIN users u ON u.id_company = c.id_company
+                                        INNER JOIN historical_users hu ON hu.id_user = u.id_user
+                                      WHERE MONTH(hu.date) = MONTH(CURRENT_DATE())");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $month = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("month", array('month' => $month));
+        return $month;
+    }
 }

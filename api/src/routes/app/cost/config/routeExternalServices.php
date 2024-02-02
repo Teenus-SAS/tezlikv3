@@ -128,7 +128,9 @@ $app->post('/addExternalService', function (Request $request, Response $response
                     if (isset($externalService['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $externalServices = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $externalServices = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($productProcess['info'])) break;
 
@@ -151,7 +153,9 @@ $app->post('/addExternalService', function (Request $request, Response $response
                         if (isset($externalServices['info'])) break;
 
                         $data = $priceProductDao->calcPrice($arr['id_product']);
-                        $externalServices = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $externalServices = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -187,7 +191,8 @@ $app->post('/addExternalService', function (Request $request, Response $response
             if (isset($resolution['info']))
                 break;
 
-            $resolution = $productsDao->updatePrice($externalService[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($resolution['totalPrice']))
+                $resolution = $productsDao->updatePrice($externalService[$i]['idProduct'], $resolution['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -210,7 +215,9 @@ $app->post('/addExternalService', function (Request $request, Response $response
                     if (isset($resolution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
 
@@ -233,7 +240,9 @@ $app->post('/addExternalService', function (Request $request, Response $response
                         if (isset($resolution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($arr['id_product']);
-                        $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                     }
                 }
             }

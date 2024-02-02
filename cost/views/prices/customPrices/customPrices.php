@@ -176,6 +176,8 @@ if (sizeof($_SESSION) == 0)
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";;
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
+        flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
+        flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         $(document).ready(function() {
             loadPriceList(1);
         });

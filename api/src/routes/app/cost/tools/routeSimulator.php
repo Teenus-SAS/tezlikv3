@@ -193,7 +193,9 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                 if (isset($resolution['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($resolution['info'])) break;
 
@@ -239,7 +241,9 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                     if (isset($resolution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                 }
             }
         }

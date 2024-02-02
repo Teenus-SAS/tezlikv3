@@ -242,7 +242,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                     if (isset($expensesDistribution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($arr['id_product']);
-                    $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($expensesDistribution['info'])) break;
 
@@ -265,7 +267,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                         if (isset($expensesDistribution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -344,7 +348,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                     if (isset($resolution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($arr['id_product']);
-                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
 
@@ -367,7 +373,9 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                         if (isset($resolution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($j['id_product']);
-                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -494,7 +502,9 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                 if (isset($expensesDistribution['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($expensesDistribution['info'])) break;
 
@@ -517,7 +527,9 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                     if (isset($expensesDistribution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                 }
             }
         }
@@ -599,7 +611,9 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
                 if (isset($expensesDistribution['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($expensesDistribution['info'])) break;
 
@@ -622,7 +636,9 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
                     if (isset($expensesDistribution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
                 }
             }
         }

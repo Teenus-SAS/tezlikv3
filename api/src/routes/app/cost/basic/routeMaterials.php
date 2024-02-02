@@ -211,11 +211,12 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                 foreach ($dataProducts as $arr) {
                     if ($arr['id_product'] != 0) {
-                        $resolution = $priceProductDao->calcPrice($arr['id_product']);
+                        $data = $priceProductDao->calcPrice($arr['id_product']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                         if (isset($resolution['info'])) break;
-
-                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
 
                         if ($_SESSION['flag_composite_product'] == '1') {
                             if (isset($resolution['info'])) break;
@@ -238,7 +239,8 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                                 if (isset($resolution['info'])) break;
 
                                 $data = $priceProductDao->calcPrice($j['id_product']);
-                                $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                                if (isset($data['totalPrice']))
+                                    $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                                 if (isset($resolution['info'])) break;
 
@@ -261,7 +263,9 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                                     if (isset($resolution['info'])) break;
 
                                     $data = $priceProductDao->calcPrice($k['id_product']);
-                                    $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                                    if (isset($data['totalPrice']))
+                                        $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                                 }
                             }
                         }
@@ -343,11 +347,12 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                     $materials = $costMaterialsDao->updateCostMaterials($dataMaterial, $id_company);
 
                     // Calcular precio
-                    $materials = $priceProductDao->calcPrice($j['id_product']);
+                    $data = $priceProductDao->calcPrice($j['id_product']);
+
+                    if (isset($data['totalPrice']))
+                        $materials = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($materials['info'])) break;
-
-                    $materials = $generalProductsDao->updatePrice($j['id_product'], $materials['totalPrice']);
 
                     if ($_SESSION['flag_composite_product'] == '1') {
                         if (isset($materials['info'])) break;
@@ -370,7 +375,8 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                             if (isset($materials['info'])) break;
 
                             $data = $priceProductDao->calcPrice($arr['id_product']);
-                            $materials = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                            if (isset($data['totalPrice']))
+                                $materials = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                             if (isset($materials['info'])) break;
 
@@ -393,7 +399,8 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                                 if (isset($materials['info'])) break;
 
                                 $data = $priceProductDao->calcPrice($k['id_product']);
-                                $materials = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                                if (isset($data['totalPrice']))
+                                    $materials = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                             }
                         }
                     }

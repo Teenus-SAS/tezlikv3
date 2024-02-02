@@ -10,6 +10,10 @@ $(document).ready(function () {
 
       if (dataPriceList.length > 0) {
         let data = await searchData('/api/customPrices');
+
+        if (flag_composite_product == '1')
+          data = prices.filter(item => item.composite == 1);
+
         let arr = data;
         let op = false;
 

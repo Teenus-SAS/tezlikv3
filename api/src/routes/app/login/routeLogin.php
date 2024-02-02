@@ -5,6 +5,7 @@ use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\StatusActiveUserDao;
 use tezlikv3\dao\GenerateCodeDao;
+use tezlikv3\dao\HistoricalUsersDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\LastLoginDao;
 
@@ -15,13 +16,21 @@ $generateCodeDao = new GenerateCodeDao();
 $sendEmailDao = new SendEmailDao();
 $lastLoginDao = new LastLoginDao();
 $userAccessDao = new GeneralUserAccessDao();
+$historicalUsersDao = new HistoricalUsersDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Autenticación */
 
-$app->post('/userAutentication', function (Request $request, Response $response, $args) use ($autenticationDao, $licenseDao, $statusActiveUserDao, $lastLoginDao, $userAccessDao) {
+$app->post('/userAutentication', function (Request $request, Response $response, $args) use (
+    $autenticationDao,
+    $licenseDao,
+    $statusActiveUserDao,
+    $lastLoginDao,
+    $userAccessDao,
+    $historicalUsersDao
+) {
     $parsedBody = $request->getParsedBody();
 
     $user = $parsedBody["validation-email"];
@@ -94,6 +103,9 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 
         // Guardar accesos de usario 
         $userAccessDao->setGeneralAccess($user['id_user']);
+
+        // Guardar sesion
+        $historicalUsersDao->insertHistoricalUser($user['id_user']);
 
         /* Validar licencia 
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)

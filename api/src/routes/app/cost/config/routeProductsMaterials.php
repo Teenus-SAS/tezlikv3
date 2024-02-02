@@ -257,7 +257,9 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                     if (isset($productMaterials['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $productMaterials = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $productMaterials = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($productMaterials['info'])) break;
 
@@ -280,7 +282,9 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                         if (isset($productMaterials['info'])) break;
 
                         $data = $priceProductDao->calcPrice($k['id_product']);
-                        $productMaterials = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $productMaterials = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -405,8 +409,8 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
 
             if (isset($resolution['info']))
                 break;
-
-            $resolution = $productsDao->updatePrice($productMaterials[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($resolution['totalPrice']))
+                $resolution = $productsDao->updatePrice($productMaterials[$i]['idProduct'], $resolution['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -430,7 +434,9 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                     if (isset($resolution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
 
@@ -453,7 +459,9 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                         if (isset($resolution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($k['id_product']);
-                        $resolution = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $productsDao->updatePrice($k['id_product'], $data['totalPrice']);
                     }
                 }
             }

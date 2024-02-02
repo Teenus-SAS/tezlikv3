@@ -232,8 +232,8 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                     $resolution = $priceProductDao->calcPrice($arr['id_product']);
 
                     if (isset($resolution['info'])) break;
-
-                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    if (isset($resolution['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
 
                     if ($_SESSION['flag_composite_product'] == '1') {
                         if (isset($resolution['info'])) break;
@@ -268,7 +268,9 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                             if (isset($resolution['info'])) break;
 
                             $data = $priceProductDao->calcPrice($j['id_product']);
-                            $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                            if (isset($data['totalPrice']))
+                                $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                             if (isset($resolution['info'])) break;
 
@@ -303,7 +305,9 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                                 if (isset($resolution['info'])) break;
 
                                 $data = $priceProductDao->calcPrice($k['id_product']);
-                                $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                                if (isset($data['totalPrice']))
+                                    $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                             }
                         }
                     }
@@ -384,8 +388,8 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                     $payroll = $priceProductDao->calcPrice($arr['id_product']);
 
                     if (isset($payroll['info'])) break;
-
-                    $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+                    if (isset($payroll['totalPrice']))
+                        $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
 
                     if ($_SESSION['flag_composite_product'] == '1') {
                         if (isset($payroll['info'])) break;
@@ -420,7 +424,9 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                             if (isset($payroll['info'])) break;
 
                             $data = $priceProductDao->calcPrice($j['id_product']);
-                            $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                            if (isset($data['totalPrice']))
+                                $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                             if (isset($payroll['info'])) break;
 
@@ -455,7 +461,9 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                                 if (isset($payroll['info'])) break;
 
                                 $data = $priceProductDao->calcPrice($k['id_product']);
-                                $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                                if (isset($data['totalPrice']))
+                                    $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                             }
                         }
                     }
@@ -524,8 +532,8 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
             $payroll = $priceProductDao->calcPrice($arr['id_product']);
 
             if (isset($payroll['info'])) break;
-
-            $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+            if (isset($payroll['totalPrice']))
+                $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($payroll['info'])) break;
@@ -560,7 +568,9 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
                     if (isset($payroll['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($payroll['info'])) break;
 
@@ -595,7 +605,9 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
                         if (isset($payroll['info'])) break;
 
                         $data = $priceProductDao->calcPrice($k['id_product']);
-                        $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -655,8 +667,8 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
             $payroll = $priceProductDao->calcPrice($arr['id_product']);
 
             if (isset($payroll['info'])) break;
-
-            $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+            if (isset($payroll['totalPrice']))
+                $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($payroll['info'])) break;
@@ -691,7 +703,9 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                     if (isset($payroll['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($payroll['info'])) break;
 
@@ -726,7 +740,9 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                         if (isset($payroll['info'])) break;
 
                         $data = $priceProductDao->calcPrice($k['id_product']);
-                        $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
                     }
                 }
             }

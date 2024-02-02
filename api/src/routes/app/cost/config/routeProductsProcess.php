@@ -241,7 +241,9 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     if (isset($productProcess['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $productProcess = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $productProcess = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($productProcess['info'])) break;
 
@@ -287,7 +289,9 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                         if (isset($productProcess['info'])) break;
 
                         $data = $priceProductDao->calcPrice($arr['id_product']);
-                        $productProcess = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $productProcess = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -375,8 +379,8 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
             if (isset($resolution['info']))
                 break;
-
-            $resolution = $productsDao->updatePrice($productProcess[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($resolution['totalPrice']))
+                $resolution = $productsDao->updatePrice($productProcess[$i]['idProduct'], $resolution['totalPrice']);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -423,7 +427,9 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     if (isset($resolution['info'])) break;
 
                     $data = $priceProductDao->calcPrice($j['id_product']);
-                    $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
 
@@ -469,7 +475,9 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                         if (isset($resolution['info'])) break;
 
                         $data = $priceProductDao->calcPrice($arr['id_product']);
-                        $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($data['totalPrice']))
+                            $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                     }
                 }
             }
@@ -597,7 +605,9 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
                 if (isset($productProcess['info'])) break;
 
                 $data = $priceProductDao->calcPrice($j['id_product']);
-                $productProcess = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $productProcess = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                 if (isset($productProcess['info'])) break;
 
@@ -643,7 +653,9 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
                     if (isset($productProcess['info'])) break;
 
                     $data = $priceProductDao->calcPrice($arr['id_product']);
-                    $productProcess = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                    if (isset($data['totalPrice']))
+                        $productProcess = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                 }
             }
         }
@@ -763,7 +775,9 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
             if (isset($resolution['info'])) break;
 
             $data = $priceProductDao->calcPrice($j['id_product']);
-            $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+            if (isset($data['totalPrice']))
+                $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
             if (isset($resolution['info'])) break;
 
@@ -809,7 +823,9 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
                 if (isset($resolution['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             }
         }
     }
@@ -913,7 +929,9 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
             if (isset($product['info'])) break;
 
             $data = $priceProductDao->calcPrice($j['id_product']);
-            $product = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+            if (isset($data['totalPrice']))
+                $product = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
             if (isset($product['info'])) break;
 
@@ -959,7 +977,9 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
                 if (isset($product['info'])) break;
 
                 $data = $priceProductDao->calcPrice($arr['id_product']);
-                $product = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($data['totalPrice']))
+                    $product = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             }
         }
     }
