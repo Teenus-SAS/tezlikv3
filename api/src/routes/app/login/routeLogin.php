@@ -105,7 +105,8 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $userAccessDao->setGeneralAccess($user['id_user']);
 
         // Guardar sesion
-        $historicalUsersDao->insertHistoricalUser($user['id_user']);
+        if ($user['id_user'] != 1)
+            $historicalUsersDao->insertHistoricalUser($user['id_user']);
 
         /* Validar licencia 
         if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
