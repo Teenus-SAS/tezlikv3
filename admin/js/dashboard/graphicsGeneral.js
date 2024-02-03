@@ -7,7 +7,7 @@ $(document).ready(function () {
 
         let date = actualDate();
 
-        data = data.filter(item => item.session_active == 1 && item.format_date == date); 
+        data = data.filter(item => item.session_active == 1 && item.format_date == date);
                 
         data = Object.values(data.reduce((result, currentItem) => {
             const userID = currentItem.id_user;
@@ -51,7 +51,7 @@ $(document).ready(function () {
                 ],
             },
             options: {
-                plugins: { 
+                plugins: {
                     legend: {
                         display: false,
                     },
@@ -115,12 +115,24 @@ $(document).ready(function () {
             total = total + data[i].count;
         }
 
-        $('#totalComapnies').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
+        if (quantity.length > 1) {
+            let maxDataValue = Math.max(...quantity);
+            let minDataValue = Math.min(...quantity);
+            let valueRange = maxDataValue - minDataValue;
 
+            let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+            maxYValue = Math.ceil(maxDataValue / step) * step + step;
+        } else {
+            maxYValue = Math.max(...quantity);
+        }
+
+        $('#totalComapnies').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
+ 
         cmo = document.getElementById('chartCompanies');
         chartCompanies = new Chart(cmo, {
             plugins: [ChartDataLabels],
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: companies,
                 datasets: [
@@ -150,30 +162,39 @@ $(document).ready(function () {
                         // sad(label);
                     }
                 },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: maxYValue,
+                    },
+                    x: {
+                        display: false,
+                    },
+                },
                 plugins: {
                     legend: {
                         display: false,
                     },
                     datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        offset: 2,
                         formatter: (value, ctx) => {
                             let sum = 0;
                             let dataArr = ctx.chart.data.datasets[0].data;
                             dataArr.map((data) => {
                                 sum += data;
                             });
-
                             let percentage = (value * 100) / sum;
-                            if (percentage > 3)
-                                return `${percentage.toLocaleString('es-CO', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })} %`;
-                            else return '';
+                            isNaN(percentage) ? (percentage = 0) : percentage;
+                            return `${percentage.toLocaleString('es-CO', {
+                                maximumFractionDigits: 2,
+                            })} %`;
                         },
-                        color: 'white',
+                        color: 'black',
                         font: {
-                            size: '14',
-                            weight: 'bold',
+                            size: '10',
+                            weight: 'light',
                         },
                     },
                 },
@@ -212,12 +233,24 @@ $(document).ready(function () {
             total = total + data[i].count;
         }
 
+        if (quantity.length > 1) {
+            let maxDataValue = Math.max(...quantity);
+            let minDataValue = Math.min(...quantity);
+            let valueRange = maxDataValue - minDataValue;
+
+            let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+            maxYValue = Math.ceil(maxDataValue / step) * step + step;
+        } else {
+            maxYValue = Math.max(...quantity);
+        }
+
         $('#totalUsers').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
- 
+        
         cmo = document.getElementById('chartUsers');
         chartUsers = new Chart(cmo, {
             plugins: [ChartDataLabels],
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: users,
                 datasets: [
@@ -229,30 +262,39 @@ $(document).ready(function () {
                 ],
             },
             options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: maxYValue,
+                    },
+                    x: {
+                        display: false,
+                    },
+                },
                 plugins: {
                     legend: {
                         display: false,
                     },
                     datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        offset: 2,
                         formatter: (value, ctx) => {
                             let sum = 0;
                             let dataArr = ctx.chart.data.datasets[0].data;
                             dataArr.map((data) => {
                                 sum += data;
                             });
-
                             let percentage = (value * 100) / sum;
-                            if (percentage > 3)
-                                return `${percentage.toLocaleString('es-CO', {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                })} %`;
-                            else return '';
+                            isNaN(percentage) ? (percentage = 0) : percentage;
+                            return `${percentage.toLocaleString('es-CO', {
+                                maximumFractionDigits: 2,
+                            })} %`;
                         },
-                        color: 'white',
+                        color: 'black',
                         font: {
-                            size: '14',
-                            weight: 'bold',
+                            size: '10',
+                            weight: 'light',
                         },
                     },
                 },

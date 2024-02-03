@@ -133,7 +133,7 @@ if (sizeof($_SESSION) == 0)
                         <!-- Row 2-->
                         <div class="row d-flex align-items-center">
                             <!-- Begin total sales chart -->
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Usuarios (Activos)</h5>
@@ -149,39 +149,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Empresas</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <canvas id="chartCompanies" style="width: 80%;"></canvas>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalComapnies"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Usuarios</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="chart-container">
-                                            <canvas id="chartUsers" style="width: 80%;"></canvas>
-                                            <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total</p>
-                                                <p class="mb-0 font-weight-bold" id="totalUsers"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5 class="card-title">Mes</h5>
@@ -194,6 +162,38 @@ if (sizeof($_SESSION) == 0)
                                                 <p class="mb-0 font-weight-bold" id="totalMonth"></p>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Empresas</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="chartCompanies"></canvas>
+                                        <!-- <div class="chart-container">
+                                            <div class="center-text">
+                                                <p class="text-muted mb-1 font-weight-600">Total</p>
+                                                <p class="mb-0 font-weight-bold" id="totalComapnies"></p>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Usuarios</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="chartUsers"></canvas>
+                                        <!-- <div class="chart-container">
+                                            <div class="center-text">
+                                                <p class="text-muted mb-1 font-weight-600">Total</p>
+                                                <p class="mb-0 font-weight-bold" id="totalUsers"></p>
+                                            </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
