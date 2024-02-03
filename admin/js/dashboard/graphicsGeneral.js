@@ -1,6 +1,89 @@
 $(document).ready(function () {
+    // Usuarios Activos
+    graphicActualUsers = (data) => {
+        let users = [];
+        let quantity = [];
+        let total = 0;
+
+        let date = actualDate();
+
+        data = data.filter(item => item.session_active == 1 && item.format_date == date); 
+                
+        data = Object.values(data.reduce((result, currentItem) => {
+            const userID = currentItem.id_user;
+                 
+            if (!result[userID]) {
+                result[userID] = {
+                    id_user: currentItem.id_user,
+                    firstname: currentItem.firstname,
+                    lastname: currentItem.lastname,
+                    id_company: currentItem.id_company,
+                    company: currentItem.company,
+                    count: 1,
+                };
+            } else {
+                result[userID].count++;
+            }
+                
+            return result;
+        }, {}));
+                
+        for (let i in data) {
+            users.push(`${data[i].firstname} ${data[i].lastname}`);
+            quantity.push(data[i].count);
+            total = total + data[i].count;
+        }
+                
+        $('#totalActualUsers').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
+                 
+        cmo = document.getElementById('chartActualUsers');
+        chartActualUsers = new Chart(cmo, {
+            plugins: [ChartDataLabels],
+            type: 'doughnut',
+            data: {
+                labels: users,
+                datasets: [
+                    {
+                        data: quantity,
+                        backgroundColor: getRandomColor(data.length),
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                plugins: { 
+                    legend: {
+                        display: false,
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map((data) => {
+                                sum += data;
+                            });
+                
+                            let percentage = (value * 100) / sum;
+                            if (percentage > 3)
+                                return `${percentage.toLocaleString('es-CO', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })} %`;
+                            else return '';
+                        },
+                        color: 'white',
+                        font: {
+                            size: '14',
+                            weight: 'bold',
+                        },
+                    },
+                },
+            },
+        });
+    };
+
     // Empresas
-    graphicCompanies = (data) => { 
+    graphicCompanies = (data) => {
         let companies = [];
         let quantity = [];
         let total = 0;
@@ -116,7 +199,7 @@ $(document).ready(function () {
                     company: currentItem.company,
                     count: 1,
                 };
-            } else { 
+            } else {
                 result[userID].count++;
             }
 
@@ -212,7 +295,7 @@ $(document).ready(function () {
             total = total + data[i].count;
         }
 
-        $('#totalMonth').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`); 
+        $('#totalMonth').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
 
         cmo = document.getElementById('chartMonth');
         chartMonth = new Chart(cmo, {
@@ -240,7 +323,7 @@ $(document).ready(function () {
                     if (elements && elements.length > 0) {
                         let activeElement = elements[0];
 
-                        let dataIndex = activeElement.index; 
+                        let dataIndex = activeElement.index;
                         let label = chartMonth.data.labels[dataIndex];
 
                         // loadModalExpenses(label, data);

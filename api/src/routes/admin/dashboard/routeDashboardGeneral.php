@@ -24,7 +24,7 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
     $usersSession = $dashboardGeneralsDao->findAllActiveUsersSession();
 
     // Obtener Cantidad Empresas y Usuarios activos
-    $sCompany = $dashboardGeneralsDao->findAllComaniesAndUsersActives();
+    $sCompany = $dashboardGeneralsDao->findAllComaniesAndUsers();
     // Obtener Cantidad Mese activo
     $month = $dashboardGeneralsDao->findAllCountByMonth();
 

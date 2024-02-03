@@ -64,18 +64,29 @@ class DashboardGeneralsDao
         return $usersSessionActive;
     }
 
-    public function findAllComaniesAndUsersActives()
+    // public function findAllComaniesAndUsersActives()
+    // {
+    //     $connection = Connection::getInstance()->getConnection();
+    //     $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname, hu.date
+    //                                    FROM companies c
+    //                                      INNER JOIN users u ON u.id_company = c.id_company
+    //                                      LEFT JOIN historical_users hu ON hu.id_user = u.id_user
+    //                                   WHERE u.session_active = 1 AND hu.date = CURRENT_DATE()");
+    //     $stmt->execute();
+    //     $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+    //     $companies = $stmt->fetchAll($connection::FETCH_ASSOC);
+    //     $this->logger->notice("companies", array('companies' => $companies));
+    //     return $companies;
+    // }
+
+    public function findAllComaniesAndUsers()
     {
         $connection = Connection::getInstance()->getConnection();
-        // $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname
-        //                               FROM companies c
-        //                                 INNER JOIN users u ON u.id_company = c.id_company
-        //                               WHERE u.session_active = 1");
-        $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname, hu.date
+        $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname, hu.date, DATE(hu.date) AS format_date, u.session_active
                                        FROM companies c
                                          INNER JOIN users u ON u.id_company = c.id_company
-                                         LEFT JOIN historical_users hu ON hu.id_user = u.id_user
-                                      WHERE u.session_active = 1 AND hu.date = CURRENT_DATE()");
+                                         INNER JOIN historical_users hu ON hu.id_user = u.id_user
+                                      WHERE MONTH(hu.date) = MONTH(CURRENT_DATE())");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $companies = $stmt->fetchAll($connection::FETCH_ASSOC);

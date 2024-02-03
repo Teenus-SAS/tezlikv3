@@ -6,6 +6,7 @@ fetch(`/api/dashboardCountsGeneral`)
     generalCompaniesCounts(data.allCompanies);
     generalUsersCounts(data.allUsers);
     generalUsersSessionCounts(data.allUsersSession);
+    graphicActualUsers(data.sCompany);
     graphicCompanies(data.sCompany);
     graphicUsers(data.sCompany);
     graphicMonth(data.month);
