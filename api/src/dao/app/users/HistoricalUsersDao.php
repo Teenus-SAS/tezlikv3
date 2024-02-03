@@ -32,13 +32,8 @@ class HistoricalUsersDao
         try {
             $connection = Connection::getInstance()->getConnection();
 
-            $date = date('Y-m-d');
-
-            $stmt = $connection->prepare("INSERT INTO historical_users (id_user, date) VALUES(:id_user, :date)");
-            $stmt->execute([
-                'id_user' => $id_user,
-                'date' => $date
-            ]);
+            $stmt = $connection->prepare("INSERT INTO historical_users (id_user) VALUES(:id_user)");
+            $stmt->execute(['id_user' => $id_user]);
         } catch (\Exception $e) {
             return array('info' => true, 'message' => $e->getMessage());
         }
