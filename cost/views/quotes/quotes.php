@@ -45,14 +45,24 @@ if (sizeof($_SESSION) == 0)
 				<?php if ($_SESSION['license_days'] <= 30) { ?>
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="alert alert-danger" role="alert" style="margin-bottom: 0px;"> ¡Pronto se acabara tu licencia (<?php echo $_SESSION['license_days']; ?> días). Comunícate con tu administrador para mas información! </div>
+							<div class="alert alert-danger alert-dismissible fade show text-center" style="margin-bottom: 0px;" role="alert">
+								<strong>¡Pronto se acabara tu licencia (<?php echo $_SESSION['license_days']; ?> días)! .</strong> Comunícate con tu administrador para mas información.
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				<?php } ?>
 				<?php if ($_SESSION['license_days'] > 30 && $_SESSION['license_days'] < 40) { ?>
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="alert alert-warning" role="alert" style="margin-bottom: 0px;"> ¡Pronto se acabara tu licencia. Comunícate con tu administrador para mas información! </div>
+							<div class="alert alert-warning alert-dismissible fade show text-center" style="margin-bottom: 0px;" role="alert">
+								<strong>¡Pronto se acabara tu licencia (<?php echo $_SESSION['license_days']; ?> días)! .</strong> Comunícate con tu administrador para mas información.
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
 						</div>
 					</div>
 				<?php } ?>
