@@ -21,7 +21,8 @@ class LicenseCompanyDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM companies c
+        $stmt = $connection->prepare("SELECT * , CASE WHEN cl.license_end > CURRENT_DATE THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END license_days
+                                        FROM companies c
                                         INNER JOIN companies_licenses cl ON cl.id_company = c.id_company
                                       WHERE c.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);

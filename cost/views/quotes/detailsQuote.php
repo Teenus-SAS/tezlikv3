@@ -73,6 +73,20 @@ if (sizeof($_SESSION) == 0)
 
 			<!-- Content -->
 			<div class="page-content" style="margin-bottom:0px">
+				<?php if ($_SESSION['license_days'] <= 30) { ?>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="alert alert-danger" role="alert" style="margin-bottom: 0px;"> ¡Pronto se acabara tu licencia (<?php echo $_SESSION['license_days']; ?> días). Comunícate con tu administrador para mas información! </div>
+						</div>
+					</div>
+				<?php } ?>
+				<?php if ($_SESSION['license_days'] > 30 && $_SESSION['license_days'] < 40) { ?>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="alert alert-warning" role="alert" style="margin-bottom: 0px;"> ¡Pronto se acabara tu licencia. Comunícate con tu administrador para mas información! </div>
+						</div>
+					</div>
+				<?php } ?>
 				<div class="card">
 					<div class="card-body" style="padding-right: 35px; padding-left: 35px">
 						<div class="toolbar hidden-print noImprimir">
