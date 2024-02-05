@@ -309,7 +309,7 @@ $(document).ready(function () {
         let total = 0;
 
         data = Object.values(data.reduce((result, currentItem) => {
-            const date = currentItem.date;
+            const date = currentItem.format_date;
 
             // Si el grupo aún no existe, créalo
             if (!result[date]) {
