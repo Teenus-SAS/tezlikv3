@@ -514,7 +514,7 @@ if (sizeof($_SESSION) == 0)
                                 <?php $_SESSION['status_historical'] = 2;
                                 }  ?>
                                 <?php if (
-                                    str_contains($_SESSION['link'], 'demo.') && $_SESSION['demo'] == 1 &&
+                                    str_contains($_SERVER['HTTP_REFERER'], 'demo.') && $_SESSION['demo'] == 1 &&
                                     $_SESSION['name'] == '' && $_SESSION['lastname'] == ''
                                 ) {
                                 ?>
