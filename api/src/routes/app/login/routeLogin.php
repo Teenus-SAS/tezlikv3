@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\AutenticationUserDao;
+use tezlikv3\dao\FirstLoginDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\StatusActiveUserDao;
@@ -17,6 +18,7 @@ $sendEmailDao = new SendEmailDao();
 $lastLoginDao = new LastLoginDao();
 $userAccessDao = new GeneralUserAccessDao();
 $historicalUsersDao = new HistoricalUsersDao();
+$firstLoginDao = new FirstLoginDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -101,6 +103,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION['plan'] = $dataCompany['plan'];
         $_SESSION['license_days'] = $dataCompany['license_days'];
         $_SESSION['status_historical'] = 1;
+        $_SESSION['demo'] = 1;
 
         // Guardar accesos de usario 
         $userAccessDao->setGeneralAccess($user['id_user']);
@@ -146,6 +149,27 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $statusActiveUserDao->changeStatusUserLogin();
 
     $resp = array('success' => true, 'message' => 'Ingresar código', 'location' => $location);
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/saveFirstLogin', function (Request $request, Response $response, $args) use ($firstLoginDao) {
+    session_start();
+    $id_user = $_SESSION['idUser'];
+    $dataUser = $request->getParsedBody();
+
+    $resolution = $firstLoginDao->saveDataUser($dataUser, $id_user);
+
+    if ($resolution == null) {
+        $resp = array('success' => true, 'message' => 'Usuario modificado correctamente');
+
+        $_SESSION['name'] = $dataUser['firstname'];
+        $_SESSION['lastname'] = $dataUser['lastname'];
+    } else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error guardando la información. Intente nuevamente');
+
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

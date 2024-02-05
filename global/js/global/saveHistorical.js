@@ -13,7 +13,7 @@ $(document).ready(function () {
         10: 'Octubre',
         11: 'Noviembre',
         12: 'Diciembre'
-    };
+    }; 
 
     if (type == 'auto') {
         checkFirstDay = async () => {
@@ -28,10 +28,13 @@ $(document).ready(function () {
                 }
             }
 
-            if (status == false) {
+            if (status == false && modalActive == false) { 
                 $('#HistoricalContent').html(`¿Desea Guardar los productos creados el mes de ${months1[date.getMonth()]}?`);
-                
+                modalActive = true; 
                 $('#modalHistorical').modal('show');
+            } else {
+                if (typeof checkFirstLogin === 'function')
+                checkFirstLogin();
             }
         
         }
@@ -39,16 +42,24 @@ $(document).ready(function () {
         if (date.getDay() == 1)
             checkFirstDay();
 
-        $('#btnCloseHistorical').click(function (e) {
+        $('.btnCloseHistorical').click(function (e) {
             e.preventDefault();
         
             $('#modalHistorical').modal('hide');
+            modalActive = false;
+
+            if (typeof checkFirstLogin === 'function')
+                checkFirstLogin();
         });
 
-        $('#btnSaveAutoHistorical').click(function (e) {
+        $('#btnSaveAutoHistorical').click(async function (e) {
             e.preventDefault();
 
-            saveHistorical({ type: 'auto' });
+            modalActive = false;
+            await saveHistorical({ type: 'auto' });
+
+            if (typeof checkFirstLogin === 'function')
+                checkFirstLogin();
         });
     } else {
         $('#btnNewManualHistorical').click(function (e) {

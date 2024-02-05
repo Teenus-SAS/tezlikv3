@@ -3,7 +3,9 @@ $(document).ready(function () {
         let data = await searchData('/api/contracts');
         
         if (data) {
-            if (date_contract == '0')
+            if (date_contract == '0' && modalActive == false) {
+                modalActive = true;
+
                 bootbox.confirm({
                     title: 'Contrato de Prestación de Servicios',
                     message: data.content,
@@ -18,6 +20,7 @@ $(document).ready(function () {
                         },
                     },
                     callback: function (result) {
+                        modalActive = false;
                         if (result == true) {
                             $.get(
                                 `/api/changeDateContract/1`,
@@ -29,16 +32,27 @@ $(document).ready(function () {
                                     else if (data.info == true) toastr.info(data.message);
                                 }
                             );
-                        } else
+                        } else {
                             $.get(
                                 `/api/logoutInactiveUser`,
                                 function (data, textStatus, jqXHR) {
                                     location.href = '/';
                                 }
                             );
+                        }
+
+                        if (typeof checkFirstDay === 'function')
+                            checkFirstDay();
+                    
+                        if (typeof checkFirstLogin === 'function')
+                            checkFirstLogin();
                     },
                 }).find('div.modal-content').addClass('confirmWidth')
                     .find('div.bootbox-body').addClass('bootbox1-body');
+            }
+        } else {                    
+            if (typeof checkFirstLogin === 'function')
+                checkFirstLogin();
         }
     };
 

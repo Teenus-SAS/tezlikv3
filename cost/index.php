@@ -9,6 +9,7 @@ if (sizeof($_SESSION) == 0)
 ?>
 <?php require_once __DIR__ . '/modals/modalGeneralDashboard.php'; ?>
 <?php require_once __DIR__ . '/modals/autoHistorical.php'; ?>
+<?php require_once __DIR__ . '/modals/FirstLogin.php'; ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -497,6 +498,7 @@ if (sizeof($_SESSION) == 0)
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
+                                    modalActive = false;
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
@@ -511,6 +513,16 @@ if (sizeof($_SESSION) == 0)
                                     <script src="/global/js/global/saveHistorical.js"></script>
                                 <?php $_SESSION['status_historical'] = 2;
                                 }  ?>
+                                <?php if (
+                                    str_contains($_SESSION['link'], 'demo.') && $_SESSION['demo'] == 1 &&
+                                    $_SESSION['name'] == '' && $_SESSION['lastname'] == ''
+                                ) {
+                                ?>
+                                    <script src="/global/js/global/fisrtLogin.js"></script>
+                                <?php $_SESSION['demo'] = 2;
+                                }
+                                ?>
+
                             </div>
 </body>
 
