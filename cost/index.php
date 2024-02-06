@@ -490,6 +490,7 @@ if (sizeof($_SESSION) == 0)
 
                                 <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
                                 <script>
+                                    url = "<?= $_SERVER['PHP_SELF'] ?>";
                                     flag_expense = "<?= $_SESSION['flag_expense'] ?>";
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
@@ -501,7 +502,6 @@ if (sizeof($_SESSION) == 0)
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
                                     modalActive = false;
-                                    url = "<?= $_SERVER['PHP_SELF'] ?>";
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
