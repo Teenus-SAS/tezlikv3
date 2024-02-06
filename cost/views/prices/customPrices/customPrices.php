@@ -211,6 +211,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>
     <script src="/cost/js/prices/customPrices/exportCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPercentages.js"></script>
+    <script src="/cost/js/prices/customPrices/addProducts.js"></script>
 </body>
 
 </html>

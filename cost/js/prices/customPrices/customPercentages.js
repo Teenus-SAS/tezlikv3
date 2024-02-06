@@ -22,9 +22,7 @@ $(document).ready(function () {
             toastr.error('Ingrese lista de precios');
             return false;
         }
-
-        // let data = combinedData[0];
-        
+         
         if (flag_type_price == '') {
             let btxMessage = '';
             btxMessage = `<label>Seleccione Precio</label>
@@ -32,16 +30,7 @@ $(document).ready(function () {
                             <option disabled selected>Seleccionar</option>
                             <option value="0">ACTUAL</option>
                             <option value="1">SUGERIDO</option>
-                       </select>`;
-        
-            // else {
-            //     btxMessage = `<select class="form-control" id="selectPricesCustom">
-            //                     <option disabled>Seleccionar</option>
-            //                     ${data.flag_price == '0' ?
-            //                         '<option value="0" selected>ACTUAL</option>' :
-            //                         '<option value="1">SUGERIDO</option>'}
-            //                 </select>`;
-            // }
+                       </select>`; 
 
             bootbox.confirm({
                 title: 'Tipo de Precio',
@@ -108,23 +97,33 @@ $(document).ready(function () {
             return false;
         }
 
-        let data = $('#formCreateCustomPercentage').serialize();
-        typePrice == '0' ? namePrice = 'sale_price' : namePrice = 'price';
-        data = `${data}&name=${namePrice}&typePrice=${typePrice}`;
+        // let data = $('#formCreateCustomPercentage').serialize();
+        // typePrice == '0' ? namePrice = 'sale_price' : namePrice = 'price';
+        // data = `${data}&name=${namePrice}&typePrice=${typePrice}`;
 
-        $.post('/api/addCustomPercentage', data,
-            function (data, textStatus, jqXHR) {
-                message(data);
-                $('#modalNotProducts').modal('show');
-                loadPriceList(1);
-                loadTblNotProducts(data.dataNotData);
-            },
-        ); 
-        
-    }); 
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+        $('#modalNotProducts').modal('show');
+        $('#nameNotProducts').html('Seleccione Producto');
+        $('#btnSaveProducts').show();
+        loadTblNotProducts(dataProducts, 2);
+
+        // $.post('/api/addCustomPercentage', data,
+        //     function (data, textStatus, jqXHR) {
+        //         message(data);
+        //         $('#modalNotProducts').modal('show');
+        //         $('#nameNotProducts').html('Productos No Agregados');
+        //         $('#btnSaveProducts').hide();
+        //         loadPriceList(1);
+        //         loadTblNotProducts(data.dataNotData, 1);
+        //     },
+        // );
+    });
 
     $('#btnCloseNotProducts').click(function (e) { 
         e.preventDefault();
+        $('.check').prop('checked', false);
+        products = [];
         $('#modalNotProducts').modal('hide');
     });
 });

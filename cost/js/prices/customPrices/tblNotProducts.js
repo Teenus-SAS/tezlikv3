@@ -1,7 +1,15 @@
 $(document).ready(function () {
-    loadTblNotProducts = (data) => {
+    loadTblNotProducts = (data, op) => {
+
+        op === 1 ? visible = false : visible = true;
+
+        if ($.fn.dataTable.isDataTable("#tblNotProducts")) {
+            $("#tblNotProducts").DataTable().destroy();
+            $("#tblNotProducts").empty();
+        }
+
         tblNotProducts = $('#tblNotProducts').dataTable({
-            destroy: true,
+            // destroy: true,
             scrollY: '150px',
             scrollCollapse: true,
             data: data,
@@ -15,14 +23,15 @@ $(document).ready(function () {
                 }
             },
             columns: [
-                // {
-                //     title: 'No.',
-                //     data: null,
-                //     className: 'uniqueClassName',
-                //     render: function (data, type, full, meta) {
-                //         return meta.row + 1;
-                //     },
-                // },
+                {
+                    title: 'No.',
+                    data: null,
+                    visible: visible,
+                    className: 'uniqueClassName',
+                    render: function (data, type, full, meta) {
+                        return `<input type="checkbox" class="form-control-updated check ¨¨${data.reference}¨¨${data.product}¨¨${data.price}¨¨${data.sale_price}" id="check-${data.id_product}">`;
+                    },
+                },
                 {
                     title: 'Referencia',
                     data: 'reference',

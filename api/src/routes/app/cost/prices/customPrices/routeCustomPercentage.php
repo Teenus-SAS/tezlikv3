@@ -31,7 +31,12 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
     $resolution = $generalPricesListDao->updatePercentage($dataPrice);
 
     if ($resolution == null) {
-        $products = $productsDao->findAllProductsByCompany($id_company);
+        $op = $dataPrice['typeProducts'];
+
+        if ($op == '1')
+            $products = $productsDao->findAllProductsByCompany($id_company);
+        else
+            $products = $dataPrice['products'];
 
         foreach ($products as $arr) {
             if (isset($resolution['info'])) break;
