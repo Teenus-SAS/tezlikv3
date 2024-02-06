@@ -489,8 +489,8 @@ if (sizeof($_SESSION) == 0)
                                 <!-- Page End -->
 
                                 <?php include_once dirname(__DIR__) . '/global/partials/scriptsJS.php'; ?>
+
                                 <script>
-                                    url = "<?= $_SERVER['REQUEST_URI'] ?>";
                                     flag_expense = "<?= $_SESSION['flag_expense'] ?>";
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
@@ -520,8 +520,16 @@ if (sizeof($_SESSION) == 0)
                                     <script src="/global/js/global/saveHistorical.js"></script>
                                 <?php $_SESSION['status_historical'] = 2;
                                 }  ?>
-                                <?php if (
-                                    str_contains($_SERVER['REQUEST_URI'], 'demo.') && $_SESSION['demo'] == 1 &&
+                                <?php
+                                $protocolo = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://';
+
+                                $dominio = $_SERVER['SERVER_NAME'];
+
+                                $ruta = $_SERVER['REQUEST_URI'];
+
+                                $url = $protocolo . $dominio . $ruta;
+                                if (
+                                    str_contains($url, 'demo.') && $_SESSION['demo'] == 1 &&
                                     $_SESSION['name'] == '' && $_SESSION['lastname'] == ''
                                 ) {
                                 ?>
