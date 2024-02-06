@@ -497,10 +497,11 @@ if (sizeof($_SESSION) == 0)
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
-                                    c_content = "<?= $_SESSION['content'] ?>";
+                                    c_content = <?= json_encode($_SESSION['content']) ?>;
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
                                     modalActive = false;
+                                    url = "<?= $_SERVER['PHP_SELF'] ?>";
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
@@ -520,7 +521,7 @@ if (sizeof($_SESSION) == 0)
                                 <?php $_SESSION['status_historical'] = 2;
                                 }  ?>
                                 <?php if (
-                                    str_contains($_SERVER['HTTPS_REFERER'], 'demo.') && $_SESSION['demo'] == 1 &&
+                                    str_contains($_SERVER['PHP_SELF'], 'demo.') && $_SESSION['demo'] == 1 &&
                                     $_SESSION['name'] == '' && $_SESSION['lastname'] == ''
                                 ) {
                                 ?>
