@@ -12,7 +12,7 @@ $(document).ready(function () {
         let data = await searchData('/api/customPrices');
 
         if (flag_composite_product == '1')
-          data = data.filter(item => item.composite == 1);
+          data = data.filter(item => item.composite == 0);
 
         let arr = data;
         let op = false;
