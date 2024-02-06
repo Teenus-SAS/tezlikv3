@@ -73,17 +73,21 @@ class HistoricalDao
 
     public function findLastHistorical($id_company)
     {
-        $connection = Connection::getInstance()->getConnection1();
+        try {
+            $connection = Connection::getInstance()->getConnection1();
 
-        $stmt = $connection->prepare("SELECT hp.date_product
+            $stmt = $connection->prepare("SELECT hp.date_product
                                       FROM products p
                                         JOIN tezlikso_histproduccion.historical_products hp ON hp.id_product = p.id_product 
                                       WHERE p.id_company = :id_company ORDER BY hp.date_product ASC LIMIT 1");
-        $stmt->execute(['id_company' => $id_company]);
-        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+            $stmt->execute(['id_company' => $id_company]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
-        $products = $stmt->fetch($connection::FETCH_ASSOC);
-        return $products;
+            $products = $stmt->fetch($connection::FETCH_ASSOC);
+            return $products;
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
     }
 
     public function insertHistoricalByCompany($dataHistorical, $id_company)

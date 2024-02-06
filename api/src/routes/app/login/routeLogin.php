@@ -1,11 +1,14 @@
 <?php
 
 use tezlikv3\dao\AutenticationUserDao;
+use tezlikv3\dao\ContactsDao;
+use tezlikv3\dao\ContractDao;
 use tezlikv3\dao\FirstLoginDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\StatusActiveUserDao;
 use tezlikv3\dao\GenerateCodeDao;
+use tezlikv3\dao\HistoricalDao;
 use tezlikv3\dao\HistoricalUsersDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\LastLoginDao;
@@ -19,6 +22,8 @@ $lastLoginDao = new LastLoginDao();
 $userAccessDao = new GeneralUserAccessDao();
 $historicalUsersDao = new HistoricalUsersDao();
 $firstLoginDao = new FirstLoginDao();
+$contractsDao = new ContractDao();
+$historicalDao = new HistoricalDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -31,7 +36,9 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     $statusActiveUserDao,
     $lastLoginDao,
     $userAccessDao,
-    $historicalUsersDao
+    $historicalUsersDao,
+    $contractsDao,
+    $historicalDao
 ) {
     $parsedBody = $request->getParsedBody();
 
@@ -87,8 +94,19 @@ $app->post('/userAutentication', function (Request $request, Response $response,
             return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
         }
 
+        $contract = $contractsDao->findContract();
+
         /* Nueva session user */
         session_start();
+
+        $_SESSION['d_contract'] = 0;
+        $_SESSION['content'] = 0;
+
+        if ($contract) {
+            $_SESSION['content'] = $contract['content'];
+            $_SESSION['d_contract'] = 1;
+        }
+
         $_SESSION['active'] = true;
         $_SESSION['idUser'] = $user['id_user'];
         $_SESSION['case'] = 1;
@@ -107,6 +125,17 @@ $app->post('/userAutentication', function (Request $request, Response $response,
 
         // Guardar accesos de usario 
         $userAccessDao->setGeneralAccess($user['id_user']);
+
+        if ($_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) {
+            $historical = $historicalDao->findLastHistorical($user['id_company']);
+            $_SESSION['d_historical'] = 0;
+            $_SESSION['date_product'] = 0;
+
+            if ($historical && !isset($historical['info'])) {
+                $_SESSION['date_product'] = $historical['date_product'];
+                $_SESSION['d_historical'] = 1;
+            }
+        }
 
         // Guardar sesion
         if ($user['id_user'] != 1)

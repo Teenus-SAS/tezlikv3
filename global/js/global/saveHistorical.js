@@ -19,9 +19,9 @@ $(document).ready(function () {
         checkFirstDay = async () => {
             let status = false;
 
-            let lastData = await searchData('/api/lastHistorical');
-            if (lastData) {
-                let lastDate = new Date(lastData.date_product);
+            // let lastData = await searchData('/api/lastHistorical');
+            if (d_historical) {
+                let lastDate = new Date(date_product);
 
                 if (date.getFullYear() == lastDate.getFullYear() && date.getMonth() == lastDate.getMonth()) {
                     status = true;

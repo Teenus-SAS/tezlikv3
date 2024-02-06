@@ -1,14 +1,14 @@
 $(document).ready(function () {
     loadContract = async () => {
-        let data = await searchData('/api/contracts');
+        // let data = await searchData('/api/contracts');
         
-        if (data) {
+        if (d_contract == '1') {
             if (date_contract == '0' && modalActive == false) {
                 modalActive = true;
 
                 bootbox.confirm({
                     title: 'Contrato de Prestación de Servicios',
-                    message: data.content,
+                    message: c_content,
                     buttons: {
                         confirm: {
                             label: 'Aceptar',
@@ -56,5 +56,5 @@ $(document).ready(function () {
         }
     };
 
-    if (contract == '1') loadContract();
+    if (contract == '1' && d_contract == '1') loadContract();
 });

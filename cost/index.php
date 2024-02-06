@@ -495,7 +495,9 @@ if (sizeof($_SESSION) == 0)
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
                                     contract = "<?= $_SESSION['contract'] ?>";
+                                    d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
+                                    c_content = "<?= $_SESSION['content'] ?>";
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
                                     modalActive = false;
@@ -510,17 +512,21 @@ if (sizeof($_SESSION) == 0)
                                 <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
                                 <script src="/global/js/global/printPdf.js"></script>
                                 <?php if ($_SESSION['status_historical'] == 1 && $_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) { ?>
+                                    <script>
+                                        d_historical = "<?= $_SESSION['d_historical'] ?>";
+                                        date_product = "<?= $_SESSION['date_product'] ?>";
+                                    </script>
                                     <script src="/global/js/global/saveHistorical.js"></script>
                                 <?php $_SESSION['status_historical'] = 2;
                                 }  ?>
-                                <?php if (
-                                    str_contains($_SERVER['HTTP_REFERER'], 'demo.') && $_SESSION['demo'] == 1 &&
-                                    $_SESSION['name'] == '' && $_SESSION['lastname'] == ''
-                                ) {
+                                <?php //if (
+                                //str_contains($_SERVER['HTTP_REFERER'], 'demo.') && $_SESSION['demo'] == 1 &&
+                                //$_SESSION['name'] == '' && $_SESSION['lastname'] == ''
+                                //) {
                                 ?>
-                                    <script src="/global/js/global/fisrtLogin.js"></script>
-                                <?php $_SESSION['demo'] = 2;
-                                }
+                                <script src="/global/js/global/firstLogin.js"></script>
+                                <?php //$_SESSION['demo'] = 2;
+                                //}
                                 ?>
 
                             </div>

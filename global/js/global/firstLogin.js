@@ -1,10 +1,11 @@
 $(document).ready(function () {
-    checkFirstLogin = () => {
-        if (modalActive == false) {
-            modalActive = true;
-            $('#modalFirstLogin').modal('show');
-        }
+    checkFirstLogin = () => { 
+        modalActive = true;
+        $('#modalFirstLogin').modal('show'); 
     }
+
+    if (modalActive == false)
+        checkFirstLogin();
 
     $('#btnSaveFirstLogin').click(async function (e) {
         e.preventDefault();
