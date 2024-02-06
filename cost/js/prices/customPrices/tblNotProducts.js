@@ -9,7 +9,7 @@ $(document).ready(function () {
         }
 
         tblNotProducts = $('#tblNotProducts').dataTable({
-            // destroy: true,
+            destroy: true,
             scrollY: '150px',
             scrollCollapse: true,
             data: data,
