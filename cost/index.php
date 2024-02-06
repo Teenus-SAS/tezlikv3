@@ -519,14 +519,14 @@ if (sizeof($_SESSION) == 0)
                                     <script src="/global/js/global/saveHistorical.js"></script>
                                 <?php $_SESSION['status_historical'] = 2;
                                 }  ?>
-                                <?php //if (
-                                //str_contains($_SERVER['HTTP_REFERER'], 'demo.') && $_SESSION['demo'] == 1 &&
-                                //$_SESSION['name'] == '' && $_SESSION['lastname'] == ''
-                                //) {
+                                <?php if (
+                                    str_contains($_SERVER['HTTP_REFERER'], 'demo.') && $_SESSION['demo'] == 1 &&
+                                    $_SESSION['name'] == '' && $_SESSION['lastname'] == ''
+                                ) {
                                 ?>
-                                <script src="/global/js/global/firstLogin.js"></script>
-                                <?php //$_SESSION['demo'] = 2;
-                                //}
+                                    <script src="/global/js/global/firstLogin.js"></script>
+                                <?php $_SESSION['demo'] = 2;
+                                }
                                 ?>
 
                             </div>
