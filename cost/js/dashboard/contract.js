@@ -2,8 +2,8 @@ $(document).ready(function () {
     loadContract = async () => {
         // let data = await searchData('/api/contracts');
         
-        if (d_contract == '1') {
-            if (date_contract == '0' && modalActive == false) {
+        if (d_contract === "1") {
+            if (date_contract === "0" && modalActive === false) {
                 modalActive = true;
 
                 bootbox.confirm({
@@ -56,5 +56,5 @@ $(document).ready(function () {
         }
     };
 
-    if (contract == '1' && d_contract == '1') loadContract();
+    if (contract === "1" && d_contract === "1") loadContract();
 });
