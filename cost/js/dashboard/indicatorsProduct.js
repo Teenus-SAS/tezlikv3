@@ -229,7 +229,7 @@ $(document).ready(function () {
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                          <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                          <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 0 })} %</h2>
                         </div>
                         <div class="text-center">
                           <span class="text-warning font-weight-bold" style="font-size:large">

@@ -75,8 +75,10 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
         }
     }
 
-    if ($resolution == null)
+    if ($resolution == null && sizeof($products) > sizeof($dataNotData))
         $resp = array('success' => true, 'message' => 'Porcentaje agregado correctamente', 'dataNotData' => $dataNotData);
+    else if (sizeof($products) == sizeof($dataNotData))
+        $resp = array('error' => true, 'message' => 'Los productos no se pudieron agregar correctamente', 'dataNotData' => $dataNotData);
     else if (isset($resolution['info']))
         $resp = array('info' => true, 'message' => $resolution['message']);
     else

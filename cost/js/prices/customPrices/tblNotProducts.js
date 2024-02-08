@@ -1,48 +1,51 @@
 $(document).ready(function () {
     loadTblNotProducts = (data, op) => {
-
-        op === 1 ? visible = false : visible = true;
+        let type_price = parseInt($('#pricesList2').val());
 
         if ($.fn.dataTable.isDataTable("#tblNotProducts")) {
             $("#tblNotProducts").DataTable().destroy();
-            $("#tblNotProducts").empty();
+        }
+        $('#tblNotProducts').empty();
+
+        let tblNotProducts = document.getElementById('tblNotProducts');
+
+        tblNotProducts.insertAdjacentHTML('beforeend',
+            `<thead>
+                <tr>
+                    ${op === 1 ? '' : `<th class="colMin"><label>Seleccionar Todos</label><br><input class="form-control-updated check" type="checkbox" id="all"></th>`}
+                    <th class="colMin">Referencia</th>
+                    <th class="colMax">Producto</th> 
+                </tr>
+            </thead>
+            <tbody id="tblNotProductsBody"></tbody>`);
+        
+        for (let i = 0; i < data.length; i++) {
+            let checked = false;
+            let arr = combinedData.filter(item => item.id_product === data[i].id_product);
+
+            if (arr.length > 0) {
+                for (let j = 0; j < arr[0].id_price_list.length; j++) {
+                    if (type_price === arr[0].id_price_list[j]){
+                        checked = true;
+                        break;
+                    }
+                }
+            }
+
+            let body = document.getElementById('tblNotProductsBody');
+
+            body.insertAdjacentHTML('beforeend',
+                `<tr>
+                    ${op === 1 ? '' : `<td class="colMin"><input type="checkbox" class="form-control-updated check ¨¨${data[i].reference}¨¨${data[i].product}¨¨${data[i].price}¨¨${data[i].sale_price}" id="check-${data[i].id_product}" ${checked === true ? 'checked' : ''}></td>`}
+                    <td class="colMin">${data[i].reference}</td>
+                    <td class="colMax">${data[i].product}</td>
+                </tr>`);
         }
 
         tblNotProducts = $('#tblNotProducts').dataTable({
-            destroy: true,
+            // destroy: true,
             scrollY: '150px',
             scrollCollapse: true,
-            data: data,
-            dom: '<"datatable-error-console">frtip',
-            language: {
-                url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-            },
-            fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-                if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-                    console.error(oSettings.json.error);
-                }
-            },
-            columns: [
-                {
-                    title: 'No.',
-                    data: null,
-                    visible: visible,
-                    className: 'uniqueClassName',
-                    render: function (data, type, full, meta) {
-                        return `<input type="checkbox" class="form-control-updated check ¨¨${data.reference}¨¨${data.product}¨¨${data.price}¨¨${data.sale_price}" id="check-${data.id_product}">`;
-                    },
-                },
-                {
-                    title: 'Referencia',
-                    data: 'reference',
-                    className: 'uniqueClassName',
-                },
-                {
-                    title: 'Producto',
-                    data: 'product',
-                    className: 'uniqueClassName',
-                },
-            ],
         });
  
         setTimeout(() => {
@@ -54,7 +57,10 @@ $(document).ready(function () {
             attr.style.width = '100%';
             attr = tables[0].firstElementChild;
             attr.style.width = '100%';
-        }, 1000);
+
+            $('.colMin').css('width', ' 10%');
+            $('.colMax').css('width', '80%');
+        }, 500);
         
     }
 });

@@ -1,7 +1,28 @@
 $(document).ready(function () {
+  customPrices = [];
   
   /* Cargue tabla de Proyectos */
-  loadTblCustomPrices = async () => {
+  loadAllData = async () => {
+    try {
+      const prices = await searchData('/api/customPrices');
+      op = 1;
+
+      parents = prices.filter(item => item.composite == 0);
+      composites = prices.filter(item => item.composite == 1);
+
+      if (flag_composite_product == '1') {
+        customPrices = parents;
+        loadTblCustomPrices(parents);
+      } else {
+        customPrices = prices;
+        loadTblCustomPrices(prices);
+      }
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  }
+
+  loadTblCustomPrices = async (data) => {
     try {
       sessionStorage.removeItem('dataPriceList');
       await loadPriceList(1);
@@ -9,10 +30,10 @@ $(document).ready(function () {
       let dataPriceList = JSON.parse(sessionStorage.getItem('dataPriceList'));
 
       if (dataPriceList.length > 0) {
-        let data = await searchData('/api/customPrices');
+        // let data = await searchData('/api/customPrices');
 
-        if (flag_composite_product == '1')
-          data = data.filter(item => item.composite == 0);
+        // if (flag_composite_product == '1')
+        //   data = data.filter(item => item.composite == 0);
 
         let arr = data;
         let op = false;
@@ -23,8 +44,8 @@ $(document).ready(function () {
               if (op == false) {
                 data = [];
                 op = true;
-              } 
-              data.push(arr[i]); 
+              }
+              data.push(arr[i]);
             }
           
           }
@@ -39,9 +60,7 @@ $(document).ready(function () {
 
         let table = document.getElementById('tblCustomPrices');
 
-        let headers = '';
-        // let dataPriceList = sessionStorage.getItem('dataPriceList');
-        // dataPriceList = JSON.parse(dataPriceList);
+        let headers = ''; 
 
         for (let i = 0; i < dataPriceList.length; i++) {
           type_custom_price[0] == '-1' ? headers += `<th>${dataPriceList[i].price_name}</th>` : headers += `<th>${dataPriceList[i].price_name}</th>`;
@@ -90,12 +109,12 @@ $(document).ready(function () {
               price_cost: current.price_cost,
               flag_price: current.flag_price,
               price_names: [current.price_name],
-              prices: [current.price_custom], 
+              prices: [current.price_custom],
             });
           }
 
           return result;
-        }, []);
+        }, []); 
 
         for (let i = 0; i < combinedData.length; i++) {
           let actions = '';
@@ -134,7 +153,7 @@ $(document).ready(function () {
             }
           },
         });
-      } else { 
+      } else {
         // combinedData = [];
         
         $('#tblCustomPrices').dataTable({
@@ -169,7 +188,7 @@ $(document).ready(function () {
               title: "Producto",
               data: '',
               className: "classCenter",
-            }, 
+            },
             {
               title: "Acciones",
               data: '',
@@ -193,29 +212,29 @@ $(document).ready(function () {
             price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
               minimumFractionDigits: 0,
               maximumFractionDigits: 0,
-            })}`; 
+            })}`;
 
             i += 1;
         
           } else {
-            price_custom = '';  
-          }; 
-          tbody += `<td>${price_custom}</td>`; 
+            price_custom = '';
+          };
+          tbody += `<td>${price_custom}</td>`;
         }
       } else {
         price_custom = `$ ${data.prices[i].toLocaleString('es-CO', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 0,
-        })}`; 
+        })}`;
 
-        tbody += `<td>${price_custom}</td>`; 
+        tbody += `<td>${price_custom}</td>`;
       }
     }
 
     return tbody;
   };
 
-  setTimeout(() => {
-    loadTblCustomPrices();
-  }, 1000);
+  // setTimeout(() => {
+  loadAllData();
+  // }, 1000);
 });

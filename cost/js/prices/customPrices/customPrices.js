@@ -198,7 +198,7 @@ $(document).ready(function () {
       $('#formCreateCustomPrices').trigger('reset');
       $('#formCreateCustomPercentage').trigger('reset');
       toastr.success(data.message);
-      loadTblCustomPrices();
+      loadAllData();
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };

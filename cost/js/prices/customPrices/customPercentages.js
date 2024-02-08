@@ -95,29 +95,14 @@ $(document).ready(function () {
         if (percentage > 100) {
             toastr.error('Ingrese un porcentaje valido');
             return false;
-        }
-
-        // let data = $('#formCreateCustomPercentage').serialize();
-        // typePrice == '0' ? namePrice = 'sale_price' : namePrice = 'price';
-        // data = `${data}&name=${namePrice}&typePrice=${typePrice}`;
+        } 
 
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
 
         $('#modalNotProducts').modal('show');
         $('#nameNotProducts').html('Seleccione Producto');
         $('#btnSaveProducts').show();
-        loadTblNotProducts(dataProducts, 2);
-
-        // $.post('/api/addCustomPercentage', data,
-        //     function (data, textStatus, jqXHR) {
-        //         message(data);
-        //         $('#modalNotProducts').modal('show');
-        //         $('#nameNotProducts').html('Productos No Agregados');
-        //         $('#btnSaveProducts').hide();
-        //         loadPriceList(1);
-        //         loadTblNotProducts(data.dataNotData, 1);
-        //     },
-        // );
+        loadTblNotProducts(dataProducts, 2); 
     });
 
     $('#btnCloseNotProducts').click(function (e) { 

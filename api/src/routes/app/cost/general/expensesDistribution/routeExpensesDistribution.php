@@ -13,6 +13,7 @@ use tezlikv3\dao\ProductsDao;
 
 $expensesDistributionDao = new ExpensesDistributionDao();
 $generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
+$productsDao = new ProductsDao();
 $generalProductsDao = new GeneralProductsDao();
 $totalExpenseDao = new TotalExpenseDao();
 $assignableExpenseDao = new AssignableExpenseDao();
@@ -550,6 +551,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     $expensesDistributionDao,
     $assignableExpenseDao,
     $priceProductDao,
+    $productsDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao
@@ -579,20 +581,20 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
         }
     }
 
-    !$products = $generalProductsDao->findAllProducts($id_company);
+    $products = $productsDao->findAllProductsByCompany($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
         if ($expensesDistribution == null)
-            $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
+            $expensesDistribution = $priceProductDao->calcPrice($products[$i]['id_product']);
 
         if (isset($expensesDistribution['totalPrice']))
-            $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
+            $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['id_product'], $expensesDistribution['totalPrice']);
 
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($expensesDistribution['info'])) break;
 
             // Calcular costo material
-            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products[$i]['selectNameProduct']);
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products[$i]['id_product']);
 
             foreach ($productsCompositer as $arr) {
                 if (isset($expensesDistribution['info'])) break;
