@@ -1,4 +1,4 @@
-$(document).ready(function () { 
+$(document).ready(function () {
     checkFlagPrice = async (op) => {
         if (flag_type_price == '') {
             bootbox.confirm({
@@ -41,8 +41,21 @@ $(document).ready(function () {
                 },
             });
         } else {
-            if (op == 1)
+            if (op == 1) {
                 $('#labelDescription').html(` Descripción (${flag_type_price == '0' ? 'Precio Actual' : 'Precio Sugerido'}) `);
+
+                if (flag_type_price === '0') {
+                    document.getElementById("actual").className =
+                        "btn btn-sm btn-primary typePrice";
+                    document.getElementById("sugered").className =
+                        "btn btn-sm btn-outline-primary typePrice";
+                } else {
+                    document.getElementById("sugered").className =
+                        "btn btn-sm btn-primary typePrice";
+                    document.getElementById("actual").className =
+                        "btn btn-sm btn-outline-primary typePrice";
+                }
+            }
             else if (op == 2) {
                 $('#lblPrice').html(flag_type_price == '0' ? 'Precio Actual' : 'Precio Sugerido');
                 loadTblMultiproducts();
@@ -52,4 +65,30 @@ $(document).ready(function () {
         }
             
     };
+
+    $(document).on("click", ".typePrice", function () {
+        let op = this.value;
+        let className = this.className;
+        // typePrice = op;
+        let id = $('#selectNameProduct').val();
+
+        if (!id) {
+            toastr.error('Seleccione un producto');
+            return false;
+        }
+
+        if (op == 1 && className.includes("btn-outline-primary")) {
+            document.getElementById("sugered").className =
+                "btn btn-sm btn-primary typePrice";
+            document.getElementById("actual").className =
+                "btn btn-sm btn-outline-primary typePrice";
+        } else if (className.includes("btn-outline-primary")) {
+            document.getElementById("actual").className =
+                "btn btn-sm btn-primary typePrice";
+            document.getElementById("sugered").className =
+                "btn btn-sm btn-outline-primary typePrice";
+        }
+
+        loadDataProduct(id);
+    });
 });

@@ -20,14 +20,22 @@ $(document).ready(function () {
     $('.general').val('');
     $('.general').html('');
 
-    data = await searchData(`/api/calcEconomyScale/${id}`);
+    data = await searchData(`/api/calcEconomyScale/${id}`); 
+    let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0];
+    
+    typePrice.id == 'sugered' ? price = data.sale_price : price = data.price;
+    
+    if (price == 0 || !price) {
+      typePrice.id == 'sugered' ? price = 'sugerido' : price = 'actual';
+      toastr.error(`Ingrese el precio de venta ${price} para el producto`);
+      return false;
+    }
 
     $('#unity-0').val(1);
     unitys = [1];
 
     commission = data.commission;
 
-    flag_type_price == '0' ? price = data.sale_price : price = data.price;
 
     // Regla de tres rentabilidad
     profitability = (price * data.profitability) / price;

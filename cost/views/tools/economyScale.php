@@ -107,6 +107,12 @@ if (sizeof($_SESSION) == 0)
                                                 <label for="selectNameProduct" class="form-label">Producto <span class="text-danger">*</span></label>
                                             </div>
                                         </div>
+                                        <div class="d-flex flex-column">
+                                            <div class="align-self-end btn-group">
+                                                <button class="btn btn-sm btn-primary typePrice" id="sugered" value="1">Sugerido</button>
+                                                <button class="btn btn-sm btn-outline-primary typePrice" id="actual" value="2">Actual</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="card">
