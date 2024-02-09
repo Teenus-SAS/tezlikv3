@@ -78,11 +78,15 @@ $(document).ready(function () {
         }
 
         if (op == 1 && className.includes("btn-outline-primary")) {
+            $('#labelDescription').html(`Descripción (Precio Sugerido)`);
+
             document.getElementById("sugered").className =
                 "btn btn-sm btn-primary typePrice";
             document.getElementById("actual").className =
                 "btn btn-sm btn-outline-primary typePrice";
         } else if (className.includes("btn-outline-primary")) {
+            $('#labelDescription').html(`Descripción (Precio Actual)`);
+
             document.getElementById("actual").className =
                 "btn btn-sm btn-primary typePrice";
             document.getElementById("sugered").className =

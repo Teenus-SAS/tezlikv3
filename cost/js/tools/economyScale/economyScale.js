@@ -1,4 +1,4 @@
-$(document).ready(function () { 
+$(document).ready(function () {
   $('#refProduct').change(function (e) {
     e.preventDefault();
 
@@ -20,22 +20,43 @@ $(document).ready(function () {
     $('.general').val('');
     $('.general').html('');
 
-    data = await searchData(`/api/calcEconomyScale/${id}`); 
+    data = await searchData(`/api/calcEconomyScale/${id}`);
     let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0];
     
-    typePrice.id == 'sugered' ? price = data.sale_price : price = data.price;
+    typePrice.id === 'sugered' ? price = data.price : price = data.sale_price;
+    $('#labelDescription').html(` Descripción (${typePrice.id == 'actual' ? 'Precio Actual' : 'Precio Sugerido'}) `);
     
     if (price == 0 || !price) {
-      typePrice.id == 'sugered' ? price = 'sugerido' : price = 'actual';
-      toastr.error(`Ingrese el precio de venta ${price} para el producto`);
-      return false;
+      if (typePrice.id == 'sugered') {
+        $('#labelDescription').html(`Descripción (Precio Sugerido)`);
+
+        document.getElementById("actual").className =
+          "btn btn-sm btn-primary typePrice";
+        document.getElementById("sugered").className =
+          "btn btn-sm btn-outline-primary typePrice";
+        price = data.sale_price;
+      } else {
+        $('#labelDescription').html(`Descripción (Precio Actual)`);
+
+        document.getElementById("sugered").className =
+          "btn btn-sm btn-primary typePrice";
+        document.getElementById("actual").className =
+          "btn btn-sm btn-outline-primary typePrice";
+        price = data.price
+      }
+      
+      if (price == 0 || !price) {
+        typePrice.id == 'sugered' ? price = 'sugerido' : price = 'actual';
+        toastr.error(`Ingrese el precio de venta ${price} para el producto`);
+        return false;
+      }
     }
+
 
     $('#unity-0').val(1);
     unitys = [1];
 
     commission = data.commission;
-
 
     // Regla de tres rentabilidad
     profitability = (price * data.profitability) / price;
@@ -71,5 +92,5 @@ $(document).ready(function () {
     );
 
     generalCalc(0);
-  }; 
+  };
 });
