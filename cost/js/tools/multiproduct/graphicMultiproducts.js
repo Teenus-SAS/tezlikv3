@@ -85,7 +85,7 @@ $(document).ready(function () {
             display: false,
           },
           datalabels: {
-            formatter: (value, ctx) => {
+            /* formatter: (value, ctx) => {
               let sum = 0;
               let dataArr = ctx.chart.data.datasets[0].data;
               dataArr.map((data) => {
@@ -93,7 +93,7 @@ $(document).ready(function () {
               });
               let percentage = ((value * 100) / sum).toFixed(2) + "%";
               return percentage;
-            },
+            }, */
             color: "white",
             font: {
               size: "9",
