@@ -127,7 +127,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12 cardTblBreakeven">
                                 <div class="card">
                                     <div class="card-header row">
-                                        <h5 class="col-sm-10 card-title">Punto De Equilibrio</h5>
+                                        <h5 class="col-sm-10 card-title">Punto de Equilibrio</h5>
                                         <div class="col-sm-2 floating-label enable-floating-label show-label form-inline justify-content-sm-end cardExpenseAssignation" style="display: none;">
                                             <input type="number" class="form-control text-center" id="expenseAssignation">
                                             <label for="">Asignar Gastos</label>

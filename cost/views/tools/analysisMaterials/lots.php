@@ -132,7 +132,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12 cardTableProducts">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title">Productos</h5>
+                                        <h5 class="card-title">Productos Lote</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -184,7 +184,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12 cardTableRawMaterials" style="display:none;">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title">Materias Primas</h5>
+                                        <h5 class="card-title">Consolidado Materias Primas</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
