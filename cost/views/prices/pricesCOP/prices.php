@@ -71,9 +71,9 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Precios Venta COP</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-cash mr-1"></i>Precios Venta</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Análisis de Precios COP</li>
+                                        <li class="breadcrumb-item active">Análisis de Precios</li>
                                     </ol>
                                 </div>
                             </div>
@@ -95,9 +95,6 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card disable-select">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Precios</h5>
-                                    </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblPrices">

@@ -78,7 +78,7 @@ $(document).ready(function () {
         }
 
         if (op == 1 && className.includes("btn-outline-primary")) {
-            $('#labelDescription').html(`Descripción (Precio Sugerido)`);
+            //$('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
             document.getElementById("sugered").className =
                 "btn btn-sm btn-primary typePrice";

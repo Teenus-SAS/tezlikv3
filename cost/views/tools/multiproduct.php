@@ -73,7 +73,7 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Multiproductos</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-sliders mr-1"></i>Multiproductos</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
                                         <li class="breadcrumb-item active">Punto de Equilibrio Multiproducto</li>
                                     </ol>
@@ -127,7 +127,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12 cardTblBreakeven">
                                 <div class="card">
                                     <div class="card-header row">
-                                        <h5 class="col-sm-10 card-title">Punto De Equilibrio</h5>
+                                        <h5 class="col-sm-10 card-title">Punto de Equilibrio</h5>
                                         <div class="col-sm-2 floating-label enable-floating-label show-label form-inline justify-content-sm-end cardExpenseAssignation" style="display: none;">
                                             <input type="number" class="form-control text-center" id="expenseAssignation">
                                             <label for="">Asignar Gastos</label>

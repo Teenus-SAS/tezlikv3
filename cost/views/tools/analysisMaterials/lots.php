@@ -71,7 +71,7 @@ if (sizeof($_SESSION) == 0)
                         <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark">Lotes</h3>
+                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-view-list"></i>Lotes</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
                                         <li class="breadcrumb-item active">Análisis de Materias Primas</li>
                                     </ol>
@@ -132,7 +132,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12 cardTableProducts">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title">Productos</h5>
+                                        <h5 class="card-title">Productos Lote</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -184,7 +184,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12 cardTableRawMaterials" style="display:none;">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5 class="card-title">Materias Primas</h5>
+                                        <h5 class="card-title">Consolidado Materias Primas</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
