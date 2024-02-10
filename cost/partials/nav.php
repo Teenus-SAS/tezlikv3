@@ -29,14 +29,14 @@
                                 <?php } else { ?>
                                     <a class="dropdown-item aPricesCOP" href="/cost/prices" style="display: none;">
                                     <?php } ?>
-                                    <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(COP)</span>
+                                    <span><i class="bi bi-currency-dollar mr-1"></i>Lista de Precios </span>
                                     </a>
                                     <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
                                         <a class="dropdown-item aPricesUSD" href="/cost/prices-usd">
                                         <?php } else { ?>
                                             <a class="dropdown-item aPricesUSD" href="/cost/prices-usd" style="display: none;">
                                             <?php } ?>
-                                            <span>Lista de Precios <i class="bi bi-currency-dollar mr-1"></i>(USD)</span>
+                                            <span><i class="bi bi-currency-dollar mr-1"></i>Lista de Precios (USD)</span>
                                             </a>
                                             <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
                                                 <a class="dropdown-item aCustomPrices" href="/cost/custom-prices">
