@@ -145,7 +145,7 @@ if (sizeof($_SESSION) == 0)
                                                     <tr>
                                                         <td class="font-weight-bold">Precio</td>
                                                         <td>
-                                                            <input class="form-control text-center price general" type="number" id="price-0" readonly>
+                                                            <input class="form-control text-center price general" type="text" id="price-0" readonly>
                                                         </td>
                                                         <td>
                                                             <input class="form-control text-center price totalRevenue general" type="number" id="price-1">

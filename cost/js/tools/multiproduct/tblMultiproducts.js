@@ -30,6 +30,8 @@ $(document).ready(function () {
 
       let marginContribution =
         multiproducts[i].price - multiproducts[i].variable_cost;
+      
+      // marginContribution < 0 ? marginContribution = 0 : marginContribution;
 
       tblMultiproductsBody.insertAdjacentHTML(
         'beforeend',
