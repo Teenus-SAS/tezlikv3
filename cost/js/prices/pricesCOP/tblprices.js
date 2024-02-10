@@ -50,6 +50,7 @@ $(document).ready(function () {
       destroy:true,
       pageLength: 50,
       data: data,
+      // dataSrc: '',
       dom: '<"datatable-error-console">frtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
