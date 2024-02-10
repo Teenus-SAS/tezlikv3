@@ -192,9 +192,9 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="row cardGraphicMultiproducts" style="display:none;">
-                                <div class="card col-sm-6">
+
+                            <div class="row col-12 cardGraphicMultiproducts" style="display:none;">
+                                <div class="card col-sm-8">
                                     <div class="card-header dflex-between-center">
                                         <h5 class="card-title">Undidades Vendidas por producto</h5>
                                     </div>
@@ -202,17 +202,17 @@ if (sizeof($_SESSION) == 0)
                                         <canvas id="chartMultiproductsBar" style="width: 80%;"></canvas>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="card">
-                                        <div class="card-header dflex-between-center">
-                                            <h5 class="card-title">Unidades Vendidas</h5>
-                                        </div>
-                                        <div class="card-body pt-2">
-                                            <div class="chart-container">
-                                                <canvas id="chartMultiproductsDonut" style="width: 80%;"></canvas>
-                                            </div>
+
+                                <div class="card col-sm-4">
+                                    <div class="card-header dflex-between-center">
+                                        <h5 class="card-title">Unidades Vendidas</h5>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                        <div class="chart-container">
+                                            <canvas id="chartMultiproductsDonut" style="width: 80%;"></canvas>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
