@@ -59,11 +59,25 @@ $(document).ready(function () {
         //labels: ["N° de unidades Vendidas", "N° de Unidades Por Vender"],
         datasets: [
           {
+            label: "Total Unidades vendidas",
+            data: soldUnits,
+            backgroundColor: getRandomColor(count),
+            borderWidth: 1,
+          },
+          {
+            label: "Total Unidades a vender",
+            data: unitsToSold,
+            backgroundColor: "orange",
+            borderWidth: 1,
+          },
+        ],
+        /* datasets: [
+          {
             data: product,
             backgroundColor: getRandomColor(2),
             borderWidth: 1,
           },
-        ],
+        ], */
       },
       options: {
         plugins: {
@@ -155,13 +169,13 @@ $(document).ready(function () {
         },
         datasets: [
           {
-            label: "Und vendidas",
+            label: "Unidades vendidas",
             data: soldUnits,
             backgroundColor: getRandomColor(count),
             borderWidth: 1,
           },
           {
-            label: "Und a vender",
+            label: "Unidades a vender",
             data: unitsToSold,
             backgroundColor: "orange",
             borderWidth: 1,
