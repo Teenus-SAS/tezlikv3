@@ -56,28 +56,14 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
-        //labels: ["N° de unidades Vendidas", "N° de Unidades Por Vender"],
+        labels: ["Und Vendidas", "Und por Vender"],
         datasets: [
-          {
-            label: "Total Unidades vendidas",
-            data: totalSoldUnits,
-            backgroundColor: getRandomColor(count),
-            borderWidth: 1,
-          },
-          {
-            label: "Total Unidades a vender",
-            data: totalUnitsToSol,
-            backgroundColor: "orange",
-            borderWidth: 1,
-          },
-        ],
-        /* datasets: [
           {
             data: product,
             backgroundColor: getRandomColor(2),
             borderWidth: 1,
           },
-        ], */
+        ],
       },
       options: {
         plugins: {
@@ -85,7 +71,7 @@ $(document).ready(function () {
             display: false,
           },
           datalabels: {
-            /* formatter: (value, ctx) => {
+            formatter: (value, ctx) => {
               let sum = 0;
               let dataArr = ctx.chart.data.datasets[0].data;
               dataArr.map((data) => {
@@ -93,7 +79,7 @@ $(document).ready(function () {
               });
               let percentage = ((value * 100) / sum).toFixed(2) + "%";
               return percentage;
-            }, */
+            },
             color: "white",
             font: {
               size: "9",
