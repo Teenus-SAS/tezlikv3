@@ -16,6 +16,23 @@ class GeneralProductsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findAllEDProductsByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT p.id_product, p.id_product AS selectNameProduct, gl.total_expense AS expense, ed.units_sold AS soldUnit, 0 AS participation
+                                        FROM products p
+                                            INNER JOIN general_data gl ON gl.id_company = p.id_company
+                                            INNER JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                        WHERE p.id_company = :id_company AND p.active = 1");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $products));
+        return $products;
+    }
+
     /* Consultar si existe producto en BD por compañia */
     public function findProduct($dataProduct, $id_company)
     {

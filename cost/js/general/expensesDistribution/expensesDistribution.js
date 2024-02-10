@@ -115,6 +115,7 @@ $(document).ready(function () {
     let family = parseInt($('#familiesDistribute').val());
     let unitExp = parseFloat($('#undVendidas').val());
     let volExp = parseFloat($('#volVendidas').val());
+    let expense = parseFloat(strReplaceNumber($('#expensesToDistribution').val()));
 
     // unitExp = parseFloat(strReplaceNumber(unitExp));
     // volExp = parseFloat(strReplaceNumber(volExp));
@@ -131,7 +132,8 @@ $(document).ready(function () {
     let dataExpense = new FormData(formExpensesDistribution);
 
     if (idExpense != '' || idExpense != null) {
-      dataExpense.append('assignableExpense', $('#assignableExpense').val());
+      // dataExpense.append('assignableExpense', $('#assignableExpense').val());
+      dataExpense.append('expense', $('#expensesToDistribution').val());
       dataExpense.append('idExpensesDistribution', idExpense);
     }
 

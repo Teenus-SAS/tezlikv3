@@ -8,6 +8,7 @@ use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\MultiproductsDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\ProductsDao;
 
@@ -22,6 +23,7 @@ $generalProductsDao = new GeneralProductsDao();
 $familiesDao = new FamiliesDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
+$multiproductsDao = new MultiproductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -131,7 +133,8 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     $assignableExpenseDao,
     $priceProductDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $multiproductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -140,16 +143,17 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     $dataExpensesDistribution = $request->getParsedBody();
 
     $dataExpensesDistributions = sizeof($dataExpensesDistribution);
+    $resolution = null;
 
     if ($dataExpensesDistributions > 1) {
 
         if ($flag == 2) {
             $products = $familiesDao->findAllProductsInFamily($dataExpensesDistribution['idFamily'], $id_company);
 
-            $expensesDistribution = $familiesDao->updateDistributionFamily($dataExpensesDistribution);
+            $resolution = $familiesDao->updateDistributionFamily($dataExpensesDistribution);
 
             for ($i = 0; $i < sizeof($products); $i++) {
-                if (isset($expensesDistribution['info'])) break;
+                if (isset($resolution['info'])) break;
 
                 $products[$i]['selectNameProduct'] = $products[$i]['id_product'];
                 $products[$i]['unitsSold'] = $dataExpensesDistribution['unitsSold'];
@@ -157,129 +161,64 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($products[$i], $id_company);
 
                 if (!$findExpenseDistribution)
-                    $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($products[$i], $id_company);
+                    $resp = $expensesDistributionDao->insertExpensesDistributionByCompany($products[$i], $id_company);
                 else {
                     $products[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-                    $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
+                    $resp = $expensesDistributionDao->updateExpensesDistribution($products[$i], $id_company);
                 }
             }
         } else {
             $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($dataExpensesDistribution, $id_company);
 
             if (!$findExpenseDistribution)
-                $expensesDistribution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
+                $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($dataExpensesDistribution, $id_company);
             else {
                 $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-                $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+                $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
             }
         }
 
         /* Calcular gasto asignable */
-        if ($expensesDistribution == null) {
-            // Consulta unidades vendidades y volumenes de venta por producto
-            $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+        // if ($resolution == null) {
+        //     // Consulta unidades vendidades y volumenes de venta por producto
+        //     $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
-            // Calcular el total de unidades vendidas y volumen de ventas
-            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+        //     // Calcular el total de unidades vendidas y volumen de ventas
+        //     $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
 
-            // Obtener el total de gastos
-            $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+        //     // Obtener el total de gastos
+        //     $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
 
-            foreach ($unitVol as $arr) {
-                if (isset($resolution['info'])) break;
-                // Calcular gasto asignable
-                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-                // Actualizar gasto asignable
-                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-            }
+        //     foreach ($unitVol as $arr) {
+        //         if (isset($resolution['info'])) break;
+        //         // Calcular gasto asignable
+        //         $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+        //         // Actualizar gasto asignable
+        //         $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+        //     }
 
-            /* x Familia */
-            if ($expensesDistribution == null && $flag == 2) {
-                // Consulta unidades vendidades y volumenes de venta por familia
-                $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+        //     /* x Familia */
+        //     if ($resolution == null && $flag == 2) {
+        //         // Consulta unidades vendidades y volumenes de venta por familia
+        //         $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
 
-                // Calcular el total de unidades vendidas y volumen de ventas
-                $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
+        //         // Calcular el total de unidades vendidas y volumen de ventas
+        //         $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
 
-                foreach ($unitVol as $arr) {
-                    if (isset($resolution['info'])) break;
-                    // Calcular gasto asignable
-                    $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-                    // Actualizar gasto asignable
-                    $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
-                }
-            }
-        }
+        //         foreach ($unitVol as $arr) {
+        //             if (isset($resolution['info'])) break;
+        //             // Calcular gasto asignable
+        //             $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+        //             // Actualizar gasto asignable
+        //             $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
+        //         }
+        //     }
+        // }
 
-        !is_array($products) ? $products = $generalProductsDao->findAllProducts($id_company) : $products;
-
-        for ($i = 0; $i < sizeof($products); $i++) {
-            if ($expensesDistribution == null)
-                $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
-
-            if (isset($expensesDistribution['totalPrice']))
-                $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
-
-            if ($_SESSION['flag_composite_product'] == '1') {
-                if (isset($expensesDistribution['info'])) break;
-
-                // Calcular costo material
-                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products[$i]['selectNameProduct']);
-
-                foreach ($productsCompositer as $arr) {
-                    if (isset($expensesDistribution['info'])) break;
-
-                    $data = [];
-                    $data['idProduct'] = $arr['id_product'];
-                    $data['compositeProduct'] = $arr['id_child_product'];
-
-                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                    $expensesDistribution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
-
-                    if (isset($expensesDistribution['info'])) break;
-                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                    $expensesDistribution = $costMaterialsDao->updateCostMaterials($data, $id_company);
-
-                    if (isset($expensesDistribution['info'])) break;
-
-                    $data = $priceProductDao->calcPrice($arr['id_product']);
-
-                    if (isset($data['totalPrice']))
-                        $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
-
-                    if (isset($expensesDistribution['info'])) break;
-
-                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
-
-                    foreach ($productsCompositer2 as $j) {
-                        if (isset($expensesDistribution['info'])) break;
-
-                        $data = [];
-                        $data['compositeProduct'] = $j['id_child_product'];
-                        $data['idProduct'] = $j['id_product'];
-
-                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                        $expensesDistribution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
-
-                        if (isset($expensesDistribution['info'])) break;
-                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                        $expensesDistribution = $costMaterialsDao->updateCostMaterials($data, $id_company);
-
-                        if (isset($expensesDistribution['info'])) break;
-
-                        $data = $priceProductDao->calcPrice($j['id_product']);
-
-                        if (isset($data['totalPrice']))
-                            $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-                    }
-                }
-            }
-        }
-
-        if ($expensesDistribution == null)
+        if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto asignado correctamente');
-        else if (isset($expensesDistribution['info']))
-            $resp = array('info' => true, 'message' => $expensesDistribution['message']);
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras almacenaba la información. Intente nuevamente');
     } else {
@@ -300,87 +239,87 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             if ($resolution != null) break;
         }
 
-        for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
-            /* Calcular gasto asignable */
-            // Consulta unidades vendidades y volumenes de venta por producto
-            $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+        // for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
+        //     /* Calcular gasto asignable */
+        //     // Consulta unidades vendidades y volumenes de venta por producto
+        //     $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
-            // Calcular el total de unidades vendidas y volumen de ventas
-            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+        //     // Calcular el total de unidades vendidas y volumen de ventas
+        //     $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
 
-            // Obtener el total de gastos
-            $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+        //     // Obtener el total de gastos
+        //     $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
 
-            foreach ($unitVol as $arr) {
-                if (isset($resolution['info'])) break;
-                // Calcular gasto asignable
-                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-                // Actualizar gasto asignable
-                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-            }
+        //     foreach ($unitVol as $arr) {
+        //         if (isset($resolution['info'])) break;
+        //         // Calcular gasto asignable
+        //         $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+        //         // Actualizar gasto asignable
+        //         $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+        //     }
 
-            // Calcular Precio del producto
-            if ($resolution != null) break;
-            $resolution = $priceProductDao->calcPrice($expensesDistribution[$i]['selectNameProduct']);
+        // Calcular Precio del producto
+        // if ($resolution != null) break;
+        // $resolution = $priceProductDao->calcPrice($expensesDistribution[$i]['selectNameProduct']);
 
-            if (!isset($resolution['totalPrice'])) break;
+        // if (!isset($resolution['totalPrice'])) break;
 
-            $resolution = $generalProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $resolution['totalPrice']);
+        // $resolution = $generalProductsDao->updatePrice($expensesDistribution[$i]['selectNameProduct'], $resolution['totalPrice']);
 
-            if ($_SESSION['flag_composite_product'] == '1') {
-                if (isset($resolution['info'])) break;
-                // Calcular costo material porq
-                $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($expensesDistribution[$i]['selectNameProduct']);
+        // if ($_SESSION['flag_composite_product'] == '1') {
+        //     if (isset($resolution['info'])) break;
+        //     // Calcular costo material porq
+        //     $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($expensesDistribution[$i]['selectNameProduct']);
 
-                foreach ($productsCompositer as $arr) {
-                    if (isset($resolution['info'])) break;
+        //     foreach ($productsCompositer as $arr) {
+        //         if (isset($resolution['info'])) break;
 
-                    $data = [];
-                    $data['idProduct'] = $arr['id_product'];
-                    $data['compositeProduct'] = $arr['id_child_product'];
+        //         $data = [];
+        //         $data['idProduct'] = $arr['id_product'];
+        //         $data['compositeProduct'] = $arr['id_child_product'];
 
-                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                    $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+        //         $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+        //         $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
-                    // if (isset($resolution['info'])) break;
-                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                    $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+        //         // if (isset($resolution['info'])) break;
+        //         $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+        //         $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                    if (isset($resolution['info'])) break;
+        //         if (isset($resolution['info'])) break;
 
-                    $data = $priceProductDao->calcPrice($arr['id_product']);
+        //         $data = $priceProductDao->calcPrice($arr['id_product']);
 
-                    if (isset($data['totalPrice']))
-                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+        //         if (isset($data['totalPrice']))
+        //             $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
-                    if (isset($resolution['info'])) break;
+        //         if (isset($resolution['info'])) break;
 
-                    $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+        //         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
-                    foreach ($productsCompositer2 as $j) {
-                        if (isset($resolution['info'])) break;
+        //         foreach ($productsCompositer2 as $j) {
+        //             if (isset($resolution['info'])) break;
 
-                        $data = [];
-                        $data['compositeProduct'] = $j['id_child_product'];
-                        $data['idProduct'] = $j['id_product'];
+        //             $data = [];
+        //             $data['compositeProduct'] = $j['id_child_product'];
+        //             $data['idProduct'] = $j['id_product'];
 
-                        $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                        $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+        //             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+        //             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
-                        if (isset($resolution['info'])) break;
-                        $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                        $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+        //             if (isset($resolution['info'])) break;
+        //             $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+        //             $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                        if (isset($resolution['info'])) break;
+        //             if (isset($resolution['info'])) break;
 
-                        $data = $priceProductDao->calcPrice($j['id_product']);
+        //             $data = $priceProductDao->calcPrice($j['id_product']);
 
-                        if (isset($data['totalPrice']))
-                            $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
-                    }
-                }
-            }
-        }
+        //             if (isset($data['totalPrice']))
+        //                 $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+        //         }
+        //     }
+        // }
+        // }
 
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto importada correctamente');
@@ -389,6 +328,121 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }
+
+    if ($resolution == null) {
+        // Consulta unidades vendidades y volumenes de venta por producto
+        $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+
+        // Calcular el total de unidades vendidas y volumen de ventas
+        $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
+
+        // Obtener el total de gastos
+        $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
+
+        foreach ($unitVol as $arr) {
+            if (isset($resolution['info'])) break;
+            // Calcular gasto asignable
+            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+            // Actualizar gasto asignable
+            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+        }
+
+        /* x Familia */
+        if ($expensesDistribution == null && $flag == 2) {
+            // Consulta unidades vendidades y volumenes de venta por familia
+            $unitVol = $familiesDao->findAllExpensesDistributionByCompany($id_company);
+
+            // Calcular el total de unidades vendidas y volumen de ventas
+            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByFamily($id_company);
+
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpenseByFamily($arr['id_family'], $expense['assignableExpense']);
+            }
+        }
+    }
+
+    !is_array($products) ? $products = $generalProductsDao->findAllEDProductsByCompany($id_company) : $products;
+
+    for ($i = 0; $i < sizeof($products); $i++) {
+        if ($resolution == null)
+            $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
+
+        if (isset($expensesDistribution['totalPrice']))
+            $resolution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
+
+        if ($_SESSION['flag_composite_product'] == '1') {
+            if (isset($resolution['info'])) break;
+
+            // Calcular costo material
+            $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products[$i]['selectNameProduct']);
+
+            foreach ($productsCompositer as $arr) {
+                if (isset($resolution['info'])) break;
+
+                $data = [];
+                $data['idProduct'] = $arr['id_product'];
+                $data['compositeProduct'] = $arr['id_child_product'];
+
+                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                if (isset($resolution['info'])) break;
+                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                if (isset($resolution['info'])) break;
+
+                $data = $priceProductDao->calcPrice($arr['id_product']);
+
+                if (isset($data['totalPrice']))
+                    $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($resolution['info'])) break;
+
+                $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
+
+                foreach ($productsCompositer2 as $j) {
+                    if (isset($resolution['info'])) break;
+
+                    $data = [];
+                    $data['compositeProduct'] = $j['id_child_product'];
+                    $data['idProduct'] = $j['id_product'];
+
+                    $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+                    $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+
+                    if (isset($resolution['info'])) break;
+                    $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+                    $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+
+                    if (isset($resolution['info'])) break;
+
+                    $data = $priceProductDao->calcPrice($j['id_product']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+                }
+            }
+        }
+
+        if ($products[$i]['soldUnit'] != 'NULL' || $products[$i]['soldUnit'] != 0 && $flag == 1) {
+            $multiproducts = $multiproductsDao->findMultiproduct($products[$i]['id_product']);
+
+            if (!$multiproducts)
+                $resolution = $multiproductsDao->insertMultiproductByCompany($products[$i], $id_company);
+            else
+                $resolution = $multiproductsDao->updateMultiProduct($products[$i]);
+        }
+    }
+
+    if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else if ($resolution != null)
+        $resp = array('error' => true, 'message' => 'Ocurrio un error guardaba la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -401,7 +455,8 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $priceProductDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $multiproductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -432,6 +487,21 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
         $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
         $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+
+        if ($expensesDistribution == null) {
+            $multiproducts = $multiproductsDao->findMultiproduct($dataExpensesDistribution['selectNameProduct']);
+
+            $data = [];
+            $data['id_product'] = $dataExpensesDistribution['selectNameProduct'];
+            $data['soldUnit'] = $dataExpensesDistribution['unitsSold'];
+            $data['participation'] = 0;
+            $data['expense'] = $dataExpensesDistribution['expense'];
+
+            if (!$multiproducts)
+                $expensesDistribution = $multiproductsDao->insertMultiproductByCompany($data, $id_company);
+            else
+                $expensesDistribution = $multiproductsDao->updateMultiProduct($data);
+        }
     }
 
     /* Calcular gasto asignable */
@@ -534,6 +604,8 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                 }
             }
         }
+
+        if (isset($expensesDistribution['info'])) break;
     }
 
     if ($expensesDistribution == null)
@@ -554,7 +626,8 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     $productsDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
-    $costMaterialsDao
+    $costMaterialsDao,
+    $multiproductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -581,7 +654,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
         }
     }
 
-    $products = $productsDao->findAllProductsByCompany($id_company);
+    $products = $generalProductsDao->findAllEDProductsByCompany($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
         if ($expensesDistribution == null)
@@ -644,10 +717,23 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
                 }
             }
         }
+
+        if (isset($expensesDistribution['info'])) break;
+
+        if ($products[$i]['soldUnit'] != 'NULL' || $products[$i]['soldUnit'] != 0) {
+            $multiproducts = $multiproductsDao->findMultiproduct($products[$i]['id_product']);
+
+            if (!$multiproducts)
+                $resolution = $multiproductsDao->insertMultiproductByCompany($products[$i], $id_company);
+            else
+                $resolution = $multiproductsDao->updateMultiProduct($products[$i]);
+        }
     }
 
     if ($expensesDistribution == null)
         $resp = array('success' => true, 'message' => 'Distribucion de gasto eliminado correctamente');
+    else if (isset($expensesDistribution['info']))
+        $resp = array('info' => true, 'message' => $expensesDistribution['message']);
     else
         $resp = array('error' => true, 'message' => 'No es posible eliminar el gasto, existe información asociada a él');
 
