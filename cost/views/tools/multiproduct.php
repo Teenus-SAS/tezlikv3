@@ -192,11 +192,11 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-12 cardGraphicMultiproducts" style="display:none;">
-                                <div class="card">
+                            
+                            <div class="row cardGraphicMultiproducts" style="display:none;">
+                                <div class="card col-sm-6">
                                     <div class="card-header dflex-between-center">
-                                        <h5 class="card-title">Diagrama de Barras</h5>
+                                        <h5 class="card-title">Undidades Vendidas por producto</h5>
                                     </div>
                                     <div class="card-body pt-2">
                                         <canvas id="chartMultiproductsBar" style="width: 80%;"></canvas>
@@ -205,7 +205,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-sm-6">
                                     <div class="card">
                                         <div class="card-header dflex-between-center">
-                                            <h5 class="card-title">Diagrama de Donut</h5>
+                                            <h5 class="card-title">Unidades Vendidas</h5>
                                         </div>
                                         <div class="card-body pt-2">
                                             <div class="chart-container">
