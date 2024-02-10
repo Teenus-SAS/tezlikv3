@@ -145,9 +145,6 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card disable-select">
-                                    <div class="card-header">
-                                        <h5 class="card-title">Procesos</h5>
-                                    </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped" id="tblProcess">
