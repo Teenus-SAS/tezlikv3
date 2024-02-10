@@ -54,7 +54,7 @@ $(document).ready(function () {
     cmo = document.getElementById("chartMultiproductsDonut");
     chartMultiproductsDonut = new Chart(cmo, {
       plugins: [ChartDataLabels],
-      type: "doughnut",
+      type: "bar",
       data: {
         labels: ["N° de unidades Vendidas", "N° de Unidades Por Vender"],
         datasets: [
