@@ -77,9 +77,8 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              //let percentage = ((value * 100) / sum).toFixed(2) + "%";
-              //return percentage;
-              return sum;
+              let percentage = ((value * 100) / sum).toFixed(2) + "%";
+              return percentage;
             },
             color: "white",
             font: {
@@ -134,16 +133,16 @@ $(document).ready(function () {
     chartMultiproductsBar
       ? chartMultiproductsBar.destroy()
       : chartMultiproductsBar;
-    
+
     let maxDataValue = Math.max(...soldUnits);
     let minDataValue = Math.min(...soldUnits);
     let valueRange = maxDataValue - minDataValue;
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
-    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    isNaN(maxYValue) ? (maxYValue = 10) : maxYValue;
 
     ctx = document.getElementById("chartMultiproductsBar").getContext("2d");
     chartMultiproductsBar = new Chart(ctx, {
@@ -175,7 +174,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
             beginAtZero: true,
             max: maxYValue,
           },
-          x: { 
+          x: {
             display: false,
           },
         },
@@ -186,8 +185,8 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
           },
           datalabels: {
             anchor: "end",
-            align: 'top',
-            offset: 2, 
+            align: "top",
+            offset: 2,
             formatter: (soldUnits) =>
               parseFloat(soldUnits).toLocaleString("es-CO", {
                 maximumFractionDigits: 0,
