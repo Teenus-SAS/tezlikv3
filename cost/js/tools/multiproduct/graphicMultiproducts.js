@@ -60,13 +60,13 @@ $(document).ready(function () {
         datasets: [
           {
             label: "Total Unidades vendidas",
-            data: soldUnits,
+            data: totalSoldUnits,
             backgroundColor: getRandomColor(count),
             borderWidth: 1,
           },
           {
             label: "Total Unidades a vender",
-            data: unitsToSold,
+            data: totalUnitsToSol,
             backgroundColor: "orange",
             borderWidth: 1,
           },
