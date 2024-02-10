@@ -62,9 +62,9 @@ $(document).ready(function () {
     profitability = (price * data.profitability) / price;
 
     /* Precios */
-    $('.price').val(
-      price.toLocaleString('es-CO', { maximumFractionDigits: 0 })
-    );
+    $('.price').val(price);
+    $('#price-0').val(price.toLocaleString('es-CO', { maximumFractionDigits: 0 }));
+
     prices = [
       price,
       price,

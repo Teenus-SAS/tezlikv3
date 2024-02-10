@@ -72,6 +72,8 @@ $(document).ready(function () {
         let average =
           (multiproducts[i].price - multiproducts[i].variable_cost) *
           (participation / 100);
+        
+        // average < 0 ? average = 0 : average;
 
         multiproducts[i]['average'] = average;
       }
