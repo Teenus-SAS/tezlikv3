@@ -38,7 +38,7 @@ $(document).ready(function () {
     let totalUnitsToSol = 0;
     let product = [];
 
-    /* Grafica de donut */
+    /* Grafica de Barras */
     for (let i = 0; i < multiproducts.length; i++) {
       totalSoldUnits += parseFloat(multiproducts[i].soldUnit);
       totalUnitsToSol += parseFloat(multiproducts[i].unitsToSold);
@@ -56,7 +56,7 @@ $(document).ready(function () {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
-        labels: ["N° de unidades Vendidas", "N° de Unidades Por Vender"],
+        //labels: ["N° de unidades Vendidas", "N° de Unidades Por Vender"],
         datasets: [
           {
             data: product,
@@ -77,8 +77,9 @@ $(document).ready(function () {
               dataArr.map((data) => {
                 sum += data;
               });
-              let percentage = ((value * 100) / sum).toFixed(2) + "%";
-              return percentage;
+              //let percentage = ((value * 100) / sum).toFixed(2) + "%";
+              //return percentage;
+              return sum;
             },
             color: "white",
             font: {
@@ -155,13 +156,13 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
         },
         datasets: [
           {
-            label: "N° de unidades vendidas",
+            label: "Und vendidas",
             data: soldUnits,
             backgroundColor: getRandomColor(count),
             borderWidth: 1,
           },
           {
-            label: "Unidades a vender",
+            label: "Und a vender",
             data: unitsToSold,
             backgroundColor: "orange",
             borderWidth: 1,
