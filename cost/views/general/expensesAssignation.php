@@ -357,7 +357,7 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formImportExpenses" enctype="multipart/form-data">
                                             <div class="card">
                                                 <div class="card-body pt-3">
-                                                    <div class="form-row" id="formExpenses">
+                                                    <div class="form-row" id="formExpensesD">
                                                         <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
                                                             <input class="form-control" type="file" id="fileExpenses" accept=".xls,.xlsx">
                                                             <label for="formFile" id="lblImportExpense" class="form-label"></label>

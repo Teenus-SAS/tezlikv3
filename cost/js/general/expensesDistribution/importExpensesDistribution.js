@@ -36,7 +36,7 @@ $(document).ready(function () {
 
     $('.cardBottons').hide();
 
-    let form = document.getElementById('formExpenses');
+    let form = document.getElementById('formExpensesD');
 
     form.insertAdjacentHTML(
       'beforeend',
@@ -179,7 +179,7 @@ $(document).ready(function () {
       url: url,
       data: { importExpense: data },
       success: function (r) {
-        messageDistribution(r);
+        messageDistribution(r,1);
       },
     });
   };

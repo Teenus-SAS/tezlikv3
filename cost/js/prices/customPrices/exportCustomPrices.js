@@ -27,9 +27,14 @@ $(document).ready(function () {
         for (let i = productIndex + 1; i < datos[0].length; i++) {
             const newArray = [["REFERENCIA", "PRODUCTO", datos[0][i]]];
             for (let j = 1; j < datos.length; j++) {
-                newArray.push([datos[j][0], datos[j][1], datos[j][i]]);
+
+                if (datos[j][i] == '$ 0' || datos[j][i] == '')
+                    1;
+                else
+                    newArray.push([datos[j][0], datos[j][1], datos[j][i]]);
             }
-            result.push(newArray);
+            if (newArray.length > 1)
+                result.push(newArray);
         };
  
         let wb = XLSX.utils.book_new();
