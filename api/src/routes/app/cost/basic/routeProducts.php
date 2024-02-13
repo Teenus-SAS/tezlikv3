@@ -19,6 +19,7 @@ use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\HistoricalExpenseDistributionDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\ProductsDao;
@@ -52,6 +53,7 @@ $indirectCostDao = new IndirectCostDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
+$historicalEDDao = new HistoricalExpenseDistributionDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -272,7 +274,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
     $indirectCostDao,
     $assignableExpenseDao,
     $priceProductDao,
-    $generalCompositeProductsDao
+    $generalCompositeProductsDao,
+    $historicalEDDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -477,6 +480,22 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                             $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                             // Actualizar gasto asignable
                             $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+
+                            if (isset($resolution['info'])) break;
+                            $arr['year'] = date('Y');
+                            $arr['month'] = date('n');
+                            $arr['assignable_expense'] = $expense['assignableExpense'];
+
+                            // Guardar ED Historico (mes)
+                            $historical = $historicalEDDao->findHistorical($arr, $id_company);
+
+                            if (!$historical)
+                                $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
+                            else {
+                                $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
+
+                                $resolution = $historicalEDDao->updateHistoricalExpense($arr);
+                            }
                         }
 
                         /* x Familia */
@@ -728,7 +747,8 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 $app->get('/inactiveProducts/{id_product}', function (Request $request, Response $response, $args) use (
     $generalProductsDao,
     $assignableExpenseDao,
-    $familiesDao
+    $familiesDao,
+    $historicalEDDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -753,6 +773,22 @@ $app->get('/inactiveProducts/{id_product}', function (Request $request, Response
                 $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                 // Actualizar gasto asignable
                 $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+
+                if (isset($resolution['info'])) break;
+                $arr['year'] = date('Y');
+                $arr['month'] = date('n');
+                $arr['assignable_expense'] = $expense['assignableExpense'];
+
+                // Guardar ED Historico (mes)
+                $historical = $historicalEDDao->findHistorical($arr, $id_company);
+
+                if (!$historical)
+                    $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
+                else {
+                    $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
+
+                    $resolution = $historicalEDDao->updateHistoricalExpense($arr);
+                }
             }
 
             /* x Familia */
@@ -788,7 +824,8 @@ $app->get('/inactiveProducts/{id_product}', function (Request $request, Response
 $app->post('/activeProducts', function (Request $request, Response $response, $args) use (
     $generalProductsDao,
     $assignableExpenseDao,
-    $familiesDao
+    $familiesDao,
+    $historicalEDDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -818,6 +855,22 @@ $app->post('/activeProducts', function (Request $request, Response $response, $a
                 $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                 // Actualizar gasto asignable
                 $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+
+                if (isset($resolution['info'])) break;
+                $arr['year'] = date('Y');
+                $arr['month'] = date('n');
+                $arr['assignable_expense'] = $expense['assignableExpense'];
+
+                // Guardar ED Historico (mes)
+                $historical = $historicalEDDao->findHistorical($arr, $id_company);
+
+                if (!$historical)
+                    $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
+                else {
+                    $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
+
+                    $resolution = $historicalEDDao->updateHistoricalExpense($arr);
+                }
             }
 
             /* x Familia */

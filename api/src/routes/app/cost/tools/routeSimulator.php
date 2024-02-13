@@ -431,7 +431,6 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                     } else
                         $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($expensesDistribution[$i], $id_company);
 
-
                     $resolution = $assignableExpenseDao->updateAssignableExpense($expensesDistribution[$i]['id_product'], $expensesDistribution[$i]['assignable_expense']);
                 } else {
                     $expensesDistribution[$i]['idFamily'] = $expensesDistribution[$i]['id_family'];
