@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class HistoricalExpensesDao
+class HistoricalExpenseDistributionDao
 {
     private $logger;
 
@@ -20,12 +20,12 @@ class HistoricalExpensesDao
     {
         $connection = Connection::getInstance()->getConnection1();
         try {
-            $stmt = $connection->prepare("SELECT * FROM historical_expenses 
-                                      WHERE year = :year AND month = :month AND id_puc = :id_puc AND id_company = :id_company");
+            $stmt = $connection->prepare("SELECT * FROM historical_expense_distribution 
+                                      WHERE year = :year AND month = :month AND id_product = :id_product AND id_company = :id_company");
             $stmt->execute([
                 'year' => $dataExpense['year'],
                 'month' => $dataExpense['month'],
-                'id_puc' => $dataExpense['id_puc'],
+                'id_product' => $dataExpense['id_product'],
                 'id_company' => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
@@ -41,15 +41,16 @@ class HistoricalExpensesDao
     {
         $connection = Connection::getInstance()->getConnection1();
         try {
-            $stmt = $connection->prepare("INSERT INTO historical_expenses (id_company, year, month, id_puc, expense_value, participation) 
-                                      VALUES (:id_company, :year, :month, :id_puc, :expense_value, :participation)");
+            $stmt = $connection->prepare("INSERT INTO historical_expense_distribution (id_company, year, month, id_product, units_sold, turnover, assignable_expense) 
+                                      VALUES (:id_company, :year, :month, :id_product, :units_sold, :turnover, :assignable_expense)");
             $stmt->execute([
                 'id_company' => $id_company,
                 'year' => $dataExpense['year'],
                 'month' => $dataExpense['month'],
-                'id_puc' => $dataExpense['id_puc'],
-                'expense_value' => $dataExpense['expense_value'],
-                'participation' => $dataExpense['participation']
+                'id_product' => $dataExpense['id_product'],
+                'units_sold' => $dataExpense['units_sold'],
+                'turnover' => $dataExpense['turnover'],
+                'assignable_expense' => $dataExpense['assignable_expense']
             ]);
         } catch (\Exception $e) {
             return array('info' => true, 'message' => $e->getMessage());
@@ -60,13 +61,14 @@ class HistoricalExpensesDao
     {
         $connection = Connection::getInstance()->getConnection1();
         try {
-            // id_puc = :id_puc
-            $stmt = $connection->prepare("UPDATE historical_expenses SET expense_value = :expense_value, participation = :participation
-                                          WHERE id_historical_expense = :id_historical_expense");
+            // id_product = :id_product,
+            $stmt = $connection->prepare("UPDATE historical_expense_distribution SET units_sold = :units_sold, turnover = :turnover, assignable_expense = :assignable_expense
+                                          WHERE id_historical_distribution = :id_historical_distribution");
             $stmt->execute([
-                'id_historical_expense' => $dataExpense['id_historical_expense'],
-                'expense_value' => $dataExpense['expense_value'],
-                'participation' => $dataExpense['participation']
+                'id_historical_distribution' => $dataExpense['id_historical_distribution'],
+                'units_sold' => $dataExpense['units_sold'],
+                'turnover' => $dataExpense['turnover'],
+                'assignable_expense' => $dataExpense['assignable_expense']
             ]);
         } catch (\Exception $e) {
             return array('info' => true, 'message' => $e->getMessage());
