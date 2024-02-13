@@ -232,7 +232,7 @@ $(document).ready(function () {
       $('.cardImportProductsMaterials').hide(800);
       $('#formImportProductMaterial').trigger('reset');
       $('.cardAddMaterials').hide(800);
-      $('.cardAddNewProduct').hide(800);
+      $('.cardAddNewProduct').show(800);
       $('.cardImportProductsMaterials').hide(800);
 
       $('#formAddMaterials').trigger('reset');

@@ -1,37 +1,37 @@
 <?php
 
 use tezlikv3\dao\DataCostDao;
-use tezlikv3\dao\HistoricalDao;
+use tezlikv3\dao\HistoricalProductsDao;
 use tezlikv3\dao\PricesDao;
 
-$historicalDao = new HistoricalDao();
+$historicalProductsDao = new HistoricalProductsDao();
 $pricesDao = new PricesDao();
 $dataCostDao = new DataCostDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/historical', function (Request $request, Response $response, $args) use ($historicalDao) {
+$app->get('/historical', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $data = $historicalDao->findAllHistoricalByCompany($id_company);
+    $data = $historicalProductsDao->findAllHistoricalByCompany($id_company);
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use ($historicalDao) {
-    $data = $historicalDao->findHistorical($args['id_historic']);
+$app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
+    $data = $historicalProductsDao->findHistorical($args['id_historic']);
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/lastHistorical', function (Request $request, Response $response, $args) use ($historicalDao) {
+$app->get('/lastHistorical', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
 
-    $data = $historicalDao->findLastHistorical($id_company);
+    $data = $historicalProductsDao->findLastHistorical($id_company);
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -40,7 +40,7 @@ $app->get('/lastHistorical', function (Request $request, Response $response, $ar
 $app->post('/saveHistorical', function (Request $request, Response $response, $args) use (
     $pricesDao,
     $dataCostDao,
-    $historicalDao
+    $historicalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -78,7 +78,7 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
 
             $data['minProfitability'] = $k;
 
-            $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
+            $resolution = $historicalProductsDao->insertHistoricalByCompany($data, $id_company);
         }
     } else {
         $historical = $dataHistorical['data'];
@@ -122,9 +122,9 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
             }
 
             if ($insert == true)
-                $resolution = $historicalDao->insertHistoricalByCompany($data, $id_company);
+                $resolution = $historicalProductsDao->insertHistoricalByCompany($data, $id_company);
             else {
-                $resolution = $historicalDao->updateHistoricalByCompany($data);
+                $resolution = $historicalProductsDao->updateHistoricalByCompany($data);
             }
         }
     }

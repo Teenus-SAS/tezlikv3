@@ -5,6 +5,7 @@ $(document).ready(function () {
 
   $('#btnImportNewProductProcess').click(function (e) {
     e.preventDefault();
+    $('.cardAddNewProduct').hide(800);
     $('.cardAddProcess').hide(800);
     $('.cardImportProductsProcess').toggle(800);
   });
