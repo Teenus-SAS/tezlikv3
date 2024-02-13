@@ -16,10 +16,8 @@ class ExpensesDao
     $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
   }
 
-  public function findAllExpensesByCompany()
+  public function findAllExpensesByCompany($id_company)
   {
-    session_start();
-    $id_company = $_SESSION['id_company'];
     $connection = Connection::getInstance()->getConnection();
 
     $stmt = $connection->prepare("SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc,

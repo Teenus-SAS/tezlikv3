@@ -61,7 +61,9 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
 
 /* Consulta todos */
 $app->get('/expenses', function (Request $request, Response $response, $args) use ($expensesDao) {
-    $expenses = $expensesDao->findAllExpensesByCompany();
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $expenses = $expensesDao->findAllExpensesByCompany($id_company);
     $response->getBody()->write(json_encode($expenses, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -85,23 +87,21 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
         $totalExpenseDao->updateTotalExpense($expense, $id_company);
 
     // Guardar Historico (Mes) 
-    $data = [];
-    $data['year'] = date('Y');
-    $data['month'] = date('n');
-    $data['expense'] = $expense['expenses_value'];
+    // $data = [];
+    // $data['year'] = date('Y');
+    // $data['month'] = date('n');
+    // // $data['expense'] = $expense['expenses_value'];
 
-    $historical = $historicalExpensesDao->findHistorical($data, $id_company);
+    // $historical = $historicalExpensesDao->findHistorical($data, $id_company);
 
-    if (!$historical)
-        $resolution = $historicalExpensesDao->insertHistoricalExpense($data, $id_company);
-    else
-        $resolution = $historicalExpensesDao->updateHistoricalExpense($data);
+    // if (!$historical)
+    //     $resolution = $historicalExpensesDao->insertHistoricalExpense($data, $id_company);
+    // else
+    //     $resolution = $historicalExpensesDao->updateHistoricalExpense($data);
 
     $response->getBody()->write(json_encode(1, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
-
-
 
 $app->post('/expenseDataValidation', function (Request $request, Response $response, $args) use ($expensesDao, $pucDao) {
     $dataExpense = $request->getParsedBody();
@@ -265,17 +265,23 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 
     if ($resolution == null) {
         // Guardar Historico (Mes) 
-        $data = [];
-        $data['year'] = date('Y');
-        $data['month'] = date('m');
-        $data['expense'] = $expense['expenses_value'];
+        $expenses = $expensesDao->findAllExpensesByCompany($id_company);
 
-        $historical = $historicalExpensesDao->findHistorical($data, $id_company);
+        foreach ($expenses as $arr) {
+            if (isset($resolution['info'])) break;
 
-        if (!$historical)
-            $resolution = $historicalExpensesDao->insertHistoricalExpense($data, $id_company);
-        else
-            $resolution = $historicalExpensesDao->updateHistoricalExpense($data);
+            $arr['year'] = date('Y');
+            $arr['month'] = date('m');
+
+            $historical = $historicalExpensesDao->findHistorical($arr, $id_company);
+
+            if (!$historical)
+                $resolution = $historicalExpensesDao->insertHistoricalExpense($arr, $id_company);
+            else {
+                $arr['id_historical_expense'] = $historical['id_historical_expense'];
+                $resolution = $historicalExpensesDao->updateHistoricalExpense($arr);
+            }
+        }
     }
 
     // Calcular procentaje de participacion
@@ -433,17 +439,24 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
 
         // Guardar Historico (Mes) 
         if ($resolution == null) {
-            $data = [];
-            $data['year'] = date('Y');
-            $data['month'] = date('m');
-            $data['expense'] = $expense['expenses_value'];
 
-            $historical = $historicalExpensesDao->findHistorical($data, $id_company);
+            $expenses = $expensesDao->findAllExpensesByCompany($id_company);
 
-            if (!$historical)
-                $resolution = $historicalExpensesDao->insertHistoricalExpense($data, $id_company);
-            else
-                $resolution = $historicalExpensesDao->updateHistoricalExpense($data);
+            foreach ($expenses as $arr) {
+                if (isset($resolution['info'])) break;
+
+                $arr['year'] = date('Y');
+                $arr['month'] = date('m');
+
+                $historical = $historicalExpensesDao->findHistorical($arr, $id_company);
+
+                if (!$historical)
+                    $resolution = $historicalExpensesDao->insertHistoricalExpense($arr, $id_company);
+                else {
+                    $arr['id_historical_expense'] = $historical['id_historical_expense'];
+                    $resolution = $historicalExpensesDao->updateHistoricalExpense($arr);
+                }
+            }
         }
 
         /* Calcular gasto asignable 
@@ -623,17 +636,25 @@ $app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $
     }
     // Guardar Historico (Mes) 
     if ($resolution == null) {
-        $data = [];
-        $data['year'] = date('Y');
-        $data['month'] = date('m');
-        $data['expense'] = $expense['expenses_value'];
 
-        $historical = $historicalExpensesDao->findHistorical($data, $id_company);
+        $expenses = $expensesDao->findAllExpensesByCompany($id_company);
 
-        if (!$historical)
-            $historicalExpensesDao->insertHistoricalExpense($data, $id_company);
-        else
-            $historicalExpensesDao->updateHistoricalExpense($data);
+        foreach ($expenses as $arr) {
+            if (isset($resolution['info'])) break;
+
+            $arr['year'] = date('Y');
+            $arr['month'] = date('m');
+
+            $historical = $historicalExpensesDao->findHistorical($arr, $id_company);
+
+            if (!$historical)
+                $resolution = $historicalExpensesDao->insertHistoricalExpense($arr, $id_company);
+            else {
+                $arr['id_historical_expense'] = $historical['id_historical_expense'];
+
+                $resolution = $historicalExpensesDao->updateHistoricalExpense($arr);
+            }
+        }
     }
 
     /* Calcular gasto asignable */
