@@ -142,51 +142,51 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
                 $resolution = $historicalProductsDao->updateHistoricalByCompany($data);
             }
         }
+    }
 
-        // Gastos
-        if ($resolution == null) {
-            $expenses = $expensesDao->findAllExpensesByCompany($id_company);
+    // Gastos
+    if ($resolution == null) {
+        $expenses = $expensesDao->findAllExpensesByCompany($id_company);
 
-            foreach ($expenses as $arr) {
-                $arr['year'] = $year;
-                $arr['month'] = $month;
+        foreach ($expenses as $arr) {
+            $arr['year'] = $year;
+            $arr['month'] = $month;
 
-                $historical = $historicalExpensesDao->findHistorical($arr, $id_company);
+            $historical = $historicalExpensesDao->findHistorical($arr, $id_company);
 
-                if (!$historical)
-                    $resolution = $historicalExpensesDao->insertHistoricalExpense($arr, $id_company);
-                else {
-                    $arr['id_historical_expense'] = $historical['id_historical_expense'];
+            if (!$historical)
+                $resolution = $historicalExpensesDao->insertHistoricalExpense($arr, $id_company);
+            else {
+                $arr['id_historical_expense'] = $historical['id_historical_expense'];
 
-                    $resolution = $historicalExpensesDao->updateHistoricalExpense($arr);
-                }
-
-                if (isset($resolution['info'])) break;
+                $resolution = $historicalExpensesDao->updateHistoricalExpense($arr);
             }
+
+            if (isset($resolution['info'])) break;
         }
+    }
 
-        // Distribucion
-        if ($resolution == null) {
-            $expenses = $assignableExpenseDao->findAllExpensesDistribution($id_company);
+    // Distribucion
+    if ($resolution == null) {
+        $expenses = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
-            foreach ($expenses as $arr) {
-                $arr['year'] = $year;
-                $arr['month'] = $month;
-                $arr['assignable_expense'] = $arr['assignable_expense'];
+        foreach ($expenses as $arr) {
+            $arr['year'] = $year;
+            $arr['month'] = $month;
+            $arr['assignable_expense'] = $arr['assignable_expense'];
 
-                // Guardar ED Historico (mes)
-                $historical = $historicalEDDao->findHistorical($arr, $id_company);
+            // Guardar ED Historico (mes)
+            $historical = $historicalEDDao->findHistorical($arr, $id_company);
 
-                if (!$historical)
-                    $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
-                else {
-                    $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
+            if (!$historical)
+                $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
+            else {
+                $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
 
-                    $resolution = $historicalEDDao->updateHistoricalExpense($arr);
-                }
-
-                if (isset($resolution['info'])) break;
+                $resolution = $historicalEDDao->updateHistoricalExpense($arr);
             }
+
+            if (isset($resolution['info'])) break;
         }
     }
 
