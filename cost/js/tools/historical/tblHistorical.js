@@ -69,17 +69,7 @@ $(document).ready(function () {
         $('#lblAverageProfitability').html(` Rentab Prom: ${averageProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
     }
   
-    loadTblPrices = async (data) => {
-        // if (key && value) {
-        //     if (key.includes(',') && value.includes(',')) {
-        //         key = key.split(',');
-        //         value = value.split(',');
-        //         data = data.filter((item) => item[key[0]] == value[0] && item[key[1]] == value[1]);
-        //     }
-        //     else
-        //         data = data.filter((item) => item[key] == value);
-        // }
-
+    loadTblPrices = async (data) => { 
         if ($.fn.dataTable.isDataTable("#tblHistorical")) {
             $("#tblHistorical").DataTable().clear();
             $("#tblHistorical").DataTable().rows.add(data).draw();

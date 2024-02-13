@@ -10,7 +10,7 @@ $(document).ready(function () {
             let year = $('#year').val();
 
             if (year && year != '0')
-                data = data.filter((item) => item.month == month && item.year == this.value); 
+                data = data.filter((item) => item.month == this.value && item.year == year); 
             else
                 data = data.filter((item) => item.month == this.value);
         }
