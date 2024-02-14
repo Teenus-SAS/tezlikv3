@@ -92,6 +92,7 @@ $(document).ready(function () {
     let profitability = 0;
     let commissionSale = 0;
     let actualProfitability = 0;
+    let total_units = 0;
     let contProfitability = 0;
 
     data = data.filter((item) => item.profitability > 0);
@@ -100,6 +101,7 @@ $(document).ready(function () {
       for (let i in data) {
         profitability = profitability + data[i].profitability;
         commissionSale = commissionSale + data[i].commission_sale;
+        total_units += data[i].units_sold;
 
         let dataCost = getDataCost(data[i]);
         if (isFinite(dataCost.actualProfitability)) {
@@ -109,7 +111,9 @@ $(document).ready(function () {
       }       
       let averageprofitability = profitability / data.length;
       let averagecommissionSale = commissionSale / data.length;
-      let averageActualProfitability = actualProfitability / contProfitability;
+
+      // let averageActualProfitability = actualProfitability / contProfitability;
+      let averageActualProfitability = (actualProfitability / total_units) * 100;
 
       isNaN(averageActualProfitability) ? averageActualProfitability = 0 : averageActualProfitability; 
 
@@ -185,8 +189,13 @@ $(document).ready(function () {
 
   /* Ventas generales */
   generalSales = (data) => {
-    !data[0]? units_sold = 0 : units_sold=data[0].units_sold;
-    !data[0] ? turnover = 0 : turnover=data[0].turnover;
+    let units_sold = 0;
+    let turnover = 0;
+
+    data.forEach(item => {
+      units_sold += item.units_sold;
+      turnover += item.turnover;
+    });
 
     $('#productsSold').html(units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-CO')}`);
