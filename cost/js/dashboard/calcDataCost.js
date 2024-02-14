@@ -21,8 +21,11 @@ $(document).ready(function () {
 
     costCommissionSale = price * (data.commission_sale / 100);
 
-    // profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
-    profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
+    profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
+
+    // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
+    // price2 = data.turnover / data.units_sold;
+    // profitability2 = (((price2 - costTotal) / price2) * data.units_sold);
 
     costActualProfitability = data.sale_price * (profitability / 100);
 
