@@ -27,8 +27,9 @@ $(document).ready(function () {
     // }
     // else {
       // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
-      price2 = parseFloat(data.turnover) / parseFloat(data.units_sold);
-      profitability = (((price2 - costTotal) / costTotal) * parseFloat(data.units_sold));
+    price2 = costTotal * parseFloat(data.units_sold);
+    profitability = ((parseFloat(data.turnover) - price2) / price2) * 100;
+      // profitability = (((parseFloat(data.turnover) - price2) / price2) * parseFloat(data.units_sold));
     // }
     profitability2 = (((parseFloat(data.sale_price) - costTotal) / costTotal) * 100);
 
@@ -50,6 +51,7 @@ $(document).ready(function () {
       costActualProfitability: costActualProfitability,
       expense: expense,
       price: price,
+      price2: price2,
     };
 
     return dataCost;
