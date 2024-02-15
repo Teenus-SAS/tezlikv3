@@ -92,7 +92,9 @@ $(document).ready(function () {
     let profitability = 0;
     let commissionSale = 0;
     let actualProfitability = 0;
+    let price2 = 0;
     let total_units = 0;
+    let turnover = 0;
     let contProfitability = 0;
 
     data = data.filter((item) => item.profitability > 0);
@@ -102,18 +104,21 @@ $(document).ready(function () {
         profitability = profitability + data[i].profitability;
         commissionSale = commissionSale + data[i].commission_sale;
         total_units += data[i].units_sold;
+        turnover += data[i].turnover;
 
         let dataCost = getDataCost(data[i]);
         if (isFinite(dataCost.actualProfitability)) {
           contProfitability += 1;
-          actualProfitability += dataCost.actualProfitability;
+          price2 += dataCost.price2;
+          // actualProfitability += dataCost.actualProfitability;
         }
       }       
       let averageprofitability = profitability / data.length;
       let averagecommissionSale = commissionSale / data.length;
 
       // let averageActualProfitability = actualProfitability / contProfitability;
-      let averageActualProfitability = (actualProfitability / total_units) * 100;
+      // let averageActualProfitability = (actualProfitability / total_units) * 100;
+      let averageActualProfitability = ((turnover - price2) / price2) * 100;
 
       isNaN(averageActualProfitability) ? averageActualProfitability = 0 : averageActualProfitability; 
 
