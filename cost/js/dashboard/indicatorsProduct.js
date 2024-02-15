@@ -223,13 +223,13 @@ $(document).ready(function () {
     /* if (dataCost.actualProfitability == data[0].profitability) { border-warning 
        else if (dataCost.actualProfitability > data[0].profitability) { border-success */
      
-    if (dataCost.actualProfitability < data[0].profitability && dataCost.actualProfitability > 0 && data[0].sale_price > 0) {
+    if (dataCost.actualProfitability2 < data[0].profitability && dataCost.actualProfitability2 > 0 && data[0].sale_price > 0) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                          <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 0 })} %</h2>
+                          <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %</h2>
                         </div>
                         <div class="text-center">
                           <span class="text-warning font-weight-bold" style="font-size:large">
@@ -241,13 +241,13 @@ $(document).ready(function () {
                   </div>`;
       $('#actualSalePrice').addClass('text-warning');
     }
-    else if (dataCost.actualProfitability < data[0].profitability && data[0].sale_price > 0) {
+    else if (dataCost.actualProfitability2 < data[0].profitability && data[0].sale_price > 0) {
     content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                         <div class="text-center">
                           <span class="text-danger font-weight-bold" style="font-size:large">
@@ -265,7 +265,7 @@ $(document).ready(function () {
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                          <h2 class="mb-0 mt-1 costProduct text-success">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                          <h2 class="mb-0 mt-1 costProduct text-success">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                         <div class="text-center">
                           <span class="text-success font-weight-bold" style="font-size:large">
