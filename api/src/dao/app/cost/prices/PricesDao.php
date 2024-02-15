@@ -19,15 +19,25 @@ class PricesDao
   public function findAllPricesByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.cost_workforce, 0) AS cost_workforce, IFNULL(pc.cost_materials, 0) AS cost_materials, IFNULL(pc.cost_indirect_cost, 0) AS cost_indirect_cost, IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.commission_sale, 0) AS commission_sale, IFNULL(pc.price, 0) AS price, IFNULL(pc.price_usd, 0) AS price_usd, IFNULL(pc.sale_price, 0) AS sale_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_company = p.id_company)) AS units_sold,
-                                         IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS assignable_expense, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, IFNULL(er.expense_recover, 0) AS expense_recover, p.composite
+    // $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.cost_workforce, 0) AS cost_workforce, IFNULL(pc.cost_materials, 0) AS cost_materials, IFNULL(pc.cost_indirect_cost, 0) AS cost_indirect_cost, IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.commission_sale, 0) AS commission_sale, IFNULL(pc.price, 0) AS price, IFNULL(pc.price_usd, 0) AS price_usd, IFNULL(pc.sale_price, 0) AS sale_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_company = p.id_company)) AS units_sold,
+    //                                      IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover),0) FROM expenses_distribution WHERE id_company = p.id_company)) AS turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS assignable_expense, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, IFNULL(er.expense_recover, 0) AS expense_recover, p.composite
+    //                               FROM products p
+    //                                 LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
+    //                                 LEFT JOIN expenses_recover er ON er.id_product = p.id_product
+    //                                 LEFT JOIN families f ON f.id_family = p.id_family
+    //                                 INNER JOIN products_costs pc ON pc.id_product = p.id_product
+    //                                 INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
+    //                               WHERE p.id_company = :id_company AND p.active = 1
+    //                               ORDER BY `p`.`reference` ASC");
+    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.cost_workforce, 0) AS cost_workforce, IFNULL(pc.cost_materials, 0) AS cost_materials, IFNULL(pc.cost_indirect_cost, 0) AS cost_indirect_cost, IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.commission_sale, 0) AS commission_sale, IFNULL(pc.price, 0) AS price, IFNULL(pc.price_usd, 0) AS price_usd, IFNULL(pc.sale_price, 0) AS sale_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_product = p.id_product)) AS units_sold,
+                                         IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover), 0) FROM expenses_distribution WHERE id_product = p.id_product)) AS turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS assignable_expense, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, IFNULL(er.expense_recover, 0) AS expense_recover, p.composite
                                   FROM products p
                                     LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
                                     LEFT JOIN expenses_recover er ON er.id_product = p.id_product
                                     LEFT JOIN families f ON f.id_family = p.id_family
                                     INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                     INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
-                                  WHERE p.id_company = :id_company AND p.active = 1  -- AND p.composite = 0
+                                  WHERE p.id_company = :id_company AND p.active = 1
                                   ORDER BY `p`.`reference` ASC");
 
     $stmt->execute(['id_company' => $id_company]);
