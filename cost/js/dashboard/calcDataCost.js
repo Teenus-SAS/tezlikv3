@@ -25,7 +25,8 @@ $(document).ready(function () {
 
     // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
     price2 = data.turnover / data.units_sold;
-    profitability = (((price2 - costTotal) / costTotal) * data.units_sold);
+    profitability2 = ((price2 - costTotal) / costTotal);
+    profitability = (profitability2 * data.units_sold);
 
     costActualProfitability = data.sale_price * (profitability / 100);
 
@@ -38,6 +39,7 @@ $(document).ready(function () {
       cost: cost,
       costTotal: costTotal,
       actualProfitability: profitability,
+      actualProfitability2: (profitability2 * 100),
       costCommissionSale: costCommissionSale,
       costProfitability: costProfitability,
       costActualProfitability: costActualProfitability,
