@@ -24,7 +24,7 @@ $(document).ready(function () {
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
 
-      isFinite(dataCost.actualProfitability) ? actualProfitability = dataCost.actualProfitability : actualProfitability = 0;
+      isFinite(dataCost.actualProfitability2) ? actualProfitability = dataCost.actualProfitability2 : actualProfitability = 0;
 
       products.push({
         name: data[i].product,
