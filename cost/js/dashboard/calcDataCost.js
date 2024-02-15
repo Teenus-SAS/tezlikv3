@@ -21,8 +21,9 @@ $(document).ready(function () {
 
     costCommissionSale = price * (data.commission_sale / 100);
 
-    if (data.units_sold == 0 || data.turnover == 0)
+    if (data.units_sold == 0 || data.turnover == 0){
       profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
+      profitability2 = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;}
     else {
       // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
       price2 = data.turnover / data.units_sold;
