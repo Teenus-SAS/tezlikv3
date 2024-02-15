@@ -222,6 +222,8 @@ $(document).ready(function () {
 
     /* if (dataCost.actualProfitability == data[0].profitability) { border-warning 
        else if (dataCost.actualProfitability > data[0].profitability) { border-success */
+    if (!isFinite(dataCost.actualProfitability2))
+              dataCost.actualProfitability2 = 0;
      
     if (dataCost.actualProfitability2 < data[0].profitability && dataCost.actualProfitability2 > 0 && data[0].sale_price > 0) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">

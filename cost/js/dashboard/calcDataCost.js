@@ -7,34 +7,35 @@ $(document).ready(function () {
       parseFloat(data.services);
 
     if (flag_expense == 0 || flag_expense == 1) {
-      expense = data.assignable_expense;
-      costTotal = cost + data.assignable_expense;
+      expense = parseFloat(data.assignable_expense);
+      costTotal = cost + parseFloat(data.assignable_expense);
     } else if (flag_expense == 2) {
-      costTotal = cost / (1 - data.expense_recover / 100);
-      expense = costTotal * (data.expense_recover / 100);
+      costTotal = cost / (1 - parseFloat(data.expense_recover) / 100);
+      expense = costTotal * (parseFloat(data.expense_recover) / 100);
     }
 
-    pPrice = costTotal / (1 - data.profitability / 100);
-    price = pPrice / (1 - data.commission_sale / 100);
+    pPrice = costTotal / (1 - parseFloat(data.profitability) / 100);
+    price = pPrice / (1 - parseFloat(data.commission_sale) / 100);
 
-    costProfitability = pPrice * (data.profitability / 100);
+    costProfitability = pPrice * (parseFloat(data.profitability) / 100);
 
-    costCommissionSale = price * (data.commission_sale / 100);
+    costCommissionSale = price * (parseFloat(data.commission_sale) / 100);
 
-    // if (data.units_sold == 0 || data.turnover == 0) {
-    //   // profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
-    //   profitability = (((data.sale_price - costTotal) / costTotal) * 100);
+    // if (flag_expense == 2) {
+      // // profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
+      // profitability = (((data.sale_price - costTotal) / costTotal) * 100);
     // }
     // else {
       // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
-    price2 = data.turnover / data.units_sold;
-    profitability = (((price2 - costTotal) / costTotal) * data.units_sold);
+      price2 = parseFloat(data.turnover) / parseFloat(data.units_sold);
+      profitability = (((price2 - costTotal) / costTotal) * parseFloat(data.units_sold));
     // }
-    profitability2 = (((data.sale_price - costTotal) / costTotal) * 100);
+    profitability2 = (((parseFloat(data.sale_price) - costTotal) / costTotal) * 100);
 
-    costActualProfitability = data.sale_price * (profitability / 100);
+    costActualProfitability = parseFloat(data.sale_price) * (profitability / 100);
 
     isNaN(profitability) ? profitability = 0 : profitability;
+    isNaN(profitability2) ? profitability2 = 0 : profitability2;
     isNaN(costProfitability) ? costProfitability = 0 : costProfitability;
     isNaN(costCommissionSale) ? costCommissionSale = 0 : costCommissionSale;
     isNaN(costActualProfitability) ? costActualProfitability = 0 : costActualProfitability;
