@@ -506,6 +506,7 @@ if (sizeof($_SESSION) == 0)
                 flag_expense = "<?= $_SESSION['flag_expense'] ?>";
                 flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                 type_expense = "<?= $_SESSION['type_expense'] ?>";
+                flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
             </script>
 
             <script src="../global/js/import/import.js"></script>
