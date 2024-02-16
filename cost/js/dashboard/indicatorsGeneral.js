@@ -99,6 +99,9 @@ $(document).ready(function () {
 
     data = data.filter((item) => item.profitability > 0);
     
+    if (flag_expense === '1' || flag_expense_distribution === '1')
+      data = data.filter((item) => item.units_sold != 0 && item.turnover != 0);
+
     if (data.length > 0) {
       for (let i in data) {
         profitability = profitability + data[i].profitability;

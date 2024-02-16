@@ -33,10 +33,10 @@ $(document).ready(function () {
       price2 = costTotal * parseFloat(data.units_sold);
       profitability = ((parseFloat(data.turnover) - price2) / price2) * 100;
       profitability2 = (((parseFloat(data.sale_price) - costTotal) / costTotal) * 100);
-      costActualProfitability = parseFloat(data.turnover) - price2;
+      costActualProfitability = price2;
+      // costActualProfitability = parseFloat(data.turnover) - price2;
       // profitability = (((parseFloat(data.turnover) - price2) / price2) * parseFloat(data.units_sold));
     }
-
 
     isNaN(profitability) ? profitability = 0 : profitability;
     isNaN(profitability2) ? profitability2 = 0 : profitability2;
