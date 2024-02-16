@@ -20,6 +20,11 @@ $(document).ready(function () {
     let profitability = [];
     let data = dataDetailsPrices;
 
+    data = data.filter((item) => item.profitability > 0);
+
+    if (flag_expense === '1' || flag_expense_distribution === '1')
+      data = data.filter((item) => item.units_sold != 0 && item.turnover != 0);
+
     /* Capturar y ordenar de mayor a menor  */
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
@@ -143,6 +148,7 @@ $(document).ready(function () {
     loadNextButton.disabled = startIndex + numToShow >= product.length;
 
     $('#generalDashboardName').html(`Rentabilidad Actual (Porcentaje)`);
+    document.getElementById('modalGHeader').className = 'modal-dialog modal-xl';
     $('#modalGeneralDashboard').modal('show');
   });
 
@@ -166,6 +172,11 @@ $(document).ready(function () {
     let product = [];
     let cost = [];
     let data = dataDetailsPrices;
+
+    data = data.filter((item) => item.profitability > 0);
+
+    if (flag_expense === '1' || flag_expense_distribution === '1')
+      data = data.filter((item) => item.units_sold != 0 && item.turnover != 0);
 
     /* Capturar y ordenar de mayor a menor  */
     for (i = 0; i < data.length; i++) {
@@ -295,6 +306,8 @@ $(document).ready(function () {
 
 
     $('#generalDashboardName').html(`Productos con mayor rentabilidad (${typePrice == '1' ? 'Sugerida' : 'Actual'})`);
+    document.getElementById('modalGHeader').className = 'modal-dialog modal-xl';
+
     $('#modalGeneralDashboard').modal('show');
   });
   
@@ -409,6 +422,7 @@ $(document).ready(function () {
     });
 
     $('#generalDashboardName').html(`${puc} - ${label}`);
+    document.getElementById('modalGHeader').className = 'modal-dialog';
     $('#modalGeneralDashboard').modal('show');
   };
 });

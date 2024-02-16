@@ -479,7 +479,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
 
-      if (isFinite(dataCost.costActualProfitability)) {
+      if (isFinite(dataCost.costActualProfitability) || dataCost.costActualProfitability > 0) {
         products.push({
           name: data[i].product,
           cost: dataCost.costActualProfitability,

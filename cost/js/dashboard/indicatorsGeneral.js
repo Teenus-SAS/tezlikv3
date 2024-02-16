@@ -110,15 +110,17 @@ $(document).ready(function () {
         if (isFinite(dataCost.actualProfitability)) {
           contProfitability += 1;
           price2 += dataCost.price2;
-          // actualProfitability += dataCost.actualProfitability;
+          actualProfitability += dataCost.actualProfitability;
         }
       }       
       let averageprofitability = profitability / data.length;
       let averagecommissionSale = commissionSale / data.length;
 
-      // let averageActualProfitability = actualProfitability / contProfitability;
+      if (flag_expense === '2' || flag_expense_distribution === '2' ) 
+        averageActualProfitability = actualProfitability / contProfitability;
       // let averageActualProfitability = (actualProfitability / total_units) * 100;
-      let averageActualProfitability = ((turnover - price2) / price2) * 100;
+      else
+        averageActualProfitability = ((turnover - price2) / price2) * 100;
 
       isNaN(averageActualProfitability) ? averageActualProfitability = 0 : averageActualProfitability; 
 
@@ -140,7 +142,13 @@ $(document).ready(function () {
       </div>`);
 
 
-      $('#profitabilityAverage').html(
+      $('#totalCostED').html(
+        `$ ${price2.toLocaleString('es-CO', {
+          maximumFractionDigits: 0,
+        })}`
+      );
+
+      $('#minProfitabilityAverage').html(
         `${averageprofitability.toLocaleString('es-CO', {
           maximumFractionDigits: 2,
         })} %`
@@ -152,6 +160,7 @@ $(document).ready(function () {
       );
     } else {
       $('#profitabilityAverage').html(`0 %`);
+      $('#minProfitabilityAverage').html(`0 %`);
       $('#comissionAverage').html(`0 %`);
     }
   };
