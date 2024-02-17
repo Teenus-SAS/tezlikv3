@@ -19,7 +19,7 @@ $(document).ready(function () {
         graphicWorkforce(data.process_minute_value);
         graphicGeneralCost(data.expense_value);
 
-        if (flag_expense === '1' || flag_expense_distribution === '1') {
+        if (flag_expense === '1' && flag_expense_distribution === '1') {
           typePrice = '2';
           document.getElementById("actual").className =
             "btn btn-sm btn-primary typePrice";
@@ -112,7 +112,7 @@ $(document).ready(function () {
 
     data = data.filter((item) => item.profitability > 0);
     
-    if (flag_expense === '1' || flag_expense_distribution === '1')
+    if (flag_expense === '1' && flag_expense_distribution === '1')
       data = data.filter((item) => item.units_sold != 0 && item.turnover != 0);
 
     if (data.length > 0) {
