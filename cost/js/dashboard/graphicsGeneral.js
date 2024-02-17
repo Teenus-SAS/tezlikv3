@@ -479,6 +479,9 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
     let product = [];
     let cost = [];
 
+    if (flag_expense === '1' || flag_expense_distribution === '1')
+      data = data.filter((item) => item.units_sold != 0 && item.turnover != 0);
+
     /* Capturar y ordenar de mayor a menor  */
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
