@@ -464,7 +464,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
               cost.toLocaleString("es-CO", { maximumFractionDigits: 0 }),
             color: "black",
             font: {
-              size: "12",
+              size: "10",
               weight: "normal",
             },
           },
@@ -513,7 +513,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
@@ -560,7 +560,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
               cost.toLocaleString("es-CO", { maximumFractionDigits: 0 }),
             color: "black",
             font: {
-              size: "12",
+              size: "10",
               weight: "normal",
             },
           },

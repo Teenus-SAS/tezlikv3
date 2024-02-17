@@ -103,8 +103,7 @@ $(document).ready(function () {
             anchor: "end",
             align: 'top',
             offset: 2,
-            formatter: (profitability) =>
-              profitability.toLocaleString("es-CO", { maximumFractionDigits: 2 }),
+            formatter: (profitability) => `${profitability.toLocaleString("es-CO", { maximumFractionDigits: 2 })} %`,
             color: "black",
             font: {
               size: "12",

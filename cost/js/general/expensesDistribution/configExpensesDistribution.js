@@ -13,9 +13,9 @@ $(document).ready(function () {
     );
     $('#expensesToDistribution').prop('disabled', true);
 
-    data = await searchData('/api/checkTypeExpense'); 
+    // data = await searchData('/api/checkTypeExpense'); 
 
-    if (data.flag_expense == 0) {
+    if (flag_expense == 0) {
       /* Seleccionar tipo de gasto */
       bootbox.confirm({
         closeButton: false,
@@ -37,8 +37,8 @@ $(document).ready(function () {
         },
       });
     } else {
-      option = data.flag_expense;
-      flag_expense_distribution = data.flag_family;
+      option = flag_expense;
+      // flag_expense_distribution = data.flag_family;
 
       setDataExpense(data);
     }
