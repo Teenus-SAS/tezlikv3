@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let dataProducts = [];
+  let inactiveProducts = [];
 
   /* Inactivar productos */
   $(document).on('click', '.checkboxProduct', function () {
@@ -24,8 +24,6 @@ $(document).ready(function () {
             url: `/api/inactiveProducts/${idProduct}`,
             success: function (data) {
               message(data);
-              $('#tblProducts').DataTable().clear();
-              $('#tblProducts').DataTable().ajax.reload();
             },
           });
         } else {
@@ -67,7 +65,8 @@ $(document).ready(function () {
   });
 
   setTblInactivesProducts = async () => {
-    let data = await searchData('/api/inactivesProducts');
+    // let data = await searchData('/api/inactivesProducts');
+    let data = dataInactiveProducts;
 
     let tblInactiveProductsBody = document.getElementById(
       'tblInactiveProductsBody'
@@ -132,17 +131,17 @@ $(document).ready(function () {
         idProduct: idProduct,
       };
 
-      dataProducts.push(planeacion);
+      inactiveProducts.push(planeacion);
     } else {
-      for (i = 0; i < dataProducts.length; i++)
-        if (dataProducts[i].idProduct == idProduct) dataProducts.splice(i, 1);
+      for (i = 0; i < inactiveProducts.length; i++)
+        if (inactiveProducts[i].idProduct == idProduct) inactiveProducts.splice(i, 1);
     }
   });
 
   /* Activar productos  */
   $('#btnActivesProducts').click(function (e) {
     e.preventDefault();
-    if (dataProducts.length == 0) {
+    if (inactiveProducts.length == 0) {
       toastr.error('Seleccione un producto para activar');
       return false;
     }
@@ -150,13 +149,11 @@ $(document).ready(function () {
     $.ajax({
       type: 'POST',
       url: '/api/activeProducts',
-      data: { data: dataProducts },
+      data: { data: inactiveProducts },
       success: function (data) {
         $('#createInactivesProducts').modal('hide');
-        dataProducts = [];
-        message(data);
-        $('#tblProducts').DataTable().clear();
-        $('#tblProducts').DataTable().ajax.reload();
+        inactiveProducts = [];
+        message(data); 
       },
     });
   });

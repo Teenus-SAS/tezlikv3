@@ -79,9 +79,13 @@ $(document).ready(function () {
 
     percentRawMaterial = (data[0].cost_materials / dataCost.costTotal) * 100;
     percentWorkforce = (data[0].cost_workforce / dataCost.costTotal) * 100;
-    percentIndirectCost =
-      (data[0].cost_indirect_cost / dataCost.costTotal) * 100;
+    percentIndirectCost = (data[0].cost_indirect_cost / dataCost.costTotal) * 100;
     percentAssignableExpenses = (dataCost.expense / dataCost.costTotal) * 100;
+
+    !isFinite(percentRawMaterial) ? percentRawMaterial = 0 : percentRawMaterial;
+    !isFinite(percentWorkforce) ? percentWorkforce = 0 : percentWorkforce;
+    !isFinite(percentIndirectCost) ? percentIndirectCost = 0 : percentIndirectCost;
+    !isFinite(percentAssignableExpenses) ? percentAssignableExpenses = 0 : percentAssignableExpenses;
 
     percentRawMaterial >= 0 && percentRawMaterial < 1 ? percentRawMaterial = percentRawMaterial.toFixed(2) : percentRawMaterial = percentRawMaterial.toFixed(0);
     percentWorkforce >= 0 && percentWorkforce < 1 ? percentWorkforce = percentWorkforce.toFixed(2) : percentWorkforce = percentWorkforce.toFixed(0);
@@ -91,9 +95,7 @@ $(document).ready(function () {
     $('#percentRawMaterial').html(`${percentRawMaterial} %`);
     $('#percentWorkforce').html(`${percentWorkforce} %`);
     $('#percentIndirectCost').html(`${percentIndirectCost} %`);
-    $('#percentAssignableExpenses').html(
-      `${percentAssignableExpenses} %`
-    );
+    $('#percentAssignableExpenses').html(`${percentAssignableExpenses} %`);
   };
 
   /* Ventas */

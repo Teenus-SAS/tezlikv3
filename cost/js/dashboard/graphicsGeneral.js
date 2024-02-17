@@ -355,19 +355,19 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
     });
   };
 
-  $(document).on("click", ".typePrice", async function () {
+  $(document).on("click", ".typePrice", function () {
     let op = this.value;
     let className = this.className;
     typePrice = op;
 
-    let data = await searchData("/api/dashboardExpensesGenerals");
+    // let data = await searchData("/api/dashboardExpensesGenerals");
     if (op == 1 && className.includes("btn-outline-primary")) {
       document.getElementById("sugered").className =
         "btn btn-sm btn-primary typePrice";
       document.getElementById("actual").className =
         "btn btn-sm btn-outline-primary typePrice";
       $(".productTitle").html("Productos con mayor rentabilidad (Sugerida)");
-      graphicProductCost(data.details_prices);
+      graphicProductCost(dataDetailsPrices);
     } else if (className.includes("btn-outline-primary")) {
       document.getElementById("actual").className =
         "btn btn-sm btn-primary typePrice";
@@ -375,7 +375,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
         "btn btn-sm btn-outline-primary typePrice";
 
       $(".productTitle").html("Productos con mayor rentabilidad (Actual)");
-      graphicProductActualCost(data.details_prices);
+      graphicProductActualCost(dataDetailsPrices);
     }
   });
 
@@ -472,6 +472,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
       },
     });
   };
+
   // Rentabilidad y precio productos (Actual)
   graphicProductActualCost = (data) => {
     let products = [];
@@ -482,7 +483,7 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
     for (i = 0; i < data.length; i++) {
       let dataCost = getDataCost(data[i]);
 
-      if (isFinite(dataCost.costActualProfitability) || dataCost.costActualProfitability > 0) {
+      if (isFinite(dataCost.costActualProfitability) && dataCost.costActualProfitability > 0) {
         products.push({
           name: data[i].product,
           cost: dataCost.costActualProfitability,

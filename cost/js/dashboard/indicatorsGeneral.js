@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  setTimeout(() => { 
+  setTimeout(() => {
     fetch(`/api/dashboardExpensesGenerals`)
       .then((response) => response.text())
       .then((data) => {
@@ -18,7 +18,20 @@ $(document).ready(function () {
         graphicsFactoryLoad(data.factory_load_minute_value);
         graphicWorkforce(data.process_minute_value);
         graphicGeneralCost(data.expense_value);
-        graphicProductCost(data.details_prices);
+
+        if (flag_expense === '1' || flag_expense_distribution === '1') {
+          typePrice = '2';
+          document.getElementById("actual").className =
+            "btn btn-sm btn-primary typePrice";
+          document.getElementById("sugered").className =
+            "btn btn-sm btn-outline-primary typePrice";
+
+          $(".productTitle").html("Productos con mayor rentabilidad (Actual)");
+          graphicProductActualCost(data.details_prices);
+        }
+        else
+          graphicProductCost(data.details_prices);
+
         generalMaterials(data.quantity_materials);
   
         dataPucExpenes = data.expenses;
