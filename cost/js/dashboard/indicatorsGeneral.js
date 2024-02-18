@@ -143,7 +143,7 @@ $(document).ready(function () {
       let cardActualProfitability = document.getElementsByClassName('cardActualProfitability')[0];
 
       cardActualProfitability.insertAdjacentHTML('afterbegin',
-      `<div class="card ${averageActualProfitability < 0 ? 'bg-danger':'bg-success'}">
+      `<div class="card btnActualProfitabilityAverage ${averageActualProfitability < 0 ? 'bg-danger':'bg-success'}">
         <a class="card-body" id="btnActualProfitabilityAverage" href="javascript:;">
           <div class="media text-white">
             <div class="media-body">
@@ -230,7 +230,7 @@ $(document).ready(function () {
     });
 
     if (sale_price === 0)
-      $('.cardActualProfitability').hide();
+      $('.btnActualProfitabilityAverage').hide();
 
     $('#productsSold').html(units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-CO')}`);
