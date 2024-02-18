@@ -15,10 +15,15 @@ $(document).ready(function () {
   });
 
   /* Cargue tabla de Gastos distribuidos */
-  loadTableExpensesDistribution = () => {
+  loadTableExpensesDistribution = () => { 
+    // if ($.fn.dataTable.isDataTable("#tblExpenses")) {
+    //   $('#tblExpenses').DataTable().clear();
+    //   $('#tblExpenses').DataTable().ajax.reload();
+    // }else
+
     tblExpensesDistribution = $('#tblExpenses').dataTable({
       destroy: true,
-      pageLength: 50,
+      pageLength: 50, 
       ajax: {
         url: '../../api/expensesDistribution',
         dataSrc: '',

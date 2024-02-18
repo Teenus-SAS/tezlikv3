@@ -221,11 +221,16 @@ $(document).ready(function () {
   generalSales = (data) => {
     let units_sold = 0;
     let turnover = 0;
+    let sale_price = 0;
 
     data.forEach(item => {
       units_sold += item.units_sold;
       turnover += item.turnover;
+      sale_price += item.sale_price;
     });
+
+    if (sale_price === 0)
+      $('.cardActualProfitability').hide();
 
     $('#productsSold').html(units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-CO')}`);

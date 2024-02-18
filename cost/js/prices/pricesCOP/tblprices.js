@@ -49,8 +49,7 @@ $(document).ready(function () {
     tblPrices = $("#tblPrices").DataTable({
       destroy:true,
       pageLength: 50,
-      data: data,
-      // dataSrc: '',
+      data: data, 
       dom: '<"datatable-error-console">frtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",

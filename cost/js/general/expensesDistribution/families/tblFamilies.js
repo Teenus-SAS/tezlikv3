@@ -3,7 +3,7 @@ $(document).ready(function () {
     if ($.fn.dataTable.isDataTable('#tblFamilies')) {
       $('#tblFamilies').DataTable().destroy();
       $('#tblFamilies').empty();
-    }
+    } 
 
     tblFamilies = $('#tblFamilies').dataTable({
       destroy: true,

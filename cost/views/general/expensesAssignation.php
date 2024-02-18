@@ -297,6 +297,10 @@ if (sizeof($_SESSION) == 0)
                                                             <select class="form-control selectNameProduct" name="selectNameProduct" id="EDNameProduct"></select>
                                                             <label for="EDNameProduct">Nombre Producto</label>
                                                         </div>
+                                                        <div class="col-sm-5 distributionFamilies floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control families" name="idFamily" id="familiesDistribute"></select>
+                                                            <label for="families">Familia</label>
+                                                        </div>
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                             <input type="number" class="form-control text-center" id="undVendidas" name="unitsSold">
                                                             <label for="undVendidas">Und Vendidas (Mes)</label>

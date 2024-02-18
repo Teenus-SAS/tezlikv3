@@ -80,19 +80,24 @@ $(document).ready(function () {
         `
       );
       $('.distribution').hide();
-      let form = document.getElementsByClassName('input-2')[0];
+      $('.distributionFamilies').show();
+      // let form = document.getElementsByClassName('input-2')[0];
 
-      form.insertAdjacentHTML(
-        'afterend',
-        `<div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-          <select class="form-control families" name="idFamily" id="familiesDistribute"></select>
-          <label for="families">Familia</label>
-        </div>`
-      );
+      // form.insertAdjacentHTML(
+      //   'afterend',
+      //   `<div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+      //     <select class="form-control families" name="idFamily" id="familiesDistribute"></select>
+      //     <label for="families">Familia</label>
+      //   </div>`
+      // );
       await loadFamilies(1);
 
       await loadTableExpensesDistributionFamilies();
-    } else await loadTableExpensesDistribution();
+    } else {
+      $('.distribution').show();
+      $('.distributionFamilies').hide();
+      await loadTableExpensesDistribution();
+    }
   };
 
   setDataExpense = async () => {
@@ -189,10 +194,11 @@ $(document).ready(function () {
             `/api/changeTypeExpenseDistribution/${op}`,
             function (data, textStatus, jqXHR) {
               if (data.success) {
-
                 toastr.success(data.message);
                 flag_expense_distribution = data.flag;
                 $('.btnButtons').remove();
+                $('.cardExpensesDistribution').hide();
+
                 setDataExpense();
               }
               else toastr.error(data.message);

@@ -128,7 +128,7 @@ $(document).ready(function () {
 
     let dataExpense = new FormData(formExpensesDistribution);
 
-    if (idExpense != '' || idExpense != null) { 
+    if (idExpense != '' || idExpense != null) {
       dataExpense.append('expense', $('#expensesToDistribution').val());
       dataExpense.append('idExpensesDistribution', idExpense);
     }
@@ -208,7 +208,7 @@ $(document).ready(function () {
       else if (op == 3) await loadFamilies(1);
       else if (op == 4) {
         await loadExpensesDFamiliesProducts();
-        await loadTableProductsFamilies();
+        // await loadTableProductsFamilies();
       }
 
       updateTable(op);
@@ -221,11 +221,22 @@ $(document).ready(function () {
   /* Actualizar tabla */
 
   async function updateTable(op) {
-    if (op == 1) loadTableExpensesDistribution();
-    else if (op == 2) loadTableExpenseRecover();
-    else if (op == 3) {
-      await loadTableFamilies();
-      await loadTableExpensesDistributionFamilies();
+    // if (op == 1) loadTableExpensesDistribution();
+    // else if (op == 2) loadTableExpenseRecover();
+    // else if (op == 3) {
+    //   await loadTableFamilies(); 
+    //   await loadTableExpensesDistributionFamilies();
+    // }
+    if (op != 2) {
+      if ($.fn.dataTable.isDataTable("#tblExpenses")) {
+        $('#tblExpenses').DataTable().clear();
+        $('#tblExpenses').DataTable().ajax.reload();
+      }
+
+      if ($.fn.dataTable.isDataTable("#tblFamilies")) {
+        $('#tblFamilies').DataTable().clear();
+        $('#tblFamilies').DataTable().ajax.reload();
+      }
     }
   }
 });

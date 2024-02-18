@@ -116,6 +116,7 @@ $(document).ready(function () {
   $(document).on('click', '.updateMaterials', async function (e) {
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').show(800);
+    $('.cardAddNewProduct').hide(800);
     $('#btnAddMaterials').html('Actualizar');
     $('#units').empty();
 
@@ -232,13 +233,13 @@ $(document).ready(function () {
       $('.cardImportProductsMaterials').hide(800);
       $('#formImportProductMaterial').trigger('reset');
       $('.cardAddMaterials').hide(800);
-      $('.cardAddNewProduct').show(800);
+      $('.cardAddNewProduct').hide(800);
       $('.cardImportProductsMaterials').hide(800);
 
       $('#formAddMaterials').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
       if (idProduct)
-        loadtableMaterials(idProduct);
+        loadAllData(idProduct);
       // updateTable();
       toastr.success(data.message);
       return false;

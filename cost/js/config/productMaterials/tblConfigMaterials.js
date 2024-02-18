@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  allProductMaterials = [];
+  allComposites = [];
+
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
     e.preventDefault();
@@ -30,16 +33,36 @@ $(document).ready(function () {
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     $('.cardAddNewProduct').hide(800);
-    $('.cardAddMaterials').hide(800);
+    $('.cardAddMaterials').hide(800); 
+
     loadtableMaterials(id);
-  });
+  }); 
+
+  loadAllData = async (op) => {
+    const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
+      searchData('/api/allProductsMaterials'),
+      searchData('/api/allCompositeProducts')
+    ]);
+
+    allProductMaterials = dataProductMaterials;
+    allComposites = dataCompositeProduct;
+
+    if (op != 1)
+      loadtableMaterials(op);
+  }
 
   /* Cargue tabla de Proyectos */
-
   loadtableMaterials = async (idProduct) => {
-    let data = await searchData(`/api/productsMaterials/${idProduct}`);
+    // let data = await searchData(`/api/productsMaterials/${idProduct}`);
+    // if (flag_composite_product == '1') {
+    //   let dataCompositeProduct = await searchData(`/api/compositeProducts/${idProduct}`);
+
+    //   data = [...data, ...dataCompositeProduct];
+    // }
+    let data = allProductMaterials.filter(item => item.id_product == idProduct);
+
     if (flag_composite_product == '1') {
-      let dataCompositeProduct = await searchData(`/api/compositeProducts/${idProduct}`);
+      let dataCompositeProduct = allComposites.filter(item => item.id_product == idProduct);
 
       data = [...data, ...dataCompositeProduct];
     }
@@ -66,9 +89,14 @@ $(document).ready(function () {
             return meta.row + 1;
           },
         },
+        // {
+        //   title: 'Referencia',
+        //   data: 'reference',
+        //   className: 'uniqueClassName',
+        // },
         {
           title: 'Referencia',
-          data: 'reference',
+          data: 'reference_material',
           className: 'uniqueClassName',
         },
         {
@@ -138,4 +166,6 @@ $(document).ready(function () {
       },
     });
   };
+
+  loadAllData(1);
 });
