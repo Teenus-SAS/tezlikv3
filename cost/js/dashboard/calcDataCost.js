@@ -4,6 +4,7 @@ $(document).ready(function () {
     let profitability2 = 0;
     let costProfitability = 0;
     let costCommissionSale = 0;
+    let costActualProfitability = 0;
     cost =
       parseFloat(data.cost_materials) +
       parseFloat(data.cost_workforce) +
