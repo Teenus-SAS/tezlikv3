@@ -302,6 +302,7 @@ $app->post('/deleteExternalService', function (Request $request, Response $respo
     $priceProductDao,
     $productsDao
 ) {
+    session_start();
     $dataExternalService = $request->getParsedBody();
 
     $externalServices = $externalServicesDao->deleteExternalService($dataExternalService['idService']);
