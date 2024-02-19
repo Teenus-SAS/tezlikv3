@@ -280,7 +280,7 @@ $(document).ready(function () {
       $('.cardImportProductsProcess').hide(800);
       $('#formImportProductProcess').trigger('reset');
       $('.cardAddProcess').hide(800);
-      $('.cardAddNewProduct').show(800);
+      // $('.cardAddNewProduct').show(800);
       $('#formAddProcess').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
       if (idProduct)
