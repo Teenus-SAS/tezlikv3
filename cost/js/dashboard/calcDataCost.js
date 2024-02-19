@@ -2,6 +2,8 @@ $(document).ready(function () {
   getDataCost = (data) => {
     let profitability = 0;
     let profitability2 = 0;
+    let costProfitability = 0;
+    let costCommissionSale = 0;
     cost =
       parseFloat(data.cost_materials) +
       parseFloat(data.cost_workforce) +
