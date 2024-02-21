@@ -26,18 +26,18 @@ $(document).ready(function () {
     $('#checkMachine').prop('checked', false);
   });
 
-  $('#idProcess').change(function (e) {
-    e.preventDefault();
+  // $('#idProcess').change(function (e) {
+  //   e.preventDefault();
 
-    let status = parseInt($(this).find('option:selected').attr('class'));
+  //   let status = parseInt($(this).find('option:selected').attr('class'));
 
-    if (!$('#checkMachine').is(':checked')) {
-      if (status === 0) {
-        toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
-        return false;
-      }
-    }
-  });
+  //   if (!$('#checkMachine').is(':checked')) {
+  //     if (status === 0) {
+  //       toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
+  //       return false;
+  //     }
+  //   }
+  // });
   
   /* Seleccionar producto */
   $('#selectNameProduct').change(function (e) {
@@ -136,7 +136,6 @@ $(document).ready(function () {
     let operationTime = parseFloat($('#operationTime').val());
     let status = parseInt($('#idProcess').find('option:selected').attr('class'));
 
-    
     // enlistmentTime = parseFloat(strReplaceNumber(enlistmentTime));
     // operationTime = parseFloat(strReplaceNumber(operationTime));
 
