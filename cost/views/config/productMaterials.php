@@ -298,11 +298,14 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
                                                 </div>
+                                                <div class="col-xs-2 ml-3 checkbox checkbox-success mb-2 checkMachine">
+                                                    <input id="checkMachine" name="checkMachine" type="checkbox"><label for="checkMachine">Máquina Autonoma </label>
+                                                </div>
                                             </div>
                                         </form>
-                                        <div class="alert alert-warning" role="alert">
+                                        <!-- <div class="alert alert-warning" role="alert">
                                             Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto.
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -508,7 +511,8 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
     <script src="/cost/js/config/services/tblExternalServices.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
-    <script src="/cost/js/general/payroll/configProcessPayroll.js"></script>
+    <script src="/cost/js/basic/process/configProcess.js"></script>
+    <!-- <script src="/cost/js/general/payroll/configProcessPayroll.js"></script> -->
     <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
     <script src="/global/js/global/orderData.js"></script>

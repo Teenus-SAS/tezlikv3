@@ -375,6 +375,8 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
                     /* Calcular costo indirecto */
                     // Buscar la maquina asociada al producto
                     $dataProductMachine = $indirectCostDao->findMachineByProduct($productMaterials[$i]['idProduct'], $id_company);
+                    // Cambiar a 0
+                    $indirectCostDao->updateCostIndirectCostByProduct(0, $productMaterials[$i]['idProduct']);
                     // Calcular costo indirecto
                     $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                     // Actualizar campo

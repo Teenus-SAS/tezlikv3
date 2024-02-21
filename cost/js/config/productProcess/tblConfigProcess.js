@@ -85,7 +85,11 @@ $(document).ready(function () {
           data: 'workforce_cost',
           className: 'classCenter',
           render: function (data) {
-            return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
+            let decimals = contarDecimales(data);
+            let workforce_cost = formatNumber(data, decimals);
+
+            return workforce_cost;
+            // return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
           },
         },
         {
@@ -93,16 +97,22 @@ $(document).ready(function () {
           data: 'indirect_cost',
           className: 'classCenter',
           render: function (data) {
-            return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
+            let decimals = contarDecimales(data);
+            let indirect_cost = formatNumber(data, decimals);
+
+            return indirect_cost;
+            // return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
           },
         },
         {
           title: '',
-          data: 'id_product_process',
+          data: null,
           className: 'uniqueClassName',
           visible: visible,
           render: function (data) {
-            return `<a href="javascript:;" <i id="${data}" class="ti-exchange-vertical updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
+            if (data.auto_machine === 0)
+              return `<a href="javascript:;" <i id="${data.id_product_process}" class="ti-exchange-vertical updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
+            else return '';
           },
         },
         {

@@ -18,7 +18,7 @@ $(document).ready(function () {
       let $select = $(`#idMachine`);
       $select.empty();
       $select.append(`<option disabled>Seleccionar</option>`);
-      $select.append(`<option value = "0" selected>PROCESO MANUAL</option>`);
+      $select.append(`<option value="0" selected>PROCESO MANUAL</option>`);
       $.each(r, function (i, value) {
         $select.append(
           `<option value = '${value.id_machine}'> ${value.machine} </option>`

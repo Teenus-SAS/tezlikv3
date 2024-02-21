@@ -6,6 +6,7 @@ $(document).ready(function () {
   /* Ocultar panel crear producto */
 
   $('.cardAddProcess').hide();
+  $('.checkMachine').hide();
 
   /* Abrir panel crear producto */
 
@@ -18,14 +19,36 @@ $(document).ready(function () {
 
     sessionStorage.removeItem('id_product_process');
 
-    if (inyection == '1') 
+    if (inyection == '1')
       $('#enlistmentTime').prop('readonly', true);
 
     $('#formAddProcess').trigger('reset');
   });
 
-  /* Seleccionar producto */
+  $('#idMachine').change(function (e) { 
+    e.preventDefault();
+    
+    if (this.value === '0') {
+      $('.checkMachine').hide(800);
+      $('#checkMachine').prop('checked', false);
+    } else
+      $('.checkMachine').show(800);
+  });
 
+  $('#idProcess').change(function (e) {
+    e.preventDefault();
+
+    let status = parseInt($(this).find('option:selected').attr('class'));
+
+    if (!$('#checkMachine').is(':checked')) {
+      if (status === 0) {
+        toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
+        return false;
+      }
+    }
+  });
+  
+  /* Seleccionar producto */
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     idProduct = $('#selectNameProduct').val();
@@ -43,7 +66,7 @@ $(document).ready(function () {
     tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
     // tEnlistment = strReplaceNumber(tEnlistment);
 
-    if(inyection == 1)
+    if (inyection == 1)
       val = (parseFloat(tEnlistment) / (parseFloat(tOperation) / 100)).toFixed(2);
     else
       val = parseFloat(tEnlistment) + parseFloat(tOperation);
@@ -54,7 +77,6 @@ $(document).ready(function () {
   });
 
   /* Adicionar nuevo proceso */
-
   $('#btnAddProcess').click(function (e) {
     e.preventDefault();
     let idProductProcess = sessionStorage.getItem('id_product_process');
@@ -101,6 +123,11 @@ $(document).ready(function () {
     let employees = data.employee.toString().split(",");
     checkBoxEmployees = employees;
 
+    if (data.auto_machine === 1) {
+      $('#checkMachine').prop('checked', true);
+      $('.checkMachine').show();
+    }
+
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -116,7 +143,9 @@ $(document).ready(function () {
     let refM = parseInt($('#idMachine').val());
     let enlistmentTime = parseFloat($('#enlistmentTime').val());
     let operationTime = parseFloat($('#operationTime').val());
+    let status = parseInt($('#idProcess').find('option:selected').attr('class'));
 
+    
     // enlistmentTime = parseFloat(strReplaceNumber(enlistmentTime));
     // operationTime = parseFloat(strReplaceNumber(operationTime));
 
@@ -131,6 +160,17 @@ $(document).ready(function () {
     }
 
     let dataProductProcess = new FormData(formAddProcess);
+    let autoMachine = 1;
+    
+    if (!$('#checkMachine').is(':checked')) {
+      if (status === 0) {
+        toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
+        return false;
+      }
+      autoMachine = 0;
+    }
+
+    dataProductProcess.append('autoMachine', autoMachine);
     dataProductProcess.append('idProduct', idProduct);
     
     if (idProductProcess != '' || idProductProcess != null) {
@@ -285,7 +325,7 @@ $(document).ready(function () {
       let idProduct = $('#selectNameProduct').val();
       if (idProduct)
         updateTable();
-      toastr.success(data.message); 
+      toastr.success(data.message);
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
