@@ -24,6 +24,7 @@ $(document).ready(function () {
     } else {
       $('.cardServices').show();
       $('.cardProductsProcess').hide();
+      $('.cardAddProcess').hide();
       $('.cardProductsMaterials').hide(); 
       $('.cardAddMaterials').hide();
       $('.cardImportProductsMaterials').hide();
