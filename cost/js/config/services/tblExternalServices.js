@@ -20,6 +20,8 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
   const loadtableExternalServices = (idProduct) => {
+    $('.cardAddService').hide(800);
+
     tblExternalServices = $("#tblExternalServices").dataTable({
       destroy: true,
       pageLength: 50,

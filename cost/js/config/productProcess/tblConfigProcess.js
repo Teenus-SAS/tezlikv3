@@ -9,6 +9,7 @@ $(document).ready(function () {
     let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).attr('selected', true);
+
     loadtableProcess(id);
   });
 
@@ -17,6 +18,7 @@ $(document).ready(function () {
     let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).attr('selected', true);
+
     loadtableProcess(id);
   });
 
@@ -25,6 +27,8 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
   const loadtableProcess = (idProduct) => {
+    $('.cardAddProcess').hide(800);
+    
     tblConfigProcess = $('#tblConfigProcess').dataTable({
       destroy: true,
       pageLength: 50,

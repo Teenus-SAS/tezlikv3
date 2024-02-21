@@ -44,7 +44,15 @@ $(document).ready(function () {
 
     data = data.filter(item => item.id_machine == this.value);
 
-    $('#enlistmentTime').val(data[0].unity_time);
+    !data[0] ? unity_time = 0 : unity_time = data[0].unity_time;
+
+    $('#enlistmentTime').val(unity_time);
+
+    if (this.value === '0') {
+      $('.checkMachine').hide(800);
+      $('#checkMachine').prop('checked', false);
+    } else
+      $('.checkMachine').show(800);
   });
 
 });

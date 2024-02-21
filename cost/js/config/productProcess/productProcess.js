@@ -23,16 +23,7 @@ $(document).ready(function () {
       $('#enlistmentTime').prop('readonly', true);
 
     $('#formAddProcess').trigger('reset');
-  });
-
-  $('#idMachine').change(function (e) { 
-    e.preventDefault();
-    
-    if (this.value === '0') {
-      $('.checkMachine').hide(800);
-      $('#checkMachine').prop('checked', false);
-    } else
-      $('.checkMachine').show(800);
+    $('#checkMachine').prop('checked', false);
   });
 
   $('#idProcess').change(function (e) {
