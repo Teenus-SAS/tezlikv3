@@ -209,6 +209,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                     /* Costo Indirecto */
                     // Buscar la maquina asociada al producto
                     $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+                    // Cambiar a 0
+                    $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
                     // Calcular costo indirecto
                     $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                     // Actualizar campo
@@ -360,6 +362,8 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                 /* Costo Indirecto */
                 // Buscar la maquina asociada al producto
                 $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+                // Cambiar a 0
+                $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo
@@ -508,6 +512,8 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                 /* Costo Indirecto */
                 // Buscar la maquina asociada al producto
                 $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+                // Cambiar a 0
+                $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo

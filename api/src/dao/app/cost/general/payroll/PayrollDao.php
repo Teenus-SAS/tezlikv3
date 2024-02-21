@@ -23,7 +23,7 @@ class PayrollDao
                                          p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage
                                   FROM payroll p 
                                     INNER JOIN process pp ON p.id_process = pp.id_process
-                                    INNER JOIN risks rk ON rk.id_risk = p.id_risk
+                                    LEFT JOIN risks rk ON rk.id_risk = p.id_risk
                                   WHERE p.id_company = :id_company
                                   ORDER BY p.employee, p.id_payroll ASC");
     $stmt->execute(['id_company' => $id_company]);

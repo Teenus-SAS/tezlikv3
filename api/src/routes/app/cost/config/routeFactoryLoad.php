@@ -125,6 +125,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                 /* Costo Indirecto */
                 // Buscar la maquina asociada al producto
                 $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+                // Cambiar a 0
+                $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo
@@ -259,6 +261,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                 /* Costo Indirecto */
                 // Buscar la maquina asociada al producto
                 $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+                // Cambiar a 0
+                $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
                 // Calcular costo indirecto
                 $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                 // Actualizar campo
@@ -396,6 +400,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
             /* Costo Indirecto */
             // Buscar la maquina asociada al producto
             $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+            // Cambiar a 0
+            $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
             // Calcular costo indirecto
             $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
             // Actualizar campo
@@ -527,6 +533,8 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
             /* Costo Indirecto */
             // Buscar la maquina asociada al producto
             $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+            // Cambiar a 0
+            $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
             // Calcular costo indirecto
             $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
             // Actualizar campo

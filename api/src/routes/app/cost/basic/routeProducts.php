@@ -454,6 +454,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 if ($resolution == null) {
                     // Buscar la maquina asociada al producto
                     $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProduct['idProduct'], $id_company);
+                    // Cambiar a 0
+                    $indirectCostDao->updateCostIndirectCostByProduct(0, $dataProduct['idProduct']);
                     // Calcular costo indirecto
                     $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
                     // Actualizar campo

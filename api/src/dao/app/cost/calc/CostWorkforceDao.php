@@ -36,9 +36,9 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (pp.enlistment_time + pp.operation_time)) AS cost
+            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(IFNULL(p.minute_value, 0) * (pp.enlistment_time + pp.operation_time)) AS cost, pp.auto_machine
                                           FROM products_process pp 
-                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
+                                            LEFT JOIN payroll p ON p.id_process = pp.id_process 
                                           WHERE pp.id_product = :id_product AND pp.id_company = :id_company GROUP BY `pp`.`id_product_process`");
             $stmt->execute([
                 'id_product' => $idProduct,
@@ -47,11 +47,15 @@ class CostWorkforceDao
             $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
 
             for ($i = 0; $i < sizeof($payroll); $i++) {
-                $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
-                $stmt->execute([
-                    'workforce_cost' => $payroll[$i]['cost'],
-                    'id_product_process' => $payroll[$i]['id_product_process']
-                ]);
+                $cost = $payroll[$i]['cost'];
+                if ($payroll[$i]['auto_machine'] == '1') $cost = 0;
+
+                $this->updateTotalCostWorkforceByProductProcess($cost, $payroll[$i]['id_product_process']);
+                // $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+                // $stmt->execute([
+                //     'workforce_cost' => $payroll[$i]['cost'],
+                //     'id_product_process' => $payroll[$i]['id_product_process']
+                // ]);
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -64,7 +68,7 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost
+            $stmt = $connection->prepare("SELECT pp.id_product_process, SUM(p.minute_value * (m.unity_time / (pp.operation_time / 100))) AS cost, pp.auto_machine
                                           FROM products_process pp 
                                             INNER JOIN payroll p ON p.id_process = pp.id_process 
                                             INNER JOIN machines m ON m.id_machine = pp.id_machine 
@@ -76,11 +80,16 @@ class CostWorkforceDao
             $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
 
             for ($i = 0; $i < sizeof($payroll); $i++) {
-                $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
-                $stmt->execute([
-                    'workforce_cost' => $payroll[$i]['cost'],
-                    'id_product_process' => $payroll[$i]['id_product_process']
-                ]);
+                $cost = $payroll[$i]['cost'];
+                if ($payroll[$i]['auto_machine'] == '1') $cost = 0;
+
+                $this->updateTotalCostWorkforceByProductProcess($cost, $payroll[$i]['id_product_process']);
+
+                // $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+                // $stmt->execute([
+                //     'workforce_cost' => $payroll[$i]['cost'],
+                //     'id_product_process' => $payroll[$i]['id_product_process']
+                // ]);
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -104,11 +113,13 @@ class CostWorkforceDao
             $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
 
             for ($i = 0; $i < sizeof($payroll); $i++) {
-                $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
-                $stmt->execute([
-                    'workforce_cost' => $payroll[$i]['cost'],
-                    'id_product_process' => $payroll[$i]['id_product_process']
-                ]);
+                $this->updateTotalCostWorkforceByProductProcess($payroll[$i]['cost'], $payroll[$i]['id_product_process']);
+
+                // $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+                // $stmt->execute([
+                //     'workforce_cost' => $payroll[$i]['cost'],
+                //     'id_product_process' => $payroll[$i]['id_product_process']
+                // ]);
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -132,11 +143,12 @@ class CostWorkforceDao
             $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
 
             for ($i = 0; $i < sizeof($payroll); $i++) {
-                $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
-                $stmt->execute([
-                    'workforce_cost' => $payroll[$i]['cost'],
-                    'id_product_process' => $payroll[$i]['id_product_process']
-                ]);
+                $this->updateTotalCostWorkforceByProductProcess($payroll[$i]['cost'], $payroll[$i]['id_product_process']);
+                // $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+                // $stmt->execute([
+                //     'workforce_cost' => $payroll[$i]['cost'],
+                //     'id_product_process' => $payroll[$i]['id_product_process']
+                // ]);
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -185,6 +197,24 @@ class CostWorkforceDao
         return $payroll;
     }
 
+    // Modificar costo de nomina en product_process x producto
+    public function updateTotalCostWorkforceByProductProcess($costPayroll, $idProductProcess)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products_process SET workforce_cost = :workforce_cost WHERE id_product_process = :id_product_process");
+            $stmt->execute([
+                'workforce_cost' => $costPayroll,
+                'id_product_process' => $idProductProcess
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
     // Modificar costo de nomina en products_costs
     public function updateTotalCostWorkforce($costPayroll, $idProduct, $id_company)
     {

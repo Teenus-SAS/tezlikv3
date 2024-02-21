@@ -111,6 +111,23 @@ class IndirectCostDao
         }
     }
 
+    public function updateCostIndirectCostByProduct($indirectCost, $idProduct)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products_process SET indirect_cost = :indirect_cost WHERE id_product = :id_product");
+            $stmt->execute([
+                'indirect_cost' => $indirectCost,
+                'id_product' => $idProduct,
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
     // Modificar total costo indirecto de products_costs
     public function updateTotalCostIndirectCost($indirectCost, $idProduct, $id_company)
     {

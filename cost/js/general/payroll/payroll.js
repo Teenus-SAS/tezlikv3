@@ -104,6 +104,7 @@ $(document).ready(function () {
       let extraTime = parseFloat($('#extraTime').val());
       let bonification = parseFloat($('#bonification').val());
       let factor = parseFloat($('#factor').val());
+      let risk = parseFloat($('#risk').val());
 
       // salary = parseFloat(strReplaceNumber(salary));
       basicSalary = salary;
@@ -123,7 +124,7 @@ $(document).ready(function () {
       let workingDM = $('#workingDaysMonth').val();
       let valueRisk = parseFloat(sessionStorage.getItem('percentage'));
 
-      let data = process * workingDM * workingHD * salary;
+      let data = process * workingDM * workingHD * salary * risk;
 
       if (isNaN(data) || data <= 0 || employee.trim() == '' || factor == '') {
         toastr.error('Ingrese todos los campos');
