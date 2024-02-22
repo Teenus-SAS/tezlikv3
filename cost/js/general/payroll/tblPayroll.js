@@ -40,7 +40,7 @@ $(document).ready(function () {
         className: 'classRight',
         visible: visible,
         render: function (data) {
-          if (Math.abs(data) < 0.0001) {
+          if (Math.abs(data) < 0.001) {
             let decimals = contarDecimales(data);
             data = formatNumber(data, decimals);
           } else
@@ -55,7 +55,7 @@ $(document).ready(function () {
         className: 'classRight',
         visible: visible,
         render: function (data) {
-          if (Math.abs(data) < 0.0001) {
+          if (Math.abs(data) < 0.001) {
             let decimals = contarDecimales(data);
             data = formatNumber(data, decimals);
           } else
@@ -69,7 +69,7 @@ $(document).ready(function () {
         data: 'minute_value',
         className: 'classRight',
         render: function (data) {
-          if (Math.abs(data) < 0.0001) {
+          if (Math.abs(data) < 0.001) {
             let decimals = contarDecimales(data);
             data = formatNumber(data, decimals);
           } else
