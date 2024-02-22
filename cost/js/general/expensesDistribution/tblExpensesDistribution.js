@@ -59,10 +59,13 @@ $(document).ready(function () {
           data: 'units_sold',
           className: 'classRight',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let units_sold = formatNumber(data, decimals);
-
-            return units_sold;
+            if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return data;
           },
         },
         {
@@ -70,17 +73,28 @@ $(document).ready(function () {
           data: 'turnover',
           className: 'classRight',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let turnover = formatNumber(data, decimals);
-
-            return `$ ${turnover}`;
+            if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${data}`;
           },
         },
         {
           title: 'Gasto Asignable al Producto',
           data: 'assignable_expense',
           className: 'classRight',
-          render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
+          render: function (data) {
+            if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${data}`;
+          },
         },
         {
           title: 'Acciones',

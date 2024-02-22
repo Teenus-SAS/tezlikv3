@@ -39,20 +39,44 @@ $(document).ready(function () {
         data: 'salary',
         className: 'classRight',
         visible: visible,
-        render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+        render: function (data) {
+          if (Math.abs(data) < 0.0001) {
+            let decimals = contarDecimales(data);
+            data = formatNumber(data, decimals);
+          } else
+            data = data.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            
+          return data;
+        },
       },
       {
         title: 'Salario Neto',
         data: 'salary_net',
         className: 'classRight',
         visible: visible,
-        render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+        render: function (data) {
+          if (Math.abs(data) < 0.0001) {
+            let decimals = contarDecimales(data);
+            data = formatNumber(data, decimals);
+          } else
+            data = data.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            
+          return data;
+        }
       },
       {
         title: 'Valor Minuto',
         data: 'minute_value',
         className: 'classRight',
-        render: $.fn.dataTable.render.number('.', ',', 2, '$ '),
+        render: function (data) {
+          if (Math.abs(data) < 0.0001) {
+            let decimals = contarDecimales(data);
+            data = formatNumber(data, decimals);
+          } else
+            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+          return data;
+        }
       },
       {
         title: 'Acciones',

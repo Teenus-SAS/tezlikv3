@@ -4,6 +4,8 @@ $(document).ready(function () {
   $('.selectNavigation').click(function (e) {
     e.preventDefault();
 
+    $('.cardProducts').show();
+
     if (this.id == 'materials') {
       $('.cardProductsMaterials').show();
       $('.cardProductsProcess').hide(); 
@@ -236,6 +238,7 @@ $(document).ready(function () {
       $('.cardAddMaterials').hide(800);
       $('.cardAddNewProduct').hide(800);
       $('.cardImportProductsMaterials').hide(800);
+      $('.cardProducts').show(800);
 
       $('#formAddMaterials').trigger('reset');
       let idProduct = $('#selectNameProduct').val();

@@ -7,6 +7,7 @@ $(document).ready(function () {
     e.preventDefault();
     $('.cardAddService').hide(800);
     $('.cardImportExternalServices').toggle(800);
+    $('.cardProducts').toggle(800);
   });
 
   $('#fileExternalServices').change(function (e) {

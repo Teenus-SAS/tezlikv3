@@ -163,7 +163,7 @@ class CostWorkforceDao
         try {
             $stmt = $connection->prepare("SELECT IFNULL(SUM(IFNULL(p.minute_value, 0) * (IFNULL(pp.enlistment_time, 0) + IFNULL(pp.operation_time, 0))), 0)  AS cost
                                           FROM products_process pp 
-                                            INNER JOIN payroll p ON p.id_process = pp.id_process 
+                                            INNER JOIN payroll p ON p.id_process = pp.id_process AND pp.auto_machine = 0
                                           WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
             $stmt->execute([
                 'id_product' => $idProduct,

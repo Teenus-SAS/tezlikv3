@@ -139,6 +139,7 @@ $(document).ready(function () {
       $('.cardImportExternalServices').hide(800);
       $('#formImportExternalServices').trigger('reset');
       $('.cardAddService').hide(800);
+      $('.cardProducts').show(800);
       $('#formAddService').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
       if (idProduct)
