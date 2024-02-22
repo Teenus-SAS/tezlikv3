@@ -114,10 +114,13 @@ $(document).ready(function () {
           data: 'quantity',
           className: 'classCenter',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let quantity = formatNumber(data, decimals);
-
-            return quantity;
+            if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return data;
           },
         },
         {
@@ -125,10 +128,13 @@ $(document).ready(function () {
           data: 'cost_product_material',
           className: 'classCenter',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let cost = formatNumber(data, decimals);
-
-            return `$ ${cost}`;
+            if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${data}`;
           },
         },
         {

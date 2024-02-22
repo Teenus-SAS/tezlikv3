@@ -36,10 +36,13 @@ $(document).ready(function () {
         data: 'cost',
         className: 'classRight',
         render: function (data) {
-          let decimals = contarDecimales(data);
-          let cost = formatNumber(data, decimals);
-
-          return `$ ${cost}`;
+          if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${data}`;
         },
       },
       {
@@ -51,7 +54,15 @@ $(document).ready(function () {
         title: 'Depreciación X Minuto',
         data: 'minute_depreciation',
         className: 'classCenter',
-        render: $.fn.dataTable.render.number('.', ',', 5),
+        render: function (data) {
+          if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `${data}`;
+        },
       },
       {
         title: 'Ciclos Maquina',

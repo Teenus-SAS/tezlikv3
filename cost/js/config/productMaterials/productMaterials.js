@@ -4,6 +4,8 @@ $(document).ready(function () {
   $('.selectNavigation').click(function (e) {
     e.preventDefault();
 
+    $('.cardProducts').show();
+
     if (this.id == 'materials') {
       $('.cardProductsMaterials').show();
       $('.cardProductsProcess').hide(); 

@@ -7,6 +7,8 @@ $(document).ready(function () {
     e.preventDefault();
     $('.cardAddNewProduct').hide(800);
     $('.cardAddProcess').hide(800);
+    $('.cardProducts').toggle(800);
+
     $('.cardImportProductsProcess').toggle(800);
   });
 
@@ -47,7 +49,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion'];
+        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion','maquina_autonoma'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -77,6 +79,7 @@ $(document).ready(function () {
             machine: item.maquina,
             enlistmentTime: item.tiempo_enlistamiento,
             operationTime: item.tiempo_operacion,
+            autoMachine: item.maquina_autonoma
           };
         });
         checkProductProcess(productProcessToImport);

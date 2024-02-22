@@ -67,21 +67,27 @@ $(document).ready(function () {
           data: value3,
           className: 'classCenter',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let enlistment_time = formatNumber(data, decimals);
-
-            return enlistment_time;
+            if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return data;
           },
         },
         {
-          title: title4, 
+          title: title4,
           data: 'operation_time',
           className: 'classCenter',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let operation_time = formatNumber(data, decimals);
-
-            return operation_time;
+            if (Math.abs(data) < 0.0001) {
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return data;
           },
         },
         {
@@ -89,11 +95,13 @@ $(document).ready(function () {
           data: 'workforce_cost',
           className: 'classCenter',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let workforce_cost = formatNumber(data, decimals);
-
-            return workforce_cost;
-            // return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
+            if (Math.abs(data) < 0.0001) {
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${data}`; 
           },
         },
         {
@@ -101,11 +109,13 @@ $(document).ready(function () {
           data: 'indirect_cost',
           className: 'classCenter',
           render: function (data) {
-            let decimals = contarDecimales(data);
-            let indirect_cost = formatNumber(data, decimals);
-
-            return indirect_cost;
-            // return `$ ${parseFloat(data).toLocaleString('es-co', { maximumFractionDigits: 2 })}`;
+            if (Math.abs(data) < 0.0001) {
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${data}`; 
           },
         },
         {

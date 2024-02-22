@@ -60,8 +60,8 @@ $app->get('/employees/{id_product_process}', function (Request $request, Respons
 $app->post('/productsProcessDataValidation', function (Request $request, Response $response, $args) use (
     $productsProcessDao,
     $productsDao,
-    $generalPayrollDao,
     $generalProcessDao,
+    $generalPayrollDao,
     $machinesDao
 ) {
     $dataProductProcess = $request->getParsedBody();
@@ -76,6 +76,24 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
         $productProcess = $dataProductProcess['importProductsProcess'];
 
         for ($i = 0; $i < sizeof($productProcess); $i++) {
+
+            if (
+                empty($productProcess[$i]['referenceProduct']) || empty($productProcess[$i]['product']) || empty($productProcess[$i]['process']) || empty($productProcess[$i]['machine']) ||
+                $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' || empty($productProcess[$i]['autoMachine'])
+            ) {
+                $i = $i + 2;
+                $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
+            if (
+                empty(trim($productProcess[$i]['referenceProduct'])) || empty(trim($productProcess[$i]['product'])) || empty(trim($productProcess[$i]['process'])) || empty(trim($productProcess[$i]['machine'])) ||
+                trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' || empty(trim($productProcess[$i]['autoMachine']))
+            ) {
+                $i = $i + 2;
+                $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+                break;
+            }
+
             // Obtener id producto
             $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
             if (!$findProduct) {
@@ -92,13 +110,22 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                 break;
             }
 
-            $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
-            if (!$findProcess) {
+            if ($productProcess[$i]['autoMachine'] == 'NO' && strtoupper(trim($productProcess[$i]['machine'])) != 'PROCESO MANUAL') {
+                $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
+                if (!$findProcess) {
+                    $i = $i + 2;
+                    $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
+                    break;
+                }
+            }
+
+            if ($productProcess[$i]['autoMachine'] == 'SI' && strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
                 $i = $i + 2;
-                $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la nomina<br>Fila: {$i}");
+                $dataImportProductProcess = array('error' => true, 'message' => "No se permite esa maquina autonoma<br>Fila: {$i}");
                 break;
-            } else
-                $productProcess[$i]['idProcess'] = $findProcess['id_process'];
+            }
+
+            $productProcess[$i]['idProcess'] = $findProcess['id_process'];
 
             // Obtener id maquina
             // Si no está definida agrega 0 a 'idMachine'
@@ -139,7 +166,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
 
 $app->post('/addProductsProcess', function (Request $request, Response $response, $args) use (
     $productsProcessDao,
-    $convertDataDao,
+    $generalProcessDao,
     $productsDao,
     $generalPayrollDao,
     $machinesDao,
@@ -315,7 +342,11 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $productProcess[$i]['idProduct'] = $findProduct['id_product'];
 
             // Obtener id proceso
-            $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
+            if ($productProcess[$i]['autoMachine'] == 'NO' && strtoupper(trim($productProcess[$i]['machine'])) != 'PROCESO MANUAL') {
+                $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
+            } else
+                $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
+
             $productProcess[$i]['idProcess'] = $findProcess['id_process'];
 
             // Obtener id maquina

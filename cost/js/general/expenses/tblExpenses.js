@@ -44,10 +44,13 @@ $(document).ready(function () {
         data: 'expense_value',
         className: 'classRight',
         render: function (data) {
-          let decimals = contarDecimales(data);
-          let expense_value = formatNumber(data, decimals);
-
-          return expense_value;
+          if (Math.abs(data) < 0.0001) { 
+              let decimals = contarDecimales(data);
+              data = formatNumber(data, decimals);
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return data;
         },
       },
       {
