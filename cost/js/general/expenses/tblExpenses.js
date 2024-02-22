@@ -44,7 +44,8 @@ $(document).ready(function () {
         data: 'expense_value',
         className: 'classRight',
         render: function (data) {
-          if (Math.abs(data) < 0.0001) { 
+                    data = parseFloat(data);
+if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
             } else

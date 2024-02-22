@@ -36,6 +36,8 @@ $(document).ready(function () {
         data: 'cost',
         className: 'classRight',
         render: function (data) {
+          data = parseFloat(data);
+
           if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
@@ -55,6 +57,8 @@ $(document).ready(function () {
         data: 'minute_depreciation',
         className: 'classCenter',
         render: function (data) {
+          data = parseFloat(data);
+
           if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
