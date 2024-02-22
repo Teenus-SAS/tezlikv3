@@ -238,6 +238,7 @@ $(document).ready(function () {
       $('.cardAddMaterials').hide(800);
       $('.cardAddNewProduct').hide(800);
       $('.cardImportProductsMaterials').hide(800);
+      $('.cardProducts').show(800);
 
       $('#formAddMaterials').trigger('reset');
       let idProduct = $('#selectNameProduct').val();

@@ -138,7 +138,7 @@ $(document).ready(function () {
       type: 'POST',
       url: '/api/addProductsProcess',
       data: { importProductsProcess: data },
-      success: function (r) {
+      success: function (r) { 
         messageProcess(r);
       },
     });

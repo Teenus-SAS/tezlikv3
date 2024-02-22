@@ -331,9 +331,9 @@ if (sizeof($_SESSION) == 0)
                                                 <button type="text" class="btn btn-info" id="btnDownloadImportsProductsProcess">Descarga Formato</button>
                                             </div>
                                         </div>
-                                        <div class="alert alert-warning mt-2" role="alert">
+                                        <!-- <div class="alert alert-warning mt-2" role="alert">
                                             Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto.
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </form>

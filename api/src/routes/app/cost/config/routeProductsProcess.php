@@ -364,6 +364,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
             // $productProcess[$i] = $convertDataDao->strReplaceProductsProcess($productProcess[$i]);
+            $productProcess[$i]['autoMachine'] == 'SI' ? $productProcess[$i]['autoMachine'] = 1 : $productProcess[$i]['autoMachine'] = 0;
 
             if (!$findProductProcess) {
 
