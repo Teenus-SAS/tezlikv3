@@ -115,9 +115,10 @@ $(document).ready(function () {
           className: 'classCenter',
           render: function (data) {
                       data = parseFloat(data);
-if (Math.abs(data) < 0.0001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
+if (Math.abs(data) < 0.01) { 
+              // let decimals = contarDecimales(data);
+  // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
@@ -130,9 +131,10 @@ if (Math.abs(data) < 0.0001) {
           className: 'classCenter',
           render: function (data) {
                       data = parseFloat(data);
-if (Math.abs(data) < 0.0001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
+if (Math.abs(data) < 0.01) { 
+              // let decimals = contarDecimales(data);
+  // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
