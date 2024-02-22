@@ -67,7 +67,8 @@ $(document).ready(function () {
           data: 'sale_price',
           className: 'classCenter',
           render: function (data) {
-            if (Math.abs(data) < 0.0001) { 
+                      data = parseFloat(data);
+if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
             } else

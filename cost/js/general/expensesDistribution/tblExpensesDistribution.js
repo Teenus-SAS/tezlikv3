@@ -59,7 +59,8 @@ $(document).ready(function () {
           data: 'units_sold',
           className: 'classRight',
           render: function (data) {
-            if (Math.abs(data) < 0.0001) { 
+                      data = parseFloat(data);
+if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
             } else
@@ -73,7 +74,8 @@ $(document).ready(function () {
           data: 'turnover',
           className: 'classRight',
           render: function (data) {
-            if (Math.abs(data) < 0.0001) { 
+                      data = parseFloat(data);
+if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
             } else
@@ -87,7 +89,8 @@ $(document).ready(function () {
           data: 'assignable_expense',
           className: 'classRight',
           render: function (data) {
-            if (Math.abs(data) < 0.0001) { 
+                      data = parseFloat(data);
+if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
             } else
