@@ -67,7 +67,8 @@ $(document).ready(function () {
           data: value3,
           className: 'classCenter',
           render: function (data) {
-                      data = parseFloat(data);
+            data = parseFloat(data);
+            
 if (Math.abs(data) < 0.0001) { 
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
@@ -82,6 +83,8 @@ if (Math.abs(data) < 0.0001) {
           data: 'operation_time',
           className: 'classCenter',
           render: function (data) {
+                      data = parseFloat(data);
+
             if (Math.abs(data) < 0.0001) {
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
@@ -96,6 +99,8 @@ if (Math.abs(data) < 0.0001) {
           data: 'workforce_cost',
           className: 'classCenter',
           render: function (data) {
+                      data = parseFloat(data);
+
             if (Math.abs(data) < 0.0001) {
               let decimals = contarDecimales(data);
               data = formatNumber(data, decimals);
