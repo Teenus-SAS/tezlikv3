@@ -99,7 +99,7 @@ $(document).ready(function () {
 
     if (arr.length == 1) {
       $(`#pricesList option[value=${arr[0].id_price_list}]`).prop('selected', true);
-      $('#price').val(parseFloat(arr[0].price).toLocaleString('es-CO',{maximumFractionDigits:2}));
+      $('#price').val(parseFloat(arr[0].price));
     }
   };
 

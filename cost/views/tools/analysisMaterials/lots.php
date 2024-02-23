@@ -199,6 +199,7 @@ if (sizeof($_SESSION) == 0)
                                                         <th>Total:</th>
                                                         <th></th>
                                                         <th></th>
+                                                        <th></th>
                                                     </tr>
                                                 </tfoot>
                                             </table>

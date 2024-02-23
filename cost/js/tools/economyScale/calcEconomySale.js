@@ -69,6 +69,8 @@ $(document).ready(function () {
     try {
       op == 0 ? (count = 0) : (count = 5);
 
+      var startTime = performance.now();
+
       for (i = op; i <= count; i++) {
         let unit = unitys[i];
         let price = prices[i];
@@ -155,22 +157,32 @@ $(document).ready(function () {
                 maximumFractionDigits: 2,
               })} %`
             );
-          } else if (i == 0 && percentage < profitability) { 
+          } else if (i == 0 && percentage < profitability) {
             percentage > 0 ? cant += 2 : cant = 1;
-
-            // if (percentage >= 19.13) {
-            //   debugger;
-            // }
  
             let division = Math.ceil((totalCostsAndExpense / price) + cant);
 
-            $(`#unity-${i}`).val(division.toLocaleString('es-CO', {
-              maximumFractionDigits: 0,
-            }));
+            if (division > 10000000) {
+              toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automaticamente generara numeros demasiado grandes');
+              break;
+            } else {
+              $(`#unity-${i}`).val(division.toLocaleString('es-CO', {
+                maximumFractionDigits: 0,
+              }));
 
-            unitys[i] = division;
+              unitys[i] = division;
 
-            await $(`#unity-${i}`).blur();
+              var endTime = performance.now();
+              var mSeconds = endTime - startTime;
+              var seconds = mSeconds / 1000;
+
+              if (seconds > 120) {
+                // toastr.error('Precios muy por debajo de lo requerido. Revise los costos fijos');
+                break;
+              } else {
+                await $(`#unity-${i}`).blur();
+              }
+            }
             i = i - 1;
           }
         }

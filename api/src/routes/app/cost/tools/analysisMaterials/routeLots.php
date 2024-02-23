@@ -17,12 +17,24 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
     $id_company = $_SESSION['id_company'];
 
     $lots = $request->getParsedBody();
+    // $id_company = 2;
 
-    $reviewRawMaterials = $AMLotsDao->findConsolidatedRawMaterialsByProduct($lots['data'], $id_company);
+    // $lots = array('data' => array(array('id_product' => 109, 'unit' => 200), array('id_product' => 25, 'unit' => 100)));
 
-    if (isset($productsRawmaterials['info']))
-        $data = $productsRawmaterials;
+    $id_products = array();
+    foreach ($lots['data'] as $product) {
+        $id_products[] = $product['id_product'];
+    }
+
+    $products = implode(',', $id_products);
+
+    $reviewRawMaterials = $AMLotsDao->findConsolidatedRawMaterialsByProduct($products, $id_company);
+
+    if (isset($reviewRawMaterials['info']))
+        $data = $reviewRawMaterials;
     else {
+        $reviewRawMaterials = $AMLotsDao->groupDataLots($reviewRawMaterials, $lots['data']);
+
         $totalUnits = $AMLotsDao->calcTotalUnityCost($reviewRawMaterials);
 
         $reviewRawMaterials = $AMLotsDao->calcAndSetParticipation($reviewRawMaterials, $totalUnits);
