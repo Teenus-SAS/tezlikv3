@@ -8,7 +8,7 @@ $(document).ready(function () {
       searchData('/api/productsLimit')
     ]);
 
-    dataInactiveProducts = dataInactives; 
+    dataInactiveProducts = dataInactives;
 
     if (dataLimit.quantity >= dataLimit.cant_products) $('.limitPlan').show(800);
     else $('.limitPlan').hide(800);
@@ -67,10 +67,11 @@ $(document).ready(function () {
           data: 'sale_price',
           className: 'classCenter',
           render: function (data) {
-                      data = parseFloat(data);
-if (Math.abs(data) < 0.001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
+              // let decimals = contarDecimales(data);
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             

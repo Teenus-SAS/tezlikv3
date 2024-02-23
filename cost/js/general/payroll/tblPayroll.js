@@ -40,9 +40,12 @@ $(document).ready(function () {
         className: 'classRight',
         visible: visible,
         render: function (data) {
-          if (Math.abs(data) < 0.001) {
-            let decimals = contarDecimales(data);
-            data = formatNumber(data, decimals);
+          data = parseFloat(data);
+
+          if (Math.abs(data) < 0.01) {
+            // let decimals = contarDecimales(data);
+            // data = formatNumber(data, decimals);
+            data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           } else
             data = data.toLocaleString('es-CO', { maximumFractionDigits: 0 });
             
@@ -55,9 +58,12 @@ $(document).ready(function () {
         className: 'classRight',
         visible: visible,
         render: function (data) {
-          if (Math.abs(data) < 0.001) {
-            let decimals = contarDecimales(data);
-            data = formatNumber(data, decimals);
+          data = parseFloat(data);
+
+          if (Math.abs(data) < 0.01) {
+            // let decimals = contarDecimales(data);
+            // data = formatNumber(data, decimals);
+            data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           } else
             data = data.toLocaleString('es-CO', { maximumFractionDigits: 0 });
             
@@ -69,9 +75,12 @@ $(document).ready(function () {
         data: 'minute_value',
         className: 'classRight',
         render: function (data) {
-          if (Math.abs(data) < 0.001) {
-            let decimals = contarDecimales(data);
-            data = formatNumber(data, decimals);
+          data = parseFloat(data);
+
+          if (Math.abs(data) < 0.01) {
+            // let decimals = contarDecimales(data);
+            // data = formatNumber(data, decimals);
+            data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           } else
             data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
@@ -130,12 +139,12 @@ $(document).ready(function () {
   loadFooterPayroll = async () => {
     let data = await searchData('/api/salarynet');
 
-    $('#totalSalary').html(`$ ${parseFloat(data.salary).toLocaleString('es-CO',{maximumFractionDigits:2})}`);
-    $('#totalSalarynet').html(`$ ${parseFloat(data.salary_net).toLocaleString('es-CO',{maximumFractionDigits:2})}`);
-    $('#totalMinuteValue').html(`$ ${parseFloat(data.minute_value).toLocaleString('es-CO',{maximumFractionDigits:2})}`);
-  } 
+    $('#totalSalary').html(`$ ${parseFloat(data.salary).toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
+    $('#totalSalarynet').html(`$ ${parseFloat(data.salary_net).toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
+    $('#totalMinuteValue').html(`$ ${parseFloat(data.minute_value).toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
+  }
 
   setTimeout(() => {
-    loadFooterPayroll(); 
+    loadFooterPayroll();
   }, 1000);
 });

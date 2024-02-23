@@ -60,11 +60,11 @@ $(document).ready(function () {
           data: "cost",
           className: "classRight",
           render: function (data) {
-                      data = parseFloat(data);
-if (Math.abs(data) < 0.01) { 
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
               // let decimals = contarDecimales(data);
-  // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
