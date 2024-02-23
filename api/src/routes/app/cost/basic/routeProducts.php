@@ -324,6 +324,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                         $arr['idMachine'] = $arr['id_machine'];
                         $arr['enlistmentTime'] = $arr['enlistment_time'];
                         $arr['operationTime'] = $arr['operation_time'];
+                        $arr['autoMachine'] = $arr['auto_machine'];
 
                         $resolution = $productsProcessDao->insertProductsProcessByCompany($arr, $id_company);
                     }

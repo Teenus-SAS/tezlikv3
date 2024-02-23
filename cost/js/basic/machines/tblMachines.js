@@ -38,13 +38,14 @@ $(document).ready(function () {
         render: function (data) {
           data = parseFloat(data);
 
-          if (Math.abs(data) < 0.001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
-            } else
-              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+          if (Math.abs(data) < 0.01) {
+            // let decimals = contarDecimales(data);
+            // data = formatNumber(data, decimals);
+            data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+          } else
+            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            return `$ ${data}`;
+          return `$ ${data}`;
         },
       },
       {
@@ -59,13 +60,14 @@ $(document).ready(function () {
         render: function (data) {
           data = parseFloat(data);
 
-          if (Math.abs(data) < 0.001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
-            } else
-              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+          if (Math.abs(data) < 0.01) {
+            // let decimals = contarDecimales(data);
+            // data = formatNumber(data, decimals);
+            data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+          } else
+            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            return `${data}`;
+          return `${data}`;
         },
       },
       {

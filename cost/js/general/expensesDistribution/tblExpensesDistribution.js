@@ -15,7 +15,7 @@ $(document).ready(function () {
   });
 
   /* Cargue tabla de Gastos distribuidos */
-  loadTableExpensesDistribution = () => { 
+  loadTableExpensesDistribution = () => {
     // if ($.fn.dataTable.isDataTable("#tblExpenses")) {
     //   $('#tblExpenses').DataTable().clear();
     //   $('#tblExpenses').DataTable().ajax.reload();
@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     tblExpensesDistribution = $('#tblExpenses').dataTable({
       destroy: true,
-      pageLength: 50, 
+      pageLength: 50,
       ajax: {
         url: '../../api/expensesDistribution',
         dataSrc: '',
@@ -59,10 +59,11 @@ $(document).ready(function () {
           data: 'units_sold',
           className: 'classRight',
           render: function (data) {
-                      data = parseFloat(data);
-if (Math.abs(data) < 0.001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
+              // let decimals = contarDecimales(data);
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
@@ -74,10 +75,11 @@ if (Math.abs(data) < 0.001) {
           data: 'turnover',
           className: 'classRight',
           render: function (data) {
-                      data = parseFloat(data);
-if (Math.abs(data) < 0.001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
+              // let decimals = contarDecimales(data);
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
@@ -89,10 +91,11 @@ if (Math.abs(data) < 0.001) {
           data: 'assignable_expense',
           className: 'classRight',
           render: function (data) {
-                      data = parseFloat(data);
-if (Math.abs(data) < 0.001) { 
-              let decimals = contarDecimales(data);
-              data = formatNumber(data, decimals);
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
+              // let decimals = contarDecimales(data);
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             

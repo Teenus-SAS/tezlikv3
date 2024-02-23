@@ -10,7 +10,7 @@ $(document).ready(function () {
 
     if (composite == 0) {
       $('#btnAddNewProduct').show();
-    }else
+    } else
       $('#btnAddNewProduct').hide();
 
     $('#selectNameProduct option').removeAttr('selected');
@@ -27,16 +27,16 @@ $(document).ready(function () {
 
     if (composite == 0) {
       $('#btnAddNewProduct').show();
-    }else
+    } else
       $('#btnAddNewProduct').hide();
 
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
     $('.cardAddNewProduct').hide(800);
-    $('.cardAddMaterials').hide(800); 
+    $('.cardAddMaterials').hide(800);
 
     loadtableMaterials(id);
-  }); 
+  });
 
   loadAllData = async (op) => {
     const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
@@ -114,11 +114,11 @@ $(document).ready(function () {
           data: 'quantity',
           className: 'classCenter',
           render: function (data) {
-                      data = parseFloat(data);
-if (Math.abs(data) < 0.01) { 
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
               // let decimals = contarDecimales(data);
-  // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
@@ -130,11 +130,11 @@ if (Math.abs(data) < 0.01) {
           data: 'cost_product_material',
           className: 'classCenter',
           render: function (data) {
-                      data = parseFloat(data);
-if (Math.abs(data) < 0.01) { 
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
               // let decimals = contarDecimales(data);
-  // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             

@@ -69,10 +69,10 @@ $(document).ready(function () {
           render: function (data) {
             data = parseFloat(data);
             
-if (Math.abs(data) < 0.01) { 
+            if (Math.abs(data) < 0.01) {
               // let decimals = contarDecimales(data);
-  // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
@@ -84,12 +84,12 @@ if (Math.abs(data) < 0.01) {
           data: 'operation_time',
           className: 'classCenter',
           render: function (data) {
-                      data = parseFloat(data);
+            data = parseFloat(data);
 
             if (Math.abs(data) < 0.01) {
               // let decimals = contarDecimales(data);
               // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
@@ -101,16 +101,16 @@ if (Math.abs(data) < 0.01) {
           data: 'workforce_cost',
           className: 'classCenter',
           render: function (data) {
-                      data = parseFloat(data);
+            data = parseFloat(data);
 
             if (Math.abs(data) < 0.01) {
               // let decimals = contarDecimales(data);
               // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            return `$ ${data}`; 
+            return `$ ${data}`;
           },
         },
         {
@@ -118,16 +118,16 @@ if (Math.abs(data) < 0.01) {
           data: 'indirect_cost',
           className: 'classCenter',
           render: function (data) {
-            data = parseFloat(data); 
+            data = parseFloat(data);
 
-            if (Math.abs(data) < 0.02) {
+            if (Math.abs(data) < 0.01) {
               // let decimals = contarDecimales(data);
               // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', {minimumFractionDigits: 2 , maximumFractionDigits: 9 });
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            return `$ ${data}`; 
+            return `$ ${data}`;
           },
         },
         {
