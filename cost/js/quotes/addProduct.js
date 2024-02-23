@@ -98,7 +98,7 @@ $(document).ready(function () {
 
     oldPrice = price;
 
-    $('#price').val(price.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
+    $('#price').val(price);
   });
 
   /* Calcular precio total */
@@ -110,7 +110,7 @@ $(document).ready(function () {
       oldPrice = oldPrice.replace('$ ','');
 
       if (price < oldPrice) {
-        $('#price').val(oldPrice.toLocaleString('es-CO'));
+        $('#price').val(oldPrice);
         toastr.error('Ingrese un precio mayor al original');
         return false;
       }
@@ -296,9 +296,9 @@ $(document).ready(function () {
   /* Cargar cada producto seleccionado a la tabla */
 
   addProducts = () => {
-    $('#tableProductsQuoteBody').empty();
-    $('#tableProductsQuote').empty();
-    
+    $('#tableProductsQuoteBody').empty(); 
+    $('#tableProductsQuote').empty(); 
+
     let tableProductsQuote = document.getElementById(
       'tableProductsQuote'
     );
@@ -311,17 +311,14 @@ $(document).ready(function () {
           <th class="text-center">Cantidad</th>
           <th class="text-center">Valor Unitario</th>
           <th class="text-center">Descuento</th>
-          <th class="text-center indirectMaterial">Rentabilidad</th>
+          ${indirect == 1 && flag_indirect == '1' ? `<th class="text-center indirectMaterial">Rentabilidad</th>` : ''}
           <th class="text-center">Valor Total</th>
           <th class="text-center">Acciones</th>
         </tr>
       </thead>
       <tbody id="tableProductsQuoteBody"></tbody>`);
     
-    // if ($.fn.dataTable.isDataTable("#tableProductsQuote")) {
-    //   $("#tableProductsQuote").DataTable().destroy();
-    //   $("#tableProductsQuote").empty();
-    // }
+    
 
     let tableProductsQuoteBody = document.getElementById(
       'tableProductsQuoteBody'
@@ -353,7 +350,7 @@ $(document).ready(function () {
             </td>
         </tr>`
       );
-    }
+    }    
 
     $('#tableProductsQuote').DataTable({
       destroy: true,
@@ -372,8 +369,8 @@ $(document).ready(function () {
     );
 
     let attr = tables[0];
-    attr.style.width = '90%';
+    attr.style.width = '100%';
     attr = tables[0].firstElementChild;
-    attr.style.width = '90%';
+    attr.style.width = '100%';
   };
 });

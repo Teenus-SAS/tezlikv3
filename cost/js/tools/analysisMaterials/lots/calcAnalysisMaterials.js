@@ -1,11 +1,11 @@
 $(document).ready(function () {
-  let quantity;
+  let totalCost;
   let currentPrice;
   let negotiatePrice;
   let projectedCost;
 
   // Calcular
-  $(document).on('keyup', '.negotiatePrice', function (e) {
+  $(document).on('keyup click', '.negotiatePrice', function (e) {
     negotiatePrice = this.value;
     let id = this.id;
 
@@ -70,47 +70,39 @@ $(document).ready(function () {
   };
 
   /* Calcula el costo de los materiales */
-  calculateCostMaterial = (row) => {
-    unityCost = $(`#unityCost-${row}`).html();
-    quantity = $(`#quantity-${row}`).html();
+  calculateCostMaterial = (row) => { 
+    let totalQuantity = $(`#totalQuantity-${row}`).html();
+    let aPrice = $(`#aPrice-${row}`).html();
 
     // Eliminar miles
-    unityCost = strReplaceNumber(unityCost);
-    unityCost = unityCost.replace('$', '');
-
+    totalQuantity = strReplaceNumber(totalQuantity);
+    
     // Eliminar miles
-    quantity = strReplaceNumber(quantity);
+    aPrice = strReplaceNumber(aPrice);
+    aPrice = aPrice.replace('$', '');
 
-    unityCost = parseFloat(unityCost);
-    quantity = parseFloat(quantity);
+    totalQuantity = parseFloat(totalQuantity);
+    aPrice = parseFloat(aPrice);
 
-    totalCost = unitsmanufacturated * unityCost;
+    totalCost = aPrice * totalQuantity;
 
     $(`#totalCost-${row}`).html(
-      totalCost.toLocaleString('es-CO', {
+      `$ ${totalCost.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
-      })
+      })}`
     );
   };
 
   /* Calcula el costo proyectado */
-  calculateProjectedCost = (row) => {
-    quantity = $(`#quantity-${row}`).html();
-
-    quantity = strReplaceNumber(quantity);
-
-    quantity = parseFloat(quantity);
-
-    let negotiatePrice = $(`#price-${row}`).val();
-
-    negotiatePrice == '' ? (negotiatePrice = '0') : negotiatePrice;
+  calculateProjectedCost = (row) => { 
+    totalQuantity = $(`#totalQuantity-${row}`).html();
+    negotiatePrice = parseFloat($(`#price-${row}`).val());
 
     // Eliminar miles
-    negotiatePrice = strReplaceNumber(negotiatePrice);
-    negotiatePrice = parseFloat(negotiatePrice);
+    totalQuantity = parseFloat(strReplaceNumber(totalQuantity));
 
-    projectedCost = quantity * negotiatePrice * unitsmanufacturated;
+    projectedCost = negotiatePrice * totalQuantity; 
 
     if (isNaN(projectedCost)) $(`#projectedCost-${row}`).html();
     else

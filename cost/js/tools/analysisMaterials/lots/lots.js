@@ -101,7 +101,7 @@ $(document).ready(function () {
       }
     }
 
-    dataMaterials.push(idProduct);
+    dataMaterials.push({ id_product: idProduct, unit: units });
 
     fetchData(dataMaterials);
 

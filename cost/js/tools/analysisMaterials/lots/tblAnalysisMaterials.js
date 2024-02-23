@@ -22,7 +22,7 @@ $(document).ready(function () {
       destroy: true,
       pageLength: 50,
       data: data,
-      order: [[6, 'desc']],
+      order: [[7, 'desc']],
       dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
@@ -52,9 +52,32 @@ $(document).ready(function () {
           className: 'uniqueClassName',
         },
         {
-          title: 'Cantidad',
-          data: 'quantity',
+          title: 'Cantidad x Producto',
+          data: null,
           className: 'uniqueClassName',
+          render: function (data) {
+            let quantity = parseFloat(data.quantity1);
+            if (Math.abs(quantity) < 0.01) {
+              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `${quantity} ${data.abbreviation_material}`;
+          },
+        },
+        {
+          title: 'Cantidad Total',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            let total_quantity = parseFloat(data.total_quantity);
+            if (Math.abs(total_quantity) < 0.01) {
+              total_quantity = total_quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              total_quantity = total_quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `${total_quantity} ${data.abbreviation_material}`;
+          },
         },
         {
           title: 'Costo Unitario',
@@ -65,7 +88,7 @@ $(document).ready(function () {
               ? (cost = data.cost_product_material)
               : (cost = data.cost);
 
-            return cost.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            return `$ ${cost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
           },
         },
         {
@@ -82,27 +105,42 @@ $(document).ready(function () {
         },
       ],
       footerCallback: function (row, data, start, end, display) {
-        total = this.api()
-          .column(5)
-          .data()
-          .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
-          }, 0);
+        let costs = 0;
+        let cost_product_material = 0;
+        let participation = 0;
+
+        for (i = 0; i < data.length; i++) {
+          data[i].abbreviation_material != data[i].abbreviation_product_material
+            ? (cost = data[i].cost_product_material)
+            : (cost = data[i].cost);
+          
+          costs += parseFloat(cost);
+
+          cost_product_material += parseFloat(data[i].cost_product_material);
+          participation += parseFloat(data[i].participation);
+
+        }
 
         $(this.api().column(5).footer()).html(
-          new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(total)
+          `$ ${costs.toLocaleString('es-CO', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}`
         );
-        subTotal = this.api()
-          .column(6)
-          .data()
-          .reduce(function (a, b) {
-            return a + b;
-          }, 0);
 
-        $(this.api().column(6).footer()).html(`${subTotal.toFixed(0)} %`);
+        $(this.api().column(6).footer()).html(
+          `$ ${cost_product_material.toLocaleString('es-CO', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}`
+        );
+
+        $(this.api().column(7).footer()).html(
+          `${participation.toLocaleString('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} %`
+        );
       },
     });
   };
@@ -150,23 +188,43 @@ $(document).ready(function () {
           className: 'uniqueClassName',
         },
         {
-          title: 'Cantidad',
-          data: 'quantity',
+          title: 'Cantidad x Producto',
+          data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<p id="quantity-${meta.row}">${data}</p>`;
+            let quantity = parseFloat(data.quantity1);
+            if (Math.abs(quantity) < 0.01) { 
+              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `<p id="quantity-${meta.row}">${quantity} ${data.abbreviation_material}</p>`;
           },
         },
+        {
+          title: 'Cantidad Total',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) {
+            let total_quantity = parseFloat(data.total_quantity);
+            if (Math.abs(total_quantity) < 0.01) { 
+              total_quantity = total_quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              total_quantity = total_quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `<p id="totalQuantity-${meta.row}">${total_quantity} ${data.abbreviation_material}</p>`;
+          },
+        }, 
         {
           title: 'Precio Actual',
           data: null,
           className: 'uniqueClassName',
-          render: function (data) {
+          render: function (data, type, full, meta) {
             data.abbreviation_material != data.abbreviation_product_material
               ? (cost = data.cost_product_material)
               : (cost = data.cost);
 
-            return cost.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            return `<p id="aPrice-${meta.row}">${cost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}</p>`;
           },
         },
         {
@@ -174,7 +232,7 @@ $(document).ready(function () {
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
-            return `<input type="text" class="form-control text-center number negotiatePrice" id="price-${meta.row}">`;
+            return `<input type="number" class="form-control text-center negotiatePrice" id="price-${meta.row}">`;
           },
         },
         {
