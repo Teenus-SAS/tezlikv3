@@ -51,7 +51,7 @@ $(document).ready(function () {
           unitys[i + 1] = unity;
         }
       } else {
-        let price = parseInt(strReplaceNumber(this.value));
+        let price = parseInt(this.value);
 
         prices[row] = price;
         for (let i = row; i < 5; i++) {
