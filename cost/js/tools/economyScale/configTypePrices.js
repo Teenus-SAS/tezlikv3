@@ -46,14 +46,14 @@ $(document).ready(function () {
 
                 if (flag_type_price === '0') {
                     document.getElementById("actual").className =
-                        "btn btn-sm btn-primary typePrice";
+                        "btn btn-sm btn-primary typePrice cardBottons";
                     document.getElementById("sugered").className =
-                        "btn btn-sm btn-outline-primary typePrice";
+                        "btn btn-sm btn-outline-primary typePrice cardBottons";
                 } else {
                     document.getElementById("sugered").className =
-                        "btn btn-sm btn-primary typePrice";
+                        "btn btn-sm btn-primary typePrice cardBottons";
                     document.getElementById("actual").className =
-                        "btn btn-sm btn-outline-primary typePrice";
+                        "btn btn-sm btn-outline-primary typePrice cardBottons";
                 }
             }
             else if (op == 2) {
