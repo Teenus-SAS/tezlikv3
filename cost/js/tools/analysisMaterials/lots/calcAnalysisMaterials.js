@@ -18,6 +18,10 @@ $(document).ready(function () {
       negotiatePrice = parseFloat(negotiatePrice);
     }
 
+    // if (negotiatePrice == 0) {
+    //   $('.dataAnalysis').val('');
+    // }
+
     currentPrice = dataAnalysisMaterials[row].cost;
 
     // Calcular porcentaje
@@ -70,7 +74,7 @@ $(document).ready(function () {
   };
 
   /* Calcula el costo de los materiales */
-  calculateCostMaterial = (row) => { 
+  calculateCostMaterial = (row) => {
     let totalQuantity = $(`#totalQuantity-${row}`).html();
     let aPrice = $(`#aPrice-${row}`).html();
 
@@ -84,27 +88,32 @@ $(document).ready(function () {
     totalQuantity = parseFloat(totalQuantity);
     aPrice = parseFloat(aPrice);
 
-    totalCost = aPrice * totalQuantity;
+    if ($(`#price-${row}`).val() == '' || $(`#price-${row}`).val() == 0)
+      $(`#totalCost-${row}`).html('');
+    else {
+      totalCost = aPrice * totalQuantity;
 
-    $(`#totalCost-${row}`).html(
-      `$ ${totalCost.toLocaleString('es-CO', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      })}`
-    );
+      $(`#totalCost-${row}`).html(
+        `$ ${totalCost.toLocaleString('es-CO', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`
+      );
+    }
   };
 
   /* Calcula el costo proyectado */
-  calculateProjectedCost = (row) => { 
+  calculateProjectedCost = (row) => {
     totalQuantity = $(`#totalQuantity-${row}`).html();
     negotiatePrice = parseFloat($(`#price-${row}`).val());
 
     // Eliminar miles
     totalQuantity = parseFloat(strReplaceNumber(totalQuantity));
 
-    projectedCost = negotiatePrice * totalQuantity; 
+    projectedCost = negotiatePrice * totalQuantity;
 
-    if (isNaN(projectedCost)) $(`#projectedCost-${row}`).html();
+    if (isNaN(projectedCost) || $(`#price-${row}`).val() == '' || $(`#price-${row}`).val() == 0)
+      $(`#projectedCost-${row}`).html('');
     else
       $(`#projectedCost-${row}`).html(
         `$ ${projectedCost.toLocaleString('es-CO', {
