@@ -60,9 +60,9 @@ class AMLotsDao
         try {
             for ($i = 0; $i < sizeof($products); $i++) {
                 for ($j = 0; $j < sizeof($data); $j++) {
-                    if ($products[$i]['id_product'] == $data[$j]['id_product']) {
+                    if ($products[$i]['idProduct'] == $data[$j]['id_product']) {
                         // $data[$j]['total_quantity'] = $data[$j]['quantity1'] * $products[$i]['unit'] . " " . $data[$j]['abbreviation_material'];
-                        $data[$j]['total_quantity'] = $data[$j]['quantity1'] * $products[$i]['unit'];
+                        $data[$j]['total_quantity'] = $data[$j]['quantity1'] * $products[$i]['units'];
                     }
                 }
             }

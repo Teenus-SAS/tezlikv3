@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $('#btnComposite').click(function (e) { 
+  $('#btnComposite').click(function (e) {
     e.preventDefault();
 
     if (op == 1) {
@@ -47,9 +47,9 @@ $(document).ready(function () {
     // }
 
     tblPrices = $("#tblPrices").DataTable({
-      destroy:true,
+      destroy: true,
       pageLength: 50,
-      data: data, 
+      data: data,
       dom: '<"datatable-error-console">frtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",
@@ -125,6 +125,15 @@ $(document).ready(function () {
             ) {
               badgeClass = "badge badge-danger"; // Use "badge badge-danger" for red
             } else badgeClass = "badge badge-success"; // Use "badge badge-danger" for red
+
+            if (data.sale_price == 0) {
+              badgeClass = "badge badge-primary"; // Use "badge badge-warning" for orange
+              profitabilityText = `${data.profitability.toLocaleString(
+                "es-CO",
+                { maximumFractionDigits: 0 }
+              )} %`;
+            }
+
             if (badgeClass) {
               return `<span class="${badgeClass}" style="font-size: medium;" >${profitabilityText}</span>`;
             } else {

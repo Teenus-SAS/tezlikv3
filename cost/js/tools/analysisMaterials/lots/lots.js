@@ -20,11 +20,13 @@ $(document).ready(function () {
   $('#btnProductsLoaded').click(function (e) {
     e.preventDefault();
 
+    sessionStorage.removeItem('update');
     $('#formAddLot').trigger('reset');
     $('.cardRawMaterialsAnalysis').hide(800);
     $('.cardTableRawMaterials').hide(800);
     $('.cardAddLot').show(800);
     $('.cardTableProducts').show(800);
+    $('#btnAddLot').html('Adicionar');
 
     setTimeout(setCSSTbl(), 1000);
   });
@@ -66,9 +68,9 @@ $(document).ready(function () {
     e.preventDefault();
 
     let idProduct = parseInt($('#refProduct').val());
-    let units = $('#unitsmanufacturated').val();
+    let units = parseFloat($('#unitsmanufacturated').val());
 
-    units = parseFloat(strReplaceNumber(units));
+    // units = parseFloat(strReplaceNumber(units));
 
     data = idProduct * units;
 
@@ -77,36 +79,60 @@ $(document).ready(function () {
       return false;
     }
 
-    let product = {};
+    let row = sessionStorage.getItem('update');
 
-    product.idProduct = idProduct;
-    product.reference = $('#refProduct :selected').text().trim();
-    product.name = $('#selectNameProduct :selected').text().trim();
-    product.units = units;
+    if (!row || row == '') {
+      let product = {};
+      
+      product.idProduct = idProduct;
+      product.reference = $('#refProduct :selected').text().trim();
+      product.name = $('#selectNameProduct :selected').text().trim();
+      product.units = units;
 
-    for (let i = 0; i < products.length; i++) {
-      if (idProduct == products[i].idProduct) {
-        products.splice(i--, 1);
-        break;
+      for (let i = 0; i < products.length; i++) {
+        if (idProduct == products[i].idProduct) {
+          products.splice(i--, 1);
+          break;
+        }
       }
+      products.push(product);
+    } else {
+      products[row].idProduct = idProduct;
+      products[row].reference = $('#refProduct :selected').text().trim();
+      products[row].name = $('#selectNameProduct :selected').text().trim();
+      products[row].units = units;      
     }
-    products.push(product);
 
     loadTblProducts(products);
 
-    for (let i = 0; i < dataMaterials.length; i++) {
-      if (idProduct == dataMaterials[i]) {
-        dataMaterials.splice(i--, 1);
-        break;
-      }
-    }
+    // for (let i = 0; i < dataMaterials.length; i++) {
+    //   if (idProduct == dataMaterials[i].id_product) {
+    //     dataMaterials.splice(i--, 1);
+    //     break;
+    //   }
+    // }
 
-    dataMaterials.push({ id_product: idProduct, unit: units });
+    // dataMaterials.push({ id_product: idProduct, unit: units });
 
-    fetchData(dataMaterials);
+    fetchData(products);
 
-    toastr.success('Producto adicionado correctamente');
+    !row || row == '' ? msg = 'Producto adicionado correctamente' : msg = 'Producto modificado correctamente';
+    toastr.success(msg);
     $('#formAddLot').trigger('reset');
     $('.cardAddLot').hide(800);
+  });
+
+  $(document).on('click','.updateProduct', function () {
+    let row = this.id;
+
+    let data = products[row];
+ 
+    $(`#refProduct option[value=${data.idProduct}]`).prop('selected', true);
+    $(`#selectNameProduct option[value=${data.idProduct}]`).prop('selected', true);
+    $('#unitsmanufacturated').val(data.units);
+    sessionStorage.setItem('update', row);
+    $('#btnAddLot').html('Actualizar');
+
+    $('.cardAddLot').show(800);
   });
 });

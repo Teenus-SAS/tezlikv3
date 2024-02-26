@@ -23,7 +23,7 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
 
     $id_products = array();
     foreach ($lots['data'] as $product) {
-        $id_products[] = $product['id_product'];
+        $id_products[] = $product['idProduct'];
     }
 
     $products = implode(',', $id_products);

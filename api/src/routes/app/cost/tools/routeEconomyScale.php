@@ -11,20 +11,39 @@ $generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/calcEconomyScale/{id_product}', function (Request $request, Response $response, $args) use ($priceDao, $economyScaleDao) {
+// $app->get('/calcEconomyScale/{id_product}', function (Request $request, Response $response, $args) use ($priceDao, $economyScaleDao) {
+//     session_start();
+//     $id_company = $_SESSION['id_company'];
+
+//     $price = $priceDao->findPriceByProduct($args['id_product'], $id_company);
+//     $fixedCosts = $economyScaleDao->findFixedCostByProduct($args['id_product'], $id_company);
+//     $variableCosts = $economyScaleDao->findVariableCostByProduct($args['id_product'], $id_company);
+
+//     $data['price'] = $price['price'];
+//     $data['sale_price'] = $price['sale_price'];
+//     $data['profitability'] = $price['profitability'];
+//     $data['fixedCost'] = $fixedCosts['costFixed'];
+//     $data['variableCost'] = $variableCosts['variableCost'];
+//     $data['commission'] = $variableCosts['commission'];
+
+//     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
+$app->get('/calcEconomyScale', function (Request $request, Response $response, $args) use ($priceDao, $economyScaleDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    // $id_company = 2;
 
-    $price = $priceDao->findPriceByProduct($args['id_product'], $id_company);
-    $fixedCosts = $economyScaleDao->findFixedCostByProduct($args['id_product'], $id_company);
-    $variableCosts = $economyScaleDao->findVariableCostByProduct($args['id_product'], $id_company);
+    $price = $priceDao->findAllPricesByCompany($id_company);
+    $fixedCosts = $economyScaleDao->findAllFixedCostByCompany($id_company);
+    $variableCosts = $economyScaleDao->findAllVariableCostByCompany($id_company);
 
-    $data['price'] = $price['price'];
-    $data['sale_price'] = $price['sale_price'];
-    $data['profitability'] = $price['profitability'];
-    $data['fixedCost'] = $fixedCosts['costFixed'];
-    $data['variableCost'] = $variableCosts['variableCost'];
-    $data['commission'] = $variableCosts['commission'];
+    $combined = $economyScaleDao->combinedData($price, $fixedCosts, 'id_product');
+    $data = $economyScaleDao->combinedData($combined, $variableCosts, 'id_product');
+
+    // $data['dataPrice'] = $price;
+    // $data['dataFixedCost'] = $fixedCosts;
+    // $data['dataVariableCost'] = $variableCosts;
 
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
