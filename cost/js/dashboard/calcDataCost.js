@@ -1,5 +1,12 @@
 $(document).ready(function () {
   getDataCost = (data) => {
+    let profitability = 0;
+    let profitability2 = 0;
+    let costProfitability = 0;
+    let costCommissionSale = 0;
+    let costActualProfitability = 0;
+    let price2 = 0;
+
     cost =
       parseFloat(data.cost_materials) +
       parseFloat(data.cost_workforce) +
@@ -21,28 +28,31 @@ $(document).ready(function () {
 
     costCommissionSale = price * (parseFloat(data.commission_sale) / 100);
 
-    if (flag_expense === '2' || flag_expense_distribution === '2' ) {
+    if (flag_expense === "2" || flag_expense_distribution === "2") {
       // profitability = (((data.sale_price * (1 - (data.commission_sale / 100))) - costTotal) / data.sale_price) * 100;
       price2 = 0;
-      profitability = (((data.sale_price - costTotal) / costTotal) * 100);
-      profitability2 = (((data.sale_price - costTotal) / costTotal) * 100);
-      costActualProfitability = parseFloat(data.sale_price) * (profitability / 100);
-    }
-    else if(data.units_sold > 0 && data.turnover > 0) {
+      profitability = ((data.sale_price - costTotal) / costTotal) * 100;
+      profitability2 = ((data.sale_price - costTotal) / costTotal) * 100;
+      costActualProfitability =
+        parseFloat(data.sale_price) * (profitability / 100);
+    } else if (data.units_sold > 0 && data.turnover > 0) {
       // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
       price2 = costTotal * parseFloat(data.units_sold);
       profitability = ((parseFloat(data.turnover) - price2) / price2) * 100;
-      profitability2 = (((parseFloat(data.sale_price) - costTotal) / costTotal) * 100);
+      profitability2 =
+        ((parseFloat(data.sale_price) - costTotal) / costTotal) * 100;
       costActualProfitability = parseFloat(data.turnover) - price2;
       // costActualProfitability = parseFloat(data.turnover) - price2;
       // profitability = (((parseFloat(data.turnover) - price2) / price2) * parseFloat(data.units_sold));
     }
 
-    isNaN(profitability) ? profitability = 0 : profitability;
-    isNaN(profitability2) ? profitability2 = 0 : profitability2;
-    isNaN(costProfitability) ? costProfitability = 0 : costProfitability;
-    isNaN(costCommissionSale) ? costCommissionSale = 0 : costCommissionSale;
-    isNaN(costActualProfitability) ? costActualProfitability = 0 : costActualProfitability;
+    isNaN(profitability) ? (profitability = 0) : profitability;
+    isNaN(profitability2) ? (profitability2 = 0) : profitability2;
+    isNaN(costProfitability) ? (costProfitability = 0) : costProfitability;
+    isNaN(costCommissionSale) ? (costCommissionSale = 0) : costCommissionSale;
+    isNaN(costActualProfitability)
+      ? (costActualProfitability = 0)
+      : costActualProfitability;
 
     dataCost = {
       cost: cost,
