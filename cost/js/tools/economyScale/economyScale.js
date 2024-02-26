@@ -1,4 +1,19 @@
 $(document).ready(function () {
+  let economyScale = [];
+
+  loadAllData = async () => {
+    try {
+      const data = await searchData('/api/calcEconomyScale');
+
+      economyScale = data;
+ 
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
+
+  loadAllData();
+
   $('#refProduct').change(function (e) {
     e.preventDefault();
 
@@ -29,11 +44,12 @@ $(document).ready(function () {
         </div>
       </div>`
     );
-
+    
     $('.general').val('');
     $('.general').html('');
-
-    data = await searchData(`/api/calcEconomyScale/${id}`);
+    
+    let data = economyScale.find(item => item.id_product == id);
+    // data = await searchData(`/api/calcEconomyScale/${id}`);
     let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0];
     
     typePrice.id === 'sugered' ? price = Math.ceil(data.price) : price = Math.ceil(data.sale_price);
@@ -88,7 +104,7 @@ $(document).ready(function () {
     ];
 
     /* Costos Fijos */
-    fixedCost = data.fixedCost;
+    fixedCost = data.costFixed;
 
     variableCost = data.variableCost;
 

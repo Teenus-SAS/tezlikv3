@@ -100,7 +100,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formAddLot">
                                             <div class="form-row">
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Referencia</label>
                                                     <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                                                 </div>
@@ -141,8 +141,9 @@ if (sizeof($_SESSION) == 0)
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
+                                                        <th>Total:</th>
                                                         <th></th>
-                                                        <th>Total: </th>
+                                                        <th></th>
                                                     </tr>
                                                 </tfoot>
                                             </table>

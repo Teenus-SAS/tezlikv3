@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  /* Calculo */
+   /* Calculo */
   $(document).on('blur', '.totalRevenue', function () {
     try {
       let idProduct = $('#refProduct').val();
