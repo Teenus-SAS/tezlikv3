@@ -176,7 +176,7 @@ $(document).ready(function () {
               var mSeconds = endTime - startTime;
               var seconds = mSeconds / 1000;
 
-              if (seconds > 120) {
+              if (seconds > 5) {
                 // toastr.error('Precios muy por debajo de lo requerido. Revise los costos fijos');
                 break;
               } else {
