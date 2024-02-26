@@ -51,12 +51,12 @@ $(document).ready(function () {
           unitys[i + 1] = unity;
         }
       } else {
-        let price = parseFloat(strReplaceNumber(this.value));
+        let price = parseInt(strReplaceNumber(this.value));
 
         prices[row] = price;
         for (let i = row; i < 5; i++) {
           prices[i + 1] = price;
-          $(`#price-${i + 1}`).val(price.toLocaleString('es-CO'));
+          $(`#price-${i + 1}`).val(price);
         }
       }
       if (id != 'unity-0') generalCalc(1);
