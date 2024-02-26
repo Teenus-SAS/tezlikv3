@@ -81,16 +81,16 @@ $(document).ready(function () {
             //$('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
             document.getElementById("sugered").className =
-                "btn btn-sm btn-primary typePrice";
+                "btn btn-sm btn-primary typePrice cardBottons";
             document.getElementById("actual").className =
-                "btn btn-sm btn-outline-primary typePrice";
+                "btn btn-sm btn-outline-primary typePrice cardBottons";
         } else if (className.includes("btn-outline-primary")) {
             $('#labelDescription').html(`Descripción (Precio Actual)`);
 
             document.getElementById("actual").className =
-                "btn btn-sm btn-primary typePrice";
+                "btn btn-sm btn-primary typePrice cardBottons";
             document.getElementById("sugered").className =
-                "btn btn-sm btn-outline-primary typePrice";
+                "btn btn-sm btn-outline-primary typePrice cardBottons";
         }
 
         loadDataProduct(id);

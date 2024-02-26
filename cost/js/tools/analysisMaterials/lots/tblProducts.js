@@ -32,6 +32,15 @@ $(document).ready(function () {
           className: 'classCenter',
           render: $.fn.dataTable.render.number('.', ',', 0, ''),
         },
+        {
+          title: 'Acciones',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) { 
+            return `
+                <a href="javascript:;" <i id="${meta.row}" class="bx bx-edit-alt updateProduct" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>`;
+          },
+        },
       ],
       footerCallback: function (row, data, start, end, display) {
         totalUnits = this.api()
