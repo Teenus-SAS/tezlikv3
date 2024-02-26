@@ -75,6 +75,7 @@ class AMLotsDao
                 for ($i = 0; $i < count($lots); $i++) {
                     if ($lots[$i]['id_material'] == $t['id_material']) {
                         $lots[$i]['quantity1'] += $t['quantity1'];
+                        $lots[$i]['total_quantity'] += $t['total_quantity'];
                         $lots[$i]['quantity'] = $lots[$i]['quantity1'] . " " . $t['abbreviation_material'];
                         $lots[$i]['cost_product_material'] += $t['cost_product_material'];
                         $repeat = true;
