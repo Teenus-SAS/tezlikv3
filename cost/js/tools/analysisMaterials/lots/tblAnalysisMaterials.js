@@ -22,7 +22,7 @@ $(document).ready(function () {
       destroy: true,
       pageLength: 50,
       data: data,
-      order: [[7, 'desc']],
+      order: [[6, 'desc']],
       dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
@@ -51,20 +51,20 @@ $(document).ready(function () {
           data: 'material',
           className: 'uniqueClassName',
         },
-        {
-          title: 'Cantidad x Producto',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data) {
-            let quantity = parseFloat(data.quantity1);
-            if (Math.abs(quantity) < 0.01) {
-              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else
-              quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+        // {
+        //   title: 'Cantidad x Producto',
+        //   data: null,
+        //   className: 'uniqueClassName',
+        //   render: function (data) {
+        //     let quantity = parseFloat(data.quantity1);
+        //     if (Math.abs(quantity) < 0.01) {
+        //       quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+        //     } else
+        //       quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            return `${quantity} ${data.abbreviation_material}`;
-          },
-        },
+        //     return `${quantity} ${data.abbreviation_material}`;
+        //   },
+        // },
         {
           title: 'Cantidad Total',
           data: null,
@@ -80,22 +80,38 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Costo Unitario',
+          title: 'Costo Cantidad Minima',
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
+            let cost = 0;
+
             data.abbreviation_material != data.abbreviation_product_material
               ? (cost = data.cost_product_material)
               : (cost = data.cost);
+            
+            cost = parseFloat(cost);
+            if (Math.abs(cost) < 0.001) {
+              cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 0 });
 
-            return `$ ${cost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+            return `$ ${cost}`;
           },
         },
         {
           title: 'Precio Total',
           data: 'cost_product_material',
           className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+          render: function (data) {
+            let cost = parseFloat(data);
+            if (Math.abs(cost) < 0.001) {
+              cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+
+            return `$ ${cost}`;
+          }
         },
         {
           title: 'Participacion',
@@ -121,21 +137,21 @@ $(document).ready(function () {
 
         }
 
-        $(this.api().column(5).footer()).html(
+        $(this.api().column(4).footer()).html(
           `$ ${costs.toLocaleString('es-CO', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}`
         );
 
-        $(this.api().column(6).footer()).html(
+        $(this.api().column(5).footer()).html(
           `$ ${cost_product_material.toLocaleString('es-CO', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}`
         );
 
-        $(this.api().column(7).footer()).html(
+        $(this.api().column(6).footer()).html(
           `${participation.toLocaleString('es-CO', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -187,34 +203,34 @@ $(document).ready(function () {
           data: 'material',
           className: 'uniqueClassName',
         },
-        {
-          title: 'Cantidad x Producto',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data, type, full, meta) {
-            let quantity = parseFloat(data.quantity1);
-            if (Math.abs(quantity) < 0.01) { 
-              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else
-              quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+        // {
+        //   title: 'Cantidad x Producto',
+        //   data: null,
+        //   className: 'uniqueClassName',
+        //   render: function (data, type, full, meta) {
+        //     let quantity = parseFloat(data.quantity1);
+        //     if (Math.abs(quantity) < 0.01) { 
+        //       quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+        //     } else
+        //       quantity = quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            return `<p id="quantity-${meta.row}">${quantity} ${data.abbreviation_material}</p>`;
-          },
-        },
+        //     return `<p id="quantity-${meta.row}">${quantity} ${data.abbreviation_material}</p>`;
+        //   },
+        // },
         {
           title: 'Cantidad Total',
           data: null,
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {
             let total_quantity = parseFloat(data.total_quantity);
-            if (Math.abs(total_quantity) < 0.01) { 
+            if (Math.abs(total_quantity) < 0.01) {
               total_quantity = total_quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               total_quantity = total_quantity.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
             return `<p id="totalQuantity-${meta.row}">${total_quantity} ${data.abbreviation_material}</p>`;
           },
-        }, 
+        },
         {
           title: 'Precio Actual',
           data: null,
@@ -244,7 +260,7 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Costo Unidad',
+          title: 'Costo Cantidad Minima',
           data: 'cost_product_material',
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {

@@ -51,12 +51,12 @@ $(document).ready(function () {
           unitys[i + 1] = unity;
         }
       } else {
-        let price = parseFloat(strReplaceNumber(this.value));
+        let price = parseInt(this.value);
 
         prices[row] = price;
         for (let i = row; i < 5; i++) {
           prices[i + 1] = price;
-          $(`#price-${i + 1}`).val(price.toLocaleString('es-CO'));
+          $(`#price-${i + 1}`).val(price);
         }
       }
       if (id != 'unity-0') generalCalc(1);
@@ -176,7 +176,7 @@ $(document).ready(function () {
               var mSeconds = endTime - startTime;
               var seconds = mSeconds / 1000;
 
-              if (seconds > 120) {
+              if (seconds > 5) {
                 // toastr.error('Precios muy por debajo de lo requerido. Revise los costos fijos');
                 break;
               } else {
@@ -187,6 +187,9 @@ $(document).ready(function () {
           }
         }
       }
+
+      $('.cardLoading').remove();
+      $('.cardBottons').show(400);
     } catch (error) {
       console.log(error);
     }

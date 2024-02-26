@@ -17,13 +17,26 @@ $(document).ready(function () {
   });
 
   loadDataProduct = async (id) => {
+    $('.cardBottons').hide();
+
+    let form = document.getElementById('btnsEconomy');
+
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
+
     $('.general').val('');
     $('.general').html('');
 
     data = await searchData(`/api/calcEconomyScale/${id}`);
     let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0];
     
-    typePrice.id === 'sugered' ? price = data.price : price = data.sale_price;
+    typePrice.id === 'sugered' ? price = Math.ceil(data.price) : price = Math.ceil(data.sale_price);
     $('#labelDescription').html(` Descripción (${typePrice.id == 'actual' ? 'Precio Actual' : 'Precio Sugerido'}) `);
     
     if (price == 0 || !price) {
@@ -31,18 +44,18 @@ $(document).ready(function () {
         $('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
         document.getElementById("actual").className =
-          "btn btn-sm btn-primary typePrice";
+          "btn btn-sm btn-primary typePrice cardBottons";
         document.getElementById("sugered").className =
-          "btn btn-sm btn-outline-primary typePrice";
-        price = data.sale_price;
+          "btn btn-sm btn-outline-primary typePrice cardBottons";
+        price = Math.ceil(data.sale_price);
       } else {
         $('#labelDescription').html(`Descripción (Precio Actual)`);
 
         document.getElementById("sugered").className =
-          "btn btn-sm btn-primary typePrice";
+          "btn btn-sm btn-primary typePrice cardBottons";
         document.getElementById("actual").className =
-          "btn btn-sm btn-outline-primary typePrice";
-        price = data.price
+          "btn btn-sm btn-outline-primary typePrice cardBottons";
+        price = Math.ceil(data.price)
       }
       
       if (price == 0 || !price) {
