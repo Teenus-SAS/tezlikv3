@@ -47,7 +47,7 @@ $(document).ready(function () {
           "btn btn-sm btn-primary typePrice cardBottons";
         document.getElementById("sugered").className =
           "btn btn-sm btn-outline-primary typePrice cardBottons";
-        price = data.sale_price;
+        price = Math.ceil(data.sale_price);
       } else {
         $('#labelDescription').html(`Descripción (Precio Actual)`);
 
@@ -55,7 +55,7 @@ $(document).ready(function () {
           "btn btn-sm btn-primary typePrice cardBottons";
         document.getElementById("actual").className =
           "btn btn-sm btn-outline-primary typePrice cardBottons";
-        price = data.price
+        price = Math.ceil(data.price)
       }
       
       if (price == 0 || !price) {
