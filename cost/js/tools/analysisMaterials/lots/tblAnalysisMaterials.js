@@ -80,7 +80,7 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Costo Unitario',
+          title: 'Costo Cantidad Minima',
           data: null,
           className: 'uniqueClassName',
           render: function (data) {
@@ -260,7 +260,7 @@ $(document).ready(function () {
           },
         },
         {
-          title: 'Costo Unidad',
+          title: 'Costo Cantidad Minima',
           data: 'cost_product_material',
           className: 'uniqueClassName',
           render: function (data, type, full, meta) {

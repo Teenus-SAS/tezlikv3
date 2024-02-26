@@ -187,6 +187,9 @@ $(document).ready(function () {
           }
         }
       }
+
+      $('.cardLoading').remove();
+      $('.cardBottons').show(400);
     } catch (error) {
       console.log(error);
     }
