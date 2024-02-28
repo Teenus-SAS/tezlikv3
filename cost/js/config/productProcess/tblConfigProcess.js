@@ -137,7 +137,7 @@ $(document).ready(function () {
           visible: visible,
           render: function (data) {
             if (data.auto_machine === 0)
-              return `<a href="javascript:;" <i id="${data.id_product_process}" class="ti-exchange-vertical updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
+              return `<a href="javascript:;" <i id="${data.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
             else return '';
           },
         },
