@@ -39,8 +39,8 @@ $(document).ready(function () {
       // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
       price2 = costTotal * parseFloat(data.units_sold);
       profitability = ((parseFloat(data.turnover) - price2) / price2) * 100;
-      profitability2 =
-        ((parseFloat(data.sale_price) - costTotal) / costTotal) * 100;
+      profitability2 = (((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100);
+      // profitability2 = (((parseFloat(data.sale_price) - costTotal) / costTotal) * 100);z
       costActualProfitability = parseFloat(data.turnover) - price2;
       // costActualProfitability = parseFloat(data.turnover) - price2;
       // profitability = (((parseFloat(data.turnover) - price2) / price2) * parseFloat(data.units_sold));
