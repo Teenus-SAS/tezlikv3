@@ -473,6 +473,7 @@ if (sizeof($_SESSION) == 0)
                                                                                 <th></th>
                                                                                 <th></th>
                                                                                 <th></th>
+                                                                                <th></th>
                                                                             </tr>
                                                                         </tfoot>
                                                                     <?php } ?>
