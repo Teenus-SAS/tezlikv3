@@ -18,7 +18,7 @@ $(document).ready(function () {
     $('.compositeProduct').change(async function (e) {
         e.preventDefault();
 
-        // let data = await searchData('/api/units');
+        let data = await searchData('/api/units');
 
         let filterData = data.filter(item => item.unit == 'UNIDAD');
         
