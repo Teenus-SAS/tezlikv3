@@ -33,7 +33,7 @@ $(document).ready(function () {
 
   /* Actualizar materia prima */
 
-  $(document).on('click', '.updateRawMaterials', async function (e) {
+  $(document).on('click', '.updateRawMaterials', function (e) {
     $('.cardImportMaterials').hide(800);
     $('#units').empty();
     $('.cardRawMaterials').show(800);
@@ -47,7 +47,7 @@ $(document).ready(function () {
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
-    await loadUnitsByMagnitude(data.id_magnitude, 1);
+    loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
     // let decimals = contarDecimales(data.cost);

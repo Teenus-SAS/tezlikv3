@@ -15,10 +15,10 @@ $(document).ready(function () {
         $('#formAddNewProduct').trigger('reset'); 
     });
 
-    $('.compositeProduct').change(async function (e) {
+    $('.compositeProduct').change(function (e) {
         e.preventDefault();
 
-        let data = await searchData('/api/units');
+        let data = JSON.parse(sessionStorage.getItem('dataUnits'));
 
         let filterData = data.filter(item => item.unit == 'UNIDAD');
         
@@ -48,7 +48,7 @@ $(document).ready(function () {
 
     /* Actualizar productos materials */
 
-    $(document).on('click', '.updateComposite', async function (e) {
+    $(document).on('click', '.updateComposite', function (e) {
         $('.cardImportProductsMaterials').hide(800);
         $('.cardAddNewProduct').show(800);
         $('#btnAddProduct').html('Actualizar');
@@ -61,7 +61,8 @@ $(document).ready(function () {
 
         $('#quantity2').val(data.quantity);
 
-        data = await searchData('/api/units');
+        // data = await searchData('/api/units');
+        data = JSON.parse(sessionStorage.getItem('dataUnits'));
 
         let filterData = data.filter(item => item.unit == 'UNIDAD');
         

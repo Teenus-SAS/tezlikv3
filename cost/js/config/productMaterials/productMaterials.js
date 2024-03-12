@@ -82,7 +82,7 @@ $(document).ready(function () {
 
     for (i = 0; i < dataMaterials.length; i++) {
       if (id == dataMaterials[i].id_material) {
-        await loadUnitsByMagnitude(dataMaterials[i], 2);
+        loadUnitsByMagnitude(dataMaterials[i], 2);
       }
     }
   });
@@ -130,7 +130,7 @@ $(document).ready(function () {
     $(`#nameMaterial option[value=${data.id_material}]`).prop('selected', true);
 
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
-    await loadUnitsByMagnitude(data, 2);
+    loadUnitsByMagnitude(data, 2);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
 
     // let quantity = `${data.quantity}`;

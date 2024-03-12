@@ -1,18 +1,22 @@
 $(document).ready(function () {
-  /* Cargar unidades por magnitud */
-  // loadDataMagnitudes = async () => {
-  //   let data = await searchData('/api/units');
+  /* Cargar unidades por magnitud */ 
+  loadDataMagnitudes = async () => {
+    let data = await searchData('/api/units');
 
-  //   sessionStorage.setItem('dataUnits', JSON.stringify())
-  // };
-  // loadDataMagnitudes();
+    sessionStorage.setItem('dataUnits', JSON.stringify(data));
+  };
+  loadDataMagnitudes();
   
   loadUnitsByMagnitude = async (data, op) => {
     Object.prototype.toString.call(data) === '[object Object]'
       ? (id_magnitude = data.id_magnitude)
       : (id_magnitude = data);
+    
+    let dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
+    
+    let dataPMaterials = dataUnits.filter(item => item.id_magnitude == id_magnitude);
 
-    let dataPMaterials = await searchData(`/api/units/${id_magnitude}`);
+    // let dataPMaterials = await searchData(`/api/units/${id_magnitude}`);
 
     let $select = $(`#units`);
     $select.empty();
