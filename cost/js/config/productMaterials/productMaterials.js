@@ -70,7 +70,7 @@ $(document).ready(function () {
 
   /* Adicionar unidad de materia prima */
 
-  $('#material').change(async function (e) {
+  $('.material').change(async function (e) {
     e.preventDefault();
     let id = this.value;
 
@@ -127,7 +127,7 @@ $(document).ready(function () {
     let data = tblConfigMaterials.fnGetData(row);
 
     sessionStorage.setItem('id_product_material', data.id_product_material);
-    $(`#material option[value=${data.id_material}]`).prop('selected', true);
+    $(`#nameMaterial option[value=${data.id_material}]`).prop('selected', true);
 
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
     await loadUnitsByMagnitude(data, 2);
@@ -147,7 +147,7 @@ $(document).ready(function () {
 
   /* Revision data Productos materiales */
   checkDataProductsMaterials = async (url, idProductMaterial) => {
-    let ref = parseInt($('#material').val());
+    let ref = parseInt($('#nameMaterial').val());
     let unit = parseInt($('#units').val());
     let quan = parseFloat($('#quantity').val());
     idProduct = parseInt($('#selectNameProduct').val());

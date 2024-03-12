@@ -172,9 +172,13 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pb-0">
                                         <form id="formAddMaterials">
                                             <div class="form-row">
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label for="">Referencia</label>
+                                                    <select class="form-control material" name="refMaterial" id="refMaterial"></select>
+                                                </div>
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Materia Prima</label>
-                                                    <select class="form-control" name="material" id="material"></select>
+                                                    <select class="form-control material" name="material" id="nameMaterial"></select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <select class="form-control" id="units" name="unit"></select>
@@ -229,9 +233,13 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pb-0">
                                         <form id="formAddNewProduct">
                                             <div class="form-row">
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label for="">Referencia</label>
+                                                    <select class="form-control compositeProduct" name="refCompositeProduct" id="refCompositeProduct"></select>
+                                                </div>
+                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Producto</label>
-                                                    <select class="form-control" name="compositeProduct" id="compositeProduct"></select>
+                                                    <select class="form-control compositeProduct" name="compositeProduct" id="compositeProduct"></select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <select class="form-control" id="unit2" name="unit">

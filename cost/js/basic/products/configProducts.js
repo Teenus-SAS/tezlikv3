@@ -1,4 +1,20 @@
 $(document).ready(function () {
+  $('#refCompositeProduct').change(async function (e) {
+    e.preventDefault();
+    let id = this.value;
+
+    $('#compositeProduct option').removeAttr('selected');
+    $(`#compositeProduct option[value=${id}]`).prop('selected', true);
+  });
+
+  $('#compositeProduct').change(async function (e) {
+    e.preventDefault();
+    let id = this.value;
+
+    $('#refCompositeProduct option').removeAttr('selected');
+    $(`#refCompositeProduct option[value=${id}]`).prop('selected', true);
+  });
+
   $.ajax({
     url: '/api/products',
     success: function (r) {
@@ -32,16 +48,27 @@ $(document).ready(function () {
         );
       });
 
-      let $select2 = $(`#compositeProduct`);
-      $select2.empty();
-
       let compositeProduct = prod.filter(item => item.composite == 1);
+      let $select2 = $(`#refCompositeProduct`);
+      $select2.empty();
 
       $select2.append(
         `<option value='0' disabled selected>Seleccionar</option>`
       );
       $.each(compositeProduct, function (i, value) {
         $select2.append(
+          `<option value ="${value.id_product}"> ${value.reference} </option>`
+        );
+      });
+
+      let $select3 = $(`#compositeProduct`);
+      $select3.empty();
+
+      $select3.append(
+        `<option value='0' disabled selected>Seleccionar</option>`
+      );
+      $.each(compositeProduct, function (i, value) {
+        $select3.append(
           `<option value ="${value.id_product}"> ${value.product} </option>`
         );
       });

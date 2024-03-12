@@ -1,5 +1,12 @@
 $(document).ready(function () {
   /* Cargar unidades por magnitud */
+  // loadDataMagnitudes = async () => {
+  //   let data = await searchData('/api/units');
+
+  //   sessionStorage.setItem('dataUnits', JSON.stringify())
+  // };
+  // loadDataMagnitudes();
+  
   loadUnitsByMagnitude = async (data, op) => {
     Object.prototype.toString.call(data) === '[object Object]'
       ? (id_magnitude = data.id_magnitude)
