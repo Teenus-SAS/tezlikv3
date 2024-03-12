@@ -13,8 +13,9 @@ $(document).ready(function () {
     } else
       $('#btnAddNewProduct').hide();
 
-    $('#selectNameProduct option').removeAttr('selected');
-    $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
+    $('#selectNameProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
     $('.cardAddNewProduct').hide(800);
     $('.cardAddMaterials').hide(800);
     loadtableMaterials(id);
@@ -30,8 +31,9 @@ $(document).ready(function () {
     } else
       $('#btnAddNewProduct').hide();
 
-    $('#refProduct option').removeAttr('selected');
-    $(`#refProduct option[value=${id}]`).prop('selected', true);
+    $('#refProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
     $('.cardAddNewProduct').hide(800);
     $('.cardAddMaterials').hide(800);
 

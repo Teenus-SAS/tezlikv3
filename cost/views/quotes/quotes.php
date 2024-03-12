@@ -132,6 +132,11 @@ if (sizeof($_SESSION) == 0)
 	</script>
 	<script src="/global/js/global/orderData.js"></script>
 	<script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
+	<script>
+		$(document).ready(function() {
+			loadDataMaterial(2);
+		});
+	</script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>
 	<script src="/cost/js/quotes/companies/configCompanies.js"></script>
 	<script src="/cost/js/quotes/paymentMethods/configPaymentMethods.js"></script>
