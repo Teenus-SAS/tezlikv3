@@ -3,16 +3,18 @@ $(document).ready(function () {
     e.preventDefault();
     let id = this.value;
 
-    $('#compositeProduct option').removeAttr('selected');
-    $(`#compositeProduct option[value=${id}]`).prop('selected', true);
+    $('#compositeProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
   });
 
   $('#compositeProduct').change(async function (e) {
     e.preventDefault();
     let id = this.value;
 
-    $('#refCompositeProduct option').removeAttr('selected');
-    $(`#refCompositeProduct option[value=${id}]`).prop('selected', true);
+    $('#refCompositeProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
   });
 
   $.ajax({

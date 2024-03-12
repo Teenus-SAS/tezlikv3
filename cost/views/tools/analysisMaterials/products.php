@@ -209,6 +209,11 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadDataMaterial(1);
+        });
+    </script>
     <script src="/cost/js/tools/analysisMaterials/products/tblmaterials.js"></script>
     <script src="/cost/js/tools/analysisMaterials/products/tblAnalysisMaterials.js"></script>
     <script src="/cost/js/tools/analysisMaterials/products/calcAnalysisMaterials.js"></script>
