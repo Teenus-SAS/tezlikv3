@@ -523,6 +523,11 @@ if (sizeof($_SESSION) == 0)
     <!-- <script src="/cost/js/general/payroll/configProcessPayroll.js"></script> -->
     <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadDataMaterial(1);
+        });
+    </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
