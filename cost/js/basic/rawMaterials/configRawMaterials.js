@@ -23,11 +23,20 @@ $(document).ready(function () {
     let dataMaterials = JSON.stringify(data);
     sessionStorage.setItem('dataMaterials', dataMaterials);
 
-    let $select = $(`#material`);
+    let $select = $(`#refMaterial`);
     $select.empty();
     $select.append(`<option disabled selected>Seleccionar</option>`);
     $.each(data, function (i, value) {
       $select.append(
+        `<option value = ${value.id_material}> ${value.reference} </option>`
+      );
+    });
+
+    let $select1 = $(`#nameMaterial`);
+    $select1.empty();
+    $select1.append(`<option disabled selected>Seleccionar</option>`);
+    $.each(data, function (i, value) {
+      $select1.append(
         `<option value = ${value.id_material}> ${value.material} </option>`
       );
     });

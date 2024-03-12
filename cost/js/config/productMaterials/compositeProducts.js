@@ -15,10 +15,10 @@ $(document).ready(function () {
         $('#formAddNewProduct').trigger('reset'); 
     });
 
-    $('#compositeProduct').change(async function (e) {
+    $('.compositeProduct').change(async function (e) {
         e.preventDefault();
 
-        let data = await searchData('/api/units');
+        // let data = await searchData('/api/units');
 
         let filterData = data.filter(item => item.unit == 'UNIDAD');
         
