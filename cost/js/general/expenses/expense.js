@@ -162,6 +162,7 @@ $(document).ready(function () {
       $('.cardCreateExpenses').hide(800);
       $('#formCreateExpenses').trigger('reset');
       updateTable();
+      getExpense();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);

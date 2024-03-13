@@ -44,8 +44,9 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
 
     if ($args['flag'] == 2) {
         $_SESSION['expense'] = 0;
-        $_SESSION['flag_expense'] = 2;
     }
+
+    $_SESSION['flag_expense'] = $args['flag'];
 
     if ($typeExpense == null)
         $resp = array('success' => true, 'message' => 'Se selecciono el tipo gasto correctamente');

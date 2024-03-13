@@ -116,7 +116,7 @@ $(document).ready(function () {
 
   /* Actualizar productos materials */
 
-  $(document).on('click', '.updateMaterials', async function (e) {
+  $(document).on('click', '.updateMaterials', function (e) {
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').show(800);
     $('.cardAddNewProduct').hide(800);
