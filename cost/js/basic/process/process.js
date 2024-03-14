@@ -36,8 +36,9 @@ $(document).ready(function () {
     $('.cardCreateProcess').show(800);
     $('#btnCreateProcess').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
-    let data = tblProcess.fnGetData(row);
+    // let row = $(this).parent().parent()[0];
+    // let data = tblProcess.fnGetData(row);
+    let data = dataProcess.find(item => item.id_process == this.id);
 
     sessionStorage.setItem('id_process', data.id_process);
     $('#process').val(data.process);
@@ -59,24 +60,26 @@ $(document).ready(function () {
       return false;
     }
 
-    let dataProcess = new FormData(formCreateProcess);
+    let dataProcess1 = new FormData(formCreateProcess);
 
     if (idProcess != '' || idProcess != null)
-      dataProcess.append('idProcess', idProcess);
+      dataProcess1.append('idProcess', idProcess);
 
-    let resp = await sendDataPOST(url, dataProcess);
+    let resp = await sendDataPOST(url, dataProcess1);
 
     message(resp);
   };
 
   /* Eliminar proceso */
 
-  deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblProcess.fnGetData(row);
+  deleteFunction = (id) => {
+    // let row = $(this.activeElement).parent().parent()[0];
+    // let data = tblProcess.fnGetData(row);
+
+    let data = dataProcess.find(item => item.id_process == id);
     let status = parseInt(data.status);
 
-    if (!status == 0) {
+    if (status != 0) {
       toastr.error('Este proceso no se puede eliminar, esta configurado a un producto o nomina');
       return false;
     }
@@ -122,7 +125,7 @@ $(document).ready(function () {
       $('.cardCreateProcess').hide(800);
       $('#formCreateProcess').trigger('reset');
       
-      updateTable();
+      loadTblProcess();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
@@ -131,8 +134,8 @@ $(document).ready(function () {
 
   /* Actualizar tabla */
 
-  function updateTable() {
-    $('#tblProcess').DataTable().clear();
-    $('#tblProcess').DataTable().ajax.reload();
-  }
+  // function updateTable() {
+  //   $('#tblProcess').DataTable().clear();
+  //   $('#tblProcess').DataTable().ajax.reload();
+  // }
 });

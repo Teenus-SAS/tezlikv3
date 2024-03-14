@@ -109,7 +109,7 @@ $(document).ready(function () {
 
             let profitabilityText = `${dataCost.actualProfitability2.toLocaleString(
               "es-CO",
-              { maximumFractionDigits: 0 }
+              { maximumFractionDigits: 2 }
             )} %`;
             let badgeClass = "";
 

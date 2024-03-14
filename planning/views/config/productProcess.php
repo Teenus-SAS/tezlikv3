@@ -149,13 +149,14 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="table-responsive">
                                             <table class="table table-striped text-center" id="tblConfigProcess" name="tblConfigProcess">
+                                                <tbody id="tblConfigProcessBody"></tbody>
                                                 <tfoot>
                                                     <tr>
                                                         <th></th>
                                                         <th></th>
                                                         <th>Total:</th>
-                                                        <th></th>
-                                                        <th></th>
+                                                        <th id="totalAlistment"></th>
+                                                        <th id="totalOperation"></th>
                                                         <th></th>
                                                     </tr>
                                                 </tfoot>

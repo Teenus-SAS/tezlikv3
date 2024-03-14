@@ -1,10 +1,12 @@
 <?php
 
 use tezlikv3\dao\GeneralProcessDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\ProcessDao;
 
 $processDao = new ProcessDao();
 $generalProcessDao = new GeneralProcessDao();
+$lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -58,7 +60,8 @@ $app->post('/processDataValidation', function (Request $request, Response $respo
 
 $app->post('/addProcess', function (Request $request, Response $response, $args) use (
     $processDao,
-    $generalProcessDao
+    $generalProcessDao,
+    $lastDataDao
 ) {
     session_start();
     $dataProcess = $request->getParsedBody();
@@ -70,6 +73,14 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
 
         if (!$process) {
             $process = $processDao->insertProcessByCompany($dataProcess, $id_company);
+
+            if ($process == null) {
+                $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
+
+                $lastRoute = $generalProcessDao->findNextRoute($id_company);
+
+                $process = $generalProcessDao->changeRouteById($lastInserted['id_process'], $lastRoute['route']);
+            }
 
             if ($process == null)
                 $resp = array('success' => true, 'message' => 'Proceso creado correctamente');
@@ -83,16 +94,28 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
         $process = $dataProcess['importProcess'];
 
         for ($i = 0; $i < sizeof($process); $i++) {
+            if (isset($resolution['info'])) break;
+
             $findProcess = $generalProcessDao->findProcess($process[$i], $id_company);
-            if (!$findProcess)
+            if (!$findProcess) {
                 $resolution = $processDao->insertProcessByCompany($process[$i], $id_company);
-            else {
+
+                if (isset($resolution['info'])) break;
+
+                $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
+
+                $lastRoute = $generalProcessDao->findNextRoute($id_company);
+
+                $resolution = $generalProcessDao->changeRouteById($lastInserted['id_process'], $lastRoute['route']);
+            } else {
                 $process[$i]['idProcess'] = $findProcess['id_process'];
                 $resolution = $processDao->updateProcess($process[$i]);
             }
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Proceso importado correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }

@@ -52,7 +52,8 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
     $('#employee').val(data.employee);
-    $(`#idProcess option:contains(${data.process})`).prop('selected', true);
+    // $(`#idProcess option:contains(${data.process})`).prop('selected', true);
+    $(`#idProcess option[value=${data.id_process}]`).prop('selected', true);
 
     $('#basicSalary').val(data.salary);
     $('#transport').val(data.transport);

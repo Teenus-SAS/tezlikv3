@@ -12,11 +12,13 @@ use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\IndirectCostDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\PriceProductDao;
 
 $productsProcessDao = new ProductsProcessDao();
 $generalProductsProcessDao = new GeneralProductsProcessDao();
 $convertDataDao = new ConvertDataDao();
+$lastDataDao = new LastDataDao();
 $productsDao = new GeneralProductsDao();
 $generalProcessDao = new GeneralProcessDao();
 $generalPayrollDao = new GeneralPayrollDao();
@@ -114,7 +116,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                 $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
                 if (!$findProcess) {
                     $i = $i + 2;
-                    $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
+                    $dataImportProductProcess = array('error' => true, 'message' => "No existe nomina asociada a este proceso<br>Fila: {$i}");
                     break;
                 }
             }
@@ -167,6 +169,8 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
 $app->post('/addProductsProcess', function (Request $request, Response $response, $args) use (
     $productsProcessDao,
     $generalProcessDao,
+    $generalProductsProcessDao,
+    $lastDataDao,
     $productsDao,
     $generalPayrollDao,
     $machinesDao,
@@ -190,6 +194,16 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
         if (!$productProcess) {
             // $dataProductProcess = $convertDataDao->strReplaceProductsProcess($dataProductProcess);
             $productProcess = $productsProcessDao->insertProductsProcessByCompany($dataProductProcess, $id_company);
+
+            /* Ruta */
+            if ($productProcess == null) {
+                $lastInserted = $lastDataDao->findLastInsertedProductProcess($id_company);
+
+                $lastRoute = $generalProductsProcessDao->findNextRouteByProduct($dataProductProcess['idProduct']);
+
+                $productProcess = $generalProductsProcessDao->changeRouteById($lastInserted['id_product_process'], $lastRoute['route']);
+            }
+
 
             /* Calcular costo nomina */
             if ($productProcess == null && $dataProductProcess['autoMachine'] == '0') {
@@ -337,6 +351,8 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
         $productProcess = $dataProductProcess['importProductsProcess'];
 
         for ($i = 0; $i < sizeof($productProcess); $i++) {
+            if (isset($resolution['info'])) break;
+
             // Obtener id producto
             $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
             $productProcess[$i]['idProduct'] = $findProduct['id_product'];
@@ -376,6 +392,12 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     $resp = array('error' => true, 'message' => "El Proceso ya se encuentra en la Base de Datos<br>Fila: {$i}");
                     break;
                 } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
+
+                $lastInserted = $lastDataDao->findLastInsertedProductProcess($id_company);
+
+                $lastRoute = $generalProductsProcessDao->findNextRouteByProduct($productProcess[$i]['idProduct']);
+
+                $resolution = $generalProductsProcessDao->changeRouteById($lastInserted['id_product_process'], $lastRoute['route']);
             } else {
                 $productProcess[$i]['idProductProcess'] = $findProductProcess['id_product_process'];
                 $resolution = $productsProcessDao->updateProductsProcess($productProcess[$i]);

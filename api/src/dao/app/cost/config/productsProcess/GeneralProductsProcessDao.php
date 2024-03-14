@@ -19,7 +19,7 @@ class GeneralProductsProcessDao
     public function findAllProductsprocess($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
                                              pp.workforce_cost, pp.indirect_cost, pp.employee
                                   FROM products p 
                                   INNER JOIN products_process pp ON pp.id_product = p.id_product
@@ -76,6 +76,35 @@ class GeneralProductsProcessDao
         $employees = $stmt->fetchAll($connection::FETCH_ASSOC);
 
         return $employees;
+    }
+
+    public function findNextRouteByProduct($id_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(route) + 1 AS route
+                                      FROM products_process
+                                      WHERE id_product = :id_product");
+        $stmt->execute([
+            'id_product' => $id_product,
+        ]);
+        $productsProcess = $stmt->fetch($connection::FETCH_ASSOC);
+        return $productsProcess;
+    }
+
+    public function changeRouteById($id_product_process, $route)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+
+            $stmt = $connection->prepare("UPDATE products_process SET route = :route WHERE id_product_process = :id_product_process");
+            $stmt->execute([
+                'route' => $route,
+                'id_product_process' => $id_product_process
+            ]);
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
     }
 
     public function updateEmployees($id_product_process, $employees)

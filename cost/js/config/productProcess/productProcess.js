@@ -1,6 +1,5 @@
 $(document).ready(function () {
-  let idProduct;
-  let dataProductProcess = {};
+  let idProduct; 
   let checkBoxEmployees;
 
   /* Ocultar panel crear producto */
@@ -86,8 +85,9 @@ $(document).ready(function () {
     $('.cardAddProcess').show(800);
     $('#btnAddProcess').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
-    let data = tblConfigProcess.fnGetData(row);
+    // let row = $(this).parent().parent()[0];
+    // let data = tblConfigProcess.fnGetData(row);
+    let data = dataProductProcess.find(item => item.id_product_process == this.id);
 
     sessionStorage.setItem('id_product_process', data.id_product_process);
 
@@ -149,7 +149,7 @@ $(document).ready(function () {
       return false;
     }
 
-    let dataProductProcess = new FormData(formAddProcess);
+    let dataProductProcess1 = new FormData(formAddProcess);
     let autoMachine = 1;
     
     if (!$('#checkMachine').is(':checked')) {
@@ -160,31 +160,33 @@ $(document).ready(function () {
       autoMachine = 0;
     }
 
-    dataProductProcess.append('autoMachine', autoMachine);
-    dataProductProcess.append('idProduct', idProduct);
+    dataProductProcess1.append('autoMachine', autoMachine);
+    dataProductProcess1.append('idProduct', idProduct);
     
     if (idProductProcess != '' || idProductProcess != null) {
-      dataProductProcess.append('idProductProcess', idProductProcess);
+      dataProductProcess1.append('idProductProcess', idProductProcess);
 
       flag_employee == '1' ? employees = checkBoxEmployees : employees = '';
-      dataProductProcess.append('employees', employees);
+      dataProductProcess1.append('employees', employees);
     }
 
-    let resp = await sendDataPOST(url, dataProductProcess);
+    let resp = await sendDataPOST(url, dataProductProcess1);
 
     messageProcess(resp);
   };
 
   /* Eliminar proceso */
 
-  deleteProcess = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblConfigProcess.fnGetData(row);
+  deleteProcess = (id) => {
+    // let row = $(this.activeElement).parent().parent()[0];
+    // let data = tblConfigProcess.fnGetData(row);
+    let data = dataProductProcess.find(item => item.id_product_process == id);
 
     let idProductProcess = data.id_product_process;
     idProduct = $('#selectNameProduct').val();
-    dataProductProcess['idProductProcess'] = idProductProcess;
-    dataProductProcess['idProduct'] = idProduct;
+    let dataProductProcess1 = {};
+    dataProductProcess1['idProductProcess'] = idProductProcess;
+    dataProductProcess1['idProduct'] = idProduct;
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -204,7 +206,7 @@ $(document).ready(function () {
         if (result == true) {
           $.post(
             '/api/deleteProductProcess',
-            dataProductProcess,
+            dataProductProcess1,
             function (data, textStatus, jqXHR) {
               messageProcess(data);
             }
@@ -216,8 +218,9 @@ $(document).ready(function () {
 
   /* Modificar empleados */
   $(document).on('click', '.updateEmployee', async function () {
-    let row = $(this).parent().parent()[0];
-    let data = tblConfigProcess.fnGetData(row);
+    // let row = $(this).parent().parent()[0];
+    // let data = tblConfigProcess.fnGetData(row);
+    let data = dataProductProcess.find(item => item.id_product_process == this.id);
 
     let employees = data.employee.toString().split(",");
     id_product_process = data.id_product_process;

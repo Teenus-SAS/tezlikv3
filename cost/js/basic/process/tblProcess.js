@@ -1,6 +1,5 @@
 $(document).ready(function () {
-  /* Cargue tabla de Máquinas */
-
+  /* Cargue tabla de Procesos 
   tblProcess = $('#tblProcess').dataTable({
     pageLength: 50,
     ajax: {
@@ -46,5 +45,96 @@ $(document).ready(function () {
         },
       },
     ],
-  });
+  }); */
+
+  dataProcess = [];
+
+  loadTblProcess = async () => {
+    dataProcess = await searchData('/api/process');
+
+    if ($.fn.dataTable.isDataTable("#tblProcess")) {
+      $("#tblProcess").DataTable().destroy();
+      $("#tblProcess").empty();
+      $('#tblProcess').append(`<tbody id="tblProcessBody"></tbody>`);
+    }
+    // Encabezados de la tabla
+    var headers = ['No.', 'Proceso', 'Acciones'];
+    
+    // Obtén la tabla
+    var table = document.getElementById('tblProcess');
+
+    // Crea la fila de encabezados
+    var headerRow = table.createTHead().insertRow();
+    headers.forEach(function (header) {
+      var th = document.createElement('th');
+      th.textContent = header;
+      headerRow.appendChild(th);
+    });
+
+    $('#tblProcessBody').empty();
+    var body = document.getElementById('tblProcessBody');
+
+    dataProcess.forEach((arr, index) => {
+      const i = index;
+      const dataRow = body.insertRow();
+      dataRow.setAttribute('data-index', index);
+      headers.forEach((header, columnIndex) => {
+        const cell = dataRow.insertCell();
+        switch (header) {
+          case 'No.':
+            cell.textContent = i + 1;
+            break;
+          case 'Proceso':
+            cell.textContent = arr.process;
+            break;
+          case 'Acciones':
+            if (arr.status == 0)
+              icon = '/global/assets/images/trash_v.png';
+            else
+              icon = '/global/assets/images/trash_x.png';
+            
+            cell.innerHTML = `<a href="javascript:;" <i id="${arr.id_process}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
+                <a href="javascript:;"><img src="${icon}" alt="Eliminar Proceso" id="${arr.id_process}" style="width:30px;height:30px;margin-top:-20px" onclick="deleteFunction(${arr.id_process})"></a>`
+            break;
+          default:
+            cell.textContent = '';
+            break;
+        }
+      });
+    });
+
+    $('#tblProcess').dataTable();
+
+    dragula([document.getElementById('tblProcessBody')]).on('drop', function (el, container, source, sibling) {
+      // Obtener el indice de la fila anterior
+      var previousIndex = el.dataset.index;
+      // Obtener el índice de fila actual
+      var currentIndex = el.closest('tr').rowIndex;
+
+      // If the row was dropped within the same container,
+      // move it to the specified position
+      if (container === source) {
+        var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
+          
+        container.insertBefore(el, container.children[targetIndex]);
+
+        // Crear copia para organizar el array de acuerdo a la key
+
+        // !copy ? copy = [...allTblData] : copy;
+          
+        // copy[previousIndex]['key'] = currentIndex - 1;
+        // copy[currentIndex - 1]['key'] = previousIndex;
+
+        // copy.sort((a, b) => a.key - b.key);
+
+        // loadTblProgramming(copy, 2);
+      } else {
+        // If the row was dropped into a different container,
+        // move it to the first position
+        container.insertBefore(el, container.firstChild);
+      }
+    });
+  };
+
+  loadTblProcess();
 });

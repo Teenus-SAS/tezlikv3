@@ -147,8 +147,8 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblProcess">
-
+                                            <table class="table table-striped text-center" id="tblProcess">
+                                                <tbody id="tblProcessBody"></tbody>
                                             </table>
                                         </div>
                                     </div>

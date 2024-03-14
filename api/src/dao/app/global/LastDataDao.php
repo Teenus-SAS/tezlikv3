@@ -79,6 +79,17 @@ class LastDataDao
         return $id_machine;
     }
 
+    /* Procesos */
+    public function lastInsertedProcessId($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $sql = "SELECT MAX(id_process) AS id_process FROM process WHERE id_company = :id_company";
+        $query = $connection->prepare($sql);
+        $query->execute(['id_company' => $id_company]);
+        $id_process = $query->fetch($connection::FETCH_ASSOC);
+        return $id_process;
+    }
+
     /* Carga Fabril */
     public function findLastInsertedFactoryLoad($id_company)
     {
@@ -92,6 +103,21 @@ class LastDataDao
         $this->logger->notice("factory load", array('factory load' => $factoryload));
 
         return $factoryload;
+    }
+
+    /* Carga Fabril */
+    public function findLastInsertedProductProcess($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(id_product_process ) AS id_product_process  FROM products_process WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $productProcess = $stmt->fetch($connection::FETCH_ASSOC);
+        $this->logger->notice("factory load", array('factory load' => $productProcess));
+
+        return $productProcess;
     }
 
     /* Cotizaciones */

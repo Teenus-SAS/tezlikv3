@@ -29,4 +29,33 @@ class GeneralProcessDao
         $findProcess = $stmt->fetch($connection::FETCH_ASSOC);
         return $findProcess;
     }
+
+    public function findNextRoute($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(route) + 1 AS route
+                                      FROM process
+                                      WHERE id_company = :id_company");
+        $stmt->execute([
+            'id_company' => $id_company
+        ]);
+        $process = $stmt->fetch($connection::FETCH_ASSOC);
+        return $process;
+    }
+
+    public function changeRouteById($id_process, $route)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+
+            $stmt = $connection->prepare("UPDATE process SET route = :route WHERE id_process = :id_process");
+            $stmt->execute([
+                'route' => $route,
+                'id_process' => $id_process
+            ]);
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
+    }
 }

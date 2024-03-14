@@ -455,15 +455,16 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped text-center" id="tblConfigProcess" name="tblConfigProcess">
+                                                    <tbody id="tblConfigProcessBody"></tbody>
                                                     <tfoot>
                                                         <tr>
                                                             <th></th>
                                                             <th></th>
                                                             <th>Total:</th>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th></th>
+                                                            <th id="totalAlistment"></th>
+                                                            <th id="totalOperation"></th>
+                                                            <th id="totalWorkforce"></th>
+                                                            <th id="totalIndirect"></th>
                                                             <?php if ($_SESSION['flag_employee'] == 1) { ?>
                                                                 <th></th>
                                                             <?php } ?>
