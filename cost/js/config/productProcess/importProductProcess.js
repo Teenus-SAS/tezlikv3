@@ -148,36 +148,40 @@ $(document).ready(function () {
   $('#btnDownloadImportsProductsProcess').click(function (e) {
     e.preventDefault();
 
-    // let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
+    if (dataProductProcess.length > 0) {
+      let wb = XLSX.utils.book_new();
 
-    // let link = document.createElement('a');
-    // link.target = '_blank';
+      let data = [];
 
-    // link.href = url;
-    // document.body.appendChild(link);
-    // link.click();
+      namexlsx = 'Productos_Procesos.xlsx';
+      for (i = 0; i < dataProductProcess.length; i++) {
+        data.push({
+          referencia_producto: dataProductProcess[i].reference,
+          producto: dataProductProcess[i].product,
+          proceso: dataProductProcess[i].process,
+          maquina: dataProductProcess[i].machine,
+          tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
+          tiempo_operacion: dataProductProcess[i].operation_time,
+          maquina_autonoma: dataProductProcess[i].auto_machine
+        });
+      }
 
-    // document.body.removeChild(link);
-    // delete link;
-    let wb = XLSX.utils.book_new();
-
-    let data = [];
-
-    namexlsx = 'Productos_Procesos.xlsx';
-    for (i = 0; i < dataProductProcess.length; i++) {
-      data.push({
-        referencia_producto: dataProductProcess[i].reference,
-        producto: dataProductProcess[i].product,
-        proceso: dataProductProcess[i].process,
-        maquina: dataProductProcess[i].machine,
-        tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
-        tiempo_operacion: dataProductProcess[i].operation_time,
-        maquina_autonoma: dataProductProcess[i].auto_machine
-      });
+      let ws = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
+      XLSX.writeFile(wb, namexlsx);
     }
+    else {
+      let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
 
-    let ws = XLSX.utils.json_to_sheet(data);
-    XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
-    XLSX.writeFile(wb, namexlsx);
+      let link = document.createElement('a');
+      link.target = '_blank';
+
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      delete link;
+    }
   });
 });

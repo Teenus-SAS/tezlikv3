@@ -69,9 +69,17 @@ $(document).ready(function () {
       data = [...data, ...dataCompositeProduct];
     }
 
+    // if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
+    //   $("#tblConfigMaterials").DataTable().clear();
+    //   $("#tblConfigMaterials").DataTable().rows.add(data).draw();
+    //   return;
+    // }
     if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
-      $("#tblConfigMaterials").DataTable().clear();
-      $("#tblConfigMaterials").DataTable().rows.add(data).draw();
+      var table = $("#tblConfigMaterials").DataTable();
+      var pageInfo = table.page.info(); // Guardar información de la página actual
+      table.clear();
+      table.rows.add(data).draw();
+      table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
       return;
     }
     

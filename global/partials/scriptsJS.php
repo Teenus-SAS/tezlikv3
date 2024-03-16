@@ -12,6 +12,8 @@
 <script src="/assets/libs/chartjs/js/Chart.bundle.min.js"></script>
 <script src="/assets/js/utils/colors.js"></script>
 <!-- <script src="assets/js/pages/dashboard.init.js"></script> -->
+<script src="/assets/libs/dragula/dragula.min.js"></script>
+<script src="/assets/js/pages/dragula.init.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
@@ -34,7 +36,7 @@
 
 <!-- Confirms -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.6.6/dragula.min.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.6.6/dragula.min.js"></script> -->
 
 
 <!-- xlsx -->

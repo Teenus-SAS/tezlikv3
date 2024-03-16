@@ -43,9 +43,17 @@ $(document).ready(function () {
     $('.cardAddService').hide(800);
     let data = dataServices.filter(item => item.id_product == id);
 
+    // if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
+    //   $("#tblExternalServices").DataTable().clear();
+    //   $("#tblExternalServices").DataTable().rows.add(data).draw();
+    //   return;
+    // }
     if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
-      $("#tblExternalServices").DataTable().clear();
-      $("#tblExternalServices").DataTable().rows.add(data).draw();
+      var table = $("#tblExternalServices").DataTable();
+      var pageInfo = table.page.info(); // Guardar información de la página actual
+      table.clear();
+      table.rows.add(data).draw();
+      table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
       return;
     }
 

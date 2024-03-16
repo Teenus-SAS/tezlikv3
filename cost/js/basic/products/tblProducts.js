@@ -19,9 +19,17 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
   loadTblProducts = (data) => {
+    // if ($.fn.dataTable.isDataTable("#tblProducts")) {
+    //   $("#tblProducts").DataTable().clear();
+    //   $("#tblProducts").DataTable().rows.add(data).draw();
+    //   return;
+    // }
     if ($.fn.dataTable.isDataTable("#tblProducts")) {
-      $("#tblProducts").DataTable().clear();
-      $("#tblProducts").DataTable().rows.add(data).draw();
+      var table = $("#tblProducts").DataTable();
+      var pageInfo = table.page.info(); // Guardar información de la página actual
+      table.clear();
+      table.rows.add(data).draw();
+      table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
       return;
     }
 
@@ -124,14 +132,7 @@ $(document).ready(function () {
         },
       ],
     });
-  }
-  /* Consultar limite de productos */
-
-  // getCantProducts = async () => {
-  //   let data = await searchData('/api/productsLimit');
-  //   if (data.quantity >= data.cant_products) $('.limitPlan').show(800);
-  //   else $('.limitPlan').hide(800);
-  // };
+  } 
 
   loadAllData();
 });

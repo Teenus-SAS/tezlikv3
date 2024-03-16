@@ -171,7 +171,7 @@ $(document).ready(function () {
 
     dragula([document.getElementById('tblConfigProcessBody')]).on('drop', function (el, container, source, sibling) {
       // Obtener el indice de la fila anterior
-      var previousIndex = Array.from(source.children).indexOf(el);
+      var previousIndex = parseInt(el.dataset.index) + 1;      
 
       // Obtener el índice de fila actual
       var currentIndex = el.closest('tr').rowIndex;

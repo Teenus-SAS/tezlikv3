@@ -107,12 +107,11 @@ $(document).ready(function () {
 
     $('#tblProcess').dataTable();
 
-    dragula([document.getElementById('tblProcessBody')]).on('drop',async function (el, container, source, sibling) {
-      // Obtener el indice de la fila anterior
-      var previousIndex = Array.from(source.children).indexOf(el);
-
+    dragula([document.getElementById('tblProcessBody')]).on('drop', async function (el, container, source, sibling) {
       // Obtener el índice de fila actual
-      var currentIndex = el.closest('tr').rowIndex; 
+      var currentIndex = el.closest('tr').rowIndex;
+      // Obtener el indice de la fila anterior 
+      var previousIndex = parseInt(el.dataset.index) + 1;      
 
       let copy = [];
       
@@ -124,10 +123,10 @@ $(document).ready(function () {
         container.insertBefore(el, container.children[targetIndex]);
 
         copy.push(dataProcess[previousIndex - 1]);
-        copy.push(dataProcess[currentIndex - 1]); 
+        copy.push(dataProcess[currentIndex - 1]);
 
         copy[0]['route'] = currentIndex;
-        copy[1]['route'] = previousIndex; 
+        copy[1]['route'] = previousIndex;
 
         $.ajax({
           type: "POST",

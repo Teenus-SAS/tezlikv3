@@ -162,33 +162,36 @@ $(document).ready(function () {
   $('#btnDownloadImportsExternalServices').click(function (e) {
     e.preventDefault();
 
-    // let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
+    if (dataServices.length > 0) {
+      let wb = XLSX.utils.book_new();
 
-    // let link = document.createElement('a');
-    // link.target = '_blank';
+      let data = [];
 
-    // link.href = url;
-    // document.body.appendChild(link);
-    // link.click();
+      namexlsx = 'Servicios_Externos.xlsx';
+      for (i = 0; i < dataServices.length; i++) {
+        data.push({
+          referencia_producto: dataServices[i].reference,
+          producto: dataServices[i].product,
+          servicio: dataServices[i].name_service,
+          costo: dataServices[i].cost,
+        });
+      }
 
-    // document.body.removeChild(link);
-    // delete link;
-    let wb = XLSX.utils.book_new();
+      let ws = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
+      XLSX.writeFile(wb, namexlsx);
+    } else {
+      let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
 
-    let data = [];
+      let link = document.createElement('a');
+      link.target = '_blank';
 
-    namexlsx = 'Servicios_Externos.xlsx';
-    for (i = 0; i < dataServices.length; i++) {
-      data.push({
-        referencia_producto: dataServices[i].reference,
-        producto: dataServices[i].product,
-        servicio: dataServices[i].name_service,
-        costo: dataServices[i].cost,
-      });
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+
+      document.body.removeChild(link);
+      delete link;
     }
-
-    let ws = XLSX.utils.json_to_sheet(data);
-    XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
-    XLSX.writeFile(wb, namexlsx);
   });
 });
