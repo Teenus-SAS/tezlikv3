@@ -162,16 +162,33 @@ $(document).ready(function () {
   $('#btnDownloadImportsExternalServices').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
+    // let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
 
-    let link = document.createElement('a');
-    link.target = '_blank';
+    // let link = document.createElement('a');
+    // link.target = '_blank';
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    // link.href = url;
+    // document.body.appendChild(link);
+    // link.click();
 
-    document.body.removeChild(link);
-    delete link;
+    // document.body.removeChild(link);
+    // delete link;
+    let wb = XLSX.utils.book_new();
+
+    let data = [];
+
+    namexlsx = 'Servicios_Externos.xlsx';
+    for (i = 0; i < dataServices.length; i++) {
+      data.push({
+        referencia_producto: dataServices[i].reference,
+        producto: dataServices[i].product,
+        servicio: dataServices[i].name_service,
+        costo: dataServices[i].cost,
+      });
+    }
+
+    let ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
+    XLSX.writeFile(wb, namexlsx);
   });
 });

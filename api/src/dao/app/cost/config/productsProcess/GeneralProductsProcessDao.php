@@ -19,16 +19,16 @@ class GeneralProductsProcessDao
     public function findAllProductsprocess($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
-                                             pp.workforce_cost, pp.indirect_cost, pp.employee
+        $stmt = $connection->prepare("SELECT pp.id_product_process, p.id_product, p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
+                                             pp.workforce_cost, pp.indirect_cost, pp.employee, pp.route, IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine
                                   FROM products p 
                                   INNER JOIN products_process pp ON pp.id_product = p.id_product
                                   LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
                                   INNER JOIN process pc ON pc.id_process = pp.id_process
-                                  INNER JOIN payroll py ON py.id_process = pp.id_process
+                                  LEFT JOIN payroll py ON py.id_process = pp.id_process
                                   WHERE p.id_company = :id_company 
                                   GROUP BY pp.id_product_process
-                                  ORDER BY pp.id_machine ASC");
+                                  ORDER BY pp.route ASC");
         $stmt->execute(['id_company' => $id_company]);
         $productsprocess = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $productsprocess));

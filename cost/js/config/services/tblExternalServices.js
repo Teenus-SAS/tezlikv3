@@ -1,34 +1,58 @@
 $(document).ready(function () {
   /* Seleccion producto */
 
+  dataServices = [];
+
   $("#refProduct").change(function (e) {
     e.preventDefault();
     let id = this.value;
-    $("#selectNameProduct option").removeAttr("selected");
-    $(`#selectNameProduct option[value=${id}]`).attr("selected", true);
+    
+    $('#selectNameProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
+
     loadtableExternalServices(id);
   });
 
   $("#selectNameProduct").change(function (e) {
     e.preventDefault();
     let id = this.value;
-    $("#refProduct option").removeAttr("selected");
-    $(`#refProduct option[value=${id}]`).attr("selected", true);
+    
+    $('#refProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
+
     loadtableExternalServices(id);
   });
 
-  /* Cargue tabla de Proyectos */
+  loadAllDataServices = async (id) => {
+    try {
+      const services = await searchData('/api/allExternalservices');
 
-  const loadtableExternalServices = (idProduct) => {
+      dataServices = services;
+
+      if (id != 0) loadAllDataServices(id);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
+
+  loadAllDataServices(0);
+  /* Cargue tabla de Proyectos */
+  const loadtableExternalServices = (id) => {
     $('.cardAddService').hide(800);
+    let data = dataServices.filter(item => item.id_product == id);
+
+    if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
+      $("#tblExternalServices").DataTable().clear();
+      $("#tblExternalServices").DataTable().rows.add(data).draw();
+      return;
+    }
 
     tblExternalServices = $("#tblExternalServices").dataTable({
       destroy: true,
       pageLength: 50,
-      ajax: {
-        url: `../../api/externalservices/${idProduct}`,
-        dataSrc: "",
-      },
+      data: data, 
       dom: '<"datatable-error-console">frtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",

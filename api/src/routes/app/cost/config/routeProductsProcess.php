@@ -902,6 +902,30 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->post('/saveRouteProductProcess', function (Request $request, Response $response, $args) use ($generalProductsProcessDao) {
+    session_start();
+    $dataProcess = $request->getParsedBody();
+
+    $process = $dataProcess['data'];
+
+    $resolution = null;
+
+    for ($i = 0; $i < sizeof($process); $i++) {
+        $resolution = $generalProductsProcessDao->changeRouteById($process[$i]['id_product_process'], $process[$i]['route']);
+
+        if (isset($resolution['info'])) break;
+    }
+
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/deleteProductProcess', function (Request $request, Response $response, $args) use (
     $productsProcessDao,
     $costWorkforceDao,

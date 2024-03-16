@@ -2,7 +2,7 @@ $(document).ready(function () {
   let title3 = `${inyection == 1 ? 'Tiempo/Und' : 'Tiempo Alistamiento (min)'}`;
   let value3 = `${inyection == 1 ? 'unity_time' : 'enlistment_time'}`;
   let title4 = `${inyection == 1 ? '% Eficiencia' : 'Tiempo Operación (min)'}`;
-  dataProductProcess = [];
+  dataProductProcess = []; 
 
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
@@ -12,9 +12,8 @@ $(document).ready(function () {
     $('#selectNameProduct option').prop('selected', function () {
       return $(this).val() == id;
     });
-    let data = dataProductProcess.filter(item => item.id_product == id);
 
-    loadtableProcess(data);
+    loadtableProcess(id);
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -24,29 +23,32 @@ $(document).ready(function () {
     $('#refProduct option').prop('selected', function () {
       return $(this).val() == id;
     });
-    let data = dataProductProcess.filter(item => item.id_product == id);
 
-    loadtableProcess(data);
+    loadtableProcess(id);
   });
 
-  loadAllTblData = async () => {
+  loadAllDataProcess = async (id) => {
     try {
       const productsProcess = await searchData('/api/allProductsProcess');
 
       dataProductProcess = productsProcess;
+
+      if (id != 0) loadtableProcess(id);
     } catch (error) {
       console.error('Error loading data:', error);
     }
   };
 
-  loadAllTblData();
+  loadAllDataProcess(0);
 
   flag_employee == '1' ? visible = true : visible = false;
 
   /* Cargue tabla de Proyectos */
 
-  const loadtableProcess = (data) => {
+  const loadtableProcess = (id) => {
     $('.cardAddProcess').hide(800);
+
+    let data = dataProductProcess.filter(item => item.id_product == id);
 
     if ($.fn.dataTable.isDataTable("#tblConfigProcess")) {
       $("#tblConfigProcess").DataTable().destroy();
@@ -169,27 +171,39 @@ $(document).ready(function () {
 
     dragula([document.getElementById('tblConfigProcessBody')]).on('drop', function (el, container, source, sibling) {
       // Obtener el indice de la fila anterior
-      var previousIndex = el.dataset.index;
+      var previousIndex = Array.from(source.children).indexOf(el);
+
       // Obtener el índice de fila actual
       var currentIndex = el.closest('tr').rowIndex;
+      let copy = [];
 
       // If the row was dropped within the same container,
       // move it to the specified position
       if (container === source) {
         var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
-          
+        
+        container.insertBefore(el, container.children[targetIndex]);
+        
+        var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
+        
         container.insertBefore(el, container.children[targetIndex]);
 
-        // Crear copia para organizar el array de acuerdo a la key
+        let data = dataProductProcess.filter(item => item.id_product == $('#refProduct').val());
 
-        // !copy ? copy = [...allTblData] : copy;
-          
-        // copy[previousIndex]['key'] = currentIndex - 1;
-        // copy[currentIndex - 1]['key'] = previousIndex;
+        copy.push(data[previousIndex - 1]);
+        copy.push(data[currentIndex - 1]); 
 
-        // copy.sort((a, b) => a.key - b.key);
+        copy[0]['route'] = currentIndex;
+        copy[1]['route'] = previousIndex; 
 
-        // loadTblProgramming(copy, 2);
+        $.ajax({
+          type: "POST",
+          url: "/api/saveRouteProductProcess",
+          data: { data: copy },
+          success: function (resp) {
+            messageProcess(resp);
+          }
+        });
       } else {
         // If the row was dropped into a different container,
         // move it to the first position

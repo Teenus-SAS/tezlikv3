@@ -154,6 +154,30 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+$app->post('/saveRouteProcess', function (Request $request, Response $response, $args) use ($generalProcessDao) {
+    session_start();
+    $dataProcess = $request->getParsedBody();
+
+    $process = $dataProcess['data'];
+
+    $resolution = null;
+
+    for ($i = 0; $i < sizeof($process); $i++) {
+        $resolution = $generalProcessDao->changeRouteById($process[$i]['id_process'], $process[$i]['route']);
+
+        if (isset($resolution['info'])) break;
+    }
+
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/deleteProcess/{id_process}', function (Request $request, Response $response, $args) use ($processDao) {
     $process = $processDao->deleteProcess($args['id_process']);
 

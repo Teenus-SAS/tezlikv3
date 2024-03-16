@@ -142,18 +142,11 @@ $(document).ready(function () {
       $('.cardProducts').show(800);
       $('#formAddService').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
-      if (idProduct)
-        updateTable();
+      // if (idProduct)
+      loadAllDataServices(idProduct);
       toastr.success(data.message);
       //return false
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  function updateTable() {
-    $('#tblExternalServices').DataTable().clear();
-    $('#tblExternalServices').DataTable().ajax.reload();
-  }
 });

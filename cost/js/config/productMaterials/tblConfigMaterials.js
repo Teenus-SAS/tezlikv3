@@ -40,7 +40,7 @@ $(document).ready(function () {
     loadtableMaterials(id);
   });
 
-  loadAllData = async (op) => {
+  loadAllDataMaterials = async (op) => {
     const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
       searchData('/api/allProductsMaterials'),
       searchData('/api/allCompositeProducts')
@@ -67,6 +67,12 @@ $(document).ready(function () {
       let dataCompositeProduct = allComposites.filter(item => item.id_product == idProduct);
 
       data = [...data, ...dataCompositeProduct];
+    }
+
+    if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
+      $("#tblConfigMaterials").DataTable().clear();
+      $("#tblConfigMaterials").DataTable().rows.add(data).draw();
+      return;
     }
     
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
@@ -178,5 +184,5 @@ $(document).ready(function () {
     });
   };
 
-  loadAllData(1);
+  loadAllDataMaterials(1);
 });

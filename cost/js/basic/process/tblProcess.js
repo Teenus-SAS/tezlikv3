@@ -49,6 +49,8 @@ $(document).ready(function () {
 
   dataProcess = [];
 
+  // copy = [];
+
   loadTblProcess = async () => {
     dataProcess = await searchData('/api/process');
 
@@ -105,29 +107,36 @@ $(document).ready(function () {
 
     $('#tblProcess').dataTable();
 
-    dragula([document.getElementById('tblProcessBody')]).on('drop', function (el, container, source, sibling) {
+    dragula([document.getElementById('tblProcessBody')]).on('drop',async function (el, container, source, sibling) {
       // Obtener el indice de la fila anterior
-      var previousIndex = el.dataset.index;
-      // Obtener el índice de fila actual
-      var currentIndex = el.closest('tr').rowIndex;
+      var previousIndex = Array.from(source.children).indexOf(el);
 
+      // Obtener el índice de fila actual
+      var currentIndex = el.closest('tr').rowIndex; 
+
+      let copy = [];
+      
       // If the row was dropped within the same container,
       // move it to the specified position
       if (container === source) {
         var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
-          
+        
         container.insertBefore(el, container.children[targetIndex]);
 
-        // Crear copia para organizar el array de acuerdo a la key
+        copy.push(dataProcess[previousIndex - 1]);
+        copy.push(dataProcess[currentIndex - 1]); 
 
-        // !copy ? copy = [...allTblData] : copy;
-          
-        // copy[previousIndex]['key'] = currentIndex - 1;
-        // copy[currentIndex - 1]['key'] = previousIndex;
+        copy[0]['route'] = currentIndex;
+        copy[1]['route'] = previousIndex; 
 
-        // copy.sort((a, b) => a.key - b.key);
-
-        // loadTblProgramming(copy, 2);
+        $.ajax({
+          type: "POST",
+          url: "/api/saveRouteProcess",
+          data: { data: copy },
+          success: function (resp) {
+            message(resp);
+          }
+        });
       } else {
         // If the row was dropped into a different container,
         // move it to the first position

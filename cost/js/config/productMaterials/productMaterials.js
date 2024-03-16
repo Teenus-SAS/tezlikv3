@@ -127,6 +127,7 @@ $(document).ready(function () {
     let data = tblConfigMaterials.fnGetData(row);
 
     sessionStorage.setItem('id_product_material', data.id_product_material);
+    $(`#refMaterial option[value=${data.id_material}]`).prop('selected', true);
     $(`#nameMaterial option[value=${data.id_material}]`).prop('selected', true);
 
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
@@ -242,9 +243,9 @@ $(document).ready(function () {
 
       $('#formAddMaterials').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
-      if (idProduct)
-        loadAllData(idProduct);
-      // updateTable();
+      // if (idProduct)
+      loadAllDataMaterials(idProduct);
+
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
@@ -284,10 +285,7 @@ $(document).ready(function () {
       let ws = XLSX.utils.json_to_sheet(data);
       XLSX.utils.book_append_sheet(wb, ws, 'Ficha Tecnica Producto');
       XLSX.writeFile(wb, namexlsx);
-    }
-    
-    
-    
+    }     
   });
  
 });

@@ -146,16 +146,40 @@ $(document).ready(function () {
   $('#btnDownloadImportsProductsMaterials').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Productos_Materias.xlsx';
+    // let url = 'assets/formatsXlsx/Productos_Materias.xlsx';
 
-    let link = document.createElement('a');
-    link.target = '_blank';
+    // let link = document.createElement('a');
+    // link.target = '_blank';
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    // link.href = url;
+    // document.body.appendChild(link);
+    // link.click();
 
-    document.body.removeChild(link);
-    delete link;
+    // document.body.removeChild(link);
+    // delete link;
+    let wb = XLSX.utils.book_new();
+
+    let data = [];
+
+    if (flag_composite_product == '1') 
+      allProductMaterials = [...allProductMaterials, ...dataCompositeProduct];
+    
+    namexlsx = 'Productos_Materias.xlsx';
+    for (i = 0; i < allProductMaterials.length; i++) {
+      data.push({
+        referencia_producto: allProductMaterials[i].reference_product,
+        producto: allProductMaterials[i].product,
+        referencia_material: allProductMaterials[i].reference_material,
+        material: allProductMaterials[i].material,
+        magnitud: allProductMaterials[i].magnitude,
+        unidad: allProductMaterials[i].unit,
+        quantity: allProductMaterials[i].quantity,
+        tipo: allProductMaterials[i].type,
+      });
+    }
+
+    let ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
+    XLSX.writeFile(wb, namexlsx);
   });
 });

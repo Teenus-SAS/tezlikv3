@@ -19,6 +19,12 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
   loadTblProducts = (data) => {
+    if ($.fn.dataTable.isDataTable("#tblProducts")) {
+      $("#tblProducts").DataTable().clear();
+      $("#tblProducts").DataTable().rows.add(data).draw();
+      return;
+    }
+
     tblProducts = $('#tblProducts').dataTable({
       destroy: true,
       pageLength: 50,

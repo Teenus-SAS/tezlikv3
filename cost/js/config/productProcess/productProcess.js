@@ -317,8 +317,9 @@ $(document).ready(function () {
       // $('.cardAddNewProduct').show(800);
       $('#formAddProcess').trigger('reset');
       let idProduct = $('#selectNameProduct').val();
-      if (idProduct)
-        updateTable();
+      // if (idProduct)
+      loadAllDataProcess(idProduct);
+      
       toastr.success(data.message);
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
@@ -326,8 +327,8 @@ $(document).ready(function () {
 
   /* Actualizar tabla */
 
-  function updateTable() {
-    $('#tblConfigProcess').DataTable().clear();
-    $('#tblConfigProcess').DataTable().ajax.reload();
-  }
+  // function updateTable() {
+  //   $('#tblConfigProcess').DataTable().clear();
+  //   $('#tblConfigProcess').DataTable().ajax.reload();
+  // }
 });

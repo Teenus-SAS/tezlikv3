@@ -41,7 +41,7 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        if (data.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileProductsProcess').val('');
@@ -49,7 +49,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion','maquina_autonoma'];
+        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion', 'maquina_autonoma'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -138,7 +138,7 @@ $(document).ready(function () {
       type: 'POST',
       url: '/api/addProductsProcess',
       data: { importProductsProcess: data },
-      success: function (r) { 
+      success: function (r) {
         messageProcess(r);
       },
     });
@@ -148,16 +148,36 @@ $(document).ready(function () {
   $('#btnDownloadImportsProductsProcess').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
+    // let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
 
-    let link = document.createElement('a');
-    link.target = '_blank';
+    // let link = document.createElement('a');
+    // link.target = '_blank';
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    // link.href = url;
+    // document.body.appendChild(link);
+    // link.click();
 
-    document.body.removeChild(link);
-    delete link;
+    // document.body.removeChild(link);
+    // delete link;
+    let wb = XLSX.utils.book_new();
+
+    let data = [];
+
+    namexlsx = 'Productos_Procesos.xlsx';
+    for (i = 0; i < dataProductProcess.length; i++) {
+      data.push({
+        referencia_producto: dataProductProcess[i].reference,
+        producto: dataProductProcess[i].product,
+        proceso: dataProductProcess[i].process,
+        maquina: dataProductProcess[i].machine,
+        tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
+        tiempo_operacion: dataProductProcess[i].operation_time,
+        maquina_autonoma: dataProductProcess[i].auto_machine
+      });
+    }
+
+    let ws = XLSX.utils.json_to_sheet(data);
+    XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
+    XLSX.writeFile(wb, namexlsx);
   });
 });
