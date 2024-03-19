@@ -263,7 +263,7 @@ $(document).ready(function () {
     let data = [];
 
     if (flag_composite_product == '1')
-      allProductMaterials = [...allProductMaterials, ...dataCompositeProduct];
+      allProductMaterials = [...allProductMaterials, ...allComposites];
 
     let arr = allProductMaterials.filter(item => item.id_product == id_product);
     

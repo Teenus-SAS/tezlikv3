@@ -152,7 +152,7 @@ $(document).ready(function () {
       let data = [];
 
       if (flag_composite_product == '1')
-        allProductMaterials = [...allProductMaterials, ...dataCompositeProduct];
+        allProductMaterials = [...allProductMaterials, ...allComposites];
     
       namexlsx = 'Productos_Materias.xlsx';
       for (i = 0; i < allProductMaterials.length; i++) {
