@@ -31,7 +31,7 @@ $(document).ready(function () {
 
       dataServices = services;
 
-      if (id != 0) loadAllDataServices(id);
+      if (id != 0) loadtableExternalServices(id);
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -80,10 +80,6 @@ $(document).ready(function () {
           },
         },
         {
-          title: "Referencia",
-          data: "reference",
-        },
-        {
           title: "Servicio",
           data: "name_service",
         },
@@ -121,7 +117,7 @@ $(document).ready(function () {
           totalCost += parseFloat(data[i].cost);
         }
 
-        $(this.api().column(3).footer()).html(
+        $(this.api().column(2).footer()).html(
           `$ ${totalCost.toLocaleString("es-CO", {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,

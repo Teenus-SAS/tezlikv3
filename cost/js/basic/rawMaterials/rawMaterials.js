@@ -1,6 +1,43 @@
 $(document).ready(function () {
   let dataMaterial = {};
 
+  $('.selectNavigation').click(function (e) {
+    e.preventDefault();
+
+    // $('.cardProducts').show();
+
+    // if (this.id == 'materials') {
+    //   $('.cardProductsMaterials').show();
+    //   $('.cardProductsProcess').hide(); 
+    //   $('.cardAddProcess').hide();
+    //   $('.cardServices').hide();
+    //   $('.cardImportProductsProcess').hide(); 
+    //   $('.cardAddService').hide(); 
+    //   $('.cardImportExternalServices').hide(); 
+    // } else {
+    //   $('.cardServices').show();
+    //   $('.cardProductsProcess').hide();
+    //   $('.cardAddProcess').hide();
+    //   $('.cardProductsMaterials').hide(); 
+    //   $('.cardAddMaterials').hide();
+    //   $('.cardImportProductsMaterials').hide();
+    //   $('.cardAddNewProduct').hide();
+    //   $('.cardAddService').hide(); 
+    //   $('.cardImportExternalServices').hide();       
+    // }
+    
+    let tables = document.getElementsByClassName(
+      'dataTable'
+    );
+
+    for (let i = 0; i < tables.length; i++) {
+      let attr = tables[i];
+      attr.style.width = '100%';
+      attr = tables[i].firstElementChild;
+      attr.style.width = '100%';
+    }
+  });
+
   /* Ocultar panel para crear materiales */
   $('.cardRawMaterials').hide();
 

@@ -1,4 +1,8 @@
 $(document).ready(function () {
+  $('#btnRawMaterialsAnalysis').hide();
+  $('#btnConsolidatedMP').hide();
+  $('#btnClearAnalysis').hide();
+
   products = [];
   totalUnits = 0;
 
@@ -23,6 +27,14 @@ $(document).ready(function () {
     products = [];
     dataMaterials = [];
     // dataAnalysisMaterials = [];
+
+    $('#btnRawMaterialsAnalysis').hide(800);
+    $('#btnConsolidatedMP').hide(800);
+    $('#btnClearAnalysis').hide(800);
+
+    $('#totalUnits').val('');
+    $('#monthlySavings').val('');
+    $('#annualSavings').val('');
 
     loadTblProducts(products);
     loadtableMaterials(products);
@@ -113,19 +125,10 @@ $(document).ready(function () {
       products[row].idProduct = idProduct;
       products[row].reference = $('#refProduct :selected').text().trim();
       products[row].name = $('#selectNameProduct :selected').text().trim();
-      products[row].units = units;      
+      products[row].units = units;
     }
 
     loadTblProducts(products);
-
-    // for (let i = 0; i < dataMaterials.length; i++) {
-    //   if (idProduct == dataMaterials[i].id_product) {
-    //     dataMaterials.splice(i--, 1);
-    //     break;
-    //   }
-    // }
-
-    // dataMaterials.push({ id_product: idProduct, unit: units });
 
     fetchData(products);
 
@@ -133,6 +136,9 @@ $(document).ready(function () {
     toastr.success(msg);
     $('#formAddLot').trigger('reset');
     $('.cardAddLot').hide(800);
+    $('#btnRawMaterialsAnalysis').show(800);
+    $('#btnConsolidatedMP').show(800);
+    $('#btnClearAnalysis').show(800);
   });
 
   $(document).on('click','.updateProduct', function () {

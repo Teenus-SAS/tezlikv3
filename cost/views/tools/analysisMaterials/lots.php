@@ -88,7 +88,7 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-dark" id="btnConsolidatedMP">Consolidado MP</button>
                                 </div>
                                 <div class="col-xs-2 py-2">
-                                    <button class="btn btn-secondary" id="btnClearAnalysis"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                                    <button class="btn btn-secondary" id="btnClearAnalysis"><i class="bi bi-clipboard-x-fill"></i></button>
                                 </div>
                             </div>
                         </div>

@@ -668,7 +668,7 @@ $app->post('/saveRoutePayroll', function (Request $request, Response $response, 
     }
 
     if ($resolution == null)
-        $resp = array('success' => true, 'message' => 'Procesos modificados correctamente');
+        $resp = array('success' => true, 'message' => 'Filas modificadas correctamente');
     else if (isset($resolution['info']))
         $resp = array('info' => true, 'message' => $resolution['message']);
     else

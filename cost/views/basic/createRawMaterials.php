@@ -70,27 +70,50 @@ if (sizeof($_SESSION) == 0)
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
-                                <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-gear mr-1"></i>Materias Primas</h3>
-                                    <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Ingrese los datos de las materias primas de acuerdo con las magnitudes y unidades (Internacionales) que compra</li>
-                                    </ol>
+                        <div class="tab-pane cardMaterials">
+                            <div class="row align-items-center">
+                                <div class="col-sm-5 col-xl-6">
+                                    <div class="page-title">
+                                        <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-gear mr-1"></i>Materias Primas</h3>
+                                        <ol class="breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active">Ingrese los datos de las materias primas de acuerdo con las magnitudes y unidades (Internacionales) que compra</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Nueva Materia Prima</button>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2">
+                                        <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Nueva Materia Prima</button>
+                        </div>
+                        <div class="tab-pane cardCategories" style="display: none;">
+                            <div class="row align-items-center">
+                                <div class="col-sm-5 col-xl-6">
+                                    <div class="page-title">
+                                        <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-gear mr-1"></i>Categorias</h3>
+                                        <ol class="breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active"></li>
+                                        </ol>
+                                    </div>
                                 </div>
-                                <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
+                                <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                    <div class="col-xs-2 mr-2">
+                                        <button class="btn btn-warning" id="btnNewCategory" name="btnNewCategory">Nueva Categoria</button>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2">
+                                        <button class="btn btn-info" id="btnImportNewCategory" name="btnNewImportCategory">Importar Categoria</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Materiales -->
                 <div class="page-content-wrapper mt--45 mb-5 cardRawMaterials">
                     <div class="container-fluid">
                         <div class="row">
@@ -158,18 +181,94 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
+                <!-- Categorias -->
+                <div class="page-content-wrapper mt--45 mb-5 cardAddCategories">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <form id="formCreateCategory">
+                                        <div class="card-body">
+                                            <div class="form-row">
+                                                <div class="col-sm-10 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <input type="text" class="form-control text-center" id="category" name="category">
+                                                    <label for="">Categoria</label>
+                                                </div>
+                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:4px">
+                                                    <button class="btn btn-info" id="btnCreateCategory" name="btnCreateCategory">Crear</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="page-content-wrapper mt--45 mb-5 cardImportCategories">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <form class="col-12" id="formImportCategory" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row" id="formCategory">
+                                            <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                <input class="form-control" type="file" id="fileCategory" accept=".xls,.xlsx">
+                                                <label for="formFile" class="form-label">Importar Categoria</label>
+                                            </div>
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                <button type="text" class="btn btn-success" id="btnImportCategory">Importar</button>
+                                            </div>
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCategories">Descarga Formato</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
-                        <!-- Row 5 -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="card disable-select">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-striped" id="tblRawMaterials">
+                                <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active selectNavigation" id="materials" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                            <i class="fas fa-flask mr-1"></i>Materias Primas
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link selectNavigation" id="categories" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                            <i class="bi bi-arrow-repeat mr-1"></i>Categorias
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="tab-pane cardMaterials">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped" id="tblRawMaterials">
 
-                                            </table>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane cardCategories">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped" id="tblCategories">
+
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -488,7 +488,6 @@ if (sizeof($_SESSION) == 0)
                                                     <tfoot>
                                                         <tr>
                                                             <th></th>
-                                                            <th></th>
                                                             <th>Total</th>
                                                             <th id="totalCost"></th>
                                                             <th></th>
