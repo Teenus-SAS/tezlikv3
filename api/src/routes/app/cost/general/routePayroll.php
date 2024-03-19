@@ -12,6 +12,7 @@ use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\GeneralPayrollDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\RisksDao;
 use tezlikv3\dao\ValueMinuteDao;
 
@@ -29,6 +30,7 @@ $factorBenefitDao = new FactorBenefitDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $costCompositeProductsDao = new CostCompositeProductsDao();
+$lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -125,6 +127,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
 $app->post('/addPayroll', function (Request $request, Response $response) use (
     $payrollDao,
     $generalPayrollDao,
+    $lastDataDao,
     $convertDataDao,
     $valueMinuteDao,
     $processDao,
@@ -160,6 +163,14 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
             $dataPayroll = $valueMinuteDao->calculateValueMinute($dataPayroll);
 
             $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
+
+            if ($payroll == null) {
+                $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
+
+                $lastRoute = $generalPayrollDao->findNextRoute($id_company);
+
+                $payroll = $generalPayrollDao->changeRouteById($lastInserted['id_payroll'], $lastRoute['route']);
+            }
 
             if ($payroll == null)
                 $resp = array('success' => true, 'message' => 'Nomina creada correctamente');
@@ -203,9 +214,17 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
             $findPayroll = $generalPayrollDao->findPayroll($payroll[$i], $id_company);
 
-            if (!$findPayroll)
+            if (!$findPayroll) {
                 $resolution = $payrollDao->insertPayrollByCompany($payroll[$i], $id_company);
-            else {
+
+                if (isset($resolution['info'])) break;
+
+                $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
+
+                $lastRoute = $generalPayrollDao->findNextRoute($id_company);
+
+                $resolution = $generalPayrollDao->changeRouteById($lastInserted['id_payroll'], $lastRoute['route']);
+            } else {
                 $payroll[$i]['idPayroll'] = $findPayroll['id_payroll'];
                 $resolution = $payrollDao->updatePayroll($payroll[$i]);
 
@@ -494,6 +513,8 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
 $app->post('/copyPayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
+    $lastDataDao,
+    $generalPayrollDao,
     $costWorkforceDao,
     $priceProductDao,
     $generalProductsDao,
@@ -508,7 +529,14 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
     if ($payroll == null) {
+        $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
 
+        $lastRoute = $generalPayrollDao->findNextRoute($id_company);
+
+        $payroll = $generalPayrollDao->changeRouteById($lastInserted['id_payroll'], $lastRoute['route']);
+    }
+
+    if ($payroll == null) {
         $dataProducts = $costWorkforceDao->findProductByProcess($dataPayroll['idProcess'], $id_company);
 
         foreach ($dataProducts as $arr) {
@@ -625,29 +653,29 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-// $app->post('/saveRoutePayroll', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
-//     session_start();
-//     $dataPayroll = $request->getParsedBody();
+$app->post('/saveRoutePayroll', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
+    session_start();
+    $dataPayroll = $request->getParsedBody();
 
-//     $payroll = $dataPayroll['data'];
+    $payroll = $dataPayroll['data'];
 
-//     $resolution = null;
+    $resolution = null;
 
-//     for ($i = 0; $i < sizeof($payroll); $i++) {
-//         $resolution = $generalPayrollDao->changeRouteById($payroll[$i]['id_payroll'], $payroll[$i]['route']);
+    for ($i = 0; $i < sizeof($payroll); $i++) {
+        $resolution = $generalPayrollDao->changeRouteById($payroll[$i]['id_payroll'], $payroll[$i]['route']);
 
-//         if (isset($resolution['info'])) break;
-//     }
+        if (isset($resolution['info'])) break;
+    }
 
-//     if ($resolution == null)
-//         $resp = array('success' => true, 'message' => 'Procesos modificados correctamente');
-//     else if (isset($resolution['info']))
-//         $resp = array('info' => true, 'message' => $resolution['message']);
-//     else
-//         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-//     $response->getBody()->write(json_encode($resp));
-//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-// });
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Procesos modificados correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
 
 $app->post('/deletePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,

@@ -28,6 +28,147 @@ $(document).ready(function () {
   loadAllTblData();
 
   const loadTblPayroll = (data) => {
+    if ($.fn.dataTable.isDataTable("#tblPayroll")) {
+      $("#tblPayroll").DataTable().destroy();
+      $("#tblPayroll").empty();
+      $('#tblPayroll').append(`
+      <tbody id="tblPayrollBody"></tbody>
+      ${type_payroll == '1' ?
+      `<tfoot>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Total:</th>
+          <th id="totalSalary"></th>
+          <th id="totalSalarynet"></th>
+          <th id="totalMinuteValue"></th>
+        </tr>
+      </tfoot>`: ''}
+      `);
+    }
+    // Encabezados de la tabla
+    var headers = ['No.', 'Nombre Empleado', 'Proceso', 'Salario Base', 'Salario Neto', 'Valor Minuto', 'Acciones'];
+    
+    // Obtén la tabla
+    var table = document.getElementById('tblPayroll');
+
+    // Crea la fila de encabezados
+    var headerRow = table.createTHead().insertRow();
+    headers.forEach(function (header) {
+      var th = document.createElement('th');
+      th.textContent = header;
+      headerRow.appendChild(th);
+    });
+
+    $('#tblPayrollBody').empty();
+    var body = document.getElementById('tblPayrollBody');
+
+    data.forEach((arr, index) => {
+      const i = index;
+      const dataRow = body.insertRow();
+
+      dataRow.classList.add('t-row'); // Agregar la clase 't-row' a la fila
+      dataRow.setAttribute('data-index', index);
+      dataRow.setAttribute('data-id', arr.id_payroll);
+
+      headers.forEach((header, columnIndex) => {
+        const cell = dataRow.insertCell();
+        switch (header) {
+          case 'No.':
+            cell.textContent = i + 1;
+            break;
+          case 'Nombre Empleado':
+            cell.textContent = arr.employee;
+            break;
+          case 'Proceso':
+            cell.textContent = arr.process;
+            break;
+          case 'Salario Base':
+            let salary = parseFloat(arr.salary);
+
+            if (Math.abs(salary) < 0.01) 
+              salary = salary.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            else
+              salary = salary.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            
+            cell.textContent = salary;
+            break;
+          case 'Salario Neto':
+            let salary_net = parseFloat(arr.salary_net);
+
+            if (Math.abs(salary_net) < 0.01) 
+              salary_net = salary_net.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            else
+              salary_net = salary_net.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            
+            cell.textContent = salary_net;
+            break;
+          case 'Valor Minuto':
+            let minute_value = parseFloat(arr.minute_value);
+
+            if (Math.abs(minute_value) < 0.01) 
+              minute_value = minute_value.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            else
+              minute_value = minute_value.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            
+            cell.textContent = minute_value;
+            break;
+          case 'Acciones':
+            cell.innerHTML = `
+            <a href="javascript:;" <i id="${arr.id_payroll}" class="bx bx-copy-alt" data-toggle='tooltip' title='Clonar Nomina' style="font-size: 30px; color:green" onclick="copyFunction(${arr.id_payroll}, '${arr.employee}')"></i></a>
+            <a href="javascript:;" <i id="${arr.id_payroll}" class="bx bx-edit-alt updatePayroll" data-toggle='tooltip' title='Actualizar Nomina' style="font-size: 30px;"></i></a>
+            <a href="javascript:;" <i id="${arr.id_payroll}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Nomina' style="font-size: 30px;color:red" onclick="deleteFunction(${arr.id_payroll})"></i></a>`;
+            break;
+          default:
+            cell.textContent = '';
+            break;
+        }
+      });
+    });
+
+    $('#tblPayroll').dataTable({
+      pageLength: 50,
+      dom: '<"datatable-error-console">frtip',
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
+      },
+    });
+
+    dragula([document.getElementById('tblPayrollBody')]).on('drop', async function (el, container, source, sibling) {
+      let copy = [];
+            
+      // If the row was dropped within the same container,
+      // move it to the specified position
+      if (container === source) {
+        var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
+        
+        container.insertBefore(el, container.children[targetIndex]);
+        var elements = $('.t-row');
+        elements = elements.not('.gu-mirror');
+
+        for (let i = 0; i < elements.length; i++) {
+          copy.push({ id_payroll: elements[i].dataset.id, route: i + 1 });
+        }  
+
+        $.ajax({
+          type: "POST",
+          url: "/api/saveRoutePayroll",
+          data: { data: copy },
+          success: function (resp) {
+            message(resp);
+          }
+        });
+      } else {
+        // If the row was dropped into a different container,
+        // move it to the first position
+        container.insertBefore(el, container.firstChild);
+      }
+    });
     // tblPayroll = $('#tblPayroll').dataTable({
     //   pageLength: 50,
     //   data: data,

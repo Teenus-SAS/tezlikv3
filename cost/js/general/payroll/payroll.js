@@ -49,8 +49,8 @@ $(document).ready(function () {
     let idPayroll = this.id;
     sessionStorage.setItem('id_payroll', idPayroll);
 
-    let row = $(this).parent().parent()[0];
-    let data = tblPayroll.fnGetData(row);
+    let data = allPayroll.find(item => item.id_payroll == idPayroll);
+
     $('#employee').val(data.employee);
     // $(`#idProcess option:contains(${data.process})`).prop('selected', true);
     $(`#idProcess option[value=${data.id_process}]`).prop('selected', true);
@@ -167,9 +167,8 @@ $(document).ready(function () {
 
   /* Eliminar carga nomina */
 
-  deleteFunction = async () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblPayroll.fnGetData(row);
+  deleteFunction = async (id) => {
+    let data = allPayroll.find(item => item.id_payroll == id);
 
     let process = allProductProcess.filter(item => item.id_process == data.id_process);
 
@@ -216,10 +215,11 @@ $(document).ready(function () {
   };
 
   /* Copiar Nomina */
-  copyFunction = async (employee) => {
+  copyFunction = async (id, employee) => {
     var options = ``;
 
-    let dataProcess = await searchData(`/api/process/${employee}`);
+    // let dataProcess = await searchData(`/api/process/${employee}`);
+    let dataProcess = allPayroll.filter(item => item.employee == employee);
 
     if (dataProcess.length == 0) {
       toastr.info('No hay procesos disponibles para este empleado');
@@ -230,8 +230,9 @@ $(document).ready(function () {
       options += `<option value="${dataProcess[i].id_process}"> ${dataProcess[i].process} </option>`;
     }
 
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblPayroll.fnGetData(row);
+    // let row = $(this.activeElement).parent().parent()[0];
+    // let data = tblPayroll.fnGetData(row);
+    let data = allPayroll.find(item => item.id_payroll == id);
 
     bootbox.confirm({
       title: 'Clonar Nomina',

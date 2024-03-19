@@ -110,7 +110,7 @@ class LastDataDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT MAX(id_product_process ) AS id_product_process  FROM products_process WHERE id_company = :id_company");
+        $stmt = $connection->prepare("SELECT MAX(id_product_process) AS id_product_process  FROM products_process WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
@@ -118,6 +118,19 @@ class LastDataDao
         $this->logger->notice("factory load", array('factory load' => $productProcess));
 
         return $productProcess;
+    }
+
+    /* Nomina */
+    public function findLastInsertedPayroll($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(id_payroll) AS id_payroll  FROM payroll WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $payroll = $stmt->fetch($connection::FETCH_ASSOC);
+        return $payroll;
     }
 
     /* Cotizaciones */

@@ -129,7 +129,8 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card disable-select">
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-striped" id="tblPayroll">
+                                            <table class="text-center table table-striped" id="tblPayroll">
+                                                <tbody id="tblPayrollBody"></tbody>
                                                 <?php if ($_SESSION['type_payroll'] == '1') { ?>
                                                     <tfoot>
                                                         <tr>
