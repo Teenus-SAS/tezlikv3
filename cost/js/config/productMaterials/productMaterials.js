@@ -1,5 +1,6 @@
 $(document).ready(function () {
   let idProduct;
+  $('.btnDownloadXlsx').hide(); 
 
   $('.selectNavigation').click(function (e) {
     e.preventDefault();
@@ -252,40 +253,77 @@ $(document).ready(function () {
     else if (data.info == true) toastr.info(data.message);
   };
 
-  $('#btnDownloadXlsx').click(function (e) {
+  $('.btnDownloadXlsx').click(function (e) {
     e.preventDefault();
 
     let wb = XLSX.utils.book_new();
-
-    let data = [];
-    
-    namexlsx = 'Ficha_Tecnica.xlsx';
-    
     let id_product = $('#refProduct').val();
 
-    let ref = $('#refProduct :selected').text().trim();
-    let product = $('#selectNameProduct :selected').text().trim();
+    /* Materiales */
+    let data = [];
 
-    if (id_product) {
-      let productMaterials = tblConfigMaterials.fnGetData();
+    if (flag_composite_product == '1')
+      allProductMaterials = [...allProductMaterials, ...dataCompositeProduct];
 
-      for (i = 0; i < productMaterials.length; i++) {
+    let arr = allProductMaterials.filter(item => item.id_product == id_product);
+    
+    if (arr.length > 0) {
+      for (i = 0; i < arr.length; i++) {
         data.push({
-          referencia_producto: ref,
-          producto: product,
-          referencia_material: productMaterials[i].reference,
-          material: productMaterials[i].material,
-          magnitud: productMaterials[i].magnitude,
-          unidad: productMaterials[i].unit,
-          Cantidad: parseFloat(productMaterials[i].quantity),
-          Precio: parseFloat(productMaterials[i].cost_product_material),
+          referencia_producto: arr[i].reference_product,
+          producto: arr[i].product,
+          referencia_material: arr[i].reference_material,
+          material: arr[i].material,
+          magnitud: arr[i].magnitude,
+          unidad: arr[i].unit,
+          quantity: arr[i].quantity,
+          tipo: arr[i].type,
+        });
+      }
+      
+      let ws = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
+    }
+      
+    /* Procesos */
+    data = [];
+    
+    arr = dataProductProcess.filter(item => item.id_product == id_product);
+    if (arr.length > 0) {
+      for (i = 0; i < arr.length; i++) {
+        data.push({
+          referencia_producto: arr[i].reference,
+          producto: arr[i].product,
+          proceso: arr[i].process,
+          maquina: arr[i].machine,
+          tiempo_enlistamiento: arr[i].enlistment_time,
+          tiempo_operacion: arr[i].operation_time,
+          maquina_autonoma: arr[i].auto_machine
         });
       }
 
-      let ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Ficha Tecnica Producto');
-      XLSX.writeFile(wb, namexlsx);
-    }     
+      ws = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
+    }
+    
+    /* Servicios */
+    data = [];
+
+    arr = dataServices.filter(item => item.id_product == id_product);
+    if (arr.length > 0) {
+      for (i = 0; i < dataServices.length; i++) {
+        data.push({
+          referencia_producto: dataServices[i].reference,
+          producto: dataServices[i].product,
+          servicio: dataServices[i].name_service,
+          costo: dataServices[i].cost,
+        });
+      }
+
+      ws = XLSX.utils.json_to_sheet(data);
+      XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
+    }
+      
+    XLSX.writeFile(wb, 'Ficha_Productos.xlsx');
   });
- 
 });

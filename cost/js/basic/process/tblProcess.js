@@ -79,7 +79,11 @@ $(document).ready(function () {
     dataProcess.forEach((arr, index) => {
       const i = index;
       const dataRow = body.insertRow();
+
+      dataRow.classList.add('t-row'); // Agregar la clase 't-row' a la fila
       dataRow.setAttribute('data-index', index);
+      dataRow.setAttribute('data-id', arr.id_process);
+
       headers.forEach((header, columnIndex) => {
         const cell = dataRow.insertCell();
         switch (header) {
@@ -105,28 +109,34 @@ $(document).ready(function () {
       });
     });
 
-    $('#tblProcess').dataTable();
+    $('#tblProcess').dataTable({
+      pageLength: 50,
+      dom: '<"datatable-error-console">frtip',
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
+      },
+    });
 
     dragula([document.getElementById('tblProcessBody')]).on('drop', async function (el, container, source, sibling) {
-      // Obtener el índice de fila actual
-      var currentIndex = el.closest('tr').rowIndex;
-      // Obtener el indice de la fila anterior 
-      var previousIndex = parseInt(el.dataset.index) + 1;      
-
       let copy = [];
-      
+            
       // If the row was dropped within the same container,
       // move it to the specified position
       if (container === source) {
         var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
         
         container.insertBefore(el, container.children[targetIndex]);
+        var elements = $('.t-row');
+        elements = elements.not('.gu-mirror');
 
-        copy.push(dataProcess[previousIndex - 1]);
-        copy.push(dataProcess[currentIndex - 1]);
-
-        copy[0]['route'] = currentIndex;
-        copy[1]['route'] = previousIndex;
+        for (let i = 0; i < elements.length; i++) {
+          copy.push({ id_process: elements[i].dataset.id, route: i + 1 });
+        }  
 
         $.ajax({
           type: "POST",

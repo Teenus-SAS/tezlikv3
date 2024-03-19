@@ -625,6 +625,30 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+// $app->post('/saveRoutePayroll', function (Request $request, Response $response, $args) use ($generalPayrollDao) {
+//     session_start();
+//     $dataPayroll = $request->getParsedBody();
+
+//     $payroll = $dataPayroll['data'];
+
+//     $resolution = null;
+
+//     for ($i = 0; $i < sizeof($payroll); $i++) {
+//         $resolution = $generalPayrollDao->changeRouteById($payroll[$i]['id_payroll'], $payroll[$i]['route']);
+
+//         if (isset($resolution['info'])) break;
+//     }
+
+//     if ($resolution == null)
+//         $resp = array('success' => true, 'message' => 'Procesos modificados correctamente');
+//     else if (isset($resolution['info']))
+//         $resp = array('info' => true, 'message' => $resolution['message']);
+//     else
+//         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+//     $response->getBody()->write(json_encode($resp));
+//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+// });
+
 $app->post('/deletePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
     $generalPayrollDao,

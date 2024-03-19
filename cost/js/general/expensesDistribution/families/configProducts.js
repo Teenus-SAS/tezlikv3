@@ -6,7 +6,8 @@ $(document).ready(function () {
         let $select = $(`.refProduct`);
         $select.empty();
 
-        let ref = r.sort(sortReference);
+        // let ref = r.sort(sortReference);
+        let ref = sortFunction(r, 'reference');
 
         $select.append(
           `<option value='0' disabled selected>Seleccionar</option>`
@@ -20,7 +21,8 @@ $(document).ready(function () {
         let $select1 = $(`.selectNameProduct`);
         $select1.empty();
 
-        let prod = r.sort(sortNameProduct);
+        // let prod = r.sort(sortNameProduct);
+        let prod = sortFunction(r, 'product');
 
         $select1.append(
           `<option value='0' disabled selected>Seleccionar</option>`

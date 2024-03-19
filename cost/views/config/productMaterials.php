@@ -92,7 +92,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-info" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-secondary" id="btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                                        <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -114,6 +114,9 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewProductProcess">Importar Procesos</button>
                                     </div>
+                                    <div class="col-xs-2 py-2 mr-2">
+                                        <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -133,6 +136,9 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewExternalServices">Importar Servicios Externos</button>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2">
+                                        <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -514,21 +520,135 @@ if (sizeof($_SESSION) == 0)
         flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         inyection = "<?= $_SESSION['inyection'] ?>";
+        $(document).ready(function() {
+
+            loadAllDataProducts = async () => {
+                try {
+                    const [dataUnits, dataProducts, dataProcess, dataMachines, dataMaterials] = await Promise.all([
+                        searchData('/api/units'),
+                        searchData('/api/products'),
+                        searchData('/api/process'),
+                        searchData('/api/machines'),
+                        searchData('/api/materials'),
+                    ]);
+
+                    /* Unidades */
+                    sessionStorage.setItem('dataUnits', JSON.stringify(dataUnits));
+
+                    /* Productos */
+                    sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+
+                    let $select = $(`.refProduct`);
+                    $select.empty();
+
+                    // let ref = dataProducts.sort(sortReference); 
+                    let ref = sortFunction(dataProducts, 'reference');
+
+                    $select.append(
+                        `<option value='0' disabled selected>Seleccionar</option>`
+                    );
+                    $.each(ref, function(i, value) {
+                        $select.append(
+                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.reference} </option>`
+                        );
+                    });
+
+                    let $select1 = $(`.selectNameProduct`);
+                    $select1.empty();
+
+                    let prod = sortFunction(dataProducts, 'product');
+
+                    $select1.append(`<option value='0' disabled selected>Seleccionar</option>`);
+                    $.each(prod, function(i, value) {
+                        $select1.append(
+                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.product} </option>`
+                        );
+                    });
+
+                    let compositeProduct = prod.filter(item => item.composite == 1);
+                    let $select2 = $(`#refCompositeProduct`);
+                    $select2.empty();
+
+                    $select2.append(
+                        `<option value='0' disabled selected>Seleccionar</option>`
+                    );
+                    $.each(compositeProduct, function(i, value) {
+                        $select2.append(
+                            `<option value ="${value.id_product}"> ${value.reference} </option>`
+                        );
+                    });
+
+                    let $select3 = $(`#compositeProduct`);
+                    $select3.empty();
+
+                    $select3.append(
+                        `<option value='0' disabled selected>Seleccionar</option>`
+                    );
+                    $.each(compositeProduct, function(i, value) {
+                        $select3.append(
+                            `<option value ="${value.id_product}"> ${value.product} </option>`
+                        );
+                    });
+
+                    /* Procesos */
+                    $select = $(`#idProcess`);
+                    $select.empty();
+
+                    $select.append(`<option disabled selected>Seleccionar</option>`);
+                    $.each(dataProcess, function(i, value) {
+                        $select.append(
+                            `<option value = ${value.id_process} class='${value.status}'> ${value.process} </option>`
+                        );
+                    });
+
+                    /* Maquinas */
+                    sessionStorage.setItem('dataMachines', JSON.stringify(dataMachines));
+
+                    $select = $(`#idMachine`);
+                    $select.empty();
+                    $select.append(`<option disabled>Seleccionar</option>`);
+                    $select.append(`<option value="0" selected>PROCESO MANUAL</option>`);
+                    $.each(dataMachines, function(i, value) {
+                        $select.append(
+                            `<option value = '${value.id_machine}'> ${value.machine} </option>`
+                        );
+                    });
+
+                    /* Materiales */
+                    sessionStorage.setItem('dataMaterials', JSON.stringify(dataMaterials));
+                    ref = sortFunction(dataMaterials, 'reference');
+
+                    $select = $(`#refMaterial`);
+                    $select.empty();
+                    $select.append(`<option disabled selected value='0'>Seleccionar</option>`);
+                    $.each(ref, function(i, value) {
+                        $select.append(
+                            `<option value = ${value.id_material}> ${value.reference} </option>`
+                        );
+                    });
+
+                    let name = sortFunction(dataMaterials, 'material');
+
+                    $select1 = $(`#nameMaterial`);
+                    $select1.empty();
+                    $select1.append(`<option disabled selected value='0'>Seleccionar</option>`);
+                    $.each(name, function(i, value) {
+                        $select1.append(
+                            `<option value = ${value.id_material}> ${value.material} </option>`
+                        );
+                    });
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                }
+            }
+
+            loadAllDataProducts();
+            // loadDataMaterial(1);
+        });
     </script>
-    <script src="/global/js/global/configUnits.js"></script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
     <script src="/cost/js/config/services/tblExternalServices.js"></script>
-    <script src="/cost/js/basic/products/configProducts.js"></script>
-    <script src="/cost/js/basic/process/configProcess.js"></script>
-    <!-- <script src="/cost/js/general/payroll/configProcessPayroll.js"></script> -->
-    <script src="/cost/js/basic/machines/configMachines.js"></script>
-    <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
-    <script>
-        $(document).ready(function() {
-            loadDataMaterial(1);
-        });
-    </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>

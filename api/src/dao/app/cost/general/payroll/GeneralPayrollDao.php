@@ -107,6 +107,23 @@ class GeneralPayrollDao
         return $payroll;
     }
 
+    // public function changeRouteById($id_payroll, $route)
+    // {
+    //     try {
+    //         $connection = Connection::getInstance()->getConnection();
+
+    //         $stmt = $connection->prepare("UPDATE payroll SET route = :route WHERE id_payroll = :id_payroll");
+    //         $stmt->execute([
+    //             'route' => $route,
+    //             'id_payroll' => $id_payroll,
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         $message = $e->getMessage();
+    //         $error = array('info' => true, 'message' => $message);
+    //         return $error;
+    //     }
+    // }
+
     public function updatePayroll($dataPayroll)
     {
         try {

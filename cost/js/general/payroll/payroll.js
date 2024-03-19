@@ -171,12 +171,21 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblPayroll.fnGetData(row);
 
+    let process = allProductProcess.filter(item => item.id_process == data.id_process);
+
+    if (process.length > 0) {
+      toastr.error('Procesos asociado a Ficha de productos');
+      return false;
+    }
+
     dataPayroll['idPayroll'] = data.id_payroll;
     dataPayroll['idProcess'] = data.id_process;
-    // dataPayroll['employee'] = data.employee;
-    let resp = await searchData(`/api/checkEmployee/${data.employee}`);
 
-    resp.length > 1 ? msg = '' : msg = 'Es el unico empleado de nomina.<br>';
+    let employee = allPayroll.filter(item => item.employee == data.employee);
+    // dataPayroll['employee'] = data.employee;
+    // let resp = await searchData(`/api/checkEmployee/${data.employee}`);
+
+    employee.length > 1 ? msg = '' : msg = 'Es el unico empleado de nomina.<br>';
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -300,20 +309,10 @@ $(document).ready(function () {
       $('#factor').prop('disabled', true);
       $('#createPayroll').modal('hide');
       $('#formCreatePayroll').trigger('reset');
-      updateTable();
-      toastr.success(data.message);
-      setTimeout(() => {
-        loadFooterPayroll();
-      }, 1000);
+      loadAllTblData();
+      toastr.success(data.message); 
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  function updateTable() {
-    $('#tblPayroll').DataTable().clear();
-    $('#tblPayroll').DataTable().ajax.reload();
-  }
 });

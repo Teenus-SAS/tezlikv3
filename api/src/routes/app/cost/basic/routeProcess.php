@@ -169,7 +169,7 @@ $app->post('/saveRouteProcess', function (Request $request, Response $response, 
     }
 
     if ($resolution == null)
-        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+        $resp = array('success' => true, 'message' => 'Procesos modificados correctamente');
     else if (isset($resolution['info']))
         $resp = array('info' => true, 'message' => $resolution['message']);
     else

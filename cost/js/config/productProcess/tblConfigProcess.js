@@ -92,7 +92,11 @@ $(document).ready(function () {
     data.forEach((arr, index) => {
       const i = index;
       const dataRow = body.insertRow();
+
+      dataRow.classList.add('t-row'); // Agregar la clase 't-row' a la fila
       dataRow.setAttribute('data-index', index);
+      dataRow.setAttribute('data-id', arr.id_product_process);
+
       headers.forEach((header, columnIndex) => {
         const cell = dataRow.insertCell();
         switch (header) {
@@ -167,14 +171,20 @@ $(document).ready(function () {
       });
     });
 
-    $('#tblConfigProcess').dataTable();
+    $('#tblConfigProcess').dataTable({
+      pageLength: 50,
+      dom: '<"datatable-error-console">frtip',
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
+      },
+    });
 
     dragula([document.getElementById('tblConfigProcessBody')]).on('drop', function (el, container, source, sibling) {
-      // Obtener el indice de la fila anterior
-      var previousIndex = parseInt(el.dataset.index) + 1;      
-
-      // Obtener el índice de fila actual
-      var currentIndex = el.closest('tr').rowIndex;
       let copy = [];
 
       // If the row was dropped within the same container,
@@ -184,17 +194,12 @@ $(document).ready(function () {
         
         container.insertBefore(el, container.children[targetIndex]);
         
-        var targetIndex = sibling ? sibling.rowIndex - 1 : container.children.length - 1;
-        
-        container.insertBefore(el, container.children[targetIndex]);
+        var elements = $('.t-row');
+        elements = elements.not('.gu-mirror');
 
-        let data = dataProductProcess.filter(item => item.id_product == $('#refProduct').val());
-
-        copy.push(data[previousIndex - 1]);
-        copy.push(data[currentIndex - 1]); 
-
-        copy[0]['route'] = currentIndex;
-        copy[1]['route'] = previousIndex; 
+        for (let i = 0; i < elements.length; i++) {
+          copy.push({ id_product_process: elements[i].dataset.id, route: i + 1 });
+        } 
 
         $.ajax({
           type: "POST",
@@ -227,174 +232,5 @@ $(document).ready(function () {
     $('#totalOperation').html(operation.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalWorkforce').html(`$ ${workForce.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
     $('#totalIndirect').html(`$ ${indirect.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
-    
-    // tblConfigProcess = $('#tblConfigProcess').dataTable({
-    //   destroy: true,
-    //   pageLength: 50,
-    //   ajax: {
-    //     url: `/api/productsProcess/${idProduct}`,
-    //     dataSrc: '',
-    //   },
-    //   dom: '<"datatable-error-console">frtip',
-    //   language: {
-    //     url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-    //   },
-    //   fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-    //     if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-    //       console.error(oSettings.json.error);
-    //     }
-    //   },
-    //   columns: [
-    //     {
-    //       title: 'No.',
-    //       data: null,
-    //       className: 'uniqueClassName',
-    //       render: function (data, type, full, meta) {
-    //         return meta.row + 1;
-    //       },
-    //     },
-    //     {
-    //       title: 'Proceso',
-    //       data: 'process',
-    //     },
-    //     {
-    //       title: 'Máquina',
-    //       data: 'machine',
-    //     },
-    //     {
-    //       title: title3,
-    //       data: value3,
-    //       className: 'classCenter',
-    //       render: function (data) {
-    //         data = parseFloat(data);
-            
-    //         if (Math.abs(data) < 0.01) {
-    //           // let decimals = contarDecimales(data);
-    //           // data = formatNumber(data, decimals);
-    //           data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-    //         } else
-    //           data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-    //         return data;
-    //       },
-    //     },
-    //     {
-    //       title: title4,
-    //       data: 'operation_time',
-    //       className: 'classCenter',
-    //       render: function (data) {
-    //         data = parseFloat(data);
-
-    //         if (Math.abs(data) < 0.01) {
-    //           // let decimals = contarDecimales(data);
-    //           // data = formatNumber(data, decimals);
-    //           data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-    //         } else
-    //           data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-    //         return data;
-    //       },
-    //     },
-    //     {
-    //       title: 'Mano De Obra',
-    //       data: 'workforce_cost',
-    //       className: 'classCenter',
-    //       render: function (data) {
-    //         data = parseFloat(data);
-
-    //         if (Math.abs(data) < 0.01) {
-    //           // let decimals = contarDecimales(data);
-    //           // data = formatNumber(data, decimals);
-    //           data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-    //         } else
-    //           data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-    //         return `$ ${data}`;
-    //       },
-    //     },
-    //     {
-    //       title: 'Costo Indirecto',
-    //       data: 'indirect_cost',
-    //       className: 'classCenter',
-    //       render: function (data) {
-    //         data = parseFloat(data);
-
-    //         if (Math.abs(data) < 0.01) {
-    //           // let decimals = contarDecimales(data);
-    //           // data = formatNumber(data, decimals);
-    //           data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-    //         } else
-    //           data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-    //         return `$ ${data}`;
-    //       },
-    //     },
-    //     {
-    //       title: '',
-    //       data: null,
-    //       className: 'uniqueClassName',
-    //       visible: visible,
-    //       render: function (data) {
-    //         if (parseInt(data.auto_machine) === 0)
-    //           return `<a href="javascript:;" <i id="${data.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
-    //         else return '';
-    //       },
-    //     },
-    //     {
-    //       title: 'Acciones',
-    //       data: 'id_product_process',
-    //       className: 'uniqueClassName',
-    //       render: function (data) {
-    //         return `
-            
-    //             <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>
-    //             <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Proceso' style="font-size: 30px;color:red" onclick="deleteProcess()"></i></a>`;
-    //       },
-    //     },
-    //   ],
-    //   footerCallback: function (row, data, start, end, display) {
-    //     enlistmentTime = this.api()
-    //       .column(3)
-    //       .data()
-    //       .reduce(function (a, b) {
-    //         return parseFloat(a) + parseFloat(b);
-    //       }, 0);
-
-    //     $(this.api().column(3).footer()).html(
-    //       new Intl.NumberFormat('de-DE').format(enlistmentTime)
-    //     );
-    //     operationTime = this.api()
-    //       .column(4)
-    //       .data()
-    //       .reduce(function (a, b) {
-    //         return parseFloat(a) + parseFloat(b);
-    //       }, 0);
-
-    //     $(this.api().column(4).footer()).html(
-    //       new Intl.NumberFormat('de-DE').format(operationTime)
-    //     );
-
-    //     workForce = this.api()
-    //       .column(5)
-    //       .data()
-    //       .reduce(function (a, b) {
-    //         return parseFloat(a) + parseFloat(b);
-    //       }, 0);
-
-    //     $(this.api().column(5).footer()).html(
-    //       `$ ${new Intl.NumberFormat('de-DE').format(workForce)}`
-    //     );
-    //     indirectCost = this.api()
-    //       .column(6)
-    //       .data()
-    //       .reduce(function (a, b) {
-    //         return parseFloat(a) + parseFloat(b);
-    //       }, 0);
-
-    //     $(this.api().column(6).footer()).html(
-    //       `$ ${new Intl.NumberFormat('de-DE').format(indirectCost)}`
-    //     );
-    //   },
-    // });
   };
 });

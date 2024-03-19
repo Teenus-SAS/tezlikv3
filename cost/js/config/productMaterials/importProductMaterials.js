@@ -170,6 +170,8 @@ $(document).ready(function () {
 
       let ws = XLSX.utils.json_to_sheet(data);
       XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
+
+      
       XLSX.writeFile(wb, namexlsx);
     } else {
       let url = 'assets/formatsXlsx/Productos_Materias.xlsx';

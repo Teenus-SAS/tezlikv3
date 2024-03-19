@@ -16,6 +16,7 @@ $(document).ready(function () {
     $('#selectNameProduct option').prop('selected', function () {
       return $(this).val() == id;
     });
+    $('.btnDownloadXlsx').show(800);
     $('.cardAddNewProduct').hide(800);
     $('.cardAddMaterials').hide(800);
     loadtableMaterials(id);
@@ -34,6 +35,7 @@ $(document).ready(function () {
     $('#refProduct option').prop('selected', function () {
       return $(this).val() == id;
     });
+    $('.btnDownloadXlsx').show(800);
     $('.cardAddNewProduct').hide(800);
     $('.cardAddMaterials').hide(800);
 
@@ -41,39 +43,32 @@ $(document).ready(function () {
   });
 
   loadAllDataMaterials = async (op) => {
-    const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
-      searchData('/api/allProductsMaterials'),
-      searchData('/api/allCompositeProducts')
-    ]);
+    try {
+      const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
+        searchData('/api/allProductsMaterials'),
+        searchData('/api/allCompositeProducts')
+      ]);
 
-    allProductMaterials = dataProductMaterials;
-    allComposites = dataCompositeProduct;
+      allProductMaterials = dataProductMaterials;
+      allComposites = dataCompositeProduct;
 
-    if (op != 1)
-      loadtableMaterials(op);
+      if (op != 1)
+        loadtableMaterials(op);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
   }
 
   /* Cargue tabla de Proyectos */
   loadtableMaterials = async (idProduct) => {
-    // let data = await searchData(`/api/productsMaterials/${idProduct}`);
-    // if (flag_composite_product == '1') {
-    //   let dataCompositeProduct = await searchData(`/api/compositeProducts/${idProduct}`);
-
-    //   data = [...data, ...dataCompositeProduct];
-    // }
     let data = allProductMaterials.filter(item => item.id_product == idProduct);
 
     if (flag_composite_product == '1') {
       let dataCompositeProduct = allComposites.filter(item => item.id_product == idProduct);
 
       data = [...data, ...dataCompositeProduct];
-    }
+    } 
 
-    // if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
-    //   $("#tblConfigMaterials").DataTable().clear();
-    //   $("#tblConfigMaterials").DataTable().rows.add(data).draw();
-    //   return;
-    // }
     if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
       var table = $("#tblConfigMaterials").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual

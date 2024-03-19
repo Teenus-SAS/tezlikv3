@@ -16,6 +16,19 @@ $(document).ready(function () {
     $(`#refProduct option[value=${id}]`).prop('selected', true);
   });
 
+  /* Limpiar Datos */
+  $('#btnClearAnalysis').click(function (e) {
+    e.preventDefault();
+
+    products = [];
+    dataMaterials = [];
+    // dataAnalysisMaterials = [];
+
+    loadTblProducts(products);
+    loadtableMaterials(products);
+    loadTblAnalysisMaterials(products);
+  });
+
   /* Productos Cargados */
   $('#btnProductsLoaded').click(function (e) {
     e.preventDefault();
