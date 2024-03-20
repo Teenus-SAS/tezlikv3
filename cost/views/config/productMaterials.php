@@ -521,6 +521,98 @@ if (sizeof($_SESSION) == 0)
         inyection = "<?= $_SESSION['inyection'] ?>";
         $(document).ready(function() {
 
+            $('#refMaterial').change(async function(e) {
+                e.preventDefault();
+                let id = this.value;
+
+                $('#nameMaterial option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
+            });
+
+            $('#nameMaterial').change(async function(e) {
+                e.preventDefault();
+                let id = this.value;
+
+                $('#refMaterial option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
+            });
+
+            $('#refCompositeProduct').change(async function(e) {
+                e.preventDefault();
+                let id = this.value;
+
+                $('#compositeProduct option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
+            });
+
+            $('#compositeProduct').change(async function(e) {
+                e.preventDefault();
+                let id = this.value;
+
+                $('#refCompositeProduct option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
+            });
+
+            // const loadData = async (endpoint, key) => {
+            //     try {
+            //         const data = await searchData(endpoint);
+            //         sessionStorage.setItem(key, JSON.stringify(data));
+            //         return data;
+            //     } catch (error) {
+            //         console.error(`Error loading ${key} data:`, error);
+            //         throw error;
+            //     }
+            // };
+
+            // const populateSelectWithOptions = ($select, options, defaultValue = null) => {
+            //     debugger;
+
+            //     $select.empty();
+            //     if (defaultValue) {
+            //         $select.append(`<option value="0" disabled selected>${defaultValue}</option>`);
+            //     }
+            //     options.forEach(option => {
+            //         $select.append(`<option value="${option.id}">${option.label}</option>`);
+            //     });
+            // };
+
+            // const loadAllDataProducts = async () => {
+            //     try {
+            //         const [
+            //             dataUnits,
+            //             dataProducts,
+            //             dataProcess,
+            //             dataMachines,
+            //             dataMaterials
+            //         ] = await Promise.all([
+            //             loadData('/api/units', 'dataUnits'),
+            //             loadData('/api/products', 'dataProducts'),
+            //             loadData('/api/process', 'dataProcess'),
+            //             loadData('/api/machines', 'dataMachines'),
+            //             loadData('/api/materials', 'dataMaterials')
+            //         ]);
+
+            //         const sortedDataProducts = sortFunction(dataProducts, 'reference');
+            //         const sortedDataMaterials = sortFunction(dataMaterials, 'reference');
+            //         const sortedDataMaterialsByName = sortFunction(dataMaterials, 'material');
+
+            //         populateSelectWithOptions($('.refProduct'), sortedDataProducts, 'Seleccionar');
+            //         populateSelectWithOptions($('.selectNameProduct'), sortedDataProducts, 'Seleccionar');
+            //         populateSelectWithOptions($('#refCompositeProduct'), sortedDataProducts.filter(product => product.composite == 1), 'Seleccionar');
+            //         populateSelectWithOptions($('#compositeProduct'), sortedDataProducts.filter(product => product.composite == 1), 'Seleccionar');
+            //         populateSelectWithOptions($('#idProcess'), dataProcess, 'Seleccionar');
+            //         populateSelectWithOptions($('#idMachine'), dataMachines, null);
+            //         populateSelectWithOptions($('#refMaterial'), sortedDataMaterials, 'Seleccionar');
+            //         populateSelectWithOptions($('#nameMaterial'), sortedDataMaterialsByName, 'Seleccionar');
+            //     } catch (error) {
+            //         console.error('Error loading data:', error);
+            //     }
+            // };
+
             loadAllDataProducts = async () => {
                 try {
                     const [dataUnits, dataProducts, dataProcess, dataMachines, dataMaterials] = await Promise.all([
