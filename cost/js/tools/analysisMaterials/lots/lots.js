@@ -36,6 +36,15 @@ $(document).ready(function () {
     $('#monthlySavings').val('');
     $('#annualSavings').val('');
 
+    sessionStorage.removeItem('update');
+    $('#formAddLot').trigger('reset');
+    $('.cardRawMaterialsAnalysis').hide(800);
+    $('.cardTableRawMaterials').hide(800);
+    $('.cardAddLot').show(800);
+    $('.cardTableProducts').show(800);
+    $('#btnAddLot').html('Adicionar');
+
+    setTimeout(setCSSTbl(), 1000);
     loadTblProducts(products);
     loadtableMaterials(products);
     loadTblAnalysisMaterials(products);

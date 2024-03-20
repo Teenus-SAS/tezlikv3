@@ -141,7 +141,7 @@ $(document).ready(function () {
       $('.cardAddService').hide(800);
       $('.cardProducts').show(800);
       $('#formAddService').trigger('reset');
-      let idProduct = $('#selectNameProduct').val();
+      let idProduct = parseInt($('#selectNameProduct').val());
       // if (idProduct)
       loadAllDataServices(idProduct);
       toastr.success(data.message);

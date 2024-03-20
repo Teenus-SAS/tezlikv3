@@ -222,10 +222,10 @@ $(document).ready(function () {
     let indirect = 0;
 
     data.forEach(item => {
-      alistment += item[value3];
-      operation += item.operation_time;
-      workForce += item.workforce_cost;
-      indirect += item.indirect_cost;
+      alistment += parseFloat(item[value3]);
+      operation += parseFloat(item.operation_time);
+      workForce += parseFloat(item.workforce_cost);
+      indirect += parseFloat(item.indirect_cost);
     });
 
     $('#totalAlistment').html(alistment.toLocaleString('es-CO', { maximumFractionDigits: 2 }));

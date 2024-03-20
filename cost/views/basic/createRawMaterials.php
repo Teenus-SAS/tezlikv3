@@ -70,7 +70,25 @@ if (sizeof($_SESSION) == 0)
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <div class="tab-pane cardMaterials">
+                        <div class="row align-items-center">
+                            <div class="col-sm-5 col-xl-6">
+                                <div class="page-title">
+                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-gear mr-1"></i>Materias Primas</h3>
+                                    <ol class="breadcrumb mb-3 mb-md-0">
+                                        <li class="breadcrumb-item active">Ingrese los datos de las materias primas de acuerdo con las magnitudes y unidades (Internacionales) que compra</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mr-2">
+                                    <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Nueva Materia Prima</button>
+                                </div>
+                                <div class="col-xs-2 py-2 mr-2">
+                                    <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="tab-pane cardMaterials">
                             <div class="row align-items-center">
                                 <div class="col-sm-5 col-xl-6">
                                     <div class="page-title">
@@ -109,7 +127,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -181,7 +199,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <!-- Categorias -->
+                <!-- Categorias 
                 <div class="page-content-wrapper mt--45 mb-5 cardAddCategories">
                     <div class="container-fluid">
                         <div class="row">
@@ -229,12 +247,12 @@ if (sizeof($_SESSION) == 0)
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-12">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li class="nav-item">
@@ -249,11 +267,20 @@ if (sizeof($_SESSION) == 0)
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="tab-pane cardMaterials">
+                                    <div class="cardMaterials">
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped" id="tblRawMaterials">
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="tab-pane cardMaterials">
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="tblRawMaterials">
@@ -270,7 +297,7 @@ if (sizeof($_SESSION) == 0)
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
