@@ -163,7 +163,7 @@ $(document).ready(function () {
           material: allProductMaterials[i].material,
           magnitud: allProductMaterials[i].magnitude,
           unidad: allProductMaterials[i].unit,
-          quantity: allProductMaterials[i].quantity,
+          cantidad: allProductMaterials[i].quantity,
           tipo: allProductMaterials[i].type,
         });
       }

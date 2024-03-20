@@ -19,10 +19,11 @@ class GeneralMaterialsDao
     public function findAllMaterialsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, mg.id_magnitude, mg.magnitude, 
+        $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, c.id_category, c.category, mg.id_magnitude, mg.magnitude, 
                                              u.id_unit, u.unit, u.abbreviation, m.cost, m.date_material, m.quantity, m.observation, m.img,
                                              IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status, m.flag_indirect
                                       FROM materials m
+                                      	  LEFT JOIN categories c ON c.id_category = m.id_category
                                           INNER JOIN convert_units u ON u.id_unit = m.unit
                                           INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
                                       WHERE m.id_company = :id_company ORDER BY m.material ASC");

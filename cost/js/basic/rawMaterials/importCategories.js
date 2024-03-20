@@ -1,23 +1,23 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportMaterials').hide();
+  $('.cardImportCategories').hide();
 
-  $('#btnImportNewMaterials').click(function (e) {
+  $('#btnNewImportCategory').click(function (e) {
     e.preventDefault();
-    $('.cardRawMaterials').hide(800);
-    $('.cardImportMaterials').toggle(800);
+    $('.cardAddCategories').hide(800);
+    $('.cardImportCategories').toggle(800);
   });
 
-  $('#fileMaterials').change(function (e) {
+  $('#fileCategories').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportMaterials').click(function (e) {
+  $('#btnImportCategory').click(function (e) {
     e.preventDefault();
 
-    let file = $('#fileMaterials').val();
+    let file = $('#fileCategories').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     $('.cardBottons').hide();
 
-    let form = document.getElementById('formMaterials');
+    let form = document.getElementById('formCategory');
 
     form.insertAdjacentHTML(
       'beforeend',
@@ -42,12 +42,12 @@ $(document).ready(function () {
          if (data.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-          $('#fileMaterials').val('');
+          $('#fileCategories').val('');
           toastr.error('Archivo vacio. Verifique nuevamente');
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'material', 'categoria', 'magnitud', 'unidad', 'costo'];
+        const expectedHeaders = ['categoria'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -55,29 +55,18 @@ $(document).ready(function () {
         if (missingHeaders.length > 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-          $('#fileMaterials').val('');
+          $('#fileCategories').val('');
 
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
         }
 
-        let materialsToImport = data.map((item) => {
-          let costRawMaterial = '';
-
-          if (item.costo)
-            costRawMaterial = item.costo.toString().replace('.', ',');
-
+        let categoriesToImport = data.map((item) => {
           return {
-            refRawMaterial: item.referencia,
-            nameRawMaterial: item.material,
             category: item.categoria,
-            magnitude: item.magnitud,
-            unit: item.unidad,
-            costRawMaterial: costRawMaterial,
           };
         });
-
-        checkProduct(materialsToImport);
+        checkCategories(categoriesToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -85,20 +74,21 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProduct = (data) => {
+  checkCategories = (data) => {
     $.ajax({
       type: 'POST',
-      url: '/api/materialsDataValidation',
-      data: { importMaterials: data },
+      url: '/api/categoriesDataValidation',
+      data: { importCategories: data },
       success: function (resp) {
         if (resp.error == true) {
-          $('#fileMaterials').val('');
+          $('#fileCategories').val('');
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-          
+
           toastr.error(resp.message);
           return false;
         }
+
         bootbox.confirm({
           title: '¿Desea continuar con la importación?',
           message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
@@ -114,11 +104,11 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveMaterialTable(data);
+              saveCategoriesTable(data);
             } else {
-              $('#fileMaterials').val('');
               $('.cardLoading').remove();
               $('.cardBottons').show(400);
+              $('#fileCategories').val('');
             }
           },
         });
@@ -126,11 +116,11 @@ $(document).ready(function () {
     });
   };
 
-  saveMaterialTable = (data) => {
+  saveCategoriesTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../api/addMaterials',
-      data: { importMaterials: data },
+      url: '../../api/addCategory',
+      data: { importCategories: data },
       success: function (r) {
         message(r);
       },
@@ -138,10 +128,10 @@ $(document).ready(function () {
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsMaterials').click(function (e) {
+  $('#btnDownloadImportsCategories').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Materia_prima.xlsx';
+    let url = 'assets/formatsXlsx/Categorias.xlsx';
 
     let link = document.createElement('a');
 

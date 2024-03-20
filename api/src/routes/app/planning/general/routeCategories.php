@@ -9,11 +9,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/categories', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
-    $categories = $invCategoriesDao->findAllCategories();
-    $response->getBody()->write(json_encode($categories, JSON_NUMERIC_CHECK));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+// $app->get('/categories', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
+//     $categories = $invCategoriesDao->findAllCategories();
+//     $response->getBody()->write(json_encode($categories, JSON_NUMERIC_CHECK));
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
 
 $app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use ($invCategoriesDao) {
     $dataCategories = $request->getParsedBody();

@@ -4,27 +4,21 @@ $(document).ready(function () {
   $('.selectNavigation').click(function (e) {
     e.preventDefault();
 
-    // $('.cardProducts').show();
-
-    // if (this.id == 'materials') {
-    //   $('.cardProductsMaterials').show();
-    //   $('.cardProductsProcess').hide(); 
-    //   $('.cardAddProcess').hide();
-    //   $('.cardServices').hide();
-    //   $('.cardImportProductsProcess').hide(); 
-    //   $('.cardAddService').hide(); 
-    //   $('.cardImportExternalServices').hide(); 
-    // } else {
-    //   $('.cardServices').show();
-    //   $('.cardProductsProcess').hide();
-    //   $('.cardAddProcess').hide();
-    //   $('.cardProductsMaterials').hide(); 
-    //   $('.cardAddMaterials').hide();
-    //   $('.cardImportProductsMaterials').hide();
-    //   $('.cardAddNewProduct').hide();
-    //   $('.cardAddService').hide(); 
-    //   $('.cardImportExternalServices').hide();       
-    // }
+    if (this.id == 'materials') {
+      $('.cardMaterials').show();
+      $('.cardCategories').hide(); 
+      $('.cardRawMaterials').hide();
+      $('.cardImportMaterials').hide();
+      $('.cardAddCategories').hide(); 
+      $('.cardImportCategories').hide(); 
+    } else {
+      $('.cardCategories').show();
+      $('.cardMaterials').hide();
+      $('.cardAddCategories').hide(); 
+      $('.cardImportCategories').hide();
+      $('.cardRawMaterials').hide();
+      $('.cardImportMaterials').hide(); 
+    }
     
     let tables = document.getElementsByClassName(
       'dataTable'
@@ -83,6 +77,7 @@ $(document).ready(function () {
     let data = tblRawMaterials.fnGetData(row);
     $('#refRawMaterial').val(data.reference);
     $('#nameRawMaterial').val(data.material);
+    $(`#idCategory option[value=${data.id_category}]`).prop('selected', true);
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
     loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
@@ -104,6 +99,7 @@ $(document).ready(function () {
     let ref = $('#refRawMaterial').val().trim();
     let material = $('#nameRawMaterial').val().trim();
     let unity = $('#units').val();
+    let category = $('#idCategory').val();
     let cost = parseFloat($('#costRawMaterial').val());
 
     if (
@@ -111,6 +107,8 @@ $(document).ready(function () {
       !ref ||
       material == '' ||
       !material ||
+      !category ||
+      category == 0 ||
       !unity ||
       unity == 0 ||
       cost == ''
@@ -135,12 +133,12 @@ $(document).ready(function () {
 
     let resp = await sendDataPOST(url, dataMaterial);
 
-    message(resp);
+    messageMaterials(resp);
   };
 
   /* Eliminar materia prima */
 
-  deleteFunction = () => {
+  deleteMaterials = () => {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblRawMaterials.fnGetData(row);
 
@@ -175,7 +173,7 @@ $(document).ready(function () {
             '../../api/deleteMaterial',
             dataMaterial,
             function (data, textStatus, jqXHR) {
-              message(data);
+              messageMaterials(data);
             }
           );
         }
@@ -185,7 +183,7 @@ $(document).ready(function () {
 
   /* Mensaje de exito */
 
-  message = (data) => {
+  messageMaterials = (data) => {
     $('#fileMaterials').val('');
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
@@ -196,18 +194,11 @@ $(document).ready(function () {
       $('.cardRawMaterials').hide(800);
       $('#formCreateMaterial').trigger('reset');
       toastr.success(data.message);
-      updateTable();
+      loadAllDataMaterials();
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  function updateTable() {
-    $('#tblRawMaterials').DataTable().clear();
-    $('#tblRawMaterials').DataTable().ajax.reload();
-  }
 
   /* Ocultar modal productos inactivos */
   $('.btnCloseProducts').click(function (e) {
@@ -217,8 +208,9 @@ $(document).ready(function () {
   });
 
   /* Productos relacionados */
-  $(document).on('click', '.seeDetail', async function () {
-    let data = await searchData(`/api/productsByMaterials/${this.id}`);
+  $(document).on('click', '.seeDetailMaterials', function () {
+    // let data = await searchData(`/api/productsByMaterials/${this.id}`);
+    let data = allProductMaterials.filter(item => item.id_material == this.id);
 
     $('#tblProductsBody').empty();
 
@@ -230,7 +222,7 @@ $(document).ready(function () {
         `
         <tr>
             <td>${i + 1}</td>
-            <td>${data[i].reference}</td>
+            <td>${data[i].reference_product}</td>
             <td>${data[i].product}</td> 
         </tr>
       `
@@ -263,7 +255,7 @@ $(document).ready(function () {
           $.get(
             `/api/changeIndirect/${data.id_material}/${data.flag_indirect == '0' ? '1' : '0'}`,
             function (data, textStatus, jqXHR) {
-              message(data);
+              messageMaterials(data);
             }
           );
         }
@@ -334,7 +326,7 @@ $(document).ready(function () {
             cache: false,
             processData: false,
             success: function (response) {
-              message(response);
+              messageMaterials(response);
             }
           });
         }

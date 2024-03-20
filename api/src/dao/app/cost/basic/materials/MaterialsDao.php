@@ -25,10 +25,11 @@ class MaterialsDao
     // $costRawMaterial = str_replace(',', '.', $costRawMaterial);
 
     try {
-      $stmt = $connection->prepare("INSERT INTO materials (id_company ,reference, material, unit, cost) 
-                                      VALUES(:id_company ,:reference, :material, :unit, :cost)");
+      $stmt = $connection->prepare("INSERT INTO materials (id_company, id_category ,reference, material, unit, cost) 
+                                      VALUES(:id_company, :id_category, :reference, :material, :unit, :cost)");
       $stmt->execute([
         'id_company' => $id_company,
+        'id_category' => $dataMaterial['idCategory'],
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
         'unit' => $dataMaterial['unit'],
@@ -56,10 +57,11 @@ class MaterialsDao
     // $costRawMaterial = str_replace(',', '.', $costRawMaterial);
 
     try {
-      $stmt = $connection->prepare("UPDATE materials SET reference = :reference, material = :material, unit = :unit, cost = :cost 
+      $stmt = $connection->prepare("UPDATE materials SET id_category = :id_category, reference = :reference, material = :material, unit = :unit, cost = :cost 
                                     WHERE id_material = :id_material AND id_company = :id_company");
       $stmt->execute([
         'id_material' => $dataMaterial['idMaterial'],
+        'id_category' => $dataMaterial['idCategory'],
         'reference' => trim($dataMaterial['refRawMaterial']),
         'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
         'unit' => $dataMaterial['unit'],

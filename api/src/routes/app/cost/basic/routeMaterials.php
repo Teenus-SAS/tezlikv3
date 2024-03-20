@@ -4,6 +4,7 @@ use tezlikv3\Dao\ConversionUnitsDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\FilesDao;
+use tezlikv3\dao\GeneralCategoriesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
@@ -14,6 +15,7 @@ use tezlikv3\dao\UnitsDao;
 
 $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
+$generalCategoriesDao = new GeneralCategoriesDao();
 $productMaterialsDao = new ProductsMaterialsDao();
 $magnitudesDao = new MagnitudesDao();
 $unitsDao = new UnitsDao();
@@ -47,6 +49,7 @@ $app->get('/productsByMaterials/{id_material}', function (Request $request, Resp
 /* Consultar Materias prima importada */
 $app->post('/materialsDataValidation', function (Request $request, Response $response, $args) use (
     $generalMaterialsDao,
+    $generalCategoriesDao,
     $magnitudesDao,
     $unitsDao
 ) {
@@ -67,8 +70,8 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
         for ($i = 0; $i < count($materials); $i++) {
             if (
-                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || $materials[$i]['costRawMaterial'] == '' ||
-                empty($materials[$i]['magnitude']) || empty($materials[$i]['unit'])
+                empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || empty($materials[$i]['category']) ||
+                $materials[$i]['costRawMaterial'] == '' || empty($materials[$i]['magnitude']) || empty($materials[$i]['unit'])
             ) {
                 $i = $i + 2;
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
@@ -76,11 +79,20 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
             }
 
             if (
-                empty(trim($materials[$i]['refRawMaterial'])) || empty(trim($materials[$i]['nameRawMaterial'])) || trim($materials[$i]['costRawMaterial']) == '' ||
-                empty(trim($materials[$i]['magnitude'])) || empty(trim($materials[$i]['unit']))
+                empty(trim($materials[$i]['refRawMaterial'])) || empty(trim($materials[$i]['nameRawMaterial'])) || empty(trim($materials[$i]['category'])) ||
+                trim($materials[$i]['costRawMaterial']) == '' || empty(trim($materials[$i]['magnitude'])) || empty(trim($materials[$i]['unit']))
             ) {
                 $i = $i + 2;
                 $dataImportMaterial = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            }
+
+            // Categorias
+            $findCategory = $generalCategoriesDao->findCategory($materials[$i], $id_company);
+
+            if (!$findCategory) {
+                $i = $i + 2;
+                $dataImportMaterial =  array('error' => true, 'message' => "Categoria no exsite en la base de datos. Fila : $i");
                 break;
             }
 
@@ -152,6 +164,7 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
 $app->post('/addMaterials', function (Request $request, Response $response, $args) use (
     $materialsDao,
+    $generalCategoriesDao,
     $magnitudesDao,
     $unitsDao,
     $costMaterialsDao,
@@ -196,6 +209,9 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             $materials[$i]['unit'] = $unit['id_unit'];
 
             // $materials[$i]['costRawMaterial'] = str_replace('.', ',', $materials[$i]['costRawMaterial']);
+
+            $findCategory = $generalCategoriesDao->findCategory($materials[$i], $id_company);
+            $materials[$i]['idCategory'] = $findCategory['id_category'];
 
             $material = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
 

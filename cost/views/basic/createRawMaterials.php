@@ -70,7 +70,7 @@ if (sizeof($_SESSION) == 0)
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <div class="row align-items-center">
+                        <!-- <div class="row align-items-center">
                             <div class="col-sm-5 col-xl-6">
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-gear mr-1"></i>Materias Primas</h3>
@@ -87,8 +87,8 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
                                 </div>
                             </div>
-                        </div>
-                        <!-- <div class="tab-pane cardMaterials">
+                        </div> -->
+                        <div class="tab-pane cardMaterials">
                             <div class="row align-items-center">
                                 <div class="col-sm-5 col-xl-6">
                                     <div class="page-title">
@@ -114,7 +114,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="page-title">
                                         <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-gear mr-1"></i>Categorias</h3>
                                         <ol class="breadcrumb mb-3 mb-md-0">
-                                            <li class="breadcrumb-item active"></li>
+                                            <li class="breadcrumb-item active">Ingrese cada uno de las categorias que sus materias necesitan</li>
                                         </ol>
                                     </div>
                                 </div>
@@ -127,7 +127,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
 
@@ -147,6 +147,10 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
                                                     <label for="">Nombre Materia Prima</label>
+                                                </div>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <select class="form-control" id="idCategory" name="idCategory"></select>
+                                                    <label for="">Categoria</label>
                                                 </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <select class="form-control" id="magnitudes" name="magnitude"></select>
@@ -199,7 +203,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <!-- Categorias 
+                <!-- Categorias -->
                 <div class="page-content-wrapper mt--45 mb-5 cardAddCategories">
                     <div class="container-fluid">
                         <div class="row">
@@ -209,7 +213,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <div class="form-row">
                                                 <div class="col-sm-10 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <input type="text" class="form-control text-center" id="category" name="category">
+                                                    <input type="text" class="form-control" id="category" name="category">
                                                     <label for="">Categoria</label>
                                                 </div>
                                                 <div class="col-xs-2" style="margin-bottom:0px;margin-top:4px">
@@ -232,7 +236,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pt-3">
                                         <div class="form-row" id="formCategory">
                                             <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
-                                                <input class="form-control" type="file" id="fileCategory" accept=".xls,.xlsx">
+                                                <input class="form-control" type="file" id="fileCategories" accept=".xls,.xlsx">
                                                 <label for="formFile" class="form-label">Importar Categoria</label>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
@@ -247,12 +251,12 @@ if (sizeof($_SESSION) == 0)
                             </form>
                         </div>
                     </div>
-                </div> -->
+                </div>
 
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-12">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li class="nav-item">
@@ -267,20 +271,20 @@ if (sizeof($_SESSION) == 0)
                                     </li>
                                 </ul>
                             </div>
-                        </div> -->
+                        </div>
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="cardMaterials">
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-striped" id="tblRawMaterials">
+                                    <!-- <div class="cardMaterials">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped" id="tblRawMaterials">
 
-                                                </table>
-                                            </div>
-                                        </div>
+                                        </table>
                                     </div>
-                                    <!-- <div class="tab-pane cardMaterials">
+                                </div>
+                            </div> -->
+                                    <div class="tab-pane cardMaterials">
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="tblRawMaterials">
@@ -297,7 +301,7 @@ if (sizeof($_SESSION) == 0)
                                                 </table>
                                             </div>
                                         </div>
-                                    </div> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -321,9 +325,12 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/global/configMagnitudes.js"></script>
     <script src="/global/js/global/configUnits.js"></script>
     <script src="/cost/js/basic/rawMaterials/tblRawMaterials.js"></script>
+    <script src="/cost/js/basic/rawMaterials/tblCategories.js"></script>
     <script src="/cost/js/basic/rawMaterials/rawMaterials.js"></script>
+    <script src="/cost/js/basic/rawMaterials/categories.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/basic/rawMaterials/importRawMaterials.js"></script>
+    <script src="/cost/js/basic/rawMaterials/importCategories.js"></script>
     <script src="../global/js/import/file.js"></script>
     <script src="../global/js/global/validateExt.js"></script>
 </body>

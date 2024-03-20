@@ -74,6 +74,7 @@ require_once('../api/src/routes/app/cost/quotes/routePaymentMethods.php');
 require_once('../api/src/routes/app/cost/basic/routeProcess.php');
 require_once('../api/src/routes/app/cost/basic/routeMachines.php');
 require_once('../api/src/routes/app/cost/basic/routeMaterials.php');
+require_once('../api/src/routes/app/cost/basic/routeCategories.php');
 require_once('../api/src/routes/app/cost/basic/routeProducts.php');
 
 // Config
