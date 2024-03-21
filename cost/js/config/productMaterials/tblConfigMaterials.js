@@ -165,9 +165,9 @@ $(document).ready(function () {
         let quantity = 0;
         let cost = 0;
 
-        for (let i = 0; i < data.length; i++) {
-          quantity += parseFloat(data[i].quantity);
-          cost += parseFloat(data[i].cost_product_material);
+        for (let i = 0; i < display.length; i++) {
+          quantity += parseFloat(data[display[i]].quantity);
+          cost += parseFloat(data[display[i]].cost_product_material);
         }
 
         $(this.api().column(4).footer()).html(
