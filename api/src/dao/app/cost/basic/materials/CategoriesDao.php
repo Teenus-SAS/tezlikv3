@@ -19,7 +19,7 @@ class CategoriesDao
     public function findAllCategoryByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT c.id_category, c.id_company, c.category, IFNULL((SELECT id_material FROM materials WHERE id_category = c.id_category), 0) AS status
+        $stmt = $connection->prepare("SELECT c.id_category, c.id_company, c.category, IFNULL((SELECT id_material FROM materials WHERE id_category = c.id_category LIMIT 1), 0) AS status
                                       FROM categories c
                                       WHERE c.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);

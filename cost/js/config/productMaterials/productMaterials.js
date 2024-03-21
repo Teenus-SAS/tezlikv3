@@ -48,6 +48,35 @@ $(document).ready(function () {
     }
   });
 
+  $('#categories').change(function (e) {
+    e.preventDefault();
+
+    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
+
+    data = data.filter(item => item.id_category == this.value);
+
+    ref = sortFunction(data, 'reference');
+
+    $select = $(`#refMaterial`);
+    $select.empty();
+    $select.append(`<option disabled selected value='0'>Seleccionar</option>`);
+    $.each(ref, function (i, value) {
+      $select.append(
+        `<option value = ${value.id_material}> ${value.reference} </option>`
+      );
+    });
+
+    let name = sortFunction(data, 'material');
+
+    $select1 = $(`#nameMaterial`);
+    $select1.empty();
+    $select1.append(`<option disabled selected value='0'>Seleccionar</option>`);
+    $.each(name, function (i, value) {
+      $select1.append(
+        `<option value = ${value.id_material}> ${value.material} </option>`
+      );
+    });
+  });
   /* Ocultar panel crear producto */
 
   $('.cardAddMaterials').hide();
@@ -77,8 +106,7 @@ $(document).ready(function () {
 
     let data = sessionStorage.getItem('dataMaterials');
     if (data) {
-      dataMaterials = JSON.parse(data);
-      sessionStorage.removeItem('dataMaterials');
+      dataMaterials = JSON.parse(data); 
     }
 
     for (i = 0; i < dataMaterials.length; i++) {

@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   $('.cardImportCategories').hide();
 
-  $('#btnNewImportCategory').click(function (e) {
+  $('#btnImportNewCategory').click(function (e) {
     e.preventDefault();
     $('.cardAddCategories').hide(800);
     $('.cardImportCategories').toggle(800);
@@ -122,7 +122,7 @@ $(document).ready(function () {
       url: '../../api/addCategory',
       data: { importCategories: data },
       success: function (r) {
-        message(r);
+        messageCategories(r);
       },
     });
   };

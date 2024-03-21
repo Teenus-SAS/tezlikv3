@@ -31,7 +31,7 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
         $insert = 0;
         $update = 0;
 
-        $category = $dataCategory['importCategory'];
+        $category = $dataCategory['importCategories'];
 
         for ($i = 0; $i < sizeof($category); $i++) {
             if (empty($category[$i]['category'])) {
@@ -67,7 +67,7 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
     $dataCategory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
-    if (empty($dataCategory['importCategory'])) {
+    if (empty($dataCategory['importCategories'])) {
 
         $category = $generalCategoryDao->findCategory($dataCategory, $id_company);
 
@@ -83,7 +83,7 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
         } else
             $resp = array('info' => true, 'message' => 'Categoria duplicado. Ingrese una nuevo Categoria');
     } else {
-        $category = $dataCategory['importCategory'];
+        $category = $dataCategory['importCategories'];
 
         for ($i = 0; $i < sizeof($category); $i++) {
             if (isset($resolution['info'])) break;

@@ -132,7 +132,7 @@ $(document).ready(function () {
       url: '../api/addMaterials',
       data: { importMaterials: data },
       success: function (r) {
-        message(r);
+        messageMaterials(r);
       },
     });
   };

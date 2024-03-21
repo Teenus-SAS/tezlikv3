@@ -123,7 +123,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-warning" id="btnNewCategory" name="btnNewCategory">Nueva Categoria</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewCategory" name="btnNewImportCategory">Importar Categoria</button>
+                                        <button class="btn btn-info" id="btnImportNewCategory" name="btnImportNewCategory">Importar Categoria</button>
                                     </div>
                                 </div>
                             </div>

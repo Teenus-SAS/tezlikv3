@@ -179,13 +179,18 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formAddMaterials">
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label for="">Categoria</label>
+                                                    <select class="form-control material" name="categories" id="categories"></select>
+                                                </div>
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Referencia</label>
                                                     <select class="form-control material" name="refMaterial" id="refMaterial"></select>
                                                 </div>
-                                                <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label for="">Materia Prima</label>
                                                     <select class="form-control material" name="material" id="nameMaterial"></select>
                                                 </div>
+                                                <div class="w-100"></div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <select class="form-control" id="units" name="unit"></select>
                                                     <label for="">Unidad</label>
@@ -615,12 +620,13 @@ if (sizeof($_SESSION) == 0)
 
             loadAllDataProducts = async () => {
                 try {
-                    const [dataUnits, dataProducts, dataProcess, dataMachines, dataMaterials] = await Promise.all([
+                    const [dataUnits, dataProducts, dataProcess, dataMachines, dataMaterials, dataCategories] = await Promise.all([
                         searchData('/api/units'),
                         searchData('/api/products'),
                         searchData('/api/process'),
                         searchData('/api/machines'),
                         searchData('/api/materials'),
+                        searchData('/api/categories')
                     ]);
 
                     /* Unidades */
@@ -726,6 +732,17 @@ if (sizeof($_SESSION) == 0)
                     $.each(name, function(i, value) {
                         $select1.append(
                             `<option value = ${value.id_material}> ${value.material} </option>`
+                        );
+                    });
+
+                    /* Categorias */
+                    $select = $(`#categories`);
+                    $select.empty();
+
+                    $select.append(`<option disabled selected>Seleccionar</option>`);
+                    $.each(dataCategories, function(i, value) {
+                        $select.append(
+                            `<option value ='${value.id_category}'> ${value.category} </option>`
                         );
                     });
                 } catch (error) {
