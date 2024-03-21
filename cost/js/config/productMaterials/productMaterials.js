@@ -53,7 +53,7 @@ $(document).ready(function () {
 
     let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
 
-    data = data.filter(item => item.id_category == this.value);
+    if (this.value != '0') data = data.filter(item => item.id_category == this.value);
 
     ref = sortFunction(data, 'reference');
 

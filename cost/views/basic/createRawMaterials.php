@@ -140,17 +140,17 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form class="col-12" id="formCreateMaterial">
                                             <div class="form-row">
-                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
-                                                    <label for="">Referencia</label>
-                                                </div>
-                                                <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
-                                                    <label for="">Nombre Materia Prima</label>
-                                                </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <select class="form-control" id="idCategory" name="idCategory"></select>
                                                     <label for="">Categoria</label>
+                                                </div>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
+                                                    <label for="">Referencia</label>
+                                                </div>
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
+                                                    <label for="">Nombre Materia Prima</label>
                                                 </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <select class="form-control" id="magnitudes" name="magnitude"></select>

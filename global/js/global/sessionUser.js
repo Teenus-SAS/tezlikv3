@@ -1,5 +1,5 @@
+/* Cierre de página 
 $(document).ready(function () {
-  /* Cierre de página */
   $(window).on('mouseover', function () {
     window.onbeforeunload = null;
   });
@@ -62,4 +62,86 @@ $(document).ready(function () {
       toastr.error(resp.message);
     }
   };
+}); */
+
+$(document).ready(function () {
+  // Variable para almacenar la última ruta visitada
+  let lastVisitedRoute = window.location.pathname;
+
+  $(window).on('mouseover', function () {
+    window.onbeforeunload = null;
+  });
+  $(window).on('mouseout', function () {
+    window.onbeforeunload = ConfirmLeave;
+  });
+
+  // Tiempo de inactividad
+  (function () {
+    var minutes = true;
+    var interval = minutes ? 60000 : 1000;
+    var IDLE_TIMEOUT = 10;
+    var idleCounter = 0;
+
+    document.onmousemove = document.onkeypress = function () {
+      idleCounter = 0;
+    };
+
+    window.setInterval(function () {
+      if (++idleCounter >= IDLE_TIMEOUT) {
+        fetchindata();
+      }
+    }, interval);
+  });
+
+  getApi = async (url) => {
+    try {
+      result = await $.ajax({
+        url: url,
+      });
+      return result;
+    } catch (error) {
+      return 0;
+    }
+  };
+
+  checkSession = async () => {
+    data = await getApi('/api/checkSessionUser');
+
+    if (data == 0) {
+      location.href = '/';
+    }
+  };
+  checkSession();
+
+  function ConfirmLeave() {
+    fetchindata();
+  }
+
+  fetchindata = async () => {
+    // Verifica si el usuario sigue en la misma ruta
+    if (window.location.pathname === lastVisitedRoute) {
+      // Solo ejecuta el logout si sigue en la misma ruta
+      resp = await getApi('/api/logoutInactiveUser');
+      if (resp.inactive) {
+        location.href = '/';
+        toastr.error(resp.message);
+      }
+    }
+  };
+
+  // Manejar el evento beforeunload para asegurar el logout al cerrar la pestaña
+  window.addEventListener('beforeunload', async function (e) {
+    // Ejecutar fetchindata antes de cerrar la pestaña
+    await fetchindata();
+  });
+
+  // Actualiza la última ruta visitada cuando cambia la URL
+  $(window).on('popstate', function() {
+    lastVisitedRoute = window.location.pathname;
+  });
+
+  // Actualiza la última ruta visitada cuando se hace clic en un enlace
+  $(document).on('click', 'a', function() {
+    lastVisitedRoute = $(this).attr('href');
+  });
 });

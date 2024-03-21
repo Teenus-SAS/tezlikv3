@@ -740,6 +740,7 @@ if (sizeof($_SESSION) == 0)
                     $select.empty();
 
                     $select.append(`<option disabled selected>Seleccionar</option>`);
+                    $select.append(`<option value='0'>Todos</option>`);
                     $.each(dataCategories, function(i, value) {
                         $select.append(
                             `<option value ='${value.id_category}'> ${value.category} </option>`
