@@ -562,11 +562,18 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     $data = [];
 
-    $product = $generalProductsDao->findProductByReferenceOrName($dataProduct, $id_company);
+    $status = true;
 
-    !is_array($product) ? $data['id_product'] = 0 : $data = $product;
+    $products = $generalProductsDao->findProductByReferenceOrName($dataProduct, $id_company);
 
-    if ($data['id_product'] == $dataProduct['idProduct'] || $data['id_product'] == 0) {
+    foreach ($products as $arr) {
+        if ($arr['id_product'] != $dataProduct['idProduct']) {
+            $status = false;
+            break;
+        }
+    }
+
+    if ($status == true) {
         // Actualizar Datos, Imagen y Calcular Precio del producto
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 

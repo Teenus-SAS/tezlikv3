@@ -184,7 +184,6 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
         $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
         if (!$material) {
-
             $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
             if ($materials == null)
@@ -314,12 +313,18 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $dataMaterial = $request->getParsedBody();
 
     $data = [];
+    $status = true;
 
-    $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
+    $materials = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
-    !is_array($material) ? $data['id_material'] = 0 : $data = $material;
+    foreach ($materials as $arr) {
+        if ($arr['id_material'] == $dataMaterial['idMaterial']) {
+            $status = false;
+            break;
+        }
+    }
 
-    if ($data['id_material'] == $dataMaterial['idMaterial'] || $data['id_material'] == 0) {
+    if ($status == true) {
         $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
         if ($materials == null) {
