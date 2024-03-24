@@ -81,10 +81,7 @@ $(document).ready(function () {
             <td>${data[i].reference}</td>
             <td>${data[i].product}</td>
             <td>
-                
-            </td>
-            <td>
-            <input type="checkbox" class="form-control-updated checkInactiveProduct" id="checkIn-${
+              <input type="checkbox" class="form-control-updated checkInactiveProduct" id="checkIn-${
               data[i].id_product
             }">
                 <a href="javascript:;" <i id="${
