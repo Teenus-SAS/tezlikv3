@@ -19,7 +19,6 @@
                                                 <th>No</th>
                                                 <th>Referencia</th>
                                                 <th>Producto</th>
-                                                <th>Activar</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
