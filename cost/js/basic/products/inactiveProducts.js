@@ -54,7 +54,6 @@ $(document).ready(function () {
         <th>No</th>
         <th>Referencia</th>
         <th>Producto</th>
-        <th>Activar</th>
         <th>Acciones</th>
         </tr>
       </thead>
@@ -82,8 +81,8 @@ $(document).ready(function () {
             <td>${data[i].product}</td>
             <td>
               <input type="checkbox" class="form-control-updated checkInactiveProduct" id="checkIn-${
-              data[i].id_product
-            }">
+                data[i].id_product
+              }">
                 <a href="javascript:;" <i id="${
                   data[i].id_product
                 }" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
