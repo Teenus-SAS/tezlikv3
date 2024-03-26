@@ -165,7 +165,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
             $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
             if ($payroll == null) {
-                $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
+                $lastInserted = $lastDataDao->findLastInsertedPayroll($id_company);
 
                 $lastRoute = $generalPayrollDao->findNextRoute($id_company);
 
@@ -219,7 +219,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
                 if (isset($resolution['info'])) break;
 
-                $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
+                $lastInserted = $lastDataDao->findLastInsertedPayroll($id_company);
 
                 $lastRoute = $generalPayrollDao->findNextRoute($id_company);
 
@@ -529,7 +529,7 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
     if ($payroll == null) {
-        $lastInserted = $lastDataDao->lastInsertedProcessId($id_company);
+        $lastInserted = $lastDataDao->findLastInsertedPayroll($id_company);
 
         $lastRoute = $generalPayrollDao->findNextRoute($id_company);
 
