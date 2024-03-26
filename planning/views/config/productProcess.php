@@ -65,8 +65,8 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="gridx2">
-                                            <label for="">Referencia</label>
-                                            <label for="">Producto</label>
+                                            <label>Referencia</label>
+                                            <label>Producto</label>
                                             <select class="form-control" name="refProduct" id="refProduct"></select>
                                             <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
                                         </div>
@@ -85,12 +85,12 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formAddProcess">
                                             <div class="gridx6pp">
-                                                <label for="">Proceso</label>
-                                                <label for="">Maquina</label>
-                                                <label for="" class="text-center">t.alistamiento (min)</label>
-                                                <label for="" class="text-center">t.operacion (min)</label>
-                                                <label for="" class="text-center">t.total (min)</label>
-                                                <label for=""></label>
+                                                <label>Proceso</label>
+                                                <label>Maquina</label>
+                                                <label class="text-center">t.alistamiento (min)</label>
+                                                <label class="text-center">t.operacion (min)</label>
+                                                <label class="text-center">t.total (min)</label>
+                                                <label></label>
                                                 <select class="form-control" name="idProcess" id="idProcess"></select>
                                                 <select class="form-control" name="idMachine" id="idMachine"></select>
                                                 <input class="form-control text-center number" type="text" name="enlistmentTime" id="enlistmentTime">

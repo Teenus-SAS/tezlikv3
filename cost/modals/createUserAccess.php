@@ -15,7 +15,7 @@
                                 <form id="formCreateUser">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Usuario</b></label>
+                                            <label><b>Usuario</b></label>
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -40,12 +40,12 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Accesos De Usuario</b></label>
+                                            <label><b>Accesos De Usuario</b></label>
                                         </div>
 
                                         <div class="row ml-2">
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Menú Configuración:</b></label>
+                                                <label><b>Menú Configuración:</b></label>
                                             </div>
 
                                             <div class="col-sm-3 pb-2">Básico
@@ -98,7 +98,7 @@
                                                         <option value="2">PROCESOS</option>
                                                     </select>
 
-                                                    <label for="">Tipo de Nomina<span class="text-danger">*</span></label>
+                                                    <label>Tipo de Nomina<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
 
@@ -119,7 +119,7 @@
                                                             <option value="2">RECUPERACIÓN</option>
                                                         <?php } ?>
                                                     </select>
-                                                    <label for="">Tipo Gastos<span class="text-danger">*</span></label>
+                                                    <label>Tipo Gastos<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>
                                                 </div>
                                                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
@@ -142,7 +142,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Menú Cotización:</b></label>
+                                                <label><b>Menú Cotización:</b></label>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
@@ -164,7 +164,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Menú Navegación:</b></label>
+                                                <label><b>Menú Navegación:</b></label>
                                             </div>
 
                                             <div class="col-sm-3 pb-2">Precios

@@ -13,7 +13,7 @@
                                 <form id="formCreatePlanMachine">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Descripción</b></label>
+                                            <label><b>Descripción</b></label>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -32,7 +32,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Horario</b></label>
+                                            <label><b>Horario</b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-4">
@@ -66,7 +66,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Meses</b></label>
+                                            <label><b>Meses</b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-4">

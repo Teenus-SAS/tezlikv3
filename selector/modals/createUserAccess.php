@@ -15,7 +15,7 @@
                                 <form id="formCreateUser">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Usuario</b></label>
+                                            <label><b>Usuario</b></label>
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -40,7 +40,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Asignar rol</b></label>
+                                            <label><b>Asignar rol</b></label>
                                         </div>
                                         <div class="col-12 col-lg-6 mb-4">
                                             <div class="custom-control custom-switch">
@@ -56,13 +56,13 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Asignar accesos</b></label>
+                                            <label><b>Asignar accesos</b></label>
                                         </div>
 
                                         <div class="row ml-2 mb-2 cardAccessCost">
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Costos.</b></label><br>
-                                                <label for=""><b>Menú Configuración:</b></label>
+                                                <label><b>Costos.</b></label><br>
+                                                <label><b>Menú Configuración:</b></label>
                                             </div>
 
                                             <div class="col-sm-3 pb-2">
@@ -127,7 +127,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Menú Cotización:</b></label>
+                                                <label><b>Menú Cotización:</b></label>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">
@@ -149,7 +149,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Menú Navegación:</b></label>
+                                                <label><b>Menú Navegación:</b></label>
                                             </div>
 
                                             <div class="col-sm-3 pb-2">Precios
@@ -195,13 +195,13 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll separator">
-                                            <label for=""></label>
+                                            <label></label>
                                         </div>
 
                                         <div class="row ml-2 mb-2 cardAccessPlanning">
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Planeación.</b></label><br>
-                                                <label for=""><b>Menú Configuración:</b></label>
+                                                <label><b>Planeación.</b></label><br>
+                                                <label><b>Menú Configuración:</b></label>
                                             </div>
 
                                             <div class="col-sm-3 pb-2">Básico
@@ -273,7 +273,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12">
-                                                <label for=""><b>Menú Navegación:</b></label>
+                                                <label><b>Menú Navegación:</b></label>
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="checkbox checkbox-success checkbox-circle">

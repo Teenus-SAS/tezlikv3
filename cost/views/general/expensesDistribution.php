@@ -144,7 +144,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="form-row">
                                             <div class="col-sm-3">
-                                                <label for="">Gastos a distribuir</label>
+                                                <label>Gastos a distribuir</label>
                                             </div>
                                             <div class="col-sm-4">
                                                 <input type="text" class="form-control text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">

@@ -98,15 +98,15 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formNewFactoryLoad">
                                             <div class="form-row">
                                                 <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label for="">Máquina</label>
+                                                    <label>Máquina</label>
                                                     <select class="form-control" name="idMachine" id="machine"></select>
                                                 </div>
                                                 <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label for="">Descripción Carga fabril</label>
+                                                    <label>Descripción Carga fabril</label>
                                                     <input class="form-control" name="descriptionFactoryLoad" id="descriptionFactoryLoad" />
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label for="">Costo</label>
+                                                    <label>Costo</label>
                                                     <input class="form-control text-center" type="number" name="costFactory" id="costFactory" />
                                                 </div>
                                                 <div class="col-xs-2 mt-1">

@@ -65,7 +65,7 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateNotification">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <label for="">Descripción</label>
+                                                    <label>Descripción</label>
                                                     <textarea class="form-control" name="description" id="description"></textarea>
                                                 </div>
                                                 <div class="col-lg-4">

@@ -214,7 +214,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="form-row">
                                                 <div class="col-sm-10 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <input type="text" class="form-control" id="category" name="category">
-                                                    <label for="">Categoria</label>
+                                                    <label>Categoria</label>
                                                 </div>
                                                 <div class="col-xs-2" style="margin-bottom:0px;margin-top:4px">
                                                     <button class="btn btn-info" id="btnCreateCategory" name="btnCreateCategory">Crear</button>

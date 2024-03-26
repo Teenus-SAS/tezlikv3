@@ -66,7 +66,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <div class="gridx2p">
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <label for="">Proceso</label>
+                                                    <label>Proceso</label>
                                                     <input type="text" class="form-control" id="process" name="process">
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">

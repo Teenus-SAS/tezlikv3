@@ -12,7 +12,7 @@
                                 <form id="formCreateOrder">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Pedido</b></label>
+                                            <label><b>Pedido</b></label>
                                         </div>
                                         <div class="col-12 col-lg-3">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -44,13 +44,13 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Descripción</b></label>
+                                            <label><b>Descripción</b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
                                                 <select id="refProduct" name="idProduct" class="form-control"></select>
-                                                <label for="">Referencia<span class="text-danger">*</span></label>
+                                                <label>Referencia<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
@@ -58,7 +58,7 @@
                                         <div class="col-12 col-lg-8">
                                             <div class="input-group floating-label enable-floating-label show-label">
                                                 <select id="selectNameProduct" name="selectNameProduct" class="form-control"></select>
-                                                <label for="">Producto<span class="text-danger">*</span></label>
+                                                <label>Producto<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
@@ -66,7 +66,7 @@
                                         <div class="col-12 col-lg-4">
                                             <div class="input-group floating-label enable-floating-label show-label date">
                                                 <select id="client" name="idClient" class="form-control"></select>
-                                                <label for="">Cliente<span class="text-danger">*</span></label>
+                                                <label>Cliente<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
@@ -74,19 +74,19 @@
                                         <div class="col-12 col-lg-4">
                                             <div class="input-group floating-label enable-floating-label show-label date">
                                                 <select id="orderType" name="idOrderType" class="form-control"></select>
-                                                <label for="">Tipo de Pedido<span class="text-danger">*</span></label>
+                                                <label>Tipo de Pedido<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b></b></label>
+                                            <label><b></b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
                                                 <input id="originalQuantity" name="originalQuantity" type="number" class="form-control text-center" min="1" max="24">
-                                                <label for="">Cantidad Original<span class="text-danger">*</span></label>
+                                                <label>Cantidad Original<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>
@@ -94,7 +94,7 @@
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
                                                 <input id="quantity" name="quantity" type="number" class="form-control text-center">
-                                                <label for="">Cantidad Pendiente<span class="text-danger">*</span></label>
+                                                <label>Cantidad Pendiente<span class="text-danger">*</span></label>
                                                 <div class="validation-error d-none font-size-13">Requerido</div>
                                             </div>
                                         </div>

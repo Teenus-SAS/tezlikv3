@@ -66,7 +66,7 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateOrderType">
                                             <div class="gridx2p">
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
-                                                    <label for="">Tipo de Pedido</label>
+                                                    <label>Tipo de Pedido</label>
                                                     <input type="text" class="form-control" name="orderType" id="orderType">
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">

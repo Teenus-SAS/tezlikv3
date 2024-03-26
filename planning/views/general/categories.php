@@ -67,7 +67,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <div class="form-row">
                                                 <div class="col-6">
-                                                    <label for="">Categoría</label>
+                                                    <label>Categoría</label>
                                                     <input type="text" class="form-control" id="category" name="category">
                                                 </div>
                                                 <div class="col-4">

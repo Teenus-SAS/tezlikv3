@@ -66,23 +66,23 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateUser">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <label for="">Empresa</label>
+                                                    <label>Empresa</label>
                                                     <select name="company" class="form-control company" id="company" name="company"></select>
                                                 </div>
                                                 <div class="col">
-                                                    <label for="">Nombres</label>
+                                                    <label>Nombres</label>
                                                     <input type="text" class="form-control" name="nameUser" id="firstname">
                                                 </div>
                                                 <div class="col">
-                                                    <label for="">Apellidos</label>
+                                                    <label>Apellidos</label>
                                                     <input type="text" class="form-control" name="lastnameUser" id="lastname">
                                                 </div>
                                                 <div class="col">
-                                                    <label for="">Correo</label>
+                                                    <label>Correo</label>
                                                     <input type="email" class="form-control" name="emailUser" id="email">
                                                 </div>
                                                 <div class="col-xs-2 text-center">
-                                                    <label for="">Usuario Principal</label><br>
+                                                    <label>Usuario Principal</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="principalUser" id="principalUser">
                                                 </div>
                                                 <div style="margin-top:32px;">

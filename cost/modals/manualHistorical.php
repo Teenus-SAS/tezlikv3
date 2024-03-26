@@ -14,7 +14,7 @@
                             <div class="col-md-12 col-lg-12 InputGroup">
                                 <div class="row mt-5">
                                     <div class="col-12 col-lg-12">
-                                        <label for=""><b>Ingrese Mes y Año</b></label>
+                                        <label><b>Ingrese Mes y Año</b></label>
                                     </div>
                                     <div class="col-12 col-lg-6">
                                         <div class="form-group floating-label enable-floating-label show-label">
