@@ -55,7 +55,13 @@ $(document).ready(function () {
 
     if (this.value != '0') data = data.filter(item => item.id_category == this.value);
 
-    ref = sortFunction(data, 'reference');
+    addSelectsMaterials(data);
+  });
+
+
+  // Crear selects manualmente
+  addSelectsMaterials = (data) => {
+    let ref = sortFunction(data, 'reference');
 
     $select = $(`#refMaterial`);
     $select.empty();
@@ -76,7 +82,7 @@ $(document).ready(function () {
         `<option value = ${value.id_material}> ${value.material} </option>`
       );
     });
-  });
+  }
   /* Ocultar panel crear producto */
 
   $('.cardAddMaterials').hide();
@@ -91,6 +97,7 @@ $(document).ready(function () {
     $('.cardAddMaterials').toggle(800);
     $('#btnAddMaterials').html('Asignar');
     $('#units').empty();
+    $('.categories').show(800); 
     $('.cardProducts').show(800); 
 
     sessionStorage.removeItem('id_product_material');
@@ -145,15 +152,19 @@ $(document).ready(function () {
 
   /* Actualizar productos materials */
 
-  $(document).on('click', '.updateMaterials', function (e) {
+  $(document).on('click', '.updateMaterials', async function (e) {
     $('.cardImportProductsMaterials').hide(800);
     $('.cardAddMaterials').show(800);
     $('.cardAddNewProduct').hide(800);
+    $('.categories').hide(800);
     $('#btnAddMaterials').html('Actualizar');
+    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
+    await addSelectsMaterials(data);
+
     $('#units').empty();
 
     let row = $(this).parent().parent()[0];
-    let data = tblConfigMaterials.fnGetData(row);
+    data = tblConfigMaterials.fnGetData(row);
 
     sessionStorage.setItem('id_product_material', data.id_product_material);
     $(`#refMaterial option[value=${data.id_material}]`).prop('selected', true);

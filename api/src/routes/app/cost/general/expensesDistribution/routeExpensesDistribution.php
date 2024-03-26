@@ -678,9 +678,11 @@ $app->post('/saveNewProduct', function (Request $request, Response $response, $a
     $priceProductDao,
     $generalProductsDao
 ) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
     $dataExpensesDistribution = $request->getParsedBody();
 
-    $expensesDistribution = $assignableExpenseDao->insertAssignableExpense($dataExpensesDistribution['idProduct'], $dataExpensesDistribution['assignableExpense']);
+    $expensesDistribution = $assignableExpenseDao->insertAssignableExpense($dataExpensesDistribution['idProduct'], $id_company, $dataExpensesDistribution['pAssignableExpense']);
 
     if ($expensesDistribution == null)
         $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['idProduct']);

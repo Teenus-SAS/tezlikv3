@@ -28,7 +28,7 @@ class GeneralExpenseDistributionDao
                                       FROM products p
                                         LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = p.id_product
-                                      WHERE p.id_company = :id_company");
+                                      WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
         $products = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $products;

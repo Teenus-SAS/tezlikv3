@@ -24,10 +24,10 @@ class ExpensesDistributionDao
                                       FROM expenses_distribution me
                                         INNER JOIN products p ON p.id_product = me.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = me.id_product
-                                        INNER JOIN (SELECT id_company, SUM(units_sold) AS total_units_sold, SUM(turnover) AS total_turnover 
+                                        INNER JOIN (SELECT expenses_distribution.id_company, SUM(units_sold) AS total_units_sold, SUM(turnover) AS total_turnover 
                                                     FROM expenses_distribution 
                                                         INNER JOIN products_costs ON products_costs.id_product = expenses_distribution.id_product
-                                                    WHERE id_company = :id_company AND products_costs.new_product = 0 GROUP BY id_company) AS totals ON totals.id_company = me.id_company
+                                                    WHERE expenses_distribution.id_company = :id_company AND products_costs.new_product = 0 GROUP BY expenses_distribution.id_company) AS totals ON totals.id_company = me.id_company
                                       WHERE me.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 

@@ -74,10 +74,8 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblExpensesDistribution.fnGetData(row);
 
-    sessionStorage.setItem(
-      'id_expenses_distribution',
-      data.id_expenses_distribution
-    );
+    sessionStorage.setItem('id_expenses_distribution', data.id_expenses_distribution);
+    sessionStorage.setItem('newProduct', data.new_product);
 
     $('#EDRefProduct').empty();
     $('#EDNameProduct').empty();
@@ -131,6 +129,7 @@ $(document).ready(function () {
     if (idExpense != '' || idExpense != null) {
       dataExpense.append('expense', $('#expensesToDistribution').val());
       dataExpense.append('idExpensesDistribution', idExpense);
+      dataExpense.append('newProduct', sessionStorage.getItem('newProduct'));
     }
 
     let resp = await sendDataPOST(url, dataExpense);
@@ -196,6 +195,7 @@ $(document).ready(function () {
       $('.cardAddNewFamily').hide(800);
       $('.cardAddProductFamily').hide(800);
       $('.cardExpenseRecover').hide(800);
+      $('.cardNewProduct').hide(800);
       $('#formExpensesDistribution').trigger('reset');
       $('#formFamily').trigger('reset');
       $('#formExpenseRecover').trigger('reset');

@@ -80,9 +80,7 @@ $(document).ready(function () {
             <td>${data[i].reference}</td>
             <td>${data[i].product}</td>
             <td>
-              <input type="checkbox" class="form-control-updated checkInactiveProduct" id="checkIn-${
-                data[i].id_product
-              }">
+                <a href="javascript:;" <span id="checkIn-${data[i].id_product}" class="badge badge-success checkInactiveProduct">Activar</span></a>
                 <a href="javascript:;" <i id="${
                   data[i].id_product
                 }" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
@@ -122,16 +120,24 @@ $(document).ready(function () {
     let id = this.id;
     let idProduct = id.slice(8, id.length);
 
-    if ($(`#${id}`).is(":checked")) {
+    if (this.className.includes('badge-success')) {
       let planeacion = {
         idProduct: idProduct,
       };
 
       inactiveProducts.push(planeacion);
+
+      this.className = 'badge badge-warning checkInactiveProduct';
+      this.text = 'Inactivar';
     } else {
-      for (i = 0; i < inactiveProducts.length; i++)
-        if (inactiveProducts[i].idProduct == idProduct)
+      for (i = 0; i < inactiveProducts.length; i++) {
+        if (inactiveProducts[i].idProduct == idProduct) {
           inactiveProducts.splice(i, 1);
+        }
+      }
+
+      this.className = 'badge badge-success checkInactiveProduct';
+      this.text = 'Activar';
     }
   });
 

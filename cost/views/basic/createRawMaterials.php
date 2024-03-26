@@ -293,7 +293,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane cardCategories">
+                                    <div class="tab-pane cardCategories" style="display: none;">
                                         <div class="card-body">
                                             <div class="table-responsive">
                                                 <table class="table table-striped" id="tblCategories">

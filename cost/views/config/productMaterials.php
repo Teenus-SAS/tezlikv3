@@ -178,7 +178,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pb-0">
                                         <form id="formAddMaterials">
                                             <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label categories" style="margin-bottom:20px">
                                                     <label>Categoria</label>
                                                     <select class="form-control material" name="categories" id="categories"></select>
                                                 </div>

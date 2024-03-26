@@ -107,14 +107,15 @@ class AssignableExpenseDao
         return array('averageExpense' => $averageExpense, 'assignableExpense' => $assignableExpense);
     }
 
-    public function insertAssignableExpense($idProduct, $assignableExpense)
+    public function insertAssignableExpense($idProduct, $id_company, $assignableExpense)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, assignable_expense) VALUES (:id_product, :assignable_expense)");
+            $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, assignable_expense) VALUES (:id_product, :id_company, :assignable_expense)");
             $stmt->execute([
                 'id_product' => $idProduct,
+                'id_company' => $id_company,
                 'assignable_expense' => $assignableExpense
             ]);
         } catch (\Exception $e) {

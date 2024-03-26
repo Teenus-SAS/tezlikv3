@@ -10,6 +10,7 @@ $(document).ready(function () {
 
     $('#newRefProduct').change(function (e) {
         e.preventDefault(); 
+        let id = this.value;
         
         $('#newNameProduct option').prop('selected', function () {
             return $(this).val() == id;
@@ -18,6 +19,7 @@ $(document).ready(function () {
 
     $('#newNameProduct').change(function (e) {
         e.preventDefault(); 
+        let id = this.value;
         
         $('#newRefProduct option').prop('selected', function () {
             return $(this).val() == id;
@@ -49,13 +51,9 @@ $(document).ready(function () {
         
         let dataExpense = $('#formNewProduct').serialize();
 
-        // let assignableExpense = $('#pAssignableExpense').val();
-
-        dataExpense = `${dataExpense}&assignableExpense=${assignableExpense}`;
-
         $.post('/api/saveNewProduct', dataExpense,
             function (data, textStatus, jqXHR) {
-                message(data);
+                messageDistribution(data, 1);
             },
         );
     });
