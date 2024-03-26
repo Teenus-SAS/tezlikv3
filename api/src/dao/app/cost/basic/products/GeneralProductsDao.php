@@ -216,4 +216,22 @@ class GeneralProductsDao
             return $error;
         }
     }
+
+    public function updateStatusNewProduct($id_product, $status)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products SET new_product = :new_product WHERE id_product = :id_product");
+            $stmt->execute([
+                'id_product' => $id_product,
+                'new_product' => $status
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
 }

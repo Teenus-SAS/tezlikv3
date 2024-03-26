@@ -11,14 +11,14 @@ $(document).ready(function () {
     let $select = $(`#product`);
     $select.empty();
 
-    let prod = data.sort(sortNameProduct);
+    let prod = sortFunction(data, 'product');
 
     $select.append(
       `<option value='0' disabled selected>Seleccionar</option>`
     );
     $.each(prod, function (i, value) {
       $select.append(
-        `<option value = ${value.id_product}> ${value.product} </option>`
+        `<option value ='${value.id_product}'> ${value.product} </option>`
       );
     });
   };

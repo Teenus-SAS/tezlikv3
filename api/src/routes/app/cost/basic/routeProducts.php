@@ -379,14 +379,15 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                                 }
                             }
                         } else {
-                            $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
+                            $generalProductsDao->updateStatusNewProduct($dataProduct['idProduct'], 1);
+                            // $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
 
-                            if (!$findExpenseDistribution)
-                                $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
-                            else {
-                                $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
-                                $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
-                            }
+                            // if (!$findExpenseDistribution)
+                            //     $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($arr, $id_company);
+                            // else {
+                            //     $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
+                            //     $resolution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
+                            // }
                         }
                     }
                 }

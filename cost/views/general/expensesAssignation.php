@@ -120,6 +120,9 @@ if (sizeof($_SESSION) == 0)
                                             <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
                                                 <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
                                             </div>
+                                            <div class="col-xs-2 mr-2 cardNewProducts" style="display:none">
+                                                <button class="btn btn-secondary" id="btnNewProducts">Nuevos Productos</button>
+                                            </div>
                                             <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
                                                 <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
                                             </div>
@@ -311,6 +314,47 @@ if (sizeof($_SESSION) == 0)
                                                         </div>
                                                         <div class="col-xs-2" style="margin-top:12px">
                                                             <button class="btn btn-primary" id="btnAssignExpenses">Asignar</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nuevos Productos -->
+                        <div class="page-content-wrapper mt--45 mb-5 cardNewProduct">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formNewProduct">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control" name="idProduct" id="newRefProduct"></select>
+                                                            <label for="newRefProduct">Referencia (Nuevo producto)</label>
+                                                        </div>
+                                                        <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control" name="newNameProduct" id="newNameProduct"></select>
+                                                            <label for="newNameProduct">Nombre Producto (Nuevo producto)</label>
+                                                        </div>
+                                                        <!-- <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control refProduct" name="refOldProduct" id="refOldProduct"></select>
+                                                            <label for="refOldProduct">Referencia (Creado)</label>
+                                                        </div> -->
+                                                        <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control selectNameProduct" name="oldNameProduct" id="oldNameProduct"></select>
+                                                            <label for="oldNameProduct">Nombre Producto (Creado)</label>
+                                                        </div>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
+                                                            <input type="text" class="form-control text-center" id="pAssignableExpense" name="pAssignableExpense" readonly>
+                                                            <label for="pAssignableExpense">Gasto Asignable</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="margin-top:12px">
+                                                            <button class="btn btn-primary" id="btnAddNewProduct">Asignar</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -535,6 +579,7 @@ if (sizeof($_SESSION) == 0)
                 <script src="/cost/js/general/expenseRecover/expenseRecover.js"></script>
                 <script src="/cost/js/general/expenseRecover/updateExpenses.js"></script>
                 <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
+                <script src="/cost/js/general/expensesDistribution/newProducts.js"></script>
                 <script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
                     <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>

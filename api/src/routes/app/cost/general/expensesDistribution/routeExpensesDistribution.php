@@ -385,6 +385,9 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
         $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
 
+        if ($dataExpensesDistribution['newProduct'] == 1)
+            $expensesDistribution = $generalProductsDao->updateStatusNewProduct($dataExpensesDistribution['selectNameProduct'], 0);
+
         if ($expensesDistribution == null) {
             $multiproducts = $multiproductsDao->findMultiproduct($dataExpensesDistribution['selectNameProduct']);
 
@@ -668,4 +671,30 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/saveNewProduct', function (Request $request, Response $response, $args) use (
+    $assignableExpenseDao,
+    $priceProductDao,
+    $generalProductsDao
+) {
+    $dataExpensesDistribution = $request->getParsedBody();
+
+    $expensesDistribution = $assignableExpenseDao->insertAssignableExpense($dataExpensesDistribution['idProduct'], $dataExpensesDistribution['assignableExpense']);
+
+    if ($expensesDistribution == null)
+        $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['idProduct']);
+
+    if (isset($expensesDistribution['totalPrice']))
+        $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['idProduct'], $expensesDistribution['totalPrice']);
+
+    if ($expensesDistribution == null)
+        $resp = array('success' => true, 'message' => 'Nuevo producto asignado correctamente');
+    else if (isset($expensesDistribution['info']))
+        $resp = array('info' => true, 'message' => $expensesDistribution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al guardar la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

@@ -13,11 +13,15 @@ $(document).ready(function () {
       $('.cardExpensesDistribution').hide();
       $('.cardExpenseRecover').hide();
       $('.cardImportExpenses').hide();
+      $('.cardNewProducts').hide();
+      $('.cardNewProduct').hide();
     } else if (this.id == 'distribution') {
       $('.cardExpenseDistribution').show();
+      $('.cardNewProducts').show();
       $('.cardExpenses').hide();
       $('.cardCreateExpenses').hide();
       $('.cardImportExpensesAssignation').hide();
+      $('.cardNewProduct').hide();
     }
 
     let tables = document.getElementsByClassName(
