@@ -66,22 +66,22 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateConsolidated">
                                             <div class="form-row">
                                                 <div class="col-md-3 mb-3">
-                                                    <label for="">Maquina</label>
+                                                    <label>Maquina</label>
                                                     <select class="form-control" id="idMachine" name="idMachine">
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2 mb-3">
-                                                    <label for="">Pedido</label>
+                                                    <label>Pedido</label>
                                                     <select class="form-control" id="order" name="order">
                                                     </select>
                                                 </div>
                                                 <div class="col-md-3 mb-3">
-                                                    <label for="">Producto</label>
+                                                    <label>Producto</label>
                                                     <select class="form-control" id="selectNameProduct" name="idProduct"></select>
                                                     <select class="form-control" id="refProduct" style="display:none"></select>
                                                 </div>
                                                 <div class="col-md-2 mb-3">
-                                                    <label for="">Cantidad</label>
+                                                    <label>Cantidad</label>
                                                     <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                                 </div>
                                                 <button class="btn btn-info" type="submit" id="btnCreateConsolidated" name="btnCreateConsolidated" style="width: 100px;height:50%; margin-top: 34px; margin-left: 20px">Crear</button>
@@ -133,7 +133,7 @@ if (sizeof($_SESSION) == 0)
                                             <h5 class="card-title">Consolidado</h5>
                                         </div>
                                         <div class="col-lg-2 form-group floating-label enable-floating-label show-label">
-                                            <label for="">Numero De Semanas</label>
+                                            <label>Numero De Semanas</label>
                                             <input type="number" class="form-control text-center" id="numWeek" name="numWeek">
                                         </div>
                                         <div class="col-lg-2 form-group floating-label enable-floating-label show-label">

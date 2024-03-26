@@ -130,7 +130,7 @@ if (sizeof($_SESSION) == 0)
                                         <h5 class="col-sm-10 card-title">Punto de Equilibrio</h5>
                                         <div class="col-sm-2 floating-label enable-floating-label show-label form-inline justify-content-sm-end cardExpenseAssignation" style="display: none;">
                                             <input type="number" class="form-control text-center" id="expenseAssignation">
-                                            <label for="">Asignar Gastos</label>
+                                            <label>Asignar Gastos</label>
                                         </div>
                                     </div>
                                     <div class="card-body">

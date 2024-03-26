@@ -516,11 +516,11 @@ $(document).ready(function () {
     form.insertAdjacentHTML(
       'beforeend',
       `<div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Servicio</label>
+            <label>Servicio</label>
             <input type="text" class="form-control data" id="name_service">
         </div>
         <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Costo</label>
+            <label>Costo</label>
             <input type="number" class="form-control data" id="cost">
         </div>
         <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
@@ -780,11 +780,11 @@ $(document).ready(function () {
       form.insertAdjacentHTML(
         'beforeend',
         `<div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Und Vendidas (Mes)</label>
+            <label>Und Vendidas (Mes)</label>
             <input type="number" class="form-control data" id="units_sold">
         </div>
         <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Total Ventas (Mes)</label>
+            <label>Total Ventas (Mes)</label>
             <input type="number" class="form-control data" id="turnover">
         </div>
         <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">
@@ -888,13 +888,13 @@ $(document).ready(function () {
       form.insertAdjacentHTML(
         'beforeend',
         ` <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Producto</label>
+            <label>Producto</label>
             <select class="form-control data">
               <option selected value="${dataSimulator.products[0].id_product}"> ${dataSimulator.products[0].product}</option>
             </select>
           </div>
           <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Familia</label>
+            <label>Familia</label>
             <select id="id_family" class="form-control data">
               <option disabled selected>Seleccionar</option>
               ${options}
@@ -991,7 +991,7 @@ $(document).ready(function () {
       form.insertAdjacentHTML(
         'beforeend',
         `<div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-            <label for="">Porcentaje</label>
+            <label>Porcentaje</label>
             <input type="number" class="form-control data" id="expense_recover">
         </div>
         <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">

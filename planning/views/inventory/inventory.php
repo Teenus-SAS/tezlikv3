@@ -67,7 +67,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <div class="form-row">
                                                 <div class="col-md-3" style="margin-bottom:0px">
-                                                    <label for="">Meses a Analizar:</label>
+                                                    <label>Meses a Analizar:</label>
                                                     <input type="number" class="form-control text-center" id="cantMonths" name="cantMonths" style="width:200px">
                                                 </div>
                                                 <div class="col" style="margin-bottom:0px;margin-top:33px">

@@ -75,8 +75,8 @@ if (sizeof($_SESSION) == 0)
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="gridx2">
-                                            <label for="">Referencia</label>
-                                            <label for="">Producto</label>
+                                            <label>Referencia</label>
+                                            <label>Producto</label>
                                             <select class="form-control" name="refProduct" id="refProduct"></select>
                                             <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
                                         </div>
@@ -96,7 +96,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <div class="gridx2p">
                                                 <div class="form-group" style="margin-bottom:0px">
-                                                    <label for="">Producto En Proceso</label>
+                                                    <label>Producto En Proceso</label>
                                                     <select class="form-control" name="idProduct" id="product"></select>
                                                 </div>
                                                 <div class="form-group" style="margin-bottom:0px;margin-top:33px">
@@ -119,10 +119,10 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formAddMaterials">
                                             <div class="gridx4pm">
-                                                <label for="">Materia Prima</label>
-                                                <label for="">Cantidad</label>
-                                                <label for="">Unidad</label>
-                                                <label for=""></label>
+                                                <label>Materia Prima</label>
+                                                <label>Cantidad</label>
+                                                <label>Unidad</label>
+                                                <label></label>
                                                 <select class="form-control" name="material" id="material"></select>
                                                 <input class="form-control text-center number" type="text" name="quantity" id="quantity">
                                                 <input class="form-control text-center" type="text" name="unity" id="unity" disabled>

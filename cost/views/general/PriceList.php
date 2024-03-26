@@ -95,7 +95,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <div class="form-row">
                                                 <div class="col-sm-10 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label for="">Nombre</label>
+                                                    <label>Nombre</label>
                                                     <input type="text" class="form-control" id="priceName" name="priceName">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:4px">

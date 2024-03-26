@@ -98,7 +98,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-group m-0">
-                                                        <label for="">Tipo de Plan</label>
+                                                        <label>Tipo de Plan</label>
                                                         <select name="plan" id="plan" class="form-control">
                                                             <option disabled="" selected="">Seleccionar</option>
                                                             <option value="1"> Premium </option>
@@ -112,7 +112,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="row mt-4">
                                                 <div class="col-sm-2">
                                                     <div class="form-group m-0">
-                                                        <label for="">Precios USD</label>
+                                                        <label>Precios USD</label>
                                                         <select name="pricesUSD" id="pricesUSD" class="form-control">
                                                             <option selected="" disabled="" value="0">Seleccionar</option>
                                                             <option value="1">Si</option>
@@ -121,23 +121,23 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label for="">Procesos Nomina</label><br>
+                                                    <label>Procesos Nomina</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="payrollEmployee" id="payrollEmployee">
                                                 </div>
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label for="">Productos Compuestos</label><br>
+                                                    <label>Productos Compuestos</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="compositeProducts" id="compositeProducts">
                                                 </div>
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label for="">Historico</label><br>
+                                                    <label>Historico</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="historical" id="historical">
                                                 </div>
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label for="">Materiales</label><br>
+                                                    <label>Materiales</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="indirect" id="indirect">
                                                 </div>
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label for="">Inyección</label><br>
+                                                    <label>Inyección</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="inyection" id="inyection">
                                                 </div>
                                                 <div class="col-xs">

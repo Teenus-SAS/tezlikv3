@@ -15,7 +15,7 @@
                                 <form id="formCreatePayroll">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Descripción</b></label>
+                                            <label><b>Descripción</b></label>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -35,7 +35,7 @@
                                         <?php if ($_SESSION['type_payroll'] == '1') { ?>
 
                                             <div class="col-12 col-lg-12 titlePayroll">
-                                                <label for=""><b>Devengado</b></label>
+                                                <label><b>Devengado</b></label>
                                             </div>
 
                                             <div class="col-12 col-lg-4">
@@ -79,7 +79,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12 titlePayroll">
-                                                <label for=""><b>Jornada</b></label>
+                                                <label><b>Jornada</b></label>
                                             </div>
 
                                             <div class="col-12 col-lg-4">
@@ -99,7 +99,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12 titlePayroll">
-                                                <label for=""><b>Nivel de Riesgo</b></label>
+                                                <label><b>Nivel de Riesgo</b></label>
                                             </div>
 
                                             <div class="col-12 col-lg-4">
@@ -119,7 +119,7 @@
                                             </div>
 
                                             <div class="col-12 col-lg-12 titlePayroll">
-                                                <label for=""><b>Factor Prestacional</b></label>
+                                                <label><b>Factor Prestacional</b></label>
                                             </div>
 
                                             <div class="col-12 col-lg-4">

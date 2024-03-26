@@ -156,11 +156,11 @@ if (sizeof($_SESSION) == 0)
                                                 <form id="formCreateExpenses">
                                                     <div class="form-row">
                                                         <div class="col-sm-6 floating-label enable-floating-label show-label">
-                                                            <label for="">Cuenta</label>
+                                                            <label>Cuenta</label>
                                                             <select class="form-control" name="idPuc" id="idPuc"></select>
                                                         </div>
                                                         <div class="col-xs-3 floating-label enable-floating-label show-label">
-                                                            <label for="">Valor</label>
+                                                            <label>Valor</label>
                                                             <input type="number" class="form-control text-center" id="expenseValue" name="expenseValue">
                                                         </div>
                                                         <div class="col-xs-2 mt-1">
@@ -270,7 +270,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body">
                                                 <div class="form-row">
                                                     <div class="col-sm-3">
-                                                        <label for="">Gastos a distribuir</label>
+                                                        <label>Gastos a distribuir</label>
                                                     </div>
                                                     <div class="col-sm-4">
                                                         <input type="text" class="form-control text-center" id="expensesToDistribution" name="assignableExpense" style="width: 200px;">

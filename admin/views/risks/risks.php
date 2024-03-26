@@ -62,13 +62,13 @@ if (sizeof($_SESSION) == 0)
                                             <div class="row align-items-center">
                                                 <div class="col-sm-6">
                                                     <div class="form-group m-0">
-                                                        <label for="">Riesgo</label>
+                                                        <label>Riesgo</label>
                                                         <select name="idRisk" id="risk" class="form-control"></select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-2">
                                                     <div class="form-group m-0">
-                                                        <label for="">Porcentaje</label>
+                                                        <label>Porcentaje</label>
                                                         <input type="number" class="form-control text-center" name="percentage" id="percentage">
                                                     </div>
                                                 </div>

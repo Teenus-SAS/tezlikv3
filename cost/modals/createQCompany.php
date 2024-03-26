@@ -15,7 +15,7 @@
                                 <form id="formCreateQCompany">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Descripción</b></label>
+                                            <label><b>Descripción</b></label>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -33,7 +33,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Datos</b></label>
+                                            <label><b>Datos</b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-4">
@@ -61,7 +61,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Logo</b></label>
+                                            <label><b>Logo</b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-12 text-center">

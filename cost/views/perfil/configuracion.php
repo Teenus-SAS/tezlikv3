@@ -70,16 +70,16 @@ if (sizeof($_SESSION) == 0)
                     </div> -->
                                 <div class="card-body">
                                     <div class="gridx5M">
-                                        <label for="">Empresa</label>
-                                        <label for="">NIT</label>
-                                        <label for=""></label>
-                                        <label for="">Versión</label>
-                                        <label for="">Plan Actual</label>
+                                        <label>Empresa</label>
+                                        <label>NIT</label>
+                                        <label></label>
+                                        <label>Versión</label>
+                                        <label>Plan Actual</label>
 
-                                        <label for=""><b>Teenus</b></label>
-                                        <label for="">900.725.888-1</label>
-                                        <label for=""><img src="../app/assets/images/logo/logo-teenus.png" alt="Logo teenus" width="90%"></label>
-                                        <label for="">2.0.15</label>
+                                        <label><b>Teenus</b></label>
+                                        <label>900.725.888-1</label>
+                                        <label><img src="../app/assets/images/logo/logo-teenus.png" alt="Logo teenus" width="90%"></label>
+                                        <label>2.0.15</label>
                                         <h4 style="color: whitesmoke;"><span class="badge bg-primary">TEZLIK PREMIUM</span></h4>
                                     </div>
                                 </div>

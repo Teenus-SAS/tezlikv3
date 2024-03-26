@@ -72,7 +72,7 @@
               <!-- <p class="text-muted mb-4">Login</p> -->
               <form id="loginForm" name="loginForm" novalidate>
                 <div class="form-group floating-label">
-                  <input type="email" class="form-control" name="validation-email" id="email" />
+                  <input type="email" class="form-control" name="validation-email" id="email" autocomplete="off" />
                   <label for="email">Email</label>
                   <div class="validation-error d-none font-size-13">
                     <p>Ingrese una dirección de correo electronico valida</p>

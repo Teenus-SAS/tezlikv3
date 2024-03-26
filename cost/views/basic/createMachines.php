@@ -99,40 +99,40 @@ if (sizeof($_SESSION) == 0)
                                             <div class="form-row">
                                                 <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" name="machine" id="machine">
-                                                    <label for="">Nombre</label>
+                                                    <label>Nombre</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="number" class="form-control text-center" name="cost" id="costMachine" data-toggle="tooltip" title="Ingrese el precio de compra">
-                                                    <label for="">Precio</label>
+                                                    <label>Precio</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="number" class="form-control text-center" name="residualValue" id="residualValue" data-toggle="tooltip" title="Ingrese el valor que podria vender la máquina al finalizar su vida util, si aplica">
-                                                    <label for="">Valor Residual</label>
+                                                    <label>Valor Residual</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="number" class="form-control text-center" name="depreciationYears" id="depreciationYears">
-                                                    <label for="">Años Depreciación</label>
+                                                    <label>Años Depreciación</label>
                                                 </div>
                                             </div>
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="number" class="form-control text-center" name="hoursMachine" id="hoursMachine">
-                                                    <label for="">Horas de Trabajo (día)</label>
+                                                    <label>Horas de Trabajo (día)</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <input type="number" class="form-control text-center" name="daysMachine" id="daysMachine">
-                                                    <label for="">Dias de Trabajo (Mes)</label>
+                                                    <label>Dias de Trabajo (Mes)</label>
                                                 </div>
 
                                                 <?php if ($_SESSION['inyection'] == 1) {
                                                 ?>
                                                     <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                         <input type="number" class="form-control text-center" name="ciclesMachine" id="ciclesMachine">
-                                                        <label for="">Ciclos Maquina</label>
+                                                        <label>Ciclos Maquina</label>
                                                     </div>
                                                     <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                         <input type="number" class="form-control text-center" name="cavities" id="cavities">
-                                                        <label for="">No Cavidades</label>
+                                                        <label>No Cavidades</label>
                                                     </div>
                                                 <?php }
                                                 ?>

@@ -33,8 +33,8 @@ $userinactivetimeDao->findSession();
                 <div class="card">
                     <div class="card-body">
                         <div class="gridx2">
-                            <label for="">Referencia</label>
-                            <label for="">Producto</label>
+                            <label>Referencia</label>
+                            <label>Producto</label>
                             <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                             <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                         </div>

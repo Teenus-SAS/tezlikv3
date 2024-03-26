@@ -1,5 +1,5 @@
 <div class="modal fade" id="createInactivesProducts" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Productos Inactivos</h5>
@@ -19,7 +19,6 @@
                                                 <th>No</th>
                                                 <th>Referencia</th>
                                                 <th>Producto</th>
-                                                <th>Activar</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
