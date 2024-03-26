@@ -148,21 +148,21 @@ if (sizeof($_SESSION) == 0)
                                                     <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
                                                     <label for="">Nombre Materia Prima</label>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0">
                                                     <select class="form-control" id="idCategory" name="idCategory"></select>
                                                     <label for="">Categoria</label>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0">
                                                     <select class="form-control" id="magnitudes" name="magnitude"></select>
                                                     <label for="">Magnitud</label>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0">
                                                     <select class="form-control" id="units" name="unit">
                                                         <option disabled selected>Seleccionar</option>
                                                     </select>
                                                     <label for="">Unidad</label>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
                                                     <input type="number" class="form-control text-center" step="any" id="costRawMaterial" name="costRawMaterial">
                                                     <label for="">Costo</label>
                                                 </div>
