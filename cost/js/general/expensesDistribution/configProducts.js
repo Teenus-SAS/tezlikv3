@@ -8,10 +8,8 @@ $(document).ready(function () {
           r = r.filter(item => item.composite == 0);
 
         // distribuir gastos que no esten asignados
-        let data = r.filter(item => item.status != 0);
+        let data = r.filter(item => item.status == 0);
         
-        sessionStorage.setItem('dataProducts', JSON.stringify(data));
-
         let $select = $(`.refProduct`);
         $select.empty();
 
@@ -41,8 +39,28 @@ $(document).ready(function () {
           );
         });
 
+        /* Productos creados */
+        data = r.filter(item => item.status != 0 && item.units_sold > 0 && item.turnover > 0);
+        sessionStorage.setItem('dataProducts', JSON.stringify(data));
+        
+        $select = $(`#oldNameProduct`);
+        $select.empty();
+
+        // let ref = r.sort(sortReference);
+        prod = sortFunction(data, 'product');
+        
+        $select.append(
+          `<option value='0' disabled selected>Seleccionar</option>`
+        );
+        $.each(prod, function (i, value) {
+          $select.append(
+            `<option value =${value.id_product}> ${value.product} </option>`
+          );
+        });
+
         // filtrar a productos nuevos
-        let new_product = r.filter(item => item.new_product == 1 && item.units_sold == 0 && item.turnover == 0);
+        let new_product = r.filter(item => item.status == 0 && item.new_product == 1
+          && item.units_sold == 0 && item.turnover == 0);
  
         $select = $(`#newRefProduct`);
         $select.empty();

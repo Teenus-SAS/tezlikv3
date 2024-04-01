@@ -194,13 +194,15 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                     //ULTIMO REGISTRO DE ID, EL MÁS ALTO
                     $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
-                    $generalProductsDao->updateStatusNewProduct($lastProductId['id_product'], 1);
                     if (sizeof($_FILES) > 0)
                         $FilesDao->imageProduct($lastProductId['id_product'], $id_company);
 
                     //AGREGA ULTIMO ID A DATA
                     $dataProduct['idProduct'] = $lastProductId['id_product'];
                     $productsCost = $productsCostDao->insertProductsCostByCompany($dataProduct, $id_company);
+
+                    // 
+                    // $generalProductsDao->updateStatusNewProduct($lastProductId['id_product'], 1);
                 }
 
                 if ($products == null &&  $productsCost == null)
@@ -352,7 +354,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                     $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct['idOldProduct'], $id_company);
                     $arr = array();
 
-                    $generalProductsDao->updateStatusNewProduct($dataProduct['idProduct'], 1);
+                    // $generalProductsDao->updateStatusNewProduct($dataProduct['idProduct'], 1);
 
                     if ($oldProduct != false) {
                         $arr['selectNameProduct'] = $dataProduct['idProduct'];
