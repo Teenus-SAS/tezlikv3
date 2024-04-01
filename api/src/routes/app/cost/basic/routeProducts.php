@@ -352,6 +352,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                     $oldProduct = $generalExpenseDistributionDao->findExpenseDistributionByIdProduct($dataProduct['idOldProduct'], $id_company);
                     $arr = array();
 
+                    $generalProductsDao->updateStatusNewProduct($dataProduct['idProduct'], 1);
+
                     if ($oldProduct != false) {
                         $arr['selectNameProduct'] = $dataProduct['idProduct'];
                         $arr['idFamily'] = $dataProduct['idFamily'];
@@ -380,7 +382,6 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                                 }
                             }
                         } else {
-                            $generalProductsDao->updateStatusNewProduct($dataProduct['idProduct'], 1);
                             // $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($arr, $id_company);
 
                             // if (!$findExpenseDistribution)

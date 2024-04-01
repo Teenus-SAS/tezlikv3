@@ -42,7 +42,7 @@ $(document).ready(function () {
         });
 
         // filtrar a productos nuevos
-        let new_product = r.filter(item => item.new_product == 1 && item.units_sold > 0 && item.turnover > 0);
+        let new_product = r.filter(item => item.new_product == 1 && item.units_sold == 0 && item.turnover == 0);
  
         $select = $(`#newRefProduct`);
         $select.empty();
