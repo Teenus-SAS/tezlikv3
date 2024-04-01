@@ -49,7 +49,7 @@ class GeneralMaterialsDao
             'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
             'id_company' => $id_company,
         ]);
-        $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $materials = $stmt->fetch($connection::FETCH_ASSOC);
         return $materials;
     }
 
@@ -65,7 +65,7 @@ class GeneralMaterialsDao
             'material' => strtoupper(trim($dataMaterial['nameRawMaterial'])),
             'id_company' => $id_company,
         ]);
-        $findMaterial = $stmt->fetch($connection::FETCH_ASSOC);
+        $findMaterial = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $findMaterial;
     }
 

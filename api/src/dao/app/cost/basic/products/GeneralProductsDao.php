@@ -63,7 +63,7 @@ class GeneralProductsDao
             'product' => strtoupper(trim($dataProduct['product'])),
             'id_company' => $id_company
         ]);
-        $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
+        $findProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $findProduct;
     }
 
