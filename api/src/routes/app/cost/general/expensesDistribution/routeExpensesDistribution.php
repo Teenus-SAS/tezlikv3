@@ -385,8 +385,8 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
         $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
 
-        if ($dataExpensesDistribution['newProduct'] == 1)
-            $expensesDistribution = $generalProductsDao->updateStatusNewProduct($dataExpensesDistribution['selectNameProduct'], 0);
+        // if ($dataExpensesDistribution['newProduct'] == 1)
+        //     $expensesDistribution = $generalProductsDao->updateStatusNewProduct($dataExpensesDistribution['selectNameProduct'], 0);
 
         if ($expensesDistribution == null) {
             $multiproducts = $multiproductsDao->findMultiproduct($dataExpensesDistribution['selectNameProduct']);
@@ -550,6 +550,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     $dataExpensesDistribution = $request->getParsedBody();
 
     $expensesDistribution = $expensesDistributionDao->deleteExpensesDistribution($dataExpensesDistribution);
+
     // Calcular gasto asignable
     if ($expensesDistribution == null) {
         // Consulta unidades vendidades y volumenes de venta por producto

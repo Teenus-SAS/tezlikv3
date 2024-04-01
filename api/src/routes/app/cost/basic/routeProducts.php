@@ -194,6 +194,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
                     //ULTIMO REGISTRO DE ID, EL MÁS ALTO
                     $lastProductId = $lastDataDao->lastInsertedProductId($id_company);
 
+                    $generalProductsDao->updateStatusNewProduct($lastProductId['id_product'], 1);
                     if (sizeof($_FILES) > 0)
                         $FilesDao->imageProduct($lastProductId['id_product'], $id_company);
 

@@ -24,7 +24,7 @@ class GeneralExpenseDistributionDao
         //                               AND p.id_product NOT IN (SELECT id_product FROM expenses_distribution WHERE id_product = p.id_product)
         //                               AND p.active = 1");
         $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.composite, IFNULL(ed.id_expenses_distribution, 0) AS status, pc.new_product,
-                                             IFNULL(ed.assignable_expense, 0) AS assignable_expense
+                                             IFNULL(ed.assignable_expense, 0) AS assignable_expense, IFNULL(ed.units_sold, 0) AS units_sold, IFNULL(ed.turnover, 0) AS turnover,
                                       FROM products p
                                         LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = p.id_product

@@ -4,6 +4,8 @@ $(document).ready(function () {
     $('#btnNewProducts').click(function (e) { 
         e.preventDefault();
         
+        $('.cardImportExpenses').hide(800);
+        $('.cardExpensesDistribution').hide(800); 
         $('.cardNewProduct').show(800);
         $('#formNewProduct').trigger('reset');
     });

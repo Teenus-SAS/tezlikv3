@@ -15,6 +15,7 @@ $(document).ready(function () {
     $(`.refProduct option[value='0']`).prop('selected', true);
 
     $('.cardImportExpenses').hide(800);
+    $('.cardNewProduct').hide(800);
     $('.cardExpenseRecover').hide(800);
     $('.cardAddNewFamily').hide(800);
     $('.cardAddProductFamily').hide(800);

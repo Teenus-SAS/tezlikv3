@@ -8,7 +8,7 @@ $(document).ready(function () {
           r = r.filter(item => item.composite == 0);
 
         // distribuir gastos que no esten asignados
-        let data = r.filter(item => item.status != 0 && item.new_product == 0);
+        let data = r.filter(item => item.status != 0);
         
         sessionStorage.setItem('dataProducts', JSON.stringify(data));
 
@@ -42,7 +42,7 @@ $(document).ready(function () {
         });
 
         // filtrar a productos nuevos
-        let new_product = r.filter(item => item.new_product == 1);
+        let new_product = r.filter(item => item.new_product == 1 && item.units_sold > 0 && item.turnover > 0);
  
         $select = $(`#newRefProduct`);
         $select.empty();
