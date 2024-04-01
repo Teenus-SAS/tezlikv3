@@ -6,7 +6,7 @@ $(document).ready(function () {
         
         $('.cardImportExpenses').hide(800);
         $('.cardExpensesDistribution').hide(800); 
-        $('.cardNewProduct').show(800);
+        $('.cardNewProduct').toggle(800);
         $('#formNewProduct').trigger('reset');
     });
 
