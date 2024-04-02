@@ -5,10 +5,10 @@ $(document).ready(function () {
       success: function (r) {
         // Si el acceso de producto compuesto esta activo filtrar y no mostrar los productos compuestos
         if (flag_composite_product === '1')
-          r = r.filter(item => item.composite == 0);
+          r = r.filter(item => parseInt(item.composite) == 0);
 
         // distribuir gastos que no esten asignados
-        let data = r.filter(item => item.status == 0);
+        let data = r.filter(item => parseInt(item.status) == 0);
         
         let $select = $(`.refProduct`);
         $select.empty();
@@ -40,7 +40,7 @@ $(document).ready(function () {
         });
 
         /* Productos creados */
-        data = r.filter(item => item.status != 0 && item.units_sold > 0 && item.turnover > 0);
+        data = r.filter(item => parseInt(item.status) != 0 && parseInt(item.units_sold) > 0 && parseInt(item.turnover) > 0);
         sessionStorage.setItem('dataProducts', JSON.stringify(data));
         
         $select = $(`#oldNameProduct`);
@@ -59,8 +59,8 @@ $(document).ready(function () {
         });
 
         // filtrar a productos nuevos
-        let new_product = r.filter(item => item.status == 0 && item.new_product == 1
-          && item.units_sold == 0 && item.turnover == 0);
+        let new_product = r.filter(item => parseInt(item.status) == 0 && parseInt(item.new_product) == 1
+          && parseInt(item.units_sold) == 0 && parseInt(item.turnover) == 0);
  
         $select = $(`#newRefProduct`);
         $select.empty();

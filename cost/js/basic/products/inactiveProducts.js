@@ -1,6 +1,4 @@
 $(document).ready(function () {
-  let inactiveProducts = [];
-
   /* Inactivar productos */
   $(document).on("click", ".checkboxProduct", function () {
     let idProduct = this.id;
@@ -20,18 +18,26 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) {
-          $.ajax({
-            url: `/api/inactiveProducts/${idProduct}`,
-            success: function (data) {
-              message(data);
-            },
-          });
+          changeStatusProduct(idProduct, 0);
         } else {
           $(".checkboxProduct").prop("checked", true);
         }
       },
     });
   });
+
+  changeStatusProduct = (id, op) => {
+    $.ajax({
+      url: `/api/changeActiveProduct/${id}/${op}`,
+      success: function (data) {
+        if (data.success == true) {
+          toastr.success(data.message);
+          loadAllData();
+        } else if (data.error == true) toastr.error(data.message);
+        else if (data.info == true) toastr.info(data.message);
+      },
+    });
+  };
 
   /* Ocultar modal productos inactivos */
   $("#btnCloseInactivesProducts").click(function (e) {
@@ -63,8 +69,8 @@ $(document).ready(function () {
     setTblInactivesProducts();
   });
 
-  setTblInactivesProducts = async () => {
-    // let data = await searchData('/api/inactivesProducts');
+  // Construir tabla con productos inactivos
+  setTblInactivesProducts = async () => { 
     let data = dataInactiveProducts;
 
     let tblInactiveProductsBody = document.getElementById(
@@ -116,32 +122,36 @@ $(document).ready(function () {
   };
 
   /* Guardar productos a activar */
-  $(document).on("click", ".checkInactiveProduct", function () {
+  $(document).on("click", ".checkInactiveProduct", async function () {
     let id = this.id;
     let idProduct = id.slice(8, id.length);
+    
+    await changeStatusProduct(idProduct, 1);
+    
+    $(this).closest("tr").remove();
+    // if (this.className.includes('badge-success')) {
+    // let planeacion = {
+    //     idProduct: idProduct,
+    //   };
 
-    if (this.className.includes('badge-success')) {
-      let planeacion = {
-        idProduct: idProduct,
-      };
+    //   inactiveProducts.push(planeacion);
 
-      inactiveProducts.push(planeacion);
+    //   this.className = 'badge badge-warning checkInactiveProduct';
+    //   this.text = 'Inactivar';
+    // }
+    // else {
+    //   for (i = 0; i < inactiveProducts.length; i++) {
+    //     if (inactiveProducts[i].idProduct == idProduct) {
+    //       inactiveProducts.splice(i, 1);
+    //     }
+    //   }
 
-      this.className = 'badge badge-warning checkInactiveProduct';
-      this.text = 'Inactivar';
-    } else {
-      for (i = 0; i < inactiveProducts.length; i++) {
-        if (inactiveProducts[i].idProduct == idProduct) {
-          inactiveProducts.splice(i, 1);
-        }
-      }
-
-      this.className = 'badge badge-success checkInactiveProduct';
-      this.text = 'Activar';
-    }
+    //   this.className = 'badge badge-success checkInactiveProduct';
+    //   this.text = 'Activar';
+    // }
   });
 
-  /* Activar productos  */
+  /* Activar productos  
   $("#btnActivesProducts").click(function (e) {
     e.preventDefault();
     if (inactiveProducts.length == 0) {
@@ -159,5 +169,5 @@ $(document).ready(function () {
         message(data);
       },
     });
-  });
+  }); */
 });
