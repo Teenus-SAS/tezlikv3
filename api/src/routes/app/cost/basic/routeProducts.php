@@ -755,8 +755,8 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-/* Inactivar Producto */
-$app->get('/inactiveProducts/{id_product}', function (Request $request, Response $response, $args) use (
+/* Activar o Inactivar Producto */
+$app->get('/changeActiveProduct/{id_product}/{op}', function (Request $request, Response $response, $args) use (
     $generalProductsDao,
     $assignableExpenseDao,
     $familiesDao
@@ -765,7 +765,7 @@ $app->get('/inactiveProducts/{id_product}', function (Request $request, Response
     $id_company = $_SESSION['id_company'];
     $flag = $_SESSION['flag_expense_distribution'];
 
-    $product = $generalProductsDao->activeOrInactiveProducts($args['id_product'], 0);
+    $product = $generalProductsDao->activeOrInactiveProducts($args['id_product'], $args['op']);
 
     if ($product == null) {
         // Obtener el total de gastos
@@ -820,9 +820,11 @@ $app->get('/inactiveProducts/{id_product}', function (Request $request, Response
         }
     }
 
-    if ($product == null)
-        $resp = array('success' => true, 'message' => 'Producto inactivado correctamente');
-    else if (isset($products['info']))
+    if ($product == null) {
+        $args['op'] == '0' ? $msg = 'inactivado' : $msg = 'activado';
+
+        $resp = array('success' => true, 'message' => "Producto $msg correctamente");
+    } else if (isset($products['info']))
         $resp = array('info' => true, 'message' => $products['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');

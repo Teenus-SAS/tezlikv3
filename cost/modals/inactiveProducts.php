@@ -32,7 +32,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCloseInactivesProducts">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="btnActivesProducts">Activar</button>
+                <!-- <button type="button" class="btn btn-primary" id="btnActivesProducts">Activar</button> -->
             </div>
         </div>
     </div>
