@@ -194,7 +194,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
 
                             <div class="row col-12 cardGraphicMultiproducts" style="display:none;">
-                                <div class="card col-sm-8">
+                                <div class="card col-xs-8 mr-3">
                                     <div class="card-header dflex-between-center">
                                         <h5 class="card-title">Unidades Vendidas por producto</h5>
                                     </div>
@@ -205,7 +205,7 @@ if (sizeof($_SESSION) == 0)
 
                                 <div class="card col-sm-4">
                                     <div class="card-header dflex-between-center">
-                                        <h5 class="card-title">Total Unidades</h5>
+                                        <h5 class="card-title">Cumplimiento</h5>
                                     </div>
                                     <div class="card-body pt-2">
                                         <div class="chart-container">
