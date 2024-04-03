@@ -52,10 +52,18 @@ $(document).ready(function () {
     // data = await searchData(`/api/calcEconomyScale/${id}`);
     let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0];
     
-    typePrice.id === 'sugered' ? price = Math.ceil(data.price) : price = Math.ceil(data.sale_price);
+    if (typePrice.id === 'sugered') {
+      price = Math.ceil(data.price);
+      sessionStorage.setItem('flag_type_price', 1);
+    } else {
+      price = Math.ceil(data.sale_price);
+      sessionStorage.setItem('flag_type_price', 2);
+    }
     $('#labelDescription').html(` Descripción (${typePrice.id == 'actual' ? 'Precio Actual' : 'Precio Sugerido'}) `);
     
     if (price == 0 || !price) {
+      // let session_flag = sessionStorage.getItem('flag_type_price');
+
       if (typePrice.id == 'sugered') {
         $('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
@@ -63,6 +71,7 @@ $(document).ready(function () {
           "btn btn-sm btn-primary typePrice cardBottons";
         document.getElementById("sugered").className =
           "btn btn-sm btn-outline-primary typePrice cardBottons";
+        
         price = Math.ceil(data.sale_price);
       } else {
         $('#labelDescription').html(`Descripción (Precio Actual)`);
@@ -70,7 +79,8 @@ $(document).ready(function () {
         document.getElementById("sugered").className =
           "btn btn-sm btn-primary typePrice cardBottons";
         document.getElementById("actual").className =
-          "btn btn-sm btn-outline-primary typePrice cardBottons";
+          "btn btn-sm btn-outline-primary typePrice cardBottons"; 
+        
         price = Math.ceil(data.price)
       }
       

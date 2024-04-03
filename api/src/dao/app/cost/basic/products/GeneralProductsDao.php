@@ -39,8 +39,7 @@ class GeneralProductsDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT * FROM products
-                                  WHERE reference = :reference
-                                  AND product = :product 
+                                  WHERE (reference = :reference AND product = :product) 
                                   AND id_company = :id_company");
         $stmt->execute([
             'reference' => trim($dataProduct['referenceProduct']),
@@ -63,7 +62,7 @@ class GeneralProductsDao
             'product' => strtoupper(trim($dataProduct['product'])),
             'id_company' => $id_company
         ]);
-        $findProduct = $stmt->fetch($connection::FETCH_ASSOC);
+        $findProduct = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $findProduct;
     }
 
@@ -208,6 +207,24 @@ class GeneralProductsDao
             $stmt->execute([
                 'id_product' => $id_product,
                 'composite' => $composite
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updateStatusNewProduct($id_product, $status)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE products_costs SET new_product = :new_product WHERE id_product = :id_product");
+            $stmt->execute([
+                'id_product' => $id_product,
+                'new_product' => $status
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

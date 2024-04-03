@@ -75,12 +75,12 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formAddProcess">
                                             <div class="gridx6pp">
-                                                <label for="">Proceso</label>
-                                                <label for="">Maquina</label>
-                                                <label for="" class="text-center">t.alistamiento (min)</label>
-                                                <label for="" class="text-center">t.operacion (min)</label>
-                                                <label for="" class="text-center">t.total (min)</label>
-                                                <label for=""></label>
+                                                <label>Proceso</label>
+                                                <label>Maquina</label>
+                                                <label class="text-center">t.alistamiento (min)</label>
+                                                <label class="text-center">t.operacion (min)</label>
+                                                <label class="text-center">t.total (min)</label>
+                                                <label></label>
                                                 <select class="form-control" name="idProcess" id="idProcess"></select>
                                                 <select class="form-control" name="idMachine" id="idMachine"></select>
                                                 <input class="form-control text-center" type="text" name="enlistmentTime" id="enlistmentTime">

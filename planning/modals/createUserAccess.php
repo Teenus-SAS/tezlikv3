@@ -13,7 +13,7 @@
                                 <form id="formCreateUser">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Usuario</b></label>
+                                            <label><b>Usuario</b></label>
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -38,10 +38,10 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Accesos De Usuario</b></label>
+                                            <label><b>Accesos De Usuario</b></label>
                                         </div>
                                         <div class="col-12 col-lg-12">
-                                            <label for=""><b>Menú Configuración:</b></label>
+                                            <label><b>Menú Configuración:</b></label>
                                         </div>
 
                                         <div class="row mb-4" style="margin:auto;">
@@ -150,7 +150,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12">
-                                            <label for=""><b>Menú Navegación:</b></label>
+                                            <label><b>Menú Navegación:</b></label>
                                         </div>
                                         <div class="row" style="margin:auto;">
                                             <!-- <div class="col">

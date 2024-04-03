@@ -113,7 +113,8 @@ $(document).ready(function () {
           data: 'id_product',
           className: 'uniqueClassName',
           render: function (data) {
-            return ` <input type="checkbox" class="form-control-updated checkboxProduct" id="${data}" checked>`;
+            // return ` <input type="checkbox" class="form-control-updated checkboxProduct" id="${data}" checked>`;
+            return `<a href="javascript:;" <span id="${data}" class="badge badge-warning checkboxProduct">Inactivar</span></a>`;
           },
         },
         {

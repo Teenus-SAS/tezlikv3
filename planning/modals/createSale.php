@@ -13,7 +13,7 @@
                                 <form id="formCreateSale">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Descripción</b></label>
+                                            <label><b>Descripción</b></label>
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -31,7 +31,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Unidades Vendidas x Mes</b></label>
+                                            <label><b>Unidades Vendidas x Mes</b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-4">

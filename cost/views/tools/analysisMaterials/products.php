@@ -97,11 +97,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="form-row">
                                             <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                <label for="">Referencia</label>
+                                                <label>Referencia</label>
                                                 <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                                             </div>
                                             <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                <label for="">Producto</label>
+                                                <label>Producto</label>
                                                 <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                             </div>
                                         </div>

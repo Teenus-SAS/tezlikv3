@@ -15,7 +15,7 @@
                                 <div class="d-flex flex-row-reverse">
                                     <div class="p-2 floating-label enable-floating-label show-label form-inline">
                                         <input type="number" class="form-control text-center" id="importExpense">
-                                        <label for="">Gastos</label>
+                                        <label>Gastos</label>
                                     </div>
                                 </div>
                                 <div class="table-responsive">

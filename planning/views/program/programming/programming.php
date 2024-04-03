@@ -65,23 +65,23 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateProgramming">
                                             <div class="form-row">
                                                 <div class="col-md-3 mb-3 programmingSelect" id="machines">
-                                                    <label for="">Maquina</label>
+                                                    <label>Maquina</label>
                                                     <select class="form-control" id="idMachine" name="idMachine">
                                                     </select>
                                                 </div>
                                                 <div class="col-md-2 mb-3 programmingSelect" id="orders">
-                                                    <label for="">Pedido</label>
+                                                    <label>Pedido</label>
                                                     <select class="form-control" id="order" name="order">
                                                     </select>
                                                 </div>
 
                                                 <div class="col-md-3 mb-3 programmingSelect" id="products">
-                                                    <label for="">Producto</label>
+                                                    <label>Producto</label>
                                                     <select class="form-control" id="selectNameProduct" name="idProduct"></select>
                                                     <select class="form-control" id="refProduct" style="display:none"></select>
                                                 </div>
                                                 <div class="col-md-2 mb-3">
-                                                    <label for="">Cantidad</label>
+                                                    <label>Cantidad</label>
                                                     <input type="text" class="form-control text-center numberCalc" id="quantity" name="quantity">
                                                 </div>
 

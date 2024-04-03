@@ -66,15 +66,15 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateClient">
                                             <div class="row">
                                                 <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
-                                                    <label for="">Ean Cliente</label>
+                                                    <label>Ean Cliente</label>
                                                     <input type="text" class="form-control text-center number" id="ean" name="ean">
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label col" style="margin-bottom:0px">
-                                                    <label for="">Nit Cliente</label>
+                                                    <label>Nit Cliente</label>
                                                     <input type="text" class="form-control text-center number" id="nit" name="nit">
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label col-lg-6" style="margin-bottom:0px">
-                                                    <label for="">Nombre Cliente</label>
+                                                    <label>Nombre Cliente</label>
                                                     <input type="text" class="form-control text-center" id="client" name="client">
                                                 </div>
                                                 <div style="margin-bottom:0px;margin-top:5px;" class="col">

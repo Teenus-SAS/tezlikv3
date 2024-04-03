@@ -90,15 +90,15 @@ if (sizeof($_SESSION) == 0)
                                             <input type="" id="idUser" name="idUser" hidden>
                                             <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control text-center firstname general" placeholder="" aria-label="First name" id="firstname" name="nameUser">
-                                                <label for="">Nombres *</label>
+                                                <label>Nombres *</label>
                                             </div>
                                             <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control text-center general" placeholder="" aria-label="Last name" id="lastname" name="lastnameUser">
-                                                <label for="">Apellidos *</label>
+                                                <label>Apellidos *</label>
                                             </div>
                                             <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                 <input type="text" class="form-control text-center" placeholder="" aria-label="Position" id="position" name="position">
-                                                <label for="">Cargo *</label>
+                                                <label>Cargo *</label>
                                             </div>
                                         </div>
                                         <hr>

@@ -66,7 +66,7 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateMagnitude">
                                             <div class="form-row justify-content-around">
                                                 <div class="col-sm-8">
-                                                    <label for="">Nombre</label>
+                                                    <label>Nombre</label>
                                                     <input type="text" class="form-control" name="magnitude" id="magnitude">
                                                 </div>
                                                 <div class="col-sm-4" style="margin-top:32px;">

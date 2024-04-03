@@ -25,7 +25,10 @@ class AssignableExpenseDao
             $stmt = $connection->prepare("SELECT ed.id_expenses_distribution, ed.id_product, ed.id_company, ed.units_sold, ed.turnover, ed.assignable_expense 
                                           FROM expenses_distribution ed 
                                             INNER JOIN products p ON p.id_product = ed.id_product 
-                                          WHERE ed.id_company = :id_company AND p.active = 1 -- AND (ed.units_sold > 0 OR ed.turnover > 0)");
+                                            INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
+                                          WHERE ed.id_company = :id_company AND p.active = 1 -- AND pc.new_product = 0
+                                          AND (ed.assignable_expense > 0 AND ed.units_sold > 0 AND ed.turnover > 0)
+                                          ");
             $stmt->execute(['id_company' => $id_company]);
             $unitVol = $stmt->fetchAll($connection::FETCH_ASSOC);
         } catch (\Exception $e) {
@@ -44,7 +47,9 @@ class AssignableExpenseDao
             $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
                                           FROM expenses_distribution ed 
                                             INNER JOIN products p ON p.id_product = ed.id_product 
-                                          WHERE ed.id_company = :id_company AND p.active = 1 -- AND (ed.units_sold > 0 OR ed.turnover > 0)");
+                                            INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
+                                          WHERE ed.id_company = :id_company AND p.active = 1 -- AND pc.new_product = 0
+                                          ");
             $stmt->execute(['id_company' => $id_company]);
             $totalUnitVol = $stmt->fetch($connection::FETCH_ASSOC);
         } catch (\Exception $e) {
@@ -103,6 +108,24 @@ class AssignableExpenseDao
             $assignableExpense = 0;
 
         return array('averageExpense' => $averageExpense, 'assignableExpense' => $assignableExpense);
+    }
+
+    public function insertAssignableExpense($idProduct, $id_company, $assignableExpense)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, assignable_expense) VALUES (:id_product, :id_company, :assignable_expense)");
+            $stmt->execute([
+                'id_product' => $idProduct,
+                'id_company' => $id_company,
+                'assignable_expense' => $assignableExpense
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
     }
 
     // Actualizar gasto asignable

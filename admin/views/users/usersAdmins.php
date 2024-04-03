@@ -66,15 +66,15 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateUser">
                                             <div class="form-row">
                                                 <div class="col">
-                                                    <label for="">Nombres</label>
+                                                    <label>Nombres</label>
                                                     <input type="text" class="form-control" name="firstname" id="firstname">
                                                 </div>
                                                 <div class="col">
-                                                    <label for="">Apellidos</label>
+                                                    <label>Apellidos</label>
                                                     <input type="text" class="form-control" name="lastname" id="lastname">
                                                 </div>
                                                 <div class="col">
-                                                    <label for="">Correo</label>
+                                                    <label>Correo</label>
                                                     <input type="email" class="form-control" name="email" id="email">
                                                 </div>
                                                 <div style="margin-top:32px;">

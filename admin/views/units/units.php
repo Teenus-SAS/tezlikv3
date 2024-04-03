@@ -70,11 +70,11 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control" name="magnitude" id="magnitudes"></select>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <label for="">Unidad</label>
+                                                    <label>Unidad</label>
                                                     <input type="text" class="form-control" name="unit" id="unit">
                                                 </div>
                                                 <div class="col-sm-2">
-                                                    <label for="">Abreviatura</label>
+                                                    <label>Abreviatura</label>
                                                     <input type="text" class="form-control" name="abbreviation" id="abbreviation">
                                                 </div>
                                                 <div class="col-sm-2" style="margin-top:32px;">

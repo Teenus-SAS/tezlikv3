@@ -15,7 +15,7 @@
                                 <form id="formNewQuote">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Cliente</b></label>
+                                            <label><b>Cliente</b></label>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -32,7 +32,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Condiciones Comerciales</b></label>
+                                            <label><b>Condiciones Comerciales</b></label>
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -69,7 +69,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Productos</b></label>
+                                            <label><b>Productos</b></label>
                                         </div>
                                         <div class="col-12 col-lg-3">
                                             <button class="btn btn-warning mb-4" id="btnAddNewProduct">Seleccionar Productos</button>
@@ -101,7 +101,7 @@
                                             </div>
                                             <?php if ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1) { ?>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label selectPricelist">
-                                                    <label for="">Lista de Precios</label>
+                                                    <label>Lista de Precios</label>
                                                     <select class="form-control pricesList" name="idPriceList" id="pricesList"></select>
                                                 </div>
                                             <?php } ?>

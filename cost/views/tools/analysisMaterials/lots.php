@@ -104,11 +104,11 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formAddLot">
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label for="">Referencia</label>
+                                                    <label>Referencia</label>
                                                     <select class="form-control refProduct" name="refProduct" id="refProduct"></select>
                                                 </div>
                                                 <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label for="">Producto</label>
+                                                    <label>Producto</label>
                                                     <select class="form-control selectNameProduct" name="selectNameProduct" id="selectNameProduct"></select>
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">

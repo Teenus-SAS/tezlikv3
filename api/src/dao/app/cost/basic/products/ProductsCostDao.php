@@ -38,14 +38,15 @@ class ProductsCostDao
             // $salePrice = str_replace('.', '', $dataProduct['salePrice']);
             // $salePrice = str_replace(',', '.', $salePrice);
 
-            $stmt = $connection->prepare("INSERT INTO products_costs(id_product, id_company, sale_price, profitability, commission_sale) 
-                                        VALUES (:id_product, :id_company, :sale_price, :profitability, :commission_sale)");
+            $stmt = $connection->prepare("INSERT INTO products_costs(id_product, id_company, sale_price, profitability, commission_sale, new_product) 
+                                        VALUES (:id_product, :id_company, :sale_price, :profitability, :commission_sale, :new_product)");
             $stmt->execute([
                 'id_product' => trim($dataProduct['idProduct']),
                 'id_company' => $id_company,
                 'sale_price' => $dataProduct['salePrice'],
                 'profitability' => trim($dataProduct['profitability']),
-                'commission_sale' => trim($dataProduct['commissionSale'])
+                'commission_sale' => trim($dataProduct['commissionSale']),
+                'new_product' => 1
             ]);
         } catch (\Exception $e) {
             $error = array('info' => true, 'message' => $e->getMessage());

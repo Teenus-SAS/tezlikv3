@@ -12,7 +12,7 @@
                                 <form id="formChangeCompany">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll pt-2">
-                                            <label for=""><b>Usuario</b></label>
+                                            <label><b>Usuario</b></label>
                                         </div>
                                         <div class="col-12 col-lg-12">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -22,7 +22,7 @@
                                             </div>
                                         </div>
                                         <div class="col-12 col-lg-12 titlePayroll pt-2">
-                                            <label for=""><b>Empresa</b></label>
+                                            <label><b>Empresa</b></label>
                                         </div>
                                         <div class="col-12 col-lg-12">
                                             <div class="form-group floating-label enable-floating-label show-label">

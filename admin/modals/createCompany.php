@@ -13,7 +13,7 @@
                                 <form id="formCreateCompany">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll pt-2">
-                                            <label for=""><b>Empresa</b></label>
+                                            <label><b>Empresa</b></label>
                                         </div>
                                         <div class="col-12 col-lg-6">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -44,7 +44,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll pt-2">
-                                            <label for=""><b>Ubicación y Contacto</b></label>
+                                            <label><b>Ubicación y Contacto</b></label>
                                         </div>
 
                                         <div class="col-12 col-lg-4">
@@ -89,7 +89,7 @@
 
                                         <!-- <div id="license" class="row">
                                             <div class="col-12 col-lg-12 titlePayroll pt-2 bg-info text-white">
-                                                <label for=""><b>Licencia</b></label>
+                                                <label><b>Licencia</b></label>
                                             </div>
 
                                             <div class="col-12 col-lg-4">

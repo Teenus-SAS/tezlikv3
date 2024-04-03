@@ -68,15 +68,15 @@ if (sizeof($_SESSION) == 0)
                                             <div class="gridx4cm">
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                                     <select class="form-control" name="selectNameProduct" id="selectNameProduct"></select>
-                                                    <label for="">Producto</label>
+                                                    <label>Producto</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                                     <select class="form-control" name="idMachine" id="idMachine"></select>
-                                                    <label for="">Maquina</label>
+                                                    <label>Maquina</label>
                                                 </div>
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                                     <input type="text" class="form-control text-center number" name="ciclesHour" id="ciclesHour">
-                                                    <label for="">Ciclo x Hora</label>
+                                                    <label>Ciclo x Hora</label>
                                                 </div>
                                                 <div style="margin-bottom:0px;margin-top:5px;">
                                                     <button class="btn btn-success" id="btnCreatePlanCiclesMachine">Crear Ciclo Máquina</button>

@@ -67,7 +67,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="gridx2p">
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px">
                                                     <input type="text" class="form-control" name="machine" id="machine">
-                                                    <label for="">Nombre</label>
+                                                    <label>Nombre</label>
                                                 </div>
 
                                                 <div class="form-group floating-label enable-floating-label show-label" style="margin-bottom:0px;margin-top:5px">

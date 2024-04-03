@@ -12,7 +12,7 @@
                     <div class="container-fluid">
                         <div class="vertical-app-tabs" id="rootwizard">
                             <div class="col-12">
-                                <label for="">Porcentaje de recuperación</label>
+                                <label>Porcentaje de recuperación</label>
                                 <input type="number" class="form-control text-center" id="percentageRecover">
                             </div>
                         </div>

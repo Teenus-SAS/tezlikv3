@@ -385,6 +385,9 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
         $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
 
+        // if ($dataExpensesDistribution['newProduct'] == 1)
+        //     $expensesDistribution = $generalProductsDao->updateStatusNewProduct($dataExpensesDistribution['selectNameProduct'], 0);
+
         if ($expensesDistribution == null) {
             $multiproducts = $multiproductsDao->findMultiproduct($dataExpensesDistribution['selectNameProduct']);
 
@@ -547,6 +550,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     $dataExpensesDistribution = $request->getParsedBody();
 
     $expensesDistribution = $expensesDistributionDao->deleteExpensesDistribution($dataExpensesDistribution);
+
     // Calcular gasto asignable
     if ($expensesDistribution == null) {
         // Consulta unidades vendidades y volumenes de venta por producto
@@ -668,4 +672,32 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/saveNewProduct', function (Request $request, Response $response, $args) use (
+    $assignableExpenseDao,
+    $priceProductDao,
+    $generalProductsDao
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+    $dataExpensesDistribution = $request->getParsedBody();
+
+    $expensesDistribution = $assignableExpenseDao->insertAssignableExpense($dataExpensesDistribution['idProduct'], $id_company, $dataExpensesDistribution['pAssignableExpense']);
+
+    if ($expensesDistribution == null)
+        $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['idProduct']);
+
+    if (isset($expensesDistribution['totalPrice']))
+        $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['idProduct'], $expensesDistribution['totalPrice']);
+
+    if ($expensesDistribution == null)
+        $resp = array('success' => true, 'message' => 'Nuevo producto asignado correctamente');
+    else if (isset($expensesDistribution['info']))
+        $resp = array('info' => true, 'message' => $expensesDistribution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al guardar la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });

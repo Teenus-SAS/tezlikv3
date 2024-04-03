@@ -101,19 +101,19 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateCustomPrices">
                                             <div class="form-row">
                                                 <div class="col-sm-4 floating-label enable-floating-label show-label">
-                                                    <label for="">Producto</label>
+                                                    <label>Producto</label>
                                                     <select class="form-control selectNameProduct" name="idProduct" id="idProduct"></select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
-                                                    <label for="">Lista de Precios</label>
+                                                    <label>Lista de Precios</label>
                                                     <select class="form-control pricesList" name="idPriceList" id="pricesList"></select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
-                                                    <label for="">Precio - Lista de Precios</label>
+                                                    <label>Precio - Lista de Precios</label>
                                                     <input type="text" class="form-control text-center" id="customPricesValue2" readonly>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
-                                                    <label for="">Valor</label>
+                                                    <label>Valor</label>
                                                     <input type="number" class="form-control text-center" id="customPricesValue" name="customPricesValue">
                                                 </div>
                                                 <div class="col-sm-1 mt-1">
@@ -137,11 +137,11 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateCustomPercentage">
                                             <div class="form-row">
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label">
-                                                    <label for="">Lista de Precios</label>
+                                                    <label>Lista de Precios</label>
                                                     <select class="form-control pricesList" name="idPriceList" id="pricesList2"></select>
                                                 </div>
                                                 <!-- <div class="col-sm-3 floating-label enable-floating-label show-label">
-                                                    <label for="">Precio</label>
+                                                    <label>Precio</label>
                                                     <select class="form-control" name="typePrice" id="typePrice">
                                                         <option disabled selected>Seleccionar</option>
                                                         <option value="0">ACTUAL</option>
@@ -149,7 +149,7 @@ if (sizeof($_SESSION) == 0)
                                                     </select>
                                                 </div> -->
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label inputPercentage">
-                                                    <label for="">Porcentaje</label>
+                                                    <label>Porcentaje</label>
                                                     <input type="number" class="form-control text-center" id="percentage" name="percentage">
                                                 </div>
                                                 <div class="col-sm-2 mt-1">

@@ -67,15 +67,15 @@ if (sizeof($_SESSION) == 0)
                                         <form id="formCreateProduct">
                                             <div class="form-row">
                                                 <div class="col-md-3">
-                                                    <label for="">Referencia</label>
+                                                    <label>Referencia</label>
                                                     <input type="text" class="form-control" name="referenceProduct" id="referenceProduct">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="">Nombre Producto</label>
+                                                    <label>Nombre Producto</label>
                                                     <input type="text" class="form-control" name="product" id="product">
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <label for="">Molde</label>
+                                                    <label>Molde</label>
                                                     <select class="form-control" name="idMold" id="idMold"></select>
                                                 </div>
                                             </div>
@@ -83,7 +83,7 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-md-8">
                                                     <div class="form-row py-4">
                                                         <div class="col-xs">
-                                                            <label for="">Cantidad en inventario</label>
+                                                            <label>Cantidad en inventario</label>
                                                             <input type="text" class="form-control text-center number" id="quantity" name="quantity">
                                                         </div>
                                                         <div class="col-4">

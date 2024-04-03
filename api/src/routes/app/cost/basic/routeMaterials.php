@@ -318,7 +318,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $materials = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
     foreach ($materials as $arr) {
-        if ($arr['id_material'] == $dataMaterial['idMaterial']) {
+        if ($arr['id_material'] != $dataMaterial['idMaterial']) {
             $status = false;
             break;
         }

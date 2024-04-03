@@ -69,6 +69,8 @@ $(document).ready(function () {
     $(document).on("click", ".typePrice", function () {
         let op = this.value;
         let className = this.className;
+
+        sessionStorage.setItem('flag_type_price', op);
         // typePrice = op;
         let id = $('#selectNameProduct').val();
 

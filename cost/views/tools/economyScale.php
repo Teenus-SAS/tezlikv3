@@ -258,13 +258,29 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
-    </script>
-    <script src="/cost/js/tools/economyScale/configTypePrices.js"></script>
-    <script>
+
         $(document).ready(function() {
-            checkFlagPrice(1);
+            let session_flag = sessionStorage.getItem('flag_type_price');
+
+            if (session_flag == 1) {
+                $('#labelDescription').html(`Descripción (Precio Sugerido)`);
+
+                document.getElementById("actual").className =
+                    "btn btn-sm btn-primary typePrice cardBottons";
+                document.getElementById("sugered").className =
+                    "btn btn-sm btn-outline-primary typePrice cardBottons";
+            } else {
+                $('#labelDescription').html(`Descripción (Precio Actual)`);
+
+                document.getElementById("sugered").className =
+                    "btn btn-sm btn-primary typePrice cardBottons";
+                document.getElementById("actual").className =
+                    "btn btn-sm btn-outline-primary typePrice cardBottons";
+            }
         });
     </script>
+
+    <script src="/cost/js/tools/economyScale/configTypePrices.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/tools/economyScale/economyScale.js"></script>

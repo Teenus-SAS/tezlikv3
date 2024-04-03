@@ -12,7 +12,7 @@
                                 <form id="formCreatePlan">
                                     <div class="row mt-5">
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Plan</b></label>
+                                            <label><b>Plan</b></label>
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group floating-label enable-floating-label show-label">
@@ -28,13 +28,13 @@
                                         </div>
 
                                         <div class="col-12 col-lg-12 titlePayroll">
-                                            <label for=""><b>Asignar accesos</b></label>
+                                            <label><b>Asignar accesos</b></label>
                                         </div>
 
                                         <div class="container" style="margin-bottom: 40px;">
                                             <div class="col-12 col-lg-12 mb-2">
-                                                <label for=""><b>Costos.</b></label><br>
-                                                <label for=""><b>Menú Navegación:</b></label>
+                                                <label><b>Costos.</b></label><br>
+                                                <label><b>Menú Navegación:</b></label>
                                             </div>
 
                                             <div class="row ml-2">

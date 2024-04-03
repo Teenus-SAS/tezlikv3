@@ -1,160 +1,173 @@
 $(document).ready(function () {
-  let inactiveProducts = [];
-
   /* Inactivar productos */
-  $(document).on('click', '.checkboxProduct', function () {
+  $(document).on("click", ".checkboxProduct", function () {
     let idProduct = this.id;
 
     bootbox.confirm({
-      title: 'Inactivar producto',
-      message: '¿Esta seguro de inactivar este producto?',
+      title: "Inactivar producto",
+      message: "¿Esta seguro de inactivar este producto?",
       buttons: {
         confirm: {
-          label: 'Si',
-          className: 'btn-success',
+          label: "Si",
+          className: "btn-success",
         },
         cancel: {
-          label: 'No',
-          className: 'btn-danger',
+          label: "No",
+          className: "btn-danger",
         },
       },
       callback: function (result) {
         if (result == true) {
-          $.ajax({
-            url: `/api/inactiveProducts/${idProduct}`,
-            success: function (data) {
-              message(data);
-            },
-          });
+          changeStatusProduct(idProduct, 0);
         } else {
-          $('.checkboxProduct').prop('checked', true);
+          $(".checkboxProduct").prop("checked", true);
         }
       },
     });
   });
 
+  changeStatusProduct = (id, op) => {
+    $.ajax({
+      url: `/api/changeActiveProduct/${id}/${op}`,
+      success: function (data) {
+        if (data.success == true) {
+          toastr.success(data.message);
+          loadAllData();
+        } else if (data.error == true) toastr.error(data.message);
+        else if (data.info == true) toastr.info(data.message);
+      },
+    });
+  };
+
   /* Ocultar modal productos inactivos */
-  $('#btnCloseInactivesProducts').click(function (e) {
+  $("#btnCloseInactivesProducts").click(function (e) {
     e.preventDefault();
-    $('#createInactivesProducts').modal('hide');
-    $('#tblInactiveProductsBody').empty();
+    $("#createInactivesProducts").modal("hide");
+    $("#tblInactiveProductsBody").empty();
   });
 
   /* Mostrar productos inactivos */
-  $('#btnActiveProducts').click(function (e) {
+  $("#btnActiveProducts").click(function (e) {
     e.preventDefault();
-    $('#tblInactiveProducts').empty();
-    
-    let tblInactiveProducts = document.getElementById(
-      'tblInactiveProducts'
-    );
+    $("#tblInactiveProducts").empty();
 
-    tblInactiveProducts.insertAdjacentHTML('beforeend',
+    let tblInactiveProducts = document.getElementById("tblInactiveProducts");
+
+    tblInactiveProducts.insertAdjacentHTML(
+      "beforeend",
       `<thead>
         <tr>
         <th>No</th>
         <th>Referencia</th>
         <th>Producto</th>
-        <th>Activar</th>
         <th>Acciones</th>
         </tr>
       </thead>
-      <tbody id="tblInactiveProductsBody"></tbody>`);
-    
+      <tbody id="tblInactiveProductsBody"></tbody>`
+    );
+
     setTblInactivesProducts();
   });
 
-  setTblInactivesProducts = async () => {
-    // let data = await searchData('/api/inactivesProducts');
+  // Construir tabla con productos inactivos
+  setTblInactivesProducts = async () => { 
     let data = dataInactiveProducts;
 
     let tblInactiveProductsBody = document.getElementById(
-      'tblInactiveProductsBody'
+      "tblInactiveProductsBody"
     );
 
     for (i = 0; i < data.length; i++) {
       tblInactiveProductsBody.insertAdjacentHTML(
-        'beforeend',
+        "beforeend",
         `
         <tr>
             <td>${i + 1}</td>
             <td>${data[i].reference}</td>
             <td>${data[i].product}</td>
             <td>
-                <input type="checkbox" class="form-control-updated checkInactiveProduct" id="checkIn-${
+                <a href="javascript:;" <span id="checkIn-${data[i].id_product}" class="badge badge-success checkInactiveProduct">Activar</span></a>
+                <a href="javascript:;" <i id="${
                   data[i].id_product
-                }">
-            </td>
-            <td>
-                <a href="javascript:;" <i id="${data[i].id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
+                }" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
             </td>
         </tr>
       `
       );
     }
 
-    $('#createInactivesProducts').modal('show');
+    $("#createInactivesProducts").modal("show");
 
-    $('#tblInactiveProducts').DataTable({
+    $("#tblInactiveProducts").DataTable({
       destroy: true,
-      scrollY: '150px',
+      scrollY: "150px",
       scrollCollapse: true,
       // language: {
       //   url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
       // },
-      dom: '<"datatable-error-console">frtip', 
+      dom: '<"datatable-error-console">frtip',
       fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+        if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
           console.error(oSettings.json.error);
         }
       },
     });
 
-    let tables = document.getElementsByClassName(
-        'dataTables_scrollHeadInner'
-      );
+    let tables = document.getElementsByClassName("dataTables_scrollHeadInner");
 
     let attr = tables[0];
-    attr.style.width = '100%';
+    attr.style.width = "100%";
     attr = tables[0].firstElementChild;
-    attr.style.width = '100%';
-
+    attr.style.width = "100%";
   };
 
   /* Guardar productos a activar */
-  $(document).on('click', '.checkInactiveProduct', function () {
+  $(document).on("click", ".checkInactiveProduct", async function () {
     let id = this.id;
     let idProduct = id.slice(8, id.length);
+    
+    await changeStatusProduct(idProduct, 1);
+    
+    $(this).closest("tr").remove();
+    // if (this.className.includes('badge-success')) {
+    // let planeacion = {
+    //     idProduct: idProduct,
+    //   };
 
-    if ($(`#${id}`).is(':checked')) {
-      let planeacion = {
-        idProduct: idProduct,
-      };
+    //   inactiveProducts.push(planeacion);
 
-      inactiveProducts.push(planeacion);
-    } else {
-      for (i = 0; i < inactiveProducts.length; i++)
-        if (inactiveProducts[i].idProduct == idProduct) inactiveProducts.splice(i, 1);
-    }
+    //   this.className = 'badge badge-warning checkInactiveProduct';
+    //   this.text = 'Inactivar';
+    // }
+    // else {
+    //   for (i = 0; i < inactiveProducts.length; i++) {
+    //     if (inactiveProducts[i].idProduct == idProduct) {
+    //       inactiveProducts.splice(i, 1);
+    //     }
+    //   }
+
+    //   this.className = 'badge badge-success checkInactiveProduct';
+    //   this.text = 'Activar';
+    // }
   });
 
-  /* Activar productos  */
-  $('#btnActivesProducts').click(function (e) {
+  /* Activar productos  
+  $("#btnActivesProducts").click(function (e) {
     e.preventDefault();
     if (inactiveProducts.length == 0) {
-      toastr.error('Seleccione un producto para activar');
+      toastr.error("Seleccione un producto para activar");
       return false;
     }
 
     $.ajax({
-      type: 'POST',
-      url: '/api/activeProducts',
+      type: "POST",
+      url: "/api/activeProducts",
       data: { data: inactiveProducts },
       success: function (data) {
-        $('#createInactivesProducts').modal('hide');
+        $("#createInactivesProducts").modal("hide");
         inactiveProducts = [];
-        message(data); 
+        message(data);
       },
     });
-  });
+  }); */
 });
