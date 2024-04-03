@@ -34,6 +34,8 @@ $(document).ready(function () {
 
     flag_composite_product == '1' ? data = parents : data = prices;
     id == 'cop' ? op = 1 : op = 2;
+
+    // sessionStorage.setItem('typePrice', op);
     
     loadTblPrices(data, op);
   });

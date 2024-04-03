@@ -121,6 +121,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION['plan'] = $dataCompany['plan'];
         $_SESSION['license_days'] = $dataCompany['license_days'];
         $_SESSION['status_historical'] = 1;
+        $_SESSION['coverage'] = $dataCompany['coverage'];
         $_SESSION['demo'] = 1;
 
         // Guardar accesos de usario 

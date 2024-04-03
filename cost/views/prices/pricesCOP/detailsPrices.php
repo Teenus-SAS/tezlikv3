@@ -441,6 +441,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        coverage = "<?= $_SESSION['coverage'] ?>";
     </script>
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>

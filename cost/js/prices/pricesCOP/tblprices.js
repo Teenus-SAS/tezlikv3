@@ -113,7 +113,7 @@ $(document).ready(function () {
           title: "Rentabilidad",
           data: null,
           className: "classCenter",
-          visible: op == 1 ? visible : false,
+          visible: visible,
           render: function (data) {
             let dataCost = getDataCost(data);
             if (!isFinite(dataCost.actualProfitability2))

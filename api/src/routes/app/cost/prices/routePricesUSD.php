@@ -68,6 +68,8 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
     // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
     $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $deviation, $id_company);
 
+    $_SESSION['coverage'] = $coverage;
+
     if (isset($resolution) == null)
         $resp = array('success' => true, 'coverage' => $coverage, 'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage);
 
