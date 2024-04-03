@@ -2,16 +2,20 @@ $(document).ready(function () {
   /* Sincronizar selects referencia y nombre producto */
   $('.refProduct').change(function (e) {
     e.preventDefault();
-    $('.selectNameProduct option').removeAttr('selected');
     let id = this.value;
-    $(`.selectNameProduct option[value=${id}]`).attr('selected', true);
-  });
 
+    $('.selectNameProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
+  });
+  
   $('.selectNameProduct').change(function (e) {
     e.preventDefault();
     let id = this.value;
-    $('.refProduct option').removeAttr('selected');
-    $(`.refProduct option[value=${id}]`).attr('selected', true);
+
+    $('.refProduct option').prop('selected', function () {
+      return $(this).val() == id;
+    });
   });
 
   /* Cargue tabla de Gastos distribuidos */
