@@ -159,6 +159,7 @@ $(document).ready(function () {
       }
     }
     if (option == 2) {
+      $('.cardNewProducts').hide();
       $('.cardCheckExpense').show(800);
       // $('.generalExpenses').hide();
       $('.distributionExpenses').html('Recuperación de Gastos');

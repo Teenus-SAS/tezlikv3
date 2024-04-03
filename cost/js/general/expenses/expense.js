@@ -17,7 +17,10 @@ $(document).ready(function () {
       $('.cardNewProduct').hide();
     } else if (this.id == 'distribution') {
       $('.cardExpenseDistribution').show();
-      $('.cardNewProducts').show();
+
+      if(flag_expense == '1')
+        $('.cardNewProducts').show();
+      
       $('.cardExpenses').hide();
       $('.cardCreateExpenses').hide();
       $('.cardImportExpensesAssignation').hide();
