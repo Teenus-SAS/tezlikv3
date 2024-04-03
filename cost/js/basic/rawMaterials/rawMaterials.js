@@ -99,7 +99,7 @@ $(document).ready(function () {
     let ref = $('#refRawMaterial').val().trim();
     let material = $('#nameRawMaterial').val().trim();
     let unity = $('#units').val();
-    let category = $('#idCategory').val();
+    // let category = $('#idCategory').val();
     let cost = parseFloat($('#costRawMaterial').val());
 
     if (
@@ -107,8 +107,8 @@ $(document).ready(function () {
       !ref ||
       material == '' ||
       !material ||
-      !category ||
-      category == 0 ||
+      // !category ||
+      // category == 0 ||
       !unity ||
       unity == 0 ||
       cost == ''
