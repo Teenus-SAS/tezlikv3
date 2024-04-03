@@ -4,11 +4,11 @@ $(document).ready(function () {
 
     if (op == 1) {
       op = 2;
-      loadTblPrices(composites);
+      loadTblPrices(composites, 1);
     }
     else {
       op = 1;
-      loadTblPrices(parents);
+      loadTblPrices(parents, 1);
     }
   });
 
@@ -21,17 +21,16 @@ $(document).ready(function () {
       composites = prices.filter(item => item.composite == 1);
 
       if (flag_composite_product == '1') {
-        loadTblPrices(parents);
+        loadTblPrices(parents, 1);
       } else
-        loadTblPrices(prices)
+        loadTblPrices(prices, 1);
     } catch (error) {
       console.error('Error loading data:', error);
     }
   };
 
   /* Cargue tabla de Precios */
-  loadTblPrices = async (data) => {
-    // let data = await searchData("/api/prices");
+  loadTblPrices = async (data, op) => {
     let acumulated = 0;
 
     for (let i = 0; i < data.length; i++) {
@@ -39,12 +38,6 @@ $(document).ready(function () {
     }
 
     acumulated == 0 ? (visible = false) : (visible = true);
-
-    // if ($.fn.dataTable.isDataTable("#tblPrices")) {
-    //   $("#tblPrices").DataTable().clear();
-    //   $("#tblPrices").DataTable().rows.add(data).draw();
-    //   return;
-    // }
 
     tblPrices = $("#tblPrices").DataTable({
       destroy: true,
@@ -79,29 +72,48 @@ $(document).ready(function () {
           className: "classCenter",
         },
         {
-          title: "Precio (Sugerido)",
-          data: "price",
+          title: `${op == 1 ? 'Precio (Sugerido)' : 'Precio (Sugerido USD)'}`,
+          data: null,
           className: "classCenter",
-          render: $.fn.dataTable.render.number(".", ",", 0, "$ "),
+          render: function (data) {
+            op == 1 ? price = parseFloat(data.price) : price = parseFloat(data.price_usd);
+
+            if (Math.abs(price) < 0.01) {
+              price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else if (op == 1)
+              price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+            else
+              price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${price}`;
+          },
         },
         {
-          title: "Precio (Actual)",
-          data: "sale_price",
+          title: `${op == 1 ? 'Precio (Actual)' : 'Precio (Actual USD)'}`,
+          data: null,
           className: "classCenter",
           visible: visible,
           render: function (data) {
-            if (data > 0)
-              return `$ ${data.toLocaleString("es-CO", {
-                maximumFractionDigits: 0,
-              })}`;
-            else return "";
+            op == 1 ? price = parseFloat(data.sale_price) : price = parseFloat(data.sale_price_usd);
+
+            if (price > 0) {
+              if (Math.abs(price) < 0.01) {
+                price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+              } else if (op == 1)
+                price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+              else
+                price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+              return `$ ${price}`;
+            }
+            else return '';
           },
         },
         {
           title: "Rentabilidad",
           data: null,
           className: "classCenter",
-          visible: visible,
+          visible: op == 1 ? visible : false,
           render: function (data) {
             let dataCost = getDataCost(data);
             if (!isFinite(dataCost.actualProfitability2))
@@ -161,28 +173,6 @@ $(document).ready(function () {
           },
         },
       ],
-      /* rowCallback: function (row, data, index) {
-        let dataCost = getDataCost(data);
-        !isFinite(dataCost.actualProfitability)
-          ? (dataCost.actualProfitability = 0)
-          : dataCost.actualProfitability;
-
-        if (
-          dataCost.actualProfitability < data.profitability &&
-          dataCost.actualProfitability > 0 &&
-          data.sale_price > 0
-        )
-          $(row).css("color", "orange");
-        else if (
-          dataCost.actualProfitability < data.profitability &&
-          data.sale_price > 0
-        )
-          $(row).css("color", "red");
-
-        if (data.details_product == 0) {
-          tblPrices.column(7).visible(false);
-        }
-      },*/
     });
   };
 

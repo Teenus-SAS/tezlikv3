@@ -23,5 +23,18 @@ $(document).ready(function () {
     });
   };
 
-  loadDataPrices(); 
+  loadDataPrices();
+
+  $('.btnPricesUSD').click(function (e) {
+    e.preventDefault();
+    let id = this.id;
+
+    $('.cardPricesCOP').toggle();
+    $('.cardPricesUSD').toggle();
+
+    flag_composite_product == '1' ? data = parents : data = prices;
+    id == 'cop' ? op = 1 : op = 2;
+    
+    loadTblPrices(data, op);
+  });
 });

@@ -68,22 +68,64 @@ if (sizeof($_SESSION) == 0)
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
-                                <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-cash mr-1"></i>Precios de Venta</h3>
-                                    <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Análisis de Precios</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
-                                <div class="col-sm-7 col-xl-6">
-                                    <div class="form-inline justify-content-sm-end">
-                                        <button class="btn btn-primary" id="btnComposite">Productos Compuestos</button>
+                        <div class="tab-pane cardPricesCOP">
+                            <div class="row align-items-center">
+                                <div class="col-sm-5 col-xl-6">
+                                    <div class="page-title">
+                                        <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-cash mr-1"></i>Precios de Venta</h3>
+                                        <ol class="breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active">Análisis de Precios</li>
+                                        </ol>
                                     </div>
                                 </div>
-                            <?php } ?>
+                                <div class="col-xl-6 form-inline justify-content-sm-end">
+                                    <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
+                                        <div class="col-xs-2 mr-2">
+                                            <button class="btn btn-warning" id="btnComposite">Productos Compuestos</button>
+                                        </div>
+                                    <?php } ?>
+                                    <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                        <div class="col-xs-2">
+                                            <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane cardPricesUSD" style="display: none;">
+                            <div class="row align-items-center">
+                                <div class="col-sm-4 col-xl-4">
+                                    <div class="page-title">
+                                        <h3 class="mb-1 font-weight-bold text-dark">Precios Venta USD</h3>
+                                        <ol class="breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active">La cobertura cambiaria lo protege contra el riesgo de las fluctuaciónes del tipo de cambio.</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="col-xl-8 form-inline justify-content-sm-end">
+                                    <div class="col-xs-2">
+                                        <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 form-inline mt-2" id="USDHeader">
+                                    <div class="col-xs-2 mr-2 USDInputs">
+                                        <label class="mb-1 font-weight-bold text-dark">Dolar Hoy</label>
+                                        <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" readonly>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2 USDInputs">
+                                        <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+                                        <input type="text" class="form-control text-center" name="valueCoverage" id="valueCoverage" readonly>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2 USDInputs">
+                                        <label class="mb-1 font-weight-bold text-dark">Cobertura Cambiaria</label>
+                                        <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" readonly>
+                                    </div>
+                                    <div class="col-xs-2 USDInputs">
+                                        <label class="mb-1 font-weight-bold text-dark">Correción TRM</label>
+                                        <input type="text" class="form-control text-center" name="deviation" id="deviation">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -126,6 +168,11 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>
     <script src="/cost/js/prices/pricesCOP/tblprices.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
+
+    <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+        <script src="/cost/js/prices/pricesUSD/tblPricesUSD.js"></script>
+        <script src="/cost/js/prices/pricesUSD/pricesUSD.js"></script>
+    <?php } ?>
 </body>
 
 </html>

@@ -34,22 +34,24 @@ class PriceUSDDao
         }
     }
 
-    public function calcPriceUSDandModify($dataProduct, $coverage, $id_company)
+    public function calcPriceUSDandModify($dataProduct, $coverage)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $_SESSION['flag_type_price'] == '0' ? $price = $dataProduct['sale_price'] : $price = $dataProduct['price'];
+            // $_SESSION['flag_type_price'] == '0' ? $price = $dataProduct['sale_price'] : $price = $dataProduct['price'];
 
             // Calculo
-            $priceUsd = floatval($price) / $coverage;
+            $salePriceUsd = floatval($dataProduct['sale_price']) / $coverage;
+            $priceUsd = floatval($dataProduct['price']) / $coverage;
 
             // Actualizar
-            $stmt = $connection->prepare("UPDATE products_costs SET price_usd = :price_usd WHERE id_product = :id_product AND id_company = :id_company");
+            $stmt = $connection->prepare("UPDATE products_costs SET price_usd = :price_usd, sale_price_usd = :sale_price_usd 
+                                          WHERE id_product = :id_product");
             $stmt->execute([
                 'price_usd' => $priceUsd,
+                'sale_price_usd' => $salePriceUsd,
                 'id_product' => $dataProduct['id_product'],
-                'id_company' => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

@@ -54,7 +54,7 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
 
     for ($i = 0; $i < sizeof($products); $i++) {
         // Calcular precio USD y modificar
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $coverage, $id_company);
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $coverage);
 
         if (isset($resolution['info'])) break;
     }
