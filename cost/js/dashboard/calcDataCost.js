@@ -7,7 +7,8 @@ $(document).ready(function () {
     let costActualProfitability = 0;
     let price2 = 0;
 
-    // let 
+    // let typePrice = sessionStorage.getItem('typePrice');
+    // if(typePrice)
 
     cost =
       parseFloat(data.cost_materials) +
