@@ -163,6 +163,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
+        viewPrices = 1;
     </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/prices/pricesCOP/configPrices.js"></script>

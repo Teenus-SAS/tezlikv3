@@ -7,6 +7,8 @@ $(document).ready(function () {
     let costActualProfitability = 0;
     let price2 = 0;
 
+    // let 
+
     cost =
       parseFloat(data.cost_materials) +
       parseFloat(data.cost_workforce) +

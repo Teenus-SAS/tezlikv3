@@ -72,13 +72,16 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="page-title">
                                     <div class="row">
-                                        <div class="col-sm-6 d-flex align-items-center">
+                                        <div class="col-sm-5 d-flex align-items-center">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
                                         <div class="col-sm-2 py-4 imageProduct">
                                         </div>
                                         <div class="col-sm-4 mb-3 d-flex align-items-center">
                                             <select id="product" class="form-control btnPrintPDF"></select>
+                                        </div>
+                                        <div class="col-xs-2 mt-1">
+                                            <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -442,6 +445,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
+        viewPrices = 2;
     </script>
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>

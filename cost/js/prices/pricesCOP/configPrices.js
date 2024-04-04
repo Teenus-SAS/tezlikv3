@@ -29,14 +29,27 @@ $(document).ready(function () {
     e.preventDefault();
     let id = this.id;
 
-    $('.cardPricesCOP').toggle();
-    $('.cardPricesUSD').toggle();
+    if (viewPrices == 1) {
+      $('.cardPricesCOP').toggle();
+      $('.cardPricesUSD').toggle();
 
-    flag_composite_product == '1' ? data = parents : data = prices;
-    id == 'cop' ? op = 1 : op = 2;
+      flag_composite_product == '1' ? data = parents : data = prices;
+      id == 'cop' ? op = 1 : op = 2;
 
-    // sessionStorage.setItem('typePrice', op);
+      sessionStorage.setItem('typePrice', op);
     
-    loadTblPrices(data, op);
+      loadTblPrices(data, op);
+    } else {
+      let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+      if (id == 'usd') {
+        element.id = 'cop';
+        element.innerText = 'Precios COP';
+      }
+      else {
+        element.id = 'usd';
+        element.innerText = 'Precios USD';
+      }
+    }
   });
 });
