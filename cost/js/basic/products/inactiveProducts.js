@@ -128,7 +128,11 @@ $(document).ready(function () {
     
     await changeStatusProduct(idProduct, 1);
     
-    $(this).closest("tr").remove();
+    // $(this).closest("tr").remove();
+    var rowIndex = $(this).closest("tr").index();
+
+    // Eliminar la fila de la DataTable
+    $('#tblInactiveProducts').DataTable().row(rowIndex).remove().draw();
     // if (this.className.includes('badge-success')) {
     // let planeacion = {
     //     idProduct: idProduct,

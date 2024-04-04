@@ -96,9 +96,10 @@ $(document).ready(function () {
 
     // value = parseFloat(strReplaceNumber(value));
 
-    let data = puc * value;
+    // let data = puc * value;
+    isNaN(value) ? value = 0 : value;
 
-    if (isNaN(data) || data <= 0) {
+    if (!puc || puc == '') {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -115,6 +116,7 @@ $(document).ready(function () {
     }
 
     let dataExpense = new FormData(formCreateExpenses);
+    dataExpense.append('expenseValue', value);
 
     if (idExpense != '' || idExpense != null)
       dataExpense.append('idExpense', idExpense);

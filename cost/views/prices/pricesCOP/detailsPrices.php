@@ -327,7 +327,7 @@ if (sizeof($_SESSION) == 0)
                                                             <li class="list-group-item py-4">
                                                                 <div class="media">
                                                                     <div class="media-body">
-                                                                        <p class="text-muted mb-2">Precio de Venta Recomendado</p>
+                                                                        <p class="text-muted mb-2">Precio de Venta Real</p>
                                                                         <h4 class="mb-0" id="recomendedPrice">$</h4>
                                                                     </div>
                                                                     <div class="avatar avatar-md bg-success mr-0 align-self-center">

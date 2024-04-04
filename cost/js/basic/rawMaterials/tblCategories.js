@@ -1,8 +1,17 @@
-$(document).ready(function () {
-
+$(document).ready(function () { 
     loadAllDataCategories = async () => {
         try {
             const dataCategory = await searchData('/api/categories');
+
+            // allCategories = dataCategory;
+
+            if(dataCategory.length == 0){
+                $('.categories').hide();
+                visible = false;
+            } else {
+                $('.categories').show();
+                visible = true;                
+            }
 
             let $select = $(`#idCategory`);
             $select.empty();
