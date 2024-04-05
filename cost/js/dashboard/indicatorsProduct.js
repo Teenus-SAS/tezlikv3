@@ -113,7 +113,7 @@ $(document).ready(function () {
       maximumFractionDigits: 0,
     })}`;
 
-    if (price < data[0].price)
+    if (price < data[0].sale_price)
       element.className = 'mb-0 text-danger';
     else if (price == data[0].price)
       element.className = 'mb-0 text-warning';

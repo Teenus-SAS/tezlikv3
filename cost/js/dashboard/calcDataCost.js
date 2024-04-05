@@ -27,17 +27,22 @@ $(document).ready(function () {
     costProfitability = pPrice * (parseFloat(data.profitability) / 100);
 
     costCommissionSale = price * (parseFloat(data.commission_sale) / 100);
+    let recomendedPrice = parseFloat(data.turnover) / parseFloat(data.units_sold);
 
     if (flag_expense === "2" || flag_expense_distribution === "2") { 
       price2 = 0;
-      profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
-      profitability2 = ((data.sale_price - costTotal) / data.sale_price) * 100;
+
+      // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
+      // profitability2 = ((data.sale_price - costTotal) / data.sale_price) * 100;
+      profitability = ((recomendedPrice - costTotal) / recomendedPrice) * 100;
+      profitability2 = ((recomendedPrice - costTotal) / recomendedPrice) * 100;
       costActualProfitability = parseFloat(data.sale_price) * (profitability / 100);
 
     } else if ((data.units_sold > 0 && data.turnover > 0) || flag_expense === "1") { 
       price2 = costTotal * parseFloat(data.units_sold);
       profitability = ((parseFloat(data.turnover) - price2) / price2) * 100;
-      profitability2 = (((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100); 
+      // profitability2 = (((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100); 
+      profitability2 = (((recomendedPrice - costTotal) / recomendedPrice) * 100); 
       costActualProfitability = parseFloat(data.turnover) - price2; 
     }
 
