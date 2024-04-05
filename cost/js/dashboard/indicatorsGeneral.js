@@ -123,10 +123,10 @@ $(document).ready(function () {
         turnover += data[i].turnover;
 
         let dataCost = getDataCost(data[i]);
-        if (isFinite(dataCost.actualProfitability)) {
+        if (isFinite(dataCost.actualProfitability2)) {
           contProfitability += 1;
           price2 += dataCost.price2;
-          actualProfitability += dataCost.actualProfitability;
+          actualProfitability += dataCost.actualProfitability2;
         }
       }       
       let averageprofitability = profitability / data.length;

@@ -588,6 +588,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     }
 
     $products = $generalProductsDao->findAllEDProductsByCompany($id_company);
+    // $products = $generalProductsDao->findAllProducts($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
         if ($expensesDistribution == null)
@@ -653,7 +654,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
         if (isset($expensesDistribution['info'])) break;
 
-        if ($products[$i]['soldUnit'] != 'NULL' || $products[$i]['soldUnit'] != 0) {
+        if ($products[$i]['soldUnit'] != 0) {
             $multiproducts = $multiproductsDao->findMultiproduct($products[$i]['id_product']);
 
             if (!$multiproducts)

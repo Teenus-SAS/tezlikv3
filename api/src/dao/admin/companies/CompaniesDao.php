@@ -22,7 +22,9 @@ class CompaniesDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT *, (SELECT id_company FROM users WHERE id_user = 1) AS id_company_user1
-                                      FROM companies WHERE company != 'Demo'");
+                                      FROM companies c 
+                                      INNER JOIN companies_licenses cl ON cl.id_company = c.id_company
+                                      WHERE c.company != 'Demo' AND cl.license_start <= cl.license_end");
         $stmt->execute();
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $companyData = $stmt->fetchAll($connection::FETCH_ASSOC);
