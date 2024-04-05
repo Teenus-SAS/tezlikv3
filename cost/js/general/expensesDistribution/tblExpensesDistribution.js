@@ -136,10 +136,12 @@ $(document).ready(function () {
       footerCallback: function (row, data, start, end, display) {
         let units_sold = 0;
         let turnover = 0;
+        let participation = 0;
 
         for (let i = 0; i < data.length; i++) {
           units_sold += parseFloat(data[i].units_sold);
           turnover += parseFloat(data[i].turnover);
+          participation += parseFloat(data[i].participation);
         }
 
         $(this.api().column(3).footer()).html(
@@ -148,6 +150,10 @@ $(document).ready(function () {
 
         $(this.api().column(4).footer()).html(
           `$ ${turnover.toLocaleString('es-CO')}`
+        );
+
+        $(this.api().column(5).footer()).html(
+          `${participation.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`
         );
       },
     });

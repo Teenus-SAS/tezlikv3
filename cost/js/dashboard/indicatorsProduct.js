@@ -103,12 +103,22 @@ $(document).ready(function () {
   UnitsVolSold = (data) => {
     $('#unitsSold').html(data[0].units_sold.toLocaleString('es-CO'));
     $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
-    $('#recomendedPrice').html(
-      `$ ${data[0].price.toLocaleString('es-CO', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      })}`
-    );
+
+    let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
+    isNaN(price) ? price = 0 : price;
+
+    let element = document.getElementById('recomendedPrice');
+    element.innerHTML = `$ ${price.toLocaleString('es-CO', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    })}`;
+
+    if (price < data[0].sale_price)
+      element.className = 'mb-0 text-danger';
+    else if (price == data[0].price)
+      element.className = 'mb-0 text-warning';
+    else
+      element.className = 'mb-0';
   };
 
   /* Costeo Total */

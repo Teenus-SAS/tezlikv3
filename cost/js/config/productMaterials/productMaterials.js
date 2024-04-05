@@ -97,7 +97,14 @@ $(document).ready(function () {
     $('.cardAddMaterials').toggle(800);
     $('#btnAddMaterials').html('Asignar');
     $('#units').empty();
-    $('.categories').show(800); 
+
+    let categories = JSON.parse(sessionStorage.getItem('dataCategories'));
+
+    if(categories.length == 0)
+      $('.categories').hide(); 
+    else
+      $('.categories').show(800); 
+    
     $('.cardProducts').show(800); 
 
     sessionStorage.removeItem('id_product_material');

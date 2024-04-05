@@ -52,7 +52,6 @@ class ExpensesDao
   public function insertExpensesByCompany($dataExpense, $id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    // $expenseValue = str_replace('.', '', $dataExpense['expenseValue']);
 
     try {
       $stmt = $connection->prepare("INSERT INTO expenses (id_puc, id_company, expense_value)

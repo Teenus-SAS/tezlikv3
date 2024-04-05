@@ -99,7 +99,7 @@ $(document).ready(function () {
     let ref = $('#refRawMaterial').val().trim();
     let material = $('#nameRawMaterial').val().trim();
     let unity = $('#units').val();
-    // let category = $('#idCategory').val();
+    let category = $('#idCategory').val();
     let cost = parseFloat($('#costRawMaterial').val());
 
     if (
@@ -127,6 +127,7 @@ $(document).ready(function () {
     }
 
     let dataMaterial = new FormData(formCreateMaterial);
+    dataMaterial.append('idCategory', category);
 
     if (idMaterial != '' || idMaterial != null)
       dataMaterial.append('idMaterial', idMaterial);

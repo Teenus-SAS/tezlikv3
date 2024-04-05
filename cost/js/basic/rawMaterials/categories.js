@@ -111,7 +111,7 @@ $(document).ready(function () {
     };
 
     /* Mensaje de exito */
-    messageCategories = (data) => {
+    messageCategories = async (data) => {
         $('#fileCategories').val('');
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
@@ -122,7 +122,9 @@ $(document).ready(function () {
             $('.cardAddCategories').hide(800);
             $('#formCreateCategory').trigger('reset');
             toastr.success(data.message);
-            loadAllDataCategories();
+            await loadAllDataCategories(); 
+
+            loadTblRawMaterials(allMaterials);
             return false;
         } else if (data.error == true) toastr.error(data.message);
         else if (data.info == true) toastr.info(data.message);

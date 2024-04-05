@@ -35,7 +35,7 @@ $(document).ready(function () {
 
         data = data.find(item => item.id_product == id);
 
-        $('#pAssignableExpense').val((data.assignable_expense).toFixed(2));
+        $('#pAssignableExpense').val((parseFloat(data.assignable_expense)).toFixed(2));
     });
 
     $('#btnAddNewProduct').click(function (e) { 

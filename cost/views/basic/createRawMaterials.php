@@ -148,7 +148,7 @@ if (sizeof($_SESSION) == 0)
                                                     <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
                                                     <label>Nombre Materia Prima</label>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0 categories">
                                                     <select class="form-control" id="idCategory" name="idCategory"></select>
                                                     <label>Categoria</label>
                                                 </div>

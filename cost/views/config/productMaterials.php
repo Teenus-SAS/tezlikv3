@@ -635,6 +635,9 @@ if (sizeof($_SESSION) == 0)
                     /* Productos */
                     sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
+                    /* Categorias */
+                    sessionStorage.setItem('dataCategories', JSON.stringify(dataCategories));
+
                     let $select = $(`.refProduct`);
                     $select.empty();
 
@@ -736,6 +739,11 @@ if (sizeof($_SESSION) == 0)
                     });
 
                     /* Categorias */
+                    if (dataCategories.length == 0) {
+                        $('.categories').hide();
+                    } else
+                        $('.categories').show();
+
                     $select = $(`#categories`);
                     $select.empty();
 

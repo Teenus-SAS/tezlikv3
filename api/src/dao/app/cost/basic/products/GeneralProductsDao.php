@@ -19,10 +19,10 @@ class GeneralProductsDao
     public function findAllEDProductsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.id_product AS selectNameProduct, gl.total_expense AS expense, ed.units_sold AS soldUnit, 0 AS participation
+        $stmt = $connection->prepare("SELECT p.id_product, p.id_product AS selectNameProduct, gl.total_expense AS expense, IFNULL(ed.units_sold, 0) AS soldUnit, 0 AS participation
                                         FROM products p
                                             INNER JOIN general_data gl ON gl.id_company = p.id_company
-                                            INNER JOIN expenses_distribution ed ON ed.id_product = p.id_product
+                                            LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
                                         WHERE p.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
 
