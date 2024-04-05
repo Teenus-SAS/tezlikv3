@@ -358,6 +358,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        sessionStorage.removeItem('typePrice');
     </script>
 </body>
 

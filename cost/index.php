@@ -495,6 +495,7 @@ if (sizeof($_SESSION) == 0)
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
+                                    coverage = "<?= $_SESSION['coverage'] ?>";
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";

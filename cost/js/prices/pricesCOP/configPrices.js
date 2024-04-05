@@ -6,6 +6,19 @@ $(document).ready(function () {
   });
 
   loadDataPrices = async () => {
+    let typePrice = sessionStorage.getItem('typePrice');
+
+    let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+    if (typePrice == '1' || !typePrice) {
+      element.id = 'usd';
+      element.innerText = 'Precios USD';
+    }
+    else {
+      element.id = 'cop';
+      element.innerText = 'Precios COP';
+    }
+    
     let data = await searchData('/api/prices');
 
     let $select = $(`#product`);
@@ -25,19 +38,19 @@ $(document).ready(function () {
 
   loadDataPrices();
 
-  $('.btnPricesUSD').click(function (e) {
+  $('.btnPricesUSD').click(async function (e) {
     e.preventDefault();
     let id = this.id;
+
+    id == 'cop' ? op = 1 : op = 2;
+    sessionStorage.setItem('typePrice', op);
 
     if (viewPrices == 1) {
       $('.cardPricesCOP').toggle();
       $('.cardPricesUSD').toggle();
 
       flag_composite_product == '1' ? data = parents : data = prices;
-      id == 'cop' ? op = 1 : op = 2;
 
-      sessionStorage.setItem('typePrice', op);
-    
       loadTblPrices(data, op);
     } else {
       let element = document.getElementsByClassName('btnPricesUSD')[0];
@@ -50,6 +63,9 @@ $(document).ready(function () {
         element.id = 'usd';
         element.innerText = 'Precios USD';
       }
+      let id_product = sessionStorage.getItem('idProduct');
+
+      loadIndicatorsProducts(id_product);
     }
   });
 });
