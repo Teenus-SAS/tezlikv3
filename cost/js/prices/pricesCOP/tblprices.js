@@ -104,23 +104,23 @@ $(document).ready(function () {
           visible: visible,
           render: function (data) {
             let dataCost = getDataCost(data);
-            if (!isFinite(dataCost.actualProfitability2))
-              dataCost.actualProfitability2 = 0;
+            if (!isFinite(dataCost.actualProfitability3))
+              dataCost.actualProfitability3 = 0;
 
-            let profitabilityText = `${dataCost.actualProfitability2.toLocaleString(
+            let profitabilityText = `${dataCost.actualProfitability3.toLocaleString(
               "es-CO",
               { maximumFractionDigits: 2 }
             )} %`;
             let badgeClass = "";
 
             if (
-              dataCost.actualProfitability2 < data.profitability &&
-              dataCost.actualProfitability2 > 0 &&
+              dataCost.actualProfitability3 < data.profitability &&
+              dataCost.actualProfitability3 > 0 &&
               data.sale_price > 0
             ) {
               badgeClass = "badge badge-warning"; // Use "badge badge-warning" for orange
             } else if (
-              dataCost.actualProfitability2 < data.profitability &&
+              dataCost.actualProfitability3 < data.profitability &&
               data.sale_price > 0
             ) {
               badgeClass = "badge badge-danger"; // Use "badge badge-danger" for red

@@ -33,7 +33,7 @@ $(document).ready(function () {
       price2 = 0;
 
       // profitability = ((data.sale_price - costTotal) / data.sale_price) * 100;
-      // profitability2 = ((data.sale_price - costTotal) / data.sale_price) * 100;
+      profitability3 = ((data.sale_price - costTotal) / data.sale_price) * 100;
       profitability = ((recomendedPrice - costTotal) / recomendedPrice) * 100;
       profitability2 = ((recomendedPrice - costTotal) / recomendedPrice) * 100;
       costActualProfitability = parseFloat(data.sale_price) * (profitability / 100);
@@ -41,13 +41,14 @@ $(document).ready(function () {
     } else if ((data.units_sold > 0 && data.turnover > 0) || flag_expense === "1") { 
       price2 = costTotal * parseFloat(data.units_sold);
       profitability = ((parseFloat(data.turnover) - price2) / price2) * 100;
-      // profitability2 = (((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100); 
+      profitability3 = (((parseFloat(data.sale_price) - costTotal) / parseFloat(data.sale_price)) * 100); 
       profitability2 = (((recomendedPrice - costTotal) / recomendedPrice) * 100); 
       costActualProfitability = parseFloat(data.turnover) - price2; 
     }
 
     isNaN(profitability) ? (profitability = 0) : profitability;
     isNaN(profitability2) ? (profitability2 = 0) : profitability2;
+    isNaN(profitability3) ? (profitability3 = 0) : profitability3;
     isNaN(costProfitability) ? (costProfitability = 0) : costProfitability;
     isNaN(costCommissionSale) ? (costCommissionSale = 0) : costCommissionSale;
     isNaN(costActualProfitability)
@@ -59,6 +60,7 @@ $(document).ready(function () {
       costTotal: costTotal,
       actualProfitability: profitability,
       actualProfitability2: profitability2,
+      actualProfitability3: profitability3,
       costCommissionSale: costCommissionSale,
       costProfitability: costProfitability,
       costActualProfitability: costActualProfitability,
