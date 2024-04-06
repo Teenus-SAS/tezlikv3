@@ -109,8 +109,8 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                         <div class="d-flex flex-column">
                                             <div class="align-self-end btn-group" id="btnsEconomy">
-                                                <button class="btn btn-sm btn-primary typePrice cardBottons" id="sugered" value="1">Precio Sugerido</button>
-                                                <button class="btn btn-sm btn-outline-primary typePrice cardBottons" id="actual" value="2">Precio de Venta Actual</button>
+                                                <button class="btn btn-sm btn-primary typePrice cardBottons" id="sugered" value="1">Precio (Sugerido)</button>
+                                                <button class="btn btn-sm btn-outline-primary typePrice cardBottons" id="actual" value="2">Precio (Lista)</button>
                                             </div>
                                         </div>
                                     </div>

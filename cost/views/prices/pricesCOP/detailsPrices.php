@@ -180,15 +180,15 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
                                                 <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Real</span>
-                                                    <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large">$ 55.000</h2>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Real)</span>
+                                                    <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
                                                 </div>
                                                 <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Lista)</span>
                                                     <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
                                                 </div>
                                                 <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Sugerido)</span>
                                                     <h3 class="mb-0 mt-1 text-warning suggestedPrice" style="font-size: x-large"></h3>
                                                 </div>
                                             </div>

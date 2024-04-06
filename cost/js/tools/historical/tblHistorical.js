@@ -123,7 +123,7 @@ $(document).ready(function () {
                     render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
                 },
                 {
-                    title: 'Precio (Actual)',
+                    title: 'Precio (Lista)',
                     data: 'sale_price',
                     className: 'classCenter',
                     // visible: visible,
