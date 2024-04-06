@@ -265,8 +265,11 @@ if (sizeof($_SESSION) == 0)
         coverage = "<?= $_SESSION['coverage'] ?>";
 
         $(document).ready(function() {
+
+            // Validar que precio estaba anteriormente seleccionado
             let session_flag = sessionStorage.getItem('flag_type_price');
 
+            // Precio Sugerido
             if (session_flag == '1') {
                 $('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
@@ -274,7 +277,7 @@ if (sizeof($_SESSION) == 0)
                     "btn btn-sm btn-primary typePrice cardBottons";
                 document.getElementById("actual").className =
                     "btn btn-sm btn-outline-primary typePrice cardBottons";
-            } else {
+            } else { // Precio Actual
                 $('#labelDescription').html(`Descripción (Precio Actual)`);
 
                 document.getElementById("actual").className =
@@ -283,14 +286,16 @@ if (sizeof($_SESSION) == 0)
                     "btn btn-sm btn-outline-primary typePrice cardBottons";
             }
 
+            // Validar que valor de precio esta seleccionado
             let typePrice = sessionStorage.getItem('typePrice');
 
             let element = document.getElementsByClassName('btnPricesUSD')[0];
 
+            // Dolares
             if (typePrice == '1' || !typePrice) {
                 element.id = 'usd';
                 element.innerText = 'Precios USD';
-            } else {
+            } else { // Pesos
                 element.id = 'cop';
                 element.innerText = 'Precios COP';
             }

@@ -231,19 +231,6 @@ if (sizeof($_SESSION) == 0)
                                                             <?php if ($_SESSION['flag_expense'] == 2) { ?>
                                                                 <div class="col-md-4 col-lg-3">
                                                                 <?php } ?>
-                                                                <!-- <div class="card bg-success">
-                                                                    <a class="card-body cardActualProfitability" href="javascript:;">
-                                                                        <div class="media text-white">
-                                                                            <div class="media-body">
-                                                                                <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                                                <h2 class="mb-0 mt-1 text-white" id="actualProfitabilityAverage"></h2>
-                                                                            </div>
-                                                                            <div class="align-self-center mt-1">
-                                                                                <i class="bx bx-line-chart fs-xl"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </a>
-                                                                </div> -->
                                                                 <div class="cardActualProfitability"></div>
                                                                 <div class="card bg-warning">
                                                                     <div class="card-body">
@@ -259,10 +246,7 @@ if (sizeof($_SESSION) == 0)
                                                                     </div>
                                                                 </div>
                                                                 <!-- Tiempos -->
-                                                                <div class="card"> <!-- Tiempos -->
-                                                                    <!-- <div class="card-header">
-                                                                    <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
-                                                            </div> -->
+                                                                <div class="card">
                                                                     <div class="card-body p-0">
                                                                         <ul class="list-group list-group-flush">
                                                                             <?php if ($_SESSION['flag_expense'] == 2 || $_SESSION['flag_expense'] == 0) { ?>
@@ -512,18 +496,21 @@ if (sizeof($_SESSION) == 0)
                                     modalActive = false;
 
                                     $(document).ready(function() {
+                                        // Validar que Valor de precio estaba anteriormente seleccionado
                                         let typePrice = sessionStorage.getItem('typePrice');
 
                                         let element = document.getElementsByClassName('btnPricesUSD')[0];
 
+                                        // Dolares
                                         if (typePrice == '1' || !typePrice) {
                                             element.id = 'usd';
                                             element.innerText = 'Precios USD';
-                                        } else {
+                                        } else { // Pesos
                                             element.id = 'cop';
                                             element.innerText = 'Precios COP';
                                         }
 
+                                        // Funcion para cambiar de valor del precio manualmente
                                         $('.btnPricesUSD').click(async function(e) {
                                             e.preventDefault();
                                             let id = this.id;
@@ -532,13 +519,16 @@ if (sizeof($_SESSION) == 0)
                                             sessionStorage.setItem('typePrice', op);
                                             let element = document.getElementsByClassName('btnPricesUSD')[0];
 
+                                            // Dolares
                                             if (id == 'usd') {
                                                 element.id = 'cop';
                                                 element.innerText = 'Precios COP';
-                                            } else {
+                                            } else { // Pesos
                                                 element.id = 'usd';
                                                 element.innerText = 'Precios USD';
                                             }
+
+                                            // Recargar Datos
                                             let id_product = $('#refProduct').val();
 
                                             loadAllData();

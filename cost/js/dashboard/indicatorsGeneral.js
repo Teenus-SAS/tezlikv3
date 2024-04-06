@@ -3,9 +3,12 @@ $(document).ready(function () {
     try {
       let data = await searchData('/api/dashboardExpensesGenerals');
 
-      let typePrice = sessionStorage.getItem('typePrice');
+      // Validar que el tipo de valor del precio esta en dolares o pesos
+      let typePrice1 = sessionStorage.getItem('typePrice');
 
-      if (typePrice == '2') { 
+      // Dolares
+      if (typePrice1 == '2') {
+        // Convertir costos a dolares de acuerdo al dolar de cobertura
         for (let i = 0; i < data.details_prices.length; i++) {
           data.details_prices[i].cost_workforce = parseFloat(data.details_prices[i].cost_workforce) / parseFloat(coverage);
           data.details_prices[i].cost_materials = parseFloat(data.details_prices[i].cost_materials) / parseFloat(coverage);
@@ -34,7 +37,6 @@ $(document).ready(function () {
         }
       }
 
-
       generalIndicators(
         data.expense_value,
         data.expense_recover,
@@ -42,15 +44,20 @@ $(document).ready(function () {
       );
       averagePrices(data.details_prices);
       generalSales(data.details_prices);
+
+      // Si el accesos de multiproductos esta activo cargar grafica
       if (cost_multiproduct == 1 && plan_cost_multiproduct == 1)
         graphicMultiproducts(data.multiproducts);
+
       graphicTimeProcessByProduct(data.time_process);
       averagesTime(data.average_time_process);
       graphicsFactoryLoad(data.factory_load_minute_value);
       graphicWorkforce(data.process_minute_value);
       graphicGeneralCost(data.expense_value);
 
+      // Validar si el acceso de distribucion esta activo y esta por producto
       if (flag_expense === '1' && flag_expense_distribution === '1') {
+        // Recargar grafico de productos con mayor rentabilidad con el precio actual
         typePrice = '2';
         document.getElementById("actual").className =
           "btn btn-sm btn-primary typePrice";
@@ -60,16 +67,15 @@ $(document).ready(function () {
         $(".productTitle").html("Productos con mayor rentabilidad (Actual)");
         graphicProductActualCost(data.details_prices);
       }
-      else
+      else //
         graphicProductCost(data.details_prices);
 
       generalMaterials(data.quantity_materials);
-  
+
+      // Dejar variables array globales para llamarlos despues  
       dataPucExpenes = data.expenses;
-  
       dataExpenses = data.expense_value;
       dataDetailsPrices = data.details_prices;
-
     } catch (error) {
       console.error('Error loading data:', error);
     }

@@ -372,20 +372,21 @@ $(document).ready(function () {
     });
   };
 
+  // Funcion para cargar grafica de productos con mayor rentabilidad de acuerdo al precio
   $(document).on("click", ".typePrice", function () {
     let op = this.value;
     let className = this.className;
     typePrice = op;
 
     // let data = await searchData("/api/dashboardExpensesGenerals");
-    if (op == 1 && className.includes("btn-outline-primary")) {
+    if (op == 1 && className.includes("btn-outline-primary")) { // Precio Sugerido
       document.getElementById("sugered").className =
         "btn btn-sm btn-primary typePrice";
       document.getElementById("actual").className =
         "btn btn-sm btn-outline-primary typePrice";
       $(".productTitle").html("Productos con mayor rentabilidad (Sugerida)");
       graphicProductCost(dataDetailsPrices);
-    } else if (className.includes("btn-outline-primary")) {
+    } else if (className.includes("btn-outline-primary")) { // Precio Actual
       document.getElementById("actual").className =
         "btn btn-sm btn-primary typePrice";
       document.getElementById("sugered").className =
