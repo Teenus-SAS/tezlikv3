@@ -10,7 +10,7 @@ $(document).ready(function () {
     let cost_workforce = 0;
     let cost_indirect_cost = 0;
     let services = 0;
-    let expense = data.expense;
+    let expense = data.assignable_expense;
     let sale_price = 0;
     let turnover = 0;
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
     cost = data.cost_materials + data.cost_workforce + data.cost_indirect_cost + data.services;
 
     if (flag_expense == 0 || flag_expense == 1) {
-      costTotal = cost + data.expense;
+      costTotal = cost + data.assignable_expense;
     } else if (flag_expense == 2) {
       costTotal = cost / (1 - parseFloat(data.expense_recover) / 100);
       expense = costTotal * (parseFloat(data.expense_recover) / 100);

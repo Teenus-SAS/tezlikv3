@@ -184,7 +184,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Real</span>
-                                                    <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large">$ 55.000</h2>
+                                                    <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
                                                 </div>
                                                 <div class="media-body align-items-center">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
@@ -330,7 +330,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <div class="media">
                                                                     <div class="media-body">
                                                                         <p class="text-muted mb-2">Precio de Venta Real</p>
-                                                                        <h4 class="mb-0 recomendedPrice" id="recomendedPrice">$</h4>
+                                                                        <h4 class="mb-0 recomendedPrice" id="recomendedPrice"></h4>
                                                                     </div>
                                                                     <div class="avatar avatar-md bg-success mr-0 align-self-center">
                                                                         <i class="bx bx-chart fs-lg"></i>

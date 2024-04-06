@@ -1,5 +1,11 @@
 $(document).ready(function () {
   var chartProductsCost;
+  var chartMultiproducts;
+  var chartTimeProcessProducts;
+  var chartWorkForceGeneral;
+  var chartFactoryLoadCost;
+  var chartExpensesGenerals; 
+
   var anchura = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
@@ -20,7 +26,9 @@ $(document).ready(function () {
     
     const cmc = document.getElementById("chartMultiproducts").getContext("2d");
 
-    const chartWorkForce = new Chart(cmc, {
+    chartMultiproducts ? chartMultiproducts.destroy() : chartMultiproducts;
+
+    chartMultiproducts = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: "doughnut",
       data: {
@@ -84,12 +92,14 @@ $(document).ready(function () {
 
     let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     const cmc = document.getElementById("chartTimeProcessProducts");
-    const chartTimeProcessProducts = new Chart(cmc, {
+    chartTimeProcessProducts ? chartTimeProcessProducts.destroy() : chartTimeProcessProducts;
+
+    chartTimeProcessProducts = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: "bar",
       data: {
@@ -148,16 +158,19 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
       totalCost = totalCost + minuteValue[i];
     }
 
+    sessionStorage.getItem('typePrice') == '2' ? max = 2 : max = 1;
+
     $("#totalCostWorkforce").html(
       `$ ${totalCost.toLocaleString("es-CO", {
         minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
+        maximumFractionDigits: max,
       })}`
     );
 
     const cmc = document.getElementById("chartWorkForceGeneral");
+    chartWorkForceGeneral ? chartWorkForceGeneral.destroy() : chartWorkForceGeneral;
 
-    const chartWorkForce = new Chart(cmc, {
+    chartWorkForceGeneral = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: "doughnut",
       data: {
@@ -228,7 +241,9 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
     );
 
     const cmc = document.getElementById("chartFactoryLoadCost");
-    const chartFactoryLoadCost = new Chart(cmc, {
+    chartFactoryLoadCost ? chartFactoryLoadCost.destroy() : chartFactoryLoadCost;
+
+    chartFactoryLoadCost = new Chart(cmc, {
       plugins: [ChartDataLabels],
       type: "doughnut",
       data: {
@@ -292,7 +307,9 @@ let maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
     /* Grafico */
     var canvasExpenses = document.getElementById("chartExpensesGenerals");
-    var chartExpensesGenerals = new Chart(canvasExpenses, {
+    chartExpensesGenerals ? chartExpensesGenerals.destroy() : chartExpensesGenerals;
+
+    chartExpensesGenerals = new Chart(canvasExpenses, {
       plugins: [ChartDataLabels],
       type: "doughnut",
       data: {

@@ -1,45 +1,79 @@
 $(document).ready(function () {
-  setTimeout(() => {
-    fetch(`/api/dashboardExpensesGenerals`)
-      .then((response) => response.text())
-      .then((data) => {
-        data = JSON.parse(data);
-        generalIndicators(
-          data.expense_value,
-          data.expense_recover,
-          data.multiproducts
-        );
-        averagePrices(data.details_prices);
-        generalSales(data.details_prices);
-        if (cost_multiproduct == 1 && plan_cost_multiproduct == 1)
-          graphicMultiproducts(data.multiproducts);
-        graphicTimeProcessByProduct(data.time_process);
-        averagesTime(data.average_time_process);
-        graphicsFactoryLoad(data.factory_load_minute_value);
-        graphicWorkforce(data.process_minute_value);
-        graphicGeneralCost(data.expense_value);
+  loadAllData = async () => {
+    try {
+      let data = await searchData('/api/dashboardExpensesGenerals');
 
-        if (flag_expense === '1' && flag_expense_distribution === '1') {
-          typePrice = '2';
-          document.getElementById("actual").className =
-            "btn btn-sm btn-primary typePrice";
-          document.getElementById("sugered").className =
-            "btn btn-sm btn-outline-primary typePrice";
+      let typePrice = sessionStorage.getItem('typePrice');
 
-          $(".productTitle").html("Productos con mayor rentabilidad (Actual)");
-          graphicProductActualCost(data.details_prices);
+      if (typePrice == '2') { 
+        for (let i = 0; i < data.details_prices.length; i++) {
+          data.details_prices[i].cost_workforce = parseFloat(data.details_prices[i].cost_workforce) / parseFloat(coverage);
+          data.details_prices[i].cost_materials = parseFloat(data.details_prices[i].cost_materials) / parseFloat(coverage);
+          data.details_prices[i].cost_indirect_cost = parseFloat(data.details_prices[i].cost_indirect_cost) / parseFloat(coverage);
+          data.details_prices[i].price = data.details_prices[i].price_usd;
+          data.details_prices[i].sale_price = data.details_prices[i].sale_price_usd;
+          data.details_prices[i].turnover = parseFloat(data.details_prices[i].turnover) / parseFloat(coverage);
+          data.details_prices[i].assignable_expense = parseFloat(data.details_prices[i].assignable_expense) / parseFloat(coverage);
+          data.details_prices[i].services = parseFloat(data.details_prices[i].services) / parseFloat(coverage);
         }
-        else
-          graphicProductCost(data.details_prices);
 
-        generalMaterials(data.quantity_materials);
+        for (let i = 0; i < data.expense_value.length; i++) {
+          data.expense_value[i].expenseCount = parseFloat(data.expense_value[i].expenseCount) / parseFloat(coverage);
+        }
+          
+        for (let i = 0; i < data.expenses.length; i++) {
+          data.expenses[i].expense_value = parseFloat(data.expenses[i].expense_value) / parseFloat(coverage);
+        }
+          
+        for (let i = 0; i < data.factory_load_minute_value.length; i++) {
+          data.factory_load_minute_value[i].totalCostMinute = parseFloat(data.factory_load_minute_value[i].totalCostMinute) / parseFloat(coverage);
+        }
+
+        for (let i = 0; i < data.process_minute_value.length; i++) {
+          data.process_minute_value[i].minute_value = parseFloat(data.process_minute_value[i].minute_value) / parseFloat(coverage);
+        }
+      }
+
+
+      generalIndicators(
+        data.expense_value,
+        data.expense_recover,
+        data.multiproducts
+      );
+      averagePrices(data.details_prices);
+      generalSales(data.details_prices);
+      if (cost_multiproduct == 1 && plan_cost_multiproduct == 1)
+        graphicMultiproducts(data.multiproducts);
+      graphicTimeProcessByProduct(data.time_process);
+      averagesTime(data.average_time_process);
+      graphicsFactoryLoad(data.factory_load_minute_value);
+      graphicWorkforce(data.process_minute_value);
+      graphicGeneralCost(data.expense_value);
+
+      if (flag_expense === '1' && flag_expense_distribution === '1') {
+        typePrice = '2';
+        document.getElementById("actual").className =
+          "btn btn-sm btn-primary typePrice";
+        document.getElementById("sugered").className =
+          "btn btn-sm btn-outline-primary typePrice";
+
+        $(".productTitle").html("Productos con mayor rentabilidad (Actual)");
+        graphicProductActualCost(data.details_prices);
+      }
+      else
+        graphicProductCost(data.details_prices);
+
+      generalMaterials(data.quantity_materials);
   
-        dataPucExpenes = data.expenses;
+      dataPucExpenes = data.expenses;
   
-        dataExpenses = data.expense_value;
-        dataDetailsPrices = data.details_prices;
-      });
-  }, 1000);
+      dataExpenses = data.expense_value;
+      dataDetailsPrices = data.details_prices;
+
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  }
 
   /* Colors */
   dynamicColors = () => {
@@ -96,7 +130,7 @@ $(document).ready(function () {
         }
       )} %`;
     }
-    $('#expenses').html(expenses);
+    $('#expenses1').html(expenses);
     $('#generalCost').html(totalExpense);
   };
 
@@ -142,7 +176,9 @@ $(document).ready(function () {
 
       let cardActualProfitability = document.getElementsByClassName('cardActualProfitability')[0];
 
-      cardActualProfitability.insertAdjacentHTML('afterbegin',
+      $('.cardActualProfitability').empty();
+
+      cardActualProfitability.insertAdjacentHTML('beforeend',
       `<div class="card btnActualProfitabilityAverage ${averageActualProfitability < 0 ? 'bg-danger':'bg-success'}">
         <a class="card-body" id="btnActualProfitabilityAverage" href="javascript:;">
           <div class="media text-white">
@@ -235,4 +271,6 @@ $(document).ready(function () {
     $('#productsSold').html(units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-CO')}`);
   };  
+
+  loadAllData();
 });

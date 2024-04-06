@@ -113,8 +113,12 @@ $(document).ready(function () {
       totalCost = totalCost + workforce[i];
     }
 
+    let typePrice = sessionStorage.getItem('typePrice');
+
+    typePrice == '2' ? max = 2 : max = 0;
+
     $('#totalCostWorkforceEsp').html(
-      `$ ${totalCost.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
+      `$ ${totalCost.toLocaleString('es-CO', { maximumFractionDigits: max })}`
     );
 
     chartWorkForce ? chartWorkForce.destroy() : chartWorkForce;
@@ -308,8 +312,11 @@ $(document).ready(function () {
 
     let product = [costs, percentages];
 
+    let typePrice = sessionStorage.getItem('typePrice');
+    typePrice == '2' ? max = 2 : max = 0;
+
     $('#totalPricesComp').html(
-      `$ ${data[0].price.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`
+      `$ ${data[0].price.toLocaleString('es-CO', { maximumFractionDigits: max })}`
     );
 
     charCompPrice ? charCompPrice.destroy() : charCompPrice;

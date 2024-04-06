@@ -1,29 +1,33 @@
 $(document).ready(function () {
   $('#btnComposite').click(function (e) {
     e.preventDefault();
+    let typePrice = sessionStorage.getItem('typePrice');
+    typePrice == '2' ? op1 = 2 : op1 = 1;
 
     if (op == 1) {
       op = 2;
-      loadTblPrices(composites, 1);
+      loadTblPrices(composites, op1);
     }
     else {
       op = 1;
-      loadTblPrices(parents, 1);
+      loadTblPrices(parents, op1);
     }
   });
 
   loadAllData = async () => {
     try {
       const prices = await searchData('/api/prices');
-      op = 1;
+
+      let typePrice = sessionStorage.getItem('typePrice');
+      typePrice == '2' ? op1 = 2 : op1 = 1;
 
       parents = prices.filter(item => item.composite == 0);
       composites = prices.filter(item => item.composite == 1);
 
       if (flag_composite_product == '1') {
-        loadTblPrices(parents, 1);
+        loadTblPrices(parents, op1);
       } else
-        loadTblPrices(prices, 1);
+        loadTblPrices(prices, op1);
     } catch (error) {
       console.error('Error loading data:', error);
     }

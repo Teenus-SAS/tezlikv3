@@ -12,7 +12,7 @@ $(document).ready(function () {
         data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage));
         data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage));
         data.cost_product[0].services = (parseFloat(data.cost_product[0].services) / parseFloat(coverage));
-        data.cost_product[0].expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage));
+        data.cost_product[0].assignable_expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage));
         data.cost_product[0].price = parseFloat(data.cost_product[0].price_usd);
         data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_usd);
         data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage));
@@ -22,6 +22,13 @@ $(document).ready(function () {
       await UnitsVolSold(data.cost_product);
       await totalCostData(data.cost_product);
       await graphicCostExpenses(data.cost_product);
+
+      if (typePrice == '2') {
+        for (let i = 0; i < data.cost_workforce.length; i++) {
+          data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage);
+        }
+      }
+
       await graphicCostWorkforce(data.cost_workforce);
       await graphicCostTimeProcess(data.cost_time_process);
       await graphicPromTime(data.average_time_process);
@@ -33,6 +40,12 @@ $(document).ready(function () {
       }
       else
         data = data.cost_materials;
+
+      if (typePrice == '2') {
+        for (let i = 0; i < data.length; i++) {
+          data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage);
+        }
+      }
     
       await graphicCostMaterials(data);
     }
@@ -142,12 +155,13 @@ $(document).ready(function () {
     let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
     isNaN(price) ? price = 0 : price;
 
-    let element = document.getElementById('recomendedPrice');
-    element.innerHTML = `$ ${price.toLocaleString('es-CO', {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    })
-      }`;
+    let element = document.getElementsByClassName('recomendedPrice');
+    
+    for (let i = 0; i < element.length; i++) {
+      element[i].innerHTML = `$ ${price.toLocaleString('es-CO', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`;
 
       if (price < data[0].sale_price)
         element[i].className = 'mb-0 text-danger recomendedPrice';
@@ -155,7 +169,7 @@ $(document).ready(function () {
         element[i].className = 'mb-0 text-warning recomendedPrice';
       else
         element[i].className = 'mb-0 recomendedPrice';
-    
+    }
   };
 
   /* Costeo Total */
@@ -303,7 +317,7 @@ $(document).ready(function () {
       $('#actualSalePrice').addClass('text-warning');
     }
     else if (dataCost.actualProfitability2 < data[0].profitability && data[0].sale_price > 0) {
-    content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">

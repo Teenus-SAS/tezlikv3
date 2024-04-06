@@ -77,9 +77,12 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mt-1 mr-2">
                                     <button class="btn btn-warning" id="btnNeweconomyScale">Nuevo Calculo</button>
+                                </div>
+                                <div class="col-xs-2 mt-1">
+                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                 </div>
                             </div>
                         </div>
@@ -108,9 +111,10 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                         </div>
                                         <div class="d-flex flex-column">
-                                            <div class="align-self-end btn-group" id="btnsEconomy">
+                                            <div class="align-self-end btn-group">
                                                 <button class="btn btn-sm btn-primary typePrice cardBottons" id="sugered" value="1">Precio Sugerido</button>
                                                 <button class="btn btn-sm btn-outline-primary typePrice cardBottons" id="actual" value="2">Precio de Venta Actual</button>
+                                                <div id="btnsEconomy"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -258,24 +262,37 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
+        coverage = "<?= $_SESSION['coverage'] ?>";
 
         $(document).ready(function() {
             let session_flag = sessionStorage.getItem('flag_type_price');
 
-            if (session_flag == 1) {
+            if (session_flag == '1') {
                 $('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
-                document.getElementById("actual").className =
-                    "btn btn-sm btn-primary typePrice cardBottons";
                 document.getElementById("sugered").className =
+                    "btn btn-sm btn-primary typePrice cardBottons";
+                document.getElementById("actual").className =
                     "btn btn-sm btn-outline-primary typePrice cardBottons";
             } else {
                 $('#labelDescription').html(`Descripción (Precio Actual)`);
 
-                document.getElementById("sugered").className =
-                    "btn btn-sm btn-primary typePrice cardBottons";
                 document.getElementById("actual").className =
+                    "btn btn-sm btn-primary typePrice cardBottons";
+                document.getElementById("sugered").className =
                     "btn btn-sm btn-outline-primary typePrice cardBottons";
+            }
+
+            let typePrice = sessionStorage.getItem('typePrice');
+
+            let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+            if (typePrice == '1' || !typePrice) {
+                element.id = 'usd';
+                element.innerText = 'Precios USD';
+            } else {
+                element.id = 'cop';
+                element.innerText = 'Precios COP';
             }
         });
     </script>

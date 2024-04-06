@@ -82,8 +82,14 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
+
                             <div class="col-sm-5 col-xl-6 d-flex justify-content-end btnPrintPDF">
-                                <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
+                                <div class="col-xs-2 mr-2 mt-1">
+                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                </div>
+                                <div class="col-xs-2 mt-1">
+                                    <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,7 +188,7 @@ if (sizeof($_SESSION) == 0)
                                                             <div class="card-body">
                                                                 <div class="media align-items-center">
                                                                     <div class="media-body">
-                                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold" id="expenses"></span>
+                                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold" id="expenses1"></span>
                                                                         <h2 class="mb-0 mt-1 text-info" id="generalCost"></h2>
                                                                     </div>
                                                                     <div class="text-center">
@@ -220,10 +226,10 @@ if (sizeof($_SESSION) == 0)
                                                     <!-- Row 2-->
                                                     <div class="row align-items-stretch">
                                                         <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                            <div class="pt-4 col-md-4 col-lg-3 cardActualProfitability">
+                                                            <div class="pt-4 col-md-4 col-lg-3">
                                                             <?php } ?>
                                                             <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                                <div class="col-md-4 col-lg-3 cardActualProfitability">
+                                                                <div class="col-md-4 col-lg-3">
                                                                 <?php } ?>
                                                                 <!-- <div class="card bg-success">
                                                                     <a class="card-body cardActualProfitability" href="javascript:;">
@@ -238,6 +244,7 @@ if (sizeof($_SESSION) == 0)
                                                                         </div>
                                                                     </a>
                                                                 </div> -->
+                                                                <div class="cardActualProfitability"></div>
                                                                 <div class="card bg-warning">
                                                                     <div class="card-body">
                                                                         <div class="media text-white">
@@ -503,6 +510,40 @@ if (sizeof($_SESSION) == 0)
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
                                     modalActive = false;
+
+                                    $(document).ready(function() {
+                                        let typePrice = sessionStorage.getItem('typePrice');
+
+                                        let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+                                        if (typePrice == '1' || !typePrice) {
+                                            element.id = 'usd';
+                                            element.innerText = 'Precios USD';
+                                        } else {
+                                            element.id = 'cop';
+                                            element.innerText = 'Precios COP';
+                                        }
+
+                                        $('.btnPricesUSD').click(async function(e) {
+                                            e.preventDefault();
+                                            let id = this.id;
+
+                                            id == 'cop' ? op = 1 : op = 2;
+                                            sessionStorage.setItem('typePrice', op);
+                                            let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+                                            if (id == 'usd') {
+                                                element.id = 'cop';
+                                                element.innerText = 'Precios COP';
+                                            } else {
+                                                element.id = 'usd';
+                                                element.innerText = 'Precios USD';
+                                            }
+                                            let id_product = $('#refProduct').val();
+
+                                            loadAllData();
+                                        });
+                                    });
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>
