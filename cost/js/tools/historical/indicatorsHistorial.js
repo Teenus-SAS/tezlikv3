@@ -207,7 +207,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
                           <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                         <div class="text-center">
@@ -225,7 +225,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
                           <h2 class="mb-0 mt-1 costProduct text-success">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                         <div class="text-center">
@@ -243,7 +243,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
                           <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                         <div class="text-center">

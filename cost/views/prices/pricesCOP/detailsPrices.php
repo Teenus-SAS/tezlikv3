@@ -215,7 +215,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Mínima</span>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Mín)</span>
                                                 <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
                                             </div>
                                             <!-- <div class="text-center"> 
@@ -326,7 +326,7 @@ if (sizeof($_SESSION) == 0)
                                                             <li class="list-group-item py-4">
                                                                 <div class="media">
                                                                     <div class="media-body">
-                                                                        <p class="text-muted mb-2">Precio de Venta Real</p>
+                                                                        <p class="text-muted mb-2">Precio (Real)</p>
                                                                         <h4 class="mb-0 recomendedPrice" id="recomendedPrice">$</h4>
                                                                     </div>
                                                                     <div class="avatar avatar-md bg-success mr-0 align-self-center">

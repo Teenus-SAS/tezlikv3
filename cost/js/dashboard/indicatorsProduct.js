@@ -252,7 +252,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
                           <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability3.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %</h2>
                         </div>
                       </div>
@@ -272,7 +272,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
                           <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability3.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                       </div>
@@ -292,7 +292,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Lista)</span>
                           <h2 class="mb-0 mt-1 costProduct text-success">${dataCost.actualProfitability3.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                       </div>
@@ -312,7 +312,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Real</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Real)</span>
                           <h2 class="mb-0 mt-1 text-danger">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                       </div>
@@ -323,7 +323,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Real</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Real)</span>
                           <h2 class="mb-0 mt-1 text-warning">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                       </div>
@@ -334,7 +334,7 @@ $(document).ready(function () {
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Real</span>
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Real)</span>
                           <h2 class="mb-0 mt-1">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                       </div>
