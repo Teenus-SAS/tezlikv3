@@ -215,7 +215,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad (Mín)</span>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Deseada</span>
                                                 <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
                                             </div>
                                             <!-- <div class="text-center"> 
