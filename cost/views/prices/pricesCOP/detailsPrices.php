@@ -183,16 +183,16 @@ if (sizeof($_SESSION) == 0)
                                         <div class="media align-items-center">
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
                                                 <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Real</span>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Real)</span>
                                                     <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
                                                 </div>
                                                 <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Actual</span>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Lista)</span>
                                                     <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
                                                 </div>
                                                 <div class="media-body align-items-center">
-                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio de Venta Sugerido</span>
-                                                    <h3 class="mb-0 mt-1 text-warning suggestedPrice" style="font-size: x-large"></h3>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Sugerido)</span>
+                                                    <h3 class="mb-0 mt-1 text-info suggestedPrice" style="font-size: x-large"></h3>
                                                 </div>
                                             </div>
                                         </div>
@@ -218,7 +218,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentabilidad Mínima</span>
+                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentab Deseada</span>
                                                 <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
                                             </div>
                                             <!-- <div class="text-center"> 
@@ -329,8 +329,8 @@ if (sizeof($_SESSION) == 0)
                                                             <li class="list-group-item py-4">
                                                                 <div class="media">
                                                                     <div class="media-body">
-                                                                        <p class="text-muted mb-2">Precio de Venta Real</p>
-                                                                        <h4 class="mb-0 recomendedPrice" id="recomendedPrice"></h4>
+                                                                        <p class="text-muted mb-2">Precio (Real)</p>
+                                                                        <h4 class="mb-0 recomendedPrice" id="recomendedPrice">$</h4>
                                                                     </div>
                                                                     <div class="avatar avatar-md bg-success mr-0 align-self-center">
                                                                         <i class="bx bx-chart fs-lg"></i>

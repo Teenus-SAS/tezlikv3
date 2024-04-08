@@ -93,8 +93,8 @@ $(document).ready(function () {
           },
         },
         {
-          title: `${op == 1 ? 'Precio (Actual)' : 'Precio (Actual USD)'}`,
-          data: null,
+          title: "Precio (Lista)",
+          data: "sale_price",
           className: "classCenter",
           visible: visible,
           render: function (data) {
