@@ -11,13 +11,16 @@ $(document).ready(function () {
   };
 
   /* Calcular valor de cobertura ingresando numero de desviación */
-  $(document).on('blur', '#deviation', function (e) {
-    let num = parseFloat(this.value);
+  $(document).on('blur', '.calcInputs', function (e) {
+    let num = parseFloat($('#deviation').val());
+    let coverage = parseFloat($('#valueCoverage1').val());
 
-    if (num == '' || !num) {
-      toastr.error('Ingrese numero valido de desviacion');
+    let data = num * coverage;
+
+    if (isNaN(data) || data <= 0) {
+      toastr.error('Ingrese un valor de covertura valido');
       return false;
-    }
+    } 
 
     getUSDData(num);
   });
@@ -32,8 +35,10 @@ $(document).ready(function () {
         <span class="sr-only">Loading...</span>
       </div>`
     );
+ 
+    let coverage = parseFloat($('#valueCoverage1').val());
 
-    let data = await searchData(`/api/priceUSD/${num}`);
+    let data = await searchData(`/api/priceUSD/${num}/${coverage}`);
 
     if (data.success) {
       $('#exchangeCoverage').val(
@@ -42,12 +47,16 @@ $(document).ready(function () {
           maximumFractionDigits: 2,
         })}`
       );
+
       $('#valueCoverage').val(
         `$ ${data.coverage.toLocaleString(undefined, {
           minimumFractionDigits: 2,
           maximumFractionDigits: 2,
         })}`
       );
+
+      $('#valueCoverage1').val(data.coverage1.toFixed(2));
+
       $('#deviation').val(data.deviation);
 
       $('.spinner-border').remove();

@@ -103,26 +103,30 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                                 <div class="col-xl-8 form-inline justify-content-sm-end">
-                                    <div class="col-xs-2">
+                                    <div class="col-xs-2 py-2 mr-2 USDInputs">
+                                        <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+                                        <input type="number" class="form-control text-center calcInputs" name="valueCoverage1" id="valueCoverage1">
+                                    </div>
+                                    <div class="col-xs-2 mt-4 mr-2">
                                         <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
                                     </div>
                                 </div>
                                 <div class="col-xl-12 form-inline mt-2" id="USDHeader">
                                     <div class="col-xs-2 mr-2 USDInputs">
                                         <label class="mb-1 font-weight-bold text-dark">Dolar Hoy</label>
-                                        <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" readonly>
+                                        <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" style="background-color: lightgoldenrodyellow;" readonly>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2 USDInputs">
-                                        <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
-                                        <input type="text" class="form-control text-center" name="valueCoverage" id="valueCoverage" readonly>
+                                        <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura (calculado)</label>
+                                        <input type="text" class="form-control text-center" name="valueCoverage" id="valueCoverage" style="background-color: lightgoldenrodyellow;" readonly>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2 USDInputs">
                                         <label class="mb-1 font-weight-bold text-dark">Cobertura Cambiaria</label>
-                                        <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" readonly>
+                                        <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: lightgoldenrodyellow;" readonly>
                                     </div>
                                     <div class="col-xs-2 USDInputs">
                                         <label class="mb-1 font-weight-bold text-dark">Correción TRM</label>
-                                        <input type="text" class="form-control text-center" name="deviation" id="deviation">
+                                        <input type="text" class="form-control text-center calcInputs" name="deviation" id="deviation">
                                     </div>
                                 </div>
                             </div>
@@ -172,7 +176,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
 
     <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
-        <script src="/cost/js/prices/pricesUSD/tblPricesUSD.js"></script>
+        <!-- <script src="/cost/js/prices/pricesUSD/tblPricesUSD.js"></script> -->
         <script src="/cost/js/prices/pricesUSD/pricesUSD.js"></script>
     <?php } ?>
 </body>

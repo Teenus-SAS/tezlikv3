@@ -20,10 +20,10 @@ $(document).ready(function () {
 
     let tblMultiproductsBody = document.getElementById('tblMultiproductsBody');
 
-    sumTotalCostFixed = 0;
+    // sumTotalCostFixed = 0;
 
     for (let i = 0; i < multiproducts.length; i++) {
-      sumTotalCostFixed = multiproducts[i].cost_fixed;
+      // sumTotalCostFixed = multiproducts[i].cost_fixed;
 
       multiproducts[i]['soldUnit'] = 0;
       multiproducts[i]['unitsToSold'] = 0;
@@ -61,6 +61,7 @@ $(document).ready(function () {
 
     expenseAsignation = expense;
     costPayroll = sum_payroll;
+    sumTotalCostFixed = expenseAsignation + costPayroll;
 
     if (expenseAsignation == 0) $('.cardExpenseAssignation').show(800);
 

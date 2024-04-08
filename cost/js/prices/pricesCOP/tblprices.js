@@ -4,12 +4,12 @@ $(document).ready(function () {
     let typePrice = sessionStorage.getItem('typePrice');
     typePrice == '2' ? op1 = 2 : op1 = 1;
 
-    if (op == 1) {
-      op = 2;
+    if (op1 == 1) {
+      op1 = 2;
       loadTblPrices(composites, op1);
     }
     else {
-      op = 1;
+      op1 = 1;
       loadTblPrices(parents, op1);
     }
   });

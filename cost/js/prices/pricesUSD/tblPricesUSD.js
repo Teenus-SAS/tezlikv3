@@ -7,10 +7,11 @@ $(document).ready(function () {
       parents = prices.filter(item => item.composite == 0);
       composites = prices.filter(item => item.composite == 1);
 
-      if (flag_composite_product == 1) {
+      if (flag_composite_product == '1') {
         loadTblPricesUSD(parents);
       } else
-        loadTblPricesUSD(prices)
+        loadTblPricesUSD(prices);
+      
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -19,9 +20,9 @@ $(document).ready(function () {
   loadTblPricesUSD = (data) => {
 
     tblPricesUSD = $('#tblPricesUSD').DataTable({
-      destroy:true,
+      destroy: true,
       pageLength: 50,
-      data:data,
+      data: data,
       dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
@@ -69,5 +70,4 @@ $(document).ready(function () {
       ],
     });
   }
-
 });

@@ -13,10 +13,16 @@ $(document).ready(function () {
     if (typePrice == '1' || !typePrice) {
       element.id = 'usd';
       element.innerText = 'Precios USD';
+
+      $('.cardPricesCOP').show();
+      $('.cardPricesUSD').hide();
     }
     else {
       element.id = 'cop';
       element.innerText = 'Precios COP';
+
+      $('.cardPricesUSD').show();
+      $('.cardPricesCOP').hide();
     }
     
     let data = await searchData('/api/prices');
@@ -41,10 +47,22 @@ $(document).ready(function () {
   $('.btnPricesUSD').click(async function (e) {
     e.preventDefault();
     let id = this.id;
+    let op = 1;
 
     id == 'cop' ? op = 1 : op = 2;
     sessionStorage.setItem('typePrice', op);
 
+    let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+    if (id == 'usd') {
+      element.id = 'cop';
+      element.innerText = 'Precios COP';
+    }
+    else {
+      element.id = 'usd';
+      element.innerText = 'Precios USD';
+    }
+    
     if (viewPrices == 1) {
       $('.cardPricesCOP').toggle();
       $('.cardPricesUSD').toggle();
@@ -53,16 +71,7 @@ $(document).ready(function () {
 
       loadTblPrices(data, op);
     } else {
-      let element = document.getElementsByClassName('btnPricesUSD')[0];
 
-      if (id == 'usd') {
-        element.id = 'cop';
-        element.innerText = 'Precios COP';
-      }
-      else {
-        element.id = 'usd';
-        element.innerText = 'Precios USD';
-      }
       let id_product = sessionStorage.getItem('idProduct');
 
       loadIndicatorsProducts(id_product);

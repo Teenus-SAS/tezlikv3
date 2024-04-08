@@ -22,7 +22,7 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 });
 
 /* Calcular valor de cobertura */
-$app->get('/priceUSD/{deviation}', function (Request $request, Response $response, $args) use (
+$app->get('/priceUSD/{deviation}/{coverage}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
     $pricesUSDDao,
     $productsDao,
@@ -49,12 +49,19 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
     // Calcular valor de cobertura
     $coverage = $pricesUSDDao->calcDollarCoverage($price['average_trm'], $standardDeviation, $deviation);
 
+    // Validar con que valor de cobertura se realizara el calculo
+    if ($args['coverage'] == 0 || !$args['coverage'] || $args['coverage'] == 'NaN') {
+        $calcCoverage = $company['coverage'];
+    } else {
+        $calcCoverage = $args['coverage'];
+    }
+
     // Obtener productos
     $products = $productsDao->findAllProductsByCompany($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
         // Calcular precio USD y modificar
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $coverage);
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $calcCoverage);
 
         if (isset($resolution['info'])) break;
     }
@@ -63,15 +70,18 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
     $actualTrm = $trmDao->getLastTrm();
 
     // Covertura Cambiaria
-    $exchangeCoverage = $actualTrm[0]['valor'] - $coverage;
+    $exchangeCoverage = $actualTrm[0]['valor'] - $calcCoverage;
 
     // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
-    $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $deviation, $id_company);
+    $resolution = $pricesUSDDao->updateLastDollarCoverage($calcCoverage, $deviation, $id_company);
 
-    $_SESSION['coverage'] = $coverage;
+    $_SESSION['coverage'] = $calcCoverage;
 
     if (isset($resolution) == null)
-        $resp = array('success' => true, 'coverage' => $coverage, 'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage);
+        $resp = array(
+            'success' => true, 'coverage' => $coverage, 'coverage1' => $calcCoverage,
+            'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage
+        );
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

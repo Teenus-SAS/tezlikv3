@@ -86,7 +86,8 @@ $(document).ready(function () {
         let totalAverages = sumTotalAverages();
 
         // Calcular total Unidades
-        totalUnits = (expenseAsignation + sumTotalCostFixed) / totalAverages;
+        // totalUnits = (expenseAsignation + sumTotalCostFixed) / totalAverages;
+        totalUnits = sumTotalCostFixed / totalAverages;
         totalUnits == Infinity ? (totalUnits = 0) : totalUnits;
 
         // Calcular unidades a vender

@@ -33,9 +33,8 @@ class MultiproductsDao
             //                             AND IF(cl.flag_type_price = 0, pc.sale_price, pc.price) != 0
             //                             ORDER BY p.product ASC;");
             // IF(cl.flag_type_price = 0, pc.sale_price, pc.price) AS price, 
-            $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(IFNULL(ed.turnover , 0) / IFNULL(ed.units_sold, 0), 0) AS price, IFNULL((SELECT SUM(expense_value) FROM expenses WHERE id_company = p.id_company), 0) AS expense, 
-                                                 (SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll) AS sum_payroll, IFNULL(IF(IFNULL(mp.units_sold, 0) = 0, ((SELECT IFNULL(SUM(salary_net), 0) 
-                                                 FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll)), (((SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll)) * (mp.participation /100))), 0) AS cost_fixed,
+            $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(IFNULL(ed.turnover , 0) / IFNULL(ed.units_sold, 0), 0) AS price, IFNULL((SELECT SUM(expense_value) FROM expenses WHERE id_company = p.id_company), 0) AS expense, (SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll) AS sum_payroll, 
+-- IFNULL(IF(IFNULL(mp.units_sold, 0) = 0, ((SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll)), (((SELECT IFNULL(SUM(salary_net), 0) FROM (SELECT salary_net FROM payroll WHERE id_company = :id_company GROUP BY employee) AS payroll)) * (mp.participation /100))), 0) AS cost_fixed,
                                                  IFNULL(pc.cost_materials + pc.cost_indirect_cost + ((pc.commission_sale / 100) * IFNULL(IFNULL(ed.turnover , 0) / IFNULL(ed.units_sold, 0), 0)) + (SELECT IFNULL(SUM(cost), 0) FROM services WHERE id_product = p.id_product), 0) AS variable_cost
                                         FROM products p
                                         INNER JOIN products_costs pc ON p.id_product = pc.id_product
