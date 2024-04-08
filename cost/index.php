@@ -82,8 +82,14 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
+
                             <div class="col-sm-5 col-xl-6 d-flex justify-content-end btnPrintPDF">
-                                <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
+                                <div class="col-xs-2 mr-2 mt-1">
+                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                </div>
+                                <div class="col-xs-2 mt-1">
+                                    <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,7 +188,7 @@ if (sizeof($_SESSION) == 0)
                                                             <div class="card-body">
                                                                 <div class="media align-items-center">
                                                                     <div class="media-body">
-                                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold" id="expenses"></span>
+                                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold" id="expenses1"></span>
                                                                         <h2 class="mb-0 mt-1 text-info" id="generalCost"></h2>
                                                                     </div>
                                                                     <div class="text-center">
@@ -220,24 +226,12 @@ if (sizeof($_SESSION) == 0)
                                                     <!-- Row 2-->
                                                     <div class="row align-items-stretch">
                                                         <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
-                                                            <div class="pt-4 col-md-4 col-lg-3 cardActualProfitability">
+                                                            <div class="pt-4 col-md-4 col-lg-3">
                                                             <?php } ?>
                                                             <?php if ($_SESSION['flag_expense'] == 2) { ?>
-                                                                <div class="col-md-4 col-lg-3 cardActualProfitability">
+                                                                <div class="col-md-4 col-lg-3">
                                                                 <?php } ?>
-                                                                <!-- <div class="card bg-success">
-                                                                    <a class="card-body cardActualProfitability" href="javascript:;">
-                                                                        <div class="media text-white">
-                                                                            <div class="media-body">
-                                                                                <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Actual</span>
-                                                                                <h2 class="mb-0 mt-1 text-white" id="actualProfitabilityAverage"></h2>
-                                                                            </div>
-                                                                            <div class="align-self-center mt-1">
-                                                                                <i class="bx bx-line-chart fs-xl"></i>
-                                                                            </div>
-                                                                        </div>
-                                                                    </a>
-                                                                </div> -->
+                                                                <div class="cardActualProfitability"></div>
                                                                 <div class="card bg-warning">
                                                                     <div class="card-body">
                                                                         <div class="media text-white">
@@ -252,10 +246,7 @@ if (sizeof($_SESSION) == 0)
                                                                     </div>
                                                                 </div>
                                                                 <!-- Tiempos -->
-                                                                <div class="card"> <!-- Tiempos -->
-                                                                    <!-- <div class="card-header">
-                                                                    <h5 class="card-title">Tiempos Fabricación (Prom)</h5>
-                                                            </div> -->
+                                                                <div class="card">
                                                                     <div class="card-body p-0">
                                                                         <ul class="list-group list-group-flush">
                                                                             <?php if ($_SESSION['flag_expense'] == 2 || $_SESSION['flag_expense'] == 0) { ?>
@@ -495,6 +486,7 @@ if (sizeof($_SESSION) == 0)
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
+                                    coverage = "<?= $_SESSION['coverage'] ?>";
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
@@ -502,6 +494,46 @@ if (sizeof($_SESSION) == 0)
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
                                     modalActive = false;
+
+                                    $(document).ready(function() {
+                                        // Validar que Valor de precio estaba anteriormente seleccionado
+                                        let typePrice = sessionStorage.getItem('typePrice');
+
+                                        let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+                                        // Dolares
+                                        if (typePrice == '1' || !typePrice) {
+                                            element.id = 'usd';
+                                            element.innerText = 'Precios USD';
+                                        } else { // Pesos
+                                            element.id = 'cop';
+                                            element.innerText = 'Precios COP';
+                                        }
+
+                                        // Funcion para cambiar de valor del precio manualmente
+                                        $('.btnPricesUSD').click(async function(e) {
+                                            e.preventDefault();
+                                            let id = this.id;
+
+                                            id == 'cop' ? op = 1 : op = 2;
+                                            sessionStorage.setItem('typePrice', op);
+                                            let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+                                            // Dolares
+                                            if (id == 'usd') {
+                                                element.id = 'cop';
+                                                element.innerText = 'Precios COP';
+                                            } else { // Pesos
+                                                element.id = 'usd';
+                                                element.innerText = 'Precios USD';
+                                            }
+
+                                            // Recargar Datos
+                                            let id_product = $('#refProduct').val();
+
+                                            loadAllData();
+                                        });
+                                    });
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>

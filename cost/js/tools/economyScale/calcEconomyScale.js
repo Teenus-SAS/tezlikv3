@@ -53,10 +53,13 @@ $(document).ready(function () {
       } else {
         let price = parseInt(this.value);
 
+        let typePrice = sessionStorage.getItem('typePrice');
+        typePrice == '2' ? max = 2 : max = 0;
+
         prices[row] = price;
         for (let i = row; i < 5; i++) {
           prices[i + 1] = price;
-          $(`#price-${i + 1}`).val(price);
+          $(`#price-${i + 1}`).val(price.toFixed(max));
         }
       }
       if (id != 'unity-0') generalCalc(1);
@@ -69,6 +72,9 @@ $(document).ready(function () {
     try {
       op == 0 ? (count = 0) : (count = 5);
 
+      let typePrice = sessionStorage.getItem('typePrice');
+      typePrice == '2' ? max = 2 : max = 0;
+      
       var startTime = performance.now();
 
       for (i = op; i <= count; i++) {
@@ -108,7 +114,7 @@ $(document).ready(function () {
 
           $(`#unityCost-${i}`).html(
             `$ ${unityCost.toLocaleString('es-CO', {
-              maximumFractionDigits: 0,
+              maximumFractionDigits: max,
             })}`
           );
 
@@ -116,7 +122,7 @@ $(document).ready(function () {
           let unitUtility = price - unityCost;
           $(`#unitUtility-${i}`).html(
             `$ ${unitUtility.toLocaleString('es-CO', {
-              maximumFractionDigits: 0,
+              maximumFractionDigits: max,
             })}`
           );
 

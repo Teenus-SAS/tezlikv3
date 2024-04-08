@@ -54,7 +54,7 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
 
     for ($i = 0; $i < sizeof($products); $i++) {
         // Calcular precio USD y modificar
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $coverage, $id_company);
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $coverage);
 
         if (isset($resolution['info'])) break;
     }
@@ -67,6 +67,8 @@ $app->get('/priceUSD/{deviation}', function (Request $request, Response $respons
 
     // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
     $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $deviation, $id_company);
+
+    $_SESSION['coverage'] = $coverage;
 
     if (isset($resolution) == null)
         $resp = array('success' => true, 'coverage' => $coverage, 'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage);

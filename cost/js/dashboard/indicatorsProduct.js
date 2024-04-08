@@ -1,25 +1,57 @@
 $(document).ready(function () {
   let id_product = sessionStorage.getItem('idProduct');
-
-  loadIndicatorsProducts = async (id_product) => {
-    let data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
-    await generalIndicators(data.cost_product);
-    await UnitsVolSold(data.cost_product);
-    await totalCostData(data.cost_product);
-    await graphicCostExpenses(data.cost_product);
-    await graphicCostWorkforce(data.cost_workforce);
-    await graphicCostTimeProcess(data.cost_time_process);
-    await graphicPromTime(data.average_time_process);
-    await graphicCompPrices(data.cost_product);
-
-    if (data.cost_materials.length > 10) {
-      data = await searchData(`/api/rawMaterials/${id_product}`);
-      data = data['80RawMaterials'];
-    }
-    else
-      data = data.cost_materials;
     
-    await graphicCostMaterials(data); 
+  loadIndicatorsProducts = async (id_product) => {
+    try {
+      let data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
+
+      let typePrice = sessionStorage.getItem('typePrice');
+    
+      if (typePrice == '2') {
+        data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage));
+        data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage));
+        data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage));
+        data.cost_product[0].services = (parseFloat(data.cost_product[0].services) / parseFloat(coverage));
+        data.cost_product[0].assignable_expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage));
+        data.cost_product[0].price = parseFloat(data.cost_product[0].price_usd);
+        data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_usd);
+        data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage));
+      }
+
+      await generalIndicators(data.cost_product);
+      await UnitsVolSold(data.cost_product);
+      await totalCostData(data.cost_product);
+      await graphicCostExpenses(data.cost_product);
+
+      if (typePrice == '2') {
+        for (let i = 0; i < data.cost_workforce.length; i++) {
+          data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage);
+        }
+      }
+
+      await graphicCostWorkforce(data.cost_workforce);
+      await graphicCostTimeProcess(data.cost_time_process);
+      await graphicPromTime(data.average_time_process);
+      await graphicCompPrices(data.cost_product);
+
+      if (data.cost_materials.length > 10) {
+        data = await searchData(`/api/rawMaterials/${id_product}`);
+        data = data['80RawMaterials'];
+      }
+      else
+        data = data.cost_materials;
+
+      if (typePrice == '2') {
+        for (let i = 0; i < data.length; i++) {
+          data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage);
+        }
+      }
+    
+      await graphicCostMaterials(data);
+    }
+    catch (error) {
+      console.error('Error loading data:', error);
+    }
   };
   /* Colors */
 
@@ -51,29 +83,37 @@ $(document).ready(function () {
 
     dataCost = getDataCost(data[0]);
 
+    let typePrice = sessionStorage.getItem('typePrice');
+
+    if (typePrice == '1' || !typePrice)
+      max = 0
+    else {
+      max = 2
+    }
+
     $('#rawMaterial').html(
       `$ ${data[0].cost_materials.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
     $('#workforce').html(
       `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
     $('#indirectCost').html(
       `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
 
     $('#assignableExpenses').html(
       `$ ${dataCost.expense.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
 
@@ -101,14 +141,22 @@ $(document).ready(function () {
   /* Ventas */
 
   UnitsVolSold = (data) => {
+    let typePrice = sessionStorage.getItem('typePrice');
+
+    if (typePrice == '1' || !typePrice)
+      max = 0
+    else {
+      max = 2
+    }
+
     $('#unitsSold').html(data[0].units_sold.toLocaleString('es-CO'));
-    $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO')}`);
+    $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
 
     let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
     isNaN(price) ? price = 0 : price;
 
     let element = document.getElementsByClassName('recomendedPrice');
-
+    
     for (let i = 0; i < element.length; i++) {
       element[i].innerHTML = `$ ${price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
@@ -126,6 +174,14 @@ $(document).ready(function () {
 
   /* Costeo Total */
   totalCostData = (data) => {
+    let typePrice = sessionStorage.getItem('typePrice');
+
+    if (typePrice == '1' || !typePrice)
+      max = 0
+    else {
+      max = 2
+    }
+
     dataCost = getDataCost(data[0]);
 
     if (data[0].cost_materials == 0) $('.payRawMaterial').hide();
@@ -148,38 +204,38 @@ $(document).ready(function () {
     $('#costTotal').html(
       `$ ${dataCost.costTotal.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
     $('#cost').html(
       `$ ${dataCost.cost.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
     $('#payRawMaterial').html(
       `$ ${data[0].cost_materials.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
     $('#payWorkforce').html(
       `$ ${data[0].cost_workforce.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
     $('#payIndirectCost').html(
       `$ ${data[0].cost_indirect_cost.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
 
     $('#services').html(
       `$ ${data[0].services.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
 
@@ -189,7 +245,7 @@ $(document).ready(function () {
     $('#payAssignableExpenses').html(
       `$ ${dataCost.expense.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
 
@@ -214,13 +270,13 @@ $(document).ready(function () {
     $('.suggestedPrice').html(
       `$ ${data[0].price.toLocaleString('es-CO', {
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
+        maximumFractionDigits: max,
       })}`
     );
 
     $('#actualSalePrice').html(`$ ${data[0].sale_price.toLocaleString('es-CO', {
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: max,
     })}`);
 
     $('#minProfit').html(`${data[0].profitability.toLocaleString('es-CO', {
@@ -260,14 +316,7 @@ $(document).ready(function () {
                   </div>`;
       $('#actualSalePrice').addClass('text-warning');
     }
-    else if (dataCost.actualProfitability3 < data[0].profitability && data[0].sale_price > 0) {
-      /*
-            <div class="text-center">
-                                <span class="text-danger font-weight-bold" style="font-size:large">
-                                  <i style="font-style: initial;"><i class="bx bxs-x-circle" style="font-size: xxx-large;color:red"></i></i>
-                                </span>
-                              </div>
-      */
+    else if (dataCost.actualProfitability2 < data[0].profitability && data[0].sale_price > 0) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">

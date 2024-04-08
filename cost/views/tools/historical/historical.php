@@ -214,6 +214,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         type = 'manual';
+        sessionStorage.removeItem('typePrice');
     </script>
     <script src="/global/js/global/saveHistorical.js"></script>
     <script src="/cost/js/tools/historical/tblHistorical.js"></script>

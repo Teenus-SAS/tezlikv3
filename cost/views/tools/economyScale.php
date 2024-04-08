@@ -77,9 +77,12 @@ if (sizeof($_SESSION) == 0)
                                     </ol>
                                 </div>
                             </div>
-                            <div class="col-sm-4 col-xl-6">
-                                <div class="form-inline justify-content-sm-end">
+                            <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
+                                <div class="col-xs-2 mt-1 mr-2">
                                     <button class="btn btn-warning" id="btnNeweconomyScale">Nuevo Calculo</button>
+                                </div>
+                                <div class="col-xs-2 mt-1">
+                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                 </div>
                             </div>
                         </div>
@@ -258,24 +261,42 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
+        coverage = "<?= $_SESSION['coverage'] ?>";
 
         $(document).ready(function() {
+
+            // Validar que precio estaba anteriormente seleccionado
             let session_flag = sessionStorage.getItem('flag_type_price');
 
-            if (session_flag == 1) {
+            // Precio Sugerido
+            if (session_flag == '1') {
                 $('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
-                document.getElementById("actual").className =
-                    "btn btn-sm btn-primary typePrice cardBottons";
                 document.getElementById("sugered").className =
+                    "btn btn-sm btn-primary typePrice cardBottons";
+                document.getElementById("actual").className =
                     "btn btn-sm btn-outline-primary typePrice cardBottons";
-            } else {
+            } else { // Precio Actual
                 $('#labelDescription').html(`Descripción (Precio Actual)`);
 
-                document.getElementById("sugered").className =
-                    "btn btn-sm btn-primary typePrice cardBottons";
                 document.getElementById("actual").className =
+                    "btn btn-sm btn-primary typePrice cardBottons";
+                document.getElementById("sugered").className =
                     "btn btn-sm btn-outline-primary typePrice cardBottons";
+            }
+
+            // Validar que valor de precio esta seleccionado
+            let typePrice = sessionStorage.getItem('typePrice');
+
+            let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+            // Dolares
+            if (typePrice == '1' || !typePrice) {
+                element.id = 'usd';
+                element.innerText = 'Precios USD';
+            } else { // Pesos
+                element.id = 'cop';
+                element.innerText = 'Precios COP';
             }
         });
     </script>
