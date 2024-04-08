@@ -66,7 +66,8 @@ $(document).ready(function () {
     if (viewPrices == 1) {
       $('.cardPricesCOP').toggle();
       $('.cardPricesUSD').toggle();
-
+      op1 = 1;
+      
       flag_composite_product == '1' ? data = parents : data = prices;
 
       loadTblPrices(data, op);

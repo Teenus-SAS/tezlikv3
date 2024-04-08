@@ -102,16 +102,7 @@ if (sizeof($_SESSION) == 0)
                                         </ol>
                                     </div>
                                 </div>
-                                <div class="col-xl-8 form-inline justify-content-sm-end">
-                                    <div class="col-xs-2 py-2 mr-2 USDInputs">
-                                        <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
-                                        <input type="number" class="form-control text-center calcInputs" name="valueCoverage1" id="valueCoverage1">
-                                    </div>
-                                    <div class="col-xs-2 mt-4 mr-2">
-                                        <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 form-inline mt-2" id="USDHeader">
+                                <div class="col-xl-8 form-inline justify-content-sm-end" id="USDHeader">
                                     <div class="col-xs-2 mr-2 USDInputs">
                                         <label class="mb-1 font-weight-bold text-dark">Dolar Hoy</label>
                                         <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" style="background-color: lightgoldenrodyellow;" readonly>
@@ -129,6 +120,16 @@ if (sizeof($_SESSION) == 0)
                                         <input type="text" class="form-control text-center calcInputs" name="deviation" id="deviation">
                                     </div>
                                 </div>
+                                <div class="col-xl-12 form-inline justify-content-sm-end mt-2">
+                                    <div class="col-xs-2 py-2 mr-2 USDInputs">
+                                        <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+                                        <input type="number" class="form-control text-center calcInputs" name="manualCoverage" id="manualCoverage">
+                                    </div>
+                                    <div class="col-xs-2 mt-4 mr-2">
+                                        <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

@@ -37,8 +37,8 @@ $(document).ready(function () {
 
     $('.cardBottons').hide();
 
-    let form = document.getElementById('btnsEconomy');
-    $('#btnsEconomy').empty();
+    let form = document.getElementById('spinnerLoading');
+    $('#spinnerLoading').empty();
 
     form.insertAdjacentHTML(
       'beforeend',

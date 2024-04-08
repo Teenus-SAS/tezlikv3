@@ -44,9 +44,7 @@ $(document).ready(function () {
         for (let i = row; i < 5; i++) {
           unity = unity * (1 + percentage[i + 1]);
 
-          $(`#unity-${i + 1}`).val(
-            unity.toLocaleString('es-CO', { maximumFractionDigits: 0 })
-          );
+          $(`#unity-${i + 1}`).val(parseInt(unity));
 
           unitys[i + 1] = unity;
         }

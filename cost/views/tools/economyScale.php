@@ -111,9 +111,10 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                         </div>
                                         <div class="d-flex flex-column">
-                                            <div class="align-self-end btn-group" id="btnsEconomy">
+                                            <div class="align-self-end btn-group">
                                                 <button class="btn btn-sm btn-primary typePrice cardBottons" id="sugered" value="1">Precio (Sugerido)</button>
                                                 <button class="btn btn-sm btn-outline-primary typePrice cardBottons" id="actual" value="2">Precio (Lista)</button>
+                                                <div id="spinnerLoading"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -130,19 +131,19 @@ if (sizeof($_SESSION) == 0)
                                                             <input class="form-control text-center totalRevenue general" type="text" id="unity-0" readonly>
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center totalRevenue general" type="text" id="unity-1">
+                                                            <input class="form-control text-center totalRevenue general" type="number" id="unity-1">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center totalRevenue general" type="text" id="unity-2">
+                                                            <input class="form-control text-center totalRevenue general" type="number" id="unity-2">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center totalRevenue general" type="text" id="unity-3">
+                                                            <input class="form-control text-center totalRevenue general" type="number" id="unity-3">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center totalRevenue general" type="text" id="unity-4">
+                                                            <input class="form-control text-center totalRevenue general" type="number" id="unity-4">
                                                         </td>
                                                         <td>
-                                                            <input class="form-control text-center totalRevenue general" type="text" id="unity-5">
+                                                            <input class="form-control text-center totalRevenue general" type="number" id="unity-5">
                                                         </td>
                                                     </tr>
                                                     <tr>
@@ -268,21 +269,26 @@ if (sizeof($_SESSION) == 0)
             // Validar que precio estaba anteriormente seleccionado
             let session_flag = sessionStorage.getItem('flag_type_price');
 
+            var sugeredElement = document.getElementById("sugered");
+            var actualElement = document.getElementById("actual");
+
             // Precio Sugerido
             if (session_flag == '1') {
                 $('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
-                document.getElementById("sugered").className =
-                    "btn btn-sm btn-primary typePrice cardBottons";
-                document.getElementById("actual").className =
-                    "btn btn-sm btn-outline-primary typePrice cardBottons";
+                sugeredElement.classList.remove("btn-outline-primary");
+                sugeredElement.classList.add("btn-primary");
+
+                actualElement.classList.remove("btn-primary");
+                actualElement.classList.add("btn-outline-primary");
             } else { // Precio Actual
                 $('#labelDescription').html(`Descripción (Precio Actual)`);
 
-                document.getElementById("actual").className =
-                    "btn btn-sm btn-primary typePrice cardBottons";
-                document.getElementById("sugered").className =
-                    "btn btn-sm btn-outline-primary typePrice cardBottons";
+                sugeredElement.classList.remove("btn-primary");
+                sugeredElement.classList.add("btn-outline-primary");
+
+                actualElement.classList.remove("btn-outline-primary");
+                actualElement.classList.add("btn-primary");
             }
 
             // Validar que valor de precio esta seleccionado

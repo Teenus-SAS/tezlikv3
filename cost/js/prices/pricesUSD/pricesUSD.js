@@ -13,7 +13,7 @@ $(document).ready(function () {
   /* Calcular valor de cobertura ingresando numero de desviación */
   $(document).on('blur', '.calcInputs', function (e) {
     let num = parseFloat($('#deviation').val());
-    let coverage = parseFloat($('#valueCoverage1').val());
+    let coverage = parseFloat($('#manualCoverage').val());
 
     let data = num * coverage;
 
@@ -36,36 +36,36 @@ $(document).ready(function () {
       </div>`
     );
  
-    let coverage = parseFloat($('#valueCoverage1').val());
+    let coverage = parseFloat($('#manualCoverage').val());
 
-    let data = await searchData(`/api/priceUSD/${num}/${coverage}`);
+    // let data = await searchData(`/api/priceUSD/${num}/${coverage}`);
 
-    if (data.success) {
-      $('#exchangeCoverage').val(
-        `$ ${data.exchangeCoverage.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`
-      );
+    // if (data.success) {
+    //   $('#exchangeCoverage').val(
+    //     `$ ${data.exchangeCoverage.toLocaleString(undefined, {
+    //       minimumFractionDigits: 2,
+    //       maximumFractionDigits: 2,
+    //     })}`
+    //   );
 
-      $('#valueCoverage').val(
-        `$ ${data.coverage.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`
-      );
+    //   $('#valueCoverage').val(
+    //     `$ ${data.coverage.toLocaleString(undefined, {
+    //       minimumFractionDigits: 2,
+    //       maximumFractionDigits: 2,
+    //     })}`
+    //   );
 
-      $('#valueCoverage1').val(data.coverage1.toFixed(2));
+    //   $('#manualCoverage').val(data.manualCoverage.toFixed(2));
 
-      $('#deviation').val(data.deviation);
+    //   $('#deviation').val(data.deviation);
 
-      $('.spinner-border').remove();
-      $('.USDInputs').show(400);
+    //   $('.spinner-border').remove();
+    //   $('.USDInputs').show(400);
 
-      loadAllData();
-      // $('#tblPricesUSD').DataTable().clear();
-      // $('#tblPricesUSD').DataTable().ajax.reload();
-    }
+    //   loadAllData();
+    //   // $('#tblPricesUSD').DataTable().clear();
+    //   // $('#tblPricesUSD').DataTable().ajax.reload();
+    // }
   };
 
   getUSDData(0);

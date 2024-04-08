@@ -1,16 +1,16 @@
 $(document).ready(function () {
+  op1 = 1;
+
   $('#btnComposite').click(function (e) {
-    e.preventDefault();
-    let typePrice = sessionStorage.getItem('typePrice');
-    typePrice == '2' ? op1 = 2 : op1 = 1;
+    e.preventDefault(); 
 
     if (op1 == 1) {
       op1 = 2;
-      loadTblPrices(composites, op1);
+      loadTblPrices(composites, 1);
     }
     else {
       op1 = 1;
-      loadTblPrices(parents, op1);
+      loadTblPrices(parents, 1);
     }
   });
 

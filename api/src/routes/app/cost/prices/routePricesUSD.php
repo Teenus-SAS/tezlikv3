@@ -22,7 +22,7 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 });
 
 /* Calcular valor de cobertura */
-$app->get('/priceUSD/{deviation}/{coverage}', function (Request $request, Response $response, $args) use (
+$app->post('/priceUSD', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
     $pricesUSDDao,
     $productsDao,
@@ -30,12 +30,13 @@ $app->get('/priceUSD/{deviation}/{coverage}', function (Request $request, Respon
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $dataUsd = $request->getParsedBody();
 
     $company = $licenceCompanyDao->findLicenseCompany($id_company);
 
     if ($company['deviation'] == 0)  $deviation = 3;
-    else if ($args['deviation'] == 0) $deviation = $company['deviation'];
-    else $deviation = $args['deviation'];
+    else if ($dataUsd['deviation'] == 0) $deviation = $company['deviation'];
+    else $deviation = $dataUsd['deviation'];
 
     // Calcular Promedio TRM
     $price = $pricesUSDDao->calcAverageTrm();
@@ -50,10 +51,11 @@ $app->get('/priceUSD/{deviation}/{coverage}', function (Request $request, Respon
     $coverage = $pricesUSDDao->calcDollarCoverage($price['average_trm'], $standardDeviation, $deviation);
 
     // Validar con que valor de cobertura se realizara el calculo
-    if ($args['coverage'] == 0 || !$args['coverage'] || $args['coverage'] == 'NaN') {
-        $calcCoverage = $company['coverage'];
+    if ($dataUsd['coverage'] == 0 || !$dataUsd['coverage'] || $dataUsd['coverage'] == 'NaN') {
+        $calcCoverage = $company['coverage_manual'];
+        $manualCoverage = $company['coverage_manual'];
     } else {
-        $calcCoverage = $args['coverage'];
+        $manualCoverage = $dataUsd['manualCoverage'];
     }
 
     // Obtener productos
@@ -61,7 +63,7 @@ $app->get('/priceUSD/{deviation}/{coverage}', function (Request $request, Respon
 
     for ($i = 0; $i < sizeof($products); $i++) {
         // Calcular precio USD y modificar
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $calcCoverage);
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $manualCoverage);
 
         if (isset($resolution['info'])) break;
     }
@@ -70,16 +72,16 @@ $app->get('/priceUSD/{deviation}/{coverage}', function (Request $request, Respon
     $actualTrm = $trmDao->getLastTrm();
 
     // Covertura Cambiaria
-    $exchangeCoverage = $actualTrm[0]['valor'] - $calcCoverage;
+    $exchangeCoverage = $actualTrm[0]['valor'] - $manualCoverage;
 
     // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
-    $resolution = $pricesUSDDao->updateLastDollarCoverage($calcCoverage, $deviation, $id_company);
+    $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $manualCoverage, $deviation, $id_company);
 
-    $_SESSION['coverage'] = $calcCoverage;
+    $_SESSION['coverage'] = $manualCoverage;
 
     if (isset($resolution) == null)
         $resp = array(
-            'success' => true, 'coverage' => $coverage, 'coverage1' => $calcCoverage,
+            'success' => true, 'coverage' => $coverage, 'manualCoverage' => $manualCoverage,
             'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage
         );
 
