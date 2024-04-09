@@ -94,7 +94,7 @@ $(document).ready(function () {
         },
         {
           title: "Precio (Lista)",
-          data: "sale_price",
+          data: null,
           className: "classCenter",
           visible: visible,
           render: function (data) {

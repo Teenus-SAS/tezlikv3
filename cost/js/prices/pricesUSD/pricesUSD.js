@@ -68,6 +68,6 @@ $(document).ready(function () {
     // }
   };
 
-  getUSDData(0);
+  // getUSDData(0);
   getCurrentDollar();
 });
