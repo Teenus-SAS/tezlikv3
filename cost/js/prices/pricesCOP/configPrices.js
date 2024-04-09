@@ -44,8 +44,7 @@ $(document).ready(function () {
 
   loadDataPrices();
 
-  $('.btnPricesUSD').click(async function (e) {
-    e.preventDefault();
+  $(document).on('click','.btnPricesUSD', function () {
     let id = this.id;
     let op = 1;
 

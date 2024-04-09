@@ -1,6 +1,9 @@
 $(document).ready(function () {
   op1 = 1;
 
+  currentDollar = 0;
+  allPrices = [];
+
   $('#btnComposite').click(function (e) {
     e.preventDefault(); 
 
@@ -16,7 +19,13 @@ $(document).ready(function () {
 
   loadAllData = async () => {
     try {
-      const prices = await searchData('/api/prices');
+      const [prices, actualTrm] = await Promise.all([
+        searchData('/api/prices'),
+        searchData('/api/currentDollar')
+      ]);
+
+      allPrices = prices;
+      currentDollar = actualTrm[0]['valor'];
 
       let typePrice = sessionStorage.getItem('typePrice');
       typePrice == '2' ? op1 = 2 : op1 = 1;
@@ -34,7 +43,7 @@ $(document).ready(function () {
   };
 
   /* Cargue tabla de Precios */
-  loadTblPrices = async (data, op) => {
+  loadTblPrices = async (data, op, coverage) => {
     let acumulated = 0;
 
     for (let i = 0; i < data.length; i++) {
@@ -93,6 +102,25 @@ $(document).ready(function () {
           },
         },
         {
+          title: 'Precio (Sugerido USD) Sim',
+          data: null,
+          className: "classCenter",
+          visible: op == 3 ? true: false,
+          render: function (data) {
+            if(!coverage)
+              return ''
+            else
+              price = parseFloat(data.price) / parseFloat(coverage);
+
+            if (Math.abs(price) < 0.01)
+              price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            else
+              price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `$ ${price}`;
+          },
+        },
+        {
           title: "Precio (Lista)",
           data: null,
           className: "classCenter",
@@ -105,6 +133,28 @@ $(document).ready(function () {
                 price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
               } else if (op == 1)
                 price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+              else
+                price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+              return `$ ${price}`;
+            }
+            else return '';
+          },
+        },
+        {
+          title: "Precio (Lista) Sim",
+          data: null,
+          className: "classCenter",
+          visible: op == 3 ? true: false,
+          render: function (data) { 
+            if(!coverage)
+              return ''
+            else
+              price = parseFloat(data.sale_price) / parseFloat(coverage);
+
+            if (price > 0) {
+              if (Math.abs(price) < 0.01)
+                price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 }); 
               else
                 price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             

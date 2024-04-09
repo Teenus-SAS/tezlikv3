@@ -158,14 +158,19 @@ $(document).ready(function () {
       totalCost = totalCost + minuteValue[i];
     }
 
-    sessionStorage.getItem('typePrice') == '2' ? max = 2 : max = 1;
-
-    $("#totalCostWorkforce").html(
-      `$ ${totalCost.toLocaleString("es-CO", {
+    if (sessionStorage.getItem('typePrice') == '2') {
+      totalCost = `$ ${totalCost.toLocaleString("es-CO", {
         minimumFractionDigits: 1,
-        maximumFractionDigits: max,
-      })}`
-    );
+        maximumFractionDigits: 2,
+      })} (USD)`;
+    } else {
+      totalCost = `$ ${totalCost.toLocaleString("es-CO", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`;      
+    }
+
+    $("#totalCostWorkforce").html(totalCost);
 
     const cmc = document.getElementById("chartWorkForceGeneral");
     chartWorkForceGeneral ? chartWorkForceGeneral.destroy() : chartWorkForceGeneral;
@@ -303,7 +308,20 @@ $(document).ready(function () {
       expenseCount.push(data[i].expenseCount);
       totalExpense = totalExpense + data[i].expenseCount;
     }
-    $("#totalCost").html(`$ ${totalExpense.toLocaleString("es-ES")}`);
+
+    if (sessionStorage.getItem('typePrice') == '2') {
+      totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 2,
+      })} (USD)`;
+    } else {
+      totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })}`;      
+    }
+
+    $("#totalCost").html(totalExpense);
 
     /* Grafico */
     var canvasExpenses = document.getElementById("chartExpensesGenerals");

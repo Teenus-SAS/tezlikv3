@@ -125,7 +125,9 @@ $(document).ready(function () {
       totalExpense = `$ ${totalExpense.toLocaleString('es-CO', {
         maximumFractionDigits: 2,
       })}`;
-      expenses = 'Gastos Generales';
+      let typePrice1 = sessionStorage.getItem('typePrice');
+
+      typePrice1 == '1' || !typePrice1 ? expenses = 'Gastos Generales' : expenses = 'Gastos Generales (USD)';
     } else {
       expenses = `Gtos Generales`;
       totalExpense = `${expenseRecover.percentageExpense.toLocaleString(
@@ -199,12 +201,14 @@ $(document).ready(function () {
         </a>
       </div>`);
 
+      let typePrice1 = sessionStorage.getItem('typePrice');
+      if (typePrice1 == '2') {
+        price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+      } else {
+        price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+      }
 
-      $('#totalCostED').html(
-        `$ ${price2.toLocaleString('es-CO', {
-          maximumFractionDigits: 0,
-        })}`
-      );
+      $('#totalCostED').html(price2);
 
       $('#minProfitabilityAverage').html(
         `${averageprofitability.toLocaleString('es-CO', {
@@ -274,8 +278,15 @@ $(document).ready(function () {
     if (sale_price === 0)
       $('.btnActualProfitabilityAverage').hide();
 
+    let typePrice1 = sessionStorage.getItem('typePrice');
+    if (typePrice1 == '2') {
+      turnover = `$ ${turnover.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+    } else {
+      turnover = `$ ${turnover.toLocaleString('es-CO')}`;      
+    }    
+
     $('#productsSold').html(units_sold.toLocaleString('es-CO'));
-    $('#salesRevenue').html(`$ ${turnover.toLocaleString('es-CO')}`);
+    $('#salesRevenue').html(turnover);
   };  
 
   loadAllData();

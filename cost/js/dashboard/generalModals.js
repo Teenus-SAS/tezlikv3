@@ -311,15 +311,22 @@ $(document).ready(function () {
   });
   
   /* Grafico Gastos */
-  loadModalExpenses = (label, value) => {
+  loadModalExpenses = (label, value) => { 
     $('#generalDashboardName').html('');
     $('.cardGeneralDashboard').empty();
-    $('.cardGeneralDashboard').append(`<div class="chart-container">
-                                          <canvas id="chartGeneralDashboard"></canvas>
 
+    let typePrice1 = sessionStorage.getItem('typePrice');
+    if (typePrice1 == '2') {
+      value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+    } else {
+      value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+    }
+
+    $('.cardGeneralDashboard').append(`<div class="chart-container">
+                                          <canvas id="chartGeneralDashboard"></canvas> 
                                           <div class="center-text cardExpenseByCount">
                                               <p class="text-muted mb-1 font-weight-600">Total Gasto </p>
-                                              <h4 class="mb-0 font-weight-bold">$ ${value.toLocaleString('es-ES')}</h4>
+                                              <h4 class="mb-0 font-weight-bold">${value}</h4>
                                           </div>
                                       </div>`);
 
