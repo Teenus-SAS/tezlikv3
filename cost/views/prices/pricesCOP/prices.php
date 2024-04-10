@@ -104,7 +104,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-xl-8 form-inline justify-content-sm-end" id="USDHeader">
                                     <div class="col-xs-2 py-2 mr-2 USDInputs">
-                                        <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+                                        <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
                                                                                                                                                         $coverage = sprintf("%.2f", $_SESSION['coverage']);
                                                                                                                                                         echo  $coverage ?>">
