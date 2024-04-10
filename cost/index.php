@@ -87,14 +87,14 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2" id="btnPdf">
                                     <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
                                 </div>
-                                <div class="col-xs-2 mr-2 cardUSD" style="display:none;">
-                                    <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
+                                <div class="col-xs-2 mr-2">
+                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                </div>
+                                <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;">
+                                    <label class="font-weight-bold text-dark">Valor Dolar</label>
                                     <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
                                                                                                                                                                                         $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
                                                                                                                                                                                         echo  $coverage ?>" readonly>
-                                </div>
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                 </div>
                             </div>
                         </div>
