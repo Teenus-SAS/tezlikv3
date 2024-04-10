@@ -158,13 +158,15 @@ $(document).ready(function () {
     if (id == 'usd') {
       element.id = 'cop';
       element.innerText = 'Precios COP';
+      $('.cardUSD').show(800);
     }
     else {
       element.id = 'usd';
       element.innerText = 'Precios USD';
+      $('.cardUSD').hide(800);
     }
     let id_product = $('#refProduct').val();
 
-    loadDataProduct(id_product);    
+    loadDataProduct(id_product);
   });
 });

@@ -91,8 +91,8 @@ if (sizeof($_SESSION) == 0)
                                         <div class="col-sm-5 col-xl-6 d-flex justify-content-end">
                                             <div class="col-xs-2 mr-2 cardUSD" style="display:none;">
                                                 <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
-                                                <input type="number" style="background-color: lightgoldenrodyellow;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                                                $coverage = sprintf("%.2f", $_SESSION['coverage']);
+                                                <input type="text" style="background-color: lightgoldenrodyellow;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                                                $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
                                                                                                                                                                                                                 echo  $coverage ?>" readonly>
                                             </div>
                                             <div class="col-xs-2 mr-2 btnPrintPDF" id="btnPdf">
