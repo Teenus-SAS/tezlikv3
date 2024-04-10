@@ -16,6 +16,11 @@ $(document).ready(function () {
 
       $('.cardPricesCOP').show();
       $('.cardPricesUSD').hide();
+
+      if (viewPrices == 2) {
+        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
+        $('.cardUSD').hide(800);
+      }
     }
     else {
       element.id = 'cop';
@@ -23,6 +28,11 @@ $(document).ready(function () {
 
       $('.cardPricesUSD').show();
       $('.cardPricesCOP').hide();
+
+      if (viewPrices == 2) {
+        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
+        $('.cardUSD').show(800);
+      }
     }
     
     let data = await searchData('/api/prices');
@@ -56,10 +66,20 @@ $(document).ready(function () {
     if (id == 'usd') {
       element.id = 'cop';
       element.innerText = 'Precios COP';
+
+      if (viewPrices == 2) {
+        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
+        $('.cardUSD').show(800);
+      }
     }
     else {
       element.id = 'usd';
       element.innerText = 'Precios USD';
+
+      if (viewPrices == 2) {
+        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
+        $('.cardUSD').hide(800);
+      }
     }
     
     if (viewPrices == 1) {
@@ -70,8 +90,7 @@ $(document).ready(function () {
       flag_composite_product == '1' ? data = parents : data = allPrices;
 
       loadTblPrices(data, op);
-    } else {
-
+    } else { 
       let id_product = sessionStorage.getItem('idProduct');
 
       loadIndicatorsProducts(id_product);

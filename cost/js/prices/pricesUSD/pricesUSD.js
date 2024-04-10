@@ -30,8 +30,8 @@ $(document).ready(function () {
         </div>
         <div class="col-xs-2 py-2 mr-2 USDInputs">
           <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
-          <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
-            value="${parseFloat(coverage).toFixed(2)}">
+          <input type="number" class="form-control text-center" name="valueCoverage" id="valueCoverage" style="background-color: lightgoldenrodyellow;"
+            value="${parseFloat(coverage).toFixed(2)}" readonly>
         </div>
         <div class="col-xs-2 mt-4 USDInputs">
           <button class="btn btn-warning" id="btnSimulation">Simular</button>
@@ -120,6 +120,8 @@ $(document).ready(function () {
       let data = await searchData(`/api/priceUSD/${valueCoverage}`);
 
       if (data.success) {
+        coverage = valueCoverage;
+
         $('.spinner-border').remove();
         $('.USDInputs').show(400);
 
