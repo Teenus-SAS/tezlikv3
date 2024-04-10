@@ -47,23 +47,29 @@ $(document).ready(function () {
   /* calcular el tiempo total proceso */
 
   $(document).on('click keyup', '.time', function (e) {
-    let tOperation = $('#operationTime').val();
-    let tEnlistment = $('#enlistmentTime').val();
+    let tOperation = parseFloat($('#operationTime').val());
+    let tEnlistment = parseFloat($('#enlistmentTime').val());
+    let efficiency = parseFloat($('#efficiency').val());
 
-    tOperation == '' ? (tOperation = '0') : tOperation;
-    // tOperation = strReplaceNumber(tOperation);
+    isNaN(tOperation) ? (tOperation = 0) : tOperation; 
+    isNaN(tEnlistment) ? (tEnlistment = 0) : tEnlistment; 
+    isNaN(efficiency) ? (efficiency = 0) : efficiency; 
 
-    tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
-    // tEnlistment = strReplaceNumber(tEnlistment);
-
+    // Subtotal
     if (inyection == 1)
-      val = (parseFloat(tEnlistment) / (parseFloat(tOperation) / 100)).toFixed(2);
+      subtotal = (tEnlistment / (tOperation / 100)).toFixed(2);
     else
-      val = parseFloat(tEnlistment) + parseFloat(tOperation);
+      subtotal = tEnlistment + tOperation;
 
-    !isFinite(val) ? val = 0 : val;
+    !isFinite(subtotal) ? subtotal = 0 : subtotal;
+    
+    $('#subTotalTime').val(subtotal);
+    
+    // Total
+    total = subtotal / efficiency;    
+    !isFinite(total) ? total = 0 : total = total.toFixed(2);
 
-    $('#totalTime').val(val);
+    $('#totalTime').val(total);
   });
 
   /* Adicionar nuevo proceso */
