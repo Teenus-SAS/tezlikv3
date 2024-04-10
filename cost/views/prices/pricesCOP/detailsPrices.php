@@ -72,10 +72,10 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="page-title">
                                     <div class="row">
-                                        <div class="col-sm-5 d-flex align-items-center">
+                                        <div class="col-sm-2 d-flex align-items-center">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
-                                        <div class="col-sm-2 py-4 imageProduct">
+                                        <div class="col-sm-3 py-4 imageProduct">
                                         </div>
                                         <div class="col-sm-4 mb-3 d-flex align-items-center">
                                             <select id="product" class="form-control btnPrintPDF"></select>
@@ -83,18 +83,18 @@ if (sizeof($_SESSION) == 0)
                                         <div class="col-xs-2 mt-1">
                                             <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                         </div>
+                                        <div class="col-xs-2 form-group floating-label enable-floating-label mr-2 cardUSD" style="display:none;">
+                                            <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
+                                            <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                                $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
+                                                                                                                                                                                                echo  $coverage ?>" readonly>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">
                                             <li class="breadcrumb-item active">Análisis de Costos</li>
                                         </ol>
                                         <div class="col-sm-5 col-xl-6 d-flex justify-content-end">
-                                            <div class="col-xs-2 mr-2 cardUSD" style="display:none;">
-                                                <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
-                                                <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                                                $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
-                                                                                                                                                                                                                echo  $coverage ?>" readonly>
-                                            </div>
                                             <div class="col-xs-2 mr-2 btnPrintPDF" id="btnPdf">
                                                 <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(2)" style="font-size: 30px; color:red;"></i></a>
                                             </div>
