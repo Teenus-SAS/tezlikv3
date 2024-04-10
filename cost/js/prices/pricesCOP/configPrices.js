@@ -67,7 +67,7 @@ $(document).ready(function () {
       $('.cardPricesUSD').toggle();
       op1 = 1;
       
-      flag_composite_product == '1' ? data = parents : data = prices;
+      flag_composite_product == '1' ? data = parents : data = allPrices;
 
       loadTblPrices(data, op);
     } else {

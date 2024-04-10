@@ -155,6 +155,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
+        coverage1 = "<?= $_SESSION['coverage'] ?>";
         deviation = "<?= $_SESSION['deviation'] ?>";
         viewPrices = 1;
     </script>

@@ -3,6 +3,7 @@ $(document).ready(function () {
 
   currentDollar = 0;
   allPrices = [];
+  parents = [];
 
   $('#btnComposite').click(function (e) {
     e.preventDefault(); 
@@ -43,7 +44,7 @@ $(document).ready(function () {
   };
 
   /* Cargue tabla de Precios */
-  loadTblPrices = async (data, op, coverage) => {
+  loadTblPrices = async (data, op, valueCoverage) => {
     let acumulated = 0;
 
     for (let i = 0; i < data.length; i++) {
@@ -107,10 +108,10 @@ $(document).ready(function () {
           className: "classCenter",
           visible: op == 3 ? true: false,
           render: function (data) {
-            if(!coverage)
+            if(!valueCoverage)
               return ''
             else
-              price = parseFloat(data.price) / parseFloat(coverage);
+              price = parseFloat(data.price) / parseFloat(valueCoverage);
 
             if (Math.abs(price) < 0.01)
               price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
@@ -147,10 +148,10 @@ $(document).ready(function () {
           className: "classCenter",
           visible: op == 3 ? true: false,
           render: function (data) { 
-            if(!coverage)
+            if(!valueCoverage)
               return ''
             else
-              price = parseFloat(data.sale_price) / parseFloat(coverage);
+              price = parseFloat(data.sale_price) / parseFloat(valueCoverage);
 
             if (price > 0) {
               if (Math.abs(price) < 0.01)

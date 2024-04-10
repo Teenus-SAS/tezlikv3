@@ -84,10 +84,16 @@ if (sizeof($_SESSION) == 0)
                             </div>
 
                             <div class="col-sm-5 col-xl-6 d-flex justify-content-end btnPrintPDF">
-                                <div class="col-xs-2 mr-2 mt-1">
+                                <div class="col-xs-2 mr-2 cardUSD">
+                                    <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+                                    <input type="number" style="background-color: lightgoldenrodyellow;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                                    $coverage = sprintf("%.2f", $_SESSION['coverage']);
+                                                                                                                                                                                                    echo  $coverage ?>" readonly>
+                                </div>
+                                <div class="col-xs-2 mr-2">
                                     <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                 </div>
-                                <div class="col-xs-2 mt-1">
+                                <div class="col-xs-2" id="btnPdf">
                                     <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
                                 </div>
                             </div>
@@ -505,9 +511,17 @@ if (sizeof($_SESSION) == 0)
                                         if (typePrice == '1' || !typePrice) {
                                             element.id = 'usd';
                                             element.innerText = 'Precios USD';
+                                            element.style.marginTop = '';
+                                            document.getElementById('btnPdf').style.marginTop = '';
+
+                                            $('.cardUSD').hide(800);
                                         } else { // Pesos
                                             element.id = 'cop';
                                             element.innerText = 'Precios COP';
+                                            element.style.marginTop = '30px';
+                                            document.getElementById('btnPdf').style.marginTop = '30px';
+
+                                            $('.cardUSD').show(800);
                                         }
 
                                         // Funcion para cambiar de valor del precio manualmente
@@ -523,9 +537,17 @@ if (sizeof($_SESSION) == 0)
                                             if (id == 'usd') {
                                                 element.id = 'cop';
                                                 element.innerText = 'Precios COP';
+                                                element.style.marginTop = '30px';
+                                                document.getElementById('btnPdf').style.marginTop = '30px';
+
+                                                $('.cardUSD').show(800);
                                             } else { // Pesos
                                                 element.id = 'usd';
                                                 element.innerText = 'Precios USD';
+                                                element.style.marginTop = '';
+                                                document.getElementById('btnPdf').style.marginTop = '';
+
+                                                $('.cardUSD').hide(800);
                                             }
 
                                             // Recargar Datos

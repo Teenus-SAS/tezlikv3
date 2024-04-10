@@ -18,7 +18,7 @@ $(document).ready(function () {
         <div class="col-xs-2 py-2 mr-2 USDInputs">
           <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura (calculado)</label>
           <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
-            value="${parseFloat(coverage).toFixed(2)}">
+            value="${parseFloat(coverage1).toFixed(2)}">
         </div>
         <div class="col-xs-2 py-2 mr-2 USDInputs">
           <label class="mb-1 font-weight-bold text-dark">Cobertura Cambiaria</label>
@@ -28,7 +28,12 @@ $(document).ready(function () {
           <label class="mb-1 font-weight-bold text-dark">Correción TRM</label>
           <input type="number" class="form-control text-center calcInputs" name="deviation" id="deviation" value="${deviation}">
         </div>
-        <div class="col-xs-2 USDInputs">
+        <div class="col-xs-2 py-2 mr-2 USDInputs">
+          <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+          <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
+            value="${parseFloat(coverage).toFixed(2)}">
+        </div>
+        <div class="col-xs-2 mt-4 USDInputs">
           <button class="btn btn-warning" id="btnSimulation">Simular</button>
         </div>`);
       
@@ -61,9 +66,9 @@ $(document).ready(function () {
   /* Calcular valor de cobertura ingresando numero de desviación */
   $(document).on('blur', '.calcInputs', function (e) {
     let num = $('#deviation').val();
-    let coverage = parseFloat($('#valueCoverage').val());
+    let valueCoverage = parseFloat($('#valueCoverage').val());
 
-    if (isNaN(coverage) || coverage <= 0) {
+    if (isNaN(valueCoverage) || valueCoverage <= 0) {
       toastr.error('Ingrese valor covertura valido');
       return false;
     }
@@ -89,17 +94,17 @@ $(document).ready(function () {
       },
       callback: function (result) {
         if (result == true) { 
-          getUSDData(coverage, null, 1);
+          getUSDData(valueCoverage, null, 1);
         }
       },
     });
     
     }
     else
-      getUSDData(coverage, num, 2, this.id);
+      getUSDData(valueCoverage, num, 2, this.id);
   });
 
-  getUSDData = async (coverage, deviation, op, id) => {
+  getUSDData = async (valueCoverage, deviation, op, id) => {
     $('.USDInputs').hide(400);
 
     let USDHeader = document.getElementById('USDHeader');
@@ -112,7 +117,7 @@ $(document).ready(function () {
     );
 
     if (op == 1) {
-      let data = await searchData(`/api/priceUSD/${coverage}`);
+      let data = await searchData(`/api/priceUSD/${valueCoverage}`);
 
       if (data.success) {
         $('.spinner-border').remove();
@@ -123,7 +128,7 @@ $(document).ready(function () {
     } else {
       let data = {};
       data['deviation'] = deviation;
-      data['coverage'] = coverage;
+      data['coverage'] = valueCoverage;
       data['id'] = id;
 
       $.post('/api/simPriceUSD', data,
@@ -135,6 +140,8 @@ $(document).ready(function () {
                 maximumFractionDigits: 2,
               })}`
             ); 
+
+            coverage1 = resp.coverage;
 
             $('#valueCoverage').val(parseFloat(resp.coverage).toFixed(2));
        

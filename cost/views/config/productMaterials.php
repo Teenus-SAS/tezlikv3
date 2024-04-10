@@ -562,6 +562,24 @@ if (sizeof($_SESSION) == 0)
                 });
             });
 
+            $('#idMachine').change(function(e) {
+                e.preventDefault();
+
+                let data = JSON.parse(sessionStorage.getItem('dataMachines'));
+
+                data = data.filter(item => item.id_machine == this.value);
+
+                !data[0] ? unity_time = 0 : unity_time = data[0].unity_time;
+
+                $('#enlistmentTime').val(unity_time);
+
+                if (this.value === '0') {
+                    $('.checkMachine').hide(800);
+                    $('#checkMachine').prop('checked', false);
+                } else
+                    $('.checkMachine').show(800);
+            });
+
             // const loadData = async (endpoint, key) => {
             //     try {
             //         const data = await searchData(endpoint);
