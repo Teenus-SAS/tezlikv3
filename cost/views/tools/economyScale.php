@@ -81,15 +81,17 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnNewEconomyScale">Nuevo Calculo</button>
                                 </div>
-                                <div class="col-xs-2">
-                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
-                                </div>
-                                <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
-                                    <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
-                                    <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                        $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
-                                                                                                                                                                                        echo  $coverage ?>" readonly>
-                                </div>
+                                <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                    <div class="col-xs-2">
+                                        <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                    </div>
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
+                                        <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
+                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                            $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
+                                                                                                                                                                                            echo  $coverage ?>" readonly>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -269,6 +271,8 @@ if (sizeof($_SESSION) == 0)
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
+        price_usd = "<?= $_SESSION['price_usd'] ?>";
+        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
 
         $(document).ready(function() {
 
@@ -297,21 +301,23 @@ if (sizeof($_SESSION) == 0)
                 actualElement.classList.add("btn-primary");
             }
 
-            // Validar que valor de precio esta seleccionado
-            let typePrice = sessionStorage.getItem('typePrice');
+            if (price_usd == '1' && plan_cost_price_usd == '1') {
+                // Validar que valor de precio esta seleccionado
+                let typePrice = sessionStorage.getItem('typePrice');
 
-            let element = document.getElementsByClassName('btnPricesUSD')[0];
+                let element = document.getElementsByClassName('btnPricesUSD')[0];
 
-            // Dolares
-            if (typePrice == '1' || !typePrice) {
-                element.id = 'usd';
-                element.innerText = 'Precios USD';
+                // Dolares
+                if (typePrice == '1' || !typePrice) {
+                    element.id = 'usd';
+                    element.innerText = 'Precios USD';
 
-                $('.cardUSD').hide(800);
-            } else { // Pesos
-                element.id = 'cop';
-                element.innerText = 'Precios COP';
-                $('.cardUSD').show(800);
+                    $('.cardUSD').hide(800);
+                } else { // Pesos
+                    element.id = 'cop';
+                    element.innerText = 'Precios COP';
+                    $('.cardUSD').show(800);
+                }
             }
         });
     </script>

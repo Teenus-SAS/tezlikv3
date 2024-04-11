@@ -158,7 +158,7 @@ $(document).ready(function () {
       totalCost = totalCost + minuteValue[i];
     }
 
-    if (sessionStorage.getItem('typePrice') == '2') {
+    if (sessionStorage.getItem('typePrice') == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
       totalCost = `$ ${totalCost.toLocaleString("es-CO", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 2,
@@ -309,7 +309,7 @@ $(document).ready(function () {
       totalExpense = totalExpense + data[i].expenseCount;
     }
 
-    if (sessionStorage.getItem('typePrice') == '2') {
+    if (sessionStorage.getItem('typePrice') == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
       totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 2,

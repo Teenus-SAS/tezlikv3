@@ -29,7 +29,7 @@ $(document).ready(function () {
       currentDollar = actualTrm[0]['valor'];
 
       let typePrice = sessionStorage.getItem('typePrice');
-      typePrice == '2' ? op1 = 2 : op1 = 1;
+      typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1' ? op1 = 2 : op1 = 1;
 
       parents = prices.filter(item => item.composite == 0);
       composites = prices.filter(item => item.composite == 1);

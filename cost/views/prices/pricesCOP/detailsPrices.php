@@ -80,15 +80,17 @@ if (sizeof($_SESSION) == 0)
                                         <div class="col-sm-4 d-flex align-items-center">
                                             <select id="product" class="form-control btnPrintPDF"></select>
                                         </div>
-                                        <div class="col-xs-2 mt-1 d-flex align-items-center">
-                                            <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
-                                        </div>
-                                        <div class="col-xs-2 ml-2 mt-4 form-group floating-label enable-floating-label cardUSD" style="display:none;">
-                                            <label class="font-weight-bold text-dark">Valor Dolar</label>
-                                            <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                                $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
-                                                                                                                                                                                                echo  $coverage ?>" readonly>
-                                        </div>
+                                        <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                            <div class="col-xs-2 mt-1 d-flex align-items-center">
+                                                <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                            </div>
+                                            <div class="col-xs-2 ml-2 mt-4 form-group floating-label enable-floating-label cardUSD" style="display:none;">
+                                                <label class="font-weight-bold text-dark">Valor Dolar</label>
+                                                <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                                    $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
+                                                                                                                                                                                                    echo  $coverage ?>" readonly>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                     <div class="row">
                                         <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">
@@ -452,6 +454,8 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
+        price_usd = "<?= $_SESSION['price_usd'] ?>";
+        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         viewPrices = 2;
     </script>
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>

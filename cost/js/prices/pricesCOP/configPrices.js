@@ -6,32 +6,34 @@ $(document).ready(function () {
   });
 
   loadDataPrices = async () => {
-    let typePrice = sessionStorage.getItem('typePrice');
+    if (price_usd == '1' && plan_cost_price_usd == '1') {
+      let typePrice = sessionStorage.getItem('typePrice');
 
-    let element = document.getElementsByClassName('btnPricesUSD')[0];
+      let element = document.getElementsByClassName('btnPricesUSD')[0];
 
-    if (typePrice == '1' || !typePrice) {
-      element.id = 'usd';
-      element.innerText = 'Precios USD';
+      if (typePrice == '1' || !typePrice) {
+        element.id = 'usd';
+        element.innerText = 'Precios USD';
 
-      $('.cardPricesCOP').show();
-      $('.cardPricesUSD').hide();
+        $('.cardPricesCOP').show();
+        $('.cardPricesUSD').hide();
 
-      if (viewPrices == 2) {
-        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
-        $('.cardUSD').hide(800);
+        if (viewPrices == 2) {
+          document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
+          $('.cardUSD').hide(800);
+        }
       }
-    }
-    else {
-      element.id = 'cop';
-      element.innerText = 'Precios COP';
+      else {
+        element.id = 'cop';
+        element.innerText = 'Precios COP';
 
-      $('.cardPricesUSD').show();
-      $('.cardPricesCOP').hide();
+        $('.cardPricesUSD').show();
+        $('.cardPricesCOP').hide();
 
-      if (viewPrices == 2) {
-        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
-        $('.cardUSD').show(800);
+        if (viewPrices == 2) {
+          document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
+          $('.cardUSD').show(800);
+        }
       }
     }
     

@@ -7,7 +7,7 @@ $(document).ready(function () {
       let typePrice1 = sessionStorage.getItem('typePrice');
 
       // Dolares
-      if (typePrice1 == '2') {
+      if (typePrice1 == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
         // Convertir costos a dolares de acuerdo al dolar de cobertura
         for (let i = 0; i < data.details_prices.length; i++) {
           data.details_prices[i].cost_workforce = parseFloat(data.details_prices[i].cost_workforce) / parseFloat(coverage);
@@ -127,7 +127,7 @@ $(document).ready(function () {
       })}`;
       let typePrice1 = sessionStorage.getItem('typePrice');
 
-      typePrice1 == '1' || !typePrice1 ? expenses = 'Gastos Generales' : expenses = 'Gastos Generales (USD)';
+      typePrice1 == '1' || !typePrice1 || price_usd == '0' || plan_cost_price_usd == '0' ? expenses = 'Gastos Generales' : expenses = 'Gastos Generales (USD)';
     } else {
       expenses = `Gtos Generales`;
       totalExpense = `${expenseRecover.percentageExpense.toLocaleString(
@@ -202,7 +202,7 @@ $(document).ready(function () {
       </div>`);
 
       let typePrice1 = sessionStorage.getItem('typePrice');
-      if (typePrice1 == '2') {
+      if (typePrice1 == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
         price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
       } else {
         price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
@@ -279,7 +279,7 @@ $(document).ready(function () {
       $('.btnActualProfitabilityAverage').hide();
 
     let typePrice1 = sessionStorage.getItem('typePrice');
-    if (typePrice1 == '2') {
+    if (typePrice1 == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
       turnover = `$ ${turnover.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
     } else {
       turnover = `$ ${turnover.toLocaleString('es-CO')}`;      

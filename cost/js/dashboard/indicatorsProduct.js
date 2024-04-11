@@ -7,7 +7,7 @@ $(document).ready(function () {
 
       let typePrice = sessionStorage.getItem('typePrice');
     
-      if (typePrice == '2') {
+      if (typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
         data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage));
         data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage));
         data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage));
@@ -16,19 +16,16 @@ $(document).ready(function () {
         data.cost_product[0].price = parseFloat(data.cost_product[0].price_usd);
         data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_usd);
         data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage));
+
+        for (let i = 0; i < data.cost_workforce.length; i++) {
+          data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage);
+        }
       }
 
       await generalIndicators(data.cost_product);
       await UnitsVolSold(data.cost_product);
       await totalCostData(data.cost_product);
       await graphicCostExpenses(data.cost_product);
-
-      if (typePrice == '2') {
-        for (let i = 0; i < data.cost_workforce.length; i++) {
-          data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage);
-        }
-      }
-
       await graphicCostWorkforce(data.cost_workforce);
       await graphicCostTimeProcess(data.cost_time_process);
       await graphicPromTime(data.average_time_process);
@@ -41,7 +38,7 @@ $(document).ready(function () {
       else
         data = data.cost_materials;
 
-      if (typePrice == '2') {
+      if (typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
         for (let i = 0; i < data.length; i++) {
           data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage);
         }
@@ -85,10 +82,10 @@ $(document).ready(function () {
 
     let typePrice = sessionStorage.getItem('typePrice');
 
-    if (typePrice == '1' || !typePrice)
-      max = 0
+    if (typePrice == '1' || !typePrice || price_usd == '0' || plan_cost_price_usd == '0')
+      max = 0;
     else {
-      max = 2
+      max = 2;
     }
 
     $('#rawMaterial').html(
@@ -143,10 +140,10 @@ $(document).ready(function () {
   UnitsVolSold = (data) => {
     let typePrice = sessionStorage.getItem('typePrice');
 
-    if (typePrice == '1' || !typePrice)
-      max = 0
+    if (typePrice == '1' || !typePrice || price_usd == '0' || plan_cost_price_usd == '0')
+      max = 0;
     else {
-      max = 2
+      max = 2;
     }
 
     $('#unitsSold').html(data[0].units_sold.toLocaleString('es-CO'));
@@ -176,10 +173,10 @@ $(document).ready(function () {
   totalCostData = (data) => {
     let typePrice = sessionStorage.getItem('typePrice');
 
-    if (typePrice == '1' || !typePrice)
-      max = 0
+    if (typePrice == '1' || !typePrice || price_usd == '0'|| plan_cost_price_usd == '0')
+      max = 0;
     else {
-      max = 2
+      max = 2;
     }
 
     dataCost = getDataCost(data[0]);

@@ -87,15 +87,17 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mt-2 mr-2" id="btnPdf">
                                     <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
                                 </div>
-                                <div class="col-xs-2 mr-2 mt-1">
-                                    <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
-                                </div>
-                                <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;">
-                                    <label class="font-weight-bold text-dark">Valor Dolar</label>
-                                    <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                        $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
-                                                                                                                                                                                        echo  $coverage ?>" readonly>
-                                </div>
+                                <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                    <div class="col-xs-2 mr-2 mt-1">
+                                        <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                    </div>
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;">
+                                        <label class="font-weight-bold text-dark">Valor Dolar</label>
+                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                            $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
+                                                                                                                                                                                            echo  $coverage ?>" readonly>
+                                    </div>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -496,66 +498,69 @@ if (sizeof($_SESSION) == 0)
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
+                                    price_usd = "<?= $_SESSION['price_usd'] ?>";
+                                    plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
                                     c_content = <?= json_encode($_SESSION['content']) ?>;
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
                                     modalActive = false;
 
-                                    $(document).ready(function() {
-                                        // Validar que Valor de precio estaba anteriormente seleccionado
-                                        let typePrice = sessionStorage.getItem('typePrice');
+                                    if (price_usd == '1' && plan_cost_price_usd == '1')
+                                        $(document).ready(function() {
+                                            // Validar que Valor de precio estaba anteriormente seleccionado
+                                            let typePrice = sessionStorage.getItem('typePrice');
 
-                                        let element = document.getElementsByClassName('btnPricesUSD')[0];
-
-                                        // Dolares
-                                        if (typePrice == '1' || !typePrice) {
-                                            element.id = 'usd';
-                                            element.innerText = 'Precios USD';
-                                            element.style.marginTop = '';
-                                            document.getElementById('btnPdf').style.marginTop = '';
-
-                                            $('.cardUSD').hide(800);
-                                        } else { // Pesos
-                                            element.id = 'cop';
-                                            element.innerText = 'Precios COP';
-                                            //element.style.marginTop = '30px';
-                                            document.getElementById('btnPdf').style.marginTop = '30px';
-
-                                            $('.cardUSD').show(800);
-                                        }
-
-                                        // Funcion para cambiar de valor del precio manualmente
-                                        $('.btnPricesUSD').click(async function(e) {
-                                            e.preventDefault();
-                                            let id = this.id;
-
-                                            id == 'cop' ? op = 1 : op = 2;
-                                            sessionStorage.setItem('typePrice', op);
                                             let element = document.getElementsByClassName('btnPricesUSD')[0];
 
                                             // Dolares
-                                            if (id == 'usd') {
-                                                element.id = 'cop';
-                                                element.innerText = 'Precios COP';
-                                                //element.style.marginTop = '30px';
-                                                document.getElementById('btnPdf').style.marginTop = '30px';
-
-                                                $('.cardUSD').show(800);
-                                            } else { // Pesos
+                                            if (typePrice == '1' || !typePrice) {
                                                 element.id = 'usd';
                                                 element.innerText = 'Precios USD';
                                                 element.style.marginTop = '';
                                                 document.getElementById('btnPdf').style.marginTop = '';
 
                                                 $('.cardUSD').hide(800);
+                                            } else { // Pesos
+                                                element.id = 'cop';
+                                                element.innerText = 'Precios COP';
+                                                //element.style.marginTop = '30px';
+                                                document.getElementById('btnPdf').style.marginTop = '30px';
+
+                                                $('.cardUSD').show(800);
                                             }
 
-                                            // Recargar Datos
-                                            let id_product = $('#refProduct').val();
+                                            // Funcion para cambiar de valor del precio manualmente
+                                            $('.btnPricesUSD').click(async function(e) {
+                                                e.preventDefault();
+                                                let id = this.id;
 
-                                            loadAllData();
+                                                id == 'cop' ? op = 1 : op = 2;
+                                                sessionStorage.setItem('typePrice', op);
+                                                let element = document.getElementsByClassName('btnPricesUSD')[0];
+
+                                                // Dolares
+                                                if (id == 'usd') {
+                                                    element.id = 'cop';
+                                                    element.innerText = 'Precios COP';
+                                                    //element.style.marginTop = '30px';
+                                                    document.getElementById('btnPdf').style.marginTop = '30px';
+
+                                                    $('.cardUSD').show(800);
+                                                } else { // Pesos
+                                                    element.id = 'usd';
+                                                    element.innerText = 'Precios USD';
+                                                    element.style.marginTop = '';
+                                                    document.getElementById('btnPdf').style.marginTop = '';
+
+                                                    $('.cardUSD').hide(800);
+                                                }
+
+                                                // Recargar Datos
+                                                let id_product = $('#refProduct').val();
+
+                                                loadAllData();
+                                            });
                                         });
-                                    });
                                 </script>
                                 <script src="js/dashboard/contract.js"></script>
                                 <script src="js/dashboard/indicatorsGeneral.js"></script>

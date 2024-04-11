@@ -115,7 +115,7 @@ $(document).ready(function () {
 
     let typePrice = sessionStorage.getItem('typePrice');
 
-    typePrice == '2' ? max = 2 : max = 0;
+    typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1' ? max = 2 : max = 0;
 
     $('#totalCostWorkforceEsp').html(
       `$ ${totalCost.toLocaleString('es-CO', { maximumFractionDigits: max })}`
@@ -313,7 +313,7 @@ $(document).ready(function () {
     let product = [costs, percentages];
 
     let typePrice = sessionStorage.getItem('typePrice');
-    typePrice == '2' ? max = 2 : max = 0;
+    typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1' ? max = 2 : max = 0;
 
     $('#totalPricesComp').html(
       `$ ${data[0].price.toLocaleString('es-CO', { maximumFractionDigits: max })}`
