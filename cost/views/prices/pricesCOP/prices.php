@@ -103,13 +103,13 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                                 <div class="col-xl-8 form-inline justify-content-sm-end" id="USDHeader">
-                                    <div class="col-xs-2 mt-4 mr-2 USDInputs">
+                                    <div class="col-xs-2 mr-2 USDInputs">
                                         <button class="btn btn-warning" id="btnSimulation">Simular</button>
                                     </div>
-                                    <div class="col-xs-2 mt-4 mr-2 USDInputs">
+                                    <div class="col-xs-2 mr-2 USDInputs">
                                         <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
                                     </div>
-                                    <div class="col-xs-2 py-2 mr-2 USDInputs">
+                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
                                         <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
                                                                                                                                                         $coverage = sprintf("%.2f", $_SESSION['coverage']);
