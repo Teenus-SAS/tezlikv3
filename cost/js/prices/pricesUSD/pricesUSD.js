@@ -15,25 +15,25 @@ $(document).ready(function () {
           <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" style="background-color: aliceblue;"
             value="$ ${currentDollar.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2, })}" readonly>
         </div>
-        <div class="col-xs-2 py-2 mr-2 USDInputs">
-          <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura (calculado)</label>
+        <div class="col-xs-2 form-group floating-label enable-floating-label mr-2 USDInputs">
+          <label class="font-weight-bold text-dark">Dolar con Cobertura</label>
           <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
             value="${parseFloat(coverage1).toFixed(2)}">
         </div>
-        <div class="col-xs-2 py-2 mr-2 USDInputs">
-          <label class="mb-1 font-weight-bold text-dark">Cobertura Cambiaria</label>
+        <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
+          <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
           <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;" readonly>
         </div>
-        <div class="col-xs-2 USDInputs">
-          <label class="mb-1 font-weight-bold text-dark">Correción TRM</label>
+        <div class="col-xs-2 form-group floating-label enable-floating-label USDInputs">
+          <label class="font-weight-bold text-dark">Correción TRM</label>
           <input type="number" class="form-control text-center calcInputs" name="deviation" id="deviation" value="${deviation}">
         </div>
-        <div class="col-xs-2 py-2 mr-2 USDInputs">
-          <label class="mb-1 font-weight-bold text-dark">Dolar con Cobertura</label>
+        <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
+          <label class="font-weight-bold text-dark">Dolar con Cobertura</label>
           <input type="number" class="form-control text-center" name="valueCoverage" id="valueCoverage" style="background-color: aliceblue;"
             value="${parseFloat(coverage).toFixed(2)}" readonly>
         </div>
-        <div class="col-xs-2 mt-4 USDInputs">
+        <div class="col-xs-2 form-group floating-label enable-floating-label USDInputs">
           <button class="btn btn-warning" id="btnSimulation">Simular</button>
         </div>`);
       
