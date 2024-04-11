@@ -7,6 +7,9 @@ $(document).ready(function () {
 
   loadDataPrices = async () => {
     if (price_usd == '1' && plan_cost_price_usd == '1') {
+      $('.coverageInput').hide();
+      $('.cardCOP').hide();
+
       let typePrice = sessionStorage.getItem('typePrice');
 
       let element = document.getElementsByClassName('btnPricesUSD')[0];
@@ -15,20 +18,23 @@ $(document).ready(function () {
         element.id = 'usd';
         element.innerText = 'Precios USD';
 
+        $('.cardCOP').show(800);
+
         $('.cardPricesCOP').show();
-        $('.cardPricesUSD').hide();
+        $('.cardPricesUSD').hide(); 
 
         if (viewPrices == 2) {
           document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
           $('.cardUSD').hide(800);
         }
-      }
-      else {
+      } else {
         element.id = 'cop';
         element.innerText = 'Precios COP';
 
         $('.cardPricesUSD').show();
-        $('.cardPricesCOP').hide();
+        $('.cardPricesCOP').hide(); 
+
+        $('.coverageInput').show(800);
 
         if (viewPrices == 2) {
           document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
@@ -60,6 +66,9 @@ $(document).ready(function () {
     let id = this.id;
     let op = 1;
 
+    $('.coverageInput').hide(800);
+    $('.cardCOP').hide(800);
+
     id == 'cop' ? op = 1 : op = 2;
     sessionStorage.setItem('typePrice', op);
 
@@ -68,16 +77,23 @@ $(document).ready(function () {
     if (id == 'usd') {
       element.id = 'cop';
       element.innerText = 'Precios COP';
-
+ 
+      $('.coverageInput').each(function (index) {
+        $(this).delay(800 * index).show(800);
+      });
+      
       if (viewPrices == 2) {
         document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
         $('.cardUSD').show(800);
       }
-    }
-    else {
+    } else {
       element.id = 'usd';
       element.innerText = 'Precios USD';
-
+      
+      $('.cardCOP').each(function (index) {
+        $(this).delay(800 * index).show(800);
+      });
+      
       if (viewPrices == 2) {
         document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
         $('.cardUSD').hide(800);
@@ -87,6 +103,7 @@ $(document).ready(function () {
     if (viewPrices == 1) {
       $('.cardPricesCOP').toggle();
       $('.cardPricesUSD').toggle();
+
       op1 = 1;
       
       flag_composite_product == '1' ? data = parents : data = allPrices;

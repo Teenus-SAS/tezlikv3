@@ -52,46 +52,20 @@ $(document).ready(function () {
     $('.general').val('');
     $('.general').html('');
     
-    let data = economyScale.find(item => item.id_product == id);
-    // data = await searchData(`/api/calcEconomyScale/${id}`);
-    let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0];
-    // let session_flag = sessionStorage.getItem('flag_type_price');
+    let data = economyScale.find(item => item.id_product == id); 
+    let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0]; 
     
     if (typePrice.id === 'sugered') {
       price = Math.ceil(data.price); 
     } else {
       price = Math.ceil(data.sale_price); 
-    }
-    // $('#labelDescription').html(` Descripción (${typePrice.id == 'actual' ? 'Precio Actual' : 'Precio Sugerido'}) `);
-    
-    // if (price == 0 || !price) {
-    // if (typePrice.id == 'sugered') { 
-    // if (session_flag == '1' || !session_flag) {
-    //   $('#labelDescription').html(`Descripción (Precio Sugerido)`);
-
-    //   document.getElementById("actual").className =
-    //     "btn btn-sm btn-primary typePrice cardBottons";
-    //   document.getElementById("sugered").className =
-    //     "btn btn-sm btn-outline-primary typePrice cardBottons";
-        
-    //   price = Math.ceil(data.sale_price);
-    // } else {
-    //   $('#labelDescription').html(`Descripción (Precio Actual)`);
-
-    //   document.getElementById("sugered").className =
-    //     "btn btn-sm btn-primary typePrice cardBottons";
-    //   document.getElementById("actual").className =
-    //     "btn btn-sm btn-outline-primary typePrice cardBottons";
-        
-    //   price = Math.ceil(data.price)
-    // }
+    } 
       
     if (price == 0 || !price) {
       typePrice.id == 'sugered' ? price = 'sugerido' : price = 'actual';
       toastr.error(`Ingrese el precio de venta ${price} para el producto`);
       return false;
-    }
-    // }
+    } 
 
     typePrice = sessionStorage.getItem('typePrice');
 
@@ -167,6 +141,7 @@ $(document).ready(function () {
     }
     let id_product = $('#refProduct').val();
 
-    loadDataProduct(id_product);
+    if (id_product)
+      loadDataProduct(id_product);
   });
 });

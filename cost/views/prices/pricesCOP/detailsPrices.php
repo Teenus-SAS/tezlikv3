@@ -72,25 +72,24 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="page-title">
                                     <div class="row">
-                                        <div class="col-sm-4 d-flex align-items-center">
+                                        <div class="col-sm-4 col-xl-4 p-4">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
-                                        <div class="col-sm-3 py-4 imageProduct">
-                                        </div>
-                                        <div class="col-sm-4 d-flex align-items-center">
-                                            <select id="product" class="form-control btnPrintPDF"></select>
-                                        </div>
-                                        <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
-                                            <div class="col-xs-2 mt-1 d-flex align-items-center">
-                                                <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                        <div class="col-sm-8 col-xl-8 d-flex justify-content-end mt-4">
+                                            <!-- <div class="col-sm-3 py-4 imageProduct">
+                                            </div> -->
+                                            <div class="col-xs-5 mr-2">
+                                                <select id="product" class="form-control btnPrintPDF">
+                                                </select>
                                             </div>
-                                            <div class="col-xs-2 ml-2 mt-4 form-group floating-label enable-floating-label cardUSD" style="display:none;">
+                                            <div class="col-xs-2 mr-2 mt-1">
+                                                <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
+                                            </div>
+                                            <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageInput">
                                                 <label class="font-weight-bold text-dark">Valor Dolar</label>
-                                                <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                                    $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
-                                                                                                                                                                                                    echo  $coverage ?>" readonly>
+                                                <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="$ 3.700,00" readonly="">
                                             </div>
-                                        <?php } ?>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">

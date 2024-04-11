@@ -72,11 +72,11 @@ $(document).ready(function () {
   generalIndicators = (data) => {
     $('#nameProduct').html(data[0].product);
 
-    !data[0].img
-      ? (txt = '')
-      : (txt = ` <img src="${data[0].img}" class="mx-auto d-block" style="width:60px;border-radius:100px"> `);
+    // !data[0].img
+    //   ? (txt = '')
+    //   : (txt = ` <img src="${data[0].img}" class="mx-auto d-block" style="width:60px;border-radius:100px"> `);
 
-    $('.imageProduct').html(txt);
+    // $('.imageProduct').html(txt);
 
     dataCost = getDataCost(data[0]);
 
