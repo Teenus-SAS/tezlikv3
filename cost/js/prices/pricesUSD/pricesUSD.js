@@ -11,7 +11,7 @@ $(document).ready(function () {
 
       USDHeader.insertAdjacentHTML('beforeend',
         `<div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
-          <label class="mb-1 font-weight-bold text-dark">Dolar Hoy</label>
+          <label class="font-weight-bold text-dark">Dolar Hoy</label>
           <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" style="background-color: aliceblue;"
             value="$ ${currentDollar.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2, })}" readonly>
         </div>
@@ -29,7 +29,7 @@ $(document).ready(function () {
           <input type="number" class="form-control text-center calcInputs" name="deviation" id="deviation" value="${deviation}">
         </div>
         <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
-          <label class="font-weight-bold text-dark">Dolar con Cobertura</label>
+          <label class="font-weight-bold text-dark">Valor Dolar</label>
           <input type="number" class="form-control text-center" name="valueCoverage" id="valueCoverage" style="background-color: aliceblue;"
             value="${parseFloat(coverage).toFixed(2)}" readonly>
         </div>
