@@ -308,11 +308,19 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <?php if ($_SESSION['inyection'] == 1) { ?>
-                                                        <label class="text-center">Total</label>
+                                                        <label class="text-center">Subtotal</label>
                                                     <?php } else { ?>
-                                                        <label class="text-center">t.total (min)</label>
+                                                        <label class="text-center">Subtotal (min)</label>
                                                     <?php } ?>
-                                                    <input class="form-control text-center" type="number" name="totalTime" id="totalTime" disabled>
+                                                    <input class="form-control text-center" type="number" name="subTotalTime" id="subTotalTime" readonly>
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <label class="text-center">Eficiencia</label>
+                                                    <input class="form-control text-center time" type="number" name="efficiency" id="efficiency">
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <label class="text-center">t.total</label>
+                                                    <input class="form-control text-center" type="number" name="totalTime" id="totalTime" readonly>
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
