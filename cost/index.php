@@ -537,7 +537,7 @@ if (sizeof($_SESSION) == 0)
                                             if (id == 'usd') {
                                                 element.id = 'cop';
                                                 element.innerText = 'Precios COP';
-                                                element.style.marginTop = '30px';
+                                                //element.style.marginTop = '30px';
                                                 document.getElementById('btnPdf').style.marginTop = '30px';
 
                                                 $('.cardUSD').show(800);
