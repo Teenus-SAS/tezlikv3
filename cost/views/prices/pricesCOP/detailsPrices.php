@@ -72,7 +72,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="page-title">
                                     <div class="row">
-                                        <div class="col-sm-2 d-flex align-items-center">
+                                        <div class="col-sm-4 d-flex align-items-center">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
                                         <div class="col-sm-3 py-4 imageProduct">
