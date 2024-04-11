@@ -39,9 +39,9 @@ class CostMaterialsDao
 
         try {
             $stmt = $connection->prepare("SELECT SUM(pm.cost) as cost 
-                                        FROM materials m 
-                                        INNER JOIN products_materials pm ON pm.id_material = m.id_material 
-                                        WHERE m.id_company = :id_company AND pm.id_product = :id_product");
+                                          FROM materials m 
+                                            INNER JOIN products_materials pm ON pm.id_material = m.id_material 
+                                          WHERE m.id_company = :id_company AND pm.id_product = :id_product");
             $stmt->execute([
                 'id_company' => $id_company,
                 'id_product' => $dataMaterials['idProduct']

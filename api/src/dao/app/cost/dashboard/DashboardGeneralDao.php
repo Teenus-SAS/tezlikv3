@@ -104,10 +104,12 @@ class DashboardGeneralDao
   {
     $connection = Connection::getInstance()->getConnection();
 
-    $stmt = $connection->prepare("SELECT *, (SELECT SUM(ex.expense_value) FROM expenses ex LEFT JOIN puc cp ON cp.id_puc = ex.id_puc WHERE ex.id_company = :id_company 
-                                            AND cp.number_count LIKE CONCAT(p.number_count, '%')) AS expenseCount, (SELECT COUNT(p.product) FROM products p	
-                                  INNER JOIN products_costs pc ON pc.id_product = p.id_product WHERE p.id_company = :id_company AND p.active = 1) AS products
-                                  FROM puc p WHERE LENGTH(p.number_count) = 2 ORDER BY `p`.`number_count` ASC");
+    $stmt = $connection->prepare("SELECT p.*, COALESCE((SELECT SUM(ex.expense_value) FROM expenses ex LEFT JOIN puc cp ON cp.id_puc = ex.id_puc 
+                                                        WHERE ex.id_company = :id_company AND cp.number_count LIKE CONCAT(p.number_count, '%')), 0) AS expenseCount,
+                                        (SELECT COUNT(p.product) FROM products p INNER JOIN products_costs pc ON pc.id_product = p.id_product 
+                                        WHERE p.id_company = :id_company AND p.active = 1) AS products
+                                  FROM puc p 
+                                  WHERE LENGTH(p.number_count) = 2 ORDER BY p.number_count ASC");
     $stmt->execute(['id_company' => $id_company]);
     $expenseValue = $stmt->fetchAll($connection::FETCH_ASSOC);
 

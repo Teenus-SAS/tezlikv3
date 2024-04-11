@@ -342,8 +342,6 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                     // Consultar todos los datos del producto
                     $productsMaterial = $productMaterialsDao->findAllProductsmaterialsByIdProduct($j['id_product'], $id_company);
 
-                    // $totalQuantity = 0;
-
                     foreach ($productsMaterial as $k) {
                         // Obtener materia prima
                         $material = $generalMaterialsDao->findMaterialAndUnits($k['id_material'], $id_company);

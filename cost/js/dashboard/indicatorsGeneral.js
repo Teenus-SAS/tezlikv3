@@ -118,7 +118,7 @@ $(document).ready(function () {
     /* Gastos generales */
     let totalExpense = 0;
 
-    if (flag_expense == 1 || flag_expense == 0) {
+    if (flag_expense === '1' || flag_expense === '0') {
       for (i = 0; i < data.length; i++) {
         totalExpense = totalExpense + data[i].expenseCount;
       }

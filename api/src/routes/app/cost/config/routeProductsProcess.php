@@ -78,10 +78,9 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
         $productProcess = $dataProductProcess['importProductsProcess'];
 
         for ($i = 0; $i < sizeof($productProcess); $i++) {
-
             if (
                 empty($productProcess[$i]['referenceProduct']) || empty($productProcess[$i]['product']) || empty($productProcess[$i]['process']) || empty($productProcess[$i]['machine']) ||
-                $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' || empty($productProcess[$i]['autoMachine'])
+                $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' || $productProcess[$i]['efficiency'] == '' || empty($productProcess[$i]['autoMachine'])
             ) {
                 $i = $i + 2;
                 $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
@@ -89,7 +88,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             }
             if (
                 empty(trim($productProcess[$i]['referenceProduct'])) || empty(trim($productProcess[$i]['product'])) || empty(trim($productProcess[$i]['process'])) || empty(trim($productProcess[$i]['machine'])) ||
-                trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' || empty(trim($productProcess[$i]['autoMachine']))
+                trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' || trim($productProcess[$i]['efficiency']) == '' || empty(trim($productProcess[$i]['autoMachine']))
             ) {
                 $i = $i + 2;
                 $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
@@ -203,7 +202,6 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
                 $productProcess = $generalProductsProcessDao->changeRouteById($lastInserted['id_product_process'], $lastRoute['route']);
             }
-
 
             /* Calcular costo nomina */
             if ($productProcess == null && $dataProductProcess['autoMachine'] == '0') {
@@ -383,7 +381,6 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $productProcess[$i]['autoMachine'] == 'SI' ? $productProcess[$i]['autoMachine'] = 1 : $productProcess[$i]['autoMachine'] = 0;
 
             if (!$findProductProcess) {
-
                 //si no se encuentra, inserta y retorna null, si se encuentra retorna 1
                 $resolution = $productsProcessDao->insertProductsProcessByCompany($productProcess[$i], $id_company);
 

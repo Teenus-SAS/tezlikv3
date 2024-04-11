@@ -49,7 +49,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion', 'maquina_autonoma'];
+        const expectedHeaders = ['referencia_producto', 'producto', 'proceso', 'maquina', 'tiempo_enlistamiento', 'tiempo_operacion', 'eficiencia', 'maquina_autonoma'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -79,6 +79,7 @@ $(document).ready(function () {
             machine: item.maquina,
             enlistmentTime: item.tiempo_enlistamiento,
             operationTime: item.tiempo_operacion,
+            efficiency: item.eficiencia,
             autoMachine: item.maquina_autonoma
           };
         });
@@ -162,6 +163,7 @@ $(document).ready(function () {
           maquina: dataProductProcess[i].machine,
           tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
           tiempo_operacion: dataProductProcess[i].operation_time,
+          eficiencia: dataProductProcess[i].efficiency,
           maquina_autonoma: dataProductProcess[i].auto_machine
         });
       }

@@ -23,20 +23,7 @@ $(document).ready(function () {
 
     $('#formAddProcess').trigger('reset');
     $('#checkMachine').prop('checked', false);
-  });
-
-  // $('#idProcess').change(function (e) {
-  //   e.preventDefault();
-
-  //   let status = parseInt($(this).find('option:selected').attr('class'));
-
-  //   if (!$('#checkMachine').is(':checked')) {
-  //     if (status === 0) {
-  //       toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
-  //       return false;
-  //     }
-  //   }
-  // });
+  }); 
   
   /* Seleccionar producto */
   $('#selectNameProduct').change(function (e) {
@@ -44,52 +31,32 @@ $(document).ready(function () {
     idProduct = $('#selectNameProduct').val();
   });
 
-  /* calcular el tiempo total proceso */
-   $(document).on('click keyup', '.time', function (e) {
-    let tOperation = $('#operationTime').val();
-    let tEnlistment = $('#enlistmentTime').val();
+  /* Calcular el tiempo total proceso */ 
+  $(document).on('click keyup', '.time', function (e) {
+    let tOperation = parseFloat($('#operationTime').val());
+    let tEnlistment = parseFloat($('#enlistmentTime').val());
+    let efficiency = parseFloat($('#efficiency').val());
 
-    tOperation == '' ? (tOperation = '0') : tOperation;
-    // tOperation = strReplaceNumber(tOperation);
+    isNaN(tOperation) ? (tOperation = 0) : tOperation; 
+    isNaN(tEnlistment) ? (tEnlistment = 0) : tEnlistment; 
+    isNaN(efficiency) ? (efficiency = 0) : efficiency; 
 
-    tEnlistment == '' ? (tEnlistment = '0') : tEnlistment;
-    // tEnlistment = strReplaceNumber(tEnlistment);
-
+    // Subtotal
     if (inyection == 1)
-      val = (parseFloat(tEnlistment) / (parseFloat(tOperation) / 100)).toFixed(2);
+      subtotal = (tEnlistment / (tOperation / 100)).toFixed(2);
     else
-      val = parseFloat(tEnlistment) + parseFloat(tOperation);
+      subtotal = tEnlistment + tOperation;
 
-    !isFinite(val) ? val = 0 : val;
+    !isFinite(subtotal) ? subtotal = 0 : subtotal;
+    
+    $('#subTotalTime').val(subtotal);
+    
+    // Total
+    total = subtotal / efficiency;    
+    !isFinite(total) ? total = 0 : total = total.toFixed(2);
 
-    $('#totalTime').val(val);
+    $('#totalTime').val(total);
   });
-
-  // $(document).on('click keyup', '.time', function (e) {
-  //   let tOperation = parseFloat($('#operationTime').val());
-  //   let tEnlistment = parseFloat($('#enlistmentTime').val());
-  //   let efficiency = parseFloat($('#efficiency').val());
-
-  //   isNaN(tOperation) ? (tOperation = 0) : tOperation; 
-  //   isNaN(tEnlistment) ? (tEnlistment = 0) : tEnlistment; 
-  //   isNaN(efficiency) ? (efficiency = 0) : efficiency; 
-
-  //   // Subtotal
-  //   if (inyection == 1)
-  //     subtotal = (tEnlistment / (tOperation / 100)).toFixed(2);
-  //   else
-  //     subtotal = tEnlistment + tOperation;
-
-  //   !isFinite(subtotal) ? subtotal = 0 : subtotal;
-    
-  //   $('#subTotalTime').val(subtotal);
-    
-  //   // Total
-  //   total = subtotal / efficiency;    
-  //   !isFinite(total) ? total = 0 : total = total.toFixed(2);
-
-  //   $('#totalTime').val(total);
-  // });
 
   /* Adicionar nuevo proceso */
   $('#btnAddProcess').click(function (e) {
@@ -109,9 +76,7 @@ $(document).ready(function () {
     $('.cardImportProductsProcess').hide(800);
     $('.cardAddProcess').show(800);
     $('#btnAddProcess').html('Actualizar');
-
-    // let row = $(this).parent().parent()[0];
-    // let data = tblConfigProcess.fnGetData(row);
+ 
     let data = dataProductProcess.find(item => item.id_product_process == this.id);
 
     sessionStorage.setItem('id_product_process', data.id_product_process);
@@ -120,19 +85,16 @@ $(document).ready(function () {
 
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
-
-    // let decimals = contarDecimales(data.enlistment_time);
-    // let enlistment_time = formatNumber(data.enlistment_time, decimals);
+ 
     if (inyection == '1') {
       $('#enlistmentTime').val(data.unity_time);
       $('#enlistmentTime').prop('readonly', true);
     }
     else
       $('#enlistmentTime').val(data.enlistment_time);
-
-    // decimals = contarDecimales(data.operation_time);
-    // let operation_time = formatNumber(data.operation_time, decimals);
+ 
     $('#operationTime').val(data.operation_time);
+    $('#efficiency').val(data.efficiency);
 
     $('#enlistmentTime').click();
 
@@ -159,12 +121,10 @@ $(document).ready(function () {
     let refM = parseInt($('#idMachine').val());
     let enlistmentTime = parseFloat($('#enlistmentTime').val());
     let operationTime = parseFloat($('#operationTime').val());
+    let efficiency = parseFloat($('#efficiency').val());
     let status = parseInt($('#idProcess').find('option:selected').attr('class'));
 
-    // enlistmentTime = parseFloat(strReplaceNumber(enlistmentTime));
-    // operationTime = parseFloat(strReplaceNumber(operationTime));
-
-    let data = idProduct * refP * operationTime;
+    let data = idProduct * refP * operationTime * efficiency;
 
     if (inyection == '0')
       data += enlistmentTime;
@@ -243,8 +203,6 @@ $(document).ready(function () {
 
   /* Modificar empleados */
   $(document).on('click', '.updateEmployee', async function () {
-    // let row = $(this).parent().parent()[0];
-    // let data = tblConfigProcess.fnGetData(row);
     let data = dataProductProcess.find(item => item.id_product_process == this.id);
 
     let employees = data.employee.toString().split(",");
@@ -262,8 +220,7 @@ $(document).ready(function () {
           if (payroll[i].id_payroll == employees[j]) {
             checked = 'checked';
             break;
-          }
-        
+          } 
         }
       }
 
@@ -349,11 +306,4 @@ $(document).ready(function () {
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  // function updateTable() {
-  //   $('#tblConfigProcess').DataTable().clear();
-  //   $('#tblConfigProcess').DataTable().ajax.reload();
-  // }
 });

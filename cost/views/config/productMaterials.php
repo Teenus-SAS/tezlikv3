@@ -197,7 +197,15 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad</label>
-                                                    <input class="form-control text-center" type="number" name="quantity" id="quantity">
+                                                    <input class="form-control text-center quantity" type="number" name="quantity" id="quantity">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label>Desperdicio (%)</label>
+                                                    <input class="form-control text-center quantity" type="number" name="waste" id="waste">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label>Cantidad Total</label>
+                                                    <input class="form-control text-center" type="number" name="quantityYotal" id="quantityYotal" readonly>
                                                 </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
@@ -280,7 +288,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <!-- <form id="formAddProcess">
+                                        <form id="formAddProcess">
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Proceso</label>
@@ -321,48 +329,6 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label class="text-center">t.total</label>
                                                     <input class="form-control text-center" type="number" name="totalTime" id="totalTime" readonly>
-                                                </div>
-                                                <div class="col-xs-2 mt-1">
-                                                    <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
-                                                </div>
-                                                <div class="col-xs-2 ml-3 checkbox checkbox-success mb-2 checkMachine">
-                                                    <input id="checkMachine" name="checkMachine" type="checkbox"><label for="checkMachine">Máquina Autonoma </label>
-                                                </div>
-                                            </div>
-                                        </form> -->
-                                        <form id="formAddProcess">
-                                            <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label>Proceso</label>
-                                                    <select class="form-control" name="idProcess" id="idProcess"></select>
-                                                </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label>Maquina</label>
-                                                    <select class="form-control" name="idMachine" id="idMachine"></select>
-                                                </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
-                                                        <label class="text-center">Tiempo/Und</label>
-                                                    <?php } else { ?>
-                                                        <label class="text-center">t.alistamiento (min)</label>
-                                                    <?php } ?>
-                                                    <input class="form-control text-center time" type="number" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
-                                                </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
-                                                        <label class="text-center">% Eficiencia</label>
-                                                    <?php } else { ?>
-                                                        <label class="text-center">t.operacion (min)</label>
-                                                    <?php } ?>
-                                                    <input class="form-control text-center time" type="number" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
-                                                </div>
-                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
-                                                        <label class="text-center">Total</label>
-                                                    <?php } else { ?>
-                                                        <label class="text-center">t.total (min)</label>
-                                                    <?php } ?>
-                                                    <input class="form-control text-center" type="number" name="totalTime" id="totalTime" disabled>
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
@@ -574,6 +540,96 @@ if (sizeof($_SESSION) == 0)
         flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         inyection = "<?= $_SESSION['inyection'] ?>";
+        /*$(document).ready(function() {
+            // Evita la duplicación de código al manipular los selectores
+            const $refProduct = $('.refProduct');
+            const $selectNameProduct = $('.selectNameProduct');
+            const $refMaterial = $('#refMaterial');
+            const $nameMaterial = $('#nameMaterial');
+            const $refCompositeProduct = $('#refCompositeProduct');
+            const $compositeProduct = $('#compositeProduct');
+            const $idMachine = $('#idMachine');
+
+            // Evita la duplicación de código al manejar la carga de datos
+            async function loadData(url, key) {
+                const data = await searchData(url);
+                sessionStorage.setItem(key, JSON.stringify(data));
+                return data;
+            }
+
+            async function loadAllDataProducts() {
+                try {
+                    const [
+                        dataUnits,
+                        dataProducts,
+                        dataProcess,
+                        dataMachines,
+                        dataMaterials,
+                        dataCategories
+                    ] = await Promise.all([
+                        loadData('/api/units', 'dataUnits'),
+                        loadData('/api/products', 'dataProducts'),
+                        loadData('/api/process', 'dataProcess'),
+                        loadData('/api/machines', 'dataMachines'),
+                        loadData('/api/materials', 'dataMaterials'),
+                        loadData('/api/categories', 'dataCategories')
+                    ]);
+
+                    // Lógica para cargar datos en los selectores
+                    // Productos
+                    $refProduct.empty();
+                    let ref = sortFunction(dataProducts, 'reference');
+                    $refProduct.append(
+                        `<option value='0' disabled selected>Seleccionar</option>`
+                    );
+                    $.each(ref, function(i, value) {
+                        $refProduct.append(
+                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.reference} </option>`
+                        );
+                    });
+
+                    $selectNameProduct.empty();
+                    let prod = sortFunction(dataProducts, 'product');
+                    $selectNameProduct.append(
+                        `<option value='0' disabled selected>Seleccionar</option>`
+                    );
+                    $.each(ref, function(i, value) {
+                        $selectNameProduct.append(
+                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.product} </option>`
+                        );
+                    });
+
+                } catch (error) {
+                    console.error('Error loading data:', error);
+                }
+            }
+
+            async function loadUnitsByMagnitude(data, op) {
+                const id_magnitude = data.id_magnitude || data;
+                const dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
+                const dataPMaterials = dataUnits.filter(item => item.id_magnitude == id_magnitude);
+
+                // Lógica para cargar unidades basadas en la magnitud
+                // ...
+            }
+
+            // Manejadores de eventos
+            $('#refMaterial, #nameMaterial, #refCompositeProduct, #compositeProduct').change(async function(e) {
+                e.preventDefault();
+                const id = this.value;
+                const $target = $(this.id === 'refMaterial' || this.id === 'nameMaterial' ? '#nameMaterial' : '#refCompositeProduct');
+                $target.val(id).prop('selected', true);
+            });
+
+            $('#idMachine').change(function(e) {
+                e.preventDefault();
+                // Lógica para manejar el cambio de máquina
+                // ...
+            });
+
+            // Inicia la carga de datos
+            loadAllDataProducts();
+        }); */
         $(document).ready(function() {
 
             $('#refMaterial').change(async function(e) {
@@ -629,62 +685,6 @@ if (sizeof($_SESSION) == 0)
                 } else
                     $('.checkMachine').show(800);
             });
-
-            // const loadData = async (endpoint, key) => {
-            //     try {
-            //         const data = await searchData(endpoint);
-            //         sessionStorage.setItem(key, JSON.stringify(data));
-            //         return data;
-            //     } catch (error) {
-            //         console.error(`Error loading ${key} data:`, error);
-            //         throw error;
-            //     }
-            // };
-
-            // const populateSelectWithOptions = ($select, options, defaultValue = null) => {
-            //     debugger;
-
-            //     $select.empty();
-            //     if (defaultValue) {
-            //         $select.append(`<option value="0" disabled selected>${defaultValue}</option>`);
-            //     }
-            //     options.forEach(option => {
-            //         $select.append(`<option value="${option.id}">${option.label}</option>`);
-            //     });
-            // };
-
-            // const loadAllDataProducts = async () => {
-            //     try {
-            //         const [
-            //             dataUnits,
-            //             dataProducts,
-            //             dataProcess,
-            //             dataMachines,
-            //             dataMaterials
-            //         ] = await Promise.all([
-            //             loadData('/api/units', 'dataUnits'),
-            //             loadData('/api/products', 'dataProducts'),
-            //             loadData('/api/process', 'dataProcess'),
-            //             loadData('/api/machines', 'dataMachines'),
-            //             loadData('/api/materials', 'dataMaterials')
-            //         ]);
-
-            //         const sortedDataProducts = sortFunction(dataProducts, 'reference');
-            //         const sortedDataMaterials = sortFunction(dataMaterials, 'reference');
-            //         const sortedDataMaterialsByName = sortFunction(dataMaterials, 'material');
-
-            //         populateSelectWithOptions($('.refProduct'), sortedDataProducts, 'Seleccionar');
-            //         populateSelectWithOptions($('.selectNameProduct'), sortedDataProducts, 'Seleccionar');
-            //         populateSelectWithOptions($('#refCompositeProduct'), sortedDataProducts.filter(product => product.composite == 1), 'Seleccionar');
-            //         populateSelectWithOptions($('#compositeProduct'), sortedDataProducts.filter(product => product.composite == 1), 'Seleccionar');
-            //         populateSelectWithOptions($('#idProcess'), dataProcess, 'Seleccionar');
-            //         populateSelectWithOptions($('#idMachine'), dataMachines, null);
-            //         populateSelectWithOptions($('#refMaterial'), sortedDataMaterials, 'Seleccionar');
-            //         populateSelectWithOptions($('#nameMaterial'), sortedDataMaterialsByName, 'Seleccionar');
-            //     } catch (error) {
-            //         console.error('Error loading data:', error);
-            //     }
-            // };
 
             loadAllDataProducts = async () => {
                 try {

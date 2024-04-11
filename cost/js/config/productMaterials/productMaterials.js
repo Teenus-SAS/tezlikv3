@@ -56,8 +56,7 @@ $(document).ready(function () {
     if (this.value != '0') data = data.filter(item => item.id_category == this.value);
 
     addSelectsMaterials(data);
-  });
-
+  }); 
 
   // Crear selects manualmente
   addSelectsMaterials = (data) => {
@@ -84,11 +83,9 @@ $(document).ready(function () {
     });
   }
   /* Ocultar panel crear producto */
-
   $('.cardAddMaterials').hide();
 
   /* Abrir panel crear producto */
-
   $('#btnCreateProduct').click(async function (e) {
     e.preventDefault();
 
@@ -113,7 +110,6 @@ $(document).ready(function () {
   });
 
   /* Adicionar unidad de materia prima */
-
   $('.material').change(async function (e) {
     e.preventDefault();
     let id = this.value;
@@ -131,14 +127,28 @@ $(document).ready(function () {
   });
 
   /* Seleccionar producto */
-
   $('#selectNameProduct').change(function (e) {
     e.preventDefault();
     idProduct = $('#selectNameProduct').val();
   });
 
-  /* Adicionar nueva materia prima */
+  // Calcular cantidad total
+  $(document).on('click keyup', '.quantity', function (e) {
+    let quantity = parseFloat($('#quantity').val());
+    let waste = parseFloat($('#waste').val()); 
 
+    isNaN(quantity) ? (quantity = 0) : quantity; 
+    isNaN(waste) ? (waste = 0) : waste; 
+
+    // total
+    let total = (quantity * 1 + waste);
+
+    !isFinite(total) ? total = 0 : total;
+    
+    $('#quantityYotal').val(total);
+  });
+
+  /* Adicionar nueva materia prima */
   $('#btnAddMaterials').click(function (e) {
     e.preventDefault();
 
@@ -180,10 +190,11 @@ $(document).ready(function () {
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
     loadUnitsByMagnitude(data, 2);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
-
-    // let quantity = `${data.quantity}`;
-
+ 
     $('#quantity').val(data.quantity);
+    $('#waste').val(data.waste);
+
+    $('#waste').click();
 
     $('html, body').animate(
       {
@@ -198,17 +209,16 @@ $(document).ready(function () {
     let ref = parseInt($('#nameMaterial').val());
     let unit = parseInt($('#units').val());
     let quan = parseFloat($('#quantity').val());
+    let waste = parseFloat($('#waste').val());
     idProduct = parseInt($('#selectNameProduct').val());
 
-    let data = ref * unit * idProduct;
+    let data = ref * unit * idProduct * waste;
 
     if (!data || quan == '') {
       toastr.error('Ingrese todos los campos');
       return false;
     }
-
-    // quan = parseFloat(strReplaceNumber(quan));
-
+ 
     quant = 1 * quan;
 
     if (quan <= 0 || isNaN(quan)) {
@@ -233,7 +243,6 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblConfigMaterials.fnGetData(row);
 
-    
     let idProduct = $('#selectNameProduct').val();
     let dataP = {};
     dataP['idProduct'] = idProduct;
@@ -289,8 +298,7 @@ $(document).ready(function () {
       $('.cardProducts').show(800);
 
       $('#formAddMaterials').trigger('reset');
-      let idProduct = $('#selectNameProduct').val();
-      // if (idProduct)
+      let idProduct = $('#selectNameProduct').val(); 
       loadAllDataMaterials(idProduct);
 
       toastr.success(data.message);
@@ -322,7 +330,8 @@ $(document).ready(function () {
           material: arr[i].material,
           magnitud: arr[i].magnitude,
           unidad: arr[i].unit,
-          quantity: arr[i].quantity,
+          cantidad: arr[i].quantity,
+          desperdicio: arr[i].waste,
           tipo: arr[i].type,
         });
       }
@@ -344,6 +353,7 @@ $(document).ready(function () {
           maquina: arr[i].machine,
           tiempo_enlistamiento: arr[i].enlistment_time,
           tiempo_operacion: arr[i].operation_time,
+          eficiencia: arr[i].efficiency,
           maquina_autonoma: arr[i].auto_machine
         });
       }

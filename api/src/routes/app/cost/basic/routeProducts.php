@@ -413,8 +413,6 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
                 if ($resolution == null) {
                     $productsMaterials = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($dataProduct['idProduct'], $id_company);
 
-                    // $totalQuantity = 0;
-
                     foreach ($productsMaterials as $arr) {
                         if ($resolution != null) break;
                         // Obtener materia prima

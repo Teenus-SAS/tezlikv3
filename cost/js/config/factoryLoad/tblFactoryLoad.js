@@ -44,8 +44,6 @@ $(document).ready(function () {
           data = parseFloat(data);
 
           if (Math.abs(data) < 0.01) {
-            // let decimals = contarDecimales(data);
-            // data = formatNumber(data, decimals);
             data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           } else
             data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
@@ -61,8 +59,6 @@ $(document).ready(function () {
           data = parseFloat(data);
 
           if (Math.abs(data) < 0.01) {
-            // let decimals = contarDecimales(data);
-            // data = formatNumber(data, decimals);
             data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
           } else
             data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
@@ -75,11 +71,27 @@ $(document).ready(function () {
         data: 'id_manufacturing_load',
         className: 'uniqueClassName',
         render: function (data) {
-          return `
-                        <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateFactoryLoad" data-toggle='tooltip' title='Actualizar Carga Fabril' style="font-size: 30px;"></i></a>
-                        <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Carga Fabril' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+          return `<a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateFactoryLoad" data-toggle='tooltip' title='Actualizar Carga Fabril' style="font-size: 30px;"></i></a>
+          <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Carga Fabril' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
         },
       },
     ],
+    footerCallback: function (row, data, start, end, display) {
+      let cost = 0;
+      let cost_minute = 0; 
+
+      for (let i = 0; i < display.length; i++) {
+        cost += parseFloat(data[display[i]].cost);
+        cost_minute += parseFloat(data[display[i]].cost_minute); 
+      }
+
+      $(this.api().column(3).footer()).html(
+        `$ ${cost.toLocaleString('es-CO')}`
+      );
+
+      $(this.api().column(4).footer()).html(
+        `$ ${cost_minute.toLocaleString('es-CO')}`
+      );
+    },
   });
 });

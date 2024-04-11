@@ -95,16 +95,16 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
             }
 
             if (
-                empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) ||
-                empty($productMaterials[$i]['nameRawMaterial']) || $productMaterials[$i]['quantity'] == '' || empty($productMaterials[$i]['type'])
+                empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) || empty($productMaterials[$i]['nameRawMaterial']) ||
+                $productMaterials[$i]['quantity'] == '' || $productMaterials[$i]['waste'] == '' || empty($productMaterials[$i]['type'])
             ) {
                 $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
                 break;
             }
             if (
-                empty(trim($productMaterials[$i]['referenceProduct'])) || empty(trim($productMaterials[$i]['product'])) || empty(trim($productMaterials[$i]['refRawMaterial'])) ||
-                empty(trim($productMaterials[$i]['nameRawMaterial'])) || trim($productMaterials[$i]['quantity']) == '' || empty(trim($productMaterials[$i]['type']))
+                empty(trim($productMaterials[$i]['referenceProduct'])) || empty(trim($productMaterials[$i]['product'])) || empty(trim($productMaterials[$i]['refRawMaterial'])) || empty(trim($productMaterials[$i]['nameRawMaterial'])) ||
+                trim($productMaterials[$i]['quantity']) == '' || trim($productMaterials[$i]['waste']) == '' || empty(trim($productMaterials[$i]['type']))
             ) {
                 $i = $i + 2;
                 $dataImportProductsMaterials = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
@@ -209,8 +209,6 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             if ($productMaterials == null) {
                 // Consultar todos los datos del producto
                 $products = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($dataProductMaterial['idProduct'], $id_company);
-
-                // $totalQuantity = 0;
 
                 foreach ($products as $arr) {
                     // Obtener materia prima

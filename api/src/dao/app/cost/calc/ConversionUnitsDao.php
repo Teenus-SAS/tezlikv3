@@ -22,12 +22,10 @@ class ConversionUnitsDao
             $magnitude = strtoupper(trim($dataProductMaterial['magnitude']));
             $unitProductMaterial = strtoupper(trim($dataProductMaterial['abbreviation']));
             $unitMaterial = $dataMaterial['abbreviation'];
-            // $quantity = $dataProductMaterial['quantity'];
 
             $arr = [];
 
             if ($unitProductMaterial != $unitMaterial && $magnitude != 'UNIDAD') {
-
                 switch ($magnitude) {
                     case 'LONGITUD':
                         $arr['M'] = array(
@@ -121,7 +119,7 @@ class ConversionUnitsDao
                 // $quantity = $this->calcQuantity($quantity, $unit['op'], $unit['value']);
                 return $quantity;
             } else
-                return $quantity;
+                return ($quantity * 1 + $dataProductMaterial['waste']);
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
