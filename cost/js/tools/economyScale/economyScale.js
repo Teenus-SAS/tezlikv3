@@ -5,6 +5,11 @@ $(document).ready(function () {
     try {
       const data = await searchData('/api/calcEconomyScale');
 
+      if (data.info) {
+        toastr.info(data.message);
+        return false;
+      }
+
       economyScale = data;
  
     } catch (error) {

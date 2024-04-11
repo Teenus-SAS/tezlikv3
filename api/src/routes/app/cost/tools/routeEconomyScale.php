@@ -38,9 +38,21 @@ $app->get('/calcEconomyScale', function (Request $request, Response $response, $
     $fixedCosts = $economyScaleDao->findAllFixedCostByCompany($id_company);
     $variableCosts = $economyScaleDao->findAllVariableCostByCompany($id_company);
 
-    $combined = $economyScaleDao->combinedData($price, $fixedCosts, 'id_product');
-    $data = $economyScaleDao->combinedData($combined, $variableCosts, 'id_product');
+    if (is_array($fixedCosts) && is_array($variableCosts)) {
+        $combined = $economyScaleDao->combinedData($price, $fixedCosts, 'id_product');
+        $data = $economyScaleDao->combinedData($combined, $variableCosts, 'id_product');
+    } else {
+        $message = '';
 
+        if (!is_array($fixedCosts) && !is_array($variableCosts)) {
+            $message = $fixedCosts . $variableCosts;
+        } else if (!is_array($fixedCosts) && is_array($variableCosts)) {
+            $message = $fixedCosts;
+        } else
+            $message = $variableCosts;
+
+        $data = array('info' => true, 'message' => $message);
+    }
     // $data['dataPrice'] = $price;
     // $data['dataFixedCost'] = $fixedCosts;
     // $data['dataVariableCost'] = $variableCosts;
