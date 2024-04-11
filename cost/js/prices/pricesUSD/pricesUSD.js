@@ -10,7 +10,7 @@ $(document).ready(function () {
       op = 2;
 
       USDHeader.insertAdjacentHTML('beforeend',
-        `<div class="col-xs-2 mr-2 USDInputs">
+        `<div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
           <label class="mb-1 font-weight-bold text-dark">Dolar Hoy</label>
           <input type="text" class="form-control text-center" name="valueDollar" id="valueDollar" style="background-color: aliceblue;"
             value="$ ${currentDollar.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2, })}" readonly>
