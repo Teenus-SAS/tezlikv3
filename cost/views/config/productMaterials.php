@@ -280,7 +280,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <form id="formAddProcess">
+                                        <!-- <form id="formAddProcess">
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Proceso</label>
@@ -321,6 +321,48 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label class="text-center">t.total</label>
                                                     <input class="form-control text-center" type="number" name="totalTime" id="totalTime" readonly>
+                                                </div>
+                                                <div class="col-xs-2 mt-1">
+                                                    <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
+                                                </div>
+                                                <div class="col-xs-2 ml-3 checkbox checkbox-success mb-2 checkMachine">
+                                                    <input id="checkMachine" name="checkMachine" type="checkbox"><label for="checkMachine">Máquina Autonoma </label>
+                                                </div>
+                                            </div>
+                                        </form> -->
+                                        <form id="formAddProcess">
+                                            <div class="form-row">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label>Proceso</label>
+                                                    <select class="form-control" name="idProcess" id="idProcess"></select>
+                                                </div>
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label>Maquina</label>
+                                                    <select class="form-control" name="idMachine" id="idMachine"></select>
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
+                                                        <label class="text-center">Tiempo/Und</label>
+                                                    <?php } else { ?>
+                                                        <label class="text-center">t.alistamiento (min)</label>
+                                                    <?php } ?>
+                                                    <input class="form-control text-center time" type="number" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
+                                                        <label class="text-center">% Eficiencia</label>
+                                                    <?php } else { ?>
+                                                        <label class="text-center">t.operacion (min)</label>
+                                                    <?php } ?>
+                                                    <input class="form-control text-center time" type="number" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
+                                                </div>
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <?php if ($_SESSION['inyection'] == 1) { ?>
+                                                        <label class="text-center">Total</label>
+                                                    <?php } else { ?>
+                                                        <label class="text-center">t.total (min)</label>
+                                                    <?php } ?>
+                                                    <input class="form-control text-center" type="number" name="totalTime" id="totalTime" disabled>
                                                 </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
