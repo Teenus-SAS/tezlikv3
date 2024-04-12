@@ -38,6 +38,11 @@ $(document).ready(function () {
                   <input type="number" class="form-control text-center" name="valueCoverage" id="valueCoverage" style="background-color: aliceblue;"
                     value="${parseFloat(coverage).toFixed(2)}" readonly>
                 </div>
+                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
+                  <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
+                  <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;"
+                    value="$ ${(currentDollar - parseFloat(coverage)).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2, })}" readonly>
+                </div>
                 <div class="col-xs-2 form-group floating-label enable-floating-label USDInputs">
                   <button class="btn btn-warning" id="btnSimulation">Simular</button>
                 </div>
@@ -65,6 +70,11 @@ $(document).ready(function () {
                   <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                   <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
                     value="${parseFloat(coverage).toFixed(2)}">
+                </div>
+                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
+                  <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
+                  <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;"
+                    value="$ ${(currentDollar - parseFloat(coverage)).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2, })}" readonly>
                 </div>
             `);
         // Realiza cualquier acción adicional después de agregar el contenido

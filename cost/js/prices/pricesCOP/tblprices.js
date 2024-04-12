@@ -28,6 +28,10 @@ $(document).ready(function () {
       allPrices = prices;
       currentDollar = actualTrm[0]['valor'];
 
+      if (price_usd == '1' && plan_cost_price_usd == '1') {
+        $('#exchangeCoverage').val(`$ ${(currentDollar - parseFloat(coverage)).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2, })}`);
+      }
+
       let typePrice = sessionStorage.getItem('typePrice');
       typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1' ? op1 = 2 : op1 = 1;
 

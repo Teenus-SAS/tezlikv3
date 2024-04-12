@@ -115,8 +115,10 @@ if (sizeof($_SESSION) == 0)
                                                                                                                                                         $coverage = sprintf("%.2f", $_SESSION['coverage']);
                                                                                                                                                         echo  $coverage ?>">
                                     </div>
-
-
+                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs coverageInput" style="margin-bottom: 0px;">
+                                        <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
+                                        <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>

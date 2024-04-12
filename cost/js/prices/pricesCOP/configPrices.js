@@ -24,7 +24,7 @@ $(document).ready(function () {
         $('.cardPricesUSD').hide(); 
 
         if (viewPrices == 2) {
-          document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
+          // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
           $('.cardUSD').hide(800);
         }
       } else {
@@ -37,7 +37,7 @@ $(document).ready(function () {
         $('.coverageInput').show(800);
 
         if (viewPrices == 2) {
-          document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
+          // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
           $('.cardUSD').show(800);
         }
       }
@@ -83,7 +83,7 @@ $(document).ready(function () {
       });
       
       if (viewPrices == 2) {
-        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
+        // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
         $('.cardUSD').show(800);
       }
     } else {
@@ -95,7 +95,7 @@ $(document).ready(function () {
       });
       
       if (viewPrices == 2) {
-        document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
+        // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
         $('.cardUSD').hide(800);
       }
     }

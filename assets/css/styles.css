@@ -8226,3 +8226,20 @@ table[data-toggle='table'] {
                    -ms-user-select: none;
                    user-select: none;
                  }
+.social-bar{
+ position: fixed;
+   left: 2;
+   top: 30%;
+   font-size: 1.5rem;
+   display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+   z-index: 100;
+} 
+.social-bar a.bi {
+  transition: transform 0.3s ease;
+}
+
+.social-bar a.bi:hover {
+  transform: scale(1.2);
+}

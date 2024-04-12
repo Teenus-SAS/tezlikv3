@@ -7,6 +7,7 @@ if (!isset($_SESSION)) {
 if (sizeof($_SESSION) == 0)
     header('location: /');
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -34,6 +35,9 @@ if (sizeof($_SESSION) == 0)
 
         <!-- Begin main content -->
         <div class="main-content">
+            <div class="social-bar btnPrintPDF" style="display: none;">
+                <a href="javascript:;" class="bi bi-file-image" id="imageProduct"></a>
+            </div>
             <!-- Loader -->
             <div class="loading">
                 <div class="loader"></div>
@@ -76,8 +80,6 @@ if (sizeof($_SESSION) == 0)
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                         </div>
                                         <div class="col-sm-8 col-xl-8 d-flex justify-content-end mt-4">
-                                            <!-- <div class="col-sm-3 py-4 imageProduct">
-                                            </div> -->
                                             <div class="col-xs-5 mr-2">
                                                 <select id="product" class="form-control btnPrintPDF">
                                                 </select>

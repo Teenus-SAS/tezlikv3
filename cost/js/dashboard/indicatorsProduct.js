@@ -5,6 +5,9 @@ $(document).ready(function () {
     try {
       let data = await searchData(`/api/dashboardPricesProducts/${id_product}`);
 
+      sessionStorage.removeItem('imageProduct');
+      $('.social-bar').hide(800);
+
       let typePrice = sessionStorage.getItem('typePrice');
     
       if (typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
@@ -72,11 +75,10 @@ $(document).ready(function () {
   generalIndicators = (data) => {
     $('#nameProduct').html(data[0].product);
 
-    // !data[0].img
-    //   ? (txt = '')
-    //   : (txt = ` <img src="${data[0].img}" class="mx-auto d-block" style="width:60px;border-radius:100px"> `);
-
-    // $('.imageProduct').html(txt);
+    if (data[0].img) {
+      $('.social-bar').show(800);
+      sessionStorage.setItem('imageProduct', data[0].img);
+    }
 
     dataCost = getDataCost(data[0]);
 
@@ -195,7 +197,7 @@ $(document).ready(function () {
     else $('.commission').show();
     if (dataCost.costProfitability == 0) $('.profit').hide();
     else $('.profit').show();
-    if (data[0].sale_price == 0) $('.actualSalePrice').hide();
+    if (parseFloat(data[0].sale_price) == 0) $('.actualSalePrice').hide();
     else $('.actualSalePrice').show();
 
     $('#costTotal').html(
@@ -236,7 +238,7 @@ $(document).ready(function () {
       })}`
     );
 
-    if (flag_expense == 2)
+    if (flag_expense == '2')
       $('#expenses').html(`Gastos (${data[0].expense_recover}%)`);
 
     $('#payAssignableExpenses').html(
@@ -247,7 +249,7 @@ $(document).ready(function () {
     );
 
     $('#commission').html(
-      `Comisión Vts (${data[0].commission_sale.toLocaleString('es-CO', {
+      `Comisión Vts (${parseFloat(data[0].commission_sale).toLocaleString('es-CO', {
         maximumFractionDigits: 2,
       })}%)`
     );
@@ -256,7 +258,7 @@ $(document).ready(function () {
     );
 
     $('#profit').html(
-      `Rentabilidad (${data[0].profitability.toLocaleString('es-CO', {
+      `Rentabilidad (${parseFloat(data[0].profitability).toLocaleString('es-CO', {
         maximumFractionDigits: 2,
       })}%)`
     );
@@ -265,13 +267,13 @@ $(document).ready(function () {
     );
 
     $('.suggestedPrice').html(
-      `$ ${data[0].price.toLocaleString('es-CO', {
+      `$ ${parseFloat(data[0].price).toLocaleString('es-CO', {
         minimumFractionDigits: 0,
         maximumFractionDigits: max,
       })}`
     );
 
-    $('#actualSalePrice').html(`$ ${data[0].sale_price.toLocaleString('es-CO', {
+    $('#actualSalePrice').html(`$ ${parseFloat(data[0].sale_price).toLocaleString('es-CO', {
       minimumFractionDigits: 0,
       maximumFractionDigits: max,
     })}`);
@@ -287,20 +289,11 @@ $(document).ready(function () {
     $('#actualSalePrice').removeClass('text-warning');
     $('#actualSalePrice').removeClass('text-success');
     $('#actualSalePrice').removeClass('text-danger');
-
-    /* if (dataCost.actualProfitability == data[0].profitability) { border-warning 
-       else if (dataCost.actualProfitability > data[0].profitability) { border-success */
+ 
     if (!isFinite(dataCost.actualProfitability2))
       dataCost.actualProfitability2 = 0;
      
-    if (dataCost.actualProfitability3 < data[0].profitability && dataCost.actualProfitability3 > 0 && data[0].sale_price > 0) {
-      /*
-        <div class="text-center">
-                          <span class="text-warning font-weight-bold" style="font-size:large">
-                            <i style="font-style: initial;"><i class="bx bxs-no-entry" style="font-size: xxx-large;color:orange"></i></i>
-                          </span>
-                        </div>
-      */
+    if (dataCost.actualProfitability3 < data[0].profitability && dataCost.actualProfitability3 > 0 && parseFloat(data[0].sale_price) > 0) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -313,7 +306,7 @@ $(document).ready(function () {
                   </div>`;
       $('#actualSalePrice').addClass('text-warning');
     }
-    else if (dataCost.actualProfitability2 < data[0].profitability && data[0].sale_price > 0) {
+    else if (dataCost.actualProfitability2 < data[0].profitability && parseFloat(data[0].sale_price) > 0) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -326,14 +319,7 @@ $(document).ready(function () {
                   </div>`;
       $('#actualSalePrice').addClass('text-danger');
     }
-    else {
-      /*
-      <div class="text-center">
-                          <span class="text-success font-weight-bold" style="font-size:large">
-                            <i style="font-style: initial;"><i class="bx bxs-check-circle" style="font-size: xxx-large;color:green"></i></i>
-                          </span>
-                        </div>
-       */
+    else { 
       content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -353,7 +339,7 @@ $(document).ready(function () {
     $('.cardRecomendedPrice').empty();
     content = '';
 
-    if (price < data[0].sale_price) {
+    if (price < parseFloat(data[0].sale_price)) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -364,7 +350,7 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-    } else if (price == data[0].sale_price) {
+    } else if (price == parseFloat(data[0].sale_price)) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -406,4 +392,12 @@ $(document).ready(function () {
     $(`#product option[value=${id_product}]`).prop('selected', true);
   }
   setTimeout(setProduct, 2000);
+
+  $('#imageProduct').click(function (e) { 
+    e.preventDefault();
+    
+    let img = sessionStorage.getItem('imageProduct');
+
+    bootbox.alert(`<img src="${img}" class="mx-auto d-block" style="width: 500px;">`);
+  });
 });

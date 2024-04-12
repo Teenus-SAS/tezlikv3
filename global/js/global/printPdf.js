@@ -38,11 +38,11 @@ $(document).ready(function () {
                                                         <a href="javascript:;" <i id="btnPrintPDF" class="bi bi-filetype-pdf" data-toggle='tooltip' style="font-size: 30px; color:red;"></i></a>
                                                      </div>`);
             if (op == 2) {
-                let card = document.getElementsByClassName('imageProduct')[0];
+                // let card = document.getElementsByClassName('imageProduct')[0];
 
-                card.insertAdjacentHTML('afterend', `<div class="col-sm-4 mb-3 d-flex align-items-center">
-                                            <select id="product" class="form-control btnPrintPDF"></select>
-                                        </div>`);
+                // card.insertAdjacentHTML('afterend', `<div class="col-sm-4 mb-3 d-flex align-items-center">
+                //                             <select id="product" class="form-control btnPrintPDF"></select>
+                //                         </div>`);
                 
                 await loadDataPrices();
                 let id_product = sessionStorage.getItem('idProduct');
