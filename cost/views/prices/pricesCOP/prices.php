@@ -169,7 +169,6 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
 
     <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
-        <!-- <script src="/cost/js/prices/pricesUSD/tblPricesUSD.js"></script> -->
         <script src="/cost/js/prices/pricesUSD/pricesUSD.js"></script>
     <?php } ?>
 </body>
