@@ -540,15 +540,18 @@ if (sizeof($_SESSION) == 0)
         flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         inyection = "<?= $_SESSION['inyection'] ?>";
-        /*$(document).ready(function() {
+
+        $(document).ready(function() {
             // Evita la duplicación de código al manipular los selectores
             const $refProduct = $('.refProduct');
             const $selectNameProduct = $('.selectNameProduct');
-            const $refMaterial = $('#refMaterial');
-            const $nameMaterial = $('#nameMaterial');
             const $refCompositeProduct = $('#refCompositeProduct');
             const $compositeProduct = $('#compositeProduct');
-            const $idMachine = $('#idMachine');
+            const $process = $('#idProcess');
+            const $machines = $('#idMachine');
+            const $refMaterial = $('#refMaterial');
+            const $nameMaterial = $('#nameMaterial');
+            const $categories = $('#categories');
 
             // Evita la duplicación de código al manejar la carga de datos
             async function loadData(url, key) {
@@ -599,38 +602,180 @@ if (sizeof($_SESSION) == 0)
                         );
                     });
 
+                    // Productos Compuestos
+                    $refCompositeProduct.empty();
+                    $compositeProduct.empty();
+
+                    let compositeProduct = dataProducts.filter(item => item.composite == 1);
+
+                    ref = sortFunction(compositeProduct, 'reference');
+                    product = sortFunction(compositeProduct, 'product');
+
+                    $refCompositeProduct.append(
+                        `<option value='0' disabled selected>Seleccionar</option>`
+                    );
+                    $.each(ref, function(i, value) {
+                        $refCompositeProduct.append(
+                            `<option value ="${value.id_product}"> ${value.reference} </option>`
+                        );
+                    });
+
+                    $compositeProduct.append(
+                        `<option value='0' disabled selected>Seleccionar</option>`
+                    );
+                    $.each(product, function(i, value) {
+                        $compositeProduct.append(
+                            `<option value ="${value.id_product}"> ${value.product} </option>`
+                        );
+                    });
+
+                    // Procesos
+                    $process.empty();
+                    $process.append(`<option disabled selected>Seleccionar</option>`);
+                    $.each(dataProcess, function(i, value) {
+                        $process.append(
+                            `<option value = ${value.id_process} class='${value.status}'> ${value.process} </option>`
+                        );
+                    });
+
+                    // Maquinas
+                    $machines.empty();
+                    $machines.append(`<option disabled>Seleccionar</option>`);
+                    $machines.append(`<option value="0" selected>PROCESO MANUAL</option>`);
+                    $.each(dataMachines, function(i, value) {
+                        $machines.append(
+                            `<option value = '${value.id_machine}'> ${value.machine} </option>`
+                        );
+                    });
+
+                    // Materiales
+                    $refMaterial.empty();
+                    ref = sortFunction(dataMaterials, 'reference');
+
+                    $refMaterial.append(`<option disabled selected value='0'>Seleccionar</option>`);
+                    $.each(ref, function(i, value) {
+                        $refMaterial.append(
+                            `<option value = ${value.id_material}> ${value.reference} </option>`
+                        );
+                    });
+
+                    $nameMaterial.empty();
+                    let name = sortFunction(dataMaterials, 'material');
+
+                    $nameMaterial.append(`<option disabled selected value='0'>Seleccionar</option>`);
+                    $.each(name, function(i, value) {
+                        $nameMaterial.append(
+                            `<option value = ${value.id_material}> ${value.material} </option>`
+                        );
+                    });
+
+                    // Categorias
+                    if (dataCategories.length == 0) {
+                        $('.categories').hide();
+                    } else
+                        $('.categories').show();
+
+                    $categories.empty();
+
+                    $categories.append(`<option disabled selected>Seleccionar</option>`);
+                    $categories.append(`<option value='0'>Todos</option>`);
+                    $.each(dataCategories, function(i, value) {
+                        $categories.append(
+                            `<option value ='${value.id_category}'> ${value.category} </option>`
+                        );
+                    });
                 } catch (error) {
                     console.error('Error loading data:', error);
                 }
             }
 
-            async function loadUnitsByMagnitude(data, op) {
-                const id_magnitude = data.id_magnitude || data;
-                const dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
-                const dataPMaterials = dataUnits.filter(item => item.id_magnitude == id_magnitude);
+            loadUnitsByMagnitude = async (data, op) => {
+                Object.prototype.toString.call(data) === '[object Object]' ?
+                    (id_magnitude = data.id_magnitude) :
+                    (id_magnitude = data);
 
-                // Lógica para cargar unidades basadas en la magnitud
-                // ...
-            }
+                let dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
+
+                let dataPMaterials = dataUnits.filter(item => item.id_magnitude == id_magnitude);
+
+                let $select = $(`#units`);
+                $select.empty();
+
+                $select.append(`<option disabled selected>Seleccionar</option>`);
+                $.each(dataPMaterials, function(i, value) {
+                    if (id_magnitude == '4' && op == 2) {
+                        if (value.id_unit == data.id_unit) {
+                            $select.empty();
+                            $select.append(
+                                `<option value ='${value.id_unit}' selected> ${value.unit} </option>`
+                            );
+                            return false;
+                        }
+                    } else $select.append(`<option value = ${value.id_unit}> ${value.unit} </option>`);
+                });
+            };
 
             // Manejadores de eventos
-            $('#refMaterial, #nameMaterial, #refCompositeProduct, #compositeProduct').change(async function(e) {
+            $('#refMaterial').change(async function(e) {
                 e.preventDefault();
-                const id = this.value;
-                const $target = $(this.id === 'refMaterial' || this.id === 'nameMaterial' ? '#nameMaterial' : '#refCompositeProduct');
-                $target.val(id).prop('selected', true);
+                let id = this.value;
+
+                $('#nameMaterial option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
+            });
+
+            $('#nameMaterial').change(async function(e) {
+                e.preventDefault();
+                let id = this.value;
+
+                $('#refMaterial option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
+            });
+
+            $('#refCompositeProduct').change(async function(e) {
+                e.preventDefault();
+                let id = this.value;
+
+                $('#compositeProduct option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
+            });
+
+            $('#compositeProduct').change(async function(e) {
+                e.preventDefault();
+                let id = this.value;
+
+                $('#refCompositeProduct option').prop('selected', function() {
+                    return $(this).val() == id;
+                });
             });
 
             $('#idMachine').change(function(e) {
                 e.preventDefault();
                 // Lógica para manejar el cambio de máquina
-                // ...
+
+                let data = JSON.parse(sessionStorage.getItem('dataMachines'));
+
+                data = data.filter(item => item.id_machine == this.value);
+
+                !data[0] ? unity_time = 0 : unity_time = data[0].unity_time;
+
+                $('#enlistmentTime').val(unity_time);
+
+                if (this.value === '0') {
+                    $('.checkMachine').hide(800);
+                    $('#checkMachine').prop('checked', false);
+                } else
+                    $('.checkMachine').show(800);
             });
 
             // Inicia la carga de datos
             loadAllDataProducts();
-        }); */
-        $(document).ready(function() {
+        });
+
+        /* $(document).ready(function() {
 
             $('#refMaterial').change(async function(e) {
                 e.preventDefault();
@@ -697,13 +842,13 @@ if (sizeof($_SESSION) == 0)
                         searchData('/api/categories')
                     ]);
 
-                    /* Unidades */
+                    // Unidades
                     sessionStorage.setItem('dataUnits', JSON.stringify(dataUnits));
 
-                    /* Productos */
+                    // Productos
                     sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
-                    /* Categorias */
+                    // Categorias
                     sessionStorage.setItem('dataCategories', JSON.stringify(dataCategories));
 
                     let $select = $(`.refProduct`);
@@ -758,7 +903,7 @@ if (sizeof($_SESSION) == 0)
                         );
                     });
 
-                    /* Procesos */
+                    // Procesos
                     $select = $(`#idProcess`);
                     $select.empty();
 
@@ -769,7 +914,7 @@ if (sizeof($_SESSION) == 0)
                         );
                     });
 
-                    /* Maquinas */
+                    // Maquinas
                     sessionStorage.setItem('dataMachines', JSON.stringify(dataMachines));
 
                     $select = $(`#idMachine`);
@@ -782,7 +927,7 @@ if (sizeof($_SESSION) == 0)
                         );
                     });
 
-                    /* Materiales */
+                    // Materiales
                     sessionStorage.setItem('dataMaterials', JSON.stringify(dataMaterials));
                     ref = sortFunction(dataMaterials, 'reference');
 
@@ -806,7 +951,7 @@ if (sizeof($_SESSION) == 0)
                         );
                     });
 
-                    /* Categorias */
+                    // Categorias
                     if (dataCategories.length == 0) {
                         $('.categories').hide();
                     } else
@@ -854,7 +999,7 @@ if (sizeof($_SESSION) == 0)
                     } else $select.append(`<option value = ${value.id_unit}> ${value.unit} </option>`);
                 });
             };
-        });
+        }); */
     </script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
