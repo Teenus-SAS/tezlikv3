@@ -99,12 +99,7 @@ $(document).ready(function () {
           render: function (data, type, full, meta) {
             return meta.row + 1;
           },
-        },
-        // {
-        //   title: 'Referencia',
-        //   data: 'reference',
-        //   className: 'uniqueClassName',
-        // },
+        }, 
         {
           title: 'Referencia',
           data: 'reference_material',
@@ -126,13 +121,20 @@ $(document).ready(function () {
           className: 'classCenter',
           render: function (data) {
             data = parseFloat(data);
-            // if (Math.abs(data) < 0.01) { 
-            //   data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            // } else
-            //   data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             data = data.toLocaleString('es-CO');
             
             return data;
+          },
+        },
+        {
+          title: 'Desperdicio',
+          data: 'waste',
+          className: 'classCenter',
+          render: function (data) {
+            data = parseFloat(data);
+            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `${data} %`;
           },
         },
         {
@@ -141,9 +143,7 @@ $(document).ready(function () {
           className: 'classCenter',
           render: function (data) {
             data = parseFloat(data);
-            if (Math.abs(data) < 0.01) {
-              // let decimals = contarDecimales(data);
-              // data = formatNumber(data, decimals);
+            if (Math.abs(data) < 0.01) { 
               data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
@@ -163,10 +163,12 @@ $(document).ready(function () {
       ],
       footerCallback: function (row, data, start, end, display) {
         let quantity = 0;
+        let waste = 0;
         let cost = 0;
-
+        
         for (let i = 0; i < display.length; i++) {
           quantity += parseFloat(data[display[i]].quantity);
+          waste += parseFloat(data[display[i]].waste);
           cost += parseFloat(data[display[i]].cost_product_material);
         }
 
@@ -175,6 +177,13 @@ $(document).ready(function () {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })
+        );
+
+        $(this.api().column(5).footer()).html(
+          `${waste.toLocaleString('es-CO', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })} %`
         );
 
         $(this.api().column(5).footer()).html(

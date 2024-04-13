@@ -124,7 +124,7 @@ $(document).ready(function () {
     let efficiency = parseFloat($('#efficiency').val());
     let status = parseInt($('#idProcess').find('option:selected').attr('class'));
 
-    let data = idProduct * refP * operationTime * efficiency;
+    let data = idProduct * refP * operationTime;
 
     if (inyection == '0')
       data += enlistmentTime;
