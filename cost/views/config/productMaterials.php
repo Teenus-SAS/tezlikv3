@@ -323,7 +323,7 @@ if (sizeof($_SESSION) == 0)
                                                     <input class="form-control text-center" type="number" name="subTotalTime" id="subTotalTime" readonly>
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label class="text-center">Eficiencia</label>
+                                                    <label class="text-center">Eficiencia(%)</label>
                                                     <input class="form-control text-center time" type="number" name="efficiency" id="efficiency">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
