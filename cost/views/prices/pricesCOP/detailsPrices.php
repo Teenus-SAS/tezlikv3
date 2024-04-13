@@ -78,6 +78,9 @@ if (sizeof($_SESSION) == 0)
                                     <div class="row">
                                         <div class="col-sm-4 col-xl-4 p-4">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
+                                            <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">
+                                                <li class="breadcrumb-item active">Análisis de Costos</li>
+                                            </ol>
                                         </div>
                                         <div class="col-sm-8 col-xl-8 d-flex justify-content-end mt-4">
                                             <div class="col-xs-5 mr-2">
@@ -94,10 +97,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">
-                                            <li class="breadcrumb-item active">Análisis de Costos</li>
-                                        </ol>
-                                        <div class="col-sm-5 col-xl-6 d-flex justify-content-end">
+                                        <div class="col-sm-5 col-xl-12 d-flex justify-content-end">
                                             <div class="col-xs-2 mr-2 btnPrintPDF" id="btnPdf">
                                                 <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(2)" style="font-size: 30px; color:red;"></i></a>
                                             </div>
