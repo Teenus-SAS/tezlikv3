@@ -1,66 +1,65 @@
 $(document).ready(function () {
   let idProduct;
-  $('.btnDownloadXlsx').hide(); 
+  $(".btnDownloadXlsx").hide();
 
-  $('.selectNavigation').click(function (e) {
+  $(".selectNavigation").click(function (e) {
     e.preventDefault();
 
-    $('.cardProducts').show();
+    $(".cardProducts").show();
 
-    if (this.id == 'materials') {
-      $('.cardProductsMaterials').show();
-      $('.cardProductsProcess').hide(); 
-      $('.cardAddProcess').hide();
-      $('.cardServices').hide();
-      $('.cardImportProductsProcess').hide(); 
-      $('.cardAddService').hide(); 
-      $('.cardImportExternalServices').hide(); 
-    } else if (this.id == 'process') {
-      $('.cardProductsProcess').show();
-      $('.cardProductsMaterials').hide(); 
-      $('.cardAddMaterials').hide();
-      $('.cardServices').hide();
-      $('.cardImportProductsMaterials').hide();
-      $('.cardAddNewProduct').hide(); 
-      $('.cardAddService').hide();
-      $('.cardImportExternalServices').hide();
+    if (this.id == "materials") {
+      $(".cardProductsMaterials").show();
+      $(".cardProductsProcess").hide();
+      $(".cardAddProcess").hide();
+      $(".cardServices").hide();
+      $(".cardImportProductsProcess").hide();
+      $(".cardAddService").hide();
+      $(".cardImportExternalServices").hide();
+    } else if (this.id == "process") {
+      $(".cardProductsProcess").show();
+      $(".cardProductsMaterials").hide();
+      $(".cardAddMaterials").hide();
+      $(".cardServices").hide();
+      $(".cardImportProductsMaterials").hide();
+      $(".cardAddNewProduct").hide();
+      $(".cardAddService").hide();
+      $(".cardImportExternalServices").hide();
     } else {
-      $('.cardServices').show();
-      $('.cardProductsProcess').hide();
-      $('.cardAddProcess').hide();
-      $('.cardProductsMaterials').hide(); 
-      $('.cardAddMaterials').hide();
-      $('.cardImportProductsMaterials').hide();
-      $('.cardAddNewProduct').hide();
-      $('.cardAddService').hide(); 
-      $('.cardImportExternalServices').hide();       
+      $(".cardServices").show();
+      $(".cardProductsProcess").hide();
+      $(".cardAddProcess").hide();
+      $(".cardProductsMaterials").hide();
+      $(".cardAddMaterials").hide();
+      $(".cardImportProductsMaterials").hide();
+      $(".cardAddNewProduct").hide();
+      $(".cardAddService").hide();
+      $(".cardImportExternalServices").hide();
     }
-    
-    let tables = document.getElementsByClassName(
-      'dataTable'
-    );
+
+    let tables = document.getElementsByClassName("dataTable");
 
     for (let i = 0; i < tables.length; i++) {
       let attr = tables[i];
-      attr.style.width = '100%';
+      attr.style.width = "100%";
       attr = tables[i].firstElementChild;
-      attr.style.width = '100%';
+      attr.style.width = "100%";
     }
   });
 
-  $('#categories').change(function (e) {
+  $("#categories").change(function (e) {
     e.preventDefault();
 
-    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
+    let data = JSON.parse(sessionStorage.getItem("dataMaterials"));
 
-    if (this.value != '0') data = data.filter(item => item.id_category == this.value);
+    if (this.value != "0")
+      data = data.filter((item) => item.id_category == this.value);
 
     addSelectsMaterials(data);
-  }); 
+  });
 
   // Crear selects manualmente
   addSelectsMaterials = (data) => {
-    let ref = sortFunction(data, 'reference');
+    let ref = sortFunction(data, "reference");
 
     $select = $(`#refMaterial`);
     $select.empty();
@@ -71,7 +70,7 @@ $(document).ready(function () {
       );
     });
 
-    let name = sortFunction(data, 'material');
+    let name = sortFunction(data, "material");
 
     $select1 = $(`#nameMaterial`);
     $select1.empty();
@@ -81,42 +80,40 @@ $(document).ready(function () {
         `<option value = ${value.id_material}> ${value.material} </option>`
       );
     });
-  }
+  };
   /* Ocultar panel crear producto */
-  $('.cardAddMaterials').hide();
+  $(".cardAddMaterials").hide();
 
   /* Abrir panel crear producto */
-  $('#btnCreateProduct').click(async function (e) {
+  $("#btnCreateProduct").click(async function (e) {
     e.preventDefault();
 
-    $('.cardImportProductsMaterials').hide(800);
-    $('.cardAddNewProduct').hide(800);
-    $('.cardAddMaterials').toggle(800);
-    $('#btnAddMaterials').html('Asignar');
-    $('#units').empty();
+    $(".cardImportProductsMaterials").hide(800);
+    $(".cardAddNewProduct").hide(800);
+    $(".cardAddMaterials").toggle(800);
+    $("#btnAddMaterials").html("Asignar");
+    $("#units").empty();
 
-    let categories = JSON.parse(sessionStorage.getItem('dataCategories'));
+    let categories = JSON.parse(sessionStorage.getItem("dataCategories"));
 
-    if(categories.length == 0)
-      $('.categories').hide(); 
-    else
-      $('.categories').show(800); 
-    
-    $('.cardProducts').show(800); 
+    if (categories.length == 0) $(".categories").hide();
+    else $(".categories").show(800);
 
-    sessionStorage.removeItem('id_product_material');
+    $(".cardProducts").show(800);
 
-    $('#formAddMaterials').trigger('reset');
+    sessionStorage.removeItem("id_product_material");
+
+    $("#formAddMaterials").trigger("reset");
   });
 
   /* Adicionar unidad de materia prima */
-  $('.material').change(async function (e) {
+  $(".material").change(async function (e) {
     e.preventDefault();
     let id = this.value;
 
-    let data = sessionStorage.getItem('dataMaterials');
+    let data = sessionStorage.getItem("dataMaterials");
     if (data) {
-      dataMaterials = JSON.parse(data); 
+      dataMaterials = JSON.parse(data);
     }
 
     for (i = 0; i < dataMaterials.length; i++) {
@@ -127,41 +124,41 @@ $(document).ready(function () {
   });
 
   /* Seleccionar producto */
-  $('#selectNameProduct').change(function (e) {
+  $("#selectNameProduct").change(function (e) {
     e.preventDefault();
-    idProduct = $('#selectNameProduct').val();
+    idProduct = $("#selectNameProduct").val();
   });
 
   // Calcular cantidad total
-  $(document).on('click keyup', '.quantity', function (e) {
-    let quantity = parseFloat($('#quantity').val());
-    let waste = parseFloat($('#waste').val()); 
+  $(document).on("click keyup", ".quantity", function (e) {
+    let quantity = parseFloat($("#quantity").val());
+    let waste = parseFloat($("#waste").val());
 
-    isNaN(quantity) ? (quantity = 0) : quantity; 
-    isNaN(waste) ? (waste = 0) : waste; 
+    isNaN(quantity) ? (quantity = 0) : quantity;
+    isNaN(waste) ? (waste = 0) : waste;
 
     // total
-    let total = (quantity * 1 + waste);
+    let total = quantity * (1 + waste / 100);
 
-    !isFinite(total) ? total = 0 : total;
-    
-    $('#quantityYotal').val(total);
+    !isFinite(total) ? (total = 0) : total;
+
+    $("#quantityYotal").val(total);
   });
 
   /* Adicionar nueva materia prima */
-  $('#btnAddMaterials').click(function (e) {
+  $("#btnAddMaterials").click(function (e) {
     e.preventDefault();
 
-    let idProductMaterial = sessionStorage.getItem('id_product_material');
+    let idProductMaterial = sessionStorage.getItem("id_product_material");
 
-    if (idProductMaterial == '' || idProductMaterial == null) {
+    if (idProductMaterial == "" || idProductMaterial == null) {
       checkDataProductsMaterials(
-        '/api/addProductsMaterials',
+        "/api/addProductsMaterials",
         idProductMaterial
       );
     } else {
       checkDataProductsMaterials(
-        '/api/updateProductsMaterials',
+        "/api/updateProductsMaterials",
         idProductMaterial
       );
     }
@@ -169,34 +166,34 @@ $(document).ready(function () {
 
   /* Actualizar productos materials */
 
-  $(document).on('click', '.updateMaterials', async function (e) {
-    $('.cardImportProductsMaterials').hide(800);
-    $('.cardAddMaterials').show(800);
-    $('.cardAddNewProduct').hide(800);
-    $('.categories').hide(800);
-    $('#btnAddMaterials').html('Actualizar');
-    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
+  $(document).on("click", ".updateMaterials", async function (e) {
+    $(".cardImportProductsMaterials").hide(800);
+    $(".cardAddMaterials").show(800);
+    $(".cardAddNewProduct").hide(800);
+    $(".categories").hide(800);
+    $("#btnAddMaterials").html("Actualizar");
+    let data = JSON.parse(sessionStorage.getItem("dataMaterials"));
     await addSelectsMaterials(data);
 
-    $('#units').empty();
+    $("#units").empty();
 
     let row = $(this).parent().parent()[0];
     data = tblConfigMaterials.fnGetData(row);
 
-    sessionStorage.setItem('id_product_material', data.id_product_material);
-    $(`#refMaterial option[value=${data.id_material}]`).prop('selected', true);
-    $(`#nameMaterial option[value=${data.id_material}]`).prop('selected', true);
+    sessionStorage.setItem("id_product_material", data.id_product_material);
+    $(`#refMaterial option[value=${data.id_material}]`).prop("selected", true);
+    $(`#nameMaterial option[value=${data.id_material}]`).prop("selected", true);
 
-    $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
+    $(`#magnitudes option[value=${data.id_magnitude}]`).prop("selected", true);
     loadUnitsByMagnitude(data, 2);
-    $(`#units option[value=${data.id_unit}]`).prop('selected', true);
- 
-    $('#quantity').val(data.quantity);
-    $('#waste').val(data.waste);
+    $(`#units option[value=${data.id_unit}]`).prop("selected", true);
 
-    $('#waste').click();
+    $("#quantity").val(data.quantity);
+    $("#waste").val(data.waste);
 
-    $('html, body').animate(
+    $("#waste").click();
+
+    $("html, body").animate(
       {
         scrollTop: 0,
       },
@@ -206,31 +203,31 @@ $(document).ready(function () {
 
   /* Revision data Productos materiales */
   checkDataProductsMaterials = async (url, idProductMaterial) => {
-    let ref = parseInt($('#nameMaterial').val());
-    let unit = parseInt($('#units').val());
-    let quan = parseFloat($('#quantity').val());
-    let waste = parseFloat($('#waste').val());
-    idProduct = parseInt($('#selectNameProduct').val());
+    let ref = parseInt($("#nameMaterial").val());
+    let unit = parseInt($("#units").val());
+    let quan = parseFloat($("#quantity").val());
+    let waste = parseFloat($("#waste").val());
+    idProduct = parseInt($("#selectNameProduct").val());
 
     let data = ref * unit * idProduct * waste;
 
-    if (!data || quan == '') {
-      toastr.error('Ingrese todos los campos');
+    if (!data || quan == "") {
+      toastr.error("Ingrese todos los campos");
       return false;
     }
- 
+
     quant = 1 * quan;
 
     if (quan <= 0 || isNaN(quan)) {
-      toastr.error('La cantidad debe ser mayor a cero (0)');
+      toastr.error("La cantidad debe ser mayor a cero (0)");
       return false;
     }
 
     let dataProductMaterial = new FormData(formAddMaterials);
-    dataProductMaterial.append('idProduct', idProduct);
+    dataProductMaterial.append("idProduct", idProduct);
 
-    if (idProductMaterial != '' || idProductMaterial != null)
-      dataProductMaterial.append('idProductMaterial', idProductMaterial);
+    if (idProductMaterial != "" || idProductMaterial != null)
+      dataProductMaterial.append("idProductMaterial", idProductMaterial);
 
     let resp = await sendDataPOST(url, dataProductMaterial);
 
@@ -243,40 +240,39 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblConfigMaterials.fnGetData(row);
 
-    let idProduct = $('#selectNameProduct').val();
+    let idProduct = $("#selectNameProduct").val();
     let dataP = {};
-    dataP['idProduct'] = idProduct;
+    dataP["idProduct"] = idProduct;
 
-    if (op == '1') {
+    if (op == "1") {
       let idProductMaterial = data.id_product_material;
-      dataP['idProductMaterial'] = idProductMaterial;
-      url = '/api/deleteProductMaterial';
+      dataP["idProductMaterial"] = idProductMaterial;
+      url = "/api/deleteProductMaterial";
     } else {
-      dataP['idCompositeProduct'] = data.id_composite_product; 
-      url = '/api/deleteCompositeProduct';
+      dataP["idCompositeProduct"] = data.id_composite_product;
+      url = "/api/deleteCompositeProduct";
     }
 
     bootbox.confirm({
-      title: 'Eliminar',
-      message:
-        `Está seguro de eliminar ${op == '1' ? 'esta Materia prima' : 'este Producto Compuesto'}? Esta acción no se puede reversar.`,
+      title: "Eliminar",
+      message: `Está seguro de eliminar ${
+        op == "1" ? "esta Materia prima" : "este Producto Compuesto"
+      }? Esta acción no se puede reversar.`,
       buttons: {
         confirm: {
-          label: 'Si',
-          className: 'btn-success',
+          label: "Si",
+          className: "btn-success",
         },
         cancel: {
-          label: 'No',
-          className: 'btn-danger',
+          label: "No",
+          className: "btn-danger",
         },
       },
       callback: function (result) {
         if (result == true) {
-          $.post(url, dataP,
-            function (data, textStatus, jqXHR) {
-              messageMaterials(data);
-            }
-          );
+          $.post(url, dataP, function (data, textStatus, jqXHR) {
+            messageMaterials(data);
+          });
         }
       },
     });
@@ -285,20 +281,20 @@ $(document).ready(function () {
   /* Mensaje de exito */
 
   messageMaterials = (data) => {
-    $('.cardLoading').remove();
-    $('.cardBottons').show(400);
-    $('#fileProductsMaterials').val('');
-    
-    if (data.success == true) {
-      $('.cardImportProductsMaterials').hide(800);
-      $('#formImportProductMaterial').trigger('reset');
-      $('.cardAddMaterials').hide(800);
-      $('.cardAddNewProduct').hide(800);
-      $('.cardImportProductsMaterials').hide(800);
-      $('.cardProducts').show(800);
+    $(".cardLoading").remove();
+    $(".cardBottons").show(400);
+    $("#fileProductsMaterials").val("");
 
-      $('#formAddMaterials').trigger('reset');
-      let idProduct = $('#selectNameProduct').val(); 
+    if (data.success == true) {
+      $(".cardImportProductsMaterials").hide(800);
+      $("#formImportProductMaterial").trigger("reset");
+      $(".cardAddMaterials").hide(800);
+      $(".cardAddNewProduct").hide(800);
+      $(".cardImportProductsMaterials").hide(800);
+      $(".cardProducts").show(800);
+
+      $("#formAddMaterials").trigger("reset");
+      let idProduct = $("#selectNameProduct").val();
       loadAllDataMaterials(idProduct);
 
       toastr.success(data.message);
@@ -307,20 +303,22 @@ $(document).ready(function () {
     else if (data.info == true) toastr.info(data.message);
   };
 
-  $('.btnDownloadXlsx').click(function (e) {
+  $(".btnDownloadXlsx").click(function (e) {
     e.preventDefault();
 
     let wb = XLSX.utils.book_new();
-    let id_product = $('#refProduct').val();
+    let id_product = $("#refProduct").val();
 
     /* Materiales */
     let data = [];
 
-    if (flag_composite_product == '1')
+    if (flag_composite_product == "1")
       allProductMaterials = [...allProductMaterials, ...allComposites];
 
-    let arr = allProductMaterials.filter(item => item.id_product == id_product);
-    
+    let arr = allProductMaterials.filter(
+      (item) => item.id_product == id_product
+    );
+
     if (arr.length > 0) {
       for (i = 0; i < arr.length; i++) {
         data.push({
@@ -335,15 +333,15 @@ $(document).ready(function () {
           tipo: arr[i].type,
         });
       }
-      
+
       let ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
+      XLSX.utils.book_append_sheet(wb, ws, "Productos Materias");
     }
-      
+
     /* Procesos */
     data = [];
-    
-    arr = dataProductProcess.filter(item => item.id_product == id_product);
+
+    arr = dataProductProcess.filter((item) => item.id_product == id_product);
     if (arr.length > 0) {
       for (i = 0; i < arr.length; i++) {
         data.push({
@@ -354,18 +352,18 @@ $(document).ready(function () {
           tiempo_enlistamiento: arr[i].enlistment_time,
           tiempo_operacion: arr[i].operation_time,
           eficiencia: arr[i].efficiency,
-          maquina_autonoma: arr[i].auto_machine
+          maquina_autonoma: arr[i].auto_machine,
         });
       }
 
       ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
+      XLSX.utils.book_append_sheet(wb, ws, "Productos Procesos");
     }
-    
+
     /* Servicios */
     data = [];
 
-    arr = dataServices.filter(item => item.id_product == id_product);
+    arr = dataServices.filter((item) => item.id_product == id_product);
     if (arr.length > 0) {
       for (i = 0; i < dataServices.length; i++) {
         data.push({
@@ -377,9 +375,9 @@ $(document).ready(function () {
       }
 
       ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
+      XLSX.utils.book_append_sheet(wb, ws, "Servicios Externos");
     }
-      
-    XLSX.writeFile(wb, 'Ficha_Productos.xlsx');
+
+    XLSX.writeFile(wb, "Ficha_Productos.xlsx");
   });
 });
