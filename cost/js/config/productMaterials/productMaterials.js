@@ -209,7 +209,7 @@ $(document).ready(function () {
     let waste = parseFloat($("#waste").val());
     idProduct = parseInt($("#selectNameProduct").val());
 
-    let data = ref * unit * idProduct * waste;
+    let data = ref * unit * idProduct;
 
     if (!data || quan == "") {
       toastr.error("Ingrese todos los campos");

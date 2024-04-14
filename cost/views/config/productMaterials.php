@@ -472,6 +472,7 @@ if (sizeof($_SESSION) == 0)
                                                             <th></th>
                                                             <th></th>
                                                             <th></th>
+                                                            <th></th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -490,6 +491,7 @@ if (sizeof($_SESSION) == 0)
                                                             <th>Total:</th>
                                                             <th id="totalAlistment"></th>
                                                             <th id="totalOperation"></th>
+                                                            <th id="totalEfficiency"></th>
                                                             <th id="totalWorkforce"></th>
                                                             <th id="totalIndirect"></th>
                                                             <?php if ($_SESSION['flag_employee'] == 1) { ?>

@@ -124,7 +124,7 @@ $(document).ready(function () {
       $("#idProcess").find("option:selected").attr("class")
     );
 
-    let data = idProduct * refP * operationTime * efficiency;
+    let data = idProduct * refP * operationTime;
 
     if (inyection == "0") data += enlistmentTime;
 

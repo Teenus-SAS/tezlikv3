@@ -70,24 +70,6 @@ if (sizeof($_SESSION) == 0)
                 <!-- Page header -->
                 <div class="page-title-box">
                     <div class="container-fluid">
-                        <!-- <div class="row align-items-center">
-                            <div class="col-sm-5 col-xl-6">
-                                <div class="page-title">
-                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-gear mr-1"></i>Materias Primas</h3>
-                                    <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Ingrese los datos de las materias primas de acuerdo con las magnitudes y unidades (Internacionales) que compra</li>
-                                    </ol>
-                                </div>
-                            </div>
-                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Nueva Materia Prima</button>
-                                </div>
-                                <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
-                                </div>
-                            </div>
-                        </div> -->
                         <div class="tab-pane cardMaterials">
                             <div class="row align-items-center">
                                 <div class="col-sm-5 col-xl-6">
@@ -104,6 +86,9 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
+                                    </div>
+                                    <div class="col-xs-2 py-2 mr-2">
+                                        <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Precio (USD)</button>
                                     </div>
                                 </div>
                             </div>
@@ -163,12 +148,15 @@ if (sizeof($_SESSION) == 0)
                                                     <label>Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
-                                                    <input type="number" class="form-control text-center" step="any" id="costRawMaterial" name="costRawMaterial">
+                                                    <input type="number" class="form-control text-center" step="any" id="costRawMaterial" name="costRawMaterial" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
                                                     <label>Costo</label>
                                                 </div>
                                                 <div class="col-xs-2" style="margin-bottom:0px;margin-top:5px">
                                                     <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
                                                 </div>
+                                            </div>
+                                            <div class="alert alert-warning mt-3 cardAlertPrice" role="alert">
+                                                Ingrese el valor de compra en COP
                                             </div>
                                         </form>
                                     </div>

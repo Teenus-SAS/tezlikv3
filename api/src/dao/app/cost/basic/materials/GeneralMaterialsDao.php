@@ -19,7 +19,7 @@ class GeneralMaterialsDao
     public function findAllMaterialsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, c.id_category, c.category, mg.id_magnitude, mg.magnitude, 
+        $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, c.id_category, c.category, mg.id_magnitude, mg.magnitude, m.cost_usd, m.flag_usd,
                                              u.id_unit, u.unit, u.abbreviation, m.cost, m.date_material, m.quantity, m.observation, m.img,
                                              IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status, m.flag_indirect
                                       FROM materials m
@@ -136,6 +136,23 @@ class GeneralMaterialsDao
             $stmt->execute([
                 'date_material' => $dataMaterial['date'],
                 'observation' => $dataMaterial['observation'],
+                'id_material' => $dataMaterial['idMaterial']
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function saveCostUSDMaterial($dataMaterial)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE materials SET cost_usd = :cost_usd WHERE id_material = :id_material");
+            $stmt->execute([
+                'cost_usd' => $dataMaterial['cost_usd'],
                 'id_material' => $dataMaterial['idMaterial']
             ]);
         } catch (\Exception $e) {
