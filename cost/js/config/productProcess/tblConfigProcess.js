@@ -62,6 +62,7 @@ $(document).ready(function () {
             <th>Total:</th>
             <th id="totalAlistment"></th>
             <th id="totalOperation"></th>
+            <th id="totalEfficiency"></th>
             <th id="totalWorkforce"></th>
             <th id="totalIndirect"></th>
             ${flag_employee == '1' ? '<th></th>' : ''}
@@ -70,10 +71,10 @@ $(document).ready(function () {
         </tfoot>`);
     }
     // Encabezados de la tabla
-    var headers = ['No.', 'Proceso', 'Máquina', title3, title4, 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
+    var headers = ['No.', 'Proceso', 'Máquina', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
 
     if (visible == false)
-      headers.splice(7, 1);
+      headers.splice(8, 1);
     
     // Obtén la tabla
     var table = document.getElementById('tblConfigProcess');
@@ -113,8 +114,6 @@ $(document).ready(function () {
             let value = parseFloat(arr[value3]);
             
             if (Math.abs(value) < 0.01) {
-              // let decimals = contarDecimales(data);
-              // data = formatNumber(data, decimals);
               value = value.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
             } else
               value = value.toLocaleString('es-CO', { maximumFractionDigits: 2 });
@@ -130,6 +129,16 @@ $(document).ready(function () {
               operation_time = operation_time.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
             cell.textContent = operation_time;
+            break;
+          case 'Eficiencia':
+            let efficiency = parseFloat(arr.efficiency);
+            
+            if (Math.abs(efficiency) < 0.01) { 
+              efficiency = efficiency.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              efficiency = efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            cell.textContent = efficiency;
             break;
           case 'Mano de Obra':
             let workforce_cost = parseFloat(arr.workforce_cost);
@@ -218,18 +227,21 @@ $(document).ready(function () {
 
     let alistment = 0;
     let operation = 0;
+    let efficiency = 0;
     let workForce = 0;
     let indirect = 0;
 
     data.forEach(item => {
       alistment += parseFloat(item[value3]);
       operation += parseFloat(item.operation_time);
+      efficiency += parseFloat(item.efficiency);
       workForce += parseFloat(item.workforce_cost);
       indirect += parseFloat(item.indirect_cost);
     });
 
     $('#totalAlistment').html(alistment.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalOperation').html(operation.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
+    $('#totalEfficiency').html(efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalWorkforce').html(`$ ${workForce.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
     $('#totalIndirect').html(`$ ${indirect.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
   };
