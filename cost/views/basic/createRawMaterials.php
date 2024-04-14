@@ -88,7 +88,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Precio (USD)</button>
+                                        <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Moneda (USD)</button>
                                     </div>
                                 </div>
                             </div>
