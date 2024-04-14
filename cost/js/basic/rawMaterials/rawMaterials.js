@@ -39,13 +39,13 @@ $(document).ready(function () {
 
     if (className == 'btn btn-sm btn-outline-primary') {
       document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
-      document.getElementById('btnPriceUSD').innerText = 'Precio (COP)';
+      document.getElementById('btnPriceUSD').innerText = 'Moneda (COP)';
       var costRawMaterial = document.getElementById('costRawMaterial');
       costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD'); 
       $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
     } else {
       document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-outline-primary';      
-      document.getElementById('btnPriceUSD').innerText = 'Precio (USD)'; 
+      document.getElementById('btnPriceUSD').innerText = 'Moneda (USD)'; 
       var costRawMaterial = document.getElementById('costRawMaterial');
       costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');  
       $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
@@ -105,14 +105,14 @@ $(document).ready(function () {
     if (data.flag_usd == 1) {
       $('#costRawMaterial').val(data.cost_usd);
       document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
-      document.getElementById('btnPriceUSD').innerText = 'Precio (COP)';
+      document.getElementById('btnPriceUSD').innerText = 'Moneda (COP)';
       var costRawMaterial = document.getElementById('costRawMaterial');
       costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD'); 
       $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
     } else {
       $('#costRawMaterial').val(data.cost);
       document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-outline-primary';      
-      document.getElementById('btnPriceUSD').innerText = 'Precio (USD)'; 
+      document.getElementById('btnPriceUSD').innerText = 'Moneda (USD)'; 
       var costRawMaterial = document.getElementById('costRawMaterial');
       costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');  
       $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
