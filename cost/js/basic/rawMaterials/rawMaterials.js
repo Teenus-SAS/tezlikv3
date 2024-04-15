@@ -227,7 +227,7 @@ $(document).ready(function () {
       $('.cardRawMaterials').hide(800);
       $('#formCreateMaterial').trigger('reset');
       toastr.success(data.message);
-      loadAllDataMaterials();
+      loadAllData();
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
