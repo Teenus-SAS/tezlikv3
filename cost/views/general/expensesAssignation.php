@@ -138,13 +138,13 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     </div>
                                 <?php } ?>
-                                <div class="tab-pane cardProductionCenter" style="display: none;">
+                                <!-- <div class="tab-pane cardProductionCenter" style="display: none;">
                                     <div class="row align-items-center">
                                         <div class="col-sm-5 col-xl-6">
                                             <div class="page-title">
                                                 <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-currency-dollar mr-1"></i>Centros de Produccion</h3>
                                                 <ol class="breadcrumb mb-3 mb-md-0">
-                                                    <!-- <li class="breadcrumb-item active">Ingrese todos los gastos de su empresa de acuerdo con su contabilidad</li> -->
+                                                    <li class="breadcrumb-item active">Ingrese todos los gastos de su empresa de acuerdo con su contabilidad</li>
                                                 </ol>
                                             </div>
                                         </div>
@@ -152,12 +152,12 @@ if (sizeof($_SESSION) == 0)
                                             <div class="col-xs-2 mr-2">
                                                 <button class="btn btn-warning" id="btnNewProductionCenter">Nuevo Centro Produccion</button>
                                             </div>
-                                            <!-- <div class="col-xs-2 py-2 mr-2">
+                                             <div class="col-xs-2 py-2 mr-2">
                                                 <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 </div>
                     </div>
 
