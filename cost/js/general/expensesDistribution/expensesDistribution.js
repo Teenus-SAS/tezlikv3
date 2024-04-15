@@ -72,8 +72,11 @@ $(document).ready(function () {
     $('.cardExpensesDistribution').show(800);
     $('#btnAssignExpenses').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
-    let data = tblExpensesDistribution.fnGetData(row);
+    let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpensesDistribution'));
+    let data = dataExpenses.find(item => item.id_expenses_distribution == this.id);
+
+    // let row = $(this).parent().parent()[0];
+    // let data = tblExpensesDistribution.fnGetData(row);
 
     sessionStorage.setItem('id_expenses_distribution', data.id_expenses_distribution);
     sessionStorage.setItem('newProduct', data.new_product);
@@ -82,7 +85,7 @@ $(document).ready(function () {
     $('#EDNameProduct').empty();
 
     $('#EDRefProduct').append(
-      `<option value = '${data.id_product}'> ${data.reference} </option>`
+      `<option value ='${data.id_product}'> ${data.reference} </option>`
     );
 
     $('#EDNameProduct').append(
@@ -98,6 +101,8 @@ $(document).ready(function () {
 
     $('#undVendidas').val(data.units_sold);
     $('#volVendidas').val(data.turnover);
+
+    $(`#selectProductionCenterED option[value=${data.id_production_center}]`).prop("selected", true);
 
     $('html, body').animate(
       {
@@ -115,8 +120,9 @@ $(document).ready(function () {
     let unitExp = parseFloat($('#undVendidas').val());
     let volExp = parseFloat($('#volVendidas').val());
     let expense = parseFloat(strReplaceNumber($('#expensesToDistribution').val()));
+    let productionCenter = parseFloat(strReplaceNumber($('#selectProductionCenterED').val()));
  
-    let data = refProduct * nameProduct; //* unitExp * volExp;
+    let data = refProduct * nameProduct * productionCenter; //* unitExp * volExp;
 
     if (flag_expense_distribution == 2) data = family //* unitExp * volExp;
 
@@ -132,6 +138,7 @@ $(document).ready(function () {
       dataExpense.append('idExpensesDistribution', idExpense);
       dataExpense.append('newProduct', sessionStorage.getItem('newProduct'));
     }
+    dataExpense.append('production', productionCenter);
 
     let resp = await sendDataPOST(url, dataExpense);
     let op = 1;
@@ -141,9 +148,12 @@ $(document).ready(function () {
 
   /* Eliminar gasto */
 
-  deleteExpenseDistribution = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    data = tblExpensesDistribution.fnGetData(row);
+  deleteExpenseDistribution = (id) => {
+    let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpensesDistribution'));
+    let data = dataExpenses.find(item => item.id_expenses_distribution == id);
+
+    // let row = $(this.activeElement).parent().parent()[0];
+    // data = tblExpensesDistribution.fnGetData(row);
 
     let id_expenses_distribution = data.id_expenses_distribution;
 
@@ -201,6 +211,9 @@ $(document).ready(function () {
       $('#formFamily').trigger('reset');
       $('#formExpenseRecover').trigger('reset');
       $('#modalExpenseDistributionByFamily').modal('hide');
+      $('#selectProductionCenterED option').removeAttr('selected');
+      $(`#selectProductionCenterED option[value='0']`).prop('selected', true);
+
 
       if (op == 1) {
         await loadExpensesDProducts();
@@ -228,7 +241,9 @@ $(document).ready(function () {
     //   await loadTableFamilies(); 
     //   await loadTableExpensesDistributionFamilies();
     // }
-    if (op != 2) {
+    if (op == 1)
+      loadAllDataDistribution();
+    if (op == 2) {
       if ($.fn.dataTable.isDataTable("#tblExpenses")) {
         $('#tblExpenses').DataTable().clear();
         $('#tblExpenses').DataTable().ajax.reload();

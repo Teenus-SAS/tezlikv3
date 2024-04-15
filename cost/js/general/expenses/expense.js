@@ -83,14 +83,17 @@ $(document).ready(function () {
     $('.cardCreateExpenses').show(800);
     $('#btnCreateExpense').html('Actualizar');
 
-    let row = $(this).parent().parent()[0];
-    let data = tblAssExpenses.fnGetData(row);
+    // let row = $(this).parent().parent()[0];
+    // let data = tblAssExpenses.fnGetData(row);
+    let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+    let data = dataExpenses.find(item => item.id_expense == this.id);
 
     sessionStorage.setItem('id_expense', data.id_expense);
     $(`#idPuc option:contains(${data.number_count} - ${data.count})`).prop(
       'selected',
       true
     );
+    $(`#selectProductionCenterExpenses option[value=${data.id_production_center}]`).prop("selected", true);
 
     // let decimals = contarDecimales(data.expense_value);
     // let expense_value = formatNumber(data.expense_value, decimals);
@@ -107,14 +110,15 @@ $(document).ready(function () {
   /* Revision data gasto */
   checkDataExpense = async (url, idExpense) => {
     let puc = parseInt($('#idPuc').val());
-    let value = parseFloat($('#expenseValue').val());
+    let value = parseFloat($('#expenseValue').val()); 
+    let selectProductionCenter = parseFloat($('#selectProductionCenterExpenses').val()); 
 
     // value = parseFloat(strReplaceNumber(value));
 
     // let data = puc * value;
     isNaN(value) ? value = 0 : value;
 
-    if (!puc || puc == '') {
+    if (!puc || puc == '' || selectProductionCenter <= 0 || isNaN(selectProductionCenter)) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -132,6 +136,7 @@ $(document).ready(function () {
 
     let dataExpense = new FormData(formCreateExpenses);
     dataExpense.append('expenseValue', value);
+    dataExpense.append('production', selectProductionCenter);
 
     if (idExpense != '' || idExpense != null)
       dataExpense.append('idExpense', idExpense);
@@ -141,9 +146,11 @@ $(document).ready(function () {
     messageExpense(resp);
   };
 
-  deleteFunction = () => {
-    let row = $(this.activeElement).parent().parent()[0];
-    let data = tblAssExpenses.fnGetData(row);
+  deleteFunction = (id) => {
+    let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+    let data = dataExpenses.find(item => item.id_expense == id);
+    // let row = $(this.activeElement).parent().parent()[0];
+    // let data = tblAssExpenses.fnGetData(row);
 
     let id_expense = data.id_expense;
 
@@ -185,7 +192,10 @@ $(document).ready(function () {
       $('#formImportExpesesAssignation').trigger('reset');
       $('.cardCreateExpenses').hide(800);
       $('#formCreateExpenses').trigger('reset');
-      updateTable();
+      $('#selectProductionCenterExpenses option').removeAttr('selected');
+      $(`#selectProductionCenterExpenses option[value='0']`).prop('selected', true);
+
+      loadAllDataExpenses();
       getExpense();
       toastr.success(data.message);
       return false;
@@ -195,8 +205,8 @@ $(document).ready(function () {
 
   /* Actualizar tabla */
 
-  function updateTable() {
-    $('#tblAssExpenses').DataTable().clear();
-    $('#tblAssExpenses').DataTable().ajax.reload();
-  }
+  // function updateTable() {
+  //   $('#tblAssExpenses').DataTable().clear();
+  //   $('#tblAssExpenses').DataTable().ajax.reload();
+  // }
 });

@@ -21,7 +21,7 @@ class ExpensesDao
     $connection = Connection::getInstance()->getConnection();
 
     $stmt = $connection->prepare("SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc,
-                                      e.id_expense, e.id_puc, p.number_count, p.count, e.participation, e.expense_value 
+                                      e.id_expense, e.id_puc, p.number_count, p.count, e.participation, e.expense_value, e.id_production_center
                                   FROM expenses e 
                                   INNER JOIN puc p ON e.id_puc = p.id_puc 
                                   WHERE e.id_company = :id_company 
@@ -54,11 +54,12 @@ class ExpensesDao
     $connection = Connection::getInstance()->getConnection();
 
     try {
-      $stmt = $connection->prepare("INSERT INTO expenses (id_puc, id_company, expense_value)
-                                    VALUES (:id_puc, :id_company, :expense_value)");
+      $stmt = $connection->prepare("INSERT INTO expenses (id_puc, id_company, id_production_center, expense_value)
+                                    VALUES (:id_puc, :id_company, :id_production_center, :expense_value)");
       $stmt->execute([
         'id_puc' => trim($dataExpense['idPuc']),
         'id_company' => $id_company,
+        'id_production_center' => $dataExpense['production'],
         'expense_value' => trim($dataExpense['expenseValue'])
       ]);
 
@@ -76,11 +77,12 @@ class ExpensesDao
     // $expenseValue = str_replace('.', '', $dataExpense['expenseValue']);
 
     try {
-      $stmt = $connection->prepare("UPDATE expenses SET id_puc = :id_puc, expense_value = :expense_value
+      $stmt = $connection->prepare("UPDATE expenses SET id_puc = :id_puc, id_production_center = :id_production_center, expense_value = :expense_value
                                       WHERE id_expense = :id_expense");
       $stmt->execute([
         'id_puc' => trim($dataExpense['idPuc']),
         'expense_value' => trim($dataExpense['expenseValue']),
+        'id_production_center' => $dataExpense['production'],
         'id_expense' => trim($dataExpense['idExpense'])
       ]);
       $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

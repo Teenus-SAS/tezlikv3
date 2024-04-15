@@ -19,9 +19,10 @@ class ProductionCenterDao
     public function findAllPCenterByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pc.id_production_center, pc.id_company, pc.production_center, IFNULL(IF((SELECT id_expense FROM expenses WHERE id_production_center = pc.production_center LIMIT 1) = 0, 
-                                             (SELECT id_expenses_distribution FROM expenses_distribution WHERE id_production_center = pc.production_center LIMIT 1), (SELECT id_expense FROM expenses WHERE id_production_center = pc.production_center LIMIT 1)), 0) AS status 
-                                      FROM productions_center pc 
+        $stmt = $connection->prepare("SELECT pc.id_production_center, pc.id_company,  pc.production_center, COALESCE( CASE WHEN e1.id_expense IS NULL THEN e2.id_expenses_distribution ELSE e1.id_expense END, 0) AS status
+                                      FROM productions_center pc
+                                        LEFT JOIN expenses e1 ON pc.id_production_center = e1.id_production_center
+                                        LEFT JOIN expenses_distribution e2 ON pc.id_production_center = e2.id_production_center
                                       WHERE pc.id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
@@ -39,8 +40,8 @@ class ProductionCenterDao
         try {
             $stmt = $connection->prepare("INSERT INTO productions_center (id_company, production_center) VALUES (:id_company ,:production_center)");
             $stmt->execute([
-                'id_company'  => $id_company,
-                'production_center' => strtoupper(trim($dataPCenter['production']))
+                'production_center' => strtoupper(trim($dataPCenter['production'])),
+                'id_company'  => $id_company
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

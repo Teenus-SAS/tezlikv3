@@ -338,12 +338,15 @@ $(document).ready(function () {
       if (selectExpenses == '0') {
         dataUser['expense'] = 1;
         dataUser['expenseDistribution'] = 1;
+        dataUser['production'] = 1;
       } else if (selectExpenses == '1') {
         dataUser['expense'] = 1;
         dataUser['expenseDistribution'] = 0;
+        dataUser['production'] = 1;
       } else {
         dataUser['expense'] = 0;
         dataUser['expenseDistribution'] = 1;
+        dataUser['production'] = 1;
       }
     // } else {
     //   if ($('#expenseRecover').is(':checked')) dataUser['expenseDistribution'] = 1;
@@ -424,6 +427,7 @@ $(document).ready(function () {
       if (!$(`#chckExpenses`).is(':checked')) {
         dataUser[`expense`] = 0;
         dataUser[`expenseDistribution`] = 0;
+        dataUser[`production`] = 0;
       }
     
     return dataUser;

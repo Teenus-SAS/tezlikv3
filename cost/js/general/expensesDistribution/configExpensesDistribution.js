@@ -96,7 +96,7 @@ $(document).ready(function () {
     } else {
       $('.distribution').show();
       $('.distributionFamilies').hide();
-      await loadTableExpensesDistribution();
+      await loadAllDataDistribution();
     }
   };
 

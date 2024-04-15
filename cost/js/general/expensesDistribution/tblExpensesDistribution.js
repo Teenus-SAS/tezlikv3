@@ -18,20 +18,28 @@ $(document).ready(function () {
     });
   });
 
-  /* Cargue tabla de Gastos distribuidos */
-  loadTableExpensesDistribution = () => {
-    // if ($.fn.dataTable.isDataTable("#tblExpenses")) {
-    //   $('#tblExpenses').DataTable().clear();
-    //   $('#tblExpenses').DataTable().ajax.reload();
-    // }else
+  loadAllDataDistribution = async () => {
+    try {
+      const dataExpensesDistribution = await searchData('/api/expensesDistribution');
 
+      sessionStorage.setItem('dataExpensesDistribution', JSON.stringify(dataExpensesDistribution)); 
+
+      loadTableExpensesDistribution(dataExpensesDistribution);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  }
+
+  /* Cargue tabla de Gastos distribuidos */
+  loadTableExpensesDistribution = (data) => { 
     tblExpensesDistribution = $('#tblExpenses').dataTable({
       destroy: true,
       pageLength: 50,
-      ajax: {
-        url: '../../api/expensesDistribution',
-        dataSrc: '',
-      },
+      data: data,
+      // ajax: {
+      //   url: '../../api/expensesDistribution',
+      //   dataSrc: '',
+      // },
       dom: '<"datatable-error-console">frtip',
       language: {
         url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
@@ -158,4 +166,6 @@ $(document).ready(function () {
       },
     });
   };
+
+  loadAllDataDistribution();
 });
