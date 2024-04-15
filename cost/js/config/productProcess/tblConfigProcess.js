@@ -70,11 +70,21 @@ $(document).ready(function () {
           </tr>
         </tfoot>`);
     }
+
+    let totalEfficiency = 0;
+
+    data.forEach(item => {
+      totalEfficiency += parseFloat(item.efficiency);
+    });
+ 
     // Encabezados de la tabla
     var headers = ['No.', 'Proceso', 'Máquina', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
 
     if (visible == false)
       headers.splice(8, 1);
+    
+    if (totalEfficiency == 0)
+      headers.splice(5, 1);
     
     // Obtén la tabla
     var table = document.getElementById('tblConfigProcess');
@@ -90,6 +100,7 @@ $(document).ready(function () {
     $('#tblConfigProcessBody').empty();
     var body = document.getElementById('tblConfigProcessBody');
 
+
     data.forEach((arr, index) => {
       const i = index;
       const dataRow = body.insertRow();
@@ -100,8 +111,9 @@ $(document).ready(function () {
 
       headers.forEach((header, columnIndex) => {
         const cell = dataRow.insertCell();
+
         switch (header) {
-          case 'No.':
+          case 'No.': 
             cell.textContent = i + 1;
             break;
           case 'Proceso':
@@ -138,7 +150,7 @@ $(document).ready(function () {
             } else
               efficiency = efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            cell.textContent = efficiency;
+            cell.textContent = `${efficiency} %`;
             break;
           case 'Mano de Obra':
             let workforce_cost = parseFloat(arr.workforce_cost);
@@ -179,6 +191,8 @@ $(document).ready(function () {
         }
       });
     });
+
+    if (totalEfficiency == 0) $('#totalEfficiency').remove();
 
     $('#tblConfigProcess').dataTable({
       pageLength: 50,
@@ -241,7 +255,7 @@ $(document).ready(function () {
 
     $('#totalAlistment').html(alistment.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalOperation').html(operation.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
-    $('#totalEfficiency').html(efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
+    $('#totalEfficiency').html(`${efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
     $('#totalWorkforce').html(`$ ${workForce.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
     $('#totalIndirect').html(`$ ${indirect.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
   };
