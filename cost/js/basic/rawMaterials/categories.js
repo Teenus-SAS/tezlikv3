@@ -122,9 +122,9 @@ $(document).ready(function () {
             $('.cardAddCategories').hide(800);
             $('#formCreateCategory').trigger('reset');
             toastr.success(data.message);
-            await loadAllDataCategories(); 
+            await loadAllData(); 
 
-            loadTblRawMaterials(allMaterials);
+            // loadTblRawMaterials(allMaterials);
             return false;
         } else if (data.error == true) toastr.error(data.message);
         else if (data.info == true) toastr.info(data.message);

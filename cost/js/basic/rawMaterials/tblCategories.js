@@ -1,35 +1,34 @@
 $(document).ready(function () { 
-    loadAllDataCategories = async () => {
-        try {
-            const dataCategory = await searchData('/api/categories');
+    // loadAllDataCategories = async () => {
+    //     try {
+    //         const dataCategory = await searchData('/api/categories');
 
-            // allCategories = dataCategory;
+    //         // allCategories = dataCategory;
 
-            if(dataCategory.length == 0){
-                $('.categories').hide();
-                visible = false;
-            } else {
-                $('.categories').show();
-                visible = true;                
-            }
+    //         if(dataCategory.length == 0){
+    //             $('.categories').hide();
+    //             visible = false;
+    //         } else {
+    //             $('.categories').show();
+    //             visible = true;                
+    //         }
 
-            let $select = $(`#idCategory`);
-            $select.empty();
-            $select.append(`<option disabled selected value='0'>Seleccionar</option>`);
-            $.each(dataCategory, function (i, value) {
-                $select.append(
-                    `<option value = ${value.id_category}> ${value.category} </option>`
-                );
-            });
+    //         let $select = $(`#idCategory`);
+    //         $select.empty();
+    //         $select.append(`<option disabled selected value='0'>Seleccionar</option>`);
+    //         $.each(dataCategory, function (i, value) {
+    //             $select.append(
+    //                 `<option value = ${value.id_category}> ${value.category} </option>`
+    //             );
+    //         });
 
-            loadTblCategories(dataCategory);
-        } catch (error) {
-            console.error('Error loading data:', error);
-        }
-    }
-        
+    //         loadTblCategories(dataCategory);
+    //     } catch (error) {
+    //         console.error('Error loading data:', error);
+    //     }
+    // }  
     
-    loadAllDataCategories();
+    // loadAllDataCategories();
 
     loadTblCategories = (data) => {
         tblCategories = $('#tblCategories').dataTable({
