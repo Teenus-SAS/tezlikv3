@@ -323,7 +323,7 @@ if (sizeof($_SESSION) == 0)
                                                     <input class="form-control text-center" type="number" name="subTotalTime" id="subTotalTime" readonly>
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label class="text-center">Eficiencia</label>
+                                                    <label class="text-center">Eficiencia(%)</label>
                                                     <input class="form-control text-center time" type="number" name="efficiency" id="efficiency">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
@@ -472,6 +472,7 @@ if (sizeof($_SESSION) == 0)
                                                             <th></th>
                                                             <th></th>
                                                             <th></th>
+                                                            <th></th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -490,6 +491,7 @@ if (sizeof($_SESSION) == 0)
                                                             <th>Total:</th>
                                                             <th id="totalAlistment"></th>
                                                             <th id="totalOperation"></th>
+                                                            <th id="totalEfficiency"></th>
                                                             <th id="totalWorkforce"></th>
                                                             <th id="totalIndirect"></th>
                                                             <?php if ($_SESSION['flag_employee'] == 1) { ?>

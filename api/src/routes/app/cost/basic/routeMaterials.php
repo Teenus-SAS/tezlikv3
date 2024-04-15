@@ -8,9 +8,11 @@ use tezlikv3\dao\GeneralCategoriesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralMaterialsDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\Dao\MagnitudesDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\TrmDao;
 use tezlikv3\dao\UnitsDao;
 
 $materialsDao = new MaterialsDao();
@@ -25,6 +27,8 @@ $priceProductDao = new PriceProductDao();
 $generalProductsDao = new GeneralProductsDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $filesDao = new FilesDao();
+$lastDataDao = new LastDataDao();
+$trmDao = new TrmDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -164,11 +168,13 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
 $app->post('/addMaterials', function (Request $request, Response $response, $args) use (
     $materialsDao,
+    $generalMaterialsDao,
+    $lastDataDao,
+    $trmDao,
     $generalCategoriesDao,
     $magnitudesDao,
     $unitsDao,
     $costMaterialsDao,
-    $generalMaterialsDao,
     $priceProductDao,
     $generalProductsDao,
     $generalCompositeProductsDao
@@ -184,7 +190,35 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
         $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
         if (!$material) {
-            $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
+            if ($dataMaterial['usd'] == '1') {
+                $cost = $dataMaterial['costRawMaterial'];
+                $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
+
+                $trm = $_SESSION['coverage'];
+
+                if ($trm == 0) {
+                    $trm = $trmDao->getLastTrm();
+                    $trm = $trm[0]['valor'];
+                }
+
+                $dataMaterial['costRawMaterial'] = $cost * floatval($trm);
+
+                $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
+
+                $formatTrm = sprintf('$%s', number_format($trm, 2, ',', '.'));
+
+                $data = [];
+                $data['date'] = date('Y-m-d');
+                $data['observation'] = "Precio en Dolares: $formatCost. TRM: $formatTrm";
+
+                $lastData = $lastDataDao->lastInsertedMaterialsId($id_company);
+                $data['idMaterial'] = $lastData['id_material'];
+                $data['cost_usd'] = $cost;
+
+                $materials = $generalMaterialsDao->saveBillMaterial($data);
+                $materials = $generalMaterialsDao->saveCostUSDMaterial($data);
+            } else
+                $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
             if ($materials == null)
                 $resp = array('success' => true, 'message' => 'Materia Prima creada correctamente');
@@ -305,6 +339,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 $app->post('/updateMaterials', function (Request $request, Response $response, $args) use (
     $materialsDao,
     $generalMaterialsDao,
+    $trmDao,
     $productMaterialsDao,
     $costMaterialsDao,
     $conversionUnitsDao,
@@ -329,7 +364,32 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     }
 
     if ($status == true) {
-        $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
+        if ($dataMaterial['usd'] == '1') {
+            $cost = $dataMaterial['costRawMaterial'];
+            $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
+
+            $trm = $_SESSION['coverage'];
+
+            if ($trm == 0) {
+                $trm = $trmDao->getLastTrm();
+                $trm = $trm[0]['valor'];
+            }
+
+            $dataMaterial['costRawMaterial'] = $cost * floatval($trm);
+            $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
+
+            $formatTrm = sprintf('$%s', number_format($trm, 2, ',', '.'));
+
+            $data = [];
+            $data['date'] = date('Y-m-d');
+            $data['observation'] = "Precio en Dolares: $formatCost. TRM: $formatTrm";
+            $data['idMaterial'] = $dataMaterial['idMaterial'];
+            $data['cost_usd'] = $cost;
+
+            $materials = $generalMaterialsDao->saveBillMaterial($data);
+            $materials = $generalMaterialsDao->saveCostUSDMaterial($data);
+        } else
+            $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
         if ($materials == null) {
             $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);
