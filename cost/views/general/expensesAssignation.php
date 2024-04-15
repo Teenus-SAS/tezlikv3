@@ -446,7 +446,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
                     <?php } ?>
 
-                    <div class="page-content-wrapper mt--45 mb-5 cardAddNewProductionCenter" style="display: none;">
+                    <!-- <div class="page-content-wrapper mt--45 mb-5 cardAddNewProductionCenter" style="display: none;">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-12">
@@ -468,7 +468,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- page content -->
                     <div class="page-content-wrapper mt--45">
@@ -507,11 +507,11 @@ if (sizeof($_SESSION) == 0)
                                                         </a>
                                             </li>
                                         <?php } ?>
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link selectNavigation" id="navProductionCenter" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
                                                 <i class="fas fa-flask mr-1"></i>Centro Produccion
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -586,14 +586,14 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 <?php } ?>
 
-                                                <div class="tab-pane cardProductionCenter" style="display: none;">
+                                                <!-- <div class="tab-pane cardProductionCenter" style="display: none;">
                                                     <div class="card-body">
                                                         <div class="table-responsive">
                                                             <table class="table table-striped" id="tblPCenter">
                                                             </table>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 </div>
 
                                     </div>
@@ -653,8 +653,8 @@ if (sizeof($_SESSION) == 0)
                     <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
                 <?php } ?>
             <?php } ?>
-            <script src="/cost/js/general/productionCenter/productionCenter.js"></script>
-            <script src="/cost/js/general/productionCenter/tblProductionCenter.js"></script>
+            <!-- <script src="/cost/js/general/productionCenter/productionCenter.js"></script>
+            <script src="/cost/js/general/productionCenter/tblProductionCenter.js"></script> -->
 
 </body>
 

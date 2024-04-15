@@ -97,7 +97,7 @@ require_once('../api/src/routes/app/cost/general/routePayroll.php');
 require_once('../api/src/routes/app/cost/general/routeProcessPayroll.php');
 require_once('../api/src/routes/app/cost/general/routePuc.php');
 require_once('../api/src/routes/app/cost/general/routePriceList.php');
-require_once('../api/src/routes/app/cost/general/routeProductionCenter.php');
+// require_once('../api/src/routes/app/cost/general/routeProductionCenter.php');
 
 /* Global */
 require_once('../api/src/routes/app/global/routeCompany.php');
