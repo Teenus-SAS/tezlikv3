@@ -6,7 +6,7 @@ $(document).ready(function () {
             $select.empty();
 
             $select.append(`<option disabled selected>Seleccionar</option>`);
-            $select.append(`<option value='0'>Todos</option>`);
+            // $select.append(`<option value='0'>Todos</option>`);
             $.each(dataPCenter, function (i, value) {
                 $select.append(
                     `<option value = ${value.id_production_center}> ${value.production_center} </option>`
