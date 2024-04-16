@@ -127,6 +127,8 @@
                                                                     || $_SESSION['expense_distribution'] == 1
                                                                     || $_SESSION['cost_multiproduct'] == 1
                                                                     || $_SESSION['plan_cost_multiproduct'] == 1
+                                                                    || ($_SESSION['production_center'] == 1
+                                                                        && $_SESSION['flag_production_center'] == 1)
                                                                 ) { ?>
                                                                     <li class="aExpenses">
                                                                     <?php } else { ?>

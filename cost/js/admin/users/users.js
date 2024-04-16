@@ -236,32 +236,38 @@ $(document).ready(function () {
     });
 
     // if (flag_expense != '2') {
-      let selectExpenses;
-      if (data.expense_distribution == 1 && data.expense == 1) {
-        $(`#chckExpenses`).prop('checked', true);
-        selectExpenses = 0;
-        $('.cardChkExpenses').show();
-      } 
-      if (data.expense_distribution == 0 && data.expense == 1) {
-        $(`#chckExpenses`).prop('checked', true);
-        selectExpenses = 1;
-        $('.cardChkExpenses').show();
-        $('.cardTypeExpenses').hide();
-      } else if (data.expense_distribution == 1 && data.expense == 0) {
-        $(`#chckExpenses`).prop('checked', true);
-        selectExpenses = 2;
-        $('.cardChkExpenses').show();
-      }
-      if ((selectExpenses == 0 || selectExpenses == 2) && (flag_expense == '1' || flag_expense == '0')) {
-        $('.cardChkExpenses').show();
-        $('.cardTypeExpenses').show();
-      }
-      $(`#selectExpenses option[value=${selectExpenses}]`).prop('selected', true);
+    let selectExpenses;
+    
+    if (data.expense_distribution == 1 && data.expense == 1 && data.production_center == 1) {
+      $(`#chckExpenses`).prop('checked', true);
+      selectExpenses = 0;
+      $('.cardChkExpenses').show();
+    }
+    if (data.expense_distribution == 0 && data.expense == 1 && data.production_center == 0) {
+      $(`#chckExpenses`).prop('checked', true);
+      selectExpenses = 1;
+      $('.cardChkExpenses').show();
+      $('.cardTypeExpenses').hide();
+    } else if (data.expense_distribution == 1 && data.expense == 0 && data.production_center == 0) {
+      $(`#chckExpenses`).prop('checked', true);
+      selectExpenses = 2;
+      $('.cardChkExpenses').show();
+    } else if (data.expense_distribution == 0 && data.expense == 0 && data.production_center == 1) {
+      $(`#chckExpenses`).prop('checked', true);
+      selectExpenses = 3;
+      $('.cardChkExpenses').show();
+    }
 
-      if (data.type_expense == 1)
-        $(`#typeExpenses`).prop('checked', true);
-      else
-        $(`#typeExpenses`).prop('checked', false);
+    if ((selectExpenses == 0 || selectExpenses == 2) && (flag_expense == '1' || flag_expense == '0')) {
+      $('.cardChkExpenses').show();
+      $('.cardTypeExpenses').show();
+    }
+    $(`#selectExpenses option[value=${selectExpenses}]`).prop('selected', true);
+
+    if (data.type_expense == 1)
+      $(`#typeExpenses`).prop('checked', true);
+    else
+      $(`#typeExpenses`).prop('checked', false);
     // } else {
     //   if (data.expense_distribution == 1)
     //     $(`#expenseRecover`).prop('checked', true);
@@ -342,10 +348,14 @@ $(document).ready(function () {
       } else if (selectExpenses == '1') {
         dataUser['expense'] = 1;
         dataUser['expenseDistribution'] = 0;
-        dataUser['production'] = 1;
+        dataUser['production'] = 0;
+      } else if (selectExpenses == '2') {
+        dataUser['expense'] = 1;
+        dataUser['expenseDistribution'] = 0;
+        dataUser['production'] = 0;
       } else {
         dataUser['expense'] = 0;
-        dataUser['expenseDistribution'] = 1;
+        dataUser['expenseDistribution'] = 0;
         dataUser['production'] = 1;
       }
     // } else {

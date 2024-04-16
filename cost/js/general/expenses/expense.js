@@ -31,12 +31,14 @@ $(document).ready(function () {
     } else {
       $('.cardProductionCenter').show();
       $('.cardAddNewProductionCenter').hide();
+      $('.cardNewProduct').hide();
       $('.cardExpenses').hide();
+      $('.cardImportExpensesAssignation').hide();
+      $('.cardCreateExpenses').hide();
       $('.cardExpenseDistribution').hide();
       $('.cardAddNewFamily').hide();
       $('.cardAddProductFamily').hide();
-      $('.cardExpensesDistribution').hide();
-      $('.cardExpensesDistribution').hide();
+      $('.cardExpensesDistribution').hide(); 
       $('.cardExpenseRecover').hide();
       $('.cardImportExpenses').hide();
       $('.cardNewProducts').hide();
@@ -93,10 +95,15 @@ $(document).ready(function () {
       'selected',
       true
     );
-    $(`#selectProductionCenterExpenses option[value=${data.id_production_center}]`).prop("selected", true);
 
-    // let decimals = contarDecimales(data.expense_value);
-    // let expense_value = formatNumber(data.expense_value, decimals);
+    if (production_center == '1' && flag_production_center == '1') {
+      if (data.id_production_center == 0) {
+        var selectElement = document.getElementById("selectProductionCenterExpenses");
+        selectElement.selectedIndex = 0;
+      } else
+        $(`#selectProductionCenterExpenses option[value=${data.id_production_center}]`).prop("selected", true);
+    }
+
     $('#expenseValue').val(data.expense_value);
 
     $('html, body').animate(
@@ -111,14 +118,15 @@ $(document).ready(function () {
   checkDataExpense = async (url, idExpense) => {
     let puc = parseInt($('#idPuc').val());
     let value = parseFloat($('#expenseValue').val()); 
-    let selectProductionCenter = parseFloat($('#selectProductionCenterExpenses').val()); 
 
-    // value = parseFloat(strReplaceNumber(value));
-
-    // let data = puc * value;
+    if (production_center == '1' && flag_production_center == '1')
+      selectProductionCenter = parseFloat($('#selectProductionCenterExpenses').val());
+    else
+      selectProductionCenter = 1;
+  
     isNaN(value) ? value = 0 : value;
-
-    if (!puc || puc == '' || selectProductionCenter <= 0 || isNaN(selectProductionCenter)) {
+    
+    if (!puc || puc == ''||selectProductionCenter <= 0 || isNaN(selectProductionCenter)) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -148,9 +156,7 @@ $(document).ready(function () {
 
   deleteFunction = (id) => {
     let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
-    let data = dataExpenses.find(item => item.id_expense == id);
-    // let row = $(this.activeElement).parent().parent()[0];
-    // let data = tblAssExpenses.fnGetData(row);
+    let data = dataExpenses.find(item => item.id_expense == id); 
 
     let id_expense = data.id_expense;
 
@@ -192,8 +198,10 @@ $(document).ready(function () {
       $('#formImportExpesesAssignation').trigger('reset');
       $('.cardCreateExpenses').hide(800);
       $('#formCreateExpenses').trigger('reset');
-      $('#selectProductionCenterExpenses option').removeAttr('selected');
-      $(`#selectProductionCenterExpenses option[value='0']`).prop('selected', true);
+      // Obtener el elemento select
+      var selectElement = document.getElementById("selectProductionCenterExpenses");
+      // Establecer la primera opción como seleccionada por defecto
+      selectElement.selectedIndex = 0;
 
       loadAllDataExpenses();
       getExpense();
@@ -201,12 +209,5 @@ $(document).ready(function () {
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  };
-
-  /* Actualizar tabla */
-
-  // function updateTable() {
-  //   $('#tblAssExpenses').DataTable().clear();
-  //   $('#tblAssExpenses').DataTable().ajax.reload();
-  // }
+  }; 
 });

@@ -79,7 +79,6 @@ $(document).ready(function () {
         data: "email",
         className: "uniqueClassName",
       },
-
       {
         title: "Maestros",
         data: null,
@@ -143,15 +142,7 @@ $(document).ready(function () {
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
-          });
-
-          // permissions.push({
-          //   name: "Ficha Técnica Procesos y Tiempos",
-          //   icon: data.product_process
-          //     ? "bi bi-check-circle-fill text-success"
-          //     : "bi bi-x-circle-fill text-danger",
-          //   color: { text: "black" },
-          // });
+          }); 
 
           permissions.push({
             name: "Carga Fabril",
@@ -160,13 +151,6 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-          // permissions.push({
-          //   name: "Servicios Externos",
-          //   icon: data.external_service
-          //     ? "bi bi-check-circle-fill text-success"
-          //     : "bi bi-x-circle-fill text-danger",
-          //   color: { text: "black" },
-          // });
 
           let output = '<div class="stacked-column" style="width:270px">';
           for (const permission of permissions) {
@@ -193,8 +177,7 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-
-          // if (flag_expense != 2)
+ 
           permissions.push({
             name: "Gastos",
             icon: data.expense
@@ -202,14 +185,23 @@ $(document).ready(function () {
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
-
+          
           permissions.push({
             name: `${flag_expense == 2 ? 'Recuperación Gastos' : 'Distribución Gastos'}`,
             icon: data.expense_distribution
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
+            ? "bi bi-check-circle-fill text-success"
+            : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
+
+          if (flag_production_center == '1')
+            permissions.push({
+              name: "Centro Producción",
+              icon: data.production_center
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
           let output = '<div class="stacked-column" style="width:170px">';
           for (const permission of permissions) {
