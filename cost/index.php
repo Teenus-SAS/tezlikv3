@@ -244,7 +244,11 @@ if (sizeof($_SESSION) == 0)
                                                                     <div class="card-body">
                                                                         <div class="media text-white">
                                                                             <div class="media-body">
-                                                                                <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Mínima Deseada</span>
+                                                                                <?php if ($_SESSION['id_company'] == '10') { ?>
+                                                                                    <span class="text-uppercase font-size-12 font-weight-bold">Margen Mínimo Deseado</span>
+                                                                                <?php } else { ?>
+                                                                                    <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad Mínima Deseada</span>
+                                                                                <?php } ?>
                                                                                 <h2 class="mb-0 mt-1 text-white" id="minProfitabilityAverage"></h2>
                                                                             </div>
                                                                             <div class="align-self-center mt-1">
@@ -498,6 +502,7 @@ if (sizeof($_SESSION) == 0)
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
+                                    id_company = "<?= $_SESSION['id_company'] ?>";
                                     price_usd = "<?= $_SESSION['price_usd'] ?>";
                                     plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
                                     c_content = <?= json_encode($_SESSION['content']) ?>;

@@ -191,7 +191,7 @@ $(document).ready(function () {
         <a class="card-body" id="btnActualProfitabilityAverage" href="javascript:;">
           <div class="media text-white">
             <div class="media-body">
-              <span class="text-uppercase font-size-12 font-weight-bold">Rentabilidad (Real)</span>
+              <span class="text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Real)</span>
               <h2 class="mb-0 mt-1 text-white">${averageActualProfitability.toLocaleString('es-CO', {maximumFractionDigits: 2})} %</h2>
             </div>
             <div class="align-self-center mt-1">

@@ -57,6 +57,11 @@ $(document).ready(function () {
 
     acumulated == 0 ? (visible = false) : (visible = true);
 
+    if (id_company == '10')
+      title = 'Margen';
+    else
+    title = 'Rentabilidad';
+
     tblPrices = $("#tblPrices").DataTable({
       destroy: true,
       pageLength: 50,
@@ -169,7 +174,7 @@ $(document).ready(function () {
           },
         },
         {
-          title: "Rentabilidad",
+          title: title,
           data: null,
           className: "classCenter",
           visible: visible,

@@ -146,7 +146,7 @@ $(document).ready(function () {
     loadPreviousButton.disabled = startIndex === 0;
     loadNextButton.disabled = startIndex + numToShow >= product.length;
 
-    $('#generalDashboardName').html(`Rentabilidad Actual (Porcentaje)`);
+    $('#generalDashboardName').html(`${id_company == '10' ? 'Margen' : 'Rentabilidad'} Actual (Porcentaje)`);
     document.getElementById('modalGHeader').className = 'modal-dialog modal-xl';
     $('#modalGeneralDashboard').modal('show');
   });

@@ -229,7 +229,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="media-body">
-                                                <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentab Deseada</span>
+                                                <?php if ($_SESSION['id_company'] == '10') { ?>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Margen Deseado</span>
+                                                <?php } else { ?>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentab Deseada</span>
+                                                <?php } ?>
                                                 <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
                                             </div>
                                             <!-- <div class="text-center"> 
