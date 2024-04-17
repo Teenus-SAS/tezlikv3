@@ -257,11 +257,19 @@ $(document).ready(function () {
       `$ ${Math.round(dataCost.costCommissionSale).toLocaleString('es-CO')}`
     );
 
-    $('#profit').html(
-      `Rentabilidad (${parseFloat(data[0].profitability).toLocaleString('es-CO', {
-        maximumFractionDigits: 2,
-      })}%)`
-    );
+    if (id_company == '10')
+      $('#profit').html(
+        `Margen (${parseFloat(data[0].profitability).toLocaleString('es-CO', {
+          maximumFractionDigits: 2,
+        })}%)`
+      );
+    else
+      $('#profit').html(
+        `Rentabilidad (${parseFloat(data[0].profitability).toLocaleString('es-CO', {
+          maximumFractionDigits: 2,
+        })}%)`
+      );
+    
     $('#profitability').html(
       `$ ${Math.round(dataCost.costProfitability).toLocaleString('es-CO')}`
     );
