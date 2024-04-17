@@ -163,6 +163,7 @@ if (sizeof($_SESSION) == 0)
         deviation = "<?= $_SESSION['deviation'] ?>";
         price_usd = "<?= $_SESSION['price_usd'] ?>";
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        id_company = "<?= $_SESSION['id_company'] ?>";
         viewPrices = 1;
     </script>
     <script src="/global/js/global/orderData.js"></script>
