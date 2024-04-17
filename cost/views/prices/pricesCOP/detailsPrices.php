@@ -457,6 +457,7 @@ if (sizeof($_SESSION) == 0)
         coverage = "<?= $_SESSION['coverage'] ?>";
         price_usd = "<?= $_SESSION['price_usd'] ?>";
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        id_company = "<?= $_SESSION['id_company'] ?>";
         viewPrices = 2;
     </script>
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
