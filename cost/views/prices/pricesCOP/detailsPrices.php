@@ -276,13 +276,7 @@ if (sizeof($_SESSION) == 0)
                                                             <h6 class="mb-0 pl-3 text-right expenses" id="payAssignableExpenses"></h6>
                                                             <p class="mb-2 commission" style="color:darkcyan" id="commission">Comisión Vta</p>
                                                             <h6 class="mb-0 pl-3 text-right commission" id="commisionSale"></h6>
-
-                                                            <?php if ($_SESSION['id_company'] == 10) { ?>
-                                                                <p class="mb-2 profit minProfit" style="color:darkcyan" id="profit">Margen</p>
-                                                            <?php } else { ?>
-                                                                <p class="mb-2 profit minProfit" style="color:darkcyan" id="profit">Rentabilidad</p>
-                                                            <?php } ?>
-
+                                                            <p class="mb-2 profit minProfit" style="color:darkcyan" id="profit">Rentabilidad</p>
                                                             <h6 class="mb-0 pl-3 text-right profit" id="profitability"></h6>
                                                         </div>
                                                     </div>
@@ -463,6 +457,7 @@ if (sizeof($_SESSION) == 0)
         coverage = "<?= $_SESSION['coverage'] ?>";
         price_usd = "<?= $_SESSION['price_usd'] ?>";
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        id_company = "<?= $_SESSION['id_company'] ?>";
         viewPrices = 2;
     </script>
     <script src="/cost/js/dashboard/indicatorsProduct.js"></script>
