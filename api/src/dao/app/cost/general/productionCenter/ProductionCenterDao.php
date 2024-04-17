@@ -23,7 +23,7 @@ class ProductionCenterDao
                                       FROM productions_center pc
                                         LEFT JOIN expenses e1 ON pc.id_production_center = e1.id_production_center
                                         LEFT JOIN expenses_distribution e2 ON pc.id_production_center = e2.id_production_center
-                                      WHERE pc.id_company = :id_company");
+                                      WHERE pc.id_company = :id_company GROUP BY pc.id_production_center");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

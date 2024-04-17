@@ -102,7 +102,24 @@ $(document).ready(function () {
     $('#undVendidas').val(data.units_sold);
     $('#volVendidas').val(data.turnover);
 
-    $(`#selectProductionCenterED option[value=${data.id_production_center}]`).prop("selected", true);
+    
+    if (production_center == '1' && flag_production_center == '1') {
+      if (data.id_production_center == 0) {
+        var selectElement = document.getElementById("selectProductionCenterED"); 
+        selectElement.selectedIndex = 0;
+      } else
+        $(`#selectProductionCenterED option[value=${data.id_production_center}]`).prop("selected", true);
+
+      dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+      data = dataExpenses.filter(item => item.id_production_center == data.id_production_center);
+      let totalExpense = 0;
+
+      data.forEach(item => {
+        totalExpense += parseFloat(item.expense_value)
+      });
+
+      $('#expensesToDistribution').val(`$ ${totalExpense.toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
+    }
 
     $('html, body').animate(
       {
@@ -119,27 +136,35 @@ $(document).ready(function () {
     let family = parseInt($('#familiesDistribute').val());
     let unitExp = parseFloat($('#undVendidas').val());
     let volExp = parseFloat($('#volVendidas').val());
-    let expense = parseFloat(strReplaceNumber($('#expensesToDistribution').val()));
-    let productionCenter = parseFloat(strReplaceNumber($('#selectProductionCenterED').val()));
- 
-    let data = refProduct * nameProduct * productionCenter; //* unitExp * volExp;
+    // let expense = $('#expensesToDistribution').val();
+    // expense = strReplaceNumber($('#expensesToDistribution').val());
+    let expense = $('#expensesToDistribution').val();
+    expense = parseFloat(strReplaceNumber(expense.replace('$ ', '')));
+    let productionCenter = 0;
 
+    let data = refProduct * nameProduct;
+    
+    if (production_center == '1' && flag_production_center == '1'){
+      productionCenter = parseFloat($('#selectProductionCenterED').val());
+      data = data * productionCenter;
+    }
+    
     if (flag_expense_distribution == 2) data = family //* unitExp * volExp;
-
+    
     if (isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
-
+    
     let dataExpense = new FormData(formExpensesDistribution);
-
+    
     if (idExpense != '' || idExpense != null) {
-      dataExpense.append('expense', $('#expensesToDistribution').val());
+      dataExpense.append('expense', expense);
       dataExpense.append('idExpensesDistribution', idExpense);
       dataExpense.append('newProduct', sessionStorage.getItem('newProduct'));
-    }
+    } 
     dataExpense.append('production', productionCenter);
-
+    
     let resp = await sendDataPOST(url, dataExpense);
     let op = 1;
     if (flag_expense_distribution == 2) op = 3;
@@ -211,9 +236,10 @@ $(document).ready(function () {
       $('#formFamily').trigger('reset');
       $('#formExpenseRecover').trigger('reset');
       $('#modalExpenseDistributionByFamily').modal('hide');
-      $('#selectProductionCenterED option').removeAttr('selected');
-      $(`#selectProductionCenterED option[value='0']`).prop('selected', true);
-
+      // Obtener el elemento select
+      var selectElement = document.getElementById("selectProductionCenterED");
+      // Establecer la primera opción como seleccionada por defecto
+      selectElement.selectedIndex = 0;
 
       if (op == 1) {
         await loadExpensesDProducts();
