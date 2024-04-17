@@ -79,6 +79,14 @@ $(document).ready(function () {
           const permissions = [];
 
           permissions.push({
+            name: "Materiales USD",
+            icon: data.flag_materials_usd == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+          
+          permissions.push({
             name: "Precios USD",
             icon: data.cost_price_usd == 1
               ? "bi bi-check-circle-fill text-success"

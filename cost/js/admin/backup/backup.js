@@ -30,12 +30,17 @@ $(document).ready(function () {
         data = [];
 
         for (i = 0; i < dataMaterials.length; i++) {
+          let type_cost = '';
+
+          parseInt(dataMaterials[i].flag_usd) == 1 ? type_cost = 'USD' : type_cost = 'COP';
+          
           data.push({
             referencia: dataMaterials[i].reference,
             material: dataMaterials[i].material,
             magnitud: dataMaterials[i].magnitude,
             unidad: dataMaterials[i].unit,
             costo: parseFloat(dataMaterials[i].cost),
+            tipo_costo: type_cost,
           });
         }
 

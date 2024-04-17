@@ -116,6 +116,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION['rol'] = $user["id_rols"];
         $_SESSION['id_company'] = $user['id_company'];
         $_SESSION['avatar'] = $user['avatar'];
+        $_SESSION['position'] = $user['position'];
         $_SESSION['logoCompany'] = $dataCompany['logo'];
         $_SESSION["time"] = microtime(true);
         $_SESSION['plan'] = $dataCompany['plan'];

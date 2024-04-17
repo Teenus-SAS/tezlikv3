@@ -12,6 +12,8 @@ $(document).ready(function () {
         searchData('/api/allProductsProcess')
       ]);
 
+      sessionStorage.setItem('dataCost', JSON.stringify(dataCost));
+
       allPayroll = payroll;
       allProductProcess = dataProductProcess;
 
@@ -28,7 +30,7 @@ $(document).ready(function () {
   loadAllTblData();
 
   const loadTblPayroll = (data) => {
-    if ($.fn.dataTable.isDataTable("#tblPayroll")) {
+    if ($.fn.dataTable.isDataTable("#tblPayroll")) { 
       $("#tblPayroll").DataTable().destroy();
       $("#tblPayroll").empty();
       $('#tblPayroll').append(`
@@ -124,7 +126,7 @@ $(document).ready(function () {
             break;
         }
       });
-    });
+    }); 
 
     $('#tblPayroll').dataTable({
       pageLength: 50,
@@ -135,6 +137,46 @@ $(document).ready(function () {
       fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
         if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
           console.error(oSettings.json.error);
+        }
+      },
+      footerCallback: function (row, data, start, end, display) {
+        if (type_payroll == '1' && data.length != display.length) {
+          let salary = 0;
+          let salary_net = 0;
+          let minute_value = 0;
+
+          for (i = 0; i < display.length; i++) {
+            salary += parseFloat(strReplaceNumber(data[display[i]][3]));
+            salary_net += parseFloat(strReplaceNumber(data[display[i]][4]));
+            minute_value += parseFloat(strReplaceNumber(data[display[i]][5]));
+          }
+
+          $(this.api().column(3).footer()).html(
+            `$ ${salary.toLocaleString('es-CO', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}`
+          );
+
+          $(this.api().column(4).footer()).html(
+            `$ ${salary_net.toLocaleString('es-CO', {
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 0,
+            })}`
+          );
+
+          $(this.api().column(5).footer()).html(
+            `$ ${minute_value.toLocaleString('es-CO', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}`
+          );
+        } else if (type_payroll == '1') {
+          let dataCost = JSON.parse(sessionStorage.getItem('dataCost'));
+
+          $('#totalSalary').html(`$ ${parseFloat(dataCost.salary).toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
+          $('#totalSalarynet').html(`$ ${parseFloat(dataCost.salary_net).toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
+          $('#totalMinuteValue').html(`$ ${parseFloat(dataCost.minute_value).toLocaleString('es-CO', { maximumFractionDigits: 2 })}`);
         }
       },
     });
