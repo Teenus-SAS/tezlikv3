@@ -272,7 +272,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             $material = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
 
             if (!$material) {
-                if ($materials[$i]['typeCost'] == 'COP') {
+                if ($materials[$i]['typeCost'] == 'COP' || $_SESSION['flag_materials_usd'] == '0') {
                     $materials[$i]['usd'] = 0;
                     $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
                 } else {
@@ -312,7 +312,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             } else {
                 $materials[$i]['idMaterial'] = $material['id_material'];
 
-                if ($materials[$i]['typeCost'] == 'COP') {
+                if ($materials[$i]['typeCost'] == 'COP' || $_SESSION['flag_materials_usd'] == '1') {
                     $materials[$i]['usd'] = 0;
                     $resolution = $materialsDao->updateMaterialsByCompany($materials[$i], $id_company);
                 } else {
