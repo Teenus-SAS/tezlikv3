@@ -106,9 +106,9 @@ $(document).ready(function () {
     }
     else if (!num) { // Guardar cobertura que se puso en el input
       bootbox.confirm({
-      title: 'Guardar',
+      title: 'Valor Dolar',
       message:
-        'Está seguro de modificar la cobertura? Esta acción no se puede reversar.',
+        'Está seguro de modificar el valor del Dolar?',
       buttons: {
         confirm: {
           label: 'Si',
