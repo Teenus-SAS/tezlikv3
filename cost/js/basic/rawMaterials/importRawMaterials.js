@@ -47,7 +47,11 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'material', 'categoria', 'magnitud', 'unidad', 'costo'];
+        const expectedHeaders = ['referencia', 'material', 'categoria', 'magnitud', 'unidad', 'costo', 'tipo_costo'];
+        
+        if (flag_materials_usd == '0')
+          expectedHeaders.splice(6, 1);
+
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -67,14 +71,25 @@ $(document).ready(function () {
           if (item.costo)
             costRawMaterial = item.costo.toString().replace('.', ',');
 
-          return {
-            refRawMaterial: item.referencia,
-            nameRawMaterial: item.material,
-            category: item.categoria,
-            magnitude: item.magnitud,
-            unit: item.unidad,
-            costRawMaterial: costRawMaterial,
-          };
+          if (flag_materials_usd == '0')
+            return {
+              refRawMaterial: item.referencia,
+              nameRawMaterial: item.material,
+              category: item.categoria,
+              magnitude: item.magnitud,
+              unit: item.unidad,
+              costRawMaterial: costRawMaterial,
+            };
+          else
+            return {
+              refRawMaterial: item.referencia,
+              nameRawMaterial: item.material,
+              category: item.categoria,
+              magnitude: item.magnitud,
+              unit: item.unidad,
+              costRawMaterial: costRawMaterial,
+              typeCost: item.tipo_costo,
+            };
         });
 
         checkProduct(materialsToImport);
@@ -141,7 +156,10 @@ $(document).ready(function () {
   $('#btnDownloadImportsMaterials').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Materia_prima.xlsx';
+    if(flag_materials_usd == '0')
+      url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
+    else
+      url = 'assets/formatsXlsx/Materia_prima(USD).xlsx';
 
     let link = document.createElement('a');
 

@@ -280,7 +280,7 @@ if (sizeof($_SESSION) == 0)
                                                             <h6 class="mb-0 pl-3 text-right expenses" id="payAssignableExpenses"></h6>
                                                             <p class="mb-2 commission" style="color:darkcyan" id="commission">Comisión Vta</p>
                                                             <h6 class="mb-0 pl-3 text-right commission" id="commisionSale"></h6>
-                                                            <p class="mb-2 profit minProfit" style="color:darkcyan" id="profit">Margen</p>
+                                                            <p class="mb-2 profit minProfit" style="color:darkcyan" id="profit">Rentabilidad</p>
                                                             <h6 class="mb-0 pl-3 text-right profit" id="profitability"></h6>
                                                         </div>
                                                     </div>

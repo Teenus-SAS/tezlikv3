@@ -1,5 +1,5 @@
 <div class="modal fade" id="modalContract" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog" style="margin: 2;">
+    <div class="modal-dialog">
         <div class="modal-content confirmWidth">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Contrato</h5>

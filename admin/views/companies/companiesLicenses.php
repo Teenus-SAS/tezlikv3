@@ -121,6 +121,10 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
+                                                    <label>Materiales USD</label><br>
+                                                    <input type="checkBox" class="form-control-updated" name="materialsUSD" id="materialsUSD">
+                                                </div>
+                                                <div class="col-xs-3 text-center mr-2 mt-4">
                                                     <label>Procesos Nomina</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="payrollEmployee" id="payrollEmployee">
                                                 </div>
