@@ -111,11 +111,11 @@ $(document).ready(function () {
         'Está seguro de modificar el valor del Dolar?',
       buttons: {
         confirm: {
-          label: 'Si',
+          label: '<i class="fa fa-check"></i> Si',
           className: 'btn-success',
         },
         cancel: {
-          label: 'No',
+          label: '<i class="fa fa-times"></i> No',
           className: 'btn-danger',
         },
       },
