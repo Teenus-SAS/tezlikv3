@@ -92,7 +92,9 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageInput">
                                                 <label class="font-weight-bold text-dark">Valor Dolar</label>
-                                                <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="$ 3.700,00" readonly="">
+                                                <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                                    $coverage = sprintf("%.2f", $_SESSION['coverage']);
+                                                                                                                                                                                                    echo  $coverage ?>" readonly>
                                             </div>
                                         </div>
                                     </div>

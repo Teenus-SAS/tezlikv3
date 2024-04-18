@@ -182,6 +182,8 @@ $(document).ready(function () {
           cost += parseFloat(data[display[i]].cost_product_material);
         }
 
+        waste = waste / display.length;
+
         $(this.api().column(4).footer()).html(
           quantity.toLocaleString('es-CO', {
             minimumFractionDigits: 2,
@@ -196,7 +198,7 @@ $(document).ready(function () {
           })} %`
         );
 
-        $(this.api().column(5).footer()).html(
+        $(this.api().column(6).footer()).html(
           `$ ${cost.toLocaleString('es-CO', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,

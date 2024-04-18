@@ -82,11 +82,14 @@ class IndirectCostDao
                 // $processMachineindirectCost = ($dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation']) * $dataProductMachine[$i]['operation_time'];
                 $processMachineindirectCost = 0;
 
-                if ($dataProductMachine[$i]['efficiency']) {
-                    $factoryAMachine = $dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation'];
-                    $totalTime = ($dataProductMachine[$i]['enlistment_time'] + $dataProductMachine[$i]['operation_time']) / ($dataProductMachine[$i]['efficiency'] / 100);
-                    $processMachineindirectCost = $factoryAMachine * $totalTime;
-                }
+                // if ($dataProductMachine[$i]['efficiency']) {
+                $factoryAMachine = $dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation'];
+
+                $dataProductMachine[$i]['efficiency'] == 0 ? $efficiency = 100 : $efficiency = $dataProductMachine[$i]['efficiency'];
+
+                $totalTime = ($dataProductMachine[$i]['enlistment_time'] + $dataProductMachine[$i]['operation_time']) / ($efficiency / 100);
+                $processMachineindirectCost = $factoryAMachine * $totalTime;
+                // }
                 // Guardar Costo indirecto
                 $this->updateCostIndirectCost($processMachineindirectCost, $dataProductMachine[$i]['id_product_process']);
 

@@ -38,7 +38,7 @@ $(document).ready(function () {
 
     isNaN(tOperation) ? (tOperation = 0) : tOperation;
     isNaN(tEnlistment) ? (tEnlistment = 0) : tEnlistment;
-    isNaN(efficiency) ? (efficiency = 0) : efficiency;
+    isNaN(efficiency) || efficiency == 0 ? (efficiency = 100) : efficiency;
 
     // Subtotal
     if (inyection == 1)

@@ -253,6 +253,8 @@ $(document).ready(function () {
       indirect += parseFloat(item.indirect_cost);
     });
 
+    efficiency = efficiency / data.length;
+
     $('#totalAlistment').html(alistment.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalOperation').html(operation.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalEfficiency').html(`${efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);

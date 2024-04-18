@@ -89,6 +89,7 @@ $(document).ready(function () {
     $('#units').empty();
     $('.cardRawMaterials').show(800);
     $('#btnCreateMaterial').html('Actualizar');
+    $('#formCreateMaterial').trigger('reset');
 
     let idMaterial = this.id;
     sessionStorage.setItem('id_material', idMaterial);
