@@ -106,8 +106,8 @@
                     ?>
                     <img id="hAvatar" src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
                     <div class="user-info" style="display: inline-block;">
-                        <span class="d-none d-xl-inline-block ml-1 userName" style="display: block; margin-bottom: 5px;"><?php if (!empty($_SESSION))
-                                                                                                                                echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
+                        <span class="d-none d-xl-inline-block ml-1 userName" style="display: block;"><?php if (!empty($_SESSION))
+                                                                                                        echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
                         <br>
                         <span class="role" style="font-size: 0.8rem;">Administrador</span>
                     </div>
