@@ -115,7 +115,7 @@ $(document).ready(function () {
             } else
               cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 }); 
 
-            if (flag_materials_usd == '1') {
+            if (price_usd == '1' && plan_cost_price_usd == '1') {
               if (data.flag_usd == 0)
                 text = `$ ${cost}`;
               else

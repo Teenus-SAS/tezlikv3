@@ -31,21 +31,48 @@ $(document).ready(function () {
 
         for (i = 0; i < dataMaterials.length; i++) {
           let type_cost = '';
-
-          parseInt(dataMaterials[i].flag_usd) == 1 ? type_cost = 'USD' : type_cost = 'COP';
           
-          data.push({
-            referencia: dataMaterials[i].reference,
-            material: dataMaterials[i].material,
-            magnitud: dataMaterials[i].magnitude,
-            unidad: dataMaterials[i].unit,
-            costo: parseFloat(dataMaterials[i].cost),
-            tipo_costo: type_cost,
-          });
+          if (price_usd == '0' || plan_cost_price_usd == '0')
+            data.push({
+              referencia: dataMaterials[i].reference,
+              material: dataMaterials[i].material,
+              Categoria: dataMaterials[i].category,
+              magnitud: dataMaterials[i].magnitude,
+              unidad: dataMaterials[i].unit,
+              costo: parseFloat(dataMaterials[i].cost)
+            });
+          else {
+            parseInt(dataMaterials[i].flag_usd) == 1 ? type_cost = 'USD' : type_cost = 'COP';
+            
+            data.push({
+              referencia: dataMaterials[i].reference,
+              material: dataMaterials[i].material,
+              Categoria: dataMaterials[i].category,
+              magnitud: dataMaterials[i].magnitude,
+              unidad: dataMaterials[i].unit,
+              costo: parseFloat(dataMaterials[i].cost),
+              tipo_costo: type_cost,
+            });
+          }
         }
 
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'Materias Prima');
+      }
+
+      /* Categorias */
+      let dataCategory = await searchData('/api/categories');
+      if (dataCategory.length > 0) {
+        data = [];
+
+        for (i = 0; i < dataCategory.length; i++) {
+          data.push({
+            Categoria: dataCategory[i].category,
+          });
+        }
+
+        ws = XLSX.utils.json_to_sheet(data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Categorias');
       }
 
       /* Maquinas */
