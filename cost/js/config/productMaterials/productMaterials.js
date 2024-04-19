@@ -130,20 +130,20 @@ $(document).ready(function () {
   });
 
   // Calcular cantidad total
-  $(document).on("click keyup", ".quantity", function (e) {
-    let quantity = parseFloat($("#quantity").val());
-    let waste = parseFloat($("#waste").val());
+  // $(document).on("click keyup", ".quantity", function (e) {
+  //   let quantity = parseFloat($("#quantity").val());
+  //   let waste = parseFloat($("#waste").val());
 
-    isNaN(quantity) ? (quantity = 0) : quantity;
-    isNaN(waste) ? (waste = 0) : waste;
+  //   isNaN(quantity) ? (quantity = 0) : quantity;
+  //   isNaN(waste) ? (waste = 0) : waste;
 
-    // total
-    let total = quantity * (1 + waste / 100);
+  //   // total
+  //   let total = quantity * (1 + waste / 100);
 
-    !isFinite(total) ? (total = 0) : total;
+  //   !isFinite(total) ? (total = 0) : total;
 
-    $("#quantityYotal").val(total);
-  });
+  //   $("#quantityYotal").val(total);
+  // });
 
   /* Adicionar nueva materia prima */
   $("#btnAddMaterials").click(function (e) {
@@ -189,9 +189,9 @@ $(document).ready(function () {
     $(`#units option[value=${data.id_unit}]`).prop("selected", true);
 
     $("#quantity").val(data.quantity);
-    $("#waste").val(data.waste);
+    // $("#waste").val(data.waste);
 
-    $("#waste").click();
+    // $("#waste").click();
 
     $("html, body").animate(
       {
@@ -206,7 +206,7 @@ $(document).ready(function () {
     let ref = parseInt($("#nameMaterial").val());
     let unit = parseInt($("#units").val());
     let quan = parseFloat($("#quantity").val());
-    let waste = parseFloat($("#waste").val());
+    // let waste = parseFloat($("#waste").val());
     idProduct = parseInt($("#selectNameProduct").val());
 
     let data = ref * unit * idProduct;
@@ -329,7 +329,7 @@ $(document).ready(function () {
           magnitud: arr[i].magnitude,
           unidad: arr[i].unit,
           cantidad: arr[i].quantity,
-          desperdicio: arr[i].waste,
+          // desperdicio: arr[i].waste,
           tipo: arr[i].type,
         });
       }
