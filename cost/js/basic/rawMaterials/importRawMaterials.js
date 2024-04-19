@@ -47,10 +47,10 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'material', 'categoria', 'magnitud', 'unidad', 'costo', 'tipo_costo'];
+        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'tipo_costo'];
         
         if (flag_materials_usd == '0')
-          expectedHeaders.splice(6, 1);
+          expectedHeaders.splice(5, 1);
 
         const actualHeaders = Object.keys(data[0]);
 
