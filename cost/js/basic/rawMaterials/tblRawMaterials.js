@@ -4,25 +4,60 @@ $(document).ready(function () {
   allMaterials = [];
   visible = true;
 
-  loadAllDataMaterials = async () => {
+  loadAllData = async () => {
     try {
-      const [dataMaterials, dataProductMaterials] = await Promise.all([
+      const [dataCategory, dataMaterials, dataProductMaterials] = await Promise.all([
+        searchData('/api/categories'),
         searchData('/api/materials'),
         searchData('/api/allProductsMaterials')
       ]);
-  
+
+      if (dataCategory.length === 0) {
+        $('.categories').hide();
+        visible = false;
+      } else {
+        $('.categories').show();
+        visible = true;
+      }
+
+      let $selectCategory = $(`#idCategory`);
+      $selectCategory.empty();
+      $selectCategory.append(`<option disabled selected value='0'>Seleccionar</option>`);
+      $.each(dataCategory, function (i, value) {
+        $selectCategory.append(
+          `<option value="${value.id_category}">${value.category}</option>`
+        );
+      });
+
+      loadTblCategories(dataCategory);
+      loadTblRawMaterials(dataMaterials);
+        
+      allCategories = dataCategory;
       allMaterials = dataMaterials;
       allProductMaterials = dataProductMaterials;
-
-      setTimeout(() => {
-        loadTblRawMaterials(dataMaterials);
-      }, 500);
     } catch (error) {
       console.error('Error loading data:', error);
     }
   }
+  // loadAllDataMaterials = async () => {
+  //   try {
+  //     const [dataMaterials, dataProductMaterials] = await Promise.all([
+  //       searchData('/api/materials'),
+  //       searchData('/api/allProductsMaterials')
+  //     ]);
+  
+  //     allMaterials = dataMaterials;
+  //     allProductMaterials = dataProductMaterials;
 
-  loadAllDataMaterials();
+  //     setTimeout(() => {
+  //       loadTblRawMaterials(dataMaterials);
+  //     }, 500);
+  //   } catch (error) {
+  //     console.error('Error loading data:', error);
+  //   }
+  // }
+
+  // loadAllDataMaterials();
 
   loadTblRawMaterials = (data) => {
     tblRawMaterials = $('#tblRawMaterials').dataTable({
@@ -127,4 +162,6 @@ $(document).ready(function () {
       $(this).remove();
     }).appendTo('body');
   });
+
+  loadAllData();
 });

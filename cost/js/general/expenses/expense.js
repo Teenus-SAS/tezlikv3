@@ -14,17 +14,32 @@ $(document).ready(function () {
       $('.cardExpenseRecover').hide();
       $('.cardImportExpenses').hide();
       $('.cardNewProducts').hide();
-      $('.cardNewProduct').hide();
+      $('.cardProductionCenter').hide();
+      $('.cardAddNewProductionCenter').hide();
     } else if (this.id == 'distribution') {
       $('.cardExpenseDistribution').show();
-
-      if(flag_expense == '1')
-        $('.cardNewProducts').show();
       
+      if (flag_expense == '1')
+        $('.cardNewProducts').show();
+    
       $('.cardExpenses').hide();
       $('.cardCreateExpenses').hide();
       $('.cardImportExpensesAssignation').hide();
       $('.cardNewProduct').hide();
+      $('.cardProductionCenter').hide();
+      $('.cardAddNewProductionCenter').hide();
+    } else {
+      $('.cardProductionCenter').show();
+      $('.cardAddNewProductionCenter').hide();
+      $('.cardExpenses').hide();
+      $('.cardExpenseDistribution').hide();
+      $('.cardAddNewFamily').hide();
+      $('.cardAddProductFamily').hide();
+      $('.cardExpensesDistribution').hide();
+      $('.cardExpensesDistribution').hide();
+      $('.cardExpenseRecover').hide();
+      $('.cardImportExpenses').hide();
+      $('.cardNewProducts').hide();
     }
 
     let tables = document.getElementsByClassName(
