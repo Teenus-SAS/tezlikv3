@@ -277,7 +277,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 } else {
                     $materials[$i]['usd'] = 1;
 
-                    $cost = $materials[$i]['costRawMaterial'];
+                    $cost = str_replace(',', '.', $materials[$i]['costRawMaterial']);
                     $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
                     $coverage = $_SESSION['coverage'];
@@ -317,7 +317,8 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 } else {
                     $materials[$i]['usd'] = 1;
 
-                    $cost = $materials[$i]['costRawMaterial'];
+                    $cost = str_replace(',', '.', $materials[$i]['costRawMaterial']);
+
                     $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
                     $coverage = $_SESSION['coverage'];

@@ -47,7 +47,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'tipo_costo'];
+        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'tipo_moneda'];
         
         if (price_usd == '0' || plan_cost_price_usd == '0')
           expectedHeaders.splice(5, 1);
@@ -74,7 +74,7 @@ $(document).ready(function () {
           if (price_usd == '0' || plan_cost_price_usd == '0')
             typeCost = 'COP';
           else
-            typeCost = item.tipo_costo;          
+            typeCost = item.tipo_moneda;          
 
             return {
               refRawMaterial: item.referencia,

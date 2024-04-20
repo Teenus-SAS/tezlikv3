@@ -1,6 +1,8 @@
 <?php
 
+use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\LicenseCompanyDao;
+use tezlikv3\dao\MaterialsDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\Dao\TrmDao;
@@ -8,6 +10,8 @@ use tezlikv3\Dao\TrmDao;
 $trmDao = new TrmDao();
 $pricesUSDDao = new PriceUSDDao();
 $productsDao = new ProductsDao();
+$materialsDao = new MaterialsDao();
+$generalMaterialsDao = new GeneralMaterialsDao();
 $licenceCompanyDao = new LicenseCompanyDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -65,6 +69,7 @@ $app->get('/priceUSD/{coverage}', function (Request $request, Response $response
     $licenceCompanyDao,
     $pricesUSDDao,
     $productsDao,
+    $generalMaterialsDao,
     $trmDao
 ) {
     session_start();
@@ -107,6 +112,31 @@ $app->get('/priceUSD/{coverage}', function (Request $request, Response $response
     $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage, $deviation, $id_company);
 
     $_SESSION['coverage'] = $coverage;
+
+    // Materiales
+    $materials = $generalMaterialsDao->findAllMaterialsUSDByCompany($id_company);
+
+    foreach ($materials as $arr) {
+        $formatCoverage = sprintf('$%s', number_format($coverage, 2, ',', '.'));
+
+        $trm = $actualTrm[0]['valor'];
+        $formatTrm = sprintf('$%s', number_format($trm, 2, ',', '.'));
+
+        $cost_cop = $arr['cost'];
+        $cost_usd = floatval($cost_cop) / floatval($coverage);
+        $formatCost = sprintf('$%s', number_format($cost_usd, 2, ',', '.'));
+
+        $data = [];
+        $data['date'] = date('Y-m-d');
+        $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverage. TRM Actual: $formatTrm";
+        $data['idMaterial'] = $arr['id_material'];
+        $data['cost_usd'] = $cost_usd;
+
+        $resolution = $generalMaterialsDao->saveBillMaterial($data);
+        if ($resolution != null) break;
+        $resolution = $generalMaterialsDao->saveCostUSDMaterial($data);
+        if ($resolution != null) break;
+    }
 
     if ($resolution == null)
         $resp = array('success' => true, 'coverage' => $coverage, 'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage);

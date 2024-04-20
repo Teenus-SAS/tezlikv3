@@ -38,7 +38,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.6.6/dragula.min.js"></script> -->
 
-
 <!-- xlsx -->
 <!-- <script lang="javascript" src="/app/assets/libs/xlsx/xlsx.full.min.js"></script> -->
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script> -->

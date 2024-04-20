@@ -65,7 +65,7 @@ $(document).ready(function () {
 
         let resp = await sendDataPOST(url, dataCategory);
 
-        messageCategories(resp);
+        messageCategories(resp, 1);
     };
 
     /* Eliminar categoria */
@@ -102,7 +102,7 @@ $(document).ready(function () {
                     $.get(
                         `../../api/deleteCategory/${id_category}`,
                         function (data, textStatus, jqXHR) {
-                            messageCategories(data);
+                            messageCategories(data, 2);
                         }
                     );
                 }
@@ -111,7 +111,7 @@ $(document).ready(function () {
     };
 
     /* Mensaje de exito */
-    messageCategories = async (data) => {
+    messageCategories = async (data, op) => {
         $('#fileCategories').val('');
         $('.cardLoading').remove();
         $('.cardBottons').show(400);
@@ -122,9 +122,7 @@ $(document).ready(function () {
             $('.cardAddCategories').hide(800);
             $('#formCreateCategory').trigger('reset');
             toastr.success(data.message);
-            await loadAllData(); 
-
-            // loadTblRawMaterials(allMaterials);
+            await loadAllData(op);
             return false;
         } else if (data.error == true) toastr.error(data.message);
         else if (data.info == true) toastr.info(data.message);

@@ -36,6 +36,20 @@ class GeneralMaterialsDao
         return $materials;
     }
 
+    public function findAllMaterialsUSDByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM materials 
+                                      WHERE id_company = :id_company AND flag_usd = 1");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("materials", array('materials' => $materials));
+        return $materials;
+    }
+
     /* Consultar si existe materia prima en la BD */
     public function findMaterial($dataMaterial, $id_company)
     {

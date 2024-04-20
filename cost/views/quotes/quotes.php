@@ -126,6 +126,9 @@ if (sizeof($_SESSION) == 0)
 		custom_price = "<?= $_SESSION['custom_price'] ?>";
 		type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
 		flag_expense = "<?= $_SESSION['flag_expense'] ?>";
+
+		price_usd = "<?= $_SESSION['price_usd'] ?>";
+		plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
 		flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
 		flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
 		indirect = 1;
