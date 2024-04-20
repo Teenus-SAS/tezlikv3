@@ -84,6 +84,12 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                     <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                            <div class="col-xs-2 mr-2 text-dark">
+                                                <label>Centro Produccion</label>
+                                                <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses"></select>
+                                            </div>
+                                        <?php } ?>
                                         <div class="col-xs-2 mr-2">
                                             <button class="btn btn-warning" id="btnNewExpense">Nuevo Gasto</button>
                                         </div>
@@ -135,29 +141,39 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             <?php } ?>
                                         </div>
+                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                            <div class="col-sm-12 col-xl-12 form-inline justify-content-sm-end">
+                                                <div class="col-xs-2 mr-2 text-dark">
+                                                    <label>Centro Produccion</label>
+                                                    <select class="form-control selectProductionCenter" id="selectProductionCenterED"></select>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                     </div>
                                 <?php } ?>
-                                <!-- <div class="tab-pane cardProductionCenter" style="display: none;">
-                                    <div class="row align-items-center">
-                                        <div class="col-sm-5 col-xl-6">
-                                            <div class="page-title">
-                                                <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-currency-dollar mr-1"></i>Centros de Produccion</h3>
-                                                <ol class="breadcrumb mb-3 mb-md-0">
-                                                    <li class="breadcrumb-item active">Ingrese todos los gastos de su empresa de acuerdo con su contabilidad</li>
-                                                </ol>
+                                <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                    <div class="tab-pane cardProductionCenter" style="display: none;">
+                                        <div class="row align-items-center">
+                                            <div class="col-sm-5 col-xl-6">
+                                                <div class="page-title">
+                                                    <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-currency-dollar mr-1"></i>Centros de Produccion</h3>
+                                                    <ol class="breadcrumb mb-3 mb-md-0">
+                                                        <li class="breadcrumb-item active">Ingrese todos los gastos de su empresa de acuerdo con su contabilidad</li>
+                                                    </ol>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                            <div class="col-xs-2 mr-2">
-                                                <button class="btn btn-warning" id="btnNewProductionCenter">Nuevo Centro Produccion</button>
-                                            </div>
-                                             <div class="col-xs-2 py-2 mr-2">
-                                                <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
+                                            <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                                <div class="col-xs-2 mr-2">
+                                                    <button class="btn btn-warning" id="btnNewProductionCenter">Nuevo Centro Produccion</button>
+                                                </div>
+                                                <div class="col-xs-2 py-2 mr-2">
+                                                    <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div> -->
+                                <?php } ?>
                                 </div>
                     </div>
 
@@ -221,8 +237,6 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         </div>
-
-
                     <?php } ?>
                     <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                         <!-- Distribucion -->
@@ -446,29 +460,31 @@ if (sizeof($_SESSION) == 0)
                         </div>
                     <?php } ?>
 
-                    <!-- <div class="page-content-wrapper mt--45 mb-5 cardAddNewProductionCenter" style="display: none;">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <form id="formAddPCenter">
-                                                <div class="form-row">
-                                                    <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
-                                                        <input type="text" class="form-control" id="production" name="production">
-                                                        <label for="family">Centro De Produccion</label>
+                    <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                        <div class="page-content-wrapper mt--45 mb-5 cardAddNewProductionCenter" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formAddPCenter">
+                                                    <div class="form-row">
+                                                        <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <input type="text" class="form-control" id="production" name="production">
+                                                            <label for="family">Centro De Produccion</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="margin-top:12px">
+                                                            <button class="btn btn-primary" id="btnSavePCenter">Guardar</button>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-xs-2" style="margin-top:12px">
-                                                        <button class="btn btn-primary" id="btnSavePCenter">Guardar</button>
-                                                    </div>
-                                                </div>
-                                            </form>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> -->
+                    <?php } ?>
 
                     <!-- page content -->
                     <div class="page-content-wrapper mt--45">
@@ -507,11 +523,13 @@ if (sizeof($_SESSION) == 0)
                                                         </a>
                                             </li>
                                         <?php } ?>
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link selectNavigation" id="navProductionCenter" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                                <i class="fas fa-flask mr-1"></i>Centro Produccion
-                                            </a>
-                                        </li> -->
+                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                            <li class="nav-item">
+                                                <a class="nav-link selectNavigation" id="navProductionCenter" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                    <i class="fas fa-flask mr-1"></i>Centro Produccion
+                                                </a>
+                                            </li>
+                                        <?php } ?>
                                     </ul>
                                 </div>
                             </div>
@@ -585,17 +603,17 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                     </div>
                                                 <?php } ?>
-
-                                                <!-- <div class="tab-pane cardProductionCenter" style="display: none;">
-                                                    <div class="card-body">
-                                                        <div class="table-responsive">
-                                                            <table class="table table-striped" id="tblPCenter">
-                                                            </table>
+                                                <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                    <div class="tab-pane cardProductionCenter" style="display: none;">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped" id="tblPCenter">
+                                                                </table>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div> -->
+                                                <?php } ?>
                                                 </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -615,6 +633,8 @@ if (sizeof($_SESSION) == 0)
                 flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                 type_expense = "<?= $_SESSION['type_expense'] ?>";
                 flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
+                production_center = "<?= $_SESSION['production_center'] ?>";
+                flag_production_center = "<?= $_SESSION['flag_production_center'] ?>";
             </script>
 
             <script src="../global/js/import/import.js"></script>
@@ -653,9 +673,11 @@ if (sizeof($_SESSION) == 0)
                     <script src="/cost/js/general/expenseRecover/configProducts.js"></script>
                 <?php } ?>
             <?php } ?>
-            <!-- <script src="/cost/js/general/productionCenter/productionCenter.js"></script>
-            <script src="/cost/js/general/productionCenter/tblProductionCenter.js"></script> -->
-
+            <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                <script src="/cost/js/general/productionCenter/productionCenter.js"></script>
+                <script src="/cost/js/general/productionCenter/tblProductionCenter.js"></script>
+                <script src="/cost/js/general/productionCenter/configProductionCenter.js"></script>
+            <?php } ?>
 </body>
 
 </html>

@@ -189,7 +189,6 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $dataProductsProcess = sizeof($dataProductProcess);
 
     if ($dataProductsProcess > 1) {
-
         $productProcess = $productsProcessDao->findProductProcess($dataProductProcess, $id_company);
 
         if (!$productProcess) {

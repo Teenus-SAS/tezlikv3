@@ -166,6 +166,7 @@ $(document).ready(function () {
     dataUser['payrollLoad'] = 1;
     dataUser['expense'] = 1;
     dataUser['expenseDistribution'] = 1;
+    dataUser['production'] = 1;
     dataUser['costUser'] = 1;
     dataUser['costBackup'] = 1;
     dataUser['quotePaymentMethod'] = 1;

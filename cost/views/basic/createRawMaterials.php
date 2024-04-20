@@ -87,9 +87,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
                                     </div>
-                                    <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Moneda (USD)</button>
-                                    </div>
+                                    <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                        <div class="col-xs-2 py-2 mr-2">
+                                            <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Moneda (USD)</button>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -155,9 +157,11 @@ if (sizeof($_SESSION) == 0)
                                                     <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
                                                 </div>
                                             </div>
-                                            <div class="alert alert-warning mt-3 cardAlertPrice" role="alert">
-                                                Ingrese el valor de compra en COP
-                                            </div>
+                                            <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                                <div class="alert alert-warning mt-3 cardAlertPrice" role="alert">
+                                                    Ingrese el valor de compra en COP
+                                                </div>
+                                            <?php } ?>
                                         </form>
                                     </div>
                                 </div>
@@ -309,6 +313,8 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
+        price_usd = "<?= $_SESSION['price_usd'] ?>";
+        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
     </script>
     <script src="/global/js/global/configMagnitudes.js"></script>
     <script src="/global/js/global/configUnits.js"></script>

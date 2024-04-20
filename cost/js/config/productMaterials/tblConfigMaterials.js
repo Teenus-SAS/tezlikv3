@@ -69,12 +69,21 @@ $(document).ready(function () {
       data = [...data, ...dataCompositeProduct];
     } 
 
+    // let waste = 0;
+
+    // data.forEach(item => {
+    //   waste += parseFloat(item.waste);
+    // });
+
+    // waste == 0 ? visible = false : visible = true;
+
     if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
       var table = $("#tblConfigMaterials").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual
       table.clear();
       table.rows.add(data).draw();
       table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
+      // $('#tblConfigMaterials').DataTable().column(5).visible(visible);
       return;
     }
     
@@ -126,17 +135,18 @@ $(document).ready(function () {
             return data;
           },
         },
-        {
-          title: 'Desperdicio',
-          data: 'waste',
-          className: 'classCenter',
-          render: function (data) {
-            data = parseFloat(data);
-            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+        // {
+        //   title: 'Desperdicio',
+        //   data: 'waste',
+        //   className: 'classCenter',
+        //   visible: visible,
+        //   render: function (data) {
+        //     data = parseFloat(data);
+        //     data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-            return `${data} %`;
-          },
-        },
+        //     return `${data} %`;
+        //   },
+        // },
         {
           title: 'Precio Unitario',
           data: 'cost_product_material',
@@ -163,14 +173,16 @@ $(document).ready(function () {
       ],
       footerCallback: function (row, data, start, end, display) {
         let quantity = 0;
-        let waste = 0;
+        // let waste = 0;
         let cost = 0;
         
         for (let i = 0; i < display.length; i++) {
           quantity += parseFloat(data[display[i]].quantity);
-          waste += parseFloat(data[display[i]].waste);
+          // waste += parseFloat(data[display[i]].waste);
           cost += parseFloat(data[display[i]].cost_product_material);
         }
+
+        // waste = waste / display.length;
 
         $(this.api().column(4).footer()).html(
           quantity.toLocaleString('es-CO', {
@@ -179,12 +191,12 @@ $(document).ready(function () {
           })
         );
 
-        $(this.api().column(5).footer()).html(
-          `${waste.toLocaleString('es-CO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })} %`
-        );
+        // $(this.api().column(5).footer()).html(
+        //   `${waste.toLocaleString('es-CO', {
+        //     minimumFractionDigits: 2,
+        //     maximumFractionDigits: 2,
+        //   })} %`
+        // );
 
         $(this.api().column(5).footer()).html(
           `$ ${cost.toLocaleString('es-CO', {

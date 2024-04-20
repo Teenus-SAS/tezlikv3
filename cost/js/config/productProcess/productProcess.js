@@ -34,11 +34,11 @@ $(document).ready(function () {
   $(document).on("click keyup", ".time", function (e) {
     let tOperation = parseFloat($("#operationTime").val());
     let tEnlistment = parseFloat($("#enlistmentTime").val());
-    let efficiency = parseFloat($("#efficiency").val());
+    // let efficiency = parseFloat($("#efficiency").val());
 
     isNaN(tOperation) ? (tOperation = 0) : tOperation;
     isNaN(tEnlistment) ? (tEnlistment = 0) : tEnlistment;
-    isNaN(efficiency) ? (efficiency = 0) : efficiency;
+    // isNaN(efficiency) || efficiency == 0 ? (efficiency = 100) : efficiency;
 
     // Subtotal
     if (inyection == 1)
@@ -50,10 +50,10 @@ $(document).ready(function () {
     $("#subTotalTime").val(subtotal);
 
     // Total
-    total = subtotal / (efficiency / 100);
-    !isFinite(total) ? (total = 0) : (total = total.toFixed(2));
+    // total = subtotal / (efficiency / 100);
+    // !isFinite(total) ? (total = 0) : (total = total.toFixed(2));
 
-    $("#totalTime").val(total);
+    // $("#totalTime").val(total);
   });
 
   /* Adicionar nuevo proceso */
@@ -92,7 +92,7 @@ $(document).ready(function () {
     } else $("#enlistmentTime").val(data.enlistment_time);
 
     $("#operationTime").val(data.operation_time);
-    $("#efficiency").val(data.efficiency);
+    // $("#efficiency").val(data.efficiency);
 
     $("#enlistmentTime").click();
 
@@ -119,7 +119,7 @@ $(document).ready(function () {
     let refM = parseInt($("#idMachine").val());
     let enlistmentTime = parseFloat($("#enlistmentTime").val());
     let operationTime = parseFloat($("#operationTime").val());
-    let efficiency = parseFloat($("#efficiency").val());
+    // let efficiency = parseFloat($("#efficiency").val());
     let status = parseInt(
       $("#idProcess").find("option:selected").attr("class")
     );

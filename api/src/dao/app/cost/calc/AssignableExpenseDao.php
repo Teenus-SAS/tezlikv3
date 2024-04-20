@@ -38,6 +38,26 @@ class AssignableExpenseDao
         }
         return $unitVol;
     }
+    // Consulta unidades vendidades y volumenes de venta por centro produccion
+    public function findAllExpensesDistributionByProduction($id_production_center)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT ed.id_expenses_distribution, ed.id_product, ed.id_company, ed.units_sold, ed.turnover, ed.assignable_expense 
+                                          FROM expenses_distribution ed 
+                                            INNER JOIN products p ON p.id_product = ed.id_product 
+                                            INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
+                                          WHERE ed.id_production_center = :id_production_center AND p.active = 1
+                                          AND (ed.units_sold > 0 AND ed.turnover > 0)");
+            $stmt->execute(['id_production_center' => $id_production_center]);
+            $unitVol = $stmt->fetchAll($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $unitVol = array('info' => true, 'message' => $message);
+        }
+        return $unitVol;
+    }
 
     // Calcular el total de unidades vendidas y volumen de ventas
     public function findTotalUnitsVol($id_company)
@@ -52,6 +72,26 @@ class AssignableExpenseDao
                                           WHERE ed.id_company = :id_company AND p.active = 1 -- AND pc.new_product = 0
                                           ");
             $stmt->execute(['id_company' => $id_company]);
+            $totalUnitVol = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $totalUnitVol = array('info' => true, 'message' => $message);
+        }
+        return $totalUnitVol;
+    }
+
+    // Calcular el total de unidades vendidas y volumen de ventas por centro de produccion
+    public function findTotalUnitsVolByProduction($id_production_center)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
+                                          FROM expenses_distribution ed 
+                                            INNER JOIN products p ON p.id_product = ed.id_product 
+                                            INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
+                                          WHERE ed.id_production_center = :id_production_center AND p.active = 1");
+            $stmt->execute(['id_production_center' => $id_production_center]);
             $totalUnitVol = $stmt->fetch($connection::FETCH_ASSOC);
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -86,6 +126,22 @@ class AssignableExpenseDao
         try {
             $stmt = $connection->prepare("SELECT total_expense FROM general_data WHERE id_company = :id_company");
             $stmt->execute(['id_company' => $id_company]);
+            $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $totalExpense = array('info' => true, 'message' => $message);
+        }
+        return $totalExpense;
+    }
+
+    // Obtener total de gastos por centro produccion
+    public function findTotalExpenseByProduction($id_production_center)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT SUM(expense_value) AS expenses_value FROM expenses WHERE id_production_center = :id_production_center");
+            $stmt->execute(['id_production_center' => $id_production_center]);
             $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
         } catch (\Exception $e) {
             $message = $e->getMessage();

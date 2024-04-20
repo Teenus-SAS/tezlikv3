@@ -175,7 +175,7 @@ $(document).ready(function () {
   totalCostData = (data) => {
     let typePrice = sessionStorage.getItem('typePrice');
 
-    if (typePrice == '1' || !typePrice || price_usd == '0'|| plan_cost_price_usd == '0')
+    if (typePrice == '1' || !typePrice || price_usd == '0' || plan_cost_price_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -327,7 +327,7 @@ $(document).ready(function () {
                   </div>`;
       $('#actualSalePrice').addClass('text-danger');
     }
-    else { 
+    else {
       content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">

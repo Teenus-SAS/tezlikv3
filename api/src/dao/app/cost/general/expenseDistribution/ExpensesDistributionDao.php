@@ -19,7 +19,7 @@ class ExpensesDistributionDao
     public function findAllExpensesDistributionByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT me.id_expenses_distribution, p.id_product, p.reference, p.product, pc.new_product,
+        $stmt = $connection->prepare("SELECT me.id_expenses_distribution, p.id_product, p.reference, p.product, pc.new_product, me.id_production_center,
                                              me.units_sold, me.turnover, me.assignable_expense, (((me.units_sold / total_units_sold) + (me.turnover / total_turnover)) / 2) * 100 AS participation
                                       FROM expenses_distribution me
                                         INNER JOIN products p ON p.id_product = me.id_product
@@ -59,11 +59,12 @@ class ExpensesDistributionDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, units_sold, turnover)
-                                          VALUES (:id_product, :id_company, :units_sold, :turnover)");
+            $stmt = $connection->prepare("INSERT INTO expenses_distribution (id_product, id_company, id_production_center, units_sold, turnover)
+                                          VALUES (:id_product, :id_company, :id_production_center, :units_sold, :turnover)");
             $stmt->execute([
                 'id_product' => trim($dataExpensesDistribution['selectNameProduct']),
                 'id_company' => $id_company,
+                'id_production_center' => $dataExpensesDistribution['production'],
                 'units_sold' => $dataExpensesDistribution['unitsSold'],
                 'turnover' => $dataExpensesDistribution['turnover']
             ]);
@@ -89,11 +90,12 @@ class ExpensesDistributionDao
         //     $turnover = str_replace(',', '.', $turnover);
 
         try {
-            $stmt = $connection->prepare("UPDATE expenses_distribution SET id_product = :id_product, units_sold = :units_sold, turnover = :turnover
+            $stmt = $connection->prepare("UPDATE expenses_distribution SET id_product = :id_product, id_production_center = :id_production_center, units_sold = :units_sold, turnover = :turnover
                                           WHERE id_expenses_distribution = :id_expenses_distribution");
             $stmt->execute([
                 'id_expenses_distribution' => trim($dataExpensesDistribution['idExpensesDistribution']),
                 'id_product' => trim($dataExpensesDistribution['selectNameProduct']),
+                'id_production_center' => $dataExpensesDistribution['production'],
                 'units_sold' => $dataExpensesDistribution['unitsSold'],
                 'turnover' => $dataExpensesDistribution['turnover']
             ]);

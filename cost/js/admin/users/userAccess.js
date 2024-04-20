@@ -38,7 +38,8 @@ $(document).ready(function () {
                 $(`.${index}`).show();
         });
 
-        if (data.expense == 0 && data.expense_distribution == 0) {
+        if (data.expense == 0 && data.expense_distribution == 0 &&
+            data.cost_multiproduct == 0 && data.production_center == 0) {
             $('.aExpenses').hide();
         } else {
             $('.aExpenses').show();

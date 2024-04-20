@@ -49,7 +49,7 @@ $(document).ready(function () {
     });
 
     /* Revision data procesos */
-    checkDataProcess = async (url, id_production_center) => {
+    checkDataPCenter = async (url, id_production_center) => {
         let production_center = $('#production').val();
 
         if (production_center.trim() == '' || !production_center.trim()) {
@@ -121,16 +121,10 @@ $(document).ready(function () {
             $('.cardAddNewProductionCenter').hide(800);
             $('#formAddPCenter').trigger('reset');
       
-            updateTable();
+            loadAllDataPCenter();
             toastr.success(data.message);
             return false;
         } else if (data.error == true) toastr.error(data.message);
         else if (data.info == true) toastr.info(data.message);
     };
-
-    /* Actualizar tabla */
-    function updateTable() {
-        $('#tblPCenter').DataTable().clear();
-        $('#tblPCenter').DataTable().ajax.reload();
-    }
 });

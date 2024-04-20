@@ -89,6 +89,7 @@ $(document).ready(function () {
     $('#units').empty();
     $('.cardRawMaterials').show(800);
     $('#btnCreateMaterial').html('Actualizar');
+    $('#formCreateMaterial').trigger('reset');
 
     let idMaterial = this.id;
     sessionStorage.setItem('id_material', idMaterial);
@@ -102,21 +103,25 @@ $(document).ready(function () {
     loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
     
-    if (data.flag_usd == 1) {
-      $('#costRawMaterial').val(data.cost_usd);
-      document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
-      document.getElementById('btnPriceUSD').innerText = 'Moneda (COP)';
-      var costRawMaterial = document.getElementById('costRawMaterial');
-      costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD'); 
-      $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
-    } else {
-      $('#costRawMaterial').val(data.cost);
-      document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-outline-primary';      
-      document.getElementById('btnPriceUSD').innerText = 'Moneda (USD)'; 
-      var costRawMaterial = document.getElementById('costRawMaterial');
-      costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');  
-      $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
-    } 
+        if (price_usd == '1' && plan_cost_price_usd == '1') {
+      if (data.flag_usd == 1) {
+        $('#costRawMaterial').val(data.cost_usd);
+        document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
+        document.getElementById('btnPriceUSD').innerText = 'Moneda (COP)';
+        var costRawMaterial = document.getElementById('costRawMaterial');
+        costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD');
+        $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
+      } else {
+        $('#costRawMaterial').val(data.cost);
+        document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-outline-primary';
+        document.getElementById('btnPriceUSD').innerText = 'Moneda (USD)';
+        var costRawMaterial = document.getElementById('costRawMaterial');
+        costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');
+        $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
+      }
+    } else 
+      $('#costRawMaterial').val(data.cost);      
+    
 
     $('html, body').animate(
       {
@@ -155,8 +160,12 @@ $(document).ready(function () {
     }
 
     let dataMaterial = new FormData(formCreateMaterial);
-    let className = document.getElementById('btnPriceUSD').className;
-    className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
+    
+    if (price_usd == '1' || plan_cost_price_usd == '1') {
+      let className = document.getElementById('btnPriceUSD').className;
+      className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
+    } else
+      usd = 0;
     
     dataMaterial.append('usd', usd);
     dataMaterial.append('idCategory', category);

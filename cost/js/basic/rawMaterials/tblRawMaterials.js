@@ -115,10 +115,13 @@ $(document).ready(function () {
             } else
               cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 }); 
 
-            if (data.flag_usd == 0)
+            if (price_usd == '1' && plan_cost_price_usd == '1') {
+              if (data.flag_usd == 0)
+                text = `$ ${cost}`;
+              else
+                text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
+            } else
               text = `$ ${cost}`;
-            else
-            text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
 
             return text;
           },

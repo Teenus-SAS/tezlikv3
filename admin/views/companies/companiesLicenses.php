@@ -120,6 +120,10 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <!-- <div class="col-xs-3 text-center mr-2 mt-4">
+                                                    <label>Materiales USD</label><br>
+                                                    <input type="checkBox" class="form-control-updated" name="materialsUSD" id="materialsUSD">
+                                                </div> -->
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
                                                     <label>Procesos Nomina</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="payrollEmployee" id="payrollEmployee">
@@ -139,6 +143,10 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-xs-3 text-center mr-2 mt-4">
                                                     <label>Inyección</label><br>
                                                     <input type="checkBox" class="form-control-updated" name="inyection" id="inyection">
+                                                </div>
+                                                <div class="col-xs-3 text-center mr-2 mt-4">
+                                                    <label>C. Produccion</label><br>
+                                                    <input type="checkBox" class="form-control-updated" name="production" id="production">
                                                 </div>
                                                 <div class="col-xs">
                                                     <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 25px">Actualizar</button>

@@ -127,6 +127,8 @@
                                                                     || $_SESSION['expense_distribution'] == 1
                                                                     || $_SESSION['cost_multiproduct'] == 1
                                                                     || $_SESSION['plan_cost_multiproduct'] == 1
+                                                                    || ($_SESSION['production_center'] == 1
+                                                                        && $_SESSION['flag_production_center'] == 1)
                                                                 ) { ?>
                                                                     <li class="aExpenses">
                                                                     <?php } else { ?>
@@ -237,18 +239,19 @@
                                                 $avatar = $_SESSION['avatar'];
                                             ?>
                                             <img id="hAvatar" src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
-                                            <span class="d-none d-xl-inline-block ml-1 userName"><?php if (!empty($_SESSION))
-                                                                                                        echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?>
-                                            </span>
+                                            <div class="user-info" style="display: inline-block;">
+                                                <span class="d-none d-xl-inline-block ml-1 userName" style="display: block; margin-bottom: 5px;"><?php if (!empty($_SESSION))
+                                                                                                                                                        echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
+                                                <br>
+                                                <span class="role" style="font-size: 0.8rem;"><?php if (!empty($_SESSION))
+                                                                                                    echo  $_SESSION['position']; ?></span>
+                                            </div>
                                             <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
                                         </button>
                                         <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
                                             <a href="/cost/profile" class="dropdown-item">
                                                 <i class="bx bx-user mr-1"></i> Perfil
                                             </a>
-                                            <!-- <a href="/cost/configuration" class="dropdown-item">
-                        <i class="bx bx-wrench mr-1"></i> Configuración
-                    </a> -->
                                             <div class="dropdown-divider"></div>
                                             <a href="javascript: void(0);" class="text-danger dropdown-item logout">
                                                 <i class="bx bx-log-in mr-1 text-danger"></i> Salir

@@ -18,12 +18,7 @@ $(document).ready(function () {
 
   /* Cargue tabla de Proyectos */
 
-  loadTblProducts = (data) => {
-    // if ($.fn.dataTable.isDataTable("#tblProducts")) {
-    //   $("#tblProducts").DataTable().clear();
-    //   $("#tblProducts").DataTable().rows.add(data).draw();
-    //   return;
-    // }
+  loadTblProducts = (data) => { 
     if ($.fn.dataTable.isDataTable("#tblProducts")) {
       var table = $("#tblProducts").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual
