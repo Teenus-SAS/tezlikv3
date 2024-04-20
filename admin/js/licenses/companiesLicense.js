@@ -23,7 +23,7 @@ $(document).ready(function () {
       let license_end = $('#license_end').val();
       let quantityUsers = $('#quantityUsers').val();
       let plan = $('#plan').val();
-      let materialsUSD = $('#materialsUSD').is(':checked');
+      // let materialsUSD = $('#materialsUSD').is(':checked');
       let pricesUSD = $('#pricesUSD').val();
       let payrollEmployee = $('#payrollEmployee').is(':checked');
       let compositeProducts = $('#compositeProducts').is(':checked');
@@ -31,7 +31,7 @@ $(document).ready(function () {
       let indirect = $('#indirect').is(':checked');
       let inyection = $('#inyection').is(':checked');
 
-      data = company * quantityUsers * plan * pricesUSD * materialsUSD;
+      data = company * quantityUsers * plan * pricesUSD;
 
       if (license_start == '' || license_end == '' || !data || data == null) {
         toastr.error('Ingrese todos los campos');
@@ -43,7 +43,7 @@ $(document).ready(function () {
         return false;
       }
 
-      materialsUSD == '1' ? (materialsUSD = '1') : (materialsUSD = '0');
+      // materialsUSD == '1' ? (materialsUSD = '1') : (materialsUSD = '0');
       pricesUSD == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
       payrollEmployee == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
       compositeProducts == true ? (compositeProducts = '1') : (compositeProducts = '0');
@@ -54,7 +54,7 @@ $(document).ready(function () {
 
       license = $('#formAddLicense').serialize();
 
-      license = `${license}&materialUSD=${materialsUSD}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&production=${production}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
+      license = `${license}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&production=${production}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
 
       $.post('/api/addLicense', license, function (data, textStatus, jqXHR) {
         message(data);
@@ -83,8 +83,8 @@ $(document).ready(function () {
 
     $(`#pricesUSD option[value=${pricesUSD}]`).prop('selected', true);
     
-    if (data.flag_materials_usd == '1')
-      $(`#materialsUSD`).prop('checked', true);
+    // if (data.flag_materials_usd == '1')
+    //   $(`#materialsUSD`).prop('checked', true);
     if (data.flag_employee == '1')
       $(`#payrollEmployee`).prop('checked', true);
     if (data.flag_composite_product == '1')
@@ -108,7 +108,7 @@ $(document).ready(function () {
     $('#company').prop('disabled', false);
 
     $('#pricesUSD').val() == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
-    $('#materialsUSD').is(':checked') == true ? (materialsUSD = '1') : (materialsUSD = '0');
+    // $('#materialsUSD').is(':checked') == true ? (materialsUSD = '1') : (materialsUSD = '0');
     $('#payrollEmployee').is(':checked') == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
     $('#compositeProducts').is(':checked') == true ? (compositeProducts = '1') : (compositeProducts = '0');
     $('#production').is(':checked') == true ? (production = '1') : (production = '0');
@@ -118,7 +118,7 @@ $(document).ready(function () {
 
     dataCompany = $('#formAddLicense').serialize();
 
-    dataCompany = `${dataCompany}&materialUSD=${materialsUSD}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&production=${production}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
+    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&production=${production}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
 
     $.post('/api/updateLicense', dataCompany, function (data) {
       message(data);

@@ -78,13 +78,13 @@ $(document).ready(function () {
         render: function (data, type, row) {
           const permissions = [];
 
-          permissions.push({
-            name: "Materiales USD",
-            icon: data.flag_materials_usd == 1
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          // permissions.push({
+          //   name: "Materiales USD",
+          //   icon: data.flag_materials_usd == 1
+          //     ? "bi bi-check-circle-fill text-success"
+          //     : "bi bi-x-circle-fill text-danger",
+          //   color: { text: "black" },
+          // });
           
           permissions.push({
             name: "Precios USD",

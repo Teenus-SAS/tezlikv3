@@ -18,15 +18,19 @@ class GeneralCategoriesDao
 
     public function findCategory($dataCategory, $id_company)
     {
-        $connection = Connection::getInstance()->getConnection();
+        try {
+            $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT id_category FROM categories
+            $stmt = $connection->prepare("SELECT id_category FROM categories
                                   WHERE category = :category AND id_company = :id_company");
-        $stmt->execute([
-            'category' => strtoupper(trim($dataCategory['category'])),
-            'id_company' => $id_company
-        ]);
-        $findCategory = $stmt->fetch($connection::FETCH_ASSOC);
-        return $findCategory;
+            $stmt->execute([
+                'category' => strtoupper(trim($dataCategory['category'])),
+                'id_company' => $id_company
+            ]);
+            $findCategory = $stmt->fetch($connection::FETCH_ASSOC);
+            return $findCategory;
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 }
