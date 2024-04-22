@@ -103,7 +103,7 @@ $(document).ready(function () {
     loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
     
-        if (price_usd == '1' && plan_cost_price_usd == '1') {
+    if (price_usd == '1' && plan_cost_price_usd == '1') {
       if (data.flag_usd == 1) {
         $('#costRawMaterial').val(data.cost_usd);
         document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
@@ -119,8 +119,8 @@ $(document).ready(function () {
         costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');
         $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
       }
-    } else 
-      $('#costRawMaterial').val(data.cost);      
+    } else
+      $('#costRawMaterial').val(data.cost);
     
 
     $('html, body').animate(
@@ -161,7 +161,7 @@ $(document).ready(function () {
 
     let dataMaterial = new FormData(formCreateMaterial);
     
-    if (price_usd == '1' || plan_cost_price_usd == '1') {
+    if (price_usd == '1' && plan_cost_price_usd == '1') {
       let className = document.getElementById('btnPriceUSD').className;
       className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
     } else

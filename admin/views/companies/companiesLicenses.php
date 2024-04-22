@@ -61,9 +61,9 @@ if (sizeof($_SESSION) == 0)
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <form id="formAddLicense">
+                                <form id="formAddLicense">
+                                    <div class="card">
+                                        <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     <div class="form-group m-0">
@@ -109,52 +109,90 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5>Funciones Adicionales</h5>
                                             <div class="row mt-4">
                                                 <div class="col-sm-2">
                                                     <div class="form-group m-0">
                                                         <label>Precios USD</label>
                                                         <select name="pricesUSD" id="pricesUSD" class="form-control">
-                                                            <option selected="" disabled="" value="0">Seleccionar</option>
+                                                            <option selected disabled value="0">Seleccionar</option>
                                                             <option value="1">Si</option>
                                                             <option value="2">No</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label>Materiales USD</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="materialsUSD" id="materialsUSD">
-                                                </div> -->
-                                                <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label>Procesos Nomina</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="payrollEmployee" id="payrollEmployee">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group m-0">
+                                                        <label>Procesos Nomina</label>
+                                                        <select name="payrollEmployee" id="payrollEmployee" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label>Productos Compuestos</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="compositeProducts" id="compositeProducts">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group m-0">
+                                                        <label>Productos Compuestos</label>
+                                                        <select name="compositeProducts" id="compositeProducts" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label>Historico</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="historical" id="historical">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group m-0">
+                                                        <label>Historico</label>
+                                                        <select name="historical" id="historical" class="form-control">
+                                                            <option selected="" disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label>Materiales</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="indirect" id="indirect">
+                                                <div class="col-sm-2">
+                                                    <div class="form-group m-0">
+                                                        <label>Materiales</label>
+                                                        <select name="indirect" id="indirect" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label>Inyección</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="inyection" id="inyection">
+                                                <div class="w-100"></div>
+                                                <div class="col-sm-2 mt-2">
+                                                    <div class="form-group m-0">
+                                                        <label>Inyección</label>
+                                                        <select name="inyection" id="inyection" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-xs-3 text-center mr-2 mt-4">
-                                                    <label>C. Produccion</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="production" id="production">
+                                                <div class="col-sm-2 mt-2">
+                                                    <div class="form-group m-0">
+                                                        <label>C. Produccion</label>
+                                                        <select name="production" id="production" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                <div class="col-xs">
-                                                    <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 25px">Actualizar</button>
+                                                <div class="col-sm">
+                                                    <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 40px">Actualizar</button>
                                                 </div>
                                             </div>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>

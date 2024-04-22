@@ -37,95 +37,99 @@ $(document).ready(function () {
 
   /* Cargue tabla de Proyectos */
   const loadtableMaterials = async (data) => {
-    tblMaterials = $('#tblMaterials').dataTable({
-      destroy: true,
-      pageLength: 50,
-      data: data,
-      order: [[6, 'desc']],
-      dom: '<"datatable-error-console">frtip',
-      language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
-      },
-      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-          console.error(oSettings.json.error);
-        }
-      },
-      columns: [
-        {
-          title: 'No.',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data, type, full, meta) {
-            return meta.row + 1;
+    if ($.fn.DataTable.isDataTable('#tblMaterials')) {
+      tblMaterials.DataTable().clear().rows.add(data).draw();
+    } else {
+      tblMaterials = $('#tblMaterials').dataTable({
+        destroy: true,
+        pageLength: 50,
+        data: data,
+        order: [[6, 'desc']],
+        dom: '<"datatable-error-console">frtip',
+        language: {
+          url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+        },
+        fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+          if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+            console.error(oSettings.json.error);
+          }
+        },
+        columns: [
+          {
+            title: 'No.',
+            data: null,
+            className: 'uniqueClassName',
+            render: function (data, type, full, meta) {
+              return meta.row + 1;
+            },
           },
-        },
-        {
-          title: 'Referencia',
-          data: 'reference_material',
-          className: 'uniqueClassName',
-        },
-        {
-          title: 'Materia Prima',
-          data: 'material',
-          className: 'uniqueClassName',
-        },
-        {
-          title: 'Cantidad',
-          data: 'quantity',
-          className: 'uniqueClassName',
-        },
-        {
-          title: 'Costo Unitario',
-          data: null,
-          className: 'uniqueClassName',
-          render: function (data) {
-            data.abbreviation_material != data.abbreviation_product_material
-              ? (cost = data.cost_product_material)
-              : (cost = data.cost);
-
-            return data.cost.toLocaleString('es-CO', {
-              maximumFractionDigits: 0,
-            });
+          {
+            title: 'Referencia',
+            data: 'reference_material',
+            className: 'uniqueClassName',
           },
-        },
-        {
-          title: 'Precio Total',
-          data: 'unityCost',
-          className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
-        },
-        {
-          title: 'Participacion',
-          data: 'participation',
-          className: 'classCenter',
-          render: $.fn.dataTable.render.number('.', ',', 2, '', '%'),
-        },
-      ],
+          {
+            title: 'Materia Prima',
+            data: 'material',
+            className: 'uniqueClassName',
+          },
+          {
+            title: 'Cantidad',
+            data: 'quantity',
+            className: 'uniqueClassName',
+          },
+          {
+            title: 'Costo Unitario',
+            data: null,
+            className: 'uniqueClassName',
+            render: function (data) {
+              data.abbreviation_material != data.abbreviation_product_material
+                ? (cost = data.cost_product_material)
+                : (cost = data.cost);
 
-      footerCallback: function (row, data, start, end, display) {
-        total = this.api()
-          .column(5)
-          .data()
-          .reduce(function (a, b) {
-            return parseInt(a) + parseInt(b);
-          }, 0);
+              return data.cost.toLocaleString('es-CO', {
+                maximumFractionDigits: 0,
+              });
+            },
+          },
+          {
+            title: 'Precio Total',
+            data: 'unityCost',
+            className: 'classCenter',
+            render: $.fn.dataTable.render.number('.', ',', 0, '$ '),
+          },
+          {
+            title: 'Participacion',
+            data: 'participation',
+            className: 'classCenter',
+            render: $.fn.dataTable.render.number('.', ',', 2, '', '%'),
+          },
+        ],
 
-        $(this.api().column(5).footer()).html(
-          new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(total)
-        );
-        subTotal = this.api()
-          .column(6)
-          .data()
-          .reduce(function (a, b) {
-            return a + b;
-          }, 0);
+        footerCallback: function (row, data, start, end, display) {
+          total = this.api()
+            .column(5)
+            .data()
+            .reduce(function (a, b) {
+              return parseInt(a) + parseInt(b);
+            }, 0);
 
-        $(this.api().column(6).footer()).html(`${subTotal.toFixed(0)} %`);
-      },
-    });
+          $(this.api().column(5).footer()).html(
+            new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            }).format(total)
+          );
+          subTotal = this.api()
+            .column(6)
+            .data()
+            .reduce(function (a, b) {
+              return a + b;
+            }, 0);
+
+          $(this.api().column(6).footer()).html(`${subTotal.toFixed(0)} %`);
+        },
+      });
+    }
   };
 });

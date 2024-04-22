@@ -22,16 +22,15 @@ $(document).ready(function () {
       let license_start = $('#license_start').val();
       let license_end = $('#license_end').val();
       let quantityUsers = $('#quantityUsers').val();
-      let plan = $('#plan').val();
-      // let materialsUSD = $('#materialsUSD').is(':checked');
+      let plan = $('#plan').val(); 
       let pricesUSD = $('#pricesUSD').val();
-      let payrollEmployee = $('#payrollEmployee').is(':checked');
-      let compositeProducts = $('#compositeProducts').is(':checked');
-      let historical = $('#historical').is(':checked');
-      let indirect = $('#indirect').is(':checked');
-      let inyection = $('#inyection').is(':checked');
+      let payrollEmployee = $('#payrollEmployee').val();
+      let compositeProducts = $('#compositeProducts').val();
+      let historical = $('#historical').val();
+      let indirect = $('#indirect').val();
+      let inyection = $('#inyection').val();
 
-      data = company * quantityUsers * plan * pricesUSD;
+      data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * historical * inyection * indirect;
 
       if (license_start == '' || license_end == '' || !data || data == null) {
         toastr.error('Ingrese todos los campos');
@@ -42,15 +41,14 @@ $(document).ready(function () {
         toastr.error('La fecha inicial no debe ser mayor a la final');
         return false;
       }
-
-      // materialsUSD == '1' ? (materialsUSD = '1') : (materialsUSD = '0');
+ 
       pricesUSD == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
-      payrollEmployee == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
-      compositeProducts == true ? (compositeProducts = '1') : (compositeProducts = '0');
-      production == true ? (production = '1') : (production = '0');
-      historical == true ? (historical = '1') : (historical = '0');
-      indirect == true ? (indirect = '1') : (indirect = '0');
-      inyection == true ? (inyection = '1') : (inyection = '0');
+      payrollEmployee == '1' ? (payrollEmployee = '1') : (payrollEmployee = '0');
+      compositeProducts == '1' ? (compositeProducts = '1') : (compositeProducts = '0');
+      production == '1' ? (production = '1') : (production = '0');
+      historical == '1' ? (historical = '1') : (historical = '0');
+      indirect == '1' ? (indirect = '1') : (indirect = '0');
+      inyection == '1' ? (inyection = '1') : (inyection = '0');
 
       license = $('#formAddLicense').serialize();
 
@@ -80,23 +78,20 @@ $(document).ready(function () {
     $(`#plan option[value=${data.plan}]`).prop('selected', true);
 
     data.cost_price_usd == '1' ? (pricesUSD = '1') : (pricesUSD = '2');
+    data.flag_employee == '1' ? (payrollEmployee = '1') : (payrollEmployee = '2');
+    data.flag_composite_product == '1' ? (compositeProducts = '1') : (compositeProducts = '2');
+    data.flag_production_center == '1' ? (production = '1') : (production = '2');
+    data.cost_historical == '1' ? (historical = '1') : (historical = '2');
+    data.flag_indirect == '1' ? (indirect = '1') : (indirect = '2'); 
+    data.inyection == '1' ? (inyection = '1') : (inyection = '2'); 
 
     $(`#pricesUSD option[value=${pricesUSD}]`).prop('selected', true);
-    
-    // if (data.flag_materials_usd == '1')
-    //   $(`#materialsUSD`).prop('checked', true);
-    if (data.flag_employee == '1')
-      $(`#payrollEmployee`).prop('checked', true);
-    if (data.flag_composite_product == '1')
-      $(`#compositeProducts`).prop('checked', true);
-    if (data.flag_production_center == '1')
-      $(`#production`).prop('checked', true);
-    if (data.cost_historical == '1')
-      $(`#historical`).prop('checked', true);
-    if (data.flag_indirect == '1')
-      $(`#indirect`).prop('checked', true);
-    if (data.inyection == '1')
-      $(`#inyection`).prop('checked', true);
+    $(`#payrollEmployee option[value=${payrollEmployee}]`).prop('selected', true);
+    $(`#compositeProducts option[value=${compositeProducts}]`).prop('selected', true);
+    $(`#production option[value=${production}]`).prop('selected', true);
+    $(`#historical option[value=${historical}]`).prop('selected', true);
+    $(`#indirect option[value=${indirect}]`).prop('selected', true);
+    $(`#inyection option[value=${inyection}]`).prop('selected', true);
       
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);
@@ -107,14 +102,13 @@ $(document).ready(function () {
 
     $('#company').prop('disabled', false);
 
-    $('#pricesUSD').val() == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
-    // $('#materialsUSD').is(':checked') == true ? (materialsUSD = '1') : (materialsUSD = '0');
-    $('#payrollEmployee').is(':checked') == true ? (payrollEmployee = '1') : (payrollEmployee = '0');
-    $('#compositeProducts').is(':checked') == true ? (compositeProducts = '1') : (compositeProducts = '0');
-    $('#production').is(':checked') == true ? (production = '1') : (production = '0');
-    $('#historical').is(':checked') == true ? (historical = '1') : (historical = '0');
-    $('#indirect').is(':checked') == true ? (indirect = '1') : (indirect = '0');
-    $('#inyection').is(':checked') == true ? (inyection = '1') : (inyection = '0');
+    $('#pricesUSD').val() == '1' ? (pricesUSD = '1') : (pricesUSD = '0'); 
+    $('#payrollEmployee').val() == '1' ? (payrollEmployee = '1') : (payrollEmployee = '0');
+    $('#compositeProducts').val() == '1' ? (compositeProducts = '1') : (compositeProducts = '0');
+    $('#production').val() == '1' ? (production = '1') : (production = '0');
+    $('#historical').val() == '1' ? (historical = '1') : (historical = '0');
+    $('#indirect').val() == '1' ? (indirect = '1') : (indirect = '0');
+    $('#inyection').val() == '1' ? (inyection = '1') : (inyection = '0');
 
     dataCompany = $('#formAddLicense').serialize();
 
