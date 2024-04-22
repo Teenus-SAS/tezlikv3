@@ -60,7 +60,7 @@ $(document).ready(function () {
     if (id_company == '10')
       title = 'Margen';
     else
-    title = 'Rentabilidad';
+      title = 'Rentabilidad'; 
 
     tblPrices = $("#tblPrices").DataTable({
       destroy: true,
