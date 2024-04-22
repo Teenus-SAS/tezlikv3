@@ -162,6 +162,8 @@ $(document).ready(function () {
               })} %`
             );
           } else if (i == 0 && percentage < profitability) {
+            let cant = 1;
+            
             percentage > 0 ? cant += 2 : cant = 1;
  
             let division = Math.ceil((totalCostsAndExpense / price) + cant);

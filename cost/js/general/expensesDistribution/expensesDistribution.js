@@ -238,8 +238,10 @@ $(document).ready(function () {
       $('#modalExpenseDistributionByFamily').modal('hide');
       // Obtener el elemento select
       var selectElement = document.getElementById("selectProductionCenterED");
-      // Establecer la primera opción como seleccionada por defecto
-      selectElement.selectedIndex = 0;
+
+      if (selectElement)
+        // Establecer la primera opción como seleccionada por defecto
+        selectElement.selectedIndex = 0;
 
       if (op == 1) {
         await loadExpensesDProducts();
