@@ -85,7 +85,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                                            <div class="col-xs-2 mr-2 text-dark floating-label enable-floating-label show-label">
+                                            <div class="col-xs-2 mr-2 mb-0 text-dark floating-label enable-floating-label show-label">
                                                 <label>Und Produccion</label>
                                                 <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses"></select>
                                             </div>
@@ -471,7 +471,7 @@ if (sizeof($_SESSION) == 0)
                                                     <div class="form-row">
                                                         <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                             <input type="text" class="form-control" id="production" name="production">
-                                                            <label for="family">Centro De Produccion</label>
+                                                            <label for="family">Unidad de Produccion</label>
                                                         </div>
                                                         <div class="col-xs-2" style="margin-top:12px">
                                                             <button class="btn btn-primary" id="btnSavePCenter">Guardar</button>
