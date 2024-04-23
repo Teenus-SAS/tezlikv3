@@ -33,8 +33,7 @@ $(document).ready(function () {
         } else 
             data = dataExpenses.filter(item => item.id_production_center == id_production_center);
         
-        if (id === 'selectProductionCenterExpenses') {
-            
+        if (id === 'selectProductionCenterExpenses') { 
             loadTblAssExpenses(data);
         } else {
             let totalExpense = 0;

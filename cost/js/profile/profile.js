@@ -106,6 +106,7 @@ $(document).ready(function () {
 
     let data = await searchData('/api/contracts');
 
+    $('#contractContent').empty();
     let divContract = document.getElementById('contractContent');
 
     divContract.insertAdjacentHTML('beforeend', data.content);

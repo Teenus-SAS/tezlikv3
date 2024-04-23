@@ -190,10 +190,8 @@ $(document).ready(function () {
   };
 
   $(document).on('click', '.checkUser', function () {
-    if (!$(`#${this.id}`).is(':checked')) { 
-      toastr.error('Debe haber por lo menos un usuario principal por empresa');
-      return false;
-    }
+    // if (!$(`#${this.id}`).is(':checked')) {  
+    // }
 
     let row = $(this).parent().parent()[0];
     let data = tblUsers.fnGetData(row);

@@ -16,6 +16,14 @@ $(document).ready(function () {
       $('.cardNewProducts').hide();
       $('.cardProductionCenter').hide();
       $('.cardAddNewProductionCenter').hide();
+
+      if (production_center == '1' && flag_production_center == '1') {       
+        // Obtener el elemento select
+        var selectElement = document.getElementById("selectProductionCenterExpenses");
+        // Establecer la primera opción como seleccionada por defecto
+        selectElement.selectedIndex = 0;
+      }
+
     } else if (this.id == 'distribution') {
       $('.cardExpenseDistribution').show();
       
@@ -28,6 +36,13 @@ $(document).ready(function () {
       $('.cardNewProduct').hide();
       $('.cardProductionCenter').hide();
       $('.cardAddNewProductionCenter').hide();
+
+      if (production_center == '1' && flag_production_center == '1') {       
+        // Obtener el elemento select
+        var selectElement = document.getElementById("selectProductionCenterED");
+        // Establecer la primera opción como seleccionada por defecto
+        selectElement.selectedIndex = 0;
+      }
     } else {
       $('.cardProductionCenter').show();
       $('.cardAddNewProductionCenter').hide();
@@ -140,6 +155,18 @@ $(document).ready(function () {
     if (count.length < 4) {
       toastr.error('Seleccione una Cuenta');
       return false;
+    }
+
+    if (!idExpense && production_center == '1' && flag_production_center == '1') {
+      let data = JSON.parse(sessionStorage.getItem('dataExpenses'));
+
+      let arr = data.find(item => item.id_puc == puc);
+
+      if (arr) { 
+        url = '/api/updateExpenses';
+
+        idExpense = arr.id_expense;
+      }
     }
 
     let dataExpense = new FormData(formCreateExpenses);

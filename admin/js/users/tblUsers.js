@@ -49,7 +49,10 @@ $(document).ready(function () {
         data: null,
         className: 'uniqueClassName',
         render: function (data) {
-          return `<input class="form-control-updated checkUser" type="checkbox" id="${data.id_user}" ${data.contract == '1' ? 'checked' : ''}>`;
+          if (data.contract == '1')
+            return `<a href="javascript:;" <span id="${data.id_user}" class="badge badge-warning" onclick="showMsg()">Usuario Principal</span></a>`;
+          else
+            return `<input class="form-control-updated checkUser" type="checkbox" id="${data.id_user}">`;
         },
       },
       {
@@ -64,4 +67,9 @@ $(document).ready(function () {
       },
     ],
   });
+
+  showMsg = () => {
+    toastr.error('Debe haber por lo menos un usuario principal por empresa');
+    return false;
+  };
 });
