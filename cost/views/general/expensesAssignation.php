@@ -85,8 +85,8 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                                            <div class="col-xs-2 mr-2 text-dark">
-                                                <label>Centro Produccion</label>
+                                            <div class="col-xs-2 mr-2 text-dark floating-label enable-floating-label show-label">
+                                                <label>Und Produccion</label>
                                                 <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses"></select>
                                             </div>
                                         <?php } ?>
@@ -143,8 +143,8 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                             <div class="col-sm-12 col-xl-12 form-inline justify-content-sm-end">
-                                                <div class="col-xs-2 mr-2 text-dark">
-                                                    <label>Centro Produccion</label>
+                                                <div class="col-xs-2 mr-2 text-dark floating-label enable-floating-label show-label">
+                                                    <label>Und Produccion</label>
                                                     <select class="form-control selectProductionCenter" id="selectProductionCenterED"></select>
                                                 </div>
                                             </div>
@@ -165,7 +165,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                             <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                                 <div class="col-xs-2 mr-2">
-                                                    <button class="btn btn-warning" id="btnNewProductionCenter">Nuevo Centro Produccion</button>
+                                                    <button class="btn btn-warning" id="btnNewProductionCenter">Nuevo Und Produccion</button>
                                                 </div>
                                                 <div class="col-xs-2 py-2 mr-2">
                                                     <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
@@ -526,7 +526,7 @@ if (sizeof($_SESSION) == 0)
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                             <li class="nav-item">
                                                 <a class="nav-link selectNavigation" id="navProductionCenter" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                                    <i class="fas fa-flask mr-1"></i>Centro Produccion
+                                                    <i class="fas fa-flask mr-1"></i>Unidades Produccion
                                                 </a>
                                             </li>
                                         <?php } ?>
