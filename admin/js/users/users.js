@@ -5,14 +5,20 @@ $(document).ready(function () {
   /* Abrir panel Nuevo usuario */
   $('#btnNewUser').click(function (e) {
     e.preventDefault();
-    $('.cardCreateUser').toggle(800);
     $('#btnCreateUser').html('Crear Usuario');
-
+    
     sessionStorage.removeItem('id_user');
     $('#email').prop('disabled', false);
     $('#company').prop('disabled', false);
-
+    
     $('#formCreateUser').trigger('reset');
+    
+    let display = $('.cardCreateUser').css('display');
+    
+    if (display == 'block')
+      loadTblUsers(allUsers);
+    
+    $('.cardCreateUser').toggle(800);
   });
 
   /* Agregar nuevo usuario */
@@ -24,8 +30,8 @@ $(document).ready(function () {
       company = $('#company').val();
       firstname = $('#firstname').val();
       lastname = $('#lastname').val();
-      email = $('#email').val();
-      check = $(`#principalUser`).is(':checked');
+      email = $('#email').val(); 
+      $(`#principalUser`).val() == '1' ? check = 1 : check = 0;
 
       if (
         firstname == '' ||
@@ -75,11 +81,14 @@ $(document).ready(function () {
     $('#email').prop('disabled', true);
     $(`#company option[value=${data.id_company}]`).prop('selected', true);
     $('#company').prop('disabled', true);
+    
+    data.contract == '1' ? op = 1 : op = 2;
 
-    if (data.contract == '1')
-      $('#principalUser').prop('checked', true);
-    else
-      $('#principalUser').prop('checked', false);
+    $(`#principalUser option[value=${op}]`).prop('selected', true);
+
+    data = allUsers.filter(item => item.id_company == data.id_company);
+
+    loadTblUsers(data);  
 
     $('html, body').animate(
       {
@@ -90,17 +99,18 @@ $(document).ready(function () {
   });
 
   updateUser = () => {
-    if (!$(`#principalUser`).is(':checked')) { 
+    if ($(`#principalUser`).val() == '2') { 
       toastr.error('Debe haber por lo menos un usuario principal por empresa');
       return false;
     }
 
     id_user = sessionStorage.getItem('id_user');
+    $(`#principalUser`).val() == '1' ? check = 1 : check = 0;
 
     $('#company').prop('disabled', false);
     dataUser = $('#formCreateUser').serialize();
     
-    dataUser = `${dataUser}&id_user=${id_user}`;
+    dataUser = `${dataUser}&id_user=${id_user}&check=${check}`;
     
     $.post('/api/updateUser', dataUser, function (data, textStatus, jqXHR) {
       $('#email').prop('disabled', false);
@@ -189,11 +199,7 @@ $(document).ready(function () {
     return dataUser;
   };
 
-  $(document).on('click', '.checkUser', function () {
-    if (!$(`#${this.id}`).is(':checked')) { 
-      toastr.error('Debe haber por lo menos un usuario principal por empresa');
-      return false;
-    }
+  $(document).on('click', '.checkUser', function () { 
 
     let row = $(this).parent().parent()[0];
     let data = tblUsers.fnGetData(row);
@@ -233,17 +239,11 @@ $(document).ready(function () {
     if (data.success == true) {
       $('.cardCreateUser').hide(800);
       $('#formCreateUser').trigger('reset');
-      updateTable();
+      loadAllData();
       toastr.success(data.message);
       // console.log(data.pass);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  };
-
-  /* Actualizar tabla */
-  function updateTable() {
-    $('#tblUsers').DataTable().clear();
-    $('#tblUsers').DataTable().ajax.reload();
-  }
+  }; 
 });

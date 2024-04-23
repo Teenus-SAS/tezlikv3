@@ -82,8 +82,13 @@ if (sizeof($_SESSION) == 0)
                                                     <input type="email" class="form-control" name="emailUser" id="email">
                                                 </div>
                                                 <div class="col-xs-2 text-center">
-                                                    <label>Usuario Principal</label><br>
-                                                    <input type="checkBox" class="form-control-updated" name="principalUser" id="principalUser">
+                                                    <label>Usuario Principal</label>
+                                                    <select name="principalUser" id="principalUser" class="form-control">
+                                                        <option selected disabled value="0">Seleccionar</option>
+                                                        <option value="1">Si</option>
+                                                        <option value="2">No</option>
+                                                    </select>
+                                                    <!-- <input type="checkBox" class="form-control-updated" name="" id="principalUser"> -->
                                                 </div>
                                                 <div style="margin-top:32px;">
                                                     <button class="btn btn-success" id="btnCreateUser">Crear Usuario</button>

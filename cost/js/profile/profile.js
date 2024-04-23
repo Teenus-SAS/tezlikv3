@@ -106,6 +106,7 @@ $(document).ready(function () {
 
     let data = await searchData('/api/contracts');
 
+    $('#contractContent').empty();
     let divContract = document.getElementById('contractContent');
 
     divContract.insertAdjacentHTML('beforeend', data.content);
@@ -116,6 +117,13 @@ $(document).ready(function () {
   $('#btnCloseContract').click(function (e) { 
     e.preventDefault();
     $('#modalContract').modal('hide'); 
+  });
+
+  /* Exportar pdf */
+  $('#btnPrintPDF').click(function (e) { 
+    e.preventDefault();
+    
+    
   });
 
   /* Cargar notificación */

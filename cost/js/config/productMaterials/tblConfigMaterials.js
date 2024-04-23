@@ -172,24 +172,24 @@ $(document).ready(function () {
         },
       ],
       footerCallback: function (row, data, start, end, display) {
-        let quantity = 0;
+        // let quantity = 0;
         // let waste = 0;
         let cost = 0;
         
         for (let i = 0; i < display.length; i++) {
-          quantity += parseFloat(data[display[i]].quantity);
+          // quantity += parseFloat(data[display[i]].quantity);
           // waste += parseFloat(data[display[i]].waste);
           cost += parseFloat(data[display[i]].cost_product_material);
         }
 
         // waste = waste / display.length;
 
-        $(this.api().column(4).footer()).html(
-          quantity.toLocaleString('es-CO', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })
-        );
+        // $(this.api().column(4).footer()).html(
+        //   quantity.toLocaleString('es-CO', {
+        //     minimumFractionDigits: 2,
+        //     maximumFractionDigits: 2,
+        //   })
+        // );
 
         // $(this.api().column(5).footer()).html(
         //   `${waste.toLocaleString('es-CO', {

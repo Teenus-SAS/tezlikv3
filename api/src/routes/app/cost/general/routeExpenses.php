@@ -298,7 +298,6 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
         }
     }
 
-
     if ($resolution == null) {
         $products = $generalProductsDao->findAllProducts($id_company);
 

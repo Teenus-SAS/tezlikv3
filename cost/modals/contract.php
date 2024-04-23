@@ -9,6 +9,11 @@
             </div>
             <div class="modal-body">
                 <div class="page-content-wrapper">
+                    <div class="col-sm-12 col-xl-12 d-flex justify-content-end">
+                        <div class="col-xs-2 mt-2 mr-2">
+                            <a href="javascript:;" <i="" class="bi bi-filetype-pdf" data-toggle="tooltip" style="font-size: 30px; color:red;" id="btnPrintPDF"></a>
+                        </div>
+                    </div>
                     <div class="container-fluid">
                         <div class="vertical-app-tabs" id="rootwizard">
                             <div class="col-md-12 col-lg-12" id="contractContent">

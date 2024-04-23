@@ -50,7 +50,7 @@ $(document).ready(function () {
               Categoria: dataMaterials[i].category,
               magnitud: dataMaterials[i].magnitude,
               unidad: dataMaterials[i].unit,
-              costo: parseFloat(dataMaterials[i].cost),
+              costo: type_cost == 'COP' ? parseFloat(dataMaterials[i].cost) : parseFloat(dataMaterials[i].cost_usd),
               tipo_costo: type_cost,
             });
           }
