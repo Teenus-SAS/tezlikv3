@@ -119,6 +119,13 @@ $(document).ready(function () {
     $('#modalContract').modal('hide'); 
   });
 
+  /* Exportar pdf */
+  $('#btnPrintPDF').click(function (e) { 
+    e.preventDefault();
+    
+    
+  });
+
   /* Cargar notificación */
   message = (data) => {
     if (data.success == true) {

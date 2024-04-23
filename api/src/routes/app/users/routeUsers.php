@@ -107,7 +107,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
                         //     $companiesLicenseDao->changeFlagExpense($dataUser, $id_company);
                         // }
 
-                        if ($usersAccess == null && isset($dataUser['check']) && $dataUser['check'] == 'true')
+                        if ($usersAccess == null && isset($dataUser['check']) && $dataUser['check'] == '1')
                             $usersAccess = $generalCostUserAccessDao->changePrincipalUser($dataUser);
                     }
                 }
@@ -194,7 +194,10 @@ $app->get('/newUserAndCompany/{email}', function (Request $request, Response $re
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateUser', function (Request $request, Response $response, $args) use ($userDao) {
+$app->post('/updateUser', function (Request $request, Response $response, $args) use (
+    $userDao,
+    $generalCostUserAccessDao
+) {
     session_start();
     $dataUser = $request->getParsedBody();
 
@@ -202,6 +205,9 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
         $resp = array('error' => true, 'message' => 'Ingrese sus Nombres y Apellidos completos');
     } else {
         $users = $userDao->updateUser($dataUser, null);
+
+        if ($users == null && isset($dataUser['check']) && $dataUser['check'] == '1')
+            $users = $generalCostUserAccessDao->changePrincipalUser($dataUser);
     }
     if ($users == null)
         $resp = array('success' => true, 'message' => 'Usuario actualizado correctamente');
