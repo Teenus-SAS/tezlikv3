@@ -589,13 +589,12 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
             // Obtener el total de gastos 
             $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
-            $data['total_expense'] = $totalExpense;
             // $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
 
             foreach ($unitVol as $arr) {
                 if (isset($resolution['info'])) break;
                 // Calcular gasto asignable
-                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $data);
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
                 // Actualizar gasto asignable
                 $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
             }
