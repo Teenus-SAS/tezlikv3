@@ -87,15 +87,17 @@ if (sizeof($_SESSION) == 0)
                                                 <select id="product" class="form-control btnPrintPDF">
                                                 </select>
                                             </div>
-                                            <div class="col-xs-2 mr-2 mt-1">
-                                                <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
-                                            </div>
-                                            <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageInput">
-                                                <label class="font-weight-bold text-dark">Valor Dolar</label>
-                                                <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                                    $coverage = sprintf("%.2f", $_SESSION['coverage']);
-                                                                                                                                                                                                    echo  $coverage ?>" readonly>
-                                            </div>
+                                            <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                                <div class="col-xs-2 mr-2 mt-1">
+                                                    <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
+                                                </div>
+                                                <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageInput">
+                                                    <label class="font-weight-bold text-dark">Valor Dolar</label>
+                                                    <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                                                                        $coverage = sprintf("%.2f", $_SESSION['coverage']);
+                                                                                                                                                                                                        echo  $coverage ?>" readonly>
+                                                </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
                                     <div class="row">
