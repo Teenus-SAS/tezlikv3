@@ -165,8 +165,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="w-100"></div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label mt-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Inyección</label>
                                                         <select name="inyection" id="inyection" class="form-control">
@@ -176,7 +175,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label mt-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>C. Produccion</label>
                                                         <select name="production" id="production" class="form-control">
@@ -187,7 +186,7 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                                 <div class="col-sm">
-                                                    <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 40px">Actualizar</button>
+                                                    <button class="btn btn-primary" id="btnAddLicense">Actualizar</button>
                                                 </div>
                                             </div>
                                         </div>
