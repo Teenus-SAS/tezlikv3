@@ -65,7 +65,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-4 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label for="company">Empresa</label>
                                                         <select name="company" class="form-control company" id="company" disabled="">
@@ -78,25 +78,25 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label for="license_start">Inicio Licencia</label>
                                                         <input id="license_start" name="license_start" type="date" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label for="license_end">Final Licencia</label>
                                                         <input id="license_end" name="license_end" type="date" class="form-control">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-1">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label for="quantityUsers">Usuarios</label>
                                                         <input id="quantityUsers" name="quantityUsers" type="number" class="form-control text-center">
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Tipo de Plan</label>
                                                         <select name="plan" id="plan" class="form-control">
@@ -115,7 +115,7 @@ if (sizeof($_SESSION) == 0)
                                         <div class="card-body">
                                             <h5>Funciones Adicionales</h5>
                                             <div class="row mt-4">
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Precios USD</label>
                                                         <select name="pricesUSD" id="pricesUSD" class="form-control">
@@ -125,7 +125,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Procesos Nomina</label>
                                                         <select name="payrollEmployee" id="payrollEmployee" class="form-control">
@@ -135,7 +135,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Productos Compuestos</label>
                                                         <select name="compositeProducts" id="compositeProducts" class="form-control">
@@ -145,7 +145,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Historico</label>
                                                         <select name="historical" id="historical" class="form-control">
@@ -155,7 +155,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Materiales</label>
                                                         <select name="indirect" id="indirect" class="form-control">
@@ -165,8 +165,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="w-100"></div>
-                                                <div class="col-sm-2 mt-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>Inyección</label>
                                                         <select name="inyection" id="inyection" class="form-control">
@@ -176,7 +175,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2 mt-2">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
                                                         <label>C. Produccion</label>
                                                         <select name="production" id="production" class="form-control">
@@ -187,7 +186,7 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                 </div>
                                                 <div class="col-sm">
-                                                    <button class="btn btn-primary" id="btnAddLicense" style="margin-top: 40px">Actualizar</button>
+                                                    <button class="btn btn-primary" id="btnAddLicense">Actualizar</button>
                                                 </div>
                                             </div>
                                         </div>
