@@ -65,7 +65,8 @@ $(document).ready(function () {
         data == 0 ||
         contacts == '' ||
         offerValidity == '' ||
-        warranty == ''
+        warranty == '' ||
+        deliveryDate == ''
       ) {
         toastr.error('Ingrese todos los campos');
         return false;

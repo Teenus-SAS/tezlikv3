@@ -63,12 +63,6 @@ $(document).ready(function () {
 
     data.sale_price == '0' ? price = parseFloat(data.price).toFixed() : price = parseFloat(data.sale_price).toFixed();
 
-    // if (price == false) {
-    //   price = 0;
-    // } else {
-    //   price = parseFloat(data.price).toLocaleString('es-CO');
-    // }
-
     oldPrice = price;
     priceProduct = price;
 
@@ -105,9 +99,7 @@ $(document).ready(function () {
   $(document).on('blur', '#price', function (e) {
     let idProduct = $('#refProduct').val();
     if (idProduct > 0) {
-      let price = strReplaceNumber(this.value);
-      oldPrice = strReplaceNumber(oldPrice);
-      oldPrice = oldPrice.replace('$ ','');
+      let price = this.value; 
 
       if (price < oldPrice) {
         $('#price').val(oldPrice);

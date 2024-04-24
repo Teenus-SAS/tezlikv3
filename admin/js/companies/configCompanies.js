@@ -12,6 +12,18 @@ $(document).ready(function () {
           `<option value ='${value.id_company}'> ${value.company} </option>`
         );
       });
+
+      $select = $(`#sCompany`);
+      $select.empty();
+      // sessionStorage.setItem('op', r[0].id_company_user1);
+      let data = r.filter(item => item.license_status == 1);
+
+      $select.append(`<option disabled selected>Seleccionar</option>`);
+      $.each(data, function (i, value) {
+        $select.append(
+          `<option value ='${value.id_company}'> ${value.company} </option>`
+        );
+      });
     },
   });
 });

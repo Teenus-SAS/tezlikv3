@@ -120,10 +120,40 @@ $(document).ready(function () {
   });
 
   /* Exportar pdf */
-  $('#btnPrintPDF').click(function (e) { 
+  $('#btnPrintPDF').click(function (e) {
     e.preventDefault();
-    
-    
+     
+    try {
+      invoice = document.getElementById('rootwizard');
+      let copy_invoice = invoice.cloneNode(true);
+
+      copy_invoice.style.width = '1200px'; 
+ 
+      let opt = {
+        margin: [10, 30, 30, 30],
+        filename: `contrato.pdf`,
+        html2canvas: {
+          scale: 2,
+          width: 1201,
+        },
+        jsPDF: {
+          unit: 'pt',
+          format: 'letter',
+          orientation: 'portrait',
+        },
+      };
+
+      html2pdf().from(copy_invoice).set(opt).toPdf().get('pdf').save();
+
+      setTimeout(setCSSInvoice, 500);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    function setCSSInvoice() {
+      invoice.style.width = '';
+    }
   });
 
   /* Cargar notificación */

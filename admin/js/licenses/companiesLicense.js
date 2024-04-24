@@ -18,46 +18,11 @@ $(document).ready(function () {
 
     idCompany = sessionStorage.getItem('id_company');
     if (!idCompany || idCompany == null) {
-      company = $('#company').val();
-      let license_start = $('#license_start').val();
-      let license_end = $('#license_end').val();
-      let quantityUsers = $('#quantityUsers').val();
-      let plan = $('#plan').val(); 
-      let pricesUSD = $('#pricesUSD').val();
-      let payrollEmployee = $('#payrollEmployee').val();
-      let compositeProducts = $('#compositeProducts').val();
-      let historical = $('#historical').val();
-      let indirect = $('#indirect').val();
-      let inyection = $('#inyection').val();
-
-      data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * historical * inyection * indirect;
-
-      if (license_start == '' || license_end == '' || !data || data == null) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      if (license_start > license_end) {
-        toastr.error('La fecha inicial no debe ser mayor a la final');
-        return false;
-      }
- 
-      pricesUSD == '1' ? (pricesUSD = '1') : (pricesUSD = '0');
-      payrollEmployee == '1' ? (payrollEmployee = '1') : (payrollEmployee = '0');
-      compositeProducts == '1' ? (compositeProducts = '1') : (compositeProducts = '0');
-      production == '1' ? (production = '1') : (production = '0');
-      historical == '1' ? (historical = '1') : (historical = '0');
-      indirect == '1' ? (indirect = '1') : (indirect = '0');
-      inyection == '1' ? (inyection = '1') : (inyection = '0');
-
-      license = $('#formAddLicense').serialize();
-
-      license = `${license}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&production=${production}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
-
-      $.post('/api/addLicense', license, function (data, textStatus, jqXHR) {
-        message(data);
-      });
-    } else updateCompany();
+      checkLicences('/api/addLicense', idCompany); 
+    } else {
+      $('#company').prop('disabled', false);
+      checkLicences('/api/updateLicense', idCompany);
+    }
   });
 
   /*Actualizar licencia*/
@@ -95,32 +60,59 @@ $(document).ready(function () {
       
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);
-  });
+  }); 
 
-  updateCompany = () => {
-    idCompany = sessionStorage.getItem('id_company');
+  checkLicences = async(url, idCompany) => {
+    let company = parseFloat($('#company').val());
+    let license_start = $('#license_start').val();
+    let license_end = $('#license_end').val();
+    let quantityUsers = parseFloat($('#quantityUsers').val());
+    let plan = parseFloat($('#plan').val());
+    let pricesUSD = parseFloat($('#pricesUSD').val());
+    let payrollEmployee = parseFloat($('#payrollEmployee').val());
+    let compositeProducts = parseFloat($('#compositeProducts').val());
+    let historical = parseFloat($('#historical').val());
+    let indirect = parseFloat($('#indirect').val());
+    let inyection = parseFloat($('#inyection').val());
 
-    $('#company').prop('disabled', false);
+    data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * historical * inyection * indirect;
 
-    $('#pricesUSD').val() == '1' ? (pricesUSD = '1') : (pricesUSD = '0'); 
-    $('#payrollEmployee').val() == '1' ? (payrollEmployee = '1') : (payrollEmployee = '0');
-    $('#compositeProducts').val() == '1' ? (compositeProducts = '1') : (compositeProducts = '0');
-    $('#production').val() == '1' ? (production = '1') : (production = '0');
-    $('#historical').val() == '1' ? (historical = '1') : (historical = '0');
-    $('#indirect').val() == '1' ? (indirect = '1') : (indirect = '0');
-    $('#inyection').val() == '1' ? (inyection = '1') : (inyection = '0');
+    if (license_start == '' || license_end == '' || isNaN(data) || data <= 0) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
 
-    dataCompany = $('#formAddLicense').serialize();
+    if (license_start > license_end) {
+      toastr.error('La fecha inicial no debe ser mayor a la final');
+      return false;
+    }
+ 
+    pricesUSD == 1 ? (pricesUSD = 1) : (pricesUSD = 0);
+    payrollEmployee == 1 ? (payrollEmployee = 1) : (payrollEmployee = 0);
+    compositeProducts == 1 ? (compositeProducts = 1) : (compositeProducts = 0);
+    production == 1 ? (production = 1) : (production = 0);
+    historical == 1 ? (historical = 1) : (historical = 0);
+    indirect == 1 ? (indirect = 1) : (indirect = 0);
+    inyection == 1 ? (inyection = 1) : (inyection = 0);
+    
+    let dataCompany = new FormData(formAddLicense);
+    dataCompany.append('pricesUSD', pricesUSD);
+    dataCompany.append('payrollEmployee', payrollEmployee);
+    dataCompany.append('compositeProducts', compositeProducts);
+    dataCompany.append('production', production);
+    dataCompany.append('historical', historical);
+    dataCompany.append('indirect', indirect);
+    dataCompany.append('inyection', inyection);
 
-    dataCompany = `${dataCompany}&pricesUSD=${pricesUSD}&payrollEmployee=${payrollEmployee}&compositeProducts=${compositeProducts}&production=${production}&historical=${historical}&indirect=${indirect}&inyection=${inyection}`;
+    if (idCompany != '' || idCompany != null)
+      dataCompany.append('idCompany', idCompany);
 
-    $.post('/api/updateLicense', dataCompany, function (data) {
-      message(data);
-    });
-  };
+    let resp = await sendDataPOST(url, dataCompany);
 
+    message(resp);
+  }
+  
   /* Cambiar Estado Licencia */
-
   $(document).on('click', '.licenseStatus', function (e) {
     e.preventDefault();
     id_company = this.id;

@@ -1,7 +1,13 @@
 $(document).ready(function () {
   loadAllData = async () => {
     try {
-      let data = await searchData('/api/dashboardExpensesGenerals');
+      let indirect = sessionStorage.getItem('indirect');
+      const [data, indirectCost] = await Promise.all([
+        searchData('/api/dashboardExpensesGenerals'),
+        !indirect ? searchData('/api/calcAllIndirectCost') : '',
+      ]);
+ 
+      sessionStorage.setItem('indirect', 1); 
 
       // Validar que el tipo de valor del precio esta en dolares o pesos
       let typePrice1 = sessionStorage.getItem('typePrice');

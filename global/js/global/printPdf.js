@@ -2,6 +2,7 @@ $(document).ready(function () {
     printPDF = async (op) => {
         try {
             const elementos = invoice.getElementsByClassName('btnPrintPDF');
+            
             while (elementos.length > 0) {
                 elementos[0].remove();
             }

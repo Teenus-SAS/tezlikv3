@@ -1077,3 +1077,38 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $response->getBody()->write(json_encode($resp));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+$app->get('/calcAllIndirectCost', function (Request $request, Response $response, $args) use (
+    $productsDao,
+    $indirectCostDao
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
+
+    $products = $productsDao->findAllProductsByCRM($id_company);
+
+    $resolution = null;
+
+    foreach ($products as $arr) {
+        // Buscar la maquina asociada al producto
+        $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
+        // Cambiar a 0
+        $indirectCostDao->updateCostIndirectCostByProduct(0, $arr['id_product']);
+        // Calcular costo indirecto
+        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+        // Actualizar campo
+        $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $arr['id_product'], $id_company);
+
+        if (isset($resolution['info'])) break;
+    }
+
+    if ($resolution == null)
+        $resp = ['success' => true, 'message' => 'costos indirectos calculados correctamente en todos los productos'];
+    else if (isset($resolution['info']))
+        $resp = ['info' => true, 'message' => $resolution['message']];
+    else
+        $resp = ['error' => true, 'message' => 'Ocurrio un error al guardar la informacion. Intente nuevamente'];
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
