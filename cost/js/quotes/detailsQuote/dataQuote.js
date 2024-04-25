@@ -24,7 +24,7 @@ $(document).ready(function () {
 
     /* Cotizacion */
     $('#idQuote').html(`Cotizacion No ${idQuote}`);
-    $('#dateQuote').html(`Fecha de Creación:${data.delivery_date}`);
+    $('#dateQuote').html(`Fecha de Creación:${data.date_create}`);
 
     /* Notices */
     $('#qDescription').html(`<h3>Condiciones Comerciales:</h3> 

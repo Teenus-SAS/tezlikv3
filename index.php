@@ -128,6 +128,7 @@
   <script src="global/js/login/autentication.js"></script>
   <script>
     sessionStorage.removeItem('op');
+    sessionStorage.removeItem('indirect');
   </script>
   <!-- <script src="app/js/login/code.js"></script> -->
 

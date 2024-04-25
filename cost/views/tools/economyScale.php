@@ -122,6 +122,7 @@ if (sizeof($_SESSION) == 0)
                                             <div class="align-self-end btn-group">
                                                 <button class="btn btn-sm btn-primary typePrice cardBottons" id="sugered" value="1">Precio (Sugerido)</button>
                                                 <button class="btn btn-sm btn-outline-primary typePrice cardBottons" id="actual" value="2">Precio (Lista)</button>
+                                                <button class="btn btn-sm btn-outline-primary typePrice cardBottons" id="real" value="3">Precio (Real)</button>
                                                 <div id="spinnerLoading"></div>
                                             </div>
                                         </div>

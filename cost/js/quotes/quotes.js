@@ -49,52 +49,10 @@ $(document).ready(function () {
 
     let idQuote = sessionStorage.getItem('id_quote');
 
-    if (!idQuote || idQuote == '') {
-      company = $('#company').val();
-      contact = $('#contacts').val();
-      idPaymentMethod = $('#idPayment').val();
-      offerValidity = $('#offerValidity').val();
-      warranty = $('#warranty').val();
-      deliveryDate = $('#deliveryDate').val();
-      observation = $('#observation').val();
-
-      let data = company * idPaymentMethod;
-
-      if (
-        !data ||
-        data == 0 ||
-        contacts == '' ||
-        offerValidity == '' ||
-        warranty == '' ||
-        deliveryDate == ''
-      ) {
-        toastr.error('Ingrese todos los campos');
-        return false;
-      }
-
-      if (products.length == 0) {
-        toastr.error('Seleccione por lo menos un producto a adicionar');
-        return false;
-      }
-
-      $.ajax({
-        type: 'POST',
-        url: '/api/addQuote',
-        data: {
-          company: company,
-          contact: contact,
-          idPaymentMethod: idPaymentMethod,
-          offerValidity: offerValidity,
-          warranty: warranty,
-          deliveryDate: deliveryDate,
-          observation: observation,
-          products: products,
-        },
-        success: function (response) {
-          message(response);
-        },
-      });
-    } else updateQuote();
+    if (!idQuote || idQuote == '') 
+      checkQuote('/api/addQuote', idQuote);
+    else
+      checkQuote('/api/updateQuote', idQuote);
   });
 
   /* Actualizar Cotizaciones */
@@ -136,35 +94,55 @@ $(document).ready(function () {
       },
       1000
     );
-  });
+  }); 
 
-  updateQuote = () => {
-    let idQuote = sessionStorage.getItem('id_quote');
+  checkQuote = async (url, idQuote) => {
+    let company = $('#company').val();
+    let contact = $('#contacts').val();
+    let idPaymentMethod = $('#idPayment').val();
+    let offerValidity = $('#offerValidity').val();
+    let warranty = $('#warranty').val();
+    let deliveryDate = $('#deliveryDate').val();
+    let observation = $('#observation').val();
+
+    let data = company * idPaymentMethod;
+
+    if (
+      !data ||
+      data == 0 ||
+      contacts == '' ||
+      offerValidity == '' ||
+      warranty == '' ||
+      deliveryDate == ''
+    ) {
+      toastr.error('Ingrese todos los campos');
+      return false;
+    }
 
     if (products.length == 0) {
       toastr.error('Seleccione por lo menos un producto a adicionar');
       return false;
-    }
+    }  
 
     $.ajax({
       type: 'POST',
-      url: '/api/updateQuote',
+      url: url,
       data: {
         idQuote: idQuote,
-        company: $('#company').val(),
-        contact: $('#contacts').val(),
-        idPaymentMethod: $('#idPayment').val(),
-        offerValidity: $('#offerValidity').val(),
-        warranty: $('#warranty').val(),
-        deliveryDate: $('#deliveryDate').val(),
-        observation: $('#observation').val(),
+        company: company,
+        contact: contact,
+        idPaymentMethod: idPaymentMethod,
+        offerValidity: offerValidity,
+        warranty: warranty,
+        deliveryDate: deliveryDate,
+        observation: observation,
         products: products,
       },
       success: function (response) {
         message(response);
       },
     });
-  };
+  }
 
   /* Eliminar Cotizacion */
 

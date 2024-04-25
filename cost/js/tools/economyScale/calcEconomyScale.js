@@ -66,7 +66,7 @@ $(document).ready(function () {
     }
   });
 
-  generalCalc = async (op) => {
+  /*  generalCalc = async (op) => {
     try {
       op == 0 ? (count = 0) : (count = 5);
 
@@ -76,6 +76,136 @@ $(document).ready(function () {
       var startTime = performance.now();
 
       for (i = op; i <= count; i++) {
+        let unit = unitys[i];
+        let price = prices[i];
+
+        if (unit > 0 && price > 0) {
+          // Costos Variables
+
+          let totalVariableCost = variableCost * unit;
+          $(`#variableCosts-${i}`).html(
+            `$ ${totalVariableCost.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            })}`
+          );
+
+          // Total Costos y Gastos
+          let totalCostsAndExpense = fixedCost + totalVariableCost;
+
+          $(`#totalCostsAndExpenses-${i}`).html(
+            `$ ${totalCostsAndExpense.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            })}`
+          );
+
+          // Calculo Total Ingresos
+          totalRevenue = unit * price;
+
+          $(`#totalRevenue-${i}`).html(
+            `$ ${totalRevenue.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            })}`
+          );
+
+          // Calculo Costo x Unidad
+          unityCost = parseFloat(totalCostsAndExpense) / parseFloat(unit);
+
+          $(`#unityCost-${i}`).html(
+            `$ ${unityCost.toLocaleString('es-CO', {
+              maximumFractionDigits: max,
+            })}`
+          );
+
+          // Calculo Utilidad x Unidad
+          let unitUtility = price - unityCost;
+          $(`#unitUtility-${i}`).html(
+            `$ ${unitUtility.toLocaleString('es-CO', {
+              maximumFractionDigits: max,
+            })}`
+          );
+
+          // Calculo Utilidad Neta
+          let netUtility = unitUtility * unit;
+
+          netUtility < 0
+            ? $(`#netUtility-${i}`).css('color', 'red')
+            : $(`#netUtility-${i}`).css('color', 'black');
+
+          $(`#netUtility-${i}`).html(
+            `$ ${netUtility.toLocaleString('es-CO', {
+              maximumFractionDigits: 0,
+            })}`
+          );
+
+          // Porcentaje  
+          percentage = (netUtility / totalRevenue) * 100;
+           
+          $(`#percentage-${i}`).html(
+            `${percentage.toLocaleString('es-CO', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })} %`
+          );
+
+          // Verificar si el margen de utilidad es negativo
+          if (i == 0 && percentage >= profitability) {
+            // percentage += profitability;
+            $(`#percentage-${i}`).html(
+              `${percentage.toLocaleString('es-CO', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })} %`
+            );
+          } else if (i == 0 && percentage < profitability) {
+            let cant = 1;
+            
+            percentage > 0 ? cant += 2 : cant = 1;
+ 
+            let division = Math.ceil((totalCostsAndExpense / price) + cant);
+
+            if (division > 10000000) {
+              toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automaticamente generara numeros demasiado grandes');
+              break;
+            } else {
+              $(`#unity-${i}`).val(division.toLocaleString('es-CO', {
+                maximumFractionDigits: 0,
+              }));
+
+              unitys[i] = division;
+
+              var endTime = performance.now();
+              var mSeconds = endTime - startTime;
+              var seconds = mSeconds / 1000;
+
+              if (seconds > 5) {
+                // toastr.error('Precios muy por debajo de lo requerido. Revise los costos fijos');
+                break;
+              } else {
+                await $(`#unity-${i}`).blur();
+              }
+            }
+            i = i - 1;
+          }
+        }
+      }
+
+      $('.cardLoading').remove();
+      $('.cardBottons').show(400);
+    } catch (error) {
+      console.log(error);
+    }
+  }; */
+  /* */ generalCalc = async (op) => {
+    try {
+      op == 0 ? (count = 0) : (count = 5);
+
+      let typePrice = sessionStorage.getItem('typePrice');
+      typePrice == '2' ? max = 2 : max = 0;
+
+      var startTime = performance.now();
+
+      // Definir una función asíncrona para manejar cada iteración del ciclo
+      const handleIteration = async (i) => {
         let unit = unitys[i];
         let price = prices[i];
 
@@ -140,10 +270,6 @@ $(document).ready(function () {
           /* Porcentaje */
           // percentage = (netUtility / (totalRevenue - commission)) * 100;
           percentage = (netUtility / totalRevenue) * 100;
-          
-          // if (i != 0) {
-          //   percentage += ((price * (profitability / 100)) / prices[0]) * 100;
-          // }
 
           $(`#percentage-${i}`).html(
             `${percentage.toLocaleString('es-CO', {
@@ -152,25 +278,21 @@ $(document).ready(function () {
             })} %`
           );
 
-          // Verificar si el margen de utilidad es negativo
+          // Verificar si el margen de utilidad es mayor o igual a la rentabilidad
           if (i == 0 && percentage >= profitability) {
-            // percentage += profitability;
-            $(`#percentage-${i}`).html(
-              `${percentage.toLocaleString('es-CO', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })} %`
-            );
-          } else if (i == 0 && percentage < profitability) {
+            return false;
+          }
+          // Verificar si el margen de utilidad es negativo
+          else if (i == 0 && percentage < profitability) {
             let cant = 1;
-            
+
             percentage > 0 ? cant += 2 : cant = 1;
- 
+
             let division = Math.ceil((totalCostsAndExpense / price) + cant);
 
             if (division > 10000000) {
-              toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automaticamente generara numeros demasiado grandes');
-              break;
+              toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes');
+              return false;
             } else {
               $(`#unity-${i}`).val(division.toLocaleString('es-CO', {
                 maximumFractionDigits: 0,
@@ -183,15 +305,23 @@ $(document).ready(function () {
               var seconds = mSeconds / 1000;
 
               if (seconds > 5) {
-                // toastr.error('Precios muy por debajo de lo requerido. Revise los costos fijos');
-                break;
+                return false;
               } else {
+                await new Promise(resolve => setTimeout(resolve, 0));
                 await $(`#unity-${i}`).blur();
               }
             }
-            i = i - 1;
           }
+          return true;
         }
+      };
+
+      // Iterar sobre cada índice
+      for (i = op; i <= count; i++) {
+        const result = await handleIteration(i);
+        if (!result) break;
+        else if(op == 0)
+          i = i - 1;
       }
 
       $('.cardLoading').remove();
