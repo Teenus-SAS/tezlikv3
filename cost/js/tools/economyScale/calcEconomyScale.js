@@ -324,8 +324,8 @@ $(document).ready(function () {
           i = i - 1;
       }
 
-      $('.cardLoading').remove();
-      $('.cardBottons').show(400);
+      // $('.cardLoading').remove();
+      // $('.cardBottons').show(400);
     } catch (error) {
       console.log(error);
     }

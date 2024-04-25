@@ -175,8 +175,8 @@ $(document).ready(function () {
           case '':
             let textContent = '';
 
-            if(parseInt(arr.auto_machine) === 0)
-              textContent `<a href="javascript:;" <i id="${arr.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
+            if(arr.auto_machine === 'NO')
+              textContent = `<a href="javascript:;" <i id="${arr.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
 
             cell.innerHTML = textContent;
             break;

@@ -79,18 +79,32 @@ $(document).ready(function () {
             return false;
         }
 
-        if (op == 1 && className.includes("btn-outline-primary")) {
+        // Precio Sugerido
+        if (op == '1' && className.includes("btn-outline-primary")) {
             //$('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
             document.getElementById("sugered").className =
                 "btn btn-sm btn-primary typePrice cardBottons";
             document.getElementById("actual").className =
                 "btn btn-sm btn-outline-primary typePrice cardBottons";
-        } else if (className.includes("btn-outline-primary")) {
-            $('#labelDescription').html(`Descripción (Precio Actual)`);
+            document.getElementById("real").className =
+                "btn btn-sm btn-outline-primary typePrice cardBottons";
+        } else if (op == '2' && className.includes("btn-outline-primary")) { // Precio Lista
+            $('#labelDescription').html(`Descripción (Precio Lista)`);
 
             document.getElementById("actual").className =
                 "btn btn-sm btn-primary typePrice cardBottons";
+            document.getElementById("sugered").className =
+                "btn btn-sm btn-outline-primary typePrice cardBottons";
+            document.getElementById("real").className =
+                "btn btn-sm btn-outline-primary typePrice cardBottons"; 
+        } else if (className.includes("btn-outline-primary")) { // Precio Real
+            $('#labelDescription').html(`Descripción (Precio Real)`);
+
+            document.getElementById("real").className =
+                "btn btn-sm btn-primary typePrice cardBottons";
+            document.getElementById("actual").className =
+                "btn btn-sm btn-outline-primary typePrice cardBottons";
             document.getElementById("sugered").className =
                 "btn btn-sm btn-outline-primary typePrice cardBottons";
         }

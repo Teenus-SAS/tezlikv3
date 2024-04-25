@@ -40,19 +40,19 @@ $(document).ready(function () {
     let costFixed = 0;
     let variableCost1 = 0;
 
-    $('.cardBottons').hide();
+    // $('.cardBottons').hide();
 
-    let form = document.getElementById('spinnerLoading');
-    $('#spinnerLoading').empty();
+    // let form = document.getElementById('spinnerLoading');
+    // $('#spinnerLoading').empty();
 
-    form.insertAdjacentHTML(
-      'beforeend',
-      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
-        <div class="spinner-border text-secondary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-      </div>`
-    );
+    // form.insertAdjacentHTML(
+    //   'beforeend',
+    //   `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+    //     <div class="spinner-border text-secondary" role="status">
+    //         <span class="sr-only">Loading...</span>
+    //     </div>
+    //   </div>`
+    // );
     
     $('.general').val('');
     $('.general').html('');
@@ -62,12 +62,14 @@ $(document).ready(function () {
     
     if (typePrice.id === 'sugered') {
       price = Math.ceil(data.price); 
-    } else {
+    } else if(typePrice.id === 'actual'){
       price = Math.ceil(data.sale_price); 
+    } else {
+      price = parseFloat(data.turnover) / parseFloat(data.units_sold); 
     } 
       
     if (price == 0 || !price) {
-      typePrice.id == 'sugered' ? price = 'sugerido' : price = 'actual';
+      typePrice.id == 'sugered' ? price = 'sugerido' : typePrice.id == 'actual' ? price = 'actual': price = 'real';
       toastr.error(`Ingrese el precio de venta ${price} para el producto`);
       return false;
     } 
