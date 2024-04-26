@@ -175,7 +175,7 @@ $(document).ready(function () {
           case '':
             let textContent = '';
 
-            if(arr.auto_machine === 'NO')
+            if(arr.auto_machine === 'NO' && arr.count_employee > 1)
               textContent = `<a href="javascript:;" <i id="${arr.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
 
             cell.innerHTML = textContent;
@@ -191,8 +191,6 @@ $(document).ready(function () {
         }
       });
     });
-
-    // if (totalEfficiency == 0) $('#totalEfficiency').remove();
 
     $('#tblConfigProcess').dataTable({
       pageLength: 50,

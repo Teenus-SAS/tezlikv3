@@ -6,6 +6,7 @@ use tezlikv3\dao\ExpensesDao;
 use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
+use tezlikv3\dao\GeneralPCenterDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\ParticipationExpenseDao;
@@ -27,6 +28,7 @@ $priceProductDao = new PriceProductDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $productionCenterDao = new ProductionCenterDao();
+$generalPCenterDao = new GeneralPCenterDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -59,7 +61,6 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-
 /* Consulta todos */
 $app->get('/expenses', function (Request $request, Response $response, $args) use ($expensesDao) {
     session_start();
@@ -90,7 +91,11 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/expenseDataValidation', function (Request $request, Response $response, $args) use ($expensesDao, $pucDao) {
+$app->post('/expenseDataValidation', function (Request $request, Response $response, $args) use (
+    $expensesDao,
+    $generalPCenterDao,
+    $pucDao
+) {
     $dataExpense = $request->getParsedBody();
 
     if (isset($dataExpense)) {
@@ -128,6 +133,24 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
                 break;
             } else $expense[$i]['idPuc'] = $findPuc['id_puc'];
 
+            // Obtener centro de produccion
+            if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+                if (
+                    $expense[$i]['production'] == '' || trim($expense[$i]['production']) == ''
+                ) {
+                    $i = $i + 2;
+                    $dataImportExpense = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                    break;
+                }
+
+                $findProduction = $generalPCenterDao->findPCenter($expense[$i], $id_company);
+                if (!$findProduction) {
+                    $i = $i + 2;
+                    $dataImportExpense = array('error' => true, 'message' => "Centro de produccion no existe en la base de datos<br>Fila: {$i}");
+                    break;
+                }
+            }
+
             //RETORNA id_expense CON idPuc Y id_company
             $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
             //SI NO RETORNA id_expense $insert + 1
@@ -155,7 +178,8 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $costMaterialsDao,
     $totalExpenseDao,
     $participationExpenseDao,
-    $productionCenterDao
+    $productionCenterDao,
+    $generalPCenterDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -190,6 +214,13 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             $expense[$i]['idPuc'] = $findPuc['id_puc'];
 
             $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
+
+            if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+                $findProduction = $generalPCenterDao->findPCenter($expense[$i], $id_company);
+                $expense[$i]['production'] = $findProduction['id_production_center'];
+            } else
+                $expense[$i]['production'] = 0;
+
             if (!$findExpense)
                 $resolution = $expensesDao->insertExpensesByCompany($expense[$i], $id_company);
             else {
@@ -200,6 +231,8 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Gasto importado correctamente');
+        else if (isset($resolution['info']))
+            $resp = array('info' => true, 'message' => $resolution['message']);
         else
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras importaba la información. Intente nuevamente');
     }

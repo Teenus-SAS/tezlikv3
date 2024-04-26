@@ -137,11 +137,11 @@ $(document).ready(function () {
     if (production_center == '1' && flag_production_center == '1')
       selectProductionCenter = parseFloat($('#selectProductionCenterExpenses').val());
     else
-      selectProductionCenter = 1;
+      selectProductionCenter = 0;
   
     isNaN(value) ? value = 0 : value;
     
-    if (!puc || puc == ''||selectProductionCenter <= 0 || isNaN(selectProductionCenter)) {
+    if (!puc || puc == ''|| isNaN(selectProductionCenter)) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
@@ -225,11 +225,12 @@ $(document).ready(function () {
       $('#formImportExpesesAssignation').trigger('reset');
       $('.cardCreateExpenses').hide(800);
       $('#formCreateExpenses').trigger('reset');
-      // Obtener el elemento select
-      var selectElement = document.getElementById("selectProductionCenterExpenses");
-      // Establecer la primera opción como seleccionada por defecto
-      selectElement.selectedIndex = 0;
-
+      if (production_center == '1' && flag_production_center == '1') { 
+        // Obtener el elemento select
+        var selectElement = document.getElementById("selectProductionCenterExpenses");
+        // Establecer la primera opción como seleccionada por defecto
+        selectElement.selectedIndex = 0;
+      }
       loadAllDataExpenses();
       getExpense();
       toastr.success(data.message);

@@ -7,6 +7,7 @@ use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralExpenseDistributionDao;
+use tezlikv3\dao\GeneralPCenterDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\MultiproductsDao;
 use tezlikv3\dao\PriceProductDao;
@@ -24,6 +25,7 @@ $familiesDao = new FamiliesDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $multiproductsDao = new MultiproductsDao();
+$generalPCenterDao = new GeneralPCenterDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -65,6 +67,7 @@ $app->get('/expenseTotal', function (Request $request, Response $response, $args
 
 $app->post('/expenseDistributionDataValidation', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
+    $generalPCenterDao,
     $totalExpenseDao,
     $generalProductsDao
 ) {
@@ -113,6 +116,24 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
                 break;
             } else $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
 
+            // Obtener centro de produccion
+            if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+                if (
+                    $expensesDistribution[$i]['production'] == '' || trim($expensesDistribution[$i]['production']) == ''
+                ) {
+                    $i = $i + 2;
+                    $dataExpensesDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                    break;
+                }
+
+                $findProduction = $generalPCenterDao->findPCenter($expensesDistribution[$i], $id_company);
+                if (!$findProduction) {
+                    $i = $i + 2;
+                    $dataExpensesDistribution = array('error' => true, 'message' => "Centro de produccion no existe en la base de datos<br>Fila: {$i}");
+                    break;
+                }
+            }
+
             $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($expensesDistribution[$i], $id_company);
             if (!$findExpenseDistribution) $insert = $insert + 1;
             else $update = $update + 1;
@@ -129,12 +150,14 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 $app->post('/addExpensesDistribution', function (Request $request, Response $response, $args) use (
     $expensesDistributionDao,
     $familiesDao,
+    $productsDao,
     $generalProductsDao,
     $assignableExpenseDao,
     $priceProductDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
-    $multiproductsDao
+    $multiproductsDao,
+    $generalPCenterDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -187,12 +210,21 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     } else {
         $expensesDistribution = $dataExpensesDistribution['importExpense'];
 
+        $arrProducts = [];
+
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
             // Obtener id producto
             $findProduct = $generalProductsDao->findProduct($expensesDistribution[$i], $id_company);
             $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
 
             $findExpenseDistribution = $expensesDistributionDao->findExpenseDistribution($expensesDistribution[$i], $id_company);
+
+            if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+                $findProduction = $generalPCenterDao->findPCenter($expensesDistribution[$i], $id_company);
+                $expensesDistribution[$i]['production'] = $findProduction['id_production_center'];
+            } else
+                $expensesDistribution[$i]['production'] = 0;
+
             if (!$findExpenseDistribution)
                 $resolution = $expensesDistributionDao->insertExpensesDistributionByCompany($expensesDistribution[$i], $id_company);
             else {
@@ -200,6 +232,22 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $resolution = $expensesDistributionDao->updateExpensesDistribution($expensesDistribution[$i]);
             }
             if ($resolution != null) break;
+
+            // Activar Productos
+            $resolution = $generalProductsDao->activeOrInactiveProducts($expensesDistribution[$i]['selectNameProduct'], 1);
+
+            $arrProducts[$i] = $expensesDistribution[$i]['selectNameProduct'];
+        }
+
+        if ($expensesDistribution[0]['type'] == '2') {
+            $cProducts = $productsDao->findAllProductsByCompany($id_company);
+
+            // Consultar si tengo productos que no estan en el importe y inactivarlos
+            foreach ($cProducts as $arr) {
+                if (!in_array($arr['id_product'], $arrProducts)) {
+                    $generalProductsDao->activeOrInactiveProducts($arr['id_product'], 0);
+                }
+            }
         }
 
         if ($resolution == null)

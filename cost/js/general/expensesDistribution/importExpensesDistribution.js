@@ -34,6 +34,34 @@ $(document).ready(function () {
       return false;
     }
 
+    if (option == 1) {
+      bootbox.confirm({
+        title: 'Importe',
+        message: 'Seleccione tipo de importe que desea realizar.',
+        buttons: {
+          confirm: {
+            label: 'Parcial',
+            className: 'btn-success',
+          },
+          cancel: {
+            label: 'Total',
+            className: 'btn-danger',
+          },
+        },
+        callback: function (result) {
+          if (result == true) {
+            sessionStorage.setItem('typeExpenseD', 1);
+          } else {
+            sessionStorage.setItem('typeExpenseD', 2);
+          }
+          checkImportExpenseD();
+        },
+      });
+    } else
+      checkImportExpenseD();    
+  });
+
+  checkImportExpenseD = () => {
     $('.cardBottons').hide();
 
     let form = document.getElementById('formExpensesD');
@@ -49,7 +77,7 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        if (data.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileExpenses').val('');
@@ -58,7 +86,10 @@ $(document).ready(function () {
         }
 
         if (option == 1) {
-          const expectedHeaders = ['unidades_vendidas', 'volumen_ventas', 'referencia_producto', 'producto'];
+          const expectedHeaders = ['unidades_vendidas', 'volumen_ventas', 'referencia_producto', 'producto', 'centro_produccion'];
+          if (production_center == '0' || flag_production_center == '0')
+            expectedHeaders.splice(4, 1);
+          
           const actualHeaders = Object.keys(data[0]);
 
           const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -103,12 +134,18 @@ $(document).ready(function () {
               turnover = item.volumen_ventas.toString().replace('.', ',');
             else
               turnover = 0;
+
+            if (production_center == '1' && flag_production_center == '1')
+              production = item.centro_produccion;
+            else
+              production = 0;
             
             return {
               referenceProduct: item.referencia_producto,
               product: item.producto,
               unitsSold: unitsSold,
               turnover: turnover,
+              production: production,
             };
           } else if (option == 2) {
             url = '/api/expenseRecoverDataValidation';
@@ -119,12 +156,18 @@ $(document).ready(function () {
             };
           }
         });
+
+        if (option == 1) {
+          let type = sessionStorage.getItem('typeExpenseD');
+          expenseToImport[0]['type'] = type;
+        }
+
         checkExpenseD(expenseToImport, url);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
       });
-  });
+  }
 
   /* Mensaje de advertencia */
   checkExpenseD = (data, url) => {
@@ -192,7 +235,9 @@ $(document).ready(function () {
     let data = [];
     if (flag_expense == '1') {
       if (flag_expense_distribution == '1') {
-        namexlsx = 'distribucion_gastos.xlsx';
+        production_center == '1' && flag_production_center == '1' ?
+          namexlsx = 'distribucion_gastos(CP).xlsx' :
+          namexlsx = 'distribucion_gastos.xlsx';
         url = '/api/allProductsDistribution';
         op = 1;
       }
@@ -211,12 +256,21 @@ $(document).ready(function () {
     if (op == 1) {
       if (dataTypeExpense.length > 0) {
         for (i = 0; i < dataTypeExpense.length; i++) {
-          data.push({
-            referencia_producto: dataTypeExpense[i].reference,
-            producto: dataTypeExpense[i].product,
-            unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-            volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-          });
+          if (production_center == '1' && flag_production_center == '1')
+            data.push({
+              referencia_producto: dataTypeExpense[i].reference,
+              producto: dataTypeExpense[i].product,
+              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
+              centro_produccion: dataTypeExpense[i].production_center,
+            });
+          else
+            data.push({
+              referencia_producto: dataTypeExpense[i].reference,
+              producto: dataTypeExpense[i].product,
+              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
+            });
         }
 
         let ws = XLSX.utils.json_to_sheet(data);

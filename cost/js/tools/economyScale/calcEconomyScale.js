@@ -60,13 +60,14 @@ $(document).ready(function () {
           $(`#price-${i + 1}`).val(price.toFixed(max));
         }
       }
-      if (id != 'unity-0') generalCalc(1);
+      // if (id != 'unity-0')
+      generalCalc(1);
     } catch (error) {
       console.log(error);
     }
-  });
+  }); 
 
-  /*  generalCalc = async (op) => {
+  /*generalCalc = async (op) => {
     try {
       op == 0 ? (count = 0) : (count = 5);
 
@@ -195,6 +196,7 @@ $(document).ready(function () {
       console.log(error);
     }
   }; */
+
   /* */ generalCalc = async (op) => {
     try {
       op == 0 ? (count = 0) : (count = 5);

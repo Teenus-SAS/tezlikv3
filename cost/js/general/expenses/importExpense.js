@@ -47,7 +47,11 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['numero_cuenta', 'cuenta', 'valor'];
+        const expectedHeaders = ['numero_cuenta', 'cuenta', 'valor', 'centro_produccion'];
+
+        if (production_center == '0' || flag_production_center == '0')
+          expectedHeaders.splice(3, 1);
+
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -67,10 +71,16 @@ $(document).ready(function () {
           if (item.valor)
             expenseValue = item.valor.toString().replace('.', ',');
 
+          if (production_center == '1' && flag_production_center == '1')
+            production = item.centro_produccion;
+          else
+            production = 0;
+
           return {
             numberCount: item.numero_cuenta,
             count: item.cuenta,
             expenseValue: expenseValue,
+            production: production,
           };
         });
         checkExpense(expenseToImport);
@@ -137,7 +147,9 @@ $(document).ready(function () {
   $('#btnDownloadImportsExpensesAssignation').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Gastos.xlsx';
+    production_center == '1' && flag_production_center == '1' ?
+      url = 'assets/formatsXlsx/Gastos(CP).xlsx' :
+      url = 'assets/formatsXlsx/Gastos.xlsx';
 
     let link = document.createElement('a');
     link.target = '_blank';
