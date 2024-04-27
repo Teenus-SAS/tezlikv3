@@ -60,8 +60,7 @@ $(document).ready(function () {
           $(`#price-${i + 1}`).val(price.toFixed(max));
         }
       }
-      // if (id != 'unity-0')
-      generalCalc(1);
+      if (id != 'unity-0') generalCalc(1);
     } catch (error) {
       console.log(error);
     }
@@ -285,9 +284,7 @@ $(document).ready(function () {
             return false;
           }
           // Verificar si el margen de utilidad es negativo
-          else if (i == 0 && percentage < profitability) {
-            let cant = 1;
-
+          else if (i == 0 && percentage < profitability) { 
             percentage > 0 ? cant += 2 : cant = 1;
 
             let division = Math.ceil((totalCostsAndExpense / price) + cant);
@@ -326,8 +323,11 @@ $(document).ready(function () {
           i = i - 1;
       }
 
-      // $('.cardLoading').remove();
-      // $('.cardBottons').show(400);
+      if(op == 0)
+        $('#unity-1').blur();
+
+      $('.cardLoading').remove();
+      $('.cardBottons').show(400);
     } catch (error) {
       console.log(error);
     }

@@ -1,5 +1,6 @@
 $(document).ready(function () {
   let economyScale = [];
+  cant = 1;
 
   loadAllData = async () => {
     try {
@@ -40,19 +41,19 @@ $(document).ready(function () {
     let costFixed = 0;
     let variableCost1 = 0;
 
-    // $('.cardBottons').hide();
+    $('.cardBottons').hide();
 
-    // let form = document.getElementById('spinnerLoading');
-    // $('#spinnerLoading').empty();
+    let form = document.getElementById('spinnerLoading');
+    $('#spinnerLoading').empty();
 
-    // form.insertAdjacentHTML(
-    //   'beforeend',
-    //   `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
-    //     <div class="spinner-border text-secondary" role="status">
-    //         <span class="sr-only">Loading...</span>
-    //     </div>
-    //   </div>`
-    // );
+    form.insertAdjacentHTML(
+      'beforeend',
+      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>`
+    );
     
     $('.general').val('');
     $('.general').html('');
@@ -124,6 +125,7 @@ $(document).ready(function () {
         maximumFractionDigits: 0,
       })}`
     );
+    cant = 1;
 
     generalCalc(0);
   };

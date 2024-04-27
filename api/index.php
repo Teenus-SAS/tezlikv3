@@ -126,6 +126,7 @@ require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeProducts.p
 require_once('../api/src/routes/app/cost/tools/analysisMaterials/routeLots.php');
 require_once('../api/src/routes/app/cost/tools/routeSimulator.php');
 require_once('../api/src/routes/app/cost/tools/routeHistorical.php');
+require_once('../api/src/routes/app/cost/tools/routeSaleObjectives.php');
 
 // User Access
 require_once('../api/src/routes/app/cost/userAccess/routeUserAccess.php');
