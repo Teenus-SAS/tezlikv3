@@ -41,20 +41,21 @@ $(document).ready(function () {
           "¿Importación de Datos Total? La importación afectará todos los datos contenidos en la plataforma. Durante el proceso de importación, algunos productos pueden ser activados o desactivados en función de la información proporcionada en el archivo. Esto implica cambios en el estado de visibilidad o disponibilidad de los productos en la plataforma.",
         buttons: {
           confirm: {
-            label: "No",
-            className: "btn-warning",
-          },
-          cancel: {
             label: "Si",
             className: "btn-success",
           },
+          cancel: {
+            label: "No",
+            className: "btn-warning",
+          },
+          confirm: {
+            label: "Cancelar",
+            className: "btn-info",
+          },
         },
         callback: function (result) {
-          if (result == true) {
-            sessionStorage.setItem("typeExpenseD", 1);
-          } else {
-            sessionStorage.setItem("typeExpenseD", 2);
-          }
+          if (result) sessionStorage.setItem("typeExpenseD", 1);
+          else sessionStorage.setItem("typeExpenseD", 2);
           checkImportExpenseD();
         },
       });
