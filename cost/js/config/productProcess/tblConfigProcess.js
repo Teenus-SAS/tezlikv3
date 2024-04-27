@@ -62,29 +62,29 @@ $(document).ready(function () {
             <th>Total:</th>
             <th id="totalAlistment"></th>
             <th id="totalOperation"></th>
+            <th id="totalEfficiency"></th>
             <th id="totalWorkforce"></th>
             <th id="totalIndirect"></th>
             ${flag_employee == '1' ? '<th></th>' : ''}
             <th></th>
             </tr>
             </tfoot>`);
-            // <th id="totalEfficiency"></th>
     }
 
-    // let totalEfficiency = 0;
+    let totalEfficiency = 0;
 
-    // data.forEach(item => {
-    //   totalEfficiency += parseFloat(item.efficiency);
-    // });
+    data.forEach(item => {
+      totalEfficiency += parseFloat(item.efficiency);
+    });
  
     // Encabezados de la tabla
-    var headers = ['No.', 'Proceso', 'Máquina', title3, title4, /* 'Eficiencia', */ 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
+    var headers = ['No.', 'Proceso', 'Máquina', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
 
     if (visible == false)
       headers.splice(7, 1);
     
-    // if (totalEfficiency == 0)
-    //   headers.splice(5, 1);
+    if (totalEfficiency == 0)
+      headers.splice(5, 1);
     
     // Obtén la tabla
     var table = document.getElementById('tblConfigProcess');
@@ -142,16 +142,16 @@ $(document).ready(function () {
             
             cell.textContent = operation_time;
             break;
-          // case 'Eficiencia':
-          //   let efficiency = parseFloat(arr.efficiency);
+          case 'Eficiencia':
+            let efficiency = parseFloat(arr.efficiency);
             
-          //   if (Math.abs(efficiency) < 0.01) { 
-          //     efficiency = efficiency.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-          //   } else
-          //     efficiency = efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            if (Math.abs(efficiency) < 0.01) { 
+              efficiency = efficiency.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              efficiency = efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-          //   cell.textContent = `${efficiency} %`;
-          //   break;
+            cell.textContent = `${efficiency} %`;
+            break;
           case 'Mano de Obra':
             let workforce_cost = parseFloat(arr.workforce_cost);
             
@@ -191,6 +191,8 @@ $(document).ready(function () {
         }
       });
     });
+
+    if (totalEfficiency == 0) $('#totalEfficiency').remove();
 
     $('#tblConfigProcess').dataTable({
       pageLength: 50,
@@ -239,23 +241,23 @@ $(document).ready(function () {
 
     let alistment = 0;
     let operation = 0;
-    // let efficiency = 0;
+    let efficiency = 0;
     let workForce = 0;
     let indirect = 0;
 
     data.forEach(item => {
       alistment += parseFloat(item[value3]);
       operation += parseFloat(item.operation_time);
-      // efficiency += parseFloat(item.efficiency);
+      efficiency += parseFloat(item.efficiency);
       workForce += parseFloat(item.workforce_cost);
       indirect += parseFloat(item.indirect_cost);
     });
 
-    // efficiency = efficiency / data.length;
+    efficiency = efficiency / data.length;
 
     $('#totalAlistment').html(alistment.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalOperation').html(operation.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
-    // $('#totalEfficiency').html(`${efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
+    $('#totalEfficiency').html(`${efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
     $('#totalWorkforce').html(`$ ${workForce.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
     $('#totalIndirect').html(`$ ${indirect.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
   };
