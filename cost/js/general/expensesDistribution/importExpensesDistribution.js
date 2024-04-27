@@ -38,19 +38,15 @@ $(document).ready(function () {
       bootbox.confirm({
         title: "Importar Unidades y Ventas",
         message:
-          "¿Importación de Datos Total? La importación afectará todos los datos contenidos en la plataforma. Durante el proceso de importación, algunos productos pueden ser activados o desactivados en función de la información proporcionada en el archivo. Esto implica cambios en el estado de visibilidad o disponibilidad de los productos en la plataforma.",
+          "¿Importación de Datos Total o Parcial? La importación afectará todos los datos contenidos en la plataforma. Si la importacion es Total, algunos productos pueden ser desactivados en función de la información proporcionada en el archivo.  Esto implica cambios en el estado de visibilidad o disponibilidad de los productos en la plataforma. Si la información es Parcial, No se desactivara ningún producto.",
         buttons: {
           confirm: {
-            label: "Si",
+            label: "Importación Total",
             className: "btn-success",
           },
           cancel: {
-            label: "No",
+            label: "Importación Parcial",
             className: "btn-warning",
-          },
-          confirm: {
-            label: "Cancelar",
-            className: "btn-info",
           },
         },
         callback: function (result) {
