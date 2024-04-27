@@ -76,7 +76,7 @@ $(document).ready(function () {
             magnitude: item.magnitud,
             unit: item.unidad,
             quantity: quantity,
-            // waste: item.desperdicio,
+            waste: item.desperdicio,
             type: item.tipo,
           };
         });
@@ -165,7 +165,7 @@ $(document).ready(function () {
           magnitud: allProductMaterials[i].magnitude,
           unidad: allProductMaterials[i].unit,
           cantidad: allProductMaterials[i].quantity,
-          // desperdicio: allProductMaterials[i].waste,
+          desperdicio: allProductMaterials[i].waste,
           tipo: allProductMaterials[i].type,
         });
       }

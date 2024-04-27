@@ -124,6 +124,7 @@ $(document).ready(function () {
             magnitud: dataProductsMaterials[i].magnitude,
             unidad: dataProductsMaterials[i].unit,
             cantidad: parseFloat(dataProductsMaterials[i].quantity),
+            desperdicio: parseFloat(dataProductsMaterials[i].waste),
             tipo: 'Material',
           });
         }
@@ -168,6 +169,8 @@ $(document).ready(function () {
             maquina: dataProductsProcess[i].machine,
             tiempo_enlistamiento: parseFloat(dataProductsProcess[i].enlistment_time),
             tiempo_operacion: parseFloat(dataProductsProcess[i].operation_time),
+            eficiencia: parseFloat(dataProductsProcess[i].efficiency),
+            maquina_autonoma: dataProductsProcess[i].auto_machine
           });
         }
 

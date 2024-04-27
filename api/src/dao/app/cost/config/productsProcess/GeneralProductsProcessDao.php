@@ -20,13 +20,13 @@ class GeneralProductsProcessDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT pp.id_product_process, p.id_product, pc.id_process, p.reference, p.product, pp.enlistment_time, pp.operation_time, IFNULL(mc.id_machine, 0) AS id_machine, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
-                                             pp.workforce_cost, pp.indirect_cost, pp.employee, pp.route, IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine
+                                             pp.workforce_cost, pp.indirect_cost, pp.employee, pp.route, IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine, pp.efficiency
                                   FROM products p 
                                   INNER JOIN products_process pp ON pp.id_product = p.id_product
                                   LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
                                   INNER JOIN process pc ON pc.id_process = pp.id_process
                                   LEFT JOIN payroll py ON py.id_process = pp.id_process
-                                  WHERE p.id_company = :id_company 
+                                  WHERE p.id_company = :id_company AND p.active = 1
                                   GROUP BY pp.id_product_process
                                   ORDER BY pp.route ASC");
         $stmt->execute(['id_company' => $id_company]);

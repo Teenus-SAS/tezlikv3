@@ -22,7 +22,7 @@ class GeneralServicesDao
         $stmt = $connection->prepare("SELECT sx.id_service, p.id_product, p.reference, p.product, sx.name_service, sx.cost, sx.id_product 
                                         FROM services sx 
                                         INNER JOIN products p ON sx.id_product = p.id_product 
-                                        WHERE sx.id_company = :id_company;");
+                                        WHERE sx.id_company = :id_company AND p.active = 1");
         $stmt->execute(['id_company' => $id_company]);
         $externalservices = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $externalservices));

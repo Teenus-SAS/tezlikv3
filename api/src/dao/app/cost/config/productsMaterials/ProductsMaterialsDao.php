@@ -20,7 +20,7 @@ class ProductsMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_material, m.reference, m.material, mg.id_magnitude, mg.magnitude, u.id_unit, u.unit, 
-                                             u.abbreviation, pm.quantity, m.cost, pm.cost AS cost_product_material, p.composite 
+                                             u.abbreviation, pm.quantity, m.cost, pm.cost AS cost_product_material, p.composite, pm.waste
                                       FROM products p 
                                         INNER JOIN products_materials pm ON pm.id_product = p.id_product
                                         INNER JOIN materials m ON m.id_material = pm.id_material
@@ -75,14 +75,15 @@ class ProductsMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO products_materials (id_material, id_unit, id_company, id_product, quantity)
-                                          VALUES (:id_material, :id_unit, :id_company, :id_product, :quantity)");
+            $stmt = $connection->prepare("INSERT INTO products_materials (id_material, id_unit, id_company, id_product, quantity, waste)
+                                          VALUES (:id_material, :id_unit, :id_company, :id_product, :quantity, :waste)");
             $stmt->execute([
                 'id_material' => $dataProductMaterial['material'],
                 'id_unit' => $dataProductMaterial['unit'],
                 'id_company' => $id_company,
                 'id_product' => $dataProductMaterial['idProduct'],
                 'quantity' => trim($dataProductMaterial['quantity']),
+                'waste' => trim($dataProductMaterial['waste']),
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -99,7 +100,7 @@ class ProductsMaterialsDao
 
         try {
             $stmt = $connection->prepare("UPDATE products_materials SET id_material = :id_material, id_unit = :id_unit,
-                                                 id_product = :id_product, quantity = :quantity
+                                                 id_product = :id_product, quantity = :quantity, waste = :waste
                                           WHERE id_product_material = :id_product_material");
             $stmt->execute([
                 'id_product_material' => $dataProductMaterial['idProductMaterial'],
@@ -107,6 +108,7 @@ class ProductsMaterialsDao
                 'id_unit' => $dataProductMaterial['unit'],
                 'id_product' => $dataProductMaterial['idProduct'],
                 'quantity' => trim($dataProductMaterial['quantity']),
+                'waste' => trim($dataProductMaterial['waste']),
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
