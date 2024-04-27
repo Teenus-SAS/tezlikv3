@@ -125,7 +125,7 @@ $(document).ready(function () {
       }
 
       $('.cardBtnImportExpenses').show(800);
-      $('#btnImportNewExpenses').html('<i class="bi bi-cloud-arrow-up-fill"></i>');
+      $('#btnImportNewExpenses').html('Importar Distribución');
       $('#lblImportExpense').html('Importar Distribución de Gasto');
       $('#descrExpense').html('Distribución Gastos Generales');
 

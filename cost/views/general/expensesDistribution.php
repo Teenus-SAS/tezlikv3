@@ -70,7 +70,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mr-2 cardBtnExpenseRecover" style="display:none">
                                     <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
                                 </div>
-                                <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" data-toggle="tooltip" title="Importar Unidades e Ingresos por Ventas" style="display:none">
+                                <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
                                     <button id="btnImportNewExpenses" class="btn btn-primary"></button>
                                 </div>
                                 <?php if ($_SESSION['type_expense'] == 1) { ?>
