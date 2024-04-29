@@ -134,6 +134,7 @@ $(document).ready(function () {
 
         /* Productos */
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+        let profitability = $('#profitability').val();
 
         if (dataProducts.length > 0) {
             for (i = 0; i < dataProducts.length; i++) {
@@ -142,6 +143,7 @@ $(document).ready(function () {
                     producto: dataProducts[i].product,
                     unidades: `${isNaN(parseFloat(dataProducts[i].unitsSold)) ? 0 : parseFloat(dataProducts[i].unitsSold)}`,
                     precio_real: parseFloat(dataProducts[i].real_price),
+                    rentabilidad: profitability,
                 });
             }
 
