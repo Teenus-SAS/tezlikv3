@@ -33,7 +33,7 @@ $(document).ready(function () {
       $('.cardTypePayroll').toggle(800); 
     if (this.id == 'chckExpenses')
       $('.cardChkExpenses').toggle(800);
-    if (this.id == 'checkbox-15')
+    if (this.id == 'checkbox-14')
       $('.cardTypePrices').toggle(800);
   });
 
@@ -114,7 +114,7 @@ $(document).ready(function () {
 
       /* Obtener los checkbox seleccionados */
       
-      if ($(`#checkbox-15`).is(':checked')) {
+      if ($(`#checkbox-14`).is(':checked')) {
         if (typeCustomPrices.length == 0) {
           toastr.error('Debe seleccionar tipo de precio');
           return false;
@@ -215,7 +215,7 @@ $(document).ready(function () {
       quoteCompany: data.quote_company,
       quoteContact: data.quote_contact,
       prices: data.price,
-      pricesUSD: data.price_usd,
+      // pricesUSD: data.price_usd,
       customPrices: data.custom_price,
       analysisMaterials: data.analysis_material,
       economyScale: data.economy_scale,
@@ -277,7 +277,7 @@ $(document).ready(function () {
       
     if ($(`#checkbox-7`).is(':checked')) $('.cardTypePayroll').show();
 
-    if ($(`#checkbox-15`).is(':checked')) $('.cardTypePrices').show();
+    if ($(`#checkbox-14`).is(':checked')) $('.cardTypePrices').show();
 
     $(`#typePayroll option[value=${data.type_payroll}]`).prop('selected', true);
 
@@ -365,7 +365,7 @@ $(document).ready(function () {
     //   dataUser['expense'] = expense;
     // }
     
-    if ($(`#checkbox-15`).is(':checked')) {
+    if ($(`#checkbox-14`).is(':checked')) {
       if (typeCustomPrices.length == 0) {
         toastr.error('Debe seleccionar tipo de precio');
         return false;
@@ -416,7 +416,7 @@ $(document).ready(function () {
       quoteCompany: 0,
       quoteContact: 0,
       price: 0,
-      priceUSD: 0,
+      // priceUSD: 0,
       customPrices: 0,
       analysisMaterial: 0,
       economyScale: 0,

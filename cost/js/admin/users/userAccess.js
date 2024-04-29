@@ -21,7 +21,7 @@ $(document).ready(function () {
             aCompanies: data.quote_company,
             aContacts: data.quote_contact,
             aPricesCOP: data.price,
-            aPricesUSD: data.price_usd,
+            // aPricesUSD: data.price_usd,
             aAnalysisMaterials: data.analysis_material,
             aEconomyScale: data.economy_scale,
             aMultiproducts: data.multiproduct,
@@ -93,8 +93,8 @@ $(document).ready(function () {
 
         if (
             access.aCustomPrices == 0 &&
-            access.aPricesCOP == 0 &&
-            access.aPricesUSD == 0
+            access.aPricesCOP == 0
+            // && access.aPricesUSD == 0
         ) {
             $('#navPrices').hide();
         } else

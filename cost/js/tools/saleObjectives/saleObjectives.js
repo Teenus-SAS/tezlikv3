@@ -93,8 +93,10 @@ $(document).ready(function () {
                 let product_unit = await handleIteration(dataProducts[i]);
 
                 if (typeof product_unit === 'object' && !Array.isArray(product_unit)) {
-                    $(`#unitsSold-${dataProducts[i].id_product}`).css('border', '1px solid red');
-                    $(`#unitsSold-${dataProducts[i].id_product}`).val(product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0 }));
+                    $(`#unitsSold-${dataProducts[i].id_product}`).css('color', 'red');
+                    $(`#unitsSold-${dataProducts[i].id_product}`).html(product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0 }));
+                    
+                    dataProducts[i].unitsSold = product_unit.unit;
                     cant = 1;
                     unit = 1;
                     startTime = performance.now();
@@ -104,7 +106,9 @@ $(document).ready(function () {
                     if (product_unit == 0) {
                         i = i - 1;
                     } else {
-                        $(`#unitsSold-${dataProducts[i].id_product}`).val(product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 }));
+                        $(`#unitsSold-${dataProducts[i].id_product}`).html(product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 }));
+
+                        dataProducts[i].unitsSold = product_unit;
 
                         cant = 1;
                         unit = 1;
@@ -113,10 +117,38 @@ $(document).ready(function () {
                 }
             }
 
+            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+
             $('.cardLoading').remove();
             $('.cardBottons').show(400);
         } catch (error) {
             console.log(error);
         }
     };
+
+    $('#btnExportSObjectives').click(function (e) {
+        e.preventDefault();
+
+        let wb = XLSX.utils.book_new();
+        let data = [];
+
+        /* Productos */
+        let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
+
+        if (dataProducts.length > 0) {
+            for (i = 0; i < dataProducts.length; i++) {
+                data.push({
+                    referencia: dataProducts[i].reference,
+                    producto: dataProducts[i].product,
+                    unidades: `${isNaN(parseFloat(dataProducts[i].unitsSold)) ? 0 : parseFloat(dataProducts[i].unitsSold)}`,
+                    precio_real: parseFloat(dataProducts[i].real_price),
+                });
+            }
+
+            let ws = XLSX.utils.json_to_sheet(data);
+            XLSX.utils.book_append_sheet(wb, ws, 'Productos');
+        }
+        XLSX.writeFile(wb, 'Objetivos_Ventas.xlsx');
+        
+    });
 });

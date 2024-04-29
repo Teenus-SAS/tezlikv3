@@ -3,7 +3,7 @@ $(document).ready(function () {
 
   plan_cost_price == 1 ? (plan_cost_price = true) : (plan_cost_price = false);
 
-  price_usd == 1 ? (price_usd = true) : (price_usd = false);
+  // price_usd == 1 ? (price_usd = true) : (price_usd = false);
 
   plan_custom_price == 1
     ? (plan_custom_price = true)
@@ -306,14 +306,14 @@ $(document).ready(function () {
               color: { text: "black" },
             });
 
-          if (price_usd == true)
-            permissions.push({
-              name: "Precios USD",
-              icon: data.price_usd
-                ? "bi bi-check-circle-fill text-success"
-                : "bi bi-x-circle-fill text-danger",
-              color: { text: "black" },
-            });
+          // if (price_usd == true)
+          //   permissions.push({
+          //     name: "Precios USD",
+          //     icon: data.price_usd
+          //       ? "bi bi-check-circle-fill text-success"
+          //       : "bi bi-x-circle-fill text-danger",
+          //     color: { text: "black" },
+          //   });
 
           if (plan_custom_price == true)
             permissions.push({

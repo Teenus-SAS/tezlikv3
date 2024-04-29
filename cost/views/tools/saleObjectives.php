@@ -78,17 +78,18 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons">
+                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
                                     <input type="number" class="form-control text-center" id="profitability">
                                     <label for="profitability">Rentabilidad</label>
                                 </div>
                                 <div id="spinnerLoading"></div>
+                                <div class="col-xs-2 mr-2">
+                                    <button class="btn btn-success" id="btnExportSObjectives" data-toggle="tooltip" title="" style="height: 39px" data-original-title="Exportar"><i class="fas fa-file-excel fa-lg"></i></button>
+                                </div>
                             </div>
                             <!-- <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewEconomyScale">Nuevo Calculo</button>
-                                </div>
-                                <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                $_SESSION['price_usd'] == 1 && 
+                                <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                     <div class="col-xs-2">
                                         <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                     </div>
@@ -136,13 +137,12 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
-        price_usd = "<?= $_SESSION['price_usd'] ?>";
+        // price_usd = 
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
+        flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
-        price_usd = "<?= $_SESSION['price_usd'] ?>";
-        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
 
         // $(document).ready(function() {
 
