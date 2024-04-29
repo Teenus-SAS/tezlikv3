@@ -95,7 +95,7 @@
                                         </a>
                                         <ul class="dropdown-menu1">
                                             <a class="dropdown-item" href="/cost/economyScale">
-                                                <i class="bi bi-graph-up mr-1"></i> Economia de Escala
+                                                <i class="bi bi-graph-up mr-1"></i> Negociaciones Eficientes
                                             </a>
                                             <a class="dropdown-item" href="/cost/saleObjectives">
                                                 <i class="bi bi-graph-down mr-1"></i> Objetivos de Ventas
