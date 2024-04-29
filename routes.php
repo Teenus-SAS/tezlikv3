@@ -47,6 +47,7 @@ get('/cost/prices-usd', '/cost/views/prices/pricesUSD/pricesUSD.php');
 get('/cost/custom-prices', '/cost/views/prices/customPrices/customPrices.php');
 get('/cost/details-quote', '/cost/views/quotes/detailsQuote.php');
 get('/cost/economyScale', '/cost/views/tools/economyScale.php');
+get('/cost/saleObjectives', '/cost/views/tools/saleObjectives.php');
 get('/cost/simulator', '/cost/views/tools/simulator.php');
 get('/cost/historical', '/cost/views/tools/historical/historical.php');
 get('/cost/details-historical', '/cost/views/tools/historical/detailsHistorical.php');
