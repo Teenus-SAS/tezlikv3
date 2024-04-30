@@ -442,11 +442,17 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
         }
 
         // Calcular procentaje de participacion
-        $resolution = $participationExpenseDao->calcParticipationExpense($id_company);
+        // $resolution = $participationExpenseDao->calcParticipationExpense($id_company);
 
         /* Calcular gasto asignable */
         if ($resolution == null) {
             if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+                // Calcular procentaje de participacion 
+                $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCountCP($id_company);
+                $expenseCount = $participationExpenseDao->findAllExpensesByCompanyCP($id_company);
+
+                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+
                 $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
 
                 for ($i = 0; $i < sizeof($productions); $i++) {

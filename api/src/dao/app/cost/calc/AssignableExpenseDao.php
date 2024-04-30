@@ -140,7 +140,7 @@ class AssignableExpenseDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT SUM(expense_value) AS expenses_value FROM expenses WHERE id_production_center = :id_production_center");
+            $stmt = $connection->prepare("SELECT SUM(expense_value) AS expenses_value FROM expenses_products_centers WHERE id_production_center = :id_production_center");
             $stmt->execute(['id_production_center' => $id_production_center]);
             $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
         } catch (\Exception $e) {

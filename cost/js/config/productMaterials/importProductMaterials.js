@@ -166,6 +166,7 @@ $(document).ready(function () {
           unidad: allProductMaterials[i].unit,
           cantidad: allProductMaterials[i].quantity,
           // desperdicio: allProductMaterials[i].waste,
+          precio_unitario: allProductMaterials[i].cost_product_material,
           tipo: allProductMaterials[i].type,
         });
       }
