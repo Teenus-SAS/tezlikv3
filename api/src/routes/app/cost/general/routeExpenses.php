@@ -3,11 +3,13 @@
 use tezlikv3\dao\AssignableExpenseDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\ExpensesDao;
+use tezlikv3\dao\ExpensesProductionCenterDao;
 use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralPCenterDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\ParticipationExpenseDao;
 use tezlikv3\dao\PriceProductDao;
@@ -29,6 +31,8 @@ $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $productionCenterDao = new ProductionCenterDao();
 $generalPCenterDao = new GeneralPCenterDao();
+$expensesProductionCenterDao = new ExpensesProductionCenterDao();
+$lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -62,10 +66,18 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
 });
 
 /* Consulta todos */
-$app->get('/expenses', function (Request $request, Response $response, $args) use ($expensesDao) {
+$app->get('/expenses', function (Request $request, Response $response, $args) use (
+    $expensesDao,
+    $expensesProductionCenterDao
+) {
     session_start();
     $id_company = $_SESSION['id_company'];
-    $expenses = $expensesDao->findAllExpensesByCompany($id_company);
+
+    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
+        $expenses = $expensesProductionCenterDao->findAllExpensesByCompany($id_company);
+    else
+        $expenses = $expensesDao->findAllExpensesByCompany($id_company);
+
     $response->getBody()->write(json_encode($expenses, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -78,7 +90,10 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
     $id_company = $_SESSION['id_company'];
 
     // Calcular total del gasto
-    $expense = $totalExpenseDao->calcTotalExpenseByCompany($id_company);
+    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
+        $expense = $totalExpenseDao->calcTotalCPExpenseByCompany($id_company);
+    else
+        $expense = $totalExpenseDao->calcTotalExpenseByCompany($id_company);
 
     $findExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
 
@@ -94,6 +109,7 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
 $app->post('/expenseDataValidation', function (Request $request, Response $response, $args) use (
     $expensesDao,
     $generalPCenterDao,
+    $expensesProductionCenterDao,
     $pucDao
 ) {
     $dataExpense = $request->getParsedBody();
@@ -148,17 +164,32 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
                     $i = $i + 2;
                     $dataImportExpense = array('error' => true, 'message' => "Centro de produccion no existe en la base de datos<br>Fila: {$i}");
                     break;
-                }
-            }
+                } else $expense[$i]['idProductionCenter'] = $findProduction['id_production_center'];
+                //RETORNA id_expense CON idPuc Y id_company
+                $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
+                //SI NO RETORNA id_expense $insert + 1
+                if (!$findExpense) $insert = $insert + 1;
+                else {
+                    $expense[$i]['idExpense'] = $findExpense['id_expense'];
 
-            //RETORNA id_expense CON idPuc Y id_company
-            $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
-            //SI NO RETORNA id_expense $insert + 1
-            if (!$findExpense) $insert = $insert + 1;
-            //SI RETORNA id_expense $update + 1
-            else $update = $update + 1;
-            $dataImportExpense['insert'] = $insert;
-            $dataImportExpense['update'] = $update;
+                    $findExpense = $expensesProductionCenterDao->findExpense($expense[$i], $id_company);
+
+                    if (!$findExpense) $insert = $insert + 1;
+                    //SI RETORNA id_expense $update + 1
+                    $update = $update + 1;
+                }
+                $dataImportExpense['insert'] = $insert;
+                $dataImportExpense['update'] = $update;
+            } else {
+                //RETORNA id_expense CON idPuc Y id_company
+                $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
+                //SI NO RETORNA id_expense $insert + 1
+                if (!$findExpense) $insert = $insert + 1;
+                //SI RETORNA id_expense $update + 1
+                else $update = $update + 1;
+                $dataImportExpense['insert'] = $insert;
+                $dataImportExpense['update'] = $update;
+            }
         }
     } else
         $dataImportExpense = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -179,7 +210,9 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $totalExpenseDao,
     $participationExpenseDao,
     $productionCenterDao,
-    $generalPCenterDao
+    $generalPCenterDao,
+    $expensesProductionCenterDao,
+    $lastDataDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -192,10 +225,26 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $resolution = null;
 
     if ($dataExpenses > 1) {
-        $expense = $expensesDao->findExpense($dataExpense, $id_company);
+        if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+            $expense = $expensesDao->findExpense($dataExpense, $id_company);
+
+            if ($expense) {
+                $dataExpense['idExpense'] = $expense['id_expense'];
+                $expense = $expensesProductionCenterDao->findExpense($dataExpense, $id_company);
+            }
+        } else
+            $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
         if (!$expense) {
             $resolution = $expensesDao->insertExpensesByCompany($dataExpense, $id_company);
+
+            if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+                $findExpense = $lastDataDao->findLastInsertedExpense($id_company);
+
+                $dataExpense['idExpense'] = $findExpense['id_expense'];
+
+                $resolution = $expensesProductionCenterDao->insertExpensesByCompany($dataExpense, $id_company);
+            }
 
             if ($resolution == null)
                 $resp = array('success' => true, 'message' => 'Gasto creado correctamente');
@@ -249,13 +298,14 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             $resolution = $totalExpenseDao->updateTotalExpense($expense, $id_company);
     }
 
-    // Calcular procentaje de participacion
-    if ($resolution == null)
-        $resolution = $participationExpenseDao->calcParticipationExpense($id_company);
-
     /* Calcular gasto asignable */
     if ($resolution == null) {
         if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+            $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCountCP($id_company);
+            $expenseCount = $participationExpenseDao->findAllExpensesByCompanyCP($id_company);
+
+            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+
             $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
 
             for ($i = 0; $i < sizeof($productions); $i++) {
@@ -278,6 +328,10 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
                 }
             }
         } else {
+            $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
+            $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
+
+            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
             // Consulta unidades vendidades y volumenes de venta por producto
             $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
@@ -441,8 +495,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                 $resolution = $totalExpenseDao->updateTotalExpense($expense, $id_company);
         }
 
-        // Calcular procentaje de participacion
-        // $resolution = $participationExpenseDao->calcParticipationExpense($id_company);
+        // Calcular procentaje de participacion 
 
         /* Calcular gasto asignable */
         if ($resolution == null) {
@@ -475,6 +528,11 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                     }
                 }
             } else {
+                $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
+                $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
+
+                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+
                 // Consulta unidades vendidades y volumenes de venta por producto
                 $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
@@ -626,8 +684,16 @@ $app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $
 
     $resolution = $expensesDao->deleteExpenses($args['id_expense']);
 
-    if ($resolution == null)
-        $resolution = $participationExpenseDao->calcParticipationExpense($id_company);
+    if ($resolution == null) {
+        if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+            $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCountCP($id_company);
+            $expenseCount = $participationExpenseDao->findAllExpensesByCompanyCP($id_company);
+        } else {
+            $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
+            $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
+        }
+        $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+    }
 
     // Calcular total del gasto
     if ($resolution == null) {

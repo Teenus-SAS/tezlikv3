@@ -136,12 +136,25 @@ class LastDataDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT MAX(id_payroll) AS id_payroll  FROM payroll WHERE id_company = :id_company");
+        $stmt = $connection->prepare("SELECT MAX(id_payroll) AS id_payroll FROM payroll WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
 
         $payroll = $stmt->fetch($connection::FETCH_ASSOC);
         return $payroll;
+    }
+
+    /* Gastos */
+    public function findLastInsertedExpense($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(id_expense) AS id_expense FROM expenses WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $expense = $stmt->fetch($connection::FETCH_ASSOC);
+        return $expense;
     }
 
     /* Cotizaciones */

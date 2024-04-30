@@ -59,7 +59,6 @@ class ExpensesDao
       $stmt->execute([
         'id_puc' => trim($dataExpense['idPuc']),
         'id_company' => $id_company,
-        // 'id_production_center' => $dataExpense['production'],
         'expense_value' => trim($dataExpense['expenseValue'])
       ]);
 
