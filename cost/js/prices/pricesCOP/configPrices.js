@@ -6,7 +6,8 @@ $(document).ready(function () {
   });
 
   loadDataPrices = async () => {
-    if (price_usd == '1' && plan_cost_price_usd == '1') {
+    // price_usd == '1' &&
+    if (plan_cost_price_usd == '1') {
       $('.coverageInput').hide();
       $('.cardCOP').hide();
 

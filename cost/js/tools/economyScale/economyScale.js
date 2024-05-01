@@ -76,8 +76,8 @@ $(document).ready(function () {
     } 
 
     typePrice = sessionStorage.getItem('typePrice');
-
-    if (typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
+    // price_usd == '1' && 
+    if (typePrice == '2' && plan_cost_price_usd == '1') {
       price = price / parseFloat(coverage);
       costFixed = data.costFixed / parseFloat(coverage);
       variableCost1 = data.variableCost / parseFloat(coverage);
@@ -94,8 +94,8 @@ $(document).ready(function () {
     // Regla de tres rentabilidad
     profitability = (price * data.profitability) / price;
 
-    /* Precios */
-    typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1' ? max = 2 : max = 0;
+    /* Precios price_usd == '1' && */
+    typePrice == '2' && plan_cost_price_usd == '1' ? max = 2 : max = 0;
 
     $('.price').val(price.toFixed(max));
     $('#price-0').val(price.toLocaleString('es-CO', { maximumFractionDigits: max }));

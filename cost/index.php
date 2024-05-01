@@ -87,7 +87,9 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mt-2 mr-2" id="btnPdf">
                                     <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(1)" style="font-size: 30px; color:red;"></i></a>
                                 </div>
-                                <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                <?php
+                                // $_SESSION['price_usd'] == 1 &&
+                                if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                     <div class="col-xs-2 mr-2 mt-1">
                                         <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                     </div>
@@ -496,7 +498,7 @@ if (sizeof($_SESSION) == 0)
                                 <script>
                                     flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
-                                    price_usd = "<?= $_SESSION['price_usd'] ?>";
+                                    // price_usd = 
                                     plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
@@ -506,14 +508,13 @@ if (sizeof($_SESSION) == 0)
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
                                     id_company = "<?= $_SESSION['id_company'] ?>";
-                                    price_usd = "<?= $_SESSION['price_usd'] ?>";
-                                    plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
                                     c_content = <?= json_encode($_SESSION['content']) ?>;
                                     DatatableTblMultiproducts = 0;
                                     type = 'auto';
                                     modalActive = false;
 
-                                    if (price_usd == '1' && plan_cost_price_usd == '1')
+                                    // price_usd == '1' &&
+                                    if (plan_cost_price_usd == '1')
                                         $(document).ready(function() {
                                             // Validar que Valor de precio estaba anteriormente seleccionado
                                             let typePrice = sessionStorage.getItem('typePrice');

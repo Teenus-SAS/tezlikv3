@@ -270,13 +270,11 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
-        price_usd = "<?= $_SESSION['price_usd'] ?>";
+        // price_usd = 
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
-        price_usd = "<?= $_SESSION['price_usd'] ?>";
-        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
 
         $(document).ready(function() {
 
@@ -305,7 +303,8 @@ if (sizeof($_SESSION) == 0)
                 actualElement.classList.add("btn-primary");
             }
 
-            if (price_usd == '1' && plan_cost_price_usd == '1') {
+            // price_usd == '1' && 
+            if (plan_cost_price_usd == '1') {
                 // Validar que valor de precio esta seleccionado
                 let typePrice = sessionStorage.getItem('typePrice');
 
