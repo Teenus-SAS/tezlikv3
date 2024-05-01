@@ -284,22 +284,6 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
             // Actualizar gasto asignable
             $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-
-            // if (isset($resolution['info'])) break;
-            // $arr['year'] = date('Y');
-            // $arr['month'] = date('n');
-            // $arr['assignable_expense'] = $expense['assignableExpense'];
-
-            // // Guardar ED Historico (mes)
-            // $historical = $historicalEDDao->findHistorical($arr, $id_company);
-
-            // if (!$historical)
-            //     $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
-            // else {
-            //     $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
-
-            //     $resolution = $historicalEDDao->updateHistoricalExpense($arr);
-            // }
         }
 
         /* x Familia */
@@ -650,7 +634,6 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     }
 
     $products = $generalProductsDao->findAllEDProductsByCompany($id_company);
-    // $products = $generalProductsDao->findAllProducts($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
         if ($expensesDistribution == null)

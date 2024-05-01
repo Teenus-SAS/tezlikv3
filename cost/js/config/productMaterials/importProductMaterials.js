@@ -48,7 +48,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'referencia_material', 'material', 'magnitud', 'unidad', 'cantidad', 'desperdicio', 'tipo'];
+        const expectedHeaders = ['referencia_producto', 'producto', 'referencia_material', 'material', 'magnitud', 'unidad', 'cantidad', /*'desperdicio',*/ 'tipo'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -166,6 +166,7 @@ $(document).ready(function () {
           unidad: allProductMaterials[i].unit,
           cantidad: allProductMaterials[i].quantity,
           // desperdicio: allProductMaterials[i].waste,
+          // precio_unitario: allProductMaterials[i].cost_product_material,
           tipo: allProductMaterials[i].type,
         });
       }
