@@ -90,7 +90,7 @@
                                         <li class="dropdown-submenu aEconomyScale" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                         <?php }  ?>
                                         <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="bi bi-card-heading mr-1"></i>Economias de Escalas
+                                            <i class="bi bi-card-heading mr-1"></i>Economias de Escala
                                             <i class="bx bx-chevron-right"></i>
                                         </a>
                                         <ul class="dropdown-menu1">
