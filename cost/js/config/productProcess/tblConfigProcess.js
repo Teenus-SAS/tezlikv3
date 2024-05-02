@@ -81,7 +81,7 @@ $(document).ready(function () {
     var headers = ['No.', 'Proceso', 'Máquina', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
 
     if (visible == false)
-      headers.splice(7, 1);
+      headers.splice(8, 1);
     
     if (totalEfficiency == 0)
       headers.splice(5, 1);

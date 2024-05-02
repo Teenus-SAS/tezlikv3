@@ -12,7 +12,7 @@
 
                     <?php if (
                         ($_SESSION['price'] == 1 && $_SESSION['plan_cost_price'] == 1) ||
-                        ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) ||
+                        ($_SESSION['plan_cost_price_usd'] == 1) ||
                         ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1)
                     ) { ?>
                         <li class="nav-item dropdown" id="navPrices">
