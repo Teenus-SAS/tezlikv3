@@ -19,9 +19,9 @@ class ProductionCenterDao
     public function findAllPCenterByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pc.id_production_center, pc.id_company,  pc.production_center, COALESCE( CASE WHEN e1.id_expense IS NULL THEN e2.id_expenses_distribution ELSE e1.id_expense END, 0) AS status
+        $stmt = $connection->prepare("SELECT pc.id_production_center, pc.id_company,  pc.production_center, COALESCE( CASE WHEN e1.id_expense_product_center IS NULL THEN e2.id_expenses_distribution ELSE e1.id_expense_product_center END, 0) AS status
                                       FROM productions_center pc
-                                        LEFT JOIN expenses e1 ON pc.id_production_center = e1.id_production_center
+                                        LEFT JOIN expenses_products_centers e1 ON pc.id_production_center = e1.id_production_center
                                         LEFT JOIN expenses_distribution e2 ON pc.id_production_center = e2.id_production_center
                                       WHERE pc.id_company = :id_company GROUP BY pc.id_production_center");
         $stmt->execute(['id_company' => $id_company]);
@@ -38,7 +38,7 @@ class ProductionCenterDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("INSERT INTO productions_center (id_company, production_center) VALUES (:id_company ,:production_center)");
+            $stmt = $connection->prepare("INSERT INTO productions_center (id_company, production_center) VALUES (:id_company, :production_center)");
             $stmt->execute([
                 'production_center' => strtoupper(trim($dataPCenter['production'])),
                 'id_company'  => $id_company

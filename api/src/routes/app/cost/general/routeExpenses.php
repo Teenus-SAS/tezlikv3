@@ -348,22 +348,6 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
                 $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $data);
                 // Actualizar gasto asignable
                 $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-
-                // if (isset($resolution['info'])) break;
-                // $arr['year'] = $year;
-                // $arr['month'] = $month;
-                // $arr['assignable_expense'] = $expense['assignableExpense'];
-
-                // // Guardar ED Historico (mes)
-                // $historical = $historicalEDDao->findHistorical($arr, $id_company);
-
-                // if (!$historical)
-                //     $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
-                // else {
-                //     $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
-
-                //     $resolution = $historicalEDDao->updateHistoricalExpense($arr);
-                // }
             }
         }
     }
@@ -549,22 +533,6 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                     $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $data);
                     // Actualizar gasto asignable
                     $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-
-                    // if (isset($resolution['info'])) break;
-                    // $arr['year'] = $year;
-                    // $arr['month'] = $month;
-                    // $arr['assignable_expense'] = $expense['assignableExpense'];
-
-                    // // Guardar ED Historico (mes)
-                    // $historical = $historicalEDDao->findHistorical($arr, $id_company);
-
-                    // if (!$historical)
-                    //     $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
-                    // else {
-                    //     $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
-
-                    //     $resolution = $historicalEDDao->updateHistoricalExpense($arr);
-                    // }
                 }
             }
         }

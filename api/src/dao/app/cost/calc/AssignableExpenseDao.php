@@ -149,6 +149,24 @@ class AssignableExpenseDao
         }
         return $totalExpense;
     }
+    // Obtener todo el total de gastos por centro produccion
+    public function findAllTotalExpenseGroupByProduction($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT SUM(expense_value) AS expenses_value, id_production_center 
+                                          FROM expenses_products_centers 
+                                          WHERE id_company = :id_company
+                                          GROUP BY id_production_center;");
+            $stmt->execute(['id_company' => $id_company]);
+            $totalExpense = $stmt->fetchAll($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $totalExpense = array('info' => true, 'message' => $message);
+        }
+        return $totalExpense;
+    }
 
     // Calcula el gasto asignable
     public function calcAssignableExpense($unitVol, $totalUnitVol, $totalExpense)
