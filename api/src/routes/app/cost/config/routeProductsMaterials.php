@@ -96,7 +96,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
 
             if (
                 empty($productMaterials[$i]['referenceProduct']) || empty($productMaterials[$i]['product']) || empty($productMaterials[$i]['refRawMaterial']) || empty($productMaterials[$i]['nameRawMaterial']) ||
-                $productMaterials[$i]['quantity'] == '' // || $productMaterials[$i]['waste'] == '' 
+                $productMaterials[$i]['quantity'] == '' || $productMaterials[$i]['waste'] == ''
                 || empty($productMaterials[$i]['type'])
             ) {
                 $i = $i + 2;
@@ -105,7 +105,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
             }
             if (
                 empty(trim($productMaterials[$i]['referenceProduct'])) || empty(trim($productMaterials[$i]['product'])) || empty(trim($productMaterials[$i]['refRawMaterial'])) || empty(trim($productMaterials[$i]['nameRawMaterial'])) ||
-                trim($productMaterials[$i]['quantity']) == '' // || trim($productMaterials[$i]['waste']) == '' 
+                trim($productMaterials[$i]['quantity']) == '' || trim($productMaterials[$i]['waste']) == ''
                 || empty(trim($productMaterials[$i]['type']))
             ) {
                 $i = $i + 2;

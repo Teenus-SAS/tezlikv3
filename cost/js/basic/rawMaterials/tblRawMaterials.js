@@ -45,6 +45,7 @@ $(document).ready(function () {
   loadTblRawMaterials = (data) => {
     if ($.fn.DataTable.isDataTable('#tblRawMaterials')) { 
       tblRawMaterials.DataTable().clear().rows.add(data).draw();
+      $('#tblRawMaterials').DataTable().column(3).visible(visible);
     } else {
       tblRawMaterials = $('#tblRawMaterials').dataTable({
         destroy: true,

@@ -33,7 +33,7 @@ class GeneralProductsProcessDao
         //                           WHERE p.id_company = :id_company AND p.active = 1
         //                           GROUP BY pp.id_product_process
         //                           ORDER BY pp.route ASC");
-        $stmt = $connection->prepare("SELECT pp.id_product_process, p.id_product, pc.id_process, p.reference, p.product, pp.enlistment_time, 
+        $stmt = $connection->prepare("SELECT pp.id_product_process, p.id_product, pc.id_process, p.reference, p.product, pp.enlistment_time, pp.efficiency,
                                              pp.operation_time, IFNULL(mc.id_machine, 0) AS id_machine, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
                                              pp.workforce_cost, pp.indirect_cost, pp.employee, pp.route, IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine, COUNT(DISTINCT py.employee) AS count_employee
                                       FROM  products p 

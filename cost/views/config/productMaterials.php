@@ -199,14 +199,14 @@ if (sizeof($_SESSION) == 0)
                                                     <label>Cantidad</label>
                                                     <input class="form-control text-center quantity" type="number" name="quantity" id="quantity">
                                                 </div>
-                                                <!-- <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Desperdicio (%)</label>
                                                     <input class="form-control text-center quantity" type="number" name="waste" id="waste">
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad Total</label>
                                                     <input class="form-control text-center" type="number" name="quantityYotal" id="quantityYotal" readonly>
-                                                </div> -->
+                                                </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
                                                 </div>
@@ -322,14 +322,14 @@ if (sizeof($_SESSION) == 0)
                                                     <?php } ?>
                                                     <input class="form-control text-center" type="number" name="subTotalTime" id="subTotalTime" readonly>
                                                 </div>
-                                                <!-- <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label class="text-center">Eficiencia(%)</label>
                                                     <input class="form-control text-center time" type="number" name="efficiency" id="efficiency">
-                                                </div> 
+                                                </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label class="text-center">t.total</label>
                                                     <input class="form-control text-center" type="number" name="totalTime" id="totalTime" readonly>
-                                                </div> -->
+                                                </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
                                                 </div>
@@ -470,7 +470,7 @@ if (sizeof($_SESSION) == 0)
                                                             <th></th>
                                                             <th></th>
                                                             <th>Total:</th>
-                                                            <!-- <th></th> -->
+                                                            <th></th>
                                                             <th></th>
                                                             <th></th>
                                                         </tr>
@@ -491,7 +491,7 @@ if (sizeof($_SESSION) == 0)
                                                             <th>Total:</th>
                                                             <th id="totalAlistment"></th>
                                                             <th id="totalOperation"></th>
-                                                            <!-- <th id="totalEfficiency"></th> -->
+                                                            <th id="totalEfficiency"></th>
                                                             <th id="totalWorkforce"></th>
                                                             <th id="totalIndirect"></th>
                                                             <?php if ($_SESSION['flag_employee'] == 1) { ?>

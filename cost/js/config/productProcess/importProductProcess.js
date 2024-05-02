@@ -79,7 +79,7 @@ $(document).ready(function () {
             machine: item.maquina,
             enlistmentTime: item.tiempo_enlistamiento,
             operationTime: item.tiempo_operacion,
-            // efficiency: item.eficiencia,
+            efficiency: item.eficiencia,
             autoMachine: item.maquina_autonoma
           };
         });
@@ -163,9 +163,7 @@ $(document).ready(function () {
           maquina: dataProductProcess[i].machine,
           tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
           tiempo_operacion: dataProductProcess[i].operation_time,
-          // eficiencia: dataProductProcess[i].efficiency,
-          // mano_de_obra: dataProductProcess[i].workforce_cost,
-          // costo_indirecto: dataProductProcess[i].indirect_cost,
+          eficiencia: dataProductProcess[i].efficiency,
           maquina_autonoma: dataProductProcess[i].auto_machine
         });
       }
