@@ -20,26 +20,13 @@ class ExpensesProductionCenterDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        // $stmt = $connection->prepare("SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc,
-        //                                      e.id_expense, e.id_puc, p.number_count, p.count, e.participation, e.expense_value
-        //                               FROM expenses e 
-        //                                INNER JOIN puc p ON e.id_puc = p.id_puc
-        //                               WHERE e.id_company = :id_company
-        //                               UNION
-        //                               SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc,
-        //                                       ecp.id_production_center AS id_expense, e.id_puc, p.number_count, p.count, ecp.participation, ecp.expense_value
-        //                               FROM expenses_products_centers ecp
-        //                                 INNER JOIN expenses e ON e.id_expense = ecp.id_expense
-        //                                 INNER JOIN puc p ON e.id_puc = p.id_puc
-        //                               WHERE ecp.id_company = :id_company  
-        //                             ORDER BY `puc` ASC");
         $stmt = $connection->prepare("SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc,
                                               e.id_expense, IFNULL(ecp.id_expense_product_center, 0) AS id_expense_product_center, e.id_puc, p.number_count, p.count, IFNULL(ecp.id_production_center, 0) AS id_production_center, IFNULL(ecp.expense_value, 0) AS expense_value, IFNULL(ecp.participation, 0) AS participation
                                       FROM expenses e
                                         LEFT JOIN expenses_products_centers ecp ON ecp.id_expense = e.id_expense
                                         INNER JOIN puc p ON e.id_puc = p.id_puc
                                       WHERE e.id_company = :id_company  
-                                    ORDER BY `puc` ASC;");
+                                    ORDER BY CAST(SUBSTRING(p.number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 5) AS UNSIGNED)");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

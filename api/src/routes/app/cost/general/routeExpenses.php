@@ -477,6 +477,9 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
 
     $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
+    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
+        $expense = $expensesProductionCenterDao->findExpense($dataExpense);
+
     !is_array($expense) ? $data['id_expense'] = 0 : $data = $expense;
 
     if ($data['id_expense'] == $dataExpense['idExpense'] || $data['id_expense'] == 0) {
@@ -488,7 +491,6 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
             if (!$findExpense)
                 $resolution = $expensesProductionCenterDao->insertExpensesByCompany($dataExpense, $id_company);
             else {
-                $dataExpense['idExpenseProductionCenter'] = $findExpense['id_expense_product_center'];
                 $resolution = $expensesProductionCenterDao->updateExpenses($dataExpense, $id_company);
             }
         }
@@ -669,13 +671,17 @@ $app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $
     $priceProductDao,
     $costMaterialsDao,
     $assignableExpenseDao,
-    $productionCenterDao
+    $productionCenterDao,
+    $expensesProductionCenterDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $flag = $_SESSION['flag_expense_distribution'];
 
-    $resolution = $expensesDao->deleteExpenses($args['id_expense']);
+    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+        $resolution = $expensesProductionCenterDao->deleteExpenses($args['id_expense']);
+    } else
+        $resolution = $expensesDao->deleteExpenses($args['id_expense']);
 
     if ($resolution == null) {
         if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {

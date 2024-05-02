@@ -22,7 +22,13 @@ $(document).ready(function () {
         var selectElement = document.getElementById("selectProductionCenterExpenses");
         // Establecer la primera opción como seleccionada por defecto
         selectElement.selectedIndex = 0;
-      }
+
+        let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+        var summarizedExpenses = sumAndGroupExpenses(dataExpenses); 
+        summarizedExpenses.sort((a, b) => a.puc.localeCompare(b.puc));
+
+        loadTblAssExpenses(summarizedExpenses, 1);
+      } 
 
     } else if (this.id == 'distribution') {
       $('.cardExpenseDistribution').show();
@@ -100,11 +106,14 @@ $(document).ready(function () {
     $('.cardCreateExpenses').show(800);
     $('#btnCreateExpense').html('Actualizar');
 
-    // let row = $(this).parent().parent()[0];
-    // let data = tblAssExpenses.fnGetData(row);
-    let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
-    let data = dataExpenses.find(item => item.id_expense == this.id);
+    let row = $(this).parent().parent()[0];
+    let data = tblAssExpenses.fnGetData(row);
+    // let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
 
+    // production_center == '1' && flag_production_center == '1' ? id = 'id_expense_product_center' : id = 'id_expense';
+    // let data = dataExpenses.find(item => item[id] == this.id);
+
+    sessionStorage.setItem('id_expense_product_center', data.id_expense_product_center);
     sessionStorage.setItem('id_expense', data.id_expense);
     $(`#idPuc option:contains(${data.number_count} - ${data.count})`).prop(
       'selected',
@@ -172,6 +181,7 @@ $(document).ready(function () {
     }
     
     dataExpense.append('expenseValue1', value);
+    dataExpense.append('idExpenseProductionCenter', sessionStorage.getItem('id_expense_product_center'));
 
     dataExpense.append('expenseValue', value);
     dataExpense.append('production', selectProductionCenter);
@@ -184,11 +194,16 @@ $(document).ready(function () {
     messageExpense(resp);
   };
 
-  deleteFunction = (id) => {
-    let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
-    let data = dataExpenses.find(item => item.id_expense == id); 
+  deleteFunction = () => {
+    // let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+    // let data = dataExpenses.find(item => item.id_expense == id); 
+    let row = $(this.activeElement).parent().parent()[0];
+    let data = tblAssExpenses.fnGetData(row);
 
     let id_expense = data.id_expense;
+
+    if (production_center == '1' && flag_production_center == '1') id_expense = data.id_expense_product_center;
+
 
     bootbox.confirm({
       title: 'Eliminar',
