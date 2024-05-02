@@ -84,7 +84,9 @@ if (sizeof($_SESSION) == 0)
                                             <button class="btn btn-warning" id="btnComposite">Productos Compuestos</button>
                                         </div>
                                     <?php } ?>
-                                    <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                    <?php
+                                    // $_SESSION['price_usd'] == 1 && 
+                                    if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                         <div class="col-xs-2 cardCOP">
                                             <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                         </div>
@@ -156,16 +158,13 @@ if (sizeof($_SESSION) == 0)
     <?php include_once dirname(dirname(dirname(dirname(__DIR__)))) . '/global/partials/scriptsJS.php'; ?>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
-
-        price_usd = "<?= $_SESSION['price_usd'] ?>";
+        // price_usd = 
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
         coverage1 = "<?= $_SESSION['coverage'] ?>";
         deviation = "<?= $_SESSION['deviation'] ?>";
-        price_usd = "<?= $_SESSION['price_usd'] ?>";
-        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         id_company = "<?= $_SESSION['id_company'] ?>";
         viewPrices = 1;
     </script>
@@ -174,7 +173,10 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/prices/pricesCOP/tblprices.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
 
-    <?php if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { ?>
+    <?php
+    // $_SESSION['price_usd'] == 1 &&
+    if ($_SESSION['plan_cost_price_usd'] == 1) {
+    ?>
         <script src="/cost/js/prices/pricesUSD/pricesUSD.js"></script>
     <?php } ?>
 </body>

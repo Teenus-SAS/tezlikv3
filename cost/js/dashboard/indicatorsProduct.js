@@ -9,8 +9,10 @@ $(document).ready(function () {
       $('.social-bar').hide(800);
 
       let typePrice = sessionStorage.getItem('typePrice');
+
+      // price_usd == '1' && 
     
-      if (typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
+      if (typePrice == '2' && plan_cost_price_usd == '1') {
         data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage));
         data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage));
         data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage));
@@ -41,7 +43,9 @@ $(document).ready(function () {
       else
         data = data.cost_materials;
 
-      if (typePrice == '2' && price_usd == '1' && plan_cost_price_usd == '1') {
+      // price_usd == '1' && 
+
+      if (typePrice == '2' && plan_cost_price_usd == '1') {
         for (let i = 0; i < data.length; i++) {
           data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage);
         }
@@ -84,7 +88,9 @@ $(document).ready(function () {
 
     let typePrice = sessionStorage.getItem('typePrice');
 
-    if (typePrice == '1' || !typePrice || price_usd == '0' || plan_cost_price_usd == '0')
+    // price_usd == '0' || 
+
+    if (typePrice == '1' || !typePrice || plan_cost_price_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -142,7 +148,8 @@ $(document).ready(function () {
   UnitsVolSold = (data) => {
     let typePrice = sessionStorage.getItem('typePrice');
 
-    if (typePrice == '1' || !typePrice || price_usd == '0' || plan_cost_price_usd == '0')
+    // price_usd == '0' || 
+    if (typePrice == '1' || !typePrice || plan_cost_price_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -175,7 +182,8 @@ $(document).ready(function () {
   totalCostData = (data) => {
     let typePrice = sessionStorage.getItem('typePrice');
 
-    if (typePrice == '1' || !typePrice || price_usd == '0' || plan_cost_price_usd == '0')
+    // price_usd == '0' || 
+    if (typePrice == '1' || !typePrice || plan_cost_price_usd == '0')
       max = 0;
     else {
       max = 2;

@@ -5,10 +5,19 @@ $(document).ready(function () {
             searchData('/api/calcEconomyScale')
         ]);
 
-        sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+        let parents = dataProducts.filter(item => parseInt(item.composite) == 0);
+
+        if(flag_composite_product =='1')
+            sessionStorage.setItem('dataProducts', JSON.stringify(parents));
+        else
+            sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+
         sessionStorage.setItem('allEconomyScale', JSON.stringify(dataEconomyScale));
 
-        loadTblProducts(dataProducts);
+        if(flag_composite_product =='1')
+            loadTblProducts(parents);
+        else
+            loadTblProducts(dataProducts);
     }
 
     /* Cargue tabla de Proyectos */
@@ -60,7 +69,7 @@ $(document).ready(function () {
                     data: null,
                     className: 'uniqueClassName',
                     render: function (data) { 
-                        return `<input type="text" class="form-control text-center" id="unitsSold-${data.id_product}" readonly>`
+                        return `<p id="unitsSold-${data.id_product}"></p>`
                     },
                 },
                 {
@@ -79,21 +88,7 @@ $(document).ready(function () {
             
                         return `$ ${price}`;
                     },
-                },
-                // {
-                //   width: '150px',
-                //   title: 'Acciones',
-                //   data: null,
-                //   className: 'uniqueClassName',
-                //   render: function (data) {
-                //     return `
-                //           ${flag_composite_product == 1 ? `<a href="javascript:;" <i id="${data.id_product}" class="${data.composite == 0 ? 'bi bi-plus-square-fill' : 'bi bi-dash-square-fill'} composite" data-toggle='tooltip' title='${data.composite == 0 ? 'Agregar' : 'Eliminar'} a producto compuesto' style="font-size:25px; color: #3e382c;"></i></a>` : ''}
-                //           <a href="javascript:;" <i id="${data.id_product}" class="bx bx-copy-alt" data-toggle='tooltip' title='Clonar Producto' style="font-size: 30px; color:green" onclick="copyFunction()"></i></a>
-                //           <a href="javascript:;" <i id="${data.id_product}" class="bx bx-edit-alt updateProducts" data-toggle='tooltip' title='Actualizar Producto' style="font-size: 30px;"></i></a>
-                //           <a href="javascript:;" <i id="${data.id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
-                //           `;
-                //   },
-                // },
+                }, 
             ],
         });
     }
