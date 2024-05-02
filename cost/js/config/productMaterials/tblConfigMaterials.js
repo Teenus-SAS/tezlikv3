@@ -83,6 +83,7 @@ $(document).ready(function () {
       table.clear();
       table.rows.add(data).draw();
       table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos 
+      $('#tblConfigMaterials').DataTable().column(5).visible(visible);
       return;
     }
     
