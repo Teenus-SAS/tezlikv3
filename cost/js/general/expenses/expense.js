@@ -157,6 +157,8 @@ $(document).ready(function () {
       return false;
     }
 
+    let dataExpense = new FormData(formCreateExpenses);
+
     if (!idExpense && production_center == '1' && flag_production_center == '1') {
       let data = JSON.parse(sessionStorage.getItem('dataExpenses'));
 
@@ -168,8 +170,9 @@ $(document).ready(function () {
         idExpense = arr.id_expense;
       }
     }
+    
+    dataExpense.append('expenseValue1', value);
 
-    let dataExpense = new FormData(formCreateExpenses);
     dataExpense.append('expenseValue', value);
     dataExpense.append('production', selectProductionCenter);
 

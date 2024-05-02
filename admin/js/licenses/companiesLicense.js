@@ -74,8 +74,9 @@ $(document).ready(function () {
     let historical = parseFloat($('#historical').val());
     let indirect = parseFloat($('#indirect').val());
     let inyection = parseFloat($('#inyection').val());
+    let production = parseFloat($('#production').val());
 
-    data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * historical * inyection * indirect;
+    data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * historical * inyection * indirect * production;
 
     if (license_start == '' || license_end == '' || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');

@@ -58,7 +58,7 @@ class ExpensesProductionCenterDao
                                       WHERE id_expense = :id_expense AND id_production_center = :id_production_center");
         $stmt->execute([
             'id_expense' => trim($dataExpense['idExpense']),
-            'id_production_center' => trim($dataExpense['idProductionCenter'])
+            'id_production_center' => trim($dataExpense['production'])
         ]);
         $findExpense = $stmt->fetch($connection::FETCH_ASSOC);
         return $findExpense;
@@ -96,7 +96,7 @@ class ExpensesProductionCenterDao
             $stmt->execute([
                 'expense_value' => trim($dataExpense['expenseValue1']),
                 'id_production_center' => $dataExpense['production'],
-                'id_expense_product_center' => trim($dataExpense['idExpense'])
+                'id_expense_product_center' => trim($dataExpense['idExpenseProductionCenter'])
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {

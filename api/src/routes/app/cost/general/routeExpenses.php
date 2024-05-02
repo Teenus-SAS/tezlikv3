@@ -164,7 +164,7 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
                     $i = $i + 2;
                     $dataImportExpense = array('error' => true, 'message' => "Centro de produccion no existe en la base de datos<br>Fila: {$i}");
                     break;
-                } else $expense[$i]['idProductionCenter'] = $findProduction['id_production_center'];
+                } else $expense[$i]['production'] = $findProduction['id_production_center'];
                 //RETORNA id_expense CON idPuc Y id_company
                 $findExpense = $expensesDao->findExpense($expense[$i], $id_company);
                 //SI NO RETORNA id_expense $insert + 1
@@ -225,26 +225,26 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $resolution = null;
 
     if ($dataExpenses > 1) {
-        if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
-            $expense = $expensesDao->findExpense($dataExpense, $id_company);
+        // if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+        //     $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
-            if ($expense) {
-                $dataExpense['idExpense'] = $expense['id_expense'];
-                $expense = $expensesProductionCenterDao->findExpense($dataExpense, $id_company);
-            }
-        } else
-            $expense = $expensesDao->findExpense($dataExpense, $id_company);
+        //     if ($expense) {
+        //         $dataExpense['idExpense'] = $expense['id_expense'];
+        //         $expense = $expensesProductionCenterDao->findExpense($dataExpense, $id_company);
+        //     }
+        // } else
+        $expense = $expensesDao->findExpense($dataExpense, $id_company);
 
         if (!$expense) {
             $resolution = $expensesDao->insertExpensesByCompany($dataExpense, $id_company);
 
-            if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
-                $findExpense = $lastDataDao->findLastInsertedExpense($id_company);
+            // if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+            //     $findExpense = $lastDataDao->findLastInsertedExpense($id_company);
 
-                $dataExpense['idExpense'] = $findExpense['id_expense'];
+            //     $dataExpense['idExpense'] = $findExpense['id_expense'];
 
-                $resolution = $expensesProductionCenterDao->insertExpensesByCompany($dataExpense, $id_company);
-            }
+            //     $resolution = $expensesProductionCenterDao->insertExpensesByCompany($dataExpense, $id_company);
+            // }
 
             if ($resolution == null)
                 $resp = array('success' => true, 'message' => 'Gasto creado correctamente');
@@ -270,11 +270,25 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             } else
                 $expense[$i]['production'] = 0;
 
-            if (!$findExpense)
+            if (!$findExpense) {
                 $resolution = $expensesDao->insertExpensesByCompany($expense[$i], $id_company);
-            else {
+                $findExpense = $lastDataDao->findLastInsertedExpense($id_company);
+
+                $dataExpense['idExpense'] = $findExpense['id_expense'];
+            } else {
                 $expense[$i]['idExpense'] = $findExpense['id_expense'];
                 $resolution = $expensesDao->updateExpenses($expense[$i]);
+            }
+
+            if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+                $findExpense = $expensesProductionCenterDao->findExpense($expense[$i]);
+
+                if (!$findExpense)
+                    $resolution = $expensesProductionCenterDao->insertExpensesByCompany($expense[$i], $id_company);
+                else {
+                    $expense[$i]['idExpenseProductionCenter'] = $findExpense['id_expense_product_center'];
+                    $resolution = $expensesProductionCenterDao->updateExpenses($expense[$i], $id_company);
+                }
             }
         }
 
@@ -450,7 +464,8 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     $priceProductDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
-    $productionCenterDao
+    $productionCenterDao,
+    $expensesProductionCenterDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
@@ -467,6 +482,16 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     if ($data['id_expense'] == $dataExpense['idExpense'] || $data['id_expense'] == 0) {
         $resolution = $expensesDao->updateExpenses($dataExpense);
 
+        if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+            $findExpense = $expensesProductionCenterDao->findExpense($dataExpense);
+
+            if (!$findExpense)
+                $resolution = $expensesProductionCenterDao->insertExpensesByCompany($dataExpense, $id_company);
+            else {
+                $dataExpense['idExpenseProductionCenter'] = $findExpense['id_expense_product_center'];
+                $resolution = $expensesProductionCenterDao->updateExpenses($dataExpense, $id_company);
+            }
+        }
         // Calcular total del gasto
         if ($resolution == null) {
             $expense = $totalExpenseDao->calcTotalExpenseByCompany($id_company);
@@ -716,22 +741,6 @@ $app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $
                 $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $data);
                 // Actualizar gasto asignable
                 $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-
-                // if (isset($resolution['info'])) break;
-                // $arr['year'] = $year;
-                // $arr['month'] = $month;
-                // $arr['assignable_expense'] = $expense['assignableExpense'];
-
-                // // Guardar ED Historico (mes)
-                // $historical = $historicalEDDao->findHistorical($arr, $id_company);
-
-                // if (!$historical)
-                //     $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
-                // else {
-                //     $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
-
-                //     $resolution = $historicalEDDao->updateHistoricalExpense($arr);
-                // }
             }
         }
 

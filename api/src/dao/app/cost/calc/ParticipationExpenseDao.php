@@ -38,10 +38,10 @@ class ParticipationExpenseDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT LEFT(IFNULL(p.number_count, 0), 2) AS number_count, SUM(ex.expense_value) AS total_expense_value
-                                      FROM expenses ex
-                                        INNER JOIN puc p ON p.id_puc = ex.id_puc
-                                      LEFT JOIN expenses_products_centers ecp ON ecp.id_expense = ex.id_expense
-                                      WHERE ex.id_company = :id_company
+                                      FROM expenses_products_centers ecp
+                                      	INNER JOIN expenses ex ON ex.id_expense = ecp.id_expense
+                                        INNER JOIN puc p ON p.id_puc = ex.id_puc 
+                                      WHERE ecp.id_company = :id_company
                                         GROUP BY LEFT(p.number_count, 2)
                                         ORDER BY LEFT(p.number_count, 2) ASC");
         $stmt->execute(['id_company' => $id_company]);
@@ -70,10 +70,10 @@ class ParticipationExpenseDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT ecp.id_expense_product_center, p.number_count, ex.expense_value
-                                      FROM expenses ex
-                                        INNER JOIN puc p ON p.id_puc = ex.id_puc
-                                        LEFT JOIN expenses_products_centers ecp ON ecp.id_expense = ex.id_expense
-                                      WHERE ex.id_company = :id_company
+                                      FROM expenses_products_centers ecp
+                                      	INNER JOIN expenses ex ON ex.id_expense = ecp.id_expense
+                                        INNER JOIN puc p ON p.id_puc = ex.id_puc 
+                                      WHERE ecp.id_company = :id_company
                                       ORDER BY `p`.`number_count` ASC");
         $stmt->execute(['id_company' => $id_company]);
         $expenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
@@ -109,9 +109,9 @@ class ParticipationExpenseDao
 
                 // Modificar
                 if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
-                    $this->updateParticipationExpense($expenseCount[$i]);
-                else
                     $this->updateParticipationExpenseCP($expenseCount[$i]);
+                else
+                    $this->updateParticipationExpense($expenseCount[$i]);
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
