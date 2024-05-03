@@ -162,6 +162,20 @@ $(document).ready(function () {
           },
         },
         {
+          title: 'Participacion',
+          data: 'participation',
+          className: 'classCenter',
+          render: function (data) {
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) { 
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            
+            return `${data} %`;
+          },
+        },
+        {
           title: 'Acciones',
           data: null,
           className: 'uniqueClassName',
@@ -175,11 +189,13 @@ $(document).ready(function () {
         // let quantity = 0;
         // let waste = 0;
         let cost = 0;
+        let participation = 0;
         
         for (let i = 0; i < display.length; i++) {
           // quantity += parseFloat(data[display[i]].quantity);
           // waste += parseFloat(data[display[i]].waste);
           cost += parseFloat(data[display[i]].cost_product_material);
+          participation += parseFloat(data[display[i]].participation);
         }
 
         // waste = waste / display.length;
@@ -203,6 +219,11 @@ $(document).ready(function () {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`
+        );
+        $(this.api().column(6).footer()).html(
+          `${cost.toLocaleString('es-CO', {
+            maximumFractionDigits: 2,
+          })} %`
         );
       },
     });
