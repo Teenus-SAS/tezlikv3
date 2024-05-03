@@ -81,6 +81,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mr-2">
                                     <button class="btn btn-warning" id="btnNewEconomyScale">Nuevo Calculo</button>
                                 </div>
+                                <!-- $_SESSION['price_usd'] -->
                                 <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                     <div class="col-xs-2">
                                         <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>

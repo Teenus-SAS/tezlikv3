@@ -84,12 +84,6 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                     <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
-                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                                            <div class="col-xs-2 mr-2 mb-0 text-dark floating-label enable-floating-label show-label">
-                                                <label>Und Produccion</label>
-                                                <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses"></select>
-                                            </div>
-                                        <?php } ?>
                                         <div class="col-xs-2 mr-2">
                                             <button class="btn btn-warning" id="btnNewExpense">Nuevo Gasto</button>
                                         </div>
@@ -141,14 +135,6 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             <?php } ?>
                                         </div>
-                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                                            <div class="col-sm-12 col-xl-12 form-inline justify-content-sm-end">
-                                                <div class="col-xs-2 mr-2 text-dark floating-label enable-floating-label show-label">
-                                                    <label>Und Produccion</label>
-                                                    <select class="form-control selectProductionCenter" id="selectProductionCenterED"></select>
-                                                </div>
-                                            </div>
-                                        <?php } ?>
                                     </div>
                                     </div>
                                 <?php } ?>
@@ -191,18 +177,28 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body">
                                                 <form id="formCreateExpenses">
                                                     <div class="form-row">
-                                                        <div class="col-sm-6 floating-label enable-floating-label show-label">
-                                                            <label>Cuenta</label>
-                                                            <select class="form-control" name="idPuc" id="idPuc"></select>
-                                                        </div>
-                                                        <div class="col-xs-3 floating-label enable-floating-label show-label">
-                                                            <label>Valor</label>
-                                                            <input type="number" class="form-control text-center" id="expenseValue" name="expenseValue">
-                                                        </div>
-                                                        <div class="col-xs-2 mt-1">
-                                                            <button class="btn btn-primary" id="btnCreateExpense">Crear Gasto</button>
-                                                        </div>
-                                                    </div>
+                                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                                <label>Und Produccion</label>
+                                                                <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses"></select>
+                                                            </div>
+                                                        <?php } ?>
+                                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                            <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                            <?php } else { ?>
+                                                                <div class="col-sm-6 floating-label enable-floating-label show-label">
+                                                                <?php } ?>
+                                                                <label>Cuenta</label>
+                                                                <select class="form-control" name="idPuc" id="idPuc"></select>
+                                                                </div>
+                                                                <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                                    <label>Valor</label>
+                                                                    <input type="number" class="form-control text-center" id="expenseValue" name="expenseValue">
+                                                                </div>
+                                                                <div class="col-xs-2 mt-1">
+                                                                    <button class="btn btn-primary" id="btnCreateExpense">Crear Gasto</button>
+                                                                </div>
+                                                            </div>
                                                 </form>
                                             </div>
                                         </div>
@@ -326,6 +322,12 @@ if (sizeof($_SESSION) == 0)
                                             <div class="card-body">
                                                 <form id="formExpensesDistribution">
                                                     <div class="form-row">
+                                                        <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                            <div class="col-sm-3 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                                <label>Und Produccion</label>
+                                                                <select class="form-control selectProductionCenter" id="selectProductionCenterED"></select>
+                                                            </div>
+                                                        <?php } ?>
                                                         <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                             <select class="form-control refProduct" name="refProduct" id="EDRefProduct"></select>
                                                             <label for="EDRefProduct">Referencia</label>

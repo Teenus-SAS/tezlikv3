@@ -15,4 +15,17 @@ $(document).ready(function () {
   };
 
   sortFunction = (data, key) => data.sort(sortByKey(key));
+  
+  // Función para agrupar los elementos por la propiedad 'category'
+  leaveUniqueKey = (array, key) => {
+    const uniqueValues = new Set();
+    return array.reduce((acc, obj) => {
+        const newObj = { ...obj }; // Clonamos el objeto para no modificar el original
+        if (!uniqueValues.has(obj[key])) {
+            uniqueValues.add(obj[key]);
+            acc.push(newObj);
+        }
+        return acc;
+    }, []);
+  }
 });

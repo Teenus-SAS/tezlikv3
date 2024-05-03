@@ -87,6 +87,7 @@ if (sizeof($_SESSION) == 0)
                                                 <select id="product" class="form-control btnPrintPDF">
                                                 </select>
                                             </div>
+                                            <!-- $_SESSION['price_usd'] -->
                                             <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                                 <div class="col-xs-2 mr-2 mt-1">
                                                     <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>

@@ -172,8 +172,13 @@ $(document).ready(function () {
 
     let process = allProductProcess.filter(item => item.id_process == data.id_process);
 
-    if (process.length > 0) {
+    if (process.length == 1) {
       toastr.error('Procesos asociado a Ficha de productos');
+      return false;
+    }
+
+    if (data.status_pp != 0) {
+      toastr.error('Nomina asociada directamente a Ficha de productos');
       return false;
     }
 
@@ -219,7 +224,8 @@ $(document).ready(function () {
     var options = ``;
 
     // let dataProcess = await searchData(`/api/process/${employee}`);
-    let dataProcess = allPayroll.filter(item => item.employee == employee);
+    let arr = leaveUniqueKey(allPayroll, 'id_process');
+    let dataProcess = arr.filter(item => item.employee != employee);
 
     if (dataProcess.length == 0) {
       toastr.info('No hay procesos disponibles para este empleado');

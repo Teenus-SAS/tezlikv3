@@ -40,85 +40,134 @@ $(document).ready(function () {
         className: 'uniqueClassName',
       },
       {
-        title: 'Precios (Detalle Producto)',
-        data: 'cost_price',
-        className: 'uniqueClassName',
+        title: "Lista de precios",
+        data: null,
+        //width: "200px",
         render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          const permissions = [];
+          
+          permissions.push({
+            name: "Precios (Detalle Producto)",
+            icon: data.cost_price == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Precios Personalizados",
+            icon: data.custom_price == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          }); 
+
+          let output =
+            '<div class="stacked-column text-left" style="width:190px">';
+          for (const permission of permissions) {
+            output += `<span class="text-${permission.color} mx-1" style="display: flex; justify-content: flex-start;">
+            <i class="${permission.icon}"></i> ${permission.name}
+          </span>`;
+          }
+          output += "</div>";
+
+          return output;
         },
-      },
+      }, 
       {
-        title: 'Precios Personalizados',
-        data: 'custom_price',
-        className: 'uniqueClassName',
+        title: "Herramientas",
+        data: null,
+        //width: "200px",
         render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          const permissions = [];
+          
+          permissions.push({
+            name: "Analisis Materia Prima",
+            icon: data.cost_analysis_material == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Negociaciones Eficientes",
+            icon: data.cost_economy_scale == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Objetivos De Ventas",
+            icon: data.cost_sale_objectives == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Pto De Equilibrio Multiproducto",
+            icon: data.cost_multiproduct == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Simulador",
+            icon: data.cost_simulator == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          }); 
+
+          let output =
+            '<div class="stacked-column text-left" style="width:190px">';
+          for (const permission of permissions) {
+            output += `<span class="text-${permission.color} mx-1" style="display: flex; justify-content: flex-start;">
+            <i class="${permission.icon}"></i> ${permission.name}
+          </span>`;
+          }
+          output += "</div>";
+
+          return output;
         },
-      },
+      }, 
       {
-        title: 'Analisis Materia Prima',
-        data: 'cost_analysis_material',
-        className: 'uniqueClassName',
+        title: "Accesos",
+        data: null,
+        //width: "200px",
         render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
+          const permissions = [];
+          
+          permissions.push({
+            name: "Cotizaciones",
+            icon: data.cost_quote == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Soporte",
+            icon: data.cost_support == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          }); 
+
+          let output =
+            '<div class="stacked-column text-left" style="width:190px">';
+          for (const permission of permissions) {
+            output += `<span class="text-${permission.color} mx-1" style="display: flex; justify-content: flex-start;">
+            <i class="${permission.icon}"></i> ${permission.name}
+          </span>`;
+          }
+          output += "</div>";
+
+          return output;
         },
-      },
-      {
-        title: 'Economia De Escala',
-        data: 'cost_economy_scale',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Pto De Equilibrio Multiproducto',
-        data: 'cost_multiproduct',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Simulador',
-        data: 'cost_simulator',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Cotizaciones',
-        data: 'cost_quote',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
-      {
-        title: 'Soporte',
-        data: 'cost_support',
-        className: 'uniqueClassName',
-        render: function (data, type, row) {
-          return data == 1
-            ? '<i class="bx bx-check text-success fs-lg align-middle"></i>'
-            : '<i class="bx bx-x text-danger fs-lg align-middle"></i>';
-        },
-      },
+      }, 
       {
         title: 'Acciones',
         data: 'id_plan',

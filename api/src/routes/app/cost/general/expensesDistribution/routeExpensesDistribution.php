@@ -260,15 +260,27 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     if ($resolution == null) {
         if (
-            $_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1 && $dataExpensesDistributions > 1
+            $_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1 //&& $dataExpensesDistributions > 1
         ) {
-            // Consulta unidades vendidades y volumenes de venta por producto
-            $unitVol = $assignableExpenseDao->findAllExpensesDistributionByProduction($dataExpensesDistribution['production']);
-            // Calcular el total de unidades vendidas y volumen de ventas
-            $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByProduction($dataExpensesDistribution['production']);
-            // Obtener el total de gastos
-            $totalExpense = [];
-            $totalExpense['total_expense'] = $dataExpensesDistribution['expense'];
+            $productions = $assignableExpenseDao->findAllTotalExpenseGroupByProduction($id_company);
+
+            for ($i = 0; $i < sizeof($productions); $i++) {
+                // Consulta unidades vendidades y volumenes de venta por producto
+                $unitVol = $assignableExpenseDao->findAllExpensesDistributionByProduction($productions[$i]['id_production_center']);
+                // Calcular el total de unidades vendidas y volumen de ventas
+                $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolByProduction($productions[$i]['id_production_center']);
+                // Obtener el total de gastos
+                $totalExpense = [];
+                $totalExpense['total_expense'] = $productions[$i]['expenses_value'];
+
+                foreach ($unitVol as $arr) {
+                    if (isset($resolution['info'])) break;
+                    // Calcular gasto asignable
+                    $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                    // Actualizar gasto asignable
+                    $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+                }
+            }
         } else {
             // Consulta unidades vendidades y volumenes de venta por producto
             $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
@@ -276,30 +288,14 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
             $totalUnitVol = $assignableExpenseDao->findTotalUnitsVol($id_company);
             // Obtener el total de gastos
             $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
-        }
 
-        foreach ($unitVol as $arr) {
-            if (isset($resolution['info'])) break;
-            // Calcular gasto asignable
-            $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
-            // Actualizar gasto asignable
-            $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
-
-            // if (isset($resolution['info'])) break;
-            // $arr['year'] = date('Y');
-            // $arr['month'] = date('n');
-            // $arr['assignable_expense'] = $expense['assignableExpense'];
-
-            // // Guardar ED Historico (mes)
-            // $historical = $historicalEDDao->findHistorical($arr, $id_company);
-
-            // if (!$historical)
-            //     $resolution = $historicalEDDao->insertHistoricalExpense($arr, $id_company);
-            // else {
-            //     $arr['id_historical_distribution'] = $historical['id_historical_distribution'];
-
-            //     $resolution = $historicalEDDao->updateHistoricalExpense($arr);
-            // }
+            foreach ($unitVol as $arr) {
+                if (isset($resolution['info'])) break;
+                // Calcular gasto asignable
+                $expense = $assignableExpenseDao->calcAssignableExpense($arr, $totalUnitVol, $totalExpense);
+                // Actualizar gasto asignable
+                $resolution = $assignableExpenseDao->updateAssignableExpense($arr['id_product'], $expense['assignableExpense']);
+            }
         }
 
         /* x Familia */
@@ -323,12 +319,15 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     !is_array($products) ? $products = $generalProductsDao->findAllEDProductsByCompany($id_company) : $products;
 
     for ($i = 0; $i < sizeof($products); $i++) {
+        // Calcular Precio de Producto
         if ($resolution == null)
             $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
 
+        // Modificar producto a precio calculado
         if (isset($expensesDistribution['totalPrice']))
             $resolution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
 
+        // Productos Compuestos
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($resolution['info'])) break;
 
@@ -443,9 +442,6 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution'];
         $expensesDistribution = $expensesDistributionDao->updateExpensesDistribution($dataExpensesDistribution, $id_company);
 
-        // if ($dataExpensesDistribution['newProduct'] == 1)
-        //     $expensesDistribution = $generalProductsDao->updateStatusNewProduct($dataExpensesDistribution['selectNameProduct'], 0);
-
         if ($expensesDistribution == null) {
             $multiproducts = $multiproductsDao->findMultiproduct($dataExpensesDistribution['selectNameProduct']);
 
@@ -464,9 +460,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
     /* Calcular gasto asignable */
     if ($expensesDistribution == null) {
-        if (
-            $_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1
-        ) {
+        if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
             // Consulta unidades vendidades y volumenes de venta por producto
             $unitVol = $assignableExpenseDao->findAllExpensesDistributionByProduction($dataExpensesDistribution['production']);
             // Calcular el total de unidades vendidas y volumen de ventas

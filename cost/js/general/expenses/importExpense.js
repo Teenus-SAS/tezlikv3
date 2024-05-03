@@ -80,6 +80,7 @@ $(document).ready(function () {
             numberCount: item.numero_cuenta,
             count: item.cuenta,
             expenseValue: expenseValue,
+            expenseValue1: expenseValue,
             production: production,
           };
         });

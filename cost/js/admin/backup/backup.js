@@ -124,33 +124,37 @@ $(document).ready(function () {
             magnitud: dataProductsMaterials[i].magnitude,
             unidad: dataProductsMaterials[i].unit,
             cantidad: parseFloat(dataProductsMaterials[i].quantity),
-            desperdicio: parseFloat(dataProductsMaterials[i].waste),
+            precio_unitario: parseFloat(dataProductsMaterials[i].cost_product_material),
             tipo: 'Material',
           });
         }
 
         /* Productos Compuestos */
-        let dataCompositeProduct = await searchData('/api/allCompositeProducts');
-        if (dataCompositeProduct.length > 0 && flag_composite_product == '1') {
-          data1 = [];
+        if (flag_composite_product == '1') {
+          let dataCompositeProduct = await searchData('/api/allCompositeProducts');
+          if (dataCompositeProduct.length > 0) {
+            let data1 = [];
 
-          for (i = 0; i < dataCompositeProduct.length; i++) {
-            let dataProducts1 = dataProducts.filter((item) => item.id_product == dataCompositeProduct[i].id_product);
+            for (i = 0; i < dataCompositeProduct.length; i++) {
+              let dataProducts1 = dataProducts.filter((item) => item.id_product == dataCompositeProduct[i].id_product);
 
-            data1.push({
-              referencia_producto: dataProducts1[0].reference,
-              producto: dataProducts1[0].product,
-              referencia_material: dataCompositeProduct[i].reference,
-              material: dataCompositeProduct[i].material,
-              magnitud: dataCompositeProduct[i].magnitude,
-              unidad: dataCompositeProduct[i].unit,
-              cantidad: parseFloat(dataCompositeProduct[i].quantity),
-              tipo: 'Producto',
-            });
-          }
+              data1.push({
+                referencia_producto: dataProducts1[0].reference,
+                producto: dataProducts1[0].product,
+                referencia_material: dataCompositeProduct[i].reference,
+                material: dataCompositeProduct[i].material,
+                magnitud: dataCompositeProduct[i].magnitude,
+                unidad: dataCompositeProduct[i].unit,
+                cantidad: parseFloat(dataCompositeProduct[i].quantity),
+                precio_unitario: parseFloat(dataCompositeProduct[i].cost_product_material),
+                tipo: 'Producto',
+              });
+            }
  
-          data = [...data, ...data1];
+            data = [...data, ...data1];
+          }
         }
+
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'F. Tecnica Materias Prima');
       }
@@ -169,7 +173,8 @@ $(document).ready(function () {
             maquina: dataProductsProcess[i].machine,
             tiempo_enlistamiento: parseFloat(dataProductsProcess[i].enlistment_time),
             tiempo_operacion: parseFloat(dataProductsProcess[i].operation_time),
-            eficiencia: parseFloat(dataProductsProcess[i].efficiency),
+            mano_de_obra: parseFloat(dataProductsProcess[i].workforce_cost),
+            costo_indirecto: parseFloat(dataProductsProcess[i].indirect_cost),
             maquina_autonoma: dataProductsProcess[i].auto_machine
           });
         }

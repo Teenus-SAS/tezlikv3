@@ -176,6 +176,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/basic/process/configProcess.js"></script>
     <script src="/cost/js/general/payroll/payroll.js"></script>
     <script src="/global/js/general/calcPayroll.js"></script>
+    <script src="/global/js/global/orderData.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/general/payroll/importPayroll.js"></script>
     <script src="../global/js/import/file.js"></script>
