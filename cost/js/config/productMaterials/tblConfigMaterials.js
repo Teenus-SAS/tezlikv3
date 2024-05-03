@@ -221,7 +221,7 @@ $(document).ready(function () {
           })}`
         );
         $(this.api().column(6).footer()).html(
-          `${cost.toLocaleString('es-CO', {
+          `${participation.toLocaleString('es-CO', {
             maximumFractionDigits: 2,
           })} %`
         );
