@@ -130,13 +130,15 @@ if (sizeof($_SESSION) == 0)
         plan_custom_price = "<?= $_SESSION['plan_custom_price'] ?>";
         plan_cost_analysis_material = "<?= $_SESSION['plan_cost_analysis_material'] ?>";
         plan_cost_economy_sale = "<?= $_SESSION['plan_cost_economy_sale'] ?>";
+        flag_economy_scale = "<?= $_SESSION['flag_economy_scale'] ?>";
+        plan_sale_objectives = "<?= $_SESSION['plan_sale_objectives'] ?>";
+        flag_sales_objective = "<?= $_SESSION['flag_sales_objective'] ?>";
         plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
         type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
         plan_cost_simulator = "<?= $_SESSION['plan_cost_simulator'] ?>";
         plan_cost_historical = "<?= $_SESSION['plan_cost_historical'] ?>";
         plan_cost_quote = "<?= $_SESSION['plan_cost_quote'] ?>";
         plan_cost_support = "<?= $_SESSION['plan_cost_support'] ?>";
-        plan_cost_historical = "<?= $_SESSION['plan_cost_historical'] ?>";
         flag_production_center = "<?= $_SESSION['flag_production_center'] ?>";
         idUser = "<?= $_SESSION['idUser'] ?>";
     </script>

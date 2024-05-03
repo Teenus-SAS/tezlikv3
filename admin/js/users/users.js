@@ -192,6 +192,7 @@ $(document).ready(function () {
     dataUser['analysisMaterial'] = 1;
     dataUser['simulator'] = 1;
     dataUser['economyScale'] = 1;
+    dataUser['saleObjectives'] = 1;
     dataUser['multiproduct'] = 1;
     dataUser['quote'] = 1;
     dataUser['support'] = 1;

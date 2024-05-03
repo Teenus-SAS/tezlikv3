@@ -45,6 +45,8 @@ $(document).ready(function () {
     data.cost_price_usd == '1' ? (pricesUSD = '1') : (pricesUSD = '2');
     data.flag_employee == '1' ? (payrollEmployee = '1') : (payrollEmployee = '2');
     data.flag_composite_product == '1' ? (compositeProducts = '1') : (compositeProducts = '2');
+    data.flag_economy_scale == '1' ? (economyScale = '1') : (economyScale = '2');
+    data.flag_sales_objective == '1' ? (salesObjective = '1') : (salesObjective = '2');
     data.flag_production_center == '1' ? (production = '1') : (production = '2');
     data.cost_historical == '1' ? (historical = '1') : (historical = '2');
     data.flag_indirect == '1' ? (indirect = '1') : (indirect = '2'); 
@@ -53,6 +55,8 @@ $(document).ready(function () {
     $(`#pricesUSD option[value=${pricesUSD}]`).prop('selected', true);
     $(`#payrollEmployee option[value=${payrollEmployee}]`).prop('selected', true);
     $(`#compositeProducts option[value=${compositeProducts}]`).prop('selected', true);
+    $(`#economyScale option[value=${economyScale}]`).prop('selected', true);
+    $(`#salesObjective option[value=${salesObjective}]`).prop('selected', true);
     $(`#production option[value=${production}]`).prop('selected', true);
     $(`#historical option[value=${historical}]`).prop('selected', true);
     $(`#indirect option[value=${indirect}]`).prop('selected', true);
@@ -71,12 +75,15 @@ $(document).ready(function () {
     let pricesUSD = parseFloat($('#pricesUSD').val());
     let payrollEmployee = parseFloat($('#payrollEmployee').val());
     let compositeProducts = parseFloat($('#compositeProducts').val());
+    let economyScale = parseFloat($('#economyScale').val());
+    let salesObjective = parseFloat($('#salesObjective').val());
     let historical = parseFloat($('#historical').val());
     let indirect = parseFloat($('#indirect').val());
     let inyection = parseFloat($('#inyection').val());
     let production = parseFloat($('#production').val());
 
-    data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * historical * inyection * indirect * production;
+    data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * economyScale
+      * salesObjective * historical * inyection * indirect * production;
 
     if (license_start == '' || license_end == '' || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
@@ -91,6 +98,8 @@ $(document).ready(function () {
     pricesUSD == 1 ? (pricesUSD = 1) : (pricesUSD = 0);
     payrollEmployee == 1 ? (payrollEmployee = 1) : (payrollEmployee = 0);
     compositeProducts == 1 ? (compositeProducts = 1) : (compositeProducts = 0);
+    economyScale == 1 ? (economyScale = 1) : (economyScale = 0);
+    salesObjective == 1 ? (salesObjective = 1) : (salesObjective = 0);
     production == 1 ? (production = 1) : (production = 0);
     historical == 1 ? (historical = 1) : (historical = 0);
     indirect == 1 ? (indirect = 1) : (indirect = 0);
@@ -100,6 +109,8 @@ $(document).ready(function () {
     dataCompany.append('pricesUSD', pricesUSD);
     dataCompany.append('payrollEmployee', payrollEmployee);
     dataCompany.append('compositeProducts', compositeProducts);
+    dataCompany.append('economyScale', economyScale);
+    dataCompany.append('salesObjective', salesObjective);
     dataCompany.append('production', production);
     dataCompany.append('historical', historical);
     dataCompany.append('indirect', indirect);

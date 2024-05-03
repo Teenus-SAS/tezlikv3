@@ -201,44 +201,50 @@
                                                         <label for="checkbox-15">Analisis Materia Prima</label>
                                                     </div>
                                                 <?php } ?>
-                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1) { ?>
+                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['flag_economy_scale'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-16" name="economyScale" type="checkbox">
-                                                        <label for="checkbox-16">Economia De Escala</label>
+                                                        <label for="checkbox-16">Negociaciones Eficientes</label>
+                                                    </div>
+                                                <?php } ?>
+                                                <?php if ($_SESSION['plan_sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1) { ?>
+                                                    <div class="checkbox checkbox-success checkbox-circle">
+                                                        <input id="checkbox-17" name="saleObjectives" type="checkbox">
+                                                        <label for="checkbox-17">Objetivos De Ventas</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_multiproduct'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-17" name="multiproduct" type="checkbox">
-                                                        <label for="checkbox-17">Pto De Equilibrio Multiproducto</label>
+                                                        <input id="checkbox-18" name="multiproduct" type="checkbox">
+                                                        <label for="checkbox-18">Pto De Equilibrio Multiproducto</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_simulator'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-18" name="simulator" type="checkbox">
-                                                        <label for="checkbox-18">Simulador</label>
+                                                        <input id="checkbox-19" name="simulator" type="checkbox">
+                                                        <label for="checkbox-19">Simulador</label>
                                                     </div>
                                                 <?php } ?>
                                                 <?php if ($_SESSION['plan_cost_historical'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-19" name="historical" type="checkbox">
-                                                        <label for="checkbox-19">Historico</label>
+                                                        <input id="checkbox-20" name="historical" type="checkbox">
+                                                        <label for="checkbox-20">Historico</label>
                                                     </div>
                                                 <?php } ?>
                                             </div>
                                             <?php if ($_SESSION['plan_cost_quote'] == 1) { ?>
                                                 <div class="mt-4 col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-20" name="quotes" type="checkbox">
-                                                        <label for="checkbox-20">Cotización</label>
+                                                        <input id="checkbox-21" name="quotes" type="checkbox">
+                                                        <label for="checkbox-21">Cotización</label>
                                                     </div>
                                                 </div>
                                             <?php } ?>
                                             <?php if ($_SESSION['plan_cost_support'] == 1) { ?>
                                                 <div class="mt-4 col-sm-3">
                                                     <div class="checkbox checkbox-success checkbox-circle">
-                                                        <input id="checkbox-21" name="tools" type="checkbox">
-                                                        <label for="checkbox-21">Soporte</label>
+                                                        <input id="checkbox-22" name="tools" type="checkbox">
+                                                        <label for="checkbox-22">Soporte</label>
                                                     </div>
                                                 </div>
                                             <?php } ?>

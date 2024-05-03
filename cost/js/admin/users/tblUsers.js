@@ -13,9 +13,13 @@ $(document).ready(function () {
     ? (plan_cost_analysis_material = true)
     : (plan_cost_analysis_material = false);
 
-  plan_cost_economy_sale == 1
+  plan_cost_economy_sale == 1 && flag_economy_scale == 1
     ? (plan_cost_economy_sale = true)
     : (plan_cost_economy_sale = false);
+  
+  plan_sale_objectives == 1 && flag_sales_objective == 1
+    ? (plan_sale_objectives = true)
+    : (plan_sale_objectives = false);
 
   plan_cost_multiproduct == 1
     ? (plan_cost_multiproduct = true)
@@ -371,8 +375,17 @@ $(document).ready(function () {
 
           if (plan_cost_economy_sale == true)
             permissions.push({
-              name: "Economia De Escala",
+              name: "Negociaciones Eficientes",
               icon: data.economy_scale
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+          
+          if (plan_sale_objectives == true)
+            permissions.push({
+              name: "Objetivos De Ventas",
+              icon: data.sale_objectives
                 ? "bi bi-check-circle-fill text-success"
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
