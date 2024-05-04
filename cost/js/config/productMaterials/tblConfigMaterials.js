@@ -166,13 +166,8 @@ $(document).ready(function () {
           data: 'participation',
           className: 'classCenter',
           render: function (data) {
-            data = parseFloat(data);
-            if (Math.abs(data) < 0.01) { 
-              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else
-              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-            return `${data} %`;
+            data = parseFloat(data); 
+            return `${data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`;
           },
         },
         {
