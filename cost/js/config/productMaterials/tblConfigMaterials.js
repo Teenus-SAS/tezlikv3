@@ -215,7 +215,7 @@ $(document).ready(function () {
             maximumFractionDigits: 2,
           })}`
         );
-        $(this.api().column(7).footer()).html(
+        $(this.api().column(6).footer()).html(
           `${participation.toLocaleString('es-CO', {
             maximumFractionDigits: 2,
           })} %`
