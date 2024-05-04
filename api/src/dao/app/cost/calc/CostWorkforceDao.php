@@ -21,7 +21,7 @@ class CostWorkforceDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT pp.id_product
+        $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_product, pp.employee
                                       FROM products_process pp
                                         INNER JOIN products p ON p.id_product = pp.id_product
                                       WHERE pp.id_process = :id_process AND pp.id_company = :id_company");

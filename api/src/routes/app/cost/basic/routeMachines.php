@@ -13,6 +13,7 @@ use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\TpInyectionDao;
 
 $machinesDao = new MachinesDao();
@@ -24,6 +25,7 @@ $lastDataDao = new LastDataDao();
 $minuteDepreciationDao = new MinuteDepreciationDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $generalProductsDao = new GeneralProductsDao();
 $generalProductProcessDao = new GeneralProductsProcessDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
@@ -114,6 +116,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $minuteDepreciationDao,
     $indirectCostDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -121,6 +124,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
+
     $dataMachine = $request->getParsedBody();
 
     $dataMachines = sizeof($dataMachine);
@@ -206,6 +211,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                 foreach ($dataProducts as $arr) {
                     if (isset($resolution['info'])) break;
+                    $data = [];
                     /* Costo Indirecto */
                     // Buscar la maquina asociada al producto
                     $dataProductMachine = $indirectCostDao->findMachineByProduct($arr['id_product'], $id_company);
@@ -228,11 +234,20 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                     /* Precio Producto */
                     // Calcular precio products_costs
-                    $resolution = $priceProductDao->calcPrice($arr['id_product']);
+                    $data = $priceProductDao->calcPrice($arr['id_product']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
-                    if (isset($resolution['totalPrice']))
-                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    if (isset($resolution['info'])) break;
 
                     if ($_SESSION['flag_composite_product'] == '1') {
                         if (isset($resolution['info'])) break;
@@ -263,6 +278,15 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                             if (isset($resolution['info'])) break;
 
+                            // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
+
+                            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                            if (isset($resolution['info'])) break;
+
                             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
                             foreach ($productsCompositer2 as $k) {
@@ -285,6 +309,15 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                                 if (isset($data['totalPrice']))
                                     $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                                if (isset($resolution['info'])) break;
+                                // Convertir a Dolares 
+                                $l = [];
+                                $l['price'] = $data['totalPrice'];
+                                $l['sale_price'] = $data['sale_price'];
+                                $l['id_product'] = $k['id_product'];
+
+                                $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
                             }
                         }
                     }
@@ -319,6 +352,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $minuteDepreciationDao,
     $indirectCostDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -326,6 +360,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataMachine = $request->getParsedBody();
 
     // $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
@@ -384,11 +419,25 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                 // Calcular precio products_costs
                 $machines = $priceProductDao->calcPrice($arr['id_product']);
 
-                !is_array($machines) ? $data['totalPrice'] = 0 : $data = $machines;
+                if (is_array($machines)) {
+                    $data['totalPrice'] = 0;
+                    //  $data['sal'] = 0;
+                } else
+                    $data = $machines;
 
                 if (isset($machines['info'])) break;
 
                 $machines = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($machines['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                if (isset($machines['info'])) break;
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     if (isset($machines['info'])) break;
@@ -428,6 +477,14 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                             $machines = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                         if (isset($machines['info'])) break;
+                        // Convertir a Dolares 
+                        $l = [];
+                        $l['price'] = $data['totalPrice'];
+                        $l['sale_price'] = $data['sale_price'];
+                        $l['id_product'] = $j['id_product'];
+
+                        $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                        if (isset($machines['info'])) break;
 
                         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
@@ -464,6 +521,15 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
                             if (isset($data['totalPrice']))
                                 $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                            // Convertir a Dolares 
+                            $l = [];
+                            $l['price'] = $data['totalPrice'];
+                            $l['sale_price'] = $data['sale_price'];
+                            $l['id_product'] = $k['id_product'];
+
+                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                            if (isset($machines['info'])) break;
                         }
                     }
                 }
@@ -489,6 +555,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
     $generalProductProcessDao,
     $indirectCostDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -496,6 +563,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataMachine = $request->getParsedBody();
 
     $machine = $generalProductProcessDao->findProductProcessByIdMachine($dataMachine['idMachine']);
@@ -523,12 +591,21 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
                 /* Precio Producto */
                 // Calcular precio products_costs
-                $machines = $priceProductDao->calcPrice($arr['id_product']);
+                $data = $priceProductDao->calcPrice($arr['id_product']);
+
+                // if (isset($machines['info'])) break;
+
+                if (isset($data['totalPrice']))
+                    $machines = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($machines['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
 
-                if (isset($machine['totalPrice']))
-                    $machines = $generalProductsDao->updatePrice($arr['id_product'], $machines['totalPrice']);
+                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     if (isset($machines['info'])) break;
@@ -571,6 +648,14 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
                         if (isset($machines['info'])) break;
 
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $j['id_product'];
+
+                        $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        if (isset($machines['info'])) break;
                         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
                         foreach ($productsCompositer2 as $k) {
@@ -606,6 +691,15 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
                             if (isset($data['totalPrice']))
                                 $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+
+                            if (isset($machines['info'])) break;
+                            // Convertir a Dolares 
+                            $l = [];
+                            $l['price'] = $data['totalPrice'];
+                            $l['sale_price'] = $data['sale_price'];
+                            $l['id_product'] = $k['id_product'];
+
+                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
                         }
                     }
                 }

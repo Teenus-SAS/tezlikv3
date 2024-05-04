@@ -295,7 +295,7 @@ if (sizeof($_SESSION) == 0)
                 actualElement.classList.remove("btn-primary");
                 actualElement.classList.add("btn-outline-primary");
             } else { // Precio Actual
-                $('#labelDescription').html(`Descripción (Precio Actual)`);
+                $('#labelDescription').html(`Descripción (Precio Lista)`);
 
                 sugeredElement.classList.remove("btn-primary");
                 sugeredElement.classList.add("btn-outline-primary");

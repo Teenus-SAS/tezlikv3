@@ -576,7 +576,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
         $productProcess = $costWorkforceDao->updateTotalCostWorkforceByProductProcess(0, $dataProductProcess['idProductProcess']);
 
         if ($productProcess == null && $dataProductProcess['autoMachine'] == '0') {
-            if ($dataProductProcess['employees'] == '') {
+            if ($dataProductProcess['employees'] == '' || $_SESSION['flag_employee'] == 0) {
                 if ($_SESSION['inyection'] == 1)
                     $resolution = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
                 else
@@ -584,13 +584,16 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
             } else {
                 if ($_SESSION['inyection'] == 1)
                     $resolution = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($dataProductProcess['idProduct'], $dataProductProcess['employees']);
-                else
-                    // $employees = implode(',', $dataProductProcess['employees']);
+                else {
+                    // if ($_SESSION['flag_employee'] == 1)
                     $resolution = $costWorkforceDao->calcCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $dataProductProcess['employees']);
+                    // else
+                    //     $resolution = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+                }
             }
             // Calcular costo nomina total
             if ($resolution == null) {
-                if ($dataProductProcess['employees'] == '')
+                if ($dataProductProcess['employees'] == '' || $_SESSION['flag_employee'] == 0)
                     $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
                 else {
                     // $employees = implode(',', $dataProductProcess['employees']);
@@ -750,7 +753,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
 
     /* Calcular costo nomina */
     if ($resolution == null) {
-        if ($employees == '') {
+        if ($employees == '' || $_SESSION['flag_employee'] == 0) {
             if ($_SESSION['inyection'] == 1)
                 $resolution = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
             else
@@ -763,7 +766,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
         }
         // Calcular costo nomina total
         if ($resolution == null) {
-            if ($employees == '')
+            if ($employees == '' || $_SESSION['flag_employee'] == 0)
                 $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
             else {
                 $dataPayroll = $costWorkforceDao->calcTotalCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $employees);

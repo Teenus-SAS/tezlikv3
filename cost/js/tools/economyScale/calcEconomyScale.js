@@ -284,7 +284,7 @@ $(document).ready(function () {
             return false;
           }
           // Verificar si el margen de utilidad es negativo
-          else if (i == 0 && percentage < profitability) { 
+          else if (i == 0 && percentage < profitability) {
             percentage > 0 ? cant += 2 : cant = 1;
 
             let division = Math.ceil((totalCostsAndExpense / price) + cant);
@@ -319,15 +319,23 @@ $(document).ready(function () {
       for (i = op; i <= count; i++) {
         const result = await handleIteration(i);
         if (!result) break;
-        else if(op == 0)
+        else if (op == 0)
           i = i - 1;
       }
 
-      if(op == 0)
+      if (op == 0)
         $('#unity-1').blur();
 
       $('.cardLoading').remove();
-      $('.cardBottons').show(400);
+      // $('.cardBottons').show(400);
+
+      if (sugered_price)
+        $('#sugered').show(400);
+      if (actual_price)
+        $('#actual').show(400);
+      if (real_price)
+        $('#real').show(400);
+
     } catch (error) {
       console.log(error);
     }

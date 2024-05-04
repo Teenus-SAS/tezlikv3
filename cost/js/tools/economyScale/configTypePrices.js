@@ -81,7 +81,7 @@ $(document).ready(function () {
 
         // Precio Sugerido
         if (op == '1' && className.includes("btn-outline-primary")) {
-            //$('#labelDescription').html(`Descripción (Precio Sugerido)`);
+            $('#labelDescription').html(`Descripción (Precio Sugerido)`);
 
             document.getElementById("sugered").className =
                 "btn btn-sm btn-primary typePrice cardBottons";
@@ -109,6 +109,6 @@ $(document).ready(function () {
                 "btn btn-sm btn-outline-primary typePrice cardBottons";
         }
 
-        loadDataProduct(id);
+        loadDataProduct(id, 2);
     });
 });

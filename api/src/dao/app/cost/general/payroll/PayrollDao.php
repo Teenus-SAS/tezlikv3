@@ -19,12 +19,29 @@ class PayrollDao
   public function findAllPayrollByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, 
-                                         p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage, IFNULL((SELECT id_product_process FROM products_process WHERE employee LIKE CONCAT('%', p.id_payroll, '%')LIMIT 1), 0) AS status_pp
+    /*
+      $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, 
+                                          p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage, 
+                                          IF(cl.flag_employee = 1, IFNULL((SELECT id_product_process FROM products_process WHERE employee LIKE CONCAT('%', p.id_payroll, '%')LIMIT 1), 0), 0) AS status_pp,
+                                          IFNULL((SELECT COUNT(id_product_process) FROM products_process WHERE employee LIKE CONCAT('%', p.id_payroll, '%')), 0) AS count_pp
+                                    FROM payroll p 
+                                      INNER JOIN process pp ON p.id_process = pp.id_process
+                                      LEFT JOIN risks rk ON rk.id_risk = p.id_risk
+                                      INNER JOIN companies_licenses cl ON cl.id_company = p.id_company 
+                                    WHERE p.id_company = :id_company
+                                    ORDER BY p.route ASC;");
+    */
+    $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, p.factor_benefit, p.salary_net, p.type_contract, 
+                                         p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage, IF(cl.flag_employee = 1, IFNULL(ppp.id_product_process, 0), 0) AS status_pp,IFNULL(products_process_count.count_pp, 0) AS count_pp
                                   FROM payroll p 
-                                    INNER JOIN process pp ON p.id_process = pp.id_process
-                                    LEFT JOIN risks rk ON rk.id_risk = p.id_risk
-                                  WHERE p.id_company = :id_company
+                                  INNER JOIN process pp ON p.id_process = pp.id_process
+                                  LEFT JOIN risks rk ON rk.id_risk = p.id_risk
+                                  INNER JOIN companies_licenses cl ON cl.id_company = p.id_company 
+                                  LEFT JOIN products_process ppp ON p.employee LIKE CONCAT('%', ppp.employee, '%') AND ppp.id_company = p.id_company
+                                  LEFT JOIN 
+                                      (SELECT employee, COUNT(id_product_process) AS count_pp 
+                                      FROM products_process GROUP BY employee) AS products_process_count ON products_process_count.employee = p.employee
+                                  WHERE p.id_company = :id_company GROUP BY p.id_payroll
                                   ORDER BY p.route ASC");
     $stmt->execute(['id_company' => $id_company]);
 
