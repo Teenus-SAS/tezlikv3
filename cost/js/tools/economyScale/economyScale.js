@@ -26,7 +26,7 @@ $(document).ready(function () {
     let id = this.value;
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id);
+    loadDataProduct(id, 1);
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -34,12 +34,37 @@ $(document).ready(function () {
     let id = this.value;
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
-    loadDataProduct(id);
+    loadDataProduct(id, 1);
   });
 
-  loadDataProduct = async (id) => {
+  loadDataProduct = async (id, op) => {
     let costFixed = 0;
     let variableCost1 = 0;
+
+    $('#sugered').show();
+    $('#actual').show();
+    $('#real').show();
+
+    $('.general').val('');
+    $('.general').html('');
+    
+    let data = economyScale.find(item => item.id_product == id); 
+    sugered_price = Math.ceil(data.price);
+    actual_price = Math.ceil(data.sale_price);
+    real_price = parseFloat(data.turnover) / parseFloat(data.units_sold);
+    
+    if (op == 1) {
+      if (real_price) {
+        $('#labelDescription').html(`Descripción (Precio Real)`);
+
+        document.getElementById("real").className =
+          "btn btn-sm btn-primary typePrice cardBottons";
+        document.getElementById("actual").className =
+          "btn btn-sm btn-outline-primary typePrice cardBottons";
+        document.getElementById("sugered").className =
+          "btn btn-sm btn-outline-primary typePrice cardBottons";
+      }
+    }
 
     $('.cardBottons').hide();
 
@@ -55,12 +80,8 @@ $(document).ready(function () {
       </div>`
     );
     
-    $('.general').val('');
-    $('.general').html('');
-    
-    let data = economyScale.find(item => item.id_product == id); 
     let typePrice = document.getElementsByClassName('btn btn-sm btn-primary typePrice')[0]; 
-    
+
     if (typePrice.id === 'sugered') {
       price = Math.ceil(data.price); 
     } else if(typePrice.id === 'actual'){
@@ -69,11 +90,11 @@ $(document).ready(function () {
       price = parseFloat(data.turnover) / parseFloat(data.units_sold); 
     } 
       
-    if (price == 0 || !price) {
-      typePrice.id == 'sugered' ? price = 'sugerido' : typePrice.id == 'actual' ? price = 'actual': price = 'real';
-      toastr.error(`Ingrese el precio de venta ${price} para el producto`);
-      return false;
-    } 
+    // if (price == 0 || !price) {
+    //   typePrice.id == 'sugered' ? price = 'sugerido' : typePrice.id == 'actual' ? price = 'actual': price = 'real';
+    //   toastr.error(`Ingrese el precio de venta ${price} para el producto`);
+    //   return false;
+    // } 
 
     typePrice = sessionStorage.getItem('typePrice');
     // price_usd == '1' && 
@@ -151,6 +172,6 @@ $(document).ready(function () {
     let id_product = $('#refProduct').val();
 
     if (id_product)
-      loadDataProduct(id_product);
+      loadDataProduct(id_product, 2);
   });
 });
