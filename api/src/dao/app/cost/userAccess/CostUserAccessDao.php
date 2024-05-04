@@ -22,10 +22,50 @@ class CostUserAccessDao
         // $rol = $_SESSION['rol'];
 
         // if ($rol == 2) {
-        $stmt = $connection->prepare("SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_materials, 0) AS create_materials, IFNULL(usa.create_machines, 0) AS create_machines, IFNULL(usa.create_process, 0) AS create_process, IFNULL(usa.product_materials, 0) AS product_materials, IFNULL(usa.factory_load, 0) AS factory_load, IFNULL(usa.payroll_load, 0) AS payroll_load, 
-                                                 IFNULL(usa.type_payroll, 0) AS type_payroll, IFNULL(usa.expense, 0) AS expense, IFNULL(usa.expense_distribution, 0) AS expense_distribution, IFNULL(usa.production_center, 0) AS production_center, IFNULL(usa.type_expense, 0) AS type_expense, IFNULL(usa.production_center, 0) AS production_center, IFNULL(usa.user, 0) AS user, IFNULL(usa.backup, 0) AS backup, 
-                                                 IFNULL(usa.economy_scale, 0) AS economy_scale, IFNULL(usa.sale_objectives, 0) AS sale_objectives, IFNULL(usa.multiproduct, 0) AS multiproduct, IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, IFNULL(usa.quote_company, 0) AS quote_company, IFNULL(usa.quote_contact, 0) AS quote_contact, IFNULL(usa.price, 0) AS price, IFNULL(usa.price_usd, 0) AS price_usd, 
-                                                 IFNULL(usa.custom_price, 0) AS custom_price, IFNULL(usa.type_custom_price, 0) AS type_custom_price, IFNULL(usa.analysis_material, 0) AS analysis_material, IFNULL(usa.simulator, 0) AS simulator, IFNULL(usa.historical, 0) AS historical, IFNULL(usa.support, 0) AS support, IFNULL(usa.quote, 0) AS quote, IFNULL(usa.contract, 0) AS contract
+        $stmt = $connection->prepare("SELECT 
+                                            -- Información Usuario
+                                                us.id_user, 
+                                                us.firstname, 
+                                                us.lastname, 
+                                                us.email, 
+                                            -- Menú Maestros
+                                                IFNULL(usa.create_product, 0) AS create_product, 
+                                                IFNULL(usa.create_materials, 0) AS create_materials, 
+                                                IFNULL(usa.create_machines, 0) AS create_machines, 
+                                                IFNULL(usa.create_process, 0) AS create_process, 
+                                            -- Menú Configuración   
+                                                IFNULL(usa.product_materials, 0) AS product_materials, 
+                                                IFNULL(usa.factory_load, 0) AS factory_load, 
+                                                IFNULL(usa.custom_price, 0) AS custom_price, 
+                                            -- Menú General
+                                                IFNULL(usa.payroll_load, 0) AS payroll_load, 
+                                                IFNULL(usa.type_payroll, 0) AS type_payroll, 
+                                                IFNULL(usa.expense, 0) AS expense, 
+                                                IFNULL(usa.expense_distribution, 0) AS expense_distribution,
+                                                IFNULL(usa.production_center, 0) AS production_center,
+                                                IFNULL(usa.type_expense, 0) AS type_expense,  
+                                            -- Menú Administrador
+                                                IFNULL(usa.user, 0) AS user, 
+                                                IFNULL(usa.backup, 0) AS backup, 
+                                            -- Menú Cotizacion
+                                                IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, 
+                                                IFNULL(usa.quote_company, 0) AS quote_company, 
+                                                IFNULL(usa.quote_contact, 0) AS quote_contact, 
+                                            -- Navegador Lista de Precios
+                                                IFNULL(usa.price, 0) AS price, 
+                                                IFNULL(usa.price_usd, 0) AS price_usd, 
+                                                IFNULL(usa.type_custom_price, 0) AS type_custom_price,
+                                            -- Navegador Herramientas
+                                                IFNULL(usa.analysis_material, 0) AS analysis_material, 
+                                                IFNULL(usa.economy_scale, 0) AS economy_scale,
+                                                IFNULL(usa.sale_objectives, 0) AS sale_objectives,
+                                                IFNULL(usa.multiproduct, 0) AS multiproduct,
+                                                IFNULL(usa.historical, 0) AS historical,
+                                                IFNULL(usa.simulator, 0) AS simulator, 
+                                            -- Navegador Otros
+                                                IFNULL(usa.support, 0) AS support, 
+                                                IFNULL(usa.quote, 0) AS quote, 
+                                                IFNULL(usa.contract, 0) AS contract
                                           FROM users us
                                           LEFT JOIN cost_users_access usa ON usa.id_user = us.id_user
                                           WHERE us.id_company = :id_company");
@@ -43,15 +83,53 @@ class CostUserAccessDao
     {
         $connection = Connection::getInstance()->getConnection();
         // IFNULL(usa.price_usd, 0) AS price_usd, 
-        $stmt = $connection->prepare(
-            "SELECT us.id_user, us.firstname, us.lastname, us.email, IFNULL(usa.create_product, 0) AS create_product, IFNULL(usa.create_materials, 0) AS create_materials, IFNULL(usa.create_machines, 0) AS create_machines, IFNULL(usa.create_process, 0) AS create_process, IFNULL(usa.product_materials, 0) AS product_materials, 
-                    IFNULL(usa.factory_load, 0) AS factory_load, IFNULL(usa.payroll_load, 0) AS payroll_load, IFNULL(usa.type_payroll, 0) AS type_payroll, IFNULL(usa.expense, 0) AS expense, IFNULL(usa.expense_distribution, 0) AS expense_distribution, IFNULL(usa.user, 0) AS user, IFNULL(usa.backup, 0) AS backup, 
-                    IFNULL(usa.economy_scale, 0) AS economy_scale, IFNULL(usa.sale_objectives, 0) AS sale_objectives, IFNULL(usa.multiproduct, 0) AS multiproduct, IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, IFNULL(usa.quote_company, 0) AS quote_company, IFNULL(usa.quote_contact, 0) AS quote_contact, IFNULL(usa.production_center, 0) AS production_center,
-                    IFNULL(usa.price, 0) AS price, IFNULL(usa.custom_price, 0) AS custom_price, IFNULL(usa.type_custom_price, 0) AS type_custom_price, IFNULL(usa.analysis_material, 0) AS analysis_material, IFNULL(usa.simulator, 0) AS simulator, IFNULL(usa.historical, 0) AS historical, IFNULL(usa.support, 0) AS support, IFNULL(usa.quote, 0) AS quote
-             FROM users us
-             LEFT JOIN cost_users_access usa ON usa.id_user = us.id_user
-             WHERE us.id_company = :id_company AND us.id_user = :id_user"
-        );
+        $stmt = $connection->prepare("SELECT 
+                                            -- Información Usuario
+                                                us.id_user, 
+                                                us.firstname, 
+                                                us.lastname, 
+                                                us.email, 
+                                            -- Menú Maestros
+                                                IFNULL(usa.create_product, 0) AS create_product, 
+                                                IFNULL(usa.create_materials, 0) AS create_materials, 
+                                                IFNULL(usa.create_machines, 0) AS create_machines, 
+                                                IFNULL(usa.create_process, 0) AS create_process, 
+                                            -- Menú Configuración   
+                                                IFNULL(usa.product_materials, 0) AS product_materials, 
+                                                IFNULL(usa.factory_load, 0) AS factory_load, 
+                                                IFNULL(usa.custom_price, 0) AS custom_price, 
+                                            -- Menú General
+                                                IFNULL(usa.payroll_load, 0) AS payroll_load, 
+                                                IFNULL(usa.type_payroll, 0) AS type_payroll, 
+                                                IFNULL(usa.expense, 0) AS expense, 
+                                                IFNULL(usa.expense_distribution, 0) AS expense_distribution,
+                                                IFNULL(usa.production_center, 0) AS production_center,
+                                                IFNULL(usa.type_expense, 0) AS type_expense,  
+                                            -- Menú Administrador
+                                                IFNULL(usa.user, 0) AS user, 
+                                                IFNULL(usa.backup, 0) AS backup, 
+                                            -- Menú Cotizacion
+                                                IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, 
+                                                IFNULL(usa.quote_company, 0) AS quote_company, 
+                                                IFNULL(usa.quote_contact, 0) AS quote_contact, 
+                                            -- Navegador Lista de Precios
+                                                IFNULL(usa.price, 0) AS price, 
+                                                IFNULL(usa.price_usd, 0) AS price_usd, 
+                                                IFNULL(usa.type_custom_price, 0) AS type_custom_price,
+                                            -- Navegador Herramientas
+                                                IFNULL(usa.analysis_material, 0) AS analysis_material, 
+                                                IFNULL(usa.economy_scale, 0) AS economy_scale,
+                                                IFNULL(usa.sale_objectives, 0) AS sale_objectives,
+                                                IFNULL(usa.multiproduct, 0) AS multiproduct,
+                                                IFNULL(usa.historical, 0) AS historical,
+                                                IFNULL(usa.simulator, 0) AS simulator, 
+                                            -- Navegador Otros
+                                                IFNULL(usa.support, 0) AS support, 
+                                                IFNULL(usa.quote, 0) AS quote, 
+                                                IFNULL(usa.contract, 0) AS contract
+                                      FROM users us
+                                        LEFT JOIN cost_users_access usa ON usa.id_user = us.id_user
+                                      WHERE us.id_company = :id_company AND us.id_user = :id_user");
         $stmt->execute(['id_company' => $id_company, 'id_user' => $id_user]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $users = $stmt->fetch($connection::FETCH_ASSOC);

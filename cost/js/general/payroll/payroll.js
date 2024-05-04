@@ -170,10 +170,10 @@ $(document).ready(function () {
   deleteFunction = async (id) => {
     let data = allPayroll.find(item => item.id_payroll == id);
 
-    let process = allProductProcess.filter(item => item.id_process == data.id_process);
+    let process = allPayroll.filter(item => item.id_process == data.id_process);
 
     if (process.length == 1) {
-      toastr.error('Procesos asociado a Ficha de productos');
+      toastr.error('Proceso asociado a Ficha de productos');
       return false;
     }
 
@@ -224,16 +224,19 @@ $(document).ready(function () {
     var options = ``;
 
     // let dataProcess = await searchData(`/api/process/${employee}`);
-    let arr = leaveUniqueKey(allPayroll, 'id_process');
-    let dataProcess = arr.filter(item => item.employee != employee);
+    let process = leaveUniqueKey(allProductProcess, 'id_process');
+    let processByEmployee = allPayroll.filter(item => item.employee == employee);
 
-    if (dataProcess.length == 0) {
+    // Filtrar el primer array para eliminar los elementos que están en el segundo array
+    process = process.filter(item => !processByEmployee.find(p => p.id_process === item.id_process));
+
+    if (process.length == 0) {
       toastr.info('No hay procesos disponibles para este empleado');
       return false;
     }
 
-    for (var i = 0; i < dataProcess.length; i++) {
-      options += `<option value="${dataProcess[i].id_process}"> ${dataProcess[i].process} </option>`;
+    for (var i = 0; i < process.length; i++) {
+      options += `<option value="${process[i].id_process}"> ${process[i].process} </option>`;
     }
 
     // let row = $(this.activeElement).parent().parent()[0];
