@@ -89,8 +89,8 @@
                                     <li class="dropdown-submenu" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                         <?php if (
                                             $_SESSION['plan_cost_economy_sale'] == 1 &&
-                                            ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['flag_economy_scale'] == 1) ||
-                                            ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)
+                                            ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['flag_economy_scale'] == 1 ||
+                                                $_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)
                                         ) { ?>
                                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarEconomy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <?php } else { ?>

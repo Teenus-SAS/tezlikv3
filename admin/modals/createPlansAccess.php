@@ -56,7 +56,7 @@
                                                     </div>
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-4" name="economyScale" type="checkbox">
-                                                        <label for="checkbox-4">Negociaciones Eficientes</label>
+                                                        <label for="checkbox-4">Economias de Escala</label>
                                                     </div>
                                                     <!-- <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-5" name="salesOjective" type="checkbox">
