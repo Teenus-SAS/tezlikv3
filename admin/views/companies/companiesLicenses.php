@@ -145,7 +145,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label economyScale">
                                                     <div class="form-group m-0">
                                                         <label>Negociaciones Eficientes</label>
                                                         <select name="economyScale" id="economyScale" class="form-control">
@@ -155,7 +155,7 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label economyScale">
                                                     <div class="form-group m-0">
                                                         <label>Objetivos De Ventas</label>
                                                         <select name="salesObjective" id="salesObjective" class="form-control">
@@ -250,6 +250,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/admin/js/global/changeCompany.js"></script>
     <script src="/admin/js/companies/configCompanies.js"></script>
     <script src="/admin/js/plans/configPlans.js"></script>
+    <script src="/admin/js/plans/tblPlans.js"></script>
     <script src="/admin/js/licenses/tblCompaniesLicense.js"></script>
     <script src="/admin/js/licenses/companiesLicense.js"></script>
 </body>

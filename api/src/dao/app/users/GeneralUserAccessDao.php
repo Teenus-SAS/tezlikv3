@@ -73,7 +73,7 @@ class GeneralUserAccessDao
                                             pa.cost_support AS plan_cost_support, 
                                             pa.cost_quote AS plan_cost_quote, 
                                             pa.cost_economy_scale AS plan_cost_economy_sale, 
-                                            pa.cost_sale_objectives AS plan_sale_objectives, 
+                                            -- pa.cost_sale_objectives AS plan_sale_objectives, 
                                             pa.cost_multiproduct AS plan_cost_multiproduct, 
                                         -- Información de usuario
                                             u.firstname, 
@@ -146,7 +146,7 @@ class GeneralUserAccessDao
         $_SESSION['plan_cost_support'] = $userAccess['plan_cost_support'];
         $_SESSION['plan_cost_quote'] = $userAccess['plan_cost_quote'];
         $_SESSION['plan_cost_economy_sale'] = $userAccess['plan_cost_economy_sale'];
-        $_SESSION['plan_sale_objectives'] = $userAccess['plan_sale_objectives'];
+        // $_SESSION['plan_sale_objectives'] = $userAccess['plan_sale_objectives'];
         $_SESSION['plan_cost_multiproduct'] = $userAccess['plan_cost_multiproduct'];
         $_SESSION['flag_economy_scale'] = $userAccess['flag_economy_scale'];
         $_SESSION['flag_sales_objective'] = $userAccess['flag_sales_objective'];

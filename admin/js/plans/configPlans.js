@@ -3,7 +3,7 @@ $(document).ready(function () {
     url: '/api/plans',
     success: function (r) {
       let $select = $(`#plan`);
-      $select.empty();
+      $select.empty(); 
 
       $select.append(`<option disabled selected>Seleccionar</option>`);
       $.each(r, function (i, value) {

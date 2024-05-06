@@ -47,10 +47,10 @@ class PlanAccessDao
         $connection = Connection::getInstance()->getConnection();
         try {
             $stmt = $connection->prepare("UPDATE plans_access SET cant_products = :cant_products, cost_price = :cost_price, custom_price = :custom_price, cost_analysis_material= :cost_analysis_material, cost_support= :cost_support, 
-                                                                  cost_quote = :cost_quote, cost_multiproduct = :cost_multiproduct, cost_economy_scale = :cost_economy_scale, cost_sale_objectives = :cost_sale_objectives, cost_simulator = :cost_simulator
+                                                                  cost_quote = :cost_quote, cost_multiproduct = :cost_multiproduct, cost_economy_scale = :cost_economy_scale, cost_simulator = :cost_simulator
                                           WHERE id_plan= :id_plan");
             $stmt->execute([
-                'id_plan' => $dataPlan['idPlan'],                                   'cost_sale_objectives' => $dataPlan['salesOjective'],
+                'id_plan' => $dataPlan['idPlan'],                                   // 'cost_sale_objectives' => $dataPlan['salesOjective'],
                 'cant_products' => $dataPlan['cantProducts'],                       'cost_quote' => $dataPlan['quotes'],
                 'cost_price' => $dataPlan['prices'],                                'cost_multiproduct' => $dataPlan['multiproduct'],
                 'custom_price' => $dataPlan['customPrices'],                        'cost_simulator' => $dataPlan['simulator'],

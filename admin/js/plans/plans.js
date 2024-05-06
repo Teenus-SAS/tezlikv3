@@ -21,8 +21,7 @@ $(document).ready(function () {
       '/api/updatePlansAccess',
       dataPlan,
       function (data, textStatus, jqXHR) {
-        message(data);
-        updateTable();
+        message(data); 
       }
     );
   });
@@ -44,7 +43,7 @@ $(document).ready(function () {
       customPrices: data.custom_price,
       analysisMaterials: data.cost_analysis_material,
       economyScale: data.cost_economy_scale,
-      salesOjective: data.cost_sale_objectives,
+      // salesOjective: data.cost_sale_objectives,
       multiproduct: data.cost_multiproduct,
       simulator: data.cost_simulator, 
       quotes: data.cost_quote,
@@ -73,10 +72,10 @@ $(document).ready(function () {
       customPrices: 0,
       analysisRawMaterials: 0,
       economyScale: 0,
-      salesOjective: 0,
+      // salesOjective: 0,
       multiproduct: 0,
       simulator: 0,
-      historical: 0,
+      // historical: 0,
       quotes: 0,
       support: 0,
     };
@@ -96,17 +95,10 @@ $(document).ready(function () {
     if (data.success == true) {
       $('#createPlansAccess').modal('hide');
       $('#formCreatePlan').trigger('reset');
-      updateTable();
+      loadAllDataPlan();
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  function updateTable() {
-    $('#tblPlans').DataTable().clear();
-    $('#tblPlans').DataTable().ajax.reload();
-  }
 });

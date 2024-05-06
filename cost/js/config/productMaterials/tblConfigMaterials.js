@@ -2,6 +2,23 @@ $(document).ready(function () {
   allProductMaterials = [];
   allComposites = [];
 
+  loadAllDataMaterials = async (op) => {
+    try {
+      const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
+        searchData('/api/allProductsMaterials'),
+        searchData('/api/allCompositeProducts')
+      ]);
+
+      allProductMaterials = dataProductMaterials;
+      allComposites = dataCompositeProduct;
+
+      if (op != 1)
+        loadtableMaterials(op);
+    } catch (error) {
+      console.error('Error loading data:', error);
+    }
+  };
+
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
     e.preventDefault();
@@ -40,24 +57,7 @@ $(document).ready(function () {
     $('.cardAddMaterials').hide(800);
 
     loadtableMaterials(id);
-  });
-
-  loadAllDataMaterials = async (op) => {
-    try {
-      const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
-        searchData('/api/allProductsMaterials'),
-        searchData('/api/allCompositeProducts')
-      ]);
-
-      allProductMaterials = dataProductMaterials;
-      allComposites = dataCompositeProduct;
-
-      if (op != 1)
-        loadtableMaterials(op);
-    } catch (error) {
-      console.error('Error loading data:', error);
-    }
-  }
+  }); 
 
   /* Cargue tabla de Proyectos */
   loadtableMaterials = async (idProduct) => {

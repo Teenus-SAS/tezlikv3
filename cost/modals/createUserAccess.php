@@ -207,7 +207,7 @@
                                                         <label for="checkbox-16">Negociaciones Eficientes</label>
                                                     </div>
                                                 <?php } ?>
-                                                <?php if ($_SESSION['plan_sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1) { ?>
+                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['flag_sales_objective'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-17" name="saleObjectives" type="checkbox">
                                                         <label for="checkbox-17">Objetivos De Ventas</label>

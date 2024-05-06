@@ -14,6 +14,7 @@ use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 
 $productsProcessDao = new ProductsProcessDao();
 $generalProductsProcessDao = new GeneralProductsProcessDao();
@@ -26,6 +27,7 @@ $machinesDao = new GeneralMachinesDao();
 $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $costCompositeProductsDao = new CostCompositeProductsDao();
@@ -178,12 +180,14 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
 
     $dataProductsProcess = sizeof($dataProductProcess);
@@ -230,12 +234,23 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 $productProcess = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
             }
 
+            $data = [];
             // Calcular Precio del producto
             if ($productProcess == null)
-                $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+                $data = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
 
-            if (isset($productProcess['totalPrice']))
-                $productProcess = $productsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+            if (isset($data['totalPrice']))
+                $productProcess = $productsDao->updatePrice($dataProductProcess['idProduct'], $data['totalPrice']);
+
+            if ($productProcess == null && isset($data['totalPrice'])) {
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $dataProductProcess['idProduct'];
+
+                $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            }
 
             if ($productProcess == null && $_SESSION['flag_composite_product'] == '1') {
                 // Calcular costo material porq
@@ -287,6 +302,16 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
                     if (isset($productProcess['info'])) break;
 
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($productProcess['info'])) break;
+
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
                     foreach ($productsCompositer2 as $arr) {
@@ -332,6 +357,15 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
                         if (isset($data['totalPrice']))
                             $productProcess = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($productProcess['info'])) break;
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $arr['id_product'];
+
+                        $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -428,13 +462,21 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             }
 
             // Calcular Precio del producto
+            $data = [];
             if ($resolution == null)
-                $resolution = $priceProductDao->calcPrice($productProcess[$i]['idProduct']);
+                $data = $priceProductDao->calcPrice($productProcess[$i]['idProduct']);
 
-            if (isset($resolution['info']))
-                break;
-            if (isset($resolution['totalPrice']))
-                $resolution = $productsDao->updatePrice($productProcess[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($data['totalPrice']))
+                $resolution = $productsDao->updatePrice($productProcess[$i]['idProduct'], $data['totalPrice']);
+
+            if (isset($resolution['info'])) break;
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $productProcess[$i]['idProduct'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -487,6 +529,16 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
                     if (isset($resolution['info'])) break;
 
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($resolution['info'])) break;
+
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
                     foreach ($productsCompositer2 as $arr) {
@@ -532,6 +584,15 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
                         if (isset($data['totalPrice']))
                             $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($resolution['info'])) break;
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $arr['id_product'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -553,6 +614,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
+    $pricesUSDDao,
     $productsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -560,6 +622,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
 
     $data = [];
@@ -617,10 +680,21 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
         }
 
         // Calcular Precio del producto
+        $data = [];
         if ($productProcess == null)
-            $productProcess = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
-        if (isset($productProcess['totalPrice']))
-            $productProcess = $productsDao->updatePrice($dataProductProcess['idProduct'], $productProcess['totalPrice']);
+            $data = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+        if (isset($data['totalPrice']))
+            $productProcess = $productsDao->updatePrice($dataProductProcess['idProduct'], $data['totalPrice']);
+
+        if ($productProcess == null && isset($data['totalPrice'])) {
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $dataProductProcess['idProduct'];
+
+            $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        }
 
         if ($productProcess == null && $_SESSION['flag_composite_product'] == '1') {
             // Calcular costo material porq
@@ -672,6 +746,16 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 
                 if (isset($productProcess['info'])) break;
 
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $j['id_product'];
+
+                $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($productProcess['info'])) break;
+
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
                 foreach ($productsCompositer2 as $arr) {
@@ -717,6 +801,16 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 
                     if (isset($data['totalPrice']))
                         $productProcess = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                    if (isset($productProcess['info'])) break;
+
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }
@@ -739,6 +833,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
+    $pricesUSDDao,
     $productsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -746,6 +841,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
 
     $employees = implode(',', $dataProductProcess['employees']);
@@ -788,11 +884,22 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
         $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
     }
 
+    $data = [];
     // Calcular Precio del producto
     if ($resolution == null)
-        $product = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
-    if (isset($product['totalPrice']))
-        $resolution = $productsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
+        $data = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+    if (isset($data['totalPrice']))
+        $resolution = $productsDao->updatePrice($dataProductProcess['idProduct'], $data['totalPrice']);
+
+    if ($resolution == null && $data['totalPrice']) {
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $data['totalPrice'];
+        $k['sale_price'] = $data['sale_price'];
+        $k['id_product'] = $dataProductProcess['idProduct'];
+
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+    }
 
     if ($resolution == null && $_SESSION['flag_composite_product'] == '1') {
         // Calcular costo material porq
@@ -844,6 +951,16 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
 
             if (isset($resolution['info'])) break;
 
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $j['id_product'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+            if (isset($resolution['info'])) break;
+
             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
             foreach ($productsCompositer2 as $arr) {
@@ -889,6 +1006,16 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
 
                 if (isset($data['totalPrice']))
                     $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($resolution['info'])) break;
+
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
             }
         }
     }
@@ -932,6 +1059,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
+    $pricesUSDDao,
     $productsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -939,6 +1067,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
 
     $product = $productsProcessDao->deleteProductProcess($dataProductProcess);
@@ -969,10 +1098,21 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
     }
 
     // Calcular Precio del producto
+    $data = [];
     if ($product == null)
         $product = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
     if (isset($product['totalPrice']))
         $product = $productsDao->updatePrice($dataProductProcess['idProduct'], $product['totalPrice']);
+
+    if ($product == null && isset($data['totalPrice'])) {
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $data['totalPrice'];
+        $k['sale_price'] = $data['sale_price'];
+        $k['id_product'] = $dataProductProcess['idProduct'];
+
+        $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+    }
 
     if ($product == null && $_SESSION['flag_composite_product'] == '1') {
         // Calcular costo material porq
@@ -1024,6 +1164,16 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
 
             if (isset($product['info'])) break;
 
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $j['id_product'];
+
+            $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+            if (isset($product['info'])) break;
+
             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
             foreach ($productsCompositer2 as $arr) {
@@ -1069,6 +1219,15 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
 
                 if (isset($data['totalPrice']))
                     $product = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($product['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
             }
         }
     }

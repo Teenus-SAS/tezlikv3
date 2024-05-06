@@ -6,11 +6,13 @@ use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 
 $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
 $productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 
@@ -86,11 +88,13 @@ $app->post('/addExternalService', function (Request $request, Response $response
     $externalServicesDao,
     $productsDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataExternalService = $request->getParsedBody();
 
     $dataExternalServices = sizeof($dataExternalService);
@@ -103,10 +107,20 @@ $app->post('/addExternalService', function (Request $request, Response $response
             $externalServices = $externalServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
             // Calcular precio del producto
             if ($externalServices == null)
-                $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+                $data = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-            if (isset($externalServices['totalPrice']))
-                $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+            if (isset($data['totalPrice']))
+                $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $data['totalPrice']);
+
+            if ($externalServices == null && isset($data)) {
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $dataExternalService['idProduct'];
+
+                $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            }
 
             if ($externalServices == null && $_SESSION['flag_composite_product'] == '1') {
                 // Calcular costo material porq
@@ -132,7 +146,16 @@ $app->post('/addExternalService', function (Request $request, Response $response
                     if (isset($data['totalPrice']))
                         $externalServices = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
-                    if (isset($productProcess['info'])) break;
+                    if (isset($externalService['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($externalService['info'])) break;
 
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
@@ -156,6 +179,15 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
                         if (isset($data['totalPrice']))
                             $externalServices = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($externalServices['info'])) break;
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $arr['id_product'];
+
+                        $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -172,6 +204,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
         $externalService = $dataExternalService['importExternalService'];
 
         for ($i = 0; $i < sizeof($externalService); $i++) {
+            $data = [];
             // Obtener id_producto
             $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
             $externalService[$i]['idProduct'] = $findProduct['id_product'];
@@ -186,13 +219,21 @@ $app->post('/addExternalService', function (Request $request, Response $response
             }
 
             // Calcular precio del producto
-            $resolution = $priceProductDao->calcPrice($externalService[$i]['idProduct']);
+            $data = $priceProductDao->calcPrice($externalService[$i]['idProduct']);
 
-            if (isset($resolution['info']))
-                break;
+            if (isset($data['totalPrice']))
+                $resolution = $productsDao->updatePrice($externalService[$i]['idProduct'], $data['totalPrice']);
 
-            if (isset($resolution['totalPrice']))
-                $resolution = $productsDao->updatePrice($externalService[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($resolution['info'])) break;
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $externalService[$i]['idProduct'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+            if (isset($resolution['info'])) break;
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -220,6 +261,15 @@ $app->post('/addExternalService', function (Request $request, Response $response
                         $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($resolution['info'])) break;
 
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
@@ -243,6 +293,15 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
                         if (isset($data['totalPrice']))
                             $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                        if (isset($resolution['info'])) break;
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $arr['id_product'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -262,10 +321,12 @@ $app->post('/addExternalService', function (Request $request, Response $response
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
     $priceProductDao,
+    $pricesUSDDao,
     $productsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
 
     $dataExternalService = $request->getParsedBody();
 
@@ -276,15 +337,25 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
     !is_array($externalService) ? $data['id_service'] = 0 : $data = $externalService;
 
     if ($data['id_service'] == $dataExternalService['idService'] || $data['id_service'] == 0) {
+        $data = [];
         $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
 
         // Calcular precio del producto
         if ($externalServices == null)
-            $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+            $data = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-        if (isset($externalServices['totalPrice']))
-            $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+        if (isset($data['totalPrice']))
+            $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $data['totalPrice']);
 
+        if ($externalServices == null && isset($data)) {
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $dataExternalService['idProduct'];
+
+            $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        }
         if ($externalServices == null)
             $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
         else if (isset($externalServices['info']))
@@ -300,19 +371,32 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 $app->post('/deleteExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
     $priceProductDao,
+    $pricesUSDDao,
     $productsDao
 ) {
     session_start();
+    $coverage = $_SESSION['coverage'];
     $dataExternalService = $request->getParsedBody();
+    $data = [];
 
     $externalServices = $externalServicesDao->deleteExternalService($dataExternalService['idService']);
 
     // Calcular precio del producto
     if ($externalServices == null)
-        $externalServices = $priceProductDao->calcPrice($dataExternalService['idProduct']);
+        $data = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
     if (isset($externalServices['totalPrice']))
-        $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $externalServices['totalPrice']);
+        $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $data['totalPrice']);
+
+    // Convertir a Dolares 
+    if ($externalServices == null) {
+        $k = [];
+        $k['price'] = $data['totalPrice'];
+        $k['sale_price'] = $data['sale_price'];
+        $k['id_product'] = $dataExternalService['idProduct'];
+
+        $externalServices = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+    }
 
     if ($externalServices == null)
         $resp = array('success' => true, 'message' => 'Servicio externo eliminado correctamente');
