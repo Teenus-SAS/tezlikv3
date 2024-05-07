@@ -79,6 +79,7 @@ require_once('../api/src/routes/app/cost/basic/routeProducts.php');
 
 // Config
 require_once('../api/src/routes/app/cost/config/routeExternalServices.php');
+require_once('../api/src/routes/app/cost/config/routeGExternalServices.php');
 require_once('../api/src/routes/app/cost/config/routeFactoryLoad.php');
 require_once('../api/src/routes/app/cost/config/routeProductsProcess.php');
 require_once('../api/src/routes/app/cost/config/routeCompositesProducts.php');

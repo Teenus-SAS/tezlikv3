@@ -27,6 +27,7 @@ class GeneralUserAccessDao
                                             IFNULL(cua.create_machines, 0) AS cost_machine, 
                                             IFNULL(cua.create_process, 0) AS cost_process, 
                                             IFNULL(cua.product_materials, 0) AS cost_products_material, 
+                                            IFNULL(cua.external_service, 0) AS external_service, 
                                             IFNULL(cua.factory_load, 0) AS factory_load,
                                             IFNULL(cua.contract, 0) AS contract, 
                                             IFNULL(cua.payroll_load, 0) AS payroll_load, 
@@ -103,7 +104,7 @@ class GeneralUserAccessDao
         $_SESSION['cost_products_material'] = $userAccess['cost_products_material'];
         // $_SESSION['cost_products_process'] = $userAccess['cost_products_process'];
         $_SESSION['factory_load'] = $userAccess['factory_load'];
-        // $_SESSION['external_service'] = $userAccess['external_service'];
+        $_SESSION['external_service'] = $userAccess['external_service'];
         $_SESSION['payroll_load'] = $userAccess['payroll_load'];
         $_SESSION['type_payroll'] = $userAccess['type_payroll'];
 

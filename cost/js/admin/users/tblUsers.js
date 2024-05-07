@@ -123,6 +123,14 @@ $(document).ready(function () {
           });
 
           permissions.push({
+            name: "Servicios Externos",
+            icon: data.external_service
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
             name: "Carga Fabril",
             icon: data.factory_load
               ? "bi bi-check-circle-fill text-success"

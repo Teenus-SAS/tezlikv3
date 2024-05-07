@@ -1008,16 +1008,16 @@ if (sizeof($_SESSION) == 0)
     </script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
-    <script src="/cost/js/config/services/tblExternalServices.js"></script>
+    <!-- <script src="/cost/js/config/services/tblExternalServices.js"></script> -->
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
     <script src="/cost/js/config/productProcess/productProcess.js"></script>
-    <script src="/cost/js/config/services/externalServices.js"></script>
+    <!-- <script src="/cost/js/config/services/externalServices.js"></script> -->
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/config/productMaterials/importProductMaterials.js"></script>
     <script src="/cost/js/config/productProcess/importProductProcess.js"></script>
-    <script src="/cost/js/config/services/importExternalServices.js"></script>
+    <!-- <script src="/cost/js/config/services/importExternalServices.js"></script> -->
     <script src="../global/js/import/file.js"></script>
 </body>
 

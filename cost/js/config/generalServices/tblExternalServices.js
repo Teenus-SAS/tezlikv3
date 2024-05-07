@@ -1,52 +1,6 @@
-$(document).ready(function () {
-  /* Seleccion producto */
-  $("#refProduct").change(function (e) {
-    e.preventDefault();
-    let id = this.value;
-    
-    $('#selectNameProduct option').prop('selected', function () {
-      return $(this).val() == id;
-    });
-
-    loadTableExternalServices(id);
-  });
-
-  $("#selectNameProduct").change(function (e) {
-    e.preventDefault();
-    let id = this.value;
-    
-    $('#refProduct option').prop('selected', function () {
-      return $(this).val() == id;
-    });
-
-    loadTableExternalServices(id);
-  });
-
-  loadAllDataServices = async (id) => {
-    try {
-      const services = await searchData('/api/allExternalservices');
-
-      sessionStorage.setItem('dataServices', JSON.stringify(services));
-      // dataServices = services;
-
-      if (id != 0) loadTableExternalServices(id);
-    } catch (error) {
-      console.error('Error loading data:', error);
-    }
-  };
-
-  loadAllDataServices(0);
-  
+$(document).ready(function () { 
   /* Cargue tabla de Proyectos */
-  loadTableExternalServices = (id) => {
-    $('.cardAddService').hide(800);
-    let data = dataServices.filter(item => item.id_product == id);
-
-    // if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
-    //   $("#tblExternalServices").DataTable().clear();
-    //   $("#tblExternalServices").DataTable().rows.add(data).draw();
-    //   return;
-    // }
+  loadTableExternalServices = (data) => {  
     if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
       var table = $("#tblExternalServices").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual
@@ -59,7 +13,7 @@ $(document).ready(function () {
     tblExternalServices = $("#tblExternalServices").dataTable({
       destroy: true,
       pageLength: 50,
-      data: data,
+      data: data, 
       dom: '<"datatable-error-console">frtip',
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json",

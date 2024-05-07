@@ -7,7 +7,7 @@ $(document).ready(function () {
     e.preventDefault();
     $('.cardAddService').hide(800);
     $('.cardImportExternalServices').toggle(800);
-    $('.cardProducts').toggle(800);
+    // $('.cardProducts').toggle(800);
   });
 
   $('#fileExternalServices').change(function (e) {
@@ -48,7 +48,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'servicio', 'costo'];
+        const expectedHeaders = ['servicio', 'costo'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -69,8 +69,8 @@ $(document).ready(function () {
             costService = item.costo.toString().replace('.', ',');
 
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
+            // referenceProduct: item.referencia_producto,
+            // product: item.producto,
             service: item.servicio,
             costService: costService,
           };
@@ -86,7 +86,7 @@ $(document).ready(function () {
   checkExternalService = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/externalServiceDataValidation',
+      url: '../../api/generalExternalServiceDataValidation',
       data: { importExternalService: data },
       success: function (resp) {
         if (resp.error == true) {
@@ -128,7 +128,7 @@ $(document).ready(function () {
   saveExternalServiceTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addExternalService',
+      url: '../../api/addGExternalService',
       data: { importExternalService: data },
       success: function (r) {
         $('.cardLoading').remove();
@@ -137,23 +137,17 @@ $(document).ready(function () {
 
         /* Mensaje de exito */
         if (r.success == true) {
-          let idProduct = $('#selectNameProduct').val(); 
+          // let idProduct = $('#selectNameProduct').val(); 
           $('.cardImportExternalServices').hide(800);
           $('#formImportExternalServices').trigger('reset');
 
-          if (idProduct != null)
-            updateTable();
+          // if (idProduct != null)
+          loadTableExternalServices();
           
           toastr.success(r.message);
           return false;
         } else if (r.error == true) toastr.error(r.message);
         else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblExternalServices').DataTable().clear();
-          $('#tblExternalServices').DataTable().ajax.reload();
-        }
       },
     });
   };
@@ -162,7 +156,7 @@ $(document).ready(function () {
   $('#btnDownloadImportsExternalServices').click(function (e) {
     e.preventDefault();
 
-    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
+    let dataServices = JSON.parse(sessionStorage.getItem('dataGServices'));
 
     if (dataServices.length > 0) {
       let wb = XLSX.utils.book_new();
@@ -172,8 +166,6 @@ $(document).ready(function () {
       namexlsx = 'Servicios_Externos.xlsx';
       for (i = 0; i < dataServices.length; i++) {
         data.push({
-          referencia_producto: dataServices[i].reference,
-          producto: dataServices[i].product,
           servicio: dataServices[i].name_service,
           costo: dataServices[i].cost,
         });
