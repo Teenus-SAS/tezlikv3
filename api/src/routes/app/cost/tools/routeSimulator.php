@@ -20,6 +20,7 @@ use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\MinuteDepreciationDao;
 use tezlikv3\dao\PayrollDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductsCostDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;
@@ -48,6 +49,7 @@ $costWorkforceDao = new CostWorkforceDao();
 $indirectCostDao = new IndirectCostDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $costCompositeProductsDao = new CostCompositeProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -126,10 +128,12 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $indirectCostDao,
     $generalCompositeProductsDao,
     $priceProductDao,
+    $pricesUSDDao,
     $costCompositeProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $data = $request->getParsedBody();
 
     $simulator = $data['simulator'];
@@ -198,6 +202,15 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                     $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($resolution['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($resolution['info'])) break;
 
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
@@ -244,6 +257,15 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
 
                     if (isset($data['totalPrice']))
                         $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($resolution['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }

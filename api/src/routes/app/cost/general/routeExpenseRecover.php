@@ -6,11 +6,13 @@ use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 
 $expenseRecoverDao = new ExpenseRecoverDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $generalProductsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 
@@ -88,11 +90,13 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
     $expenseRecoverDao,
     $generalProductsDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
 
     $dataExpense = $request->getParsedBody();
 
@@ -101,11 +105,21 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
     if ($dataExpenses > 1) {
         $expensesRecover = $expenseRecoverDao->insertRecoverExpenseByCompany($dataExpense, $id_company);
 
+        $data = [];
         if ($expensesRecover == null)
-            $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
+            $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
-        if (isset($expenseRecover['totalPrice']))
-            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+        if (isset($data['totalPrice']))
+            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
+        if ($expensesRecover == null && isset($data['totalPrice'])) {
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $dataExpense['idProduct'];
+
+            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        }
 
         if ($expensesRecover == null && $_SESSION['flag_composite_product'] == '1') {
             // Calcular costo material porq
@@ -134,6 +148,16 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 
                 if (isset($expensesRecover['info'])) break;
 
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($expensesRecover['info'])) break;
+
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                 foreach ($productsCompositer2 as $j) {
@@ -156,6 +180,15 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 
                     if (isset($data['totalPrice']))
                         $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($expensesRecover['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }
@@ -182,12 +215,20 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                 $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
             }
 
-            $resolution = $priceProductDao->calcPrice($expenseRecover[$i]['idProduct']);
+            $data = [];
+            $data = $priceProductDao->calcPrice($expenseRecover[$i]['idProduct']);
 
-            if (isset($resolution['info']))
-                break;
-            if (isset($resolution['totalPrice']))
-                $resolution = $generalProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($data['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($expenseRecover[$i]['idProduct'], $data['totalPrice']);
+            if (isset($resolution['info'])) break;
+
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $expenseRecover[$i]['idProduct'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -217,6 +258,16 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 
                     if (isset($resolution['info'])) break;
 
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($resolution['info'])) break;
+
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                     foreach ($productsCompositer2 as $j) {
@@ -239,6 +290,15 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 
                         if (isset($data['totalPrice']))
                             $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($resolution['info'])) break;
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $j['id_product'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -256,12 +316,14 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 $app->post('/updateExpenseRecover', function (Request $request, Response $response, $args) use (
     $expenseRecoverDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataExpense = $request->getParsedBody();
 
     $dataExpenses = sizeof($dataExpense);
@@ -269,11 +331,22 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
     if ($dataExpenses > 1) {
         $expensesRecover = $expenseRecoverDao->updateRecoverExpense($dataExpense);
 
+        $data = [];
         if ($expensesRecover == null)
-            $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
+            $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
-        if (isset($expenseRecover['totalPrice']))
-            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+        if (isset($data['totalPrice']))
+            $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
+
+        if ($expensesRecover == null && isset($data['totalPrice'])) {
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $dataExpense['idProduct'];
+
+            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        }
 
         if ($expensesRecover == null && $_SESSION['flag_composite_product'] == '1') {
             // Calcular costo material porq
@@ -302,6 +375,16 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 
                 if (isset($expensesRecover['info'])) break;
 
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($expensesRecover['info'])) break;
+
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                 foreach ($productsCompositer2 as $j) {
@@ -324,6 +407,15 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 
                     if (isset($data['totalPrice']))
                         $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($expensesRecover['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }
@@ -345,11 +437,21 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
             $expensesRecover[$i]['percentage'] = $percentage;
             $resolution = $expenseRecoverDao->updateRecoverExpense($expensesRecover[$i]);
 
+            $data = [];
             if ($resolution == null)
-                $resolution = $priceProductDao->calcPrice($expensesRecover[$i]['idProduct']);
+                $data = $priceProductDao->calcPrice($expensesRecover[$i]['idProduct']);
             else break;
-            if (isset($resolution['totalPrice']))
-                $resolution = $generalProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $resolution['totalPrice']);
+            if (isset($data['totalPrice']))
+                $resolution = $generalProductsDao->updatePrice($expensesRecover[$i]['idProduct'], $data['totalPrice']);
+
+            if (isset($resolution['info'])) break;
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $expensesRecover[$i]['idProduct'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -378,6 +480,15 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                         $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($resolution['info'])) break;
 
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
@@ -401,6 +512,15 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 
                         if (isset($data['totalPrice']))
                             $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($resolution['info'])) break;
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $j['id_product'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -420,21 +540,33 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 $app->post('/deleteExpenseRecover', function (Request $request, Response $response, $args) use (
     $expenseRecoverDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataExpense = $request->getParsedBody();
 
     $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);
 
     if ($expensesRecover == null)
-        $expenseRecover = $priceProductDao->calcPrice($dataExpense['idProduct']);
+        $data = $priceProductDao->calcPrice($dataExpense['idProduct']);
 
-    if (isset($expenseRecover['totalPrice']))
-        $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $expenseRecover['totalPrice']);
+    if (isset($data['totalPrice']))
+        $expensesRecover = $generalProductsDao->updatePrice($dataExpense['idProduct'], $data['totalPrice']);
+
+    if ($expensesRecover == null && isset($data['totalPrice'])) {
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $data['totalPrice'];
+        $k['sale_price'] = $data['sale_price'];
+        $k['id_product'] = $dataExpense['idProduct'];
+
+        $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+    }
 
     if ($expensesRecover == null && $_SESSION['flag_composite_product'] == '1') {
         // Calcular costo material porq
@@ -463,6 +595,16 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
 
             if (isset($expensesRecover['info'])) break;
 
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $arr['id_product'];
+
+            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+            if (isset($expensesRecover['info'])) break;
+
             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
             foreach ($productsCompositer2 as $j) {
@@ -485,6 +627,15 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
 
                 if (isset($data['totalPrice']))
                     $expensesRecover = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                if (isset($expensesRecover['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $j['id_product'];
+
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
             }
         }
     }

@@ -11,6 +11,7 @@ use tezlikv3\dao\GeneralPCenterDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\MultiproductsDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductsDao;
 
 $expensesDistributionDao = new ExpensesDistributionDao();
@@ -20,6 +21,7 @@ $generalProductsDao = new GeneralProductsDao();
 $totalExpenseDao = new TotalExpenseDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $generalProductsDao = new GeneralProductsDao();
 $familiesDao = new FamiliesDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
@@ -154,6 +156,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
     $generalProductsDao,
     $assignableExpenseDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $multiproductsDao,
@@ -161,6 +164,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];
     $products = false;
     $dataExpensesDistribution = $request->getParsedBody();
@@ -327,6 +331,15 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         if (isset($expensesDistribution['totalPrice']))
             $resolution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
 
+        if (isset($resolution['info'])) break;
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $expensesDistribution['totalPrice'];
+        $k['sale_price'] = $expensesDistribution['sale_price'];
+        $k['id_product'] = $products[$i]['selectNameProduct'];
+
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
         // Productos Compuestos
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($resolution['info'])) break;
@@ -357,6 +370,16 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
                 if (isset($resolution['info'])) break;
 
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($resolution['info'])) break;
+
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                 foreach ($productsCompositer2 as $j) {
@@ -379,6 +402,15 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
                     if (isset($data['totalPrice']))
                         $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    if (isset($resolution['info'])) break;
                 }
             }
         }
@@ -407,6 +439,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -414,6 +447,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];
     $products = false;
     $dataExpensesDistribution = $request->getParsedBody();
@@ -506,11 +540,23 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
     !is_array($products) ? $products = $generalProductsDao->findAllProducts($id_company) : $products;
 
     for ($i = 0; $i < sizeof($products); $i++) {
-        if ($expensesDistribution == null)
-            $expensesDistribution = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
+        if (isset($expensesDistribution['info'])) break;
 
-        if (isset($expensesDistribution['totalPrice']))
-            $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
+        $data = [];
+        $data = $priceProductDao->calcPrice($products[$i]['selectNameProduct']);
+
+        if (isset($data['totalPrice']))
+            $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $data['totalPrice']);
+
+        if (isset($expensesDistribution['info'])) break;
+
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $data['totalPrice'];
+        $k['sale_price'] = $data['sale_price'];
+        $k['id_product'] = $products[$i]['selectNameProduct'];
+
+        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($expensesDistribution['info'])) break;
@@ -540,6 +586,15 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                     $expensesDistribution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($expensesDistribution['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($expensesDistribution['info'])) break;
 
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
@@ -563,6 +618,15 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
                     if (isset($data['totalPrice']))
                         $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($expensesDistribution['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }
@@ -585,6 +649,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     $expensesDistributionDao,
     $assignableExpenseDao,
     $priceProductDao,
+    $pricesUSDDao,
     $productsDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
@@ -594,6 +659,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataExpensesDistribution = $request->getParsedBody();
 
     $expensesDistribution = $expensesDistributionDao->deleteExpensesDistribution($dataExpensesDistribution);
@@ -647,11 +713,21 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
     // $products = $generalProductsDao->findAllProducts($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
-        if ($expensesDistribution == null)
-            $expensesDistribution = $priceProductDao->calcPrice($products[$i]['id_product']);
+        if (isset($expensesDistribution['info'])) break;
+        $data = [];
+        $data = $priceProductDao->calcPrice($products[$i]['id_product']);
 
-        if (isset($expensesDistribution['totalPrice']))
-            $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['id_product'], $expensesDistribution['totalPrice']);
+        if (isset($data['totalPrice']))
+            $expensesDistribution = $generalProductsDao->updatePrice($products[$i]['id_product'], $data['totalPrice']);
+
+        if (isset($expensesDistribution['info'])) break;
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $data['totalPrice'];
+        $k['sale_price'] = $data['sale_price'];
+        $k['id_product'] = $products[$i]['id_product'];
+
+        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($expensesDistribution['info'])) break;
@@ -682,6 +758,16 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
                 if (isset($expensesDistribution['info'])) break;
 
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($expensesDistribution['info'])) break;
+
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                 foreach ($productsCompositer2 as $j) {
@@ -704,6 +790,15 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
                     if (isset($data['totalPrice']))
                         $expensesDistribution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($expensesDistribution['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }
@@ -734,19 +829,31 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 $app->post('/saveNewProduct', function (Request $request, Response $response, $args) use (
     $assignableExpenseDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataExpensesDistribution = $request->getParsedBody();
 
     $expensesDistribution = $assignableExpenseDao->insertAssignableExpense($dataExpensesDistribution['idProduct'], $id_company, $dataExpensesDistribution['pAssignableExpense']);
 
     if ($expensesDistribution == null)
-        $expensesDistribution = $priceProductDao->calcPrice($dataExpensesDistribution['idProduct']);
+        $data = $priceProductDao->calcPrice($dataExpensesDistribution['idProduct']);
 
-    if (isset($expensesDistribution['totalPrice']))
-        $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['idProduct'], $expensesDistribution['totalPrice']);
+    if (isset($data['totalPrice']))
+        $expensesDistribution = $generalProductsDao->updatePrice($dataExpensesDistribution['idProduct'], $data['totalPrice']);
+
+    if ($expensesDistribution == null && isset($data['totalPrice'])) {
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $data['totalPrice'];
+        $k['sale_price'] = $data['sale_price'];
+        $k['id_product'] = $dataExpensesDistribution['idProduct'];
+
+        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+    }
 
     if ($expensesDistribution == null)
         $resp = array('success' => true, 'message' => 'Nuevo producto asignado correctamente');

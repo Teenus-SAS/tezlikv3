@@ -14,6 +14,7 @@ use tezlikv3\dao\PriceProductDao;
 use tezlikv3\dao\GeneralPayrollDao;
 use tezlikv3\dao\GeneralProductsProcessDao;
 use tezlikv3\dao\LastDataDao;
+use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\Dao\RisksDao;
 use tezlikv3\dao\ValueMinuteDao;
 
@@ -24,6 +25,7 @@ $convertDataDao = new ConvertDataDao();
 $processDao = new GeneralProcessDao();
 $costWorkforceDao = new CostWorkforceDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $generalProductsDao = new GeneralProductsDao();
 $benefitsDao = new BenefitsDao();
 $risksDao = new RisksDao();
@@ -135,6 +137,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $processDao,
     $costWorkforceDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $benefitsDao,
     $risksDao,
@@ -145,6 +148,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataPayroll = $request->getParsedBody();
 
     $dataPayrolls = sizeof($dataPayroll);
@@ -275,11 +279,19 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                     if (isset($resolution['info'])) break;
 
                     // Calcular precio products_costs
-                    $resolution = $priceProductDao->calcPrice($arr['id_product']);
+                    $data = $priceProductDao->calcPrice($arr['id_product']);
+
+                    if (isset($data['totalPrice']))
+                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
-                    if (isset($resolution['totalPrice']))
-                        $resolution = $generalProductsDao->updatePrice($arr['id_product'], $resolution['totalPrice']);
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
                     if ($_SESSION['flag_composite_product'] == '1') {
                         if (isset($resolution['info'])) break;
@@ -319,6 +331,14 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
                                 $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                             if (isset($resolution['info'])) break;
+                            // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
+
+                            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                            if (isset($resolution['info'])) break;
 
                             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
@@ -354,6 +374,14 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
                                 if (isset($data['totalPrice']))
                                     $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                                if (isset($resolution['info'])) break;
+                                // Convertir a Dolares 
+                                $l = [];
+                                $l['price'] = $data['totalPrice'];
+                                $l['sale_price'] = $data['sale_price'];
+                                $l['id_product'] = $k['id_product'];
+
+                                $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
                             }
                         }
                     }
@@ -379,6 +407,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $valueMinuteDao,
     $costWorkforceDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $benefitsDao,
     $factorBenefitDao,
@@ -388,6 +417,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $type_payroll = $_SESSION['type_payroll'];
     $dataPayroll = $request->getParsedBody();
 
@@ -453,12 +483,20 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
                     }
                     if (isset($payroll['info'])) break;
 
+                    $data = [];
                     // Calcular precio products_costs
-                    $payroll = $priceProductDao->calcPrice($arr['id_product']);
+                    $data = $priceProductDao->calcPrice($arr['id_product']);
 
+                    if (isset($data['totalPrice']))
+                        $payroll = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                     if (isset($payroll['info'])) break;
-                    if (isset($payroll['totalPrice']))
-                        $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $payroll = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
 
                     if ($_SESSION['flag_composite_product'] == '1') {
                         if (isset($payroll['info'])) break;
@@ -499,6 +537,15 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
                             if (isset($payroll['info'])) break;
 
+                            // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
+
+                            $payroll = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                            if (isset($payroll['info'])) break;
                             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
                             foreach ($productsCompositer2 as $k) {
@@ -533,6 +580,14 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
                                 if (isset($data['totalPrice']))
                                     $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                                if (isset($payroll['info'])) break;
+                                // Convertir a Dolares 
+                                $l = [];
+                                $l['price'] = $data['totalPrice'];
+                                $l['sale_price'] = $data['sale_price'];
+                                $l['id_product'] = $k['id_product'];
+
+                                $payroll = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
                             }
                         }
                     }
@@ -567,6 +622,7 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     $generalPayrollDao,
     $costWorkforceDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -574,10 +630,12 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataPayroll = $request->getParsedBody();
 
     $payroll = $payrollDao->insertPayrollByCompany($dataPayroll, $id_company);
 
+    // Ingresar orden de insersion de acuerdo a la ultima ruta insertada
     if ($payroll == null) {
         $lastInserted = $lastDataDao->findLastInsertedPayroll($id_company);
 
@@ -629,13 +687,24 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
                 $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
             }
             if (isset($payroll['info'])) break;
-
+            $data = [];
             // Calcular precio products_costs
-            $payroll = $priceProductDao->calcPrice($arr['id_product']);
+            $data = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($data['totalPrice']))
+                $payroll = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
             if (isset($payroll['info'])) break;
-            if (isset($payroll['totalPrice']))
-                $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $arr['id_product'];
+
+            $payroll = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+            if (isset($payroll['info'])) break;
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($payroll['info'])) break;
@@ -676,6 +745,16 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
 
                     if (isset($payroll['info'])) break;
 
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $payroll = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($payroll['info'])) break;
+
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
                     foreach ($productsCompositer2 as $k) {
@@ -710,6 +789,14 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
 
                         if (isset($data['totalPrice']))
                             $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                        if (isset($payroll['info'])) break;
+                        // Convertir a Dolares 
+                        $l = [];
+                        $l['price'] = $data['totalPrice'];
+                        $l['sale_price'] = $data['sale_price'];
+                        $l['id_product'] = $k['id_product'];
+
+                        $payroll = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
                     }
                 }
             }
@@ -756,6 +843,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $generalPayrollDao,
     $costWorkforceDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
@@ -764,6 +852,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataPayroll = $request->getParsedBody();
 
     // $payrolls = $generalPayrollDao->findAllPayrollByEmployee($dataPayroll['employee'], $id_company);
@@ -817,13 +906,23 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
             }
 
             if (isset($payroll['info'])) break;
-
+            $data = [];
             // Calcular precio products_costs
-            $payroll = $priceProductDao->calcPrice($arr['id_product']);
+            $data = $priceProductDao->calcPrice($arr['id_product']);
+
+            if (isset($data['totalPrice']))
+                $payroll = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
             if (isset($payroll['info'])) break;
-            if (isset($payroll['totalPrice']))
-                $payroll = $generalProductsDao->updatePrice($arr['id_product'], $payroll['totalPrice']);
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $arr['id_product'];
+
+            $payroll = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+            if (isset($payroll['info'])) break;
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($payroll['info'])) break;
@@ -863,6 +962,14 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                         $payroll = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                     if (isset($payroll['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $payroll = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    if (isset($payroll['info'])) break;
 
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
@@ -898,6 +1005,14 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
                         if (isset($data['totalPrice']))
                             $payroll = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
+                        if (isset($payroll['info'])) break;
+                        // Convertir a Dolares 
+                        $l = [];
+                        $l['price'] = $data['totalPrice'];
+                        $l['sale_price'] = $data['sale_price'];
+                        $l['id_product'] = $k['id_product'];
+
+                        $payroll = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
                     }
                 }
             }

@@ -112,8 +112,8 @@ $app->post('/addExternalService', function (Request $request, Response $response
             if (isset($data['totalPrice']))
                 $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $data['totalPrice']);
 
+            // Convertir a Dolares 
             if ($externalServices == null && isset($data)) {
-                // Convertir a Dolares 
                 $k = [];
                 $k['price'] = $data['totalPrice'];
                 $k['sale_price'] = $data['sale_price'];
@@ -385,7 +385,7 @@ $app->post('/deleteExternalService', function (Request $request, Response $respo
     if ($externalServices == null)
         $data = $priceProductDao->calcPrice($dataExternalService['idProduct']);
 
-    if (isset($externalServices['totalPrice']))
+    if (isset($data['totalPrice']))
         $externalServices = $productsDao->updatePrice($dataExternalService['idProduct'], $data['totalPrice']);
 
     // Convertir a Dolares 
