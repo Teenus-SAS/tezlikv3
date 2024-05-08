@@ -87,7 +87,7 @@ $app->post('/addGExternalService', function (Request $request, Response $respons
             if (!$findExternalService)
                 $resolution = $externalServicesDao->insertExternalServicesByCompany($externalService[$i], $id_company);
             else {
-                $externalService[$i]['idService'] = $findExternalService['id_service'];
+                $externalService[$i]['idService'] = $findExternalService['id_general_service'];
                 $resolution = $externalServicesDao->updateExternalServices($externalService[$i]);
             }
         }

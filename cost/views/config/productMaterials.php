@@ -385,18 +385,26 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formAddService">
                                             <div class="form-row">
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                    <label>Servicio</label>
-                                                    <input class="form-control" type="text" name="service" id="service">
-                                                </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label>Costo</label>
-                                                    <input class="form-control text-center" type="number" name="costService" id="costService">
-                                                </div>
-                                                <div class="col-xs-2 mt-1">
-                                                    <button class="btn btn-primary" id="btnAddService">Adicionar</button>
-                                                </div>
-                                            </div>
+                                                <?php if ($_SESSION['external_service'] == 1) { ?>
+                                                    <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <?php } else { ?>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="display:none">
+                                                        <?php } ?>
+                                                        <label>Servicio</label>
+                                                        <select class="form-control" name="generalServices" id="generalServices"></select>
+                                                        </div>
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                            <label>Servicio</label>
+                                                            <input class="form-control" type="text" name="service" id="service">
+                                                        </div>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                            <label>Costo</label>
+                                                            <input class="form-control text-center" type="number" name="costService" id="costService">
+                                                        </div>
+                                                        <div class="col-xs-2 mt-1">
+                                                            <button class="btn btn-primary" id="btnAddService">Adicionar</button>
+                                                        </div>
+                                                    </div>
                                         </form>
                                     </div>
                                 </div>
@@ -557,6 +565,7 @@ if (sizeof($_SESSION) == 0)
             const $refMaterial = $('#refMaterial');
             const $nameMaterial = $('#nameMaterial');
             const $categories = $('#categories');
+            const $generalServices = $('#generalServices');
 
             // Evita la duplicación de código al manejar la carga de datos
             async function loadData(url, key) {
@@ -573,14 +582,16 @@ if (sizeof($_SESSION) == 0)
                         dataProcess,
                         dataMachines,
                         dataMaterials,
-                        dataCategories
+                        dataCategories,
+                        dataServices
                     ] = await Promise.all([
                         loadData('/api/units', 'dataUnits'),
                         loadData('/api/products', 'dataProducts'),
                         loadData('/api/process', 'dataProcess'),
                         loadData('/api/machines', 'dataMachines'),
                         loadData('/api/materials', 'dataMaterials'),
-                        loadData('/api/categories', 'dataCategories')
+                        loadData('/api/categories', 'dataCategories'),
+                        loadData('/api/generalExternalservices', 'dataGServices'),
                     ]);
 
                     // Lógica para cargar datos en los selectores
@@ -687,6 +698,16 @@ if (sizeof($_SESSION) == 0)
                     $.each(dataCategories, function(i, value) {
                         $categories.append(
                             `<option value ='${value.id_category}'> ${value.category} </option>`
+                        );
+                    });
+
+                    // Servicios Generales 
+                    $generalServices.empty();
+
+                    $generalServices.append(`<option disabled selected value='0'>Seleccionar</option>`);
+                    $.each(dataServices, function(i, value) {
+                        $generalServices.append(
+                            `<option value = ${value.id_general_service}> ${value.name_service} </option>`
                         );
                     });
                 } catch (error) {
@@ -1008,16 +1029,16 @@ if (sizeof($_SESSION) == 0)
     </script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>
-    <!-- <script src="/cost/js/config/services/tblExternalServices.js"></script> -->
+    <script src="/cost/js/config/services/tblExternalServices.js"></script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/config/productMaterials/productMaterials.js"></script>
     <script src="/cost/js/config/productMaterials/compositeProducts.js"></script>
     <script src="/cost/js/config/productProcess/productProcess.js"></script>
-    <!-- <script src="/cost/js/config/services/externalServices.js"></script> -->
+    <script src="/cost/js/config/services/externalServices.js"></script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/config/productMaterials/importProductMaterials.js"></script>
     <script src="/cost/js/config/productProcess/importProductProcess.js"></script>
-    <!-- <script src="/cost/js/config/services/importExternalServices.js"></script> -->
+    <script src="/cost/js/config/services/importExternalServices.js"></script>
     <script src="../global/js/import/file.js"></script>
 </body>
 

@@ -19,25 +19,25 @@ $costMaterialsDao = new CostMaterialsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/externalservices/{id_product}', function (Request $request, Response $response, $args) use ($externalServicesDao) {
+// $app->get('/externalservices/{id_product}', function (Request $request, Response $response, $args) use ($externalServicesDao) {
+//     session_start();
+//     $id_company = $_SESSION['id_company'];
+
+//     $externalServices = $externalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
+//     $response->getBody()->write(json_encode($externalServices));
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
+
+$app->get('/allExternalservices', function (Request $request, Response $response, $args) use ($externalServicesDao) {
     session_start();
     $id_company = $_SESSION['id_company'];
-
-    $externalServices = $externalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
-    $response->getBody()->write(json_encode($externalServices));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
-$app->get('/allExternalservices', function (Request $request, Response $response, $args) use ($generalServicesDao) {
-    session_start();
-    $id_company = $_SESSION['id_company'];
-    $externalServices = $generalServicesDao->findAllExternalServices($id_company);
+    $externalServices = $externalServicesDao->findAllExternalServices($id_company);
     $response->getBody()->write(json_encode($externalServices));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/externalServiceDataValidation', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
+    $generalServicesDao,
     $productsDao
 ) {
     $dataExternalService = $request->getParsedBody();
@@ -52,6 +52,23 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
         $externalService = $dataExternalService['importExternalService'];
 
         for ($i = 0; $i < sizeof($externalService); $i++) {
+            if (
+                empty($externalService[$i]['referenceProduct']) || empty($externalService[$i]['product']) ||
+                empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])
+            ) {
+                $i = $i + 2;
+                $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
+            if (
+                empty(trim($externalService[$i]['referenceProduct'])) || empty(trim($externalService[$i]['product'])) ||
+                empty(trim($externalService[$i]['service'])) || empty(trim($externalService[$i]['costService']))
+            ) {
+                $i = $i + 2;
+                $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
+                break;
+            }
+
             // Obtener id producto
             $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
             if (!$findProduct) {
@@ -60,22 +77,11 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
                 break;
             } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
 
-            if (empty($externalService[$i]['service']) || empty($externalService[$i]['costService'])) {
-                $i = $i + 2;
-                $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            }
-            if (empty(trim($externalService[$i]['service'])) || empty(trim($externalService[$i]['costService']))) {
-                $i = $i + 2;
-                $dataImportExternalService = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
-                break;
-            } else {
-                $findExternalService = $externalServicesDao->findExternalService($externalService[$i], $id_company);
-                if (!$findExternalService) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportExternalService['insert'] = $insert;
-                $dataImportExternalService['update'] = $update;
-            }
+            $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
+            if (!$findExternalService) $insert = $insert + 1;
+            else $update = $update + 1;
+            $dataImportExternalService['insert'] = $insert;
+            $dataImportExternalService['update'] = $update;
         }
     } else
         $dataImportExternalService = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');
@@ -86,6 +92,7 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 
 $app->post('/addExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
+    $generalServicesDao,
     $productsDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -101,7 +108,10 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
     if ($dataExternalServices > 1) {
 
-        $externalService = $externalServicesDao->findExternalService($dataExternalService, $id_company);
+        if ($dataExternalService['idGService'] == 0)
+            $externalService = $generalServicesDao->findExternalService($dataExternalService, $id_company);
+        else
+            $externalService = false;
 
         if (!$externalService) {
             $externalServices = $externalServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
@@ -209,7 +219,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
             $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
             $externalService[$i]['idProduct'] = $findProduct['id_product'];
 
-            $findExternalService = $externalServicesDao->findExternalService($externalService[$i], $id_company);
+            $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
 
             if (!$findExternalService)
                 $resolution = $externalServicesDao->insertExternalServicesByCompany($externalService[$i], $id_company);
@@ -320,6 +330,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
+    $generalServicesDao,
     $priceProductDao,
     $pricesUSDDao,
     $productsDao
@@ -332,7 +343,10 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
     $data = [];
 
-    $externalService = $externalServicesDao->findExternalService($dataExternalService, $id_company);
+    if ($dataExternalService['idGService'] == 0)
+        $externalService = $generalServicesDao->findExternalService($dataExternalService, $id_company);
+    else
+        $externalService = false;
 
     !is_array($externalService) ? $data['id_service'] = 0 : $data = $externalService;
 

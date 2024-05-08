@@ -6,7 +6,7 @@ $(document).ready(function () {
             sessionStorage.setItem('dataGServices', JSON.stringify(services));
             // dataServices = services;
 
-            setSelectsServices(services);
+            // setSelectsServices(services);
             loadTableExternalServices(services);
         } catch (error) {
             console.error('Error loading data:', error);
@@ -15,15 +15,15 @@ $(document).ready(function () {
 
     loadAllDataServices();
     
-    setSelectsServices = (data) => {
-        let $select = $(`#generalServices`);
-        $select.empty();
+    // setSelectsServices = (data) => {
+    //     let $select = $(`#generalServices`);
+    //     $select.empty();
 
-        $select.append(`<option disabled selected>Seleccionar</option>`);
-        $.each(data, function (i, value) {
-            $select.append(
-                `<option value = ${value.id_service}> ${value.name_service} </option>`
-            );
-        });
-    };
+    //     $select.append(`<option disabled selected>Seleccionar</option>`);
+    //     $.each(data, function (i, value) {
+    //         $select.append(
+    //             `<option value = ${value.id_service}> ${value.name_service} </option>`
+    //         );
+    //     });
+    // };
 });

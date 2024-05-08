@@ -37,6 +37,17 @@ $(document).ready(function () {
     }
   });
 
+   /* Cargar información de servicios generales */
+  $('#generalServices').change(function (e) { 
+    e.preventDefault();
+
+    let dataServices = JSON.parse(sessionStorage.getItem('dataGServices'));
+
+    let data = dataServices.find(item => item.id_general_service == this.value);
+    $('#service').val(data.name_service); 
+    $('#costService').val(data.cost);
+  });
+
   /* Actualizar servicio */
 
   $(document).on('click', '.updateExternalService', function (e) {
@@ -49,11 +60,9 @@ $(document).ready(function () {
 
     sessionStorage.setItem('id_service', data.id_service);
 
-    $('#service').val(data.name_service);
-
-    // let decimals = contarDecimales(data.cost);
-    // let cost = formatNumber(data.cost, decimals);
+    $('#service').val(data.name_service); 
     $('#costService').val(data.cost);
+    $(`#generalServices option[value=${data.id_general_service}]`).prop("selected", true); 
 
     $('html, body').animate(
       {
@@ -68,6 +77,8 @@ $(document).ready(function () {
     let idProduct = parseInt($('#selectNameProduct').val());
     let service = $('#service').val();
     let cost = parseFloat($('#costService').val());
+    let generalServices = parseFloat($('#generalServices').val());  
+    isNaN(generalServices) ? generalServices = 0 : generalServices;
 
     // cost = parseFloat(strReplaceNumber(cost));
 
@@ -80,6 +91,7 @@ $(document).ready(function () {
 
     let dataExternalService = new FormData(formAddService);
     dataExternalService.append('idProduct', idProduct);
+    dataExternalService.append('idGService', generalServices);
 
     if (idService != '' || idService != null)
       dataExternalService.append('idService', idService);

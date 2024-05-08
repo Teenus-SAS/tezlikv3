@@ -54,7 +54,7 @@ $(document).ready(function () {
         },
         {
           title: "Acciones",
-          data: "id_service",
+          data: "id_general_service",
           className: "uniqueClassName",
           render: function (data) {
             return `

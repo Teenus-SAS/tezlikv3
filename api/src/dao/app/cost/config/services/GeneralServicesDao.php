@@ -16,18 +16,51 @@ class GeneralServicesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
-    public function findAllExternalServices($id_company)
+    public function findAllExternalServicesByIdProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT sx.id_service, p.id_product, p.reference, p.product, sx.name_service, sx.cost, sx.id_product 
-                                        FROM services sx 
-                                        INNER JOIN products p ON sx.id_product = p.id_product 
-                                        WHERE sx.id_company = :id_company AND p.active = 1");
-        $stmt->execute(['id_company' => $id_company]);
+        $stmt = $connection->prepare("SELECT sx.id_service, p.reference, sx.name_service, sx.cost, sx.id_product 
+                                        FROM services sx INNER JOIN products p ON sx.id_product = p.id_product 
+                                        WHERE sx.id_product = :id_product AND sx.id_company = :id_company;");
+        $stmt->execute(['id_product' => trim($id_product), 'id_company' => $id_company]);
         $externalservices = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $externalservices));
         return $externalservices;
     }
+
+    // Consultar si existe el servicio en BD
+    public function findExternalService($dataExternalService, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT id_service FROM services
+                                      WHERE id_product = :id_product AND name_service = :name_service AND id_company = :id_company");
+        $stmt->execute([
+            'id_product' => $dataExternalService['idProduct'],
+            'name_service' => strtoupper(trim($dataExternalService['service'])),
+            'id_company' => $id_company
+        ]);
+        $findExternalService = $stmt->fetch($connection::FETCH_ASSOC);
+
+        return $findExternalService;
+    }
+
+    // Consultar si existe el servicio en BD en servicio general
+    // public function findExternalService($dataExternalService, $id_company)
+    // {
+    //     $connection = Connection::getInstance()->getConnection();
+
+    //     $stmt = $connection->prepare("SELECT id_service FROM services
+    //                                   WHERE id_product = :id_product AND name_service = :name_service AND id_company = :id_company");
+    //     $stmt->execute([
+    //         'id_product' => $dataExternalService['idProduct'],
+    //         'name_service' => strtoupper(trim($dataExternalService['service'])),
+    //         'id_company' => $id_company
+    //     ]);
+    //     $findExternalService = $stmt->fetch($connection::FETCH_ASSOC);
+
+    //     return $findExternalService;
+    // }
 
     // Consultar el servicio en BD
     public function findExternalServiceByIdProduct($dataExternalService)

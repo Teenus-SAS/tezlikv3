@@ -130,30 +130,8 @@ $(document).ready(function () {
       type: 'POST',
       url: '../../api/addExternalService',
       data: { importExternalService: data },
-      success: function (r) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileExternalServices').val('');
-
-        /* Mensaje de exito */
-        if (r.success == true) {
-          let idProduct = $('#selectNameProduct').val(); 
-          $('.cardImportExternalServices').hide(800);
-          $('#formImportExternalServices').trigger('reset');
-
-          if (idProduct != null)
-            updateTable();
-          
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
-
-        /* Actualizar tabla */
-        function updateTable() {
-          $('#tblExternalServices').DataTable().clear();
-          $('#tblExternalServices').DataTable().ajax.reload();
-        }
+      success: function (r) { 
+        messageServices(r);
       },
     });
   };

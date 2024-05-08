@@ -28,7 +28,7 @@ $(document).ready(function () {
     } else {
       checkDataServices('/api/updateGExternalService', idService);
     }
-  });
+  }); 
 
   /* Actualizar servicio */
 

@@ -40,6 +40,7 @@ $(document).ready(function () {
   /* Cargue tabla de Proyectos */
   loadTableExternalServices = (id) => {
     $('.cardAddService').hide(800);
+    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
     let data = dataServices.filter(item => item.id_product == id);
 
     // if ($.fn.dataTable.isDataTable("#tblExternalServices")) {

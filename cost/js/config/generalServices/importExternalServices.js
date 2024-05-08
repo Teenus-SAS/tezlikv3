@@ -131,23 +131,7 @@ $(document).ready(function () {
       url: '../../api/addGExternalService',
       data: { importExternalService: data },
       success: function (r) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileExternalServices').val('');
-
-        /* Mensaje de exito */
-        if (r.success == true) {
-          // let idProduct = $('#selectNameProduct').val(); 
-          $('.cardImportExternalServices').hide(800);
-          $('#formImportExternalServices').trigger('reset');
-
-          // if (idProduct != null)
-          loadTableExternalServices();
-          
-          toastr.success(r.message);
-          return false;
-        } else if (r.error == true) toastr.error(r.message);
-        else if (r.info == true) toastr.info(r.message);
+        messageServices(r); 
       },
     });
   };
@@ -163,7 +147,7 @@ $(document).ready(function () {
 
       let data = [];
 
-      namexlsx = 'Servicios_Externos.xlsx';
+      namexlsx = 'Servicios_Externos_Generales.xlsx';
       for (i = 0; i < dataServices.length; i++) {
         data.push({
           servicio: dataServices[i].name_service,
