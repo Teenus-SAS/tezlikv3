@@ -112,8 +112,8 @@ $(document).ready(function () {
       data == 0 ||
       contacts == '' ||
       offerValidity == '' ||
-      warranty == '' ||
-      deliveryDate == ''
+      warranty == ''
+      // deliveryDate == ''
     ) {
       toastr.error('Ingrese todos los campos');
       return false;
