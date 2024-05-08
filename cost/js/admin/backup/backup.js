@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  let execute = true;
+
   $(document).on('click', '.aBackup', async function () {
     try {
       $('.loading').show(800);
@@ -7,7 +9,8 @@ $(document).ready(function () {
       let wb = XLSX.utils.book_new();
       let data = [];
 
-      /* Productos */
+      if (execute == false) return false;
+      /* Productos */ 
       let dataProducts = await searchData('/api/products');
       if (dataProducts.length > 0) {
         for (i = 0; i < dataProducts.length; i++) {
@@ -24,6 +27,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Productos');
       }
 
+      if (execute == false) return false;
       /* Materia Prima */
       let dataMaterials = await searchData('/api/materials');
       if (dataMaterials.length > 0) {
@@ -60,6 +64,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Materias Prima');
       }
 
+      if (execute == false) return false;
       /* Categorias */
       let dataCategory = await searchData('/api/categories');
       if (dataCategory.length > 0) {
@@ -75,6 +80,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Categorias');
       }
 
+      if (execute == false) return false;
       /* Maquinas */
       let dataMachines = await searchData('/api/machines');
       if (dataMachines.length > 0) {
@@ -95,6 +101,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Maquinas');
       }
 
+      if (execute == false) return false;
       /* Procesos */
       let dataProcess = await searchData('/api/process');
       if (dataProcess.length > 0) {
@@ -110,6 +117,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Procesos');
       }
 
+      if (execute == false) return false;
       /* Productos Materiales */
       let dataProductsMaterials = await searchData('/api/allProductsMaterials');
       if (dataProductsMaterials.length > 0) {
@@ -158,8 +166,8 @@ $(document).ready(function () {
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'F. Tecnica Materias Prima');
       }
-      
 
+      if (execute == false) return false;
       /* Productos Procesos */
       let dataProductsProcess = await searchData('/api/allProductsProcess');
       if (dataProductsProcess.length > 0) {
@@ -183,6 +191,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'F. Tecnica Procesos');
       }
 
+      if (execute == false) return false;
       /* Carga Fabril */
       let dataFactoryLoad = await searchData('/api/factoryLoad');
       if (dataFactoryLoad.length > 0) {
@@ -200,6 +209,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Carga Fabril');
       }
 
+      if (execute == false) return false;
       /* Servicios */
       let dataServices = await searchData('/api/allExternalservices');
       if (dataServices.length > 0) {
@@ -218,6 +228,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Servicios');
       }
 
+      if (execute == false) return false;
       /* Nomina */
       let dataPayroll = await searchData('/api/payroll');
       if (dataPayroll.length > 0) {
@@ -245,6 +256,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Nomina');
       }
 
+      if (execute == false) return false;
       /* Gastos */
       let dataExpenses = await searchData('/api/expenses');
       if (dataExpenses.length > 0) {
@@ -262,6 +274,7 @@ $(document).ready(function () {
         XLSX.utils.book_append_sheet(wb, ws, 'Asignacion de Gastos');
       }
 
+      if (execute == false) return false;
       /* Tipo de gasto */
       data = [];
       if (flag_expense == '1') {
@@ -279,6 +292,7 @@ $(document).ready(function () {
       }
       dataTypeExpense = await searchData(url);
 
+      if (execute == false) return false;
       if (op == 1) {
         if (dataTypeExpense.length > 0) {
           for (i = 0; i < dataTypeExpense.length; i++) {
@@ -326,10 +340,19 @@ $(document).ready(function () {
 
       $('.loading').hide(800);
       document.body.style.overflow = '';
+      execute = true;
 
       XLSX.writeFile(wb, 'backup.xlsx');
     } catch (error) {
       console.log(error);
     }
+  });
+
+  $('.close-btn').click(function (e) {
+    e.preventDefault();
+    
+    $('.loading').hide(800);
+    document.body.style.overflow = '';
+    execute = false;
   });
 });
