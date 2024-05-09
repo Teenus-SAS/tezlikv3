@@ -19,7 +19,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/costUsersAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
     session_start();
-    $company = $_SESSION['id_company'];
+    $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $usersAccess = $userAccessDao->findAllUsersAccess($company);
     $response->getBody()->write(json_encode($usersAccess, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -27,7 +27,7 @@ $app->get('/costUsersAccess', function (Request $request, Response $response, $a
 
 $app->get('/costUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
     session_start();
-    $company = $_SESSION['id_company'];
+    $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $id_user = $_SESSION['idUser'];
     $userAccess = $userAccessDao->findUserAccess($company, $id_user);
     // $userAccess = $userAccess[0];
