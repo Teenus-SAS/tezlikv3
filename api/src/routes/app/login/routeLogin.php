@@ -25,8 +25,27 @@ $firstLoginDao = new FirstLoginDao();
 $contractsDao = new ContractDao();
 $historicalProductsDao = new HistoricalProductsDao();
 
+// use Firebase\JWT\JWT;
+// use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
+/* Autenticacion con JWT */
+
+// $app->post('/auth', function (Request $request, Response $response, $args) use ($autenticationDao) {
+//     $now = strtotime('now');
+//     $key = 'example_key';
+
+//     $payload = [
+//         'exp' => $now * 3600,
+//         'data' => 1
+//     ];
+
+//     $jwt = JWT::encode($payload, $key, 'HS256');
+//     $resp = array('success' => true, 'jwt' => $jwt);
+//     $response->getBody()->write(json_encode($resp));
+//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+// });
 
 /* Autenticación */
 
