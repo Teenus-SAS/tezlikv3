@@ -35,27 +35,30 @@ $(document).ready(function () {
     }
 
     if (option == 1) {
-      bootbox.confirm({
+      bootbox.dialog({
         title: 'Importe',
         message: 'Seleccione tipo de importe que desea realizar.',
+        backdrop: 'static', // Evita que el modal se cierre haciendo clic fuera de él
+        closeButton: false, // Oculta el botón de cierre del modal
+        size: 'small',
         buttons: {
-          confirm: {
+          parcial: {
             label: 'Parcial',
             className: 'btn-success',
+            callback: function () {
+              sessionStorage.setItem('typeExpenseD', 1);
+              checkImportExpenseD();
+            }
           },
-          cancel: {
+          total: {
             label: 'Total',
             className: 'btn-danger',
-          },
-        },
-        callback: function (result) {
-          if (result == true) {
-            sessionStorage.setItem('typeExpenseD', 1);
-          } else {
-            sessionStorage.setItem('typeExpenseD', 2);
+            callback: function () {
+              sessionStorage.setItem('typeExpenseD', 2);
+              checkImportExpenseD();
+            }
           }
-          checkImportExpenseD();
-        },
+        }
       });
     } else
       checkImportExpenseD();    

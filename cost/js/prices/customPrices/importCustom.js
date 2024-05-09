@@ -1,5 +1,6 @@
 $(document).ready(function () {
   let selectedFile;
+  sessionStorage.removeItem('customImportType');
 
   $('.cardImportCustom').hide();
 
@@ -25,7 +26,35 @@ $(document).ready(function () {
       return false;
     }
 
-    $('.cardBottons').hide();
+    bootbox.dialog({
+      title: 'Importe',
+      message: `Seleccione tipo de importe que desea realizar.`,
+      backdrop: 'static', // Evita que el modal se cierre haciendo clic fuera de él
+      closeButton: false, // Oculta el botón de cierre del modal
+      size: 'small',
+      buttons: {
+        precio: {
+          label: 'Precio',
+          className: 'btn-success',
+          callback: function () {
+            sessionStorage.setItem('customImportType', 1);
+            checkImportCustom();            
+          }
+        },
+        porcentaje: {
+          label: 'Porcentaje',
+          className: 'btn-danger',
+          callback: function () {
+            sessionStorage.setItem('customImportType', 2);
+            checkImportCustom();
+          }
+        }
+      }
+    }); 
+  });
+
+  checkImportCustom = () => {
+  $('.cardBottons').hide();
 
     let form = document.getElementById('formCustom');
 
@@ -48,7 +77,12 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'producto','lista_precio','valor'];
+        let type = sessionStorage.getItem('customImportType');
+
+        type == '1' ?
+          expectedHeaders = ['referencia', 'producto', 'lista_precio', 'valor'] :
+          expectedHeaders = ['referencia', 'producto', 'lista_precio', 'porcentaje'];
+        
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -63,26 +97,36 @@ $(document).ready(function () {
         }
 
         let customToImport = data.map((item) => {
-          return {
-            referenceProduct: item.referencia,
-            product: item.producto,
-            priceName: item.lista_precio,
-            customPricesValue: item.valor
-          };
+          if (type == '1')
+            return {
+              referenceProduct: item.referencia,
+              product: item.producto,
+              priceName: item.lista_precio,
+              customPricesValue: item.valor
+            };
+          else
+            return {
+              referenceProduct: item.referencia,
+              product: item.producto,
+              priceName: item.lista_precio,
+              percentage: item.porcentaje
+            };
         });
-        checkCustom(customToImport);
+        checkCustom(customToImport, type);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
       });
-  });
-
+  };
   /* Mensaje de advertencia */
-  checkCustom = (data) => {
+  checkCustom = (data, type) => {
     $.ajax({
       type: 'POST',
       url: '/api/customDataValidation',
-      data: { importCustom: data },
+      data: {
+        importCustom: data,
+        type: type,
+      },
       success: function (resp) {
         if (resp.error == true) {
           $('#fileCustom').val('');
@@ -108,7 +152,7 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveCustomTable(data);
+              saveCustomTable(data, type);
             } else {
               $('.cardLoading').remove();
               $('.cardBottons').show(400);
@@ -120,11 +164,14 @@ $(document).ready(function () {
     });
   };
 
-  saveCustomTable = (data) => {
+  saveCustomTable = (data, type) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/updateCustomPrice',
-      data: { importCustom: data },
+      url: '/api/addCustomPrice',
+      data: {
+        importCustom: data,
+        type: type
+      },
       success: function (r) {
         message(r);
       },
@@ -135,17 +182,30 @@ $(document).ready(function () {
   $('#btnDownloadImportsCustom').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Precios_Personalizados.xlsx';
+    // URLs de los archivos a descargar
+    let url1 = 'assets/formatsXlsx/Precios_Personalizados.xlsx';
+    let url2 = 'assets/formatsXlsx/Porcentaje_Personalizados.xlsx';
 
-    let link = document.createElement('a');
+    // Crear el primer enlace
+    let link1 = document.createElement('a');
+    link1.target = '_blank';
+    link1.href = url1;
 
-    link.target = '_blank';
+    // Crear el segundo enlace
+    let link2 = document.createElement('a');
+    link2.target = '_blank';
+    link2.href = url2;
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    // Agregar los enlaces al cuerpo del documento
+    document.body.appendChild(link1);
+    document.body.appendChild(link2);
 
-    document.body.removeChild(link);
-    delete link;
+    // Simular clics en ambos enlaces
+    link1.click();
+    link2.click();
+
+    // Eliminar los enlaces después de la descarga
+    document.body.removeChild(link1);
+    document.body.removeChild(link2);
   });
 });

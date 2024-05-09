@@ -43,44 +43,65 @@ $app->post('/customDataValidation', function (Request $request, Response $respon
         $custom = $dataCustom['importCustom'];
 
         for ($i = 0; $i < sizeof($custom); $i++) {
-            if (
-                empty($custom[$i]['referenceProduct']) || empty($custom[$i]['product']) ||
-                empty($custom[$i]['priceName']) || empty($custom[$i]['customPricesValue'])
-            ) {
-                $i = $i + 2;
-                $dataImportCustom = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
-                break;
-            }
-            if (
-                empty(trim($custom[$i]['referenceProduct'])) || empty(trim($custom[$i]['product'])) ||
-                empty(trim($custom[$i]['priceName'])) || empty(trim($custom[$i]['customPricesValue']))
-            ) {
-                $i = $i + 2;
-                $dataImportCustom = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
-                break;
+            $typeCustom = $dataCustom['type'];
+
+            if ($typeCustom == 1) {
+                if (
+                    empty($custom[$i]['referenceProduct']) || empty($custom[$i]['product']) ||
+                    empty($custom[$i]['priceName']) || empty($custom[$i]['customPricesValue'])
+                ) {
+                    $i = $i + 2;
+                    $dataImportCustom = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
+                    break;
+                }
+                if (
+                    empty(trim($custom[$i]['referenceProduct'])) || empty(trim($custom[$i]['product'])) ||
+                    empty(trim($custom[$i]['priceName'])) || empty(trim($custom[$i]['customPricesValue']))
+                ) {
+                    $i = $i + 2;
+                    $dataImportCustom = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
+                    break;
+                } else {
+                    $findProduct = $generalProductsDao->findProduct($custom[$i], $id_company);
+
+                    if (!$findProduct) {
+                        $i = $i + 2;
+                        $dataImportCustom = array('error' => true, 'message' => "Producto no existe en la base de datos fila: {$i}");
+                        break;
+                    } else $custom[$i]['idProduct'] = $findProduct['id_product'];
+
+                    $findPrice = $generalPricesListDao->findPricesList($custom[$i], $id_company);
+
+                    if (!$findPrice) {
+                        $i = $i + 2;
+                        $dataImportCustom = array('error' => true, 'message' => "Precio de lista no existe en la base de datos fila: {$i}");
+                        break;
+                    } else $custom[$i]['idPriceList'] = $findPrice['id_price_list'];
+
+
+                    $findCustomPrice = $generalCustomPricesDao->findCustomPrice($custom[$i], $id_company);
+                    if (!$findCustomPrice) $insert = $insert + 1;
+                    else $update = $update + 1;
+                    $dataImportCustom['insert'] = $insert;
+                    $dataImportCustom['update'] = $update;
+                }
             } else {
-                $findProduct = $generalProductsDao->findProduct($custom[$i], $id_company);
-
-                if (!$findProduct) {
+                if (
+                    empty($custom[$i]['referenceProduct']) || empty($custom[$i]['product']) ||
+                    empty($custom[$i]['priceName']) || empty($custom[$i]['percentage'])
+                ) {
                     $i = $i + 2;
-                    $dataImportCustom = array('error' => true, 'message' => "Producto no existe en la base de datos fila: {$i}");
+                    $dataImportCustom = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                     break;
-                } else $custom[$i]['idProduct'] = $findProduct['id_product'];
-
-                $findPrice = $generalPricesListDao->findPricesList($custom[$i], $id_company);
-
-                if (!$findPrice) {
+                }
+                if (
+                    empty(trim($custom[$i]['referenceProduct'])) || empty(trim($custom[$i]['product'])) ||
+                    empty(trim($custom[$i]['priceName'])) || empty(trim($custom[$i]['percentage']))
+                ) {
                     $i = $i + 2;
-                    $dataImportCustom = array('error' => true, 'message' => "Precio de lista no existe en la base de datos fila: {$i}");
+                    $dataImportCustom = array('error' => true, 'message' => "Campos vacios en la fila: {$i}");
                     break;
-                } else $custom[$i]['idPriceList'] = $findPrice['id_price_list'];
-
-
-                $findCustomPrice = $generalCustomPricesDao->findCustomPrice($custom[$i], $id_company);
-                if (!$findCustomPrice) $insert = $insert + 1;
-                else $update = $update + 1;
-                $dataImportCustom['insert'] = $insert;
-                $dataImportCustom['update'] = $update;
+                }
             }
         }
     } else
@@ -90,51 +111,59 @@ $app->post('/customDataValidation', function (Request $request, Response $respon
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-// $app->post('/addCustomPrice', function (Request $request, Response $response, $args) use (
-//     $customPricesDao,
-//     $priceCustomDao,
-//     $lastDataDao
-// ) {
-//     session_start();
-//     $id_company = $_SESSION['id_company'];
+$app->post('/addCustomPrice', function (Request $request, Response $response, $args) use (
+    $customPricesDao,
+    $generalCustomPricesDao,
+    $generalPricesListDao,
+    $generalProductsDao
+) {
+    session_start();
+    $id_company = $_SESSION['id_company'];
 
-//     $dataCustomPrice = $request->getParsedBody();
+    $dataCustomPrice = $request->getParsedBody();
 
-//     $findPrice = $customPricesDao->findCustomPrice($dataCustomPrice, $id_company);
+    $customPrices = $dataCustomPrice['importCustom'];
+    $resolution = null;
 
-//     if (!$findPrice) {
-//         $customPrices = $customPricesDao->insertCustomPricesByCompany($dataCustomPrice, $id_company);
+    for ($i = 0; $i < sizeof($customPrices); $i++) {
+        if (isset($resolution['info'])) break;
 
-//         if ($customPrices == null) {
-//             $lastData = $lastDataDao->findLastInsertedCustomPrice();
+        // Obtener id producto
+        $findProduct = $generalProductsDao->findProduct($customPrices[$i], $id_company);
+        $customPrices[$i]['idProduct'] = $findProduct['id_product'];
 
-//             $price = $priceCustomDao->calcPriceCustomByCustomPrice($lastData['id_custom_price']);
+        // Obtener id precio lista
+        $findPrice = $generalPricesListDao->findPricesList($customPrices[$i], $id_company);
+        $customPrices[$i]['idPriceList'] = $findPrice['id_price_list'];
 
-//             $customPrices = $customPricesDao->updatePrice($lastData['id_custom_price'], $price['custom_price']);
-//         }
+        $findCustomPrice = $generalCustomPricesDao->findCustomPrice($customPrices[$i], $id_company);
 
-//         if ($customPrices == null)
-//             $resp = array('success' => true, 'message' => 'Precio agregado correctamente');
-//         else if (isset($customPrices['info']))
-//             $resp = array('info' => true, 'message' => $customPrices['message']);
-//         else
-//             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
-//     } else
-//         $resp = array('info' => true, 'message' => 'Producto con lista de precio ya existente. Ingrese un nuevo precio');
+        if (!$findCustomPrice) {
+            $resolution = $customPricesDao->insertCustomPricesByCompany($customPrices[$i], $id_company);
+        } else {
+            $customPrices[$i]['idCustomPrice'] = $findCustomPrice['id_custom_price'];
+            $resolution = $customPricesDao->updateCustomPrice($customPrices[$i]);
+        }
+    }
 
-//     $response->getBody()->write(json_encode($resp));
-//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-// });
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => 'Precios personalizados importados correctamente');
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al guardar la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
 
 $app->post('/updateCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $generalCustomPricesDao,
-    $priceCustomDao
+    $generalCustomPricesDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataCustomPrice = $request->getParsedBody();
-
     $data = [];
 
     $findPrice = $generalCustomPricesDao->findCustomPrice($dataCustomPrice, $id_company);
@@ -158,6 +187,7 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
     } else
         $resp = array('info' => true, 'message' => 'Producto con lista de precio ya existente. Ingrese un nuevo precio');
+
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

@@ -61,6 +61,5 @@ $(document).ready(function () {
             $('.colMin').css('width', ' 10%');
             $('.colMax').css('width', '80%');
         }, 500);
-        
     }
 });
