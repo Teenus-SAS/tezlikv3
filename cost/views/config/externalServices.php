@@ -36,6 +36,7 @@ if (sizeof($_SESSION) == 0)
         <div class="main-content">
             <!-- Loader -->
             <div class="loading">
+                <a href="javascript:;" class="close-btn"><i class="bi bi-x-circle-fill"></i></a>
                 <div class="loader"></div>
             </div>
 
@@ -65,7 +66,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5">
+                <!-- <div class="page-content-wrapper mt--45 mb-5">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -86,9 +87,62 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
                     </div>
+                </div> -->
+
+                <div class="page-content-wrapper mt--45 mb-5 cardAddService">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form id="formAddService">
+                                            <div class="form-row">
+                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label>Servicio</label>
+                                                    <input class="form-control" type="text" name="service" id="service">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <label>Costo</label>
+                                                    <input class="form-control text-center" type="number" name="costService" id="costService">
+                                                </div>
+                                                <div class="col-xs-2 mt-1">
+                                                    <button class="btn btn-primary" id="btnAddService">Adicionar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-
+                <div class="page-content-wrapper mt--45 mb-5 cardImportExternalServices">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <form id="formImportExternalServices" enctype="multipart/form-data">
+                                    <div class="card">
+                                        <div class="card-body pt-3">
+                                            <div class="form-row" id="formExternalServices">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                    <input class="form-control" type="file" id="fileExternalServices" accept=".xls,.xlsx">
+                                                    <label for="formFile" class="form-label">Importar Servicios Externos</label>
+                                                </div>
+                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                    <button type="text" class="btn btn-success" id="btnImportExternalServices">Importar</button>
+                                                </div>
+                                                <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                    <button type="text" class="btn btn-info" id="btnDownloadImportsExternalServices">Descarga Formato</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
@@ -102,7 +156,6 @@ if (sizeof($_SESSION) == 0)
                                             <table class="table table-striped" id="tblExternalServices">
                                                 <tfoot>
                                                     <tr>
-                                                        <th></th>
                                                         <th></th>
                                                         <th>Total</th>
                                                         <th id="totalCost"></th>
@@ -134,12 +187,12 @@ if (sizeof($_SESSION) == 0)
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
     </script>
-    <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/global/js/global/orderData.js"></script>
-    <script src="/cost/js/config/services/tblExternalServices.js"></script>
-    <script src="/cost/js/config/services/externalServices.js"></script>
+    <script src="/cost/js/config/generalServices/tblExternalServices.js"></script>
+    <script src="/cost/js/config/generalServices/externalServices.js"></script>
+    <script src="/cost/js/config/generalServices/configGExternalServices.js"></script>
     <script src="../global/js/import/import.js"></script>
-    <script src="/cost/js/config/services/importExternalServices.js"></script>
+    <script src="/cost/js/config/generalServices/importExternalServices.js"></script>
     <script src="../global/js/import/file.js"></script>
 </body>
 

@@ -86,22 +86,30 @@
                                                         <i class="bi bi-file-text mr-1"></i>
                                                         <a href="/cost/product-materials">Ficha Técnica Productos</a>
                                                         </li>
-                                                        <?php if ($_SESSION['factory_load'] == 1) { ?>
-                                                            <li class="aFactoryLoad">
+                                                        <?php if ($_SESSION['external_service'] == 1) { ?>
+                                                            <li class="aGServices">
                                                             <?php } else { ?>
-                                                            <li class="aFactoryLoad" style="display: none;">
+                                                            <li class="aGServices" style="display: none;">
                                                             <?php } ?>
-                                                            <i class="bi bi-gear-wide-connected mr-1"></i>
-                                                            <a href="/cost/factory-load">Carga Fabril</a>
+                                                            <i class="bi bi-list"></i>
+                                                            <a href="/cost/external-services">Servicios</a>
                                                             </li>
-                                                            <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
-                                                                <li class="aCustomPrices">
+                                                            <?php if ($_SESSION['factory_load'] == 1) { ?>
+                                                                <li class="aFactoryLoad">
                                                                 <?php } else { ?>
-                                                                <li class="aCustomPrices" style="display: none;">
+                                                                <li class="aFactoryLoad" style="display: none;">
                                                                 <?php } ?>
-                                                                <i class="bi bi-list"></i>
-                                                                <a href="/cost/price-list">Lista de Precios</a>
+                                                                <i class="bi bi-gear-wide-connected mr-1"></i>
+                                                                <a href="/cost/factory-load">Carga Fabril</a>
                                                                 </li>
+                                                                <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
+                                                                    <li class="aCustomPrices">
+                                                                    <?php } else { ?>
+                                                                    <li class="aCustomPrices" style="display: none;">
+                                                                    <?php } ?>
+                                                                    <i class="bi bi-list"></i>
+                                                                    <a href="/cost/price-list">Lista de Precios</a>
+                                                                    </li>
                                                 </ul>
                                                 </div>
 
@@ -241,7 +249,7 @@
                                             <img id="hAvatar" src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
                                             <div class="user-info" style="display: inline-block;">
                                                 <span class="d-none d-xl-inline-block ml-1 userName" style="display: block;"><?php if (!empty($_SESSION))
-                                                                                                                                                        echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
+                                                                                                                                    echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
                                                 <br>
                                                 <span class="role" style="font-size: 0.8rem;"><?php if (!empty($_SESSION))
                                                                                                     echo  $_SESSION['position']; ?></span>

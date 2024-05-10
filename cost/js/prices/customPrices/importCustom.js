@@ -1,24 +1,24 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $('.cardImportExternalServices').hide();
+  $('.cardImportCustom').hide();
 
-  $('#btnImportNewExternalServices').click(function (e) {
+  $('#btnNewImportCustom').click(function (e) {
     e.preventDefault();
-    $('.cardAddService').hide(800);
-    $('.cardImportExternalServices').toggle(800);
-    $('.cardProducts').toggle(800);
+    $('.cardCreateCustomPrices').hide(800);
+    $('.cardCreateCustomPercentages').hide(800);
+    $('.cardImportCustom').toggle(800);
   });
 
-  $('#fileExternalServices').change(function (e) {
+  $('#fileCustom').change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $('#btnImportExternalServices').click(function (e) {
+  $('#btnImportCustom').click(function (e) {
     e.preventDefault();
 
-    let file = $('#fileExternalServices').val();
+    let file = $('#fileCustom').val();
 
     if (!file) {
       toastr.error('Seleccione un archivo');
@@ -27,7 +27,7 @@ $(document).ready(function () {
 
     $('.cardBottons').hide();
 
-    let form = document.getElementById('formExternalServices');
+    let form = document.getElementById('formCustom');
 
     form.insertAdjacentHTML(
       'beforeend',
@@ -43,12 +43,12 @@ $(document).ready(function () {
          if (data.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-          $('#fileExternalServices').val('');
+          $('#fileCustom').val('');
           toastr.error('Archivo vacio. Verifique nuevamente');
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'servicio', 'costo'];
+        const expectedHeaders = ['referencia', 'producto','lista_precio','valor'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -56,26 +56,21 @@ $(document).ready(function () {
         if (missingHeaders.length > 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-          $('#fileExternalServices').val('');
+          $('#fileCustom').val('');
 
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
         }
 
-        let externalServiceToImport = data.map((item) => {
-          let costService = '';
-
-          if (item.costo)
-            costService = item.costo.toString().replace('.', ',');
-
+        let customToImport = data.map((item) => {
           return {
-            referenceProduct: item.referencia_producto,
+            referenceProduct: item.referencia,
             product: item.producto,
-            service: item.servicio,
-            costService: costService,
+            priceName: item.lista_precio,
+            customPricesValue: item.valor
           };
         });
-        checkExternalService(externalServiceToImport);
+        checkCustom(customToImport);
       })
       .catch(() => {
         console.log('Ocurrio un error. Intente Nuevamente');
@@ -83,16 +78,16 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkExternalService = (data) => {
+  checkCustom = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/externalServiceDataValidation',
-      data: { importExternalService: data },
+      url: '/api/customDataValidation',
+      data: { importCustom: data },
       success: function (resp) {
         if (resp.error == true) {
+          $('#fileCustom').val('');
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
-          $('#fileExternalServices').val('');
 
           toastr.error(resp.message);
           return false;
@@ -113,11 +108,11 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              saveExternalServiceTable(data);
+              saveCustomTable(data);
             } else {
               $('.cardLoading').remove();
               $('.cardBottons').show(400);
-              $('#fileExternalServices').val('');
+              $('#fileCustom').val('');
             }
           },
         });
@@ -125,53 +120,32 @@ $(document).ready(function () {
     });
   };
 
-  saveExternalServiceTable = (data) => {
+  saveCustomTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addExternalService',
-      data: { importExternalService: data },
-      success: function (r) { 
-        messageServices(r);
+      url: '../../api/updateCustomPrice',
+      data: { importCustom: data },
+      success: function (r) {
+        message(r);
       },
     });
   };
 
   /* Descargar formato */
-  $('#btnDownloadImportsExternalServices').click(function (e) {
+  $('#btnDownloadImportsCustom').click(function (e) {
     e.preventDefault();
 
-    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
+    let url = 'assets/formatsXlsx/Precios_Personalizados.xlsx';
 
-    if (dataServices.length > 0) {
-      let wb = XLSX.utils.book_new();
+    let link = document.createElement('a');
 
-      let data = [];
+    link.target = '_blank';
 
-      namexlsx = 'Servicios_Externos.xlsx';
-      for (i = 0; i < dataServices.length; i++) {
-        data.push({
-          referencia_producto: dataServices[i].reference,
-          producto: dataServices[i].product,
-          servicio: dataServices[i].name_service,
-          costo: dataServices[i].cost,
-        });
-      }
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
 
-      let ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
-      XLSX.writeFile(wb, namexlsx);
-    } else {
-      let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
-
-      let link = document.createElement('a');
-      link.target = '_blank';
-
-      link.href = url;
-      document.body.appendChild(link);
-      link.click();
-
-      document.body.removeChild(link);
-      delete link;
-    }
+    document.body.removeChild(link);
+    delete link;
   });
 });

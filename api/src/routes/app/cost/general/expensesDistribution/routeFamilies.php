@@ -7,11 +7,13 @@ use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralExpenseDistributionDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductsDao;
 
 $familiesDao = new FamiliesDao();
 $generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $assignableExpenseDao = new AssignableExpenseDao();
 $productsDao = new ProductsDao();
 $generalProductsDao = new GeneralProductsDao();
@@ -66,6 +68,7 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
     $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
+    $pricesUSDDao,
     $productsDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
@@ -73,6 +76,7 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $flag = $args['flag'];
     $resolution = $familiesDao->updateFlagFamily($args['flag'], $id_company);
 
@@ -125,6 +129,15 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
             if (isset($expensesDistribution['totalPrice']))
                 $resolution = $generalProductsDao->updatePrice($products[$i]['id_product'], $expensesDistribution['totalPrice']);
 
+            if (isset($resolution['info'])) break;
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $expensesDistribution['totalPrice'];
+            $k['sale_price'] = $expensesDistribution['sale_price'];
+            $k['id_product'] = $products[$i]['id_product'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
 
@@ -154,6 +167,16 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
 
                     if (isset($resolution['info'])) break;
 
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($resolution['info'])) break;
+
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                     foreach ($productsCompositer2 as $j) {
@@ -176,6 +199,15 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
 
                         if (isset($data['totalPrice']))
                             $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($resolution['info'])) break;
+                        // Convertir a Dolares
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $j['id_product'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -189,6 +221,15 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
             if (isset($expensesDistribution['totalPrice']))
                 $resolution = $generalProductsDao->updatePrice($products[$i]['id_product'], $expensesDistribution['totalPrice']);
 
+            if (isset($resolution['info'])) break;
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $expensesDistribution['totalPrice'];
+            $k['sale_price'] = $expensesDistribution['sale_price'];
+            $k['id_product'] = $products[$i]['id_product'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
                 // Calcular costo material porq
@@ -217,6 +258,16 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
 
                     if (isset($resolution['info'])) break;
 
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                    if (isset($resolution['info'])) break;
+
                     $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                     foreach ($productsCompositer2 as $j) {
@@ -239,6 +290,15 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
 
                         if (isset($data['totalPrice']))
                             $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                        if (isset($resolution['info'])) break;
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $j['id_product'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                     }
                 }
             }
@@ -284,12 +344,14 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
     $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataFamily = $request->getParsedBody();
 
     $resolution = $familiesDao->updateFamilyProduct($dataFamily);
@@ -324,6 +386,15 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
         if (isset($expensesDistribution['totalPrice']))
             $resolution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
 
+        if (isset($resolution['info'])) break;
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $expensesDistribution['totalPrice'];
+        $k['sale_price'] = $expensesDistribution['sale_price'];
+        $k['id_product'] = $products[$i]['selectNameProduct'];
+
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
         if ($resolution == null && $_SESSION['flag_composite_product'] == '1') {
             // Calcular costo material porq
             $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($products[$i]['selectNameProduct']);
@@ -351,6 +422,16 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
 
                 if (isset($resolution['info'])) break;
 
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($resolution['info'])) break;
+
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                 foreach ($productsCompositer2 as $j) {
@@ -373,6 +454,15 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
 
                     if (isset($data['totalPrice']))
                         $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($resolution['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }
@@ -430,12 +520,14 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
     $familiesDao,
     $assignableExpenseDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
 
     $data['idFamily'] = $args['id_family'];
     $data['selectNameProduct'] = 0;
@@ -476,6 +568,15 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
         if (isset($expensesDistribution['totalPrice']))
             $resolution = $generalProductsDao->updatePrice($products[$i]['selectNameProduct'], $expensesDistribution['totalPrice']);
 
+        if (isset($resolution['info'])) break;
+        // Convertir a Dolares 
+        $k = [];
+        $k['price'] = $expensesDistribution['totalPrice'];
+        $k['sale_price'] = $expensesDistribution['sale_price'];
+        $k['id_product'] = $products[$i]['id_product'];
+
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($resolution['info'])) break;
             // Calcular costo material porq
@@ -503,7 +604,15 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
                     $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($resolution['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
 
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+
+                if (isset($resolution['info'])) break;
                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($arr['id_product']);
 
                 foreach ($productsCompositer2 as $j) {
@@ -526,6 +635,15 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
 
                     if (isset($data['totalPrice']))
                         $resolution = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
+
+                    if (isset($resolution['info'])) break;
+                    // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $j['id_product'];
+
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
                 }
             }
         }

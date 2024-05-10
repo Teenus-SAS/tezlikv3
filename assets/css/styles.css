@@ -8209,6 +8209,19 @@ table[data-toggle='table'] {
                    top: 50%;
                    margin-top: -4.05em;
                  }
+
+                                 .close-btn {
+                                   position: absolute;
+                                   top: 10px;
+                                   /* Ajusta según la distancia desde el borde superior */
+                                   right: 10px;
+                                   /* Ajusta según la distancia desde el borde derecho */
+                                   color: red;
+                                   /* Color del icono */
+                                   font-size: 20px;
+                                   /* Tamaño del icono */
+                                   text-decoration: none;
+                                 }
         
                  @keyframes spin {
                    0% {

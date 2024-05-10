@@ -1,6 +1,5 @@
 $(document).ready(function () {
   /* Cargue tabla Empresas licencia */
-
   tblCompaniesLic = $('#tblCompaniesLicense').dataTable({
     pageLength: 50,
     ajax: {
@@ -110,21 +109,23 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          permissions.push({
-            name: "Negociaciones Eficientes",
-            icon: data.flag_economy_scale == 1
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (data.cost_economy_scale == 1) {
+            permissions.push({
+              name: "Negociaciones Eficientes",
+              icon: data.flag_economy_scale == 1
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
-          permissions.push({
-            name: "Objetivos de Venta",
-            icon: data.flag_sales_objective == 1
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+            permissions.push({
+              name: "Objetivos de Venta",
+              icon: data.flag_sales_objective == 1
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+          }
 
           permissions.push({
             name: "Historico",

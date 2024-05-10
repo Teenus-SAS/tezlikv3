@@ -1,5 +1,4 @@
-$(document).ready(function () {
-  let idProduct;
+$(document).ready(function () { 
   let dataExternalService = {};
 
   /* Ocultar panel Nuevo Servicio */
@@ -13,40 +12,23 @@ $(document).ready(function () {
     $('.cardAddService').toggle(800);
     $('#btnAddService').html('Adicionar');
 
-    sessionStorage.removeItem('id_service');
+    sessionStorage.removeItem('id_general_service');
 
     $('#formAddService').trigger('reset');
-  });
-
-  /* Seleccionar producto */
-  $('#selectNameProduct').change(function (e) {
-    e.preventDefault();
-    idProduct = $('#selectNameProduct').val();
   });
 
   /* Adicionar nueva carga fabril */
   $('#btnAddService').click(function (e) {
     e.preventDefault();
 
-    let idService = sessionStorage.getItem('id_service');
+    let idService = sessionStorage.getItem('id_general_service');
 
     if (idService == '' || idService == null) {
-      checkDataServices('/api/addExternalService', idService);
+      checkDataServices('/api/addGExternalService', idService);
     } else {
-      checkDataServices('/api/updateExternalService', idService);
+      checkDataServices('/api/updateGExternalService', idService);
     }
-  });
-
-   /* Cargar información de servicios generales */
-  $('#generalServices').change(function (e) { 
-    e.preventDefault();
-
-    let dataServices = JSON.parse(sessionStorage.getItem('dataGServices'));
-
-    let data = dataServices.find(item => item.id_general_service == this.value);
-    $('#service').val(data.name_service); 
-    $('#costService').val(data.cost);
-  });
+  }); 
 
   /* Actualizar servicio */
 
@@ -58,11 +40,13 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblExternalServices.fnGetData(row);
 
-    sessionStorage.setItem('id_service', data.id_service);
+    sessionStorage.setItem('id_general_service', data.id_general_service);
 
-    $('#service').val(data.name_service); 
+    $('#service').val(data.name_service);
+
+    // let decimals = contarDecimales(data.cost);
+    // let cost = formatNumber(data.cost, decimals);
     $('#costService').val(data.cost);
-    $(`#generalServices option[value=${data.id_general_service}]`).prop("selected", true); 
 
     $('html, body').animate(
       {
@@ -74,24 +58,19 @@ $(document).ready(function () {
 
   /* Revision data servicio */
   checkDataServices = async (url, idService) => {
-    let idProduct = parseInt($('#selectNameProduct').val());
+    // let idProduct = parseInt($('#selectNameProduct').val());
     let service = $('#service').val();
     let cost = parseFloat($('#costService').val());
-    let generalServices = parseFloat($('#generalServices').val());  
-    isNaN(generalServices) ? generalServices = 0 : generalServices;
 
     // cost = parseFloat(strReplaceNumber(cost));
 
-    let data = idProduct * cost;
-
-    if (service.trim() == '' || !service.trim() || isNaN(data) || data <= 0) {
+    if (service.trim() == '' || !service.trim() || isNaN(cost) || cost <= 0) {
       toastr.error('Ingrese todos los campos');
       return false;
     }
 
     let dataExternalService = new FormData(formAddService);
-    dataExternalService.append('idProduct', idProduct);
-    dataExternalService.append('idGService', generalServices);
+    // dataExternalService.append('idProduct', idProduct);
 
     if (idService != '' || idService != null)
       dataExternalService.append('idService', idService);
@@ -107,10 +86,10 @@ $(document).ready(function () {
     let row = $(this.activeElement).parent().parent()[0];
     let data = tblExternalServices.fnGetData(row);
 
-    let idService = data.id_service;
+    let idService = data.id_general_service;
 
     dataExternalService['idService'] = idService;
-    dataExternalService['idProduct'] = $('#selectNameProduct').val();
+    // dataExternalService['idProduct'] = $('#selectNameProduct').val();
 
     bootbox.confirm({
       title: 'Eliminar',
@@ -129,7 +108,7 @@ $(document).ready(function () {
       callback: function (result) {
         if (result == true) {
           $.post(
-            '../../api/deleteExternalService',
+            '../../api/deleteGExternalService',
             dataExternalService,
             function (data, textStatus, jqXHR) {
               messageServices(data);
@@ -151,7 +130,7 @@ $(document).ready(function () {
       $('.cardImportExternalServices').hide(800);
       $('#formImportExternalServices').trigger('reset');
       $('.cardAddService').hide(800);
-      $('.cardProducts').show(800);
+      // $('.cardProducts').show(800);
       $('#formAddService').trigger('reset');
       let idProduct = parseInt($('#selectNameProduct').val());
       // if (idProduct)

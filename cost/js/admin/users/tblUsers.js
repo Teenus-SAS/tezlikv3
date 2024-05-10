@@ -1,43 +1,17 @@
 $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
-  plan_cost_price == 1 ? (plan_cost_price = true) : (plan_cost_price = false);
-
-  // price_usd == 1 ? (price_usd = true) : (price_usd = false);
-
-  plan_custom_price == 1
-    ? (plan_custom_price = true)
-    : (plan_custom_price = false);
-
-  plan_cost_analysis_material == 1
-    ? (plan_cost_analysis_material = true)
-    : (plan_cost_analysis_material = false);
-
-  plan_cost_economy_sale == 1 && flag_economy_scale == 1
-    ? (plan_cost_economy_sale = true)
-    : (plan_cost_economy_sale = false);
-  
-  plan_sale_objectives == 1 && flag_sales_objective == 1
-    ? (plan_sale_objectives = true)
-    : (plan_sale_objectives = false);
-
-  plan_cost_multiproduct == 1
-    ? (plan_cost_multiproduct = true)
-    : (plan_cost_multiproduct = false);
-
-  plan_cost_simulator == 1
-    ? (plan_cost_simulator = true)
-    : (plan_cost_simulator = false);
-
-  plan_cost_historical == 1
-    ? (plan_cost_historical = true)
-    : (plan_cost_historical = false);
-
-  plan_cost_quote == 1 ? (plan_cost_quote = true) : (plan_cost_quote = false);
-
-  plan_cost_support == 1
-    ? (plan_cost_support = true)
-    : (plan_cost_support = false);
+  visible_cost_price = plan_cost_price === '1';
+  // price_usd = price_usd === 1;
+  visible_custom_price = plan_custom_price === '1';
+  visible_analysis_material = plan_cost_analysis_material === '1';
+  visible_economy_sale = plan_cost_economy_sale === '1' && flag_economy_scale === '1';
+  visible_sale_objectives = plan_cost_economy_sale === '1' && flag_sales_objective === '1';
+  visible_multiproduct = plan_cost_multiproduct === '1';
+  visible_simulator = plan_cost_simulator === '1';
+  visible_historical = plan_cost_historical === '1';
+  visible_quote = plan_cost_quote === '1';
+  visible_support = plan_cost_support === '1';
 
   tblUsers = $("#tblUsers").dataTable({
     pageLength: 50,
@@ -146,7 +120,15 @@ $(document).ready(function () {
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
-          }); 
+          });
+
+          permissions.push({
+            name: "Servicios Externos",
+            icon: data.external_service
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
 
           permissions.push({
             name: "Carga Fabril",
@@ -193,8 +175,8 @@ $(document).ready(function () {
           permissions.push({
             name: `${flag_expense == 2 ? 'Recuperación Gastos' : 'Distribución Gastos'}`,
             icon: data.expense_distribution
-            ? "bi bi-check-circle-fill text-success"
-            : "bi bi-x-circle-fill text-danger",
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
 
@@ -301,7 +283,7 @@ $(document).ready(function () {
         render: function (data, type, row) {
           const permissions = [];
 
-          if (plan_cost_price == true)
+          if (visible_cost_price == true)
             permissions.push({
               name: "Precios",
               icon: data.price
@@ -319,7 +301,7 @@ $(document).ready(function () {
           //     color: { text: "black" },
           //   });
 
-          if (plan_custom_price == true)
+          if (visible_custom_price == true)
             permissions.push({
               name: "Precios Personalizados",
               icon: data.custom_price
@@ -328,7 +310,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
           
-          if (plan_cost_quote == true)
+          if (visible_quote == true)
             permissions.push({
               name: "Cotizacion",
               icon: data.quote
@@ -337,7 +319,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
           
-          if (plan_cost_support == true)
+          if (visible_support == true)
             permissions.push({
               name: "Soporte",
               icon: data.support
@@ -364,7 +346,7 @@ $(document).ready(function () {
         render: function (data, type, row) {
           const permissions = [];
 
-          if (plan_cost_analysis_material == true)
+          if (visible_analysis_material == true)
             permissions.push({
               name: "Analisis Materia Prima",
               icon: data.analysis_material
@@ -373,7 +355,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
 
-          if (plan_cost_economy_sale == true)
+          if (visible_economy_sale == true)
             permissions.push({
               name: "Negociaciones Eficientes",
               icon: data.economy_scale
@@ -382,7 +364,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
           
-          if (plan_sale_objectives == true)
+          if (visible_sale_objectives == true)
             permissions.push({
               name: "Objetivos De Ventas",
               icon: data.sale_objectives
@@ -391,7 +373,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
 
-          if (plan_cost_multiproduct == true)
+          if (visible_multiproduct == true)
             permissions.push({
               name: "Pto de Equilibrio",
               icon: data.multiproduct
@@ -400,7 +382,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
 
-          if (plan_cost_simulator == true)
+          if (visible_simulator == true)
             permissions.push({
               name: "Simulador",
               icon: data.simulator
@@ -409,7 +391,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
 
-          if (plan_cost_historical == true)
+          if (visible_historical == true)
             permissions.push({
               name: "Historico",
               icon: data.historical

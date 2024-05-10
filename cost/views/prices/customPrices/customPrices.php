@@ -37,6 +37,7 @@ if (sizeof($_SESSION) == 0)
         <div class="main-content">
             <!-- Loader -->
             <div class="loading">
+                <a href="javascript:;" class="close-btn"><i class="bi bi-x-circle-fill"></i></a>
                 <div class="loader"></div>
             </div>
 
@@ -84,6 +85,9 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-info" id="btnNewCustomPercentage">Configurar Lista De Precios</button>
                                     </div>
                                 <?php } ?>
+                                <div class="col-xs-2 mr-2">
+                                    <button class="btn btn-warning" id="btnNewImportCustom">Importar</button>
+                                </div>
                                 <div class="col-xs-2 mr-2">
                                     <button class="btn btn-success" id="btnExportCustomPrice" data-toggle="tooltip" title="Exportar" style="height: 39px"><i class="fas fa-file-excel fa-lg"></i></button>
                                 </div>
@@ -164,6 +168,31 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
+                <div class="page-content-wrapper mt--45 mb-5 cardImportCustom">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <form class="col-12" id="formImportCustom" enctype="multipart/form-data">
+                                <div class="card">
+                                    <div class="card-body pt-3">
+                                        <div class="form-row" id="formCustom">
+                                            <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                <input class=" form-control" type="file" id="fileCustom" accept=".xls,.xlsx">
+                                                <label for="formFile" class="form-label"> Importar Personalizados</label>
+                                            </div>
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                <button type="text" class="btn btn-success" id="btnImportCustom">Importar</button>
+                                            </div>
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustom">Descarga Formato</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- page content -->
                 <div class="page-content-wrapper mt--45">
                     <div class="container-fluid">
@@ -213,6 +242,7 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>
     <script src="/cost/js/prices/customPrices/exportCustomPrices.js"></script>
+    <script src="/cost/js/prices/customPrices/importCustom.js"></script>
     <script src="/cost/js/prices/customPrices/customPercentages.js"></script>
     <script src="/cost/js/prices/customPrices/addProducts.js"></script>
 </body>

@@ -10,6 +10,24 @@ $(document).ready(function () {
     $('#formAddLicense').trigger('reset');
     $('.cardCreateLicense').toggle(800);
     $('#btnAddLicense').html('Crear');
+    $('.economyScale').show();
+  });
+
+
+  // Revisar tipo de plan tenga economia de escala
+  $('#plan').change(function (e) { 
+    e.preventDefault();
+    let id_plan = this.value;
+
+    let dataPlans = JSON.parse(sessionStorage.getItem('dataPlans'));
+
+    let data = dataPlans.find(item => item.id_plan == id_plan);
+
+    if (data.cost_economy_scale == 0) {
+      $('.economyScale').hide(800);
+    } else {
+      $('.economyScale').show(800);
+    }
   });
 
   /* Agregar licencia */
@@ -61,6 +79,12 @@ $(document).ready(function () {
     $(`#historical option[value=${historical}]`).prop('selected', true);
     $(`#indirect option[value=${indirect}]`).prop('selected', true);
     $(`#inyection option[value=${inyection}]`).prop('selected', true);
+ 
+    if (data.cost_economy_scale == 0) {
+      $('.economyScale').hide(800);
+    } else {
+      $('.economyScale').show(800);
+    }
       
     $('#company').prop('disabled', true);
     $('html, body').animate({ scrollTop: 0 }, 1000);

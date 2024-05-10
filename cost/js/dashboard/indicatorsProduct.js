@@ -309,6 +309,7 @@ $(document).ready(function () {
     if (!isFinite(dataCost.actualProfitability2))
       dataCost.actualProfitability2 = 0;
      
+    /*
     if (dataCost.actualProfitability3 < data[0].profitability && dataCost.actualProfitability3 > 0 && parseFloat(data[0].sale_price) > 0) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
@@ -334,6 +335,32 @@ $(document).ready(function () {
                     </div>
                   </div>`;
       $('#actualSalePrice').addClass('text-danger');
+    } */
+    if (dataCost.actualProfitability3 <= 0) {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Lista)</span>
+                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability3.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
+      $('#actualSalePrice').addClass('text-danger');
+    }
+    else if (dataCost.actualProfitability3 < data[0].profitability || dataCost.actualProfitability3 >= 1) {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Lista)</span>
+                          <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability3.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
+      $('#actualSalePrice').addClass('text-warning');
     }
     else {
       content = `<div class="card radius-10 border-start border-0 border-3 border-success">
@@ -355,7 +382,8 @@ $(document).ready(function () {
     $('.cardRecomendedPrice').empty();
     content = '';
 
-    if (price < parseFloat(data[0].sale_price)) {
+    /*  
+      if (price < parseFloat(data[0].sale_price)) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -366,7 +394,30 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-    } else if (price == parseFloat(data[0].sale_price)) {
+        } else if (price == parseFloat(data[0].sale_price)) {
+          content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Real)</span>
+                          <h2 class="mb-0 mt-1 text-warning">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`; 
+    */
+    if (dataCost.actualProfitability2 <= 0) {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+                    <div class="card-body">
+                      <div class="media align-items-center">
+                        <div class="media-body">
+                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Real)</span>
+                          <h2 class="mb-0 mt-1 text-danger">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                        </div>
+                      </div>
+                    </div>
+                  </div>`;
+    } else if (dataCost.actualProfitability2 < data[0].profitability || dataCost.actualProfitability2 >= 1) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">

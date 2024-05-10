@@ -363,14 +363,16 @@ $(document).ready(function () {
     /* Servicios */
     data = [];
 
+    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
+
     arr = dataServices.filter((item) => item.id_product == id_product);
     if (arr.length > 0) {
       for (i = 0; i < dataServices.length; i++) {
         data.push({
-          referencia_producto: dataServices[i].reference,
-          producto: dataServices[i].product,
-          servicio: dataServices[i].name_service,
-          costo: dataServices[i].cost,
+          referencia_producto: arr[i].reference,
+          producto: arr[i].product,
+          servicio: arr[i].name_service,
+          costo: arr[i].cost,
         });
       }
 

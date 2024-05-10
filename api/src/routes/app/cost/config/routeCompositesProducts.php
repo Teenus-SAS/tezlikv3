@@ -8,11 +8,13 @@ use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\PriceProductDao;
+use tezlikv3\Dao\PriceUSDDao;
 
 $compositeProductsDao = new CompositeProductsDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
+$pricesUSDDao = new PriceUSDDao();
 $generalProductsDao = new GeneralProductsDao();
 $costCompositeProductsDao = new CostCompositeProductsDao();
 $costWorkforceDao = new CostWorkforceDao();
@@ -43,6 +45,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $costCompositeProductsDao,
     $indirectCostDao,
@@ -50,6 +53,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataProduct = $request->getParsedBody();
 
     $composite = $generalCompositeProductsDao->findCompositeProduct($dataProduct);
@@ -104,6 +108,16 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
                 $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
         }
 
+        // Convertir a Dolares 
+        if ($resolution == null && isset($product)) {
+            $k = [];
+            $k['price'] = $product['totalPrice'];
+            $k['sale_price'] = $product['sale_price'];
+            $k['id_product'] = $dataProduct['idProduct'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        }
+
         if ($resolution == null) {
             $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
 
@@ -126,6 +140,15 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 
                 if (isset($data['totalPrice']))
                     $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($resolution['info'])) break;
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
             }
         }
 
@@ -148,6 +171,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $costCompositeProductsDao,
     $costWorkforceDao,
@@ -155,6 +179,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataProduct = $request->getParsedBody();
     $data = [];
 
@@ -210,6 +235,16 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
                 $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
         }
 
+        // Convertir a Dolares 
+        if ($resolution == null && isset($product)) {
+            $k = [];
+            $k['price'] = $product['totalPrice'];
+            $k['sale_price'] = $product['sale_price'];
+            $k['id_product'] = $dataProduct['idProduct'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        }
+
         if ($resolution == null) {
             $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
 
@@ -232,6 +267,16 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 
                 if (isset($data['totalPrice']))
                     $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+                if (isset($resolution['info'])) break;
+
+                // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
+
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
             }
         }
 
@@ -253,6 +298,7 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
     $compositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
+    $pricesUSDDao,
     $generalProductsDao,
     $generalCompositeProductsDao,
     $costCompositeProductsDao,
@@ -261,6 +307,7 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
 ) {
     session_start();
     $id_company = $_SESSION['id_company'];
+    $coverage = $_SESSION['coverage'];
     $dataProduct = $request->getParsedBody();
 
     $resolution = $compositeProductsDao->deleteCompositeProduct($dataProduct['idCompositeProduct']);
@@ -315,6 +362,16 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
             $resolution = $generalProductsDao->updatePrice($dataProduct['idProduct'], $product['totalPrice']);
     }
 
+    // Convertir a Dolares 
+    if ($resolution == null && isset($product)) {
+        $k = [];
+        $k['price'] = $product['totalPrice'];
+        $k['sale_price'] = $product['sale_price'];
+        $k['id_product'] = $dataProduct['idProduct'];
+
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+    }
+
     if ($resolution == null) {
         $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProduct['idProduct']);
 
@@ -337,6 +394,15 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
 
             if (isset($data['totalPrice']))
                 $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+
+            if (isset($resolution['info'])) break;
+            // Convertir a Dolares 
+            $k = [];
+            $k['price'] = $data['totalPrice'];
+            $k['sale_price'] = $data['sale_price'];
+            $k['id_product'] = $arr['id_product'];
+
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
         }
     }
 

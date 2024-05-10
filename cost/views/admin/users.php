@@ -36,8 +36,10 @@ if (sizeof($_SESSION) == 0)
 
         <!-- Begin main content -->
         <div class="main-content">
+
             <!-- Loader -->
             <div class="loading">
+                <a href="javascript:;" class="close-btn"><i class="bi bi-x-circle-fill"></i></a>
                 <div class="loader"></div>
             </div>
 
@@ -121,8 +123,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
-        // price_usd = 
-        // plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        // price_usd =  
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         expense = "<?= $_SESSION['expense'] ?>";
         plan_cost_price = "<?= $_SESSION['plan_cost_price'] ?>";
@@ -131,7 +132,6 @@ if (sizeof($_SESSION) == 0)
         plan_cost_analysis_material = "<?= $_SESSION['plan_cost_analysis_material'] ?>";
         plan_cost_economy_sale = "<?= $_SESSION['plan_cost_economy_sale'] ?>";
         flag_economy_scale = "<?= $_SESSION['flag_economy_scale'] ?>";
-        plan_sale_objectives = "<?= $_SESSION['plan_sale_objectives'] ?>";
         flag_sales_objective = "<?= $_SESSION['flag_sales_objective'] ?>";
         plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
         type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";

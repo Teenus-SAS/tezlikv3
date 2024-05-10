@@ -7,7 +7,7 @@ $(document).ready(function () {
     e.preventDefault();
     $('.cardAddService').hide(800);
     $('.cardImportExternalServices').toggle(800);
-    $('.cardProducts').toggle(800);
+    // $('.cardProducts').toggle(800);
   });
 
   $('#fileExternalServices').change(function (e) {
@@ -48,7 +48,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia_producto', 'producto', 'servicio', 'costo'];
+        const expectedHeaders = ['servicio', 'costo'];
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -69,8 +69,8 @@ $(document).ready(function () {
             costService = item.costo.toString().replace('.', ',');
 
           return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
+            // referenceProduct: item.referencia_producto,
+            // product: item.producto,
             service: item.servicio,
             costService: costService,
           };
@@ -86,7 +86,7 @@ $(document).ready(function () {
   checkExternalService = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/externalServiceDataValidation',
+      url: '../../api/generalExternalServiceDataValidation',
       data: { importExternalService: data },
       success: function (resp) {
         if (resp.error == true) {
@@ -128,10 +128,10 @@ $(document).ready(function () {
   saveExternalServiceTable = (data) => {
     $.ajax({
       type: 'POST',
-      url: '../../api/addExternalService',
+      url: '../../api/addGExternalService',
       data: { importExternalService: data },
-      success: function (r) { 
-        messageServices(r);
+      success: function (r) {
+        messageServices(r); 
       },
     });
   };
@@ -140,18 +140,16 @@ $(document).ready(function () {
   $('#btnDownloadImportsExternalServices').click(function (e) {
     e.preventDefault();
 
-    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
+    let dataServices = JSON.parse(sessionStorage.getItem('dataGServices'));
 
     if (dataServices.length > 0) {
       let wb = XLSX.utils.book_new();
 
       let data = [];
 
-      namexlsx = 'Servicios_Externos.xlsx';
+      namexlsx = 'Servicios_Externos_Generales.xlsx';
       for (i = 0; i < dataServices.length; i++) {
         data.push({
-          referencia_producto: dataServices[i].reference,
-          producto: dataServices[i].product,
           servicio: dataServices[i].name_service,
           costo: dataServices[i].cost,
         });

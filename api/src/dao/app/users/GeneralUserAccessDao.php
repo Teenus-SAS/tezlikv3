@@ -27,6 +27,7 @@ class GeneralUserAccessDao
                                             IFNULL(cua.create_machines, 0) AS cost_machine, 
                                             IFNULL(cua.create_process, 0) AS cost_process, 
                                             IFNULL(cua.product_materials, 0) AS cost_products_material, 
+                                            IFNULL(cua.external_service, 0) AS external_service, 
                                             IFNULL(cua.factory_load, 0) AS factory_load,
                                             IFNULL(cua.contract, 0) AS contract, 
                                             IFNULL(cua.payroll_load, 0) AS payroll_load, 
@@ -73,7 +74,7 @@ class GeneralUserAccessDao
                                             pa.cost_support AS plan_cost_support, 
                                             pa.cost_quote AS plan_cost_quote, 
                                             pa.cost_economy_scale AS plan_cost_economy_sale, 
-                                            pa.cost_sale_objectives AS plan_sale_objectives, 
+                                            -- pa.cost_sale_objectives AS plan_sale_objectives, 
                                             pa.cost_multiproduct AS plan_cost_multiproduct, 
                                         -- Información de usuario
                                             u.firstname, 
@@ -103,7 +104,7 @@ class GeneralUserAccessDao
         $_SESSION['cost_products_material'] = $userAccess['cost_products_material'];
         // $_SESSION['cost_products_process'] = $userAccess['cost_products_process'];
         $_SESSION['factory_load'] = $userAccess['factory_load'];
-        // $_SESSION['external_service'] = $userAccess['external_service'];
+        $_SESSION['external_service'] = $userAccess['external_service'];
         $_SESSION['payroll_load'] = $userAccess['payroll_load'];
         $_SESSION['type_payroll'] = $userAccess['type_payroll'];
 
@@ -146,7 +147,7 @@ class GeneralUserAccessDao
         $_SESSION['plan_cost_support'] = $userAccess['plan_cost_support'];
         $_SESSION['plan_cost_quote'] = $userAccess['plan_cost_quote'];
         $_SESSION['plan_cost_economy_sale'] = $userAccess['plan_cost_economy_sale'];
-        $_SESSION['plan_sale_objectives'] = $userAccess['plan_sale_objectives'];
+        // $_SESSION['plan_sale_objectives'] = $userAccess['plan_sale_objectives'];
         $_SESSION['plan_cost_multiproduct'] = $userAccess['plan_cost_multiproduct'];
         $_SESSION['flag_economy_scale'] = $userAccess['flag_economy_scale'];
         $_SESSION['flag_sales_objective'] = $userAccess['flag_sales_objective'];
