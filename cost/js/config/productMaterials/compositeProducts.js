@@ -12,7 +12,8 @@ $(document).ready(function () {
         
         sessionStorage.removeItem('id_composite_product');
         
-        $('#formAddNewProduct').trigger('reset'); 
+        $('.inputs').css("border-color", "");
+        $('#formAddNewProduct').trigger('reset');
     });
 
     $('.compositeProduct').change(function (e) {
@@ -51,6 +52,7 @@ $(document).ready(function () {
     $(document).on('click', '.updateComposite', function (e) {
         $('.cardImportProductsMaterials').hide(800);
         $('.cardAddNewProduct').show(800);
+        $('.inputs').css("border-color", "");
         $('#btnAddProduct').html('Actualizar');
 
         let row = $(this).parent().parent()[0];
@@ -80,20 +82,50 @@ $(document).ready(function () {
         );
     });
 
+    function validateForm() {
+        let emptyInputs = [];
+        let selectNameProduct = parseInt($('#selectNameProduct').val());
+        let quantity2 = parseInt($('#quantity2').val());
+
+        // Verificar cada campo y agregar los vacíos a la lista
+        if (!selectNameProduct) {
+            emptyInputs.push("#selectNameProduct");
+        }
+        if (!quantity2) {
+            emptyInputs.push("#quantity2");
+        }
+
+        // Marcar los campos vacíos con borde rojo
+        emptyInputs.forEach(function (selector) {
+            $(selector).css("border-color", "red");
+        });
+
+        // Mostrar mensaje de error si hay campos vacíos
+        if (emptyInputs.length > 0) {
+            toastr.error("Ingrese todos los campos");
+            return false;
+        }
+
+        return true;
+    };
+
     /* Revision data Productos materiales */
     checkDataProducts = async (url, idCompositeProduct) => {
+        if (!validateForm()) return false;
+
         let ref = parseInt($('#compositeProduct').val());
         let quan = parseFloat($('#quantity2').val());
         let idProduct = parseInt($('#selectNameProduct').val());
 
-        let data = ref * idProduct;
+        // let data = ref * idProduct;
 
-        if (!data || quan == '') {
-            toastr.error('Ingrese todos los campos');
-            return false;
-        }
+        // if (!data || quan == '') {
+        //     toastr.error('Ingrese todos los campos');
+        //     return false;
+        // }
       
         if (ref == idProduct) {
+            $('#compositeProduct').css("border-color", "red");
             toastr.error('Seleccione un producto compuesto diferente');
             return false;
         }
@@ -103,6 +135,7 @@ $(document).ready(function () {
         quant = 1 * quan;
 
         if (quan <= 0 || isNaN(quan)) {
+            $('#quantity2').css("border-color", "red");
             toastr.error('La cantidad debe ser mayor a cero (0)');
             return false;
         }

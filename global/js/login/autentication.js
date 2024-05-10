@@ -70,6 +70,7 @@ $(document).ready(function () {
           toastr.error(data.message);
           return false;
         } else if (data.success) {
+          sessionStorage.clear();
           location.href = data.location;
         }
       },
