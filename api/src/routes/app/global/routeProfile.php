@@ -15,7 +15,32 @@ $licenseDao = new LicenseCompanyDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->post('/updateProfile', function (Request $request, Response $response, $args) use ($profileDao, $FilesDao, $usersDao, $licenseDao, $companyDao) {
+$app->post('/updateProfile', function (Request $request, Response $response, $args) use (
+    $profileDao,
+    $FilesDao,
+    $usersDao,
+    $licenseDao,
+    $companyDao
+) {
+    $info = $usersDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $usersDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $dataUser = $request->getParsedBody();
 

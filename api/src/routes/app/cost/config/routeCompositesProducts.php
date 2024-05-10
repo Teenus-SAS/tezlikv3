@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CompositeProductsDao;
 use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
@@ -11,6 +12,7 @@ use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
 
 $compositeProductsDao = new CompositeProductsDao();
+$autenticationDao = new AutenticationUserDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
 $priceProductDao = new PriceProductDao();
@@ -23,7 +25,29 @@ $indirectCostDao = new IndirectCostDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/compositeProducts/{id_product}', function (Request $request, Response $response, $args) use ($compositeProductsDao) {
+$app->get('/compositeProducts/{id_product}', function (Request $request, Response $response, $args) use (
+    $compositeProductsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -31,7 +55,30 @@ $app->get('/compositeProducts/{id_product}', function (Request $request, Respons
     $response->getBody()->write(json_encode($compositeProducts));
     return $response->withHeader('Content-Type', 'application/json');
 });
-$app->get('/allCompositeProducts', function (Request $request, Response $response, $args) use ($generalCompositeProductsDao) {
+
+$app->get('/allCompositeProducts', function (Request $request, Response $response, $args) use (
+    $generalCompositeProductsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -42,6 +89,7 @@ $app->get('/allCompositeProducts', function (Request $request, Response $respons
 
 $app->post('/addCompositeProduct', function (Request $request, Response $response, $args) use (
     $compositeProductsDao,
+    $autenticationDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
@@ -51,6 +99,25 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
     $indirectCostDao,
     $costWorkforceDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -168,6 +235,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 
 $app->post('/updateCompositeProduct', function (Request $request, Response $response, $args) use (
     $compositeProductsDao,
+    $autenticationDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
@@ -177,6 +245,25 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
     $costWorkforceDao,
     $indirectCostDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -296,6 +383,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 
 $app->post('/deleteCompositeProduct', function (Request $request, Response $response, $args) use (
     $compositeProductsDao,
+    $autenticationDao,
     $costMaterialsDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -305,6 +393,25 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
     $costWorkforceDao,
     $indirectCostDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];

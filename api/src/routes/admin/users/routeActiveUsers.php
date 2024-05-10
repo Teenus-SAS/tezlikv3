@@ -1,25 +1,39 @@
 <?php
 
 use tezlikv3\dao\ActiveUsersDao;
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\LastLoginUsersDao;
 
 $activeUsersDao = new ActiveUsersDao();
 $lastLogUsersDao = new LastLoginUsersDao();
+$autenticationDao = new AutenticationUserDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-//Usuarios activos general
-// $app->get('/quantityAllUsers', function (Request $request, Response $response, $args) use ($activeUsersDao) {
 
-//     //NÚMERO DE USUARIOS ACTIVOS GENERAL
-//     $resp = $activeUsersDao->usersStatus();
+$app->get('/lastLoginUsers', function (Request $request, Response $response, $args) use (
+    $lastLogUsersDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
 
-//     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
-//     return $response->withHeader('Content-Type', 'application/json');
-// });
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
 
-$app->get('/lastLoginUsers', function (Request $request, Response $response, $args) use ($lastLogUsersDao) {
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
 
     //NÚMERO DE USUARIOS ACTIVOS GENERAL
     $resp = $lastLogUsersDao->loginUsers();

@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GenerateCodeDao;
 use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\SendEmailDao;
@@ -9,23 +10,90 @@ $userAdminDao = new UserAdminDao();
 $newPassDao = new GenerateCodeDao();
 $makeEmailDao = new SendMakeEmailDao();
 $emailDao = new SendEmailDao();
+$autenticationDao = new AutenticationUserDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/userAdmins', function (Request $request, Response $response, $args) use ($userAdminDao) {
+$app->get('/userAdmins', function (Request $request, Response $response, $args) use (
+    $userAdminDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $userAdmin = $userAdminDao->findAllUserAdmins();
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/usersCompany', function (Request $request, Response $response, $args) use ($userAdminDao) {
+$app->get('/usersCompany', function (Request $request, Response $response, $args) use (
+    $userAdminDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $userAdmin = $userAdminDao->findAllUser();
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/userAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
+$app->get('/userAdmin', function (Request $request, Response $response, $args) use (
+    $userAdminDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $userAdmin = $userAdminDao->findUserAdmin();
     $response->getBody()->write(json_encode($userAdmin, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -33,10 +101,30 @@ $app->get('/userAdmin', function (Request $request, Response $response, $args) u
 
 $app->post('/addUserAdmin', function (Request $request, Response $response, $args) use (
     $userAdminDao,
+    $autenticationDao,
     $newPassDao,
     $makeEmailDao,
     $emailDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $email = $_SESSION['name'];
     $name = $_SESSION['email'];
@@ -66,7 +154,29 @@ $app->post('/addUserAdmin', function (Request $request, Response $response, $arg
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/changeCompany', function (Request $request, Response $response, $args) use ($userAdminDao) {
+$app->post('/changeCompany', function (Request $request, Response $response, $args) use (
+    $userAdminDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataUserAdmin = $request->getParsedBody();
 
     $user = $userAdminDao->changeCompanyUser($dataUserAdmin);
@@ -82,7 +192,29 @@ $app->post('/changeCompany', function (Request $request, Response $response, $ar
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateUserAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
+$app->post('/updateUserAdmin', function (Request $request, Response $response, $args) use (
+    $userAdminDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $email = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();
@@ -109,7 +241,29 @@ $app->post('/updateUserAdmin', function (Request $request, Response $response, $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteUserAdmin', function (Request $request, Response $response, $args) use ($userAdminDao) {
+$app->post('/deleteUserAdmin', function (Request $request, Response $response, $args) use (
+    $userAdminDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $email = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();

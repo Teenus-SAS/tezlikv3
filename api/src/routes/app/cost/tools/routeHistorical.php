@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\DataCostDao;
 use tezlikv3\dao\ExpensesDao;
 use tezlikv3\dao\HistoricalExpenseDistributionDao;
@@ -9,6 +10,7 @@ use tezlikv3\dao\HistoricalProductsDao;
 use tezlikv3\dao\PricesDao;
 
 $historicalProductsDao = new HistoricalProductsDao();
+$autenticationDao = new AutenticationUserDao();
 $historicalExpensesDao = new HistoricalExpensesDao();
 $expensesDao = new ExpensesDao();
 $historicalEDDao = new HistoricalExpenseDistributionDao();
@@ -19,7 +21,29 @@ $dataCostDao = new DataCostDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/historical', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
+$app->get('/historical', function (Request $request, Response $response, $args) use (
+    $historicalProductsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -29,13 +53,57 @@ $app->get('/historical', function (Request $request, Response $response, $args) 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
+$app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use (
+    $historicalProductsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $data = $historicalProductsDao->findHistorical($args['id_historic']);
     $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/lastHistorical', function (Request $request, Response $response, $args) use ($historicalProductsDao) {
+$app->get('/lastHistorical', function (Request $request, Response $response, $args) use (
+    $historicalProductsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -47,6 +115,7 @@ $app->get('/lastHistorical', function (Request $request, Response $response, $ar
 
 $app->post('/saveHistorical', function (Request $request, Response $response, $args) use (
     $pricesDao,
+    $autenticationDao,
     $dataCostDao,
     $historicalProductsDao,
     $historicalExpensesDao,
@@ -54,6 +123,25 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
     $assignableExpenseDao,
     $expensesDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $flag_expense = $_SESSION['flag_expense'];

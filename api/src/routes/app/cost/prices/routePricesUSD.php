@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\MaterialsDao;
@@ -9,6 +10,7 @@ use tezlikv3\Dao\TrmDao;
 
 $trmDao = new TrmDao();
 $pricesUSDDao = new PriceUSDDao();
+$autenticationDao = new AutenticationUserDao();
 $productsDao = new ProductsDao();
 $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
@@ -19,7 +21,29 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consultar dolar actual */
 
-$app->get('/currentDollar', function (Request $request, Response $response, $args) use ($trmDao) {
+$app->get('/currentDollar', function (Request $request, Response $response, $args) use (
+    $trmDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $price = $trmDao->getLastTrm();
     $response->getBody()->write(json_encode($price, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -28,9 +52,29 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 /* Calcular valor de cobertura simulacion */
 $app->post('/simPriceUSD', function (Request $request, Response $response, $args) use (
     $pricesUSDDao,
+    $autenticationDao,
     $productsDao,
     $trmDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataTrm = $request->getParsedBody();
@@ -67,11 +111,31 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
 
 $app->get('/priceUSD/{coverage}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
+    $autenticationDao,
     $pricesUSDDao,
     $productsDao,
     $generalMaterialsDao,
     $trmDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -79,18 +143,6 @@ $app->get('/priceUSD/{coverage}', function (Request $request, Response $response
 
     $deviation = $company['deviation'];
     $coverage = $args['coverage'];
-
-    // Calcular Promedio TRM
-    // $price = $pricesUSDDao->calcAverageTrm();
-
-    // Obtener trm historico
-    // $historicalTrm = $trmDao->findAllHistoricalTrm();
-
-    // Calcular desviacion estandar
-    // $standardDeviation = $pricesUSDDao->calcStandardDeviation($historicalTrm);
-
-    // Calcular valor de cobertura
-    // $coverage = $pricesUSDDao->calcDollarCoverage($price['average_trm'], $standardDeviation, $deviation);
 
     // Obtener productos
     $products = $productsDao->findAllProductsByCompany($id_company);

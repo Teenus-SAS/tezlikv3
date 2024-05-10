@@ -30,41 +30,6 @@ use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-/* Autenticacion con JWT */
-
-// $app->post('/auth', function (Request $request, Response $response, $args) use ($autenticationDao) {
-//     $dataUser = $request->getParsedBody();
-
-//     $user = $autenticationDao->findByEmail($dataUser['email']);
-
-//     /* Usuario sn datos */
-//     if ($user == null) {
-//         $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
-//         $response->getBody()->write(json_encode($resp));
-//         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-//     }
-
-//     /* Valida el password del usuario */
-//     if (!password_verify($dataUser['password'], $user['password'])) {
-//         $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
-//         $response->getBody()->write(json_encode($resp));
-//         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-//     }
-
-//     $now = strtotime('now');
-//     $key = 'example_key';
-
-//     $payload = [
-//         'exp' => $now + 3600,
-//         'data' => $user['id_user']
-//     ];
-
-//     $jwt = JWT::encode($payload, $key, 'HS256');
-//     $resp = array('success' => true, 'token' => $jwt);
-//     $response->getBody()->write(json_encode($resp));
-//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-// });
-
 /* Autenticación */
 
 $app->post('/userAutentication', function (Request $request, Response $response, $args) use (
@@ -216,7 +181,29 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/saveFirstLogin', function (Request $request, Response $response, $args) use ($firstLoginDao) {
+$app->post('/saveFirstLogin', function (Request $request, Response $response, $args) use (
+    $firstLoginDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_user = $_SESSION['idUser'];
     $dataUser = $request->getParsedBody();
@@ -238,7 +225,29 @@ $app->post('/saveFirstLogin', function (Request $request, Response $response, $a
 });
 
 /* Logout */
-$app->get('/logout', function (Request $request, Response $response, $args) use ($statusActiveUserDao) {
+$app->get('/logout', function (Request $request, Response $response, $args) use (
+    $statusActiveUserDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $statusActiveUserDao->changeStatusUserLogin();
     session_destroy();

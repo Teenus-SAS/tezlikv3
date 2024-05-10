@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
@@ -12,6 +13,7 @@ use tezlikv3\dao\ProductsDao;
 
 $familiesDao = new FamiliesDao();
 $generalExpenseDistributionDao = new GeneralExpenseDistributionDao();
+$autenticationDao = new AutenticationUserDao();
 $priceProductDao = new PriceProductDao();
 $pricesUSDDao = new PriceUSDDao();
 $assignableExpenseDao = new AssignableExpenseDao();
@@ -23,7 +25,28 @@ $costMaterialsDao = new CostMaterialsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/families', function (Request $request, Response $response, $args) use ($familiesDao) {
+$app->get('/families', function (Request $request, Response $response, $args) use (
+    $familiesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -32,7 +55,29 @@ $app->get('/families', function (Request $request, Response $response, $args) us
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/expensesDistributionFamilies', function (Request $request, Response $response, $args) use ($familiesDao) {
+$app->get('/expensesDistributionFamilies', function (Request $request, Response $response, $args) use (
+    $familiesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $expensesDistribution = $familiesDao->findAllExpensesDistributionByCompany($id_company);
@@ -40,13 +85,57 @@ $app->get('/expensesDistributionFamilies', function (Request $request, Response 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/expensesDistributionFamilies/{id_family}', function (Request $request, Response $response, $args) use ($generalExpenseDistributionDao) {
+$app->get('/expensesDistributionFamilies/{id_family}', function (Request $request, Response $response, $args) use (
+    $generalExpenseDistributionDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $expensesDistribution = $generalExpenseDistributionDao->findAllExpensesDistributionByFamily($args['id_family']);
     $response->getBody()->write(json_encode($expensesDistribution, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/productsFamilies', function (Request $request, Response $response, $args) use ($familiesDao) {
+$app->get('/productsFamilies', function (Request $request, Response $response, $args) use (
+    $familiesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -55,7 +144,29 @@ $app->get('/productsFamilies', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/expensesDistributionFamiliesProducts', function (Request $request, Response $response, $args) use ($familiesDao) {
+$app->get('/expensesDistributionFamiliesProducts', function (Request $request, Response $response, $args) use (
+    $familiesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -66,6 +177,7 @@ $app->get('/expensesDistributionFamiliesProducts', function (Request $request, R
 
 $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, Response $response, $args) use (
     $familiesDao,
+    $autenticationDao,
     $assignableExpenseDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -74,6 +186,25 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -315,8 +446,28 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
 });
 
 $app->post('/addFamily', function (Request $request, Response $response, $args) use (
-    $familiesDao
+    $familiesDao,
+    $autenticationDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -342,6 +493,7 @@ $app->post('/addFamily', function (Request $request, Response $response, $args) 
 
 $app->post('/saveProductFamily', function (Request $request, Response $response, $args) use (
     $familiesDao,
+    $autenticationDao,
     $assignableExpenseDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -349,6 +501,25 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -481,7 +652,29 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateFamily', function (Request $request, Response $response, $args) use ($familiesDao) {
+$app->post('/updateFamily', function (Request $request, Response $response, $args) use (
+    $familiesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataFamily = $request->getParsedBody();
 
     $resolution = $familiesDao->updateFamily($dataFamily);
@@ -497,7 +690,30 @@ $app->post('/updateFamily', function (Request $request, Response $response, $arg
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteFamily/{id_family}', function (Request $request, Response $response, $args) use ($familiesDao, $generalExpenseDistributionDao) {
+$app->get('/deleteFamily/{id_family}', function (Request $request, Response $response, $args) use (
+    $familiesDao,
+    $autenticationDao,
+    $generalExpenseDistributionDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $expensesDistribution = $generalExpenseDistributionDao->findAllExpensesDistributionByFamily($args['id_family']);
 
     if (!$expensesDistribution) {
@@ -518,6 +734,7 @@ $app->get('/deleteFamily/{id_family}', function (Request $request, Response $res
 
 $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $request, Response $response, $args) use (
     $familiesDao,
+    $autenticationDao,
     $assignableExpenseDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -525,6 +742,25 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];

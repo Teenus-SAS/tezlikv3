@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
@@ -9,6 +10,7 @@ use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
 
 $externalServicesDao = new ExternalServicesDao();
+$autenticationDao = new AutenticationUserDao();
 $generalServicesDao = new GeneralServicesDao();
 $productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
@@ -19,16 +21,29 @@ $costMaterialsDao = new CostMaterialsDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-// $app->get('/externalservices/{id_product}', function (Request $request, Response $response, $args) use ($externalServicesDao) {
-//     session_start();
-//     $id_company = $_SESSION['id_company'];
+$app->get('/allExternalservices', function (Request $request, Response $response, $args) use (
+    $externalServicesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
 
-//     $externalServices = $externalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
-//     $response->getBody()->write(json_encode($externalServices));
-//     return $response->withHeader('Content-Type', 'application/json');
-// });
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
 
-$app->get('/allExternalservices', function (Request $request, Response $response, $args) use ($externalServicesDao) {
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $externalServices = $externalServicesDao->findAllExternalServices($id_company);
@@ -38,8 +53,28 @@ $app->get('/allExternalservices', function (Request $request, Response $response
 
 $app->post('/externalServiceDataValidation', function (Request $request, Response $response, $args) use (
     $generalServicesDao,
+    $autenticationDao,
     $productsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataExternalService = $request->getParsedBody();
 
     if (isset($dataExternalService)) {
@@ -92,6 +127,7 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 
 $app->post('/addExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
+    $autenticationDao,
     $generalServicesDao,
     $productsDao,
     $priceProductDao,
@@ -99,6 +135,25 @@ $app->post('/addExternalService', function (Request $request, Response $response
     $generalCompositeProductsDao,
     $costMaterialsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -330,11 +385,31 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
+    $autenticationDao,
     $generalServicesDao,
     $priceProductDao,
     $pricesUSDDao,
     $productsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -384,10 +459,30 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
 $app->post('/deleteExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
+    $autenticationDao,
     $priceProductDao,
     $pricesUSDDao,
     $productsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $coverage = $_SESSION['coverage'];
     $dataExternalService = $request->getParsedBody();

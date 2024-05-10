@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
@@ -17,6 +18,7 @@ use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\TpInyectionDao;
 
 $machinesDao = new MachinesDao();
+$autenticationDao = new AutenticationUserDao();
 $generalMachinesDao = new GeneralMachinesDao();
 $tpInyectionDao = new TpInyectionDao();
 $costWorkforceDao = new CostWorkforceDao();
@@ -37,7 +39,29 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/machines', function (Request $request, Response $response, $args) use ($machinesDao) {
+$app->get('/machines', function (Request $request, Response $response, $args) use (
+    $machinesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $machines = $machinesDao->findAllMachinesByCompany($id_company);
@@ -48,8 +72,28 @@ $app->get('/machines', function (Request $request, Response $response, $args) us
 /* Consultar Maquinas importadas */
 $app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use (
     $generalMachinesDao,
-    $convertDataDao
+    $convertDataDao,
+    $autenticationDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataMachine = $request->getParsedBody();
 
     if (isset($dataMachine)) {
@@ -108,6 +152,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
 /* Agregar Maquinas */
 $app->post('/addMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
+    $autenticationDao,
     $generalMachinesDao,
     $tpInyectionDao,
     $costWorkforceDao,
@@ -122,6 +167,25 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -345,6 +409,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 /* Actualizar Maquina */
 $app->post('/updateMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
+    $autenticationDao,
     $generalMachinesDao,
     $tpInyectionDao,
     $costWorkforceDao,
@@ -358,6 +423,25 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -552,6 +636,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 /* Eliminar Maquina */
 $app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
     $machinesDao,
+    $autenticationDao,
     $generalProductProcessDao,
     $indirectCostDao,
     $priceProductDao,
@@ -561,6 +646,25 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];

@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\Dao\ConversionUnitsDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\dao\CostMaterialsDao;
@@ -17,6 +18,7 @@ use tezlikv3\Dao\TrmDao;
 use tezlikv3\dao\UnitsDao;
 
 $materialsDao = new MaterialsDao();
+$autenticationDao = new AutenticationUserDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
 $generalCategoriesDao = new GeneralCategoriesDao();
 $productMaterialsDao = new ProductsMaterialsDao();
@@ -37,7 +39,29 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/materials', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
+$app->get('/materials', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $materials = $generalMaterialsDao->findAllMaterialsByCompany($id_company);
@@ -46,7 +70,29 @@ $app->get('/materials', function (Request $request, Response $response, $args) u
 });
 
 /* Consultar productos relacionados con la materia prima */
-$app->get('/productsByMaterials/{id_material}', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
+$app->get('/productsByMaterials/{id_material}', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $products = $generalMaterialsDao->findAllProductsByMaterials($args['id_material']);
     $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
@@ -55,10 +101,30 @@ $app->get('/productsByMaterials/{id_material}', function (Request $request, Resp
 /* Consultar Materias prima importada */
 $app->post('/materialsDataValidation', function (Request $request, Response $response, $args) use (
     $generalMaterialsDao,
+    $autenticationDao,
     $generalCategoriesDao,
     $magnitudesDao,
     $unitsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataMaterial = $request->getParsedBody();
 
     if (isset($dataMaterial)) {
@@ -188,6 +254,7 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
 $app->post('/addMaterials', function (Request $request, Response $response, $args) use (
     $materialsDao,
+    $autenticationDao,
     $generalMaterialsDao,
     $lastDataDao,
     $trmDao,
@@ -200,6 +267,25 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     $generalProductsDao,
     $generalCompositeProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -458,6 +544,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
 $app->post('/updateMaterials', function (Request $request, Response $response, $args) use (
     $materialsDao,
+    $autenticationDao,
     $generalMaterialsDao,
     $trmDao,
     $productMaterialsDao,
@@ -468,6 +555,25 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     $generalProductsDao,
     $generalCompositeProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -656,8 +762,28 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
 $app->post('/saveBillMaterial', function (Request $request, Response $response, $args) use (
     $generalMaterialsDao,
+    $autenticationDao,
     $filesDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
@@ -677,7 +803,29 @@ $app->post('/saveBillMaterial', function (Request $request, Response $response, 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/deleteMaterial', function (Request $request, Response $response, $args) use ($generalMaterialsDao) {
+$app->post('/deleteMaterial', function (Request $request, Response $response, $args) use (
+    $generalMaterialsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataMaterial = $request->getParsedBody();
 
     $materials = $generalMaterialsDao->deleteMaterial($dataMaterial['idMaterial']);
@@ -694,15 +842,29 @@ $app->post('/deleteMaterial', function (Request $request, Response $response, $a
 });
 
 $app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao
+    $generalMaterialsDao,
+    $autenticationDao
 ) {
-    $status = true;
+    $info = $autenticationDao->getToken();
 
-    // if ($args['op'] == 0) {
-    //     $product = $generalCompositeProductsDao->findCompositeProductByChild($args['id_material']);
-    //     if (sizeof($product) > 0)
-    //         $status = false;
-    // }
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $status = true;
 
     if ($status == true) {
         $material = $generalMaterialsDao->changeFlagMaterial($args['id_material'], $args['op']);

@@ -1,8 +1,10 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CompositeProductsDao;
 use tezlikv3\dao\DashboardProductsDao;
 
+$autenticationDao = new AutenticationUserDao();
 $dashboardProductsDao = new DashboardProductsDao();
 $compositeProductsDao = new CompositeProductsDao();
 
@@ -13,8 +15,28 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/dashboardPricesProducts/{id_product}', function (Request $request, Response $response, $args) use (
     $dashboardProductsDao,
-    $compositeProductsDao
+    $compositeProductsDao,
+    $autenticationDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $id_product = $args['id_product'];

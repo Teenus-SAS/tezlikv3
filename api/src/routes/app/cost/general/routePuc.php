@@ -1,21 +1,67 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\PucDao;
 
 $pucDao = new PucDao();
+$autenticationDao = new AutenticationUserDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/puc', function (Request $request, Response $response, $args) use ($pucDao) {
+$app->get('/puc', function (Request $request, Response $response, $args) use (
+    $pucDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $puc = $pucDao->findAllCountsPUC();
     $response->getBody()->write(json_encode($puc, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPuc', function (Request $request, Response $response, $args) use ($pucDao) {
+$app->post('/addPuc', function (Request $request, Response $response, $args) use (
+    $pucDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $dataPuc = $request->getParsedBody();
 
@@ -32,7 +78,29 @@ $app->post('/addPuc', function (Request $request, Response $response, $args) use
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePuc', function (Request $request, Response $response, $args) use ($pucDao) {
+$app->post('/updatePuc', function (Request $request, Response $response, $args) use (
+    $pucDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $dataPuc = $request->getParsedBody();
 
@@ -49,7 +117,29 @@ $app->post('/updatePuc', function (Request $request, Response $response, $args) 
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deletePuc/{id_puc}', function (Request $request, Response $response, $args) use ($pucDao) {
+$app->get('/deletePuc/{id_puc}', function (Request $request, Response $response, $args) use (
+    $pucDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $puc = $pucDao->deletePuc($args['id_puc']);
     if ($puc == null)
         $resp = array('success' => true, 'message' => 'Datos eliminado correctamente');

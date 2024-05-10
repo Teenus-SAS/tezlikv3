@@ -1,15 +1,39 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\PaymentMethodsDao;
 
 $paymentMethodsDao = new PaymentMethodsDao();
+$autenticationDao = new AutenticationUserDao();
 $generalQuotesDao = new GeneralQuotesDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/paymentMethods', function (Request $request, Response $response, $args) use ($paymentMethodsDao) {
+$app->get('/paymentMethods', function (Request $request, Response $response, $args) use (
+    $paymentMethodsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $paymentMethods = $paymentMethodsDao->findAllPaymentMethods($id_company);
@@ -18,7 +42,29 @@ $app->get('/paymentMethods', function (Request $request, Response $response, $ar
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addPaymentMethod', function (Request $request, Response $response, $arsg) use ($paymentMethodsDao) {
+$app->post('/addPaymentMethod', function (Request $request, Response $response, $arsg) use (
+    $paymentMethodsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -40,7 +86,29 @@ $app->post('/addPaymentMethod', function (Request $request, Response $response, 
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updatePaymentMethod', function (Request $request, Response $response, $arsg) use ($paymentMethodsDao) {
+$app->post('/updatePaymentMethod', function (Request $request, Response $response, $arsg) use (
+    $paymentMethodsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataMethod = $request->getParsedBody();
 
     if (empty($dataMethod['idMethod']) || empty($dataMethod['method']))
@@ -61,8 +129,27 @@ $app->post('/updatePaymentMethod', function (Request $request, Response $respons
 
 $app->get('/deletePaymentMethod/{id_method}', function (Request $request, Response $response, $args) use (
     $paymentMethodsDao,
+    $autenticationDao,
     $generalQuotesDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
 
     $quotes = $generalQuotesDao->findPaymentMethod($args['id_method']);
 

@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\NotificationsDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\SendMakeEmailDao;
@@ -7,19 +8,64 @@ use tezlikv3\dao\UsersDao;
 
 $notificationsDao = new NotificationsDao();
 $sendMakeEmailDao = new SendMakeEmailDao();
+$autenticationDao = new AutenticationUserDao();
 $sendEmailDao = new SendEmailDao();
 $usersDao = new UsersDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/notifications', function (Request $request, Response $response, $args) use ($notificationsDao) {
+$app->get('/notifications', function (Request $request, Response $response, $args) use (
+    $notificationsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $notifications = $notificationsDao->findAllNotifications();
     $response->getBody()->write(json_encode($notifications));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/recentNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
+$app->get('/recentNotification', function (Request $request, Response $response, $args) use (
+    $notificationsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -32,10 +78,30 @@ $app->get('/recentNotification', function (Request $request, Response $response,
 
 $app->post('/addNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
+    $autenticationDao,
     $usersDao,
     $sendMakeEmailDao,
     $sendEmailDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataNotifications = $request->getParsedBody();
 
     $resolution = $notificationsDao->insertNotification($dataNotifications);
@@ -64,10 +130,30 @@ $app->post('/addNotification', function (Request $request, Response $response, $
 
 $app->post('/updateNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
+    $autenticationDao,
     $usersDao,
     $sendMakeEmailDao,
     $sendEmailDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataNotifications = $request->getParsedBody();
 
     if (empty($dataNotifications['description']) || empty($dataNotifications['company']))
@@ -96,7 +182,29 @@ $app->post('/updateNotification', function (Request $request, Response $response
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/updateCheckNotification', function (Request $request, Response $response, $args) use ($notificationsDao) {
+$app->get('/updateCheckNotification', function (Request $request, Response $response, $args) use (
+    $notificationsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -112,7 +220,29 @@ $app->get('/updateCheckNotification', function (Request $request, Response $resp
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteNotification/{id_notification}', function (Request $request, Response $response, $args) use ($notificationsDao) {
+$app->get('/deleteNotification/{id_notification}', function (Request $request, Response $response, $args) use (
+    $notificationsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $notifications = $notificationsDao->deleteNotification($args['id_notification']);
 
     if ($notifications == null)

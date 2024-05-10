@@ -1,19 +1,65 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\Dao\MagnitudesDao;
 
 $magnitudesDao = new MagnitudesDao();
+$autenticationDao = new AutenticationUserDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/magnitudes', function (Request $request, Response $response, $args) use ($magnitudesDao) {
+$app->get('/magnitudes', function (Request $request, Response $response, $args) use (
+    $magnitudesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $magnitudes = $magnitudesDao->findAllMagnitudes();
     $response->getBody()->write(json_encode($magnitudes));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/addMagnitudes', function (Request $request, Response $response, $args) use ($magnitudesDao) {
+$app->post('/addMagnitudes', function (Request $request, Response $response, $args) use (
+    $magnitudesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataMagnitude = $request->getParsedBody();
 
     $magnitudes = $magnitudesDao->insertMagnitude($dataMagnitude);
@@ -29,7 +75,29 @@ $app->post('/addMagnitudes', function (Request $request, Response $response, $ar
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/updateMagnitude', function (Request $request, Response $response, $args) use ($magnitudesDao) {
+$app->post('/updateMagnitude', function (Request $request, Response $response, $args) use (
+    $magnitudesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataMagnitude = $request->getParsedBody();
 
     $magnitudes = $magnitudesDao->updateMagnitude($dataMagnitude);
@@ -45,7 +113,29 @@ $app->post('/updateMagnitude', function (Request $request, Response $response, $
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteMagnitude/{id_magnitude}', function (Request $request, Response $response, $args) use ($magnitudesDao) {
+$app->get('/deleteMagnitude/{id_magnitude}', function (Request $request, Response $response, $args) use (
+    $magnitudesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $magnitudes = $magnitudesDao->deleteMagnitude($args['id_magnitude']);
 
     if ($magnitudes == null)

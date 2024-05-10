@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CustomPricesDao;
 use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\GeneralPricesListDao;
@@ -9,6 +10,7 @@ use tezlikv3\Dao\PriceCustomDao;
 
 $customPricesDao = new CustomPricesDao();
 $generalCustomPricesDao = new GeneralCustomPricesDao();
+$autenticationDao = new AutenticationUserDao();
 $priceCustomDao = new PriceCustomDao();
 $lastDataDao = new LastDataDao();
 $generalProductsDao = new GeneralProductsDao();
@@ -17,7 +19,29 @@ $generalPricesListDao = new GeneralPricesListDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/customPrices', function (Request $request, Response $response, $args) use ($customPricesDao) {
+$app->get('/customPrices', function (Request $request, Response $response, $args) use (
+    $customPricesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -28,9 +52,29 @@ $app->get('/customPrices', function (Request $request, Response $response, $args
 
 $app->post('/customDataValidation', function (Request $request, Response $response, $args) use (
     $generalProductsDao,
+    $autenticationDao,
     $generalPricesListDao,
     $generalCustomPricesDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataCustom = $request->getParsedBody();
 
     if (isset($dataCustom)) {
@@ -113,10 +157,30 @@ $app->post('/customDataValidation', function (Request $request, Response $respon
 
 $app->post('/addCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
+    $autenticationDao,
     $generalCustomPricesDao,
     $generalPricesListDao,
     $generalProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -159,8 +223,28 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
 
 $app->post('/updateCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
+    $autenticationDao,
     $generalCustomPricesDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataCustomPrice = $request->getParsedBody();
@@ -172,12 +256,6 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
 
     if ($data['id_custom_price'] == $dataCustomPrice['idCustomPrice'] || $data['id_custom_price'] == 0) {
         $customPrices = $customPricesDao->updateCustomPrice($dataCustomPrice);
-
-        // if ($customPrices == null) {
-        //     $price = $priceCustomDao->calcPriceCustomByCustomPrice($dataCustomPrice['idCustomPrice']);
-
-        //     $customPrices = $customPricesDao->updatePrice($dataCustomPrice['idCustomPrice'], $price['custom_price']);
-        // }
 
         if ($customPrices == null)
             $resp = array('success' => true, 'message' => 'Precio modificado correctamente');
@@ -193,7 +271,29 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Response $response, $args) use ($customPricesDao) {
+$app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Response $response, $args) use (
+    $customPricesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $customPrices = $customPricesDao->deleteCustomPrice($args['id_custom_price']);
 
     if ($customPrices == null)
