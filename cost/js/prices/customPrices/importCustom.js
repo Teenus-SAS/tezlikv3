@@ -38,7 +38,7 @@ $(document).ready(function () {
           className: 'btn-success',
           callback: function () {
             sessionStorage.setItem('customImportType', 1);
-            checkImportCustom();            
+            checkImportCustom();
           }
         },
         porcentaje: {
@@ -50,11 +50,11 @@ $(document).ready(function () {
           }
         }
       }
-    }); 
+    });
   });
 
   checkImportCustom = () => {
-  $('.cardBottons').hide();
+    $('.cardBottons').hide();
 
     let form = document.getElementById('formCustom');
 
@@ -69,7 +69,7 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        if (data.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileCustom').val('');
@@ -109,13 +109,14 @@ $(document).ready(function () {
               referenceProduct: item.referencia,
               product: item.producto,
               priceName: item.lista_precio,
+              typePrice: flag_type_price,
               percentage: item.porcentaje
             };
         });
         checkCustom(customToImport, type);
       })
-      .catch(() => {
-        console.log('Ocurrio un error. Intente Nuevamente');
+      .catch((error) => {
+        console.log('Ocurrio un error. Intente Nuevamente:', error);
       });
   };
   /* Mensaje de advertencia */
@@ -136,10 +137,14 @@ $(document).ready(function () {
           toastr.error(resp.message);
           return false;
         }
+        flag_type_price == '0' ? namePrice = '(actual)' : namePrice = '(sugerido)';
 
         bootbox.confirm({
           title: '¿Desea continuar con la importación?',
-          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${resp.insert} <br>Datos a actualizar: ${resp.update}`,
+          message: `El importe se va a realizar con el precio de venta ${namePrice}.<br>
+            Se han encontrado los siguientes registros:<br><br>
+            Datos a insertar: ${resp.insert} <br>
+            Datos a actualizar: ${resp.update}.`,
           buttons: {
             confirm: {
               label: 'Si',
@@ -165,15 +170,29 @@ $(document).ready(function () {
   };
 
   saveCustomTable = (data, type) => {
+    flag_type_price == '0' ? namePrice = 'sale_price' : namePrice = 'price';
+
     $.ajax({
       type: 'POST',
       url: '/api/addCustomPrice',
       data: {
         importCustom: data,
-        type: type
+        type: type,
+        name: namePrice,
       },
       success: function (r) {
         message(r);
+
+        products = [];
+        $('#nameNotProducts').html('Productos No Agregados');
+        $('#btnSaveProducts').hide();
+        loadPriceList(1);
+
+        if (r.dataNotData.length > 1)
+          loadTblNotProducts(r.dataNotData, 1);
+        else {
+          $('#modalNotProducts').modal('hide');
+        }
       },
     });
   };
@@ -186,26 +205,33 @@ $(document).ready(function () {
     let url1 = 'assets/formatsXlsx/Precios_Personalizados.xlsx';
     let url2 = 'assets/formatsXlsx/Porcentaje_Personalizados.xlsx';
 
-    // Crear el primer enlace
-    let link1 = document.createElement('a');
-    link1.target = '_blank';
-    link1.href = url1;
+    // Función para descargar un archivo dado su URL
+    function descargarArchivo(url) {
+      return new Promise((resolve, reject) => {
+        let link = document.createElement('a');
+        link.href = url;
+        link.target = '_blank';
+        link.download = '';
+    
+        link.addEventListener('click', () => {
+          setTimeout(() => {
+            document.body.removeChild(link);
+            resolve();
+          }, 100); // Espera breve antes de eliminar el enlace
+        });
 
-    // Crear el segundo enlace
-    let link2 = document.createElement('a');
-    link2.target = '_blank';
-    link2.href = url2;
+        document.body.appendChild(link);
+        link.click();
+      });
+    }
 
-    // Agregar los enlaces al cuerpo del documento
-    document.body.appendChild(link1);
-    document.body.appendChild(link2);
-
-    // Simular clics en ambos enlaces
-    link1.click();
-    link2.click();
-
-    // Eliminar los enlaces después de la descarga
-    document.body.removeChild(link1);
-    document.body.removeChild(link2);
+    // Descargar ambos archivos simultáneamente
+    Promise.all([descargarArchivo(url1), descargarArchivo(url2)])
+      .then(() => {
+        // console.log('Descarga completada.');
+      })
+      .catch((error) => {
+        console.error('Error al descargar los archivos:', error);
+      });
   });
 });

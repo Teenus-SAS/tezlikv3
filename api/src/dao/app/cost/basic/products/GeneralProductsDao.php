@@ -38,9 +38,11 @@ class GeneralProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT * FROM products
-                                  WHERE (reference = :reference AND product = :product) 
-                                  AND id_company = :id_company");
+        $stmt = $connection->prepare("SELECT * 
+                                  FROM products p
+                                  INNER JOIN products_costs pc ON pc.id_product = p.id_product
+                                  WHERE (p.reference = :reference AND p.product = :product) 
+                                  AND p.id_company = :id_company");
         $stmt->execute([
             'reference' => trim($dataProduct['referenceProduct']),
             'product' => strtoupper(trim($dataProduct['product'])),
