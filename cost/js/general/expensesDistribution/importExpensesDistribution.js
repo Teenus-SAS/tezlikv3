@@ -35,25 +35,30 @@ $(document).ready(function () {
     }
 
     if (option == 1) {
-      bootbox.confirm({
-        title: "Importar Unidades y Ventas",
-        message:
-          "<b style='color:tomato'>¿Importación de Datos Total o Parcial?</b> La importación afectará todos los datos contenidos en la plataforma. <b>Importación Total</b>: algunos productos pueden ser desactivados en función de la información proporcionada en el archivo. Esto implica cambios en el estado de visibilidad o disponibilidad de los productos en la plataforma. <b>Importación Parcial</b>: No se desactivara ningún producto.",
+      bootbox.dialog({
+        title: 'Importe',
+        message: 'Seleccione tipo de importe que desea realizar.',
+        backdrop: 'static', // Evita que el modal se cierre haciendo clic fuera de él
+        closeButton: false, // Oculta el botón de cierre del modal
+        size: 'small',
         buttons: {
-          confirm: {
-            label: "Importación Total",
-            className: "btn-success",
+          parcial: {
+            label: 'Parcial',
+            className: 'btn-success',
+            callback: function () {
+              sessionStorage.setItem('typeExpenseD', 1);
+              checkImportExpenseD();
+            }
           },
-          cancel: {
-            label: "Importación Parcial",
-            className: "btn-warning",
-          },
-        },
-        callback: function (result) {
-          if (result) sessionStorage.setItem("typeExpenseD", 1);
-          else sessionStorage.setItem("typeExpenseD", 2);
-          checkImportExpenseD();
-        },
+          total: {
+            label: 'Total',
+            className: 'btn-danger',
+            callback: function () {
+              sessionStorage.setItem('typeExpenseD', 2);
+              checkImportExpenseD();
+            }
+          }
+        }
       });
     } else checkImportExpenseD();
   });
