@@ -38,7 +38,10 @@ class GeneralProductMaterialsDao
                                         INNER JOIN materials m ON m.id_material = pm.id_material
                                         INNER JOIN convert_units u ON u.id_unit = pm.id_unit
                                         INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
-                                        INNER JOIN (SELECT id_product, SUM(cost) AS total_cost FROM products_materials GROUP BY id_product) AS total_material_cost ON p.id_product = total_material_cost.id_product
+                                        INNER JOIN (
+                                            SELECT cpm.id_product, (SUM(cpm.cost) + IFNULL(SUM(ccp.cost), 0)) AS total_cost FROM products_materials cpm 
+                                            LEFT JOIN composite_products ccp ON ccp.id_product = cpm.id_product GROUP BY cpm.id_product
+                                            ) AS total_material_cost ON p.id_product = total_material_cost.id_product
                                       WHERE pm.id_company = :id_company
                                         AND pm.id_material IN (SELECT id_material FROM materials INNER JOIN convert_units ON convert_units.id_unit = materials.unit WHERE id_material = pm.id_material)
                                         AND p.active = 1");
