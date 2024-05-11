@@ -105,7 +105,7 @@
                                                         <?php } else { ?>
                                                             <a class="dropdown-item aEconomyScale" href="/cost/economyScale" style="display: none;">
                                                             <?php } ?>
-                                                            <i class="fas fa-balance-scale mr-1"></i> Negociaciones Eficientes
+                                                            <i class="fas fa-bullseye mr-1"></i> Negociaciones Eficientes
                                                             </a>
                                                             <?php if ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
                                                                 <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives">
