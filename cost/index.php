@@ -521,7 +521,7 @@ if (sizeof($_SESSION) == 0)
                                             let typePrice = sessionStorage.getItem('typePrice');
 
                                             let element = document.getElementsByClassName('btnPricesUSD')[0];
-
+                                            
                                             // Dolares
                                             if (typePrice == '1' || !typePrice) {
                                                 element.id = 'usd';
