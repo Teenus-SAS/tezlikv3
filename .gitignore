@@ -1,11 +1,5 @@
 env.php
-api/logs/
 api/environment.env
-api/*.env
-//*.env
-api/src/app/assets/images/avatars/
-api/src/app/assets/images/signatures/
-api/src/assets/images/products/
-api/src/assets/
+api/logs/
 api/src/assets/images/
-assets/images
+assets/images/
