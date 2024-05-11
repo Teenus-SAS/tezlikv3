@@ -204,7 +204,7 @@ $app->post('/saveFirstLogin', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_user = $_SESSION['idUser'];
     $dataUser = $request->getParsedBody();
 
@@ -248,7 +248,7 @@ $app->get('/logout', function (Request $request, Response $response, $args) use 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $statusActiveUserDao->changeStatusUserLogin();
     session_destroy();
     $response->getBody()->write(json_encode("1", JSON_NUMERIC_CHECK));

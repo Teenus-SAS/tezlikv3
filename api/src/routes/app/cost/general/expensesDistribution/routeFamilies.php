@@ -47,7 +47,7 @@ $app->get('/families', function (Request $request, Response $response, $args) us
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $families = $familiesDao->findAllFamiliesByCompany($id_company);
@@ -78,7 +78,7 @@ $app->get('/expensesDistributionFamilies', function (Request $request, Response 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $expensesDistribution = $familiesDao->findAllExpensesDistributionByCompany($id_company);
     $response->getBody()->write(json_encode($expensesDistribution, JSON_NUMERIC_CHECK));
@@ -136,7 +136,7 @@ $app->get('/productsFamilies', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $products = $familiesDao->findAllProductsFamiliesByCompany($id_company);
@@ -167,7 +167,7 @@ $app->get('/expensesDistributionFamiliesProducts', function (Request $request, R
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $products = $familiesDao->findAllProductsInFamily(0, $id_company);
@@ -205,7 +205,7 @@ $app->get('/changeTypeExpenseDistribution/{flag}', function (Request $request, R
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $flag = $args['flag'];
@@ -468,7 +468,7 @@ $app->post('/addFamily', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataFamily = $request->getParsedBody();
@@ -520,7 +520,7 @@ $app->post('/saveProductFamily', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataFamily = $request->getParsedBody();
@@ -761,7 +761,7 @@ $app->get('/deleteExpensesDistributionFamily/{id_family}', function (Request $re
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
 

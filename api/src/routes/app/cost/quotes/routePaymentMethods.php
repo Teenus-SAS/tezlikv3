@@ -34,7 +34,7 @@ $app->get('/paymentMethods', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $paymentMethods = $paymentMethodsDao->findAllPaymentMethods($id_company);
 
@@ -65,7 +65,7 @@ $app->post('/addPaymentMethod', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataMethod = $request->getParsedBody();

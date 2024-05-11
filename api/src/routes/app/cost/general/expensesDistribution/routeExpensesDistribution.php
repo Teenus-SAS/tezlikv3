@@ -59,7 +59,7 @@ $app->get('/expensesDistribution', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $expensesDistribution = $expensesDistributionDao->findAllExpensesDistributionByCompany($id_company);
     $response->getBody()->write(json_encode($expensesDistribution));
@@ -89,7 +89,7 @@ $app->get('/allProductsDistribution', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $expensesDistribution = $generalProductsDao->findAllExpensesDistributionByCompany($id_company);
     $response->getBody()->write(json_encode($expensesDistribution));
@@ -119,7 +119,7 @@ $app->get('/expensesDistributionProducts', function (Request $request, Response 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $products = $generalExpenseDistributionDao->findAllProductsNotInEDistribution($id_company);
@@ -150,7 +150,7 @@ $app->get('/expenseTotal', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $totalExpense = $totalExpenseDao->findTotalExpenseByCompany($id_company);
     $response->getBody()->write(json_encode($totalExpense, JSON_NUMERIC_CHECK));
@@ -186,7 +186,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
     $dataExpensesDistribution = $request->getParsedBody();
 
     if (isset($dataExpensesDistribution)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -292,7 +292,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];
@@ -595,7 +595,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];
@@ -827,7 +827,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataExpensesDistribution = $request->getParsedBody();
@@ -1022,7 +1022,7 @@ $app->post('/saveNewProduct', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataExpensesDistribution = $request->getParsedBody();

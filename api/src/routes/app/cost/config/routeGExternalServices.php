@@ -32,7 +32,7 @@ $app->get('/generalExternalservices', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $externalServices = $externalServicesDao->findAllExternalServices($id_company);
     $response->getBody()->write(json_encode($externalServices));
@@ -65,7 +65,7 @@ $app->post('/generalExternalServiceDataValidation', function (Request $request, 
     $dataExternalService = $request->getParsedBody();
 
     if (isset($dataExternalService)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -121,7 +121,7 @@ $app->post('/addGExternalService', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataExternalService = $request->getParsedBody();
 
@@ -190,7 +190,7 @@ $app->post('/updateGExternalService', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataExternalService = $request->getParsedBody();

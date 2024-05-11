@@ -44,7 +44,7 @@ $app->get('/historical', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $data = $historicalProductsDao->findAllHistoricalByCompany($id_company);
@@ -104,7 +104,7 @@ $app->get('/lastHistorical', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $data = $historicalProductsDao->findLastHistorical($id_company);
@@ -142,7 +142,7 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $flag_expense = $_SESSION['flag_expense'];
     $dataHistorical = $request->getParsedBody();

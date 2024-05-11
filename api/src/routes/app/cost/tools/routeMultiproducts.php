@@ -34,7 +34,7 @@ $app->get('/multiproducts', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $multiproducts = $multiproductsDao->findAllMultiproducts($id_company);
@@ -75,7 +75,7 @@ $app->post('/multiproductsDataValidation', function (Request $request, Response 
     $dataMultiproducts = $request->getParsedBody();
 
     if (isset($dataMultiproducts)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $multiproducts = $dataMultiproducts['importMultiproducts'];
@@ -144,7 +144,7 @@ $app->post('/addMultiproduct', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataProduct = $request->getParsedBody();
 

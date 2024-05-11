@@ -37,7 +37,7 @@ $app->get('/dashboardPricesProducts/{id_product}', function (Request $request, R
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $id_product = $args['id_product'];
 

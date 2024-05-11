@@ -42,7 +42,7 @@ $app->get('/costUsersAccess', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $usersAccess = $userAccessDao->findAllUsersAccess($company);
     $response->getBody()->write(json_encode($usersAccess, JSON_NUMERIC_CHECK));
@@ -72,7 +72,7 @@ $app->get('/costUserAccess', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $id_user = $_SESSION['idUser'];
     $userAccess = $userAccessDao->findUserAccess($company, $id_user);
@@ -108,7 +108,7 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataUserAccess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -170,7 +170,7 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $idUser = $_SESSION['idUser'];
 

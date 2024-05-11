@@ -43,7 +43,7 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     // Consultar rentabilidad y comision de ventas

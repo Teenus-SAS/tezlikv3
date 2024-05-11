@@ -38,7 +38,7 @@ $app->get('/priceList', function (Request $request, Response $response, $args) u
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $priceList = $priceListDao->findAllPricesListByCompany($id_company);
@@ -98,7 +98,7 @@ $app->post('/addPriceList', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataPriceList = $request->getParsedBody();
@@ -145,7 +145,7 @@ $app->post('/updatePriceList', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataPriceList = $request->getParsedBody();
 

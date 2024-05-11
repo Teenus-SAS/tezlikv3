@@ -64,7 +64,7 @@ $app->get('/checkTypeExpense', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $typeExpense = $licenseCompanyDao->findLicenseCompany($id_company);
     $response->getBody()->write(json_encode($typeExpense, JSON_NUMERIC_CHECK));
@@ -94,7 +94,7 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $typeExpense = $generalCompanyLicenseDao->updateFlagExpense($args['flag'], $id_company);
 
@@ -138,7 +138,7 @@ $app->get('/expenses', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
@@ -174,7 +174,7 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     // Calcular total del gasto
@@ -223,7 +223,7 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
     $dataExpense = $request->getParsedBody();
 
     if (isset($dataExpense)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -343,7 +343,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];
@@ -645,7 +645,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];
@@ -898,7 +898,7 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];

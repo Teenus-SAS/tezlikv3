@@ -125,7 +125,7 @@ $app->post('/addUserAdmin', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $email = $_SESSION['name'];
     $name = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();
@@ -215,7 +215,7 @@ $app->post('/updateUserAdmin', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $email = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();
 
@@ -264,7 +264,7 @@ $app->post('/deleteUserAdmin', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $email = $_SESSION['email'];
     $dataUserAdmin = $request->getParsedBody();
 

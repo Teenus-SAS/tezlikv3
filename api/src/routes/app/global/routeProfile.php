@@ -41,7 +41,7 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataUser = $request->getParsedBody();
 
     if ($dataUser['admin'] == 1) {

@@ -48,7 +48,7 @@ $app->get('/compositeProducts/{id_product}', function (Request $request, Respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $compositeProducts = $compositeProductsDao->findAllCompositeProductsByIdProduct($args['id_product'], $id_company);
@@ -79,7 +79,7 @@ $app->get('/allCompositeProducts', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $compositeProducts = $generalCompositeProductsDao->findAllCompositeProductsByCompany($id_company);
@@ -118,7 +118,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProduct = $request->getParsedBody();
@@ -264,7 +264,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProduct = $request->getParsedBody();
@@ -412,7 +412,7 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProduct = $request->getParsedBody();

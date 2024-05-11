@@ -44,7 +44,7 @@ $app->get('/allExternalservices', function (Request $request, Response $response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $externalServices = $externalServicesDao->findAllExternalServices($id_company);
     $response->getBody()->write(json_encode($externalServices));
@@ -78,7 +78,7 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
     $dataExternalService = $request->getParsedBody();
 
     if (isset($dataExternalService)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -154,7 +154,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataExternalService = $request->getParsedBody();
@@ -410,7 +410,7 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
 
@@ -483,7 +483,7 @@ $app->post('/deleteExternalService', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $coverage = $_SESSION['coverage'];
     $dataExternalService = $request->getParsedBody();
     $data = [];

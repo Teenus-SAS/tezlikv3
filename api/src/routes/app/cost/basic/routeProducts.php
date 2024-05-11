@@ -85,7 +85,7 @@ $app->get('/products', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $products = $productsDao->findAllProductsByCompany($id_company);
     $response->getBody()->write(json_encode($products));
@@ -145,7 +145,7 @@ $app->get('/productsLimit', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
 
@@ -178,7 +178,7 @@ $app->get('/inactivesProducts', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $products = $generalProductsDao->findAllInactivesProducts($id_company);
     $response->getBody()->write(json_encode($products));
@@ -208,7 +208,7 @@ $app->get('/productCost/{id_product}', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $products = $generalProductsDao->findProductCost($args['id_product'], $id_company);
     $response->getBody()->write(json_encode($products));
@@ -243,7 +243,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
     $dataProduct = $request->getParsedBody();
 
     if (isset($dataProduct)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -319,7 +319,7 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
     $dataProduct = $request->getParsedBody();
@@ -445,7 +445,7 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $id_plan = $_SESSION['plan'];
     $coverage = $_SESSION['coverage'];
@@ -761,7 +761,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
 
@@ -921,7 +921,7 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProduct = $request->getParsedBody();
@@ -1052,7 +1052,7 @@ $app->get('/changeActiveProduct/{id_product}/{op}', function (Request $request, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $flag = $_SESSION['flag_expense_distribution'];
 
@@ -1150,7 +1150,7 @@ $app->post('/activeProducts', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $flag = $_SESSION['flag_expense_distribution'];
     $dataProducts = $request->getParsedBody();
