@@ -38,7 +38,7 @@ $app->post('/changePassword', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
 
     if (isset($_SESSION['idUser'])) {
         $id = $_SESSION['idUser'];

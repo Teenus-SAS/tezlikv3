@@ -66,7 +66,7 @@ $app->get('/payroll', function (Request $request, Response $response, $args) use
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $payroll = $payrollDao->findAllPayrollByCompany($id_company);
     $response->getBody()->write(json_encode($payroll, JSON_NUMERIC_CHECK));
@@ -96,7 +96,7 @@ $app->get('/salarynet', function (Request $request, Response $response, $args) u
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $payroll = $generalPayrollDao->findSalarynetByPayroll($id_company);
     $response->getBody()->write(json_encode($payroll, JSON_NUMERIC_CHECK));
@@ -126,7 +126,7 @@ $app->get('/process/{employee}', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $process = $generalPayrollDao->findAllProcessByEmployeeNotIn($args['employee'], $id_company);
     $response->getBody()->write(json_encode($process, JSON_NUMERIC_CHECK));
@@ -160,7 +160,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
     $dataPayroll = $request->getParsedBody();
 
     if (isset($dataPayroll)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -254,7 +254,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataPayroll = $request->getParsedBody();
@@ -543,7 +543,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $type_payroll = $_SESSION['type_payroll'];
@@ -776,7 +776,7 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataPayroll = $request->getParsedBody();
@@ -985,7 +985,7 @@ $app->post('/saveRoutePayroll', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataPayroll = $request->getParsedBody();
 
     $payroll = $dataPayroll['data'];
@@ -1040,7 +1040,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataPayroll = $request->getParsedBody();
@@ -1227,7 +1227,7 @@ $app->get('/checkEmployee/{employee}', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $payroll = $generalPayrollDao->findAllPayrollByEmployee($args['employee'], $id_company);

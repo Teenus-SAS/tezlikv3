@@ -62,7 +62,7 @@ $app->post('/addPuc', function (Request $request, Response $response, $args) use
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataPuc = $request->getParsedBody();
 
     if (empty($dataPuc['numberCount']) || empty($dataPuc['count']))
@@ -101,7 +101,7 @@ $app->post('/updatePuc', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataPuc = $request->getParsedBody();
 
     if (empty($dataPuc['numberCount']) || empty($dataPuc['count']))

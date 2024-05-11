@@ -62,7 +62,7 @@ $app->get('/materials', function (Request $request, Response $response, $args) u
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $materials = $generalMaterialsDao->findAllMaterialsByCompany($id_company);
     $response->getBody()->write(json_encode($materials));
@@ -128,7 +128,7 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
     $dataMaterial = $request->getParsedBody();
 
     if (isset($dataMaterial)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -286,7 +286,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
@@ -574,7 +574,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataMaterial = $request->getParsedBody();
@@ -784,7 +784,7 @@ $app->post('/saveBillMaterial', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataMaterial = $request->getParsedBody();
 

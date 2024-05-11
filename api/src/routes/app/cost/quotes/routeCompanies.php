@@ -38,7 +38,7 @@ $app->get('/quotesCompanies', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $companies = $companiesDao->findAllCompanies($id_company);
@@ -71,7 +71,7 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataCompany = $request->getParsedBody();
@@ -126,7 +126,7 @@ $app->post('/updateQCompany', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataCompany = $request->getParsedBody();
 

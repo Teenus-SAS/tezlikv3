@@ -56,7 +56,7 @@ $app->get('/factoryLoad', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $machines = $factoryloadDao->findAllFactoryLoadByCompany($id_company);
     $response->getBody()->write(json_encode($machines, JSON_NUMERIC_CHECK));
@@ -91,7 +91,7 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
     $dataFactoryLoad = $request->getParsedBody();
 
     if (isset($dataFactoryLoad)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -168,7 +168,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataFactoryLoad = $request->getParsedBody();
@@ -493,7 +493,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataFactoryLoad = $request->getParsedBody();
@@ -661,7 +661,7 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataFactoryLoad = $request->getParsedBody();

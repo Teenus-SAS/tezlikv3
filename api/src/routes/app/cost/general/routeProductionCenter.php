@@ -36,7 +36,7 @@ $app->get('/productionCenter', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
     $response->getBody()->write(json_encode($productions, JSON_NUMERIC_CHECK));
@@ -69,7 +69,7 @@ $app->post('/productionDataValidation', function (Request $request, Response $re
     $dataPCenter = $request->getParsedBody();
 
     if (isset($dataPCenter)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -126,7 +126,7 @@ $app->post('/addPCenter', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataPCenter = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -195,7 +195,7 @@ $app->post('/updatePCenter', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataPCenter = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 

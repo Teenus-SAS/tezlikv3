@@ -91,7 +91,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     // Consultar analisis de costos por producto
@@ -176,7 +176,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $data = $request->getParsedBody();

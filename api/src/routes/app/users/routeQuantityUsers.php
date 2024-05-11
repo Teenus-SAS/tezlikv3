@@ -32,7 +32,7 @@ $app->get('/quantityUsers', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     //$dataQuantityUser = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 

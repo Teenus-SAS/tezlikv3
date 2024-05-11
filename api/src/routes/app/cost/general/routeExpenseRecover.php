@@ -44,7 +44,7 @@ $app->get('/expensesRecover', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $expensesRecover = $expenseRecoverDao->findAllExpenseRecoverByCompany($id_company);
@@ -75,7 +75,7 @@ $app->get('/expenseRecoverProducts', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $products = $generalExpenseRecoverDao->findAllProductsNotInERecover($id_company);
@@ -110,7 +110,7 @@ $app->post('/expenseRecoverDataValidation', function (Request $request, Response
     $dataExpense = $request->getParsedBody();
 
     if (isset($dataExpense)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -180,7 +180,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
 
@@ -427,7 +427,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataExpense = $request->getParsedBody();
@@ -671,7 +671,7 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataExpense = $request->getParsedBody();

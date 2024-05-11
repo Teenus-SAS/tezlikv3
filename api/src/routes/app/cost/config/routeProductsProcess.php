@@ -61,7 +61,7 @@ $app->get('/productsProcess/{idProduct}', function (Request $request, Response $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $productProcess = $productsProcessDao->findAllProductsprocessByIdProduct($args['idProduct'], $id_company);
@@ -92,7 +92,7 @@ $app->get('/allProductsProcess', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $productProcess = $generalProductsProcessDao->findAllProductsprocess($id_company);
@@ -159,7 +159,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
     $dataProductProcess = $request->getParsedBody();
 
     if (isset($dataProductProcess)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -293,7 +293,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
@@ -748,7 +748,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
@@ -987,7 +987,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
@@ -1201,7 +1201,7 @@ $app->post('/saveRouteProductProcess', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataProcess = $request->getParsedBody();
 
     $process = $dataProcess['data'];
@@ -1255,7 +1255,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProductProcess = $request->getParsedBody();
@@ -1454,7 +1454,7 @@ $app->get('/calcAllIndirectCost', function (Request $request, Response $response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $products = $productsDao->findAllProductsByCRM($id_company);

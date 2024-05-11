@@ -62,7 +62,7 @@ $app->get('/machines', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $machines = $machinesDao->findAllMachinesByCompany($id_company);
     $response->getBody()->write(json_encode($machines, JSON_NUMERIC_CHECK));
@@ -97,7 +97,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
     $dataMachine = $request->getParsedBody();
 
     if (isset($dataMachine)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -186,7 +186,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
 
@@ -442,7 +442,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataMachine = $request->getParsedBody();
@@ -665,7 +665,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataMachine = $request->getParsedBody();

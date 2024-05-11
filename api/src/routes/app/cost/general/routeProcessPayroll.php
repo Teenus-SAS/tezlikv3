@@ -32,7 +32,7 @@ $app->get('/processPayroll', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $processPayroll = $generalPayrollDao->findAllProcessByPayroll($id_company);
     $response->getBody()->write(json_encode($processPayroll, JSON_NUMERIC_CHECK));

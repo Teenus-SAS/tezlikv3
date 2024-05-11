@@ -38,7 +38,7 @@ $app->get('/process', function (Request $request, Response $response, $args) use
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $process = $processDao->findAllProcessByCompany($id_company);
     $response->getBody()->write(json_encode($process, JSON_NUMERIC_CHECK));
@@ -71,7 +71,7 @@ $app->post('/processDataValidation', function (Request $request, Response $respo
     $dataProcess = $request->getParsedBody();
 
     if (isset($dataProcess)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -129,7 +129,7 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataProcess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -214,7 +214,7 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataProcess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -263,7 +263,7 @@ $app->post('/saveRouteProcess', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataProcess = $request->getParsedBody();
 
     $process = $dataProcess['data'];

@@ -36,7 +36,7 @@ $app->get('/company', function (Request $request, Response $response, $args) use
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $company = $companyDao->findDataCompanyByCompany($id_company);
     $response->getBody()->write(json_encode($company, JSON_NUMERIC_CHECK));
@@ -69,7 +69,7 @@ $app->get('/changeDateContract/{op}', function (Request $request, Response $resp
 
     $company = [];
     if ($args['op'] == '1') {
-        session_start();
+        // session_start();
         $company[0]['id_company'] = $_SESSION['id_company'];
         date_default_timezone_set('America/Bogota');
         $date = date('Y-m-d H:i:s');

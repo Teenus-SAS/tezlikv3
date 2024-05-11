@@ -37,7 +37,7 @@ $app->get('/calcEconomyScale', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $price = $priceDao->findAllPricesByCompany($id_company);
@@ -90,7 +90,7 @@ $app->get('/changeFlagPrice/{type_price}', function (Request $request, Response 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $flag = $generalCompanyLicenseDao->updateFlagPrice($args['type_price'], $id_company);

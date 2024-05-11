@@ -75,7 +75,7 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataTrm = $request->getParsedBody();
 
@@ -136,7 +136,7 @@ $app->get('/priceUSD/{coverage}', function (Request $request, Response $response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $company = $licenceCompanyDao->findLicenseCompany($id_company);

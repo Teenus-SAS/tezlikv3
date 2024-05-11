@@ -33,7 +33,7 @@ $app->post('/checkCode', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $code = $_SESSION['code'];
     $dataCheck = $request->getParsedBody();
 

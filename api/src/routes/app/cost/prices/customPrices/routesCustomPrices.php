@@ -42,7 +42,7 @@ $app->get('/customPrices', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $customPrices = $customPricesDao->findAllCustomPricesByCompany($id_company);
@@ -78,7 +78,7 @@ $app->post('/customDataValidation', function (Request $request, Response $respon
     $dataCustom = $request->getParsedBody();
 
     if (isset($dataCustom)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -185,7 +185,7 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $dataCustom = $request->getParsedBody();
@@ -305,7 +305,7 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataCustomPrice = $request->getParsedBody();
     $data = [];

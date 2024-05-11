@@ -60,7 +60,7 @@ $app->get('/productsMaterials/{idProduct}', function (Request $request, Response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $productMaterials = $productsMaterialsDao->findAllProductsmaterialsByIdProduct($args['idProduct'], $id_company);
@@ -92,7 +92,7 @@ $app->get('/allProductsMaterials', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $productMaterials = $generalProductMaterialsDao->findAllProductsmaterials($id_company);
@@ -132,7 +132,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
     $dataProductMaterial = $request->getParsedBody();
 
     if (isset($dataProductMaterial)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -282,7 +282,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProductMaterial = $request->getParsedBody();
@@ -655,7 +655,7 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProductMaterial = $request->getParsedBody();
@@ -834,7 +834,7 @@ $app->post('/deleteProductMaterial', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataProductMaterial = $request->getParsedBody();

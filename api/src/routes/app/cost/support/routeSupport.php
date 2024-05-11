@@ -36,7 +36,7 @@ $app->post('/sendEmailSupport', function (Request $request, Response $response, 
     }
 
     $dataSupport = $request->getParsedBody();
-    session_start();
+    // session_start();
     $email = $_SESSION['email'];
 
     if (empty($dataSupport['subject']) || empty($dataSupport['message'])) {

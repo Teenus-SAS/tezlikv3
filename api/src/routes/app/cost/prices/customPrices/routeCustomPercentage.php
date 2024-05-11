@@ -44,7 +44,7 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataNotData = [];
 

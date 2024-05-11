@@ -42,7 +42,8 @@ class AutenticationUserDao
   public function getToken()
   {
     // $headers = apache_request_headers();
-
+    if (!isset($_SESSION))
+      session_start();
     if (!isset($_SESSION['token'])) {
       return 1;
     }

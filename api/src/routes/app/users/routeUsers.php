@@ -52,7 +52,7 @@ $app->get('/users', function (Request $request, Response $response, $args) use (
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     // $resp = [
     //     $users,
@@ -87,7 +87,7 @@ $app->get('/user', function (Request $request, Response $response, $args) use (
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $email = $_SESSION['email'];
     $users = $userDao->findUser($email);
     $response->getBody()->write(json_encode($users, JSON_NUMERIC_CHECK));
@@ -126,7 +126,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     //data
     $dataUser = $request->getParsedBody();
 
@@ -309,7 +309,7 @@ $app->post('/updateUser', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataUser = $request->getParsedBody();
 
     if (empty($dataUser['nameUser']) && empty($dataUser['lastnameUser'])) {
@@ -354,7 +354,7 @@ $app->post('/deleteUser', function (Request $request, Response $response, $args)
     }
 
     $dataUser = $request->getParsedBody();
-    session_start();
+    // session_start();
     $idUser = $_SESSION['idUser'];
 
     if ($dataUser['id_user'] != $idUser) {

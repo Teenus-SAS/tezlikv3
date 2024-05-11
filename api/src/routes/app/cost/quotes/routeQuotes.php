@@ -48,7 +48,7 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
 
     $quotes = $quotesDao->findAllQuotes($id_company);
@@ -84,7 +84,7 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     // $flag_indirect = $_SESSION['flag_indirect'];
     $quote = $quotesDao->findQuote($args['id_quote']);
@@ -211,7 +211,7 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $dataQuote = $request->getParsedBody();
 
@@ -390,7 +390,7 @@ $app->post('/sendQuote', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $email = $_SESSION['email'];
     $name = $_SESSION['name'];
     $id_company = $_SESSION['id_company'];

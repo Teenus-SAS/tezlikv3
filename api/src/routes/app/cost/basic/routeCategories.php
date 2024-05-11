@@ -39,7 +39,7 @@ $app->get('/categories', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $id_company = $_SESSION['id_company'];
     $categories = $categoryDao->findAllCategoryByCompany($id_company);
     $response->getBody()->write(json_encode($categories, JSON_NUMERIC_CHECK));
@@ -72,7 +72,7 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
     $dataCategory = $request->getParsedBody();
 
     if (isset($dataCategory)) {
-        session_start();
+        // session_start();
         $id_company = $_SESSION['id_company'];
 
         $insert = 0;
@@ -130,7 +130,7 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataCategory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
@@ -199,7 +199,7 @@ $app->post('/updateCategory', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    session_start();
+    // session_start();
     $dataCategory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
 
