@@ -110,7 +110,7 @@
                                                                     <?php } else { ?>
                                                                     <li class="aCustomPrices" style="display: none;">
                                                                     <?php } ?>
-                                                                    <i class="bi bi-list"></i>
+                                                                    <i class="fas fa-file-invoice-dollar"></i>
                                                                     <a href="/cost/price-list">Lista de Precios</a>
                                                                     </li>
                                                 </ul>
