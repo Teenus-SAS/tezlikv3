@@ -2,8 +2,10 @@
 
 use tezlikv3\dao\AMLotsDao;
 use tezlikv3\dao\AMProductsDao;
+use tezlikv3\dao\AutenticationUserDao;
 
 $AMLotsDao = new AMLotsDao();
+$autenticationDao = new AutenticationUserDao();
 $AMProductsDao = new AMProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -11,16 +13,32 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->post('/rawMaterialsLots', function (Request $request, Response $response, $args) use (
     $AMLotsDao,
+    $autenticationDao,
     $AMProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
     $lots = $request->getParsedBody();
-    // $id_company = 2;
-
-    // $lots = array('data' => array(array('id_product' => 109, 'unit' => 200), array('id_product' => 25, 'unit' => 100)));
-
     $id_products = array();
     foreach ($lots['data'] as $product) {
         $id_products[] = $product['idProduct'];

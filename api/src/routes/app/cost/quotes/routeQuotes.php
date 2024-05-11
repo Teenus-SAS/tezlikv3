@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\FilesDao;
@@ -11,6 +12,7 @@ use tezlikv3\dao\SendMakeEmailDao;
 
 $quotesDao = new QuotesDao();
 $quoteProductsDao = new QuoteProductsDao();
+$autenticationDao = new AutenticationUserDao();
 $lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $convertDataDao = new ConvertDataDao();
@@ -23,7 +25,29 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consultar Todos */
 
-$app->get('/quotes', function (Request $request, Response $response, $args) use ($quotesDao) {
+$app->get('/quotes', function (Request $request, Response $response, $args) use (
+    $quotesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -35,11 +59,31 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
 /* Clonar cotización */
 $app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use (
     $quotesDao,
+    $autenticationDao,
     $quoteProductsDao,
     $lastDataDao,
     $convertDataDao,
     $generalQuotesDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     // $flag_indirect = $_SESSION['flag_indirect'];
@@ -80,16 +124,29 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 /* Consultar detalle de cotizacion */
 $app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use (
     $quotesDao,
-    $quoteProductsDao,
+    $autenticationDao,
     $generalQuotesDao
 ) {
-    // session_start();
-    // $flag_indirect = $_SESSION['flag_indirect'];
-    $quote = $quotesDao->findQuote($args['id_quote']);
+    $info = $autenticationDao->getToken();
 
-    // if ($flag_indirect == '0')
-    //     $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
-    // else
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $quote = $quotesDao->findQuote($args['id_quote']);
     $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $data['quote'] = $quote;
@@ -100,16 +157,28 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
 });
 
 $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use (
-    $quotesDao,
-    $quoteProductsDao,
+    $autenticationDao,
     $generalQuotesDao
 ) {
-    // session_start();
-    // $flag_indirect = $_SESSION['flag_indirect'];
+    $info = $autenticationDao->getToken();
 
-    // if ($flag_indirect == '0')
-    //     $quotesProducts = $quoteProductsDao->findAllQuotesProductsByIdQuote($args['id_quote']);
-    // else
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $quotesProducts = $generalQuotesDao->findAllQuotesProductsAndMaterialsByIdQuote($args['id_quote']);
 
     $response->getBody()->write(json_encode($quotesProducts, JSON_NUMERIC_CHECK));
@@ -118,11 +187,30 @@ $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $re
 
 $app->post('/addQuote', function (Request $request, Response $response, $arsg) use (
     $quotesDao,
+    $autenticationDao,
     $quoteProductsDao,
     $lastDataDao,
-    $generalQuotesDao,
     $convertDataDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $dataQuote = $request->getParsedBody();
@@ -169,11 +257,29 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
 
 $app->post('/updateQuote', function (Request $request, Response $response, $args) use (
     $quotesDao,
+    $autenticationDao,
     $quoteProductsDao,
-    $lastDataDao,
-    $generalQuotesDao,
     $convertDataDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataQuote = $request->getParsedBody();
 
     $resolution = $quotesDao->updateQuote($dataQuote);
@@ -217,7 +323,30 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteQuote/{id_quote}', function (Request $request, Response $response, $args) use ($quotesDao, $quoteProductsDao) {
+$app->get('/deleteQuote/{id_quote}', function (Request $request, Response $response, $args) use (
+    $quotesDao,
+    $quoteProductsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     /* Elimina todos los productos de la cotizacion */
     $quotesProducts = $quoteProductsDao->deleteQuotesProducts($args['id_quote']);
 
@@ -237,10 +366,30 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
 
 $app->post('/sendQuote', function (Request $request, Response $response, $args) use (
     $generalQuotesDao,
+    $autenticationDao,
     $sendMakeEmailDao,
     $FilesDao,
     $sendEmailDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $email = $_SESSION['email'];
     $name = $_SESSION['name'];

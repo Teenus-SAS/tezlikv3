@@ -1,6 +1,7 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\CostMinuteDao;
@@ -13,7 +14,9 @@ use tezlikv3\dao\FactoryLoadDao;
 use tezlikv3\dao\FamiliesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
 use tezlikv3\dao\GeneralExpenseRecoverDao;
+use tezlikv3\dao\GeneralExternalServicesDao;
 use tezlikv3\dao\GeneralProductsDao;
+use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\MachinesDao;
 use tezlikv3\dao\MaterialsDao;
@@ -29,6 +32,8 @@ use tezlikv3\dao\SimulatorDao;
 $dashboardProductsDao = new DashboardProductsDao();
 $simulatorDao = new SimulatorDao();
 $externalServicesDao = new ExternalServicesDao();
+$generalServicesDao = new GeneralServicesDao();
+$autenticationDao = new AutenticationUserDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $familiesDao = new FamiliesDao();
@@ -62,10 +67,30 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     $generalExpenseRecoverDao,
     $expensesDistributionDao,
     $familiesDao,
+    $autenticationDao,
     $assignableExpenseDao,
-    $externalServicesDao,
+    $generalServicesDao,
     $simulatorDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -78,7 +103,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     // Carga fabril
     $factoryLoad = $simulatorDao->findAllFactoryLoadByProduct($args['id_product'], $id_company);
     // Servicios Externos
-    $externalServices = $externalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
+    $externalServices = $generalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
     // Nomina
     $payroll = $simulatorDao->findAllPayrollByProduct($args['id_product'], $id_company);
 
@@ -109,6 +134,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
 
 $app->post('/addSimulator', function (Request $request, Response $response, $args) use (
     $productsCostDao,
+    $autenticationDao,
     $materialsDao,
     $machinesDao,
     $minuteDepreciationDao,
@@ -131,6 +157,25 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $pricesUSDDao,
     $costCompositeProductsDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];

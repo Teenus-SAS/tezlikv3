@@ -1,10 +1,13 @@
 <?php
 
+use PHPMailer\Test\PHPMailer\AuthCRAMMD5Test;
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CategoriesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\GeneralCategoriesDao;
 
 $categoryDao = new CategoriesDao();
+$autenticationDao = new AutenticationUserDao();
 $generalCategoryDao = new GeneralCategoriesDao();
 $lastDataDao = new LastDataDao();
 
@@ -13,7 +16,29 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta todos */
 
-$app->get('/categories', function (Request $request, Response $response, $args) use ($categoryDao) {
+$app->get('/categories', function (Request $request, Response $response, $args) use (
+    $categoryDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $categories = $categoryDao->findAllCategoryByCompany($id_company);
@@ -21,7 +46,29 @@ $app->get('/categories', function (Request $request, Response $response, $args) 
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use ($generalCategoryDao) {
+$app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use (
+    $generalCategoryDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataCategory = $request->getParsedBody();
 
     if (isset($dataCategory)) {
@@ -61,8 +108,28 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
 $app->post('/addCategory', function (Request $request, Response $response, $args) use (
     $categoryDao,
     $generalCategoryDao,
-    $lastDataDao
+    $lastDataDao,
+    $autenticationDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $dataCategory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -110,8 +177,28 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
 
 $app->post('/updateCategory', function (Request $request, Response $response, $args) use (
     $categoryDao,
-    $generalCategoryDao
+    $generalCategoryDao,
+    $autenticationDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $dataCategory = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -138,7 +225,29 @@ $app->post('/updateCategory', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use ($categoryDao) {
+$app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use (
+    $categoryDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $category = $categoryDao->deleteCategory($args['id_category']);
 
     if ($category == null)

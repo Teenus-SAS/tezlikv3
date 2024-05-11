@@ -1,5 +1,6 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
@@ -7,6 +8,7 @@ use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\UsersDao;
 
 $usersDao = new UsersDao();
+$autenticationDao = new AutenticationUserDao();
 $lastDataDao = new LastDataDao();
 $userAccessDao = new CostUserAccessDao();
 $generalUAccessDao = new GeneralUserAccessDao();
@@ -17,7 +19,29 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Consulta para acceso de todos los usuarios */
 
-$app->get('/costUsersAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
+$app->get('/costUsersAccess', function (Request $request, Response $response, $args) use (
+    $userAccessDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $usersAccess = $userAccessDao->findAllUsersAccess($company);
@@ -25,7 +49,29 @@ $app->get('/costUsersAccess', function (Request $request, Response $response, $a
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/costUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
+$app->get('/costUserAccess', function (Request $request, Response $response, $args) use (
+    $userAccessDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $company = isset($_SESSION['id_company']) ? $_SESSION['id_company'] : 0;
     $id_user = $_SESSION['idUser'];
@@ -37,11 +83,31 @@ $app->get('/costUserAccess', function (Request $request, Response $response, $ar
 
 $app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
+    $autenticationDao,
     $lastDataDao,
     $generalUAccessDao,
     $usersDao,
     $companiesLicenseDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $dataUserAccess = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
@@ -81,9 +147,29 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
 
 $app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
+    $autenticationDao,
     $generalUAccessDao,
     $companiesLicenseDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
     $idUser = $_SESSION['idUser'];
@@ -122,25 +208,3 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
-
-// $app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use ($userAccessDao) {
-//     session_start();
-//     $dataUserAccess = $request->getParsedBody();
-//     $idUser = $_SESSION['idUser'];
-
-//     if ($dataUserAccess['idUser'] != $idUser) {
-
-//         $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
-//         if ($userAccess == null)
-//             $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente');
-//         else
-//             $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-//     } else {
-//         $dataUserAccess['user'] = 1;
-//         $userAccess = $userAccessDao->updateUserAccessByUsers($dataUserAccess);
-//         $resp = array('success' => true, 'message' => 'Acceso de usuario actualizado correctamente, no puede quitar permisos de usuario.');
-//     }
-
-//     $response->getBody()->write(json_encode($resp));
-//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-// });

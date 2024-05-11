@@ -1,11 +1,13 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LastDataDao;
 
 $companiesDao = new CompaniesDao();
+$autenticationDao = new AutenticationUserDao();
 $FilesDao = new FilesDao();
 $lastDataDao = new LastDataDao();
 $companiesLicDao = new CompaniesLicenseDao();
@@ -13,14 +15,58 @@ $companiesLicDao = new CompaniesLicenseDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/allCompanies', function (Request $request, Response $response, $args) use ($companiesDao) {
+$app->get('/allCompanies', function (Request $request, Response $response, $args) use (
+    $companiesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $resp = $companiesDao->findAllCompanies();
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
 //Datos de empresas activas
-$app->get('/companies/{stat}', function (Request $request, Response $response, $args) use ($companiesDao) {
+$app->get('/companies/{stat}', function (Request $request, Response $response, $args) use (
+    $companiesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $resp = $companiesDao->findAllCompaniesLicenses($args['stat']);
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -31,8 +77,28 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
     $companiesDao,
     $lastDataDao,
     $FilesDao,
+    $autenticationDao,
     $companiesLicDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataCompany = $request->getParsedBody();
     /* Agregar datos a companies */
     $company = $companiesDao->addCompany($dataCompany);
@@ -55,7 +121,30 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
 
 
 //Actualizar Empresa
-$app->post('/updateDataCompany', function (Request $request, Response $response, $args) use ($companiesDao, $FilesDao) {
+$app->post('/updateDataCompany', function (Request $request, Response $response, $args) use (
+    $companiesDao,
+    $FilesDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataCompany = $request->getParsedBody();
     $company = $companiesDao->updateCompany($dataCompany);
 

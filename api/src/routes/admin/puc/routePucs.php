@@ -1,15 +1,39 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\PucsDao;
 
 $pucsDao = new PucsDao();
+$autenticationDao = new AutenticationUserDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 
 //Obtener Cuentas generales
-$app->get('/findPUC', function (Request $request, Response $response, $args) use ($pucsDao) {
+$app->get('/findPUC', function (Request $request, Response $response, $args) use (
+    $pucsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $resp = $pucsDao->findAllCounts();
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
@@ -17,7 +41,29 @@ $app->get('/findPUC', function (Request $request, Response $response, $args) use
 
 
 //Agregar Cuenta
-$app->post('/createPUC', function (Request $request, Response $response, $args) use ($pucsDao) {
+$app->post('/createPUC', function (Request $request, Response $response, $args) use (
+    $pucsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataPuc = $request->getParsedBody();
     $respPuc = $pucsDao->insertCountsPUC($dataPuc);
 
@@ -34,7 +80,29 @@ $app->post('/createPUC', function (Request $request, Response $response, $args) 
 
 
 //Actualizar Cuenta
-$app->post('/updatePUC', function (Request $request, Response $response, $args) use ($pucsDao) {
+$app->post('/updatePUC', function (Request $request, Response $response, $args) use (
+    $pucsDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataPuc = $request->getParsedBody();
     $respPuc = $pucsDao->updateCountsPUC($dataPuc);
 

@@ -1,17 +1,42 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\EconomyScaleDao;
 use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\PricesDao;
 
 $economyScaleDao = new EconomyScaleDao();
+$autenticationDao = new AutenticationUserDao();
 $priceDao = new PricesDao();
 $generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/calcEconomyScale', function (Request $request, Response $response, $args) use ($priceDao, $economyScaleDao) {
+$app->get('/calcEconomyScale', function (Request $request, Response $response, $args) use (
+    $priceDao,
+    $economyScaleDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 
@@ -42,7 +67,29 @@ $app->get('/calcEconomyScale', function (Request $request, Response $response, $
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/changeFlagPrice/{type_price}', function (Request $request, Response $response, $args) use ($generalCompanyLicenseDao) {
+$app->get('/changeFlagPrice/{type_price}', function (Request $request, Response $response, $args) use (
+    $generalCompanyLicenseDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
     $id_company = $_SESSION['id_company'];
 

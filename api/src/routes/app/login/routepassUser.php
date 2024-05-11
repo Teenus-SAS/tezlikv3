@@ -1,10 +1,12 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\passUserDao;
 use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\SendEmailDao;
 
 $passUserDao = new passUserDao();
+$autenticationDao = new AutenticationUserDao();
 $sendMakeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
 
@@ -13,7 +15,29 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /* Change Password */
 
-$app->post('/changePassword', function (Request $request, Response $response, $args) use ($passUserDao) {
+$app->post('/changePassword', function (Request $request, Response $response, $args) use (
+    $passUserDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     session_start();
 
     if (isset($_SESSION['idUser'])) {
@@ -37,9 +61,29 @@ $app->post('/changePassword', function (Request $request, Response $response, $a
 
 $app->post('/forgotPassword', function (Request $request, Response $response, $args) use (
     $passUserDao,
+    $autenticationDao,
     $sendEmailDao,
     $sendMakeEmailDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $parsedBody = $request->getParsedBody();
     $email = trim($parsedBody["data"]);
 

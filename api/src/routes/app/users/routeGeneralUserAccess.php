@@ -1,17 +1,41 @@
 <?php
 
+use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\PlanningUserAccessDao;
 
 $costAccessUserDao = new CostUserAccessDao();
+$autenticationDao = new AutenticationUserDao();
 $planningAccessUserDao = new PlanningUserAccessDao();
 $userAccessDao = new GeneralUserAccessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-$app->get('/generalUserAccess/{id_user}', function (Request $request, Response $response, $args) use ($userAccessDao) {
+$app->get('/generalUserAccess/{id_user}', function (Request $request, Response $response, $args) use (
+    $userAccessDao,
+    $autenticationDao
+) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $usersAcces = $userAccessDao->findUserAccessByUser($args['id_user']);
     $response->getBody()->write(json_encode($usersAcces, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
@@ -19,13 +43,33 @@ $app->get('/generalUserAccess/{id_user}', function (Request $request, Response $
 
 $app->post('/updateUserAccess', function (Request $request, Response $response, $args) use (
     $costAccessUserDao,
+    $autenticationDao,
     $planningAccessUserDao,
     $generalUAccessDao
 ) {
+    $info = $autenticationDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $autenticationDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
     $dataUserAccess = $request->getParsedBody();
 
     /* Almacena los accesos */
-    $usersAccess = $costAccessUserDao->updateUserAccessByUsers($dataUserAccess);
+    $usersAccess = $costAccessUserDao->updateUserAccessByUsers($dataUserAccess, '');
     if ($usersAccess == null)
         $usersAccess = $planningAccessUserDao->updateUserAccessByUsers($dataUserAccess);
 
