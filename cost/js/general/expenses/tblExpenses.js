@@ -2,7 +2,7 @@ $(document).ready(function () {
   /* Cargue tabla de Gastos distribuidos */
   loadAllDataExpenses = async () => {
     try {
-      const dataExpenses = await searchData('/api/expenses'); 
+      const dataExpenses = await searchData('/api/expenses');
  
       sessionStorage.setItem('dataExpenses', JSON.stringify(dataExpenses));
 
@@ -60,110 +60,116 @@ $(document).ready(function () {
     //     $(this).find('td:eq(3)').html(actionsHTML); // 3 es el índice de la cuarta columna
     //   });
     // } else { 
-      tblAssExpenses = $('#tblAssExpenses').dataTable({
-        destroy: true,
-        pageLength: 50,
-        data: data,
-        dom: '<"datatable-error-console">frtip',
-        language: {
-          url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+    tblAssExpenses = $('#tblAssExpenses').dataTable({
+      destroy: true,
+      pageLength: 50,
+      data: data,
+      dom: '<"datatable-error-console">frtip',
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+      },
+      fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
+        if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
+          console.error(oSettings.json.error);
+        }
+      },
+      columns: [
+        {
+          title: 'No.',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data, type, full, meta) {
+            return meta.row + 1;
+          },
         },
-        fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
-          if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
-            console.error(oSettings.json.error);
-          }
+        {
+          title: 'Puc',
+          data: 'puc',
+          visible: false,
         },
-        columns: [
-          {
-            title: 'No.',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data, type, full, meta) {
-              return meta.row + 1;
-            },
-          },
-          {
-            title: 'Puc',
-            data: 'puc',
-            visible: false,
-          },
-          {
-            title: 'No. Cuenta',
-            data: 'number_count',
-          },
-          {
-            title: 'Cuenta',
-            data: 'count',
-          },
-          {
-            title: 'Valor',
-            data: 'expense_value',
-            className: 'classRight',
-            render: function (data) {
-              data = parseFloat(data);
-              if (Math.abs(data) < 0.01) {
-                // let decimals = contarDecimales(data);
-                // data = formatNumber(data, decimals);
-                data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-              } else
-                data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+        {
+          title: 'No. Cuenta',
+          data: 'number_count',
+        },
+        {
+          title: 'Cuenta',
+          data: 'count',
+        },
+        {
+          title: 'Valor',
+          data: 'expense_value',
+          className: 'classRight',
+          render: function (data) {
+            data = parseFloat(data);
+            if (Math.abs(data) < 0.01) {
+              // let decimals = contarDecimales(data);
+              // data = formatNumber(data, decimals);
+              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else
+              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
             
-              return data;
-            },
+            return data;
           },
-          {
-            title: 'Porcentaje',
-            data: 'participation',
-            className: 'classRight',
-            render: function (data) {
-              return `${data.toLocaleString('es-CO', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })} %`;
-            },
-          },
-          {
-            title: 'Acciones',
-            data: null,
-            className: 'uniqueClassName',
-            render: function (data) { 
-              if (op == 2 || data.id_expense_product_center == '0') {
-                var id;
-                production_center == '1' && flag_production_center == '1' && data.id_expense_product_center != '0' ? id = data.id_expense_product_center
-                  : id = data.id_expense;
-
-                return `<a href="javascript:;" <i id="${id}" class="bx bx-edit-alt updateExpenses" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
-                       <a href="javascript:;" <i id="${id}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
-              } else {
-                return '';
-              }
-            },
-          },
-        ],
-        rowGroup: {
-          dataSrc: function (row) {
-            return `<th class="text-center" colspan="6" style="font-weight: bold;"> ${row.puc} </th>`;
-          },
-          startRender: function (rows, group) {
-            return $('<tr/>').append(group);
-          },
-          className: 'odd',
         },
-        footerCallback: function (row, data, start, end, display) {
-          let expense_value = 0;
-
-          for (i = 0; i < display.length; i++) {
-            expense_value += parseFloat(data[display[i]].expense_value);
-          }
-
-          $(this.api().column(4).footer()).html(
-            `$ ${expense_value.toLocaleString('es-CO', {
-              minimumFractionDigits: 0,
-              maximumFractionDigits: 0,
-            })}`
-          );
+        {
+          title: 'Porcentaje',
+          data: 'participation',
+          className: 'classRight',
+          render: function (data) {
+            return `${data.toLocaleString('es-CO', {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })} %`;
+          },
         },
-      });
+        {
+          title: 'Acciones',
+          data: null,
+          className: 'uniqueClassName',
+          render: function (data) {
+            // if (op == 2 || data.id_expense_product_center == '0') {
+            //   var id;
+            //   production_center == '1' && flag_production_center == '1' && data.id_expense_product_center != '0' ? id = data.id_expense_product_center
+            //     : id = data.id_expense;
+              
+            //   return `<a href="javascript:;" <i id="${id}" class="bx bx-edit-alt updateExpenses" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
+            //          <a href="javascript:;" <i id="${id}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteFunction()"></i></a>`;
+            // } else {
+            //   return '';
+            // } 
+            var id;
+            production_center == '1' && flag_production_center == '1' && data.id_expense_product_center != '0' ? id = data.id_expense_product_center
+              : id = data.id_expense;
+            
+            return `<a href="javascript:;" <i id="${id}" class="bx bx-edit-alt updateExpenses" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
+                       <a href="javascript:;" <i id="${id}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteFunction(${op})"></i></a>`;
+          },
+        },
+      ],
+      rowGroup: {
+        dataSrc: function (row) {
+          return `<th class="text-center" colspan="6" style="font-weight: bold;"> ${row.puc} </th>`;
+        },
+        startRender: function (rows, group) {
+          return $('<tr/>').append(group);
+        },
+        className: 'odd',
+      },
+      footerCallback: function (row, data, start, end, display) {
+        let expense_value = 0;
+
+        for (i = 0; i < display.length; i++) {
+          expense_value += parseFloat(data[display[i]].expense_value);
+        }
+
+        $(this.api().column(4).footer()).html(
+          `$ ${expense_value.toLocaleString('es-CO', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}`
+        );
+      },
+    });
     // }
   }
 
