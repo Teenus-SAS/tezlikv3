@@ -74,7 +74,7 @@
                                     <li class="dropdown-submenu aAnalysisMaterials" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px; display: none;">
                                     <?php } ?>
                                     <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="bi bi-card-heading mr-1"></i>Análisis Materia Prima
+                                        <i class="fas fa-flask mr-1"></i>Análisis Materia Prima
                                         <i class="bx bx-chevron-right"></i>
                                     </a>
                                     <ul class="dropdown-menu1">
@@ -82,7 +82,7 @@
                                             <i class="bi bi-graph-up mr-1"></i> Producto
                                         </a>
                                         <a class="dropdown-item" href="/cost/analysis-materials-lot">
-                                            <i class="bi bi-graph-down mr-1"></i> Lote
+                                            <i class="fas fa-boxes mr-1"></i> Lote
                                         </a>
                                     </ul>
                                     </li>
@@ -105,14 +105,14 @@
                                                         <?php } else { ?>
                                                             <a class="dropdown-item aEconomyScale" href="/cost/economyScale" style="display: none;">
                                                             <?php } ?>
-                                                            <i class="bi bi-graph-up mr-1"></i> Negociaciones Eficientes
+                                                            <i class="fas fa-balance-scale mr-1"></i> Negociaciones Eficientes
                                                             </a>
                                                             <?php if ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1 && $_SESSION['plan_cost_economy_sale'] == 1) { ?>
                                                                 <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives">
                                                                 <?php } else { ?>
                                                                     <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
                                                                     <?php } ?>
-                                                                    <i class="bi bi-graph-down mr-1"></i> Objetivos De Ventas
+                                                                    <i class="bi bi-graph-up mr-1"></i> Objetivos De Ventas
                                                                     </a>
                                                 </ul>
                                     </li>
@@ -121,14 +121,14 @@
                                         <?php } else { ?>
                                             <a class="dropdown-item aMultiproducts" href="/cost/multiproduct" style="display: none;">
                                             <?php } ?>
-                                            <i class="bx bx-bible mr-1"></i> Punto de Equilibrio Multiproducto
+                                            <i class="fas fa-balance-scale mr-1"></i> Punto de Equilibrio Multiproducto
                                             </a>
                                             <?php if ($_SESSION['simulator'] == 1 && $_SESSION['plan_cost_simulator'] == 1) { ?>
                                                 <a class="dropdown-item aSimulator" href="/cost/simulator">
                                                 <?php } else { ?>
                                                     <a class="dropdown-item aSimulator" href="/cost/simulator" style="display: none;">
                                                     <?php } ?>
-                                                    <i class="bi bi-gear-wide-connected mr-1"></i> Simulador
+                                                    <i class="fas fa-calculator mr-1"></i> Simulador
                                                     </a>
                                                     <?php if ($_SESSION['historical'] == 1 && $_SESSION['plan_cost_historical'] == 1) { ?>
                                                         <a class="dropdown-item aHistorical" href="/cost/historical">
