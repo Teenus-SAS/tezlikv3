@@ -147,7 +147,7 @@
                                                                     <?php } else { ?>
                                                                     <li class="aExpenses" style="display: none;">
                                                                     <?php } ?>
-                                                                    <i class="bi bi-currency-dollar mr-1"></i>
+                                                                    <i class="fas fa-money-check-alt mr-1"></i>
                                                                     <a href="/cost/general-expenses">Gastos Generales</a>
                                                                     </li>
                                                         </ul>
