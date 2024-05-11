@@ -36,6 +36,7 @@ $(document).ready(function () {
     if (visible == false) await loadPriceList(1);
 
     $('.cardCreateCustomPrices').toggle(800);
+    $('.cardImportCustom').hide(800);
     $('.cardCreateCustomPercentages').hide(800);
   });
 
@@ -57,6 +58,7 @@ $(document).ready(function () {
   $(document).on('click', '.updateCustomPrice', function (e) {
     e.preventDefault();
     $('.cardCreateCustomPercentages').hide(800);
+    $('.cardImportCustom').hide(800);
 
     let data = combinedData[this.id];
     sessionStorage.setItem('dataCustomPrice', JSON.stringify(data));
@@ -79,6 +81,7 @@ $(document).ready(function () {
     op_price_list = true;
 
     $('.cardCreateCustomPrices').show(800);
+    
     $('#btnCreateCustomPrice').html('Actualizar');
 
     $('html, body').animate(

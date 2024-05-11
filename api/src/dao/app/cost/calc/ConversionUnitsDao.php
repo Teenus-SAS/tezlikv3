@@ -117,9 +117,11 @@ class ConversionUnitsDao
                 $quantity = $quantity * $unit['value'];
 
                 // $quantity = $this->calcQuantity($quantity, $unit['op'], $unit['value']);
-                return $quantity;
+                // return $quantity;
+                return ($quantity * (1 + $dataProductMaterial['waste'] / 100));
             } else
-                return $quantity;
+                // return $quantity;
+                return ($quantity * (1 + $dataProductMaterial['waste'] / 100));
         } catch (\Exception $e) {
             $message = $e->getMessage();
 

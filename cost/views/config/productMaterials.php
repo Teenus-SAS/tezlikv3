@@ -185,29 +185,29 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Referencia</label>
-                                                    <select class="form-control material" name="refMaterial" id="refMaterial"></select>
+                                                    <select class="form-control material inputs" name="refMaterial" id="refMaterial"></select>
                                                 </div>
                                                 <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Materia Prima</label>
-                                                    <select class="form-control material" name="material" id="nameMaterial"></select>
+                                                    <select class="form-control material inputs" name="material" id="nameMaterial"></select>
                                                 </div>
                                                 <div class="w-100"></div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <select class="form-control" id="units" name="unit"></select>
+                                                    <select class="form-control inputs" id="units" name="unit"></select>
                                                     <label>Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad</label>
-                                                    <input class="form-control text-center quantity" type="number" name="quantity" id="quantity">
+                                                    <input class="form-control text-center quantity inputs" type="number" name="quantity" id="quantity">
                                                 </div>
-                                                <!-- <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Desperdicio (%)</label>
                                                     <input class="form-control text-center quantity" type="number" name="waste" id="waste">
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad Total</label>
                                                     <input class="form-control text-center" type="number" name="quantityYotal" id="quantityYotal" readonly>
-                                                </div> -->
+                                                </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
                                                 </div>
@@ -255,20 +255,20 @@ if (sizeof($_SESSION) == 0)
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Referencia</label>
-                                                    <select class="form-control compositeProduct" name="refCompositeProduct" id="refCompositeProduct"></select>
+                                                    <select class="form-control compositeProduct inputs" name="refCompositeProduct" id="refCompositeProduct"></select>
                                                 </div>
                                                 <div class="col-sm-5 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Producto</label>
-                                                    <select class="form-control compositeProduct" name="compositeProduct" id="compositeProduct"></select>
+                                                    <select class="form-control compositeProduct inputs" name="compositeProduct" id="compositeProduct"></select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <select class="form-control" id="unit2" name="unit">
+                                                    <select class="form-control inputs" id="unit2" name="unit">
                                                     </select>
                                                     <label>Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad</label>
-                                                    <input class="form-control text-center" type="number" name="quantity" id="quantity2">
+                                                    <input class="form-control text-center inputs" type="number" name="quantity" id="quantity2">
                                                 </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddProduct">Adicionar</button>
@@ -293,11 +293,11 @@ if (sizeof($_SESSION) == 0)
                                             <div class="form-row">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Proceso</label>
-                                                    <select class="form-control" name="idProcess" id="idProcess"></select>
+                                                    <select class="form-control inputs" name="idProcess" id="idProcess"></select>
                                                 </div>
                                                 <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Maquina</label>
-                                                    <select class="form-control" name="idMachine" id="idMachine"></select>
+                                                    <select class="form-control inputs" name="idMachine" id="idMachine"></select>
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <?php if ($_SESSION['inyection'] == 1) { ?>
@@ -305,7 +305,7 @@ if (sizeof($_SESSION) == 0)
                                                     <?php } else { ?>
                                                         <label class="text-center">t.alistamiento (min)</label>
                                                     <?php } ?>
-                                                    <input class="form-control text-center time" type="number" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
+                                                    <input class="form-control text-center inputs time" type="number" name="enlistmentTime" id="enlistmentTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <?php if ($_SESSION['inyection'] == 1) { ?>
@@ -313,7 +313,7 @@ if (sizeof($_SESSION) == 0)
                                                     <?php } else { ?>
                                                         <label class="text-center">t.operacion (min)</label>
                                                     <?php } ?>
-                                                    <input class="form-control text-center time" type="number" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
+                                                    <input class="form-control text-center inputs time" type="number" name="operationTime" id="operationTime" data-toggle="tooltip" title="Ingrese solo el tiempo necesario para fabricar una unidad">
                                                 </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <?php if ($_SESSION['inyection'] == 1) { ?>
@@ -321,16 +321,16 @@ if (sizeof($_SESSION) == 0)
                                                     <?php } else { ?>
                                                         <label class="text-center">t.total (min)</label>
                                                     <?php } ?>
-                                                    <input class="form-control text-center" type="number" name="subTotalTime" id="subTotalTime" readonly>
+                                                    <input class="form-control text-center inputs" type="number" name="subTotalTime" id="subTotalTime" readonly>
                                                 </div>
-                                                <!-- <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label class="text-center">Eficiencia(%)</label>
                                                     <input class="form-control text-center time" type="number" name="efficiency" id="efficiency">
-                                                </div> 
+                                                </div>
                                                 <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <label class="text-center">t.total</label>
                                                     <input class="form-control text-center" type="number" name="totalTime" id="totalTime" readonly>
-                                                </div> -->
+                                                </div>
                                                 <div class="col-xs-2 mt-1">
                                                     <button class="btn btn-success" id="btnAddProcess">Adicionar</button>
                                                 </div>
@@ -392,15 +392,15 @@ if (sizeof($_SESSION) == 0)
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="display:none">
                                                         <?php } ?>
                                                         <label>Servicio</label>
-                                                        <select class="form-control" name="generalServices" id="generalServices"></select>
+                                                        <select class="form-control inputs" name="generalServices" id="generalServices"></select>
                                                         </div>
                                                         <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                             <label>Servicio</label>
-                                                            <input class="form-control" type="text" name="service" id="service">
+                                                            <input class="form-control inputs" type="text" name="service" id="service">
                                                         </div>
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                             <label>Costo</label>
-                                                            <input class="form-control text-center" type="number" name="costService" id="costService">
+                                                            <input class="form-control text-center inputs" type="number" name="costService" id="costService">
                                                         </div>
                                                         <div class="col-xs-2 mt-1">
                                                             <button class="btn btn-primary" id="btnAddService">Adicionar</button>
@@ -479,7 +479,8 @@ if (sizeof($_SESSION) == 0)
                                                             <th></th>
                                                             <th></th>
                                                             <th>Total:</th>
-                                                            <!-- <th></th> -->
+                                                            <th></th>
+                                                            <th></th>
                                                             <th></th>
                                                             <th></th>
                                                         </tr>
@@ -500,7 +501,7 @@ if (sizeof($_SESSION) == 0)
                                                             <th>Total:</th>
                                                             <th id="totalAlistment"></th>
                                                             <th id="totalOperation"></th>
-                                                            <!-- <th id="totalEfficiency"></th> -->
+                                                            <th id="totalEfficiency"></th>
                                                             <th id="totalWorkforce"></th>
                                                             <th id="totalIndirect"></th>
                                                             <?php if ($_SESSION['flag_employee'] == 1) { ?>

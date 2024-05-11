@@ -315,7 +315,6 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
-        // price_usd = 
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";

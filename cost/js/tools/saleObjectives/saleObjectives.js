@@ -1,12 +1,14 @@
 $(document).ready(function () {
     let unit = 1;
-    let cant = 1;
+    let cant = 1; 
 
     // Cuando se ingrese rentabilidad general
     $(document).on('blur', '#profitability', function () {
         if (this.value == '' || !this.value) {
             return false;
         }
+
+        sessionStorage.setItem('profitability', this.value);
 
         $('.cardBottons').hide();
 
@@ -134,7 +136,7 @@ $(document).ready(function () {
 
         /* Productos */
         let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
-        let profitability = $('#profitability').val();
+        // let profitability = $('#profitability').val();
 
         if (dataProducts.length > 0) {
             for (i = 0; i < dataProducts.length; i++) {
@@ -142,8 +144,8 @@ $(document).ready(function () {
                     referencia: dataProducts[i].reference,
                     producto: dataProducts[i].product,
                     unidades: `${isNaN(parseFloat(dataProducts[i].unitsSold)) ? 0 : parseFloat(dataProducts[i].unitsSold)}`,
-                    precio_real: parseFloat(dataProducts[i].real_price),
-                    rentabilidad: profitability,
+                    // precio_real: parseFloat(dataProducts[i].real_price),
+                    // rentabilidad: profitability,
                 });
             }
 
@@ -152,5 +154,5 @@ $(document).ready(function () {
         }
         XLSX.writeFile(wb, 'Objetivos_Ventas.xlsx');
         
-    });
+    }); 
 });

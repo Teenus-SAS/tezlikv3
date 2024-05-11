@@ -14,7 +14,7 @@ $(document).ready(function () {
     $('#btnAddService').html('Adicionar');
 
     sessionStorage.removeItem('id_service');
-
+    $('.inputs').css("border-color", "");
     $('#formAddService').trigger('reset');
   });
 
@@ -53,6 +53,7 @@ $(document).ready(function () {
   $(document).on('click', '.updateExternalService', function (e) {
     $('.cardImportExternalServices').hide(800);
     $('.cardAddService').show(800);
+    $('.inputs').css("border-color", "");
     $('#btnAddService').html('Actualizar');
 
     let row = $(this).parent().parent()[0];
@@ -72,22 +73,55 @@ $(document).ready(function () {
     );
   });
 
+  function validateForm() {
+    let emptyInputs = [];
+
+    let service = $('#service').val();
+    let costService = parseInt($('#costService').val());  
+
+    // Verificar cada campo y agregar los vacíos a la lista
+    if (!service) {
+      emptyInputs.push("#service"); 
+    }
+    if (!costService) {
+      emptyInputs.push("#costService");
+    } 
+
+    // Marcar los campos vacíos con borde rojo
+    emptyInputs.forEach(function (selector) {
+      $(selector).css("border-color", "red");
+    });
+
+    // Mostrar mensaje de error si hay campos vacíos
+    if (emptyInputs.length > 0) {
+      toastr.error("Ingrese todos los campos");
+      return false;
+    }
+
+    return true;
+  };
+
   /* Revision data servicio */
   checkDataServices = async (url, idService) => {
+
+    if (!validateForm()) {
+      return false;
+    }
+
     let idProduct = parseInt($('#selectNameProduct').val());
-    let service = $('#service').val();
-    let cost = parseFloat($('#costService').val());
+    // let service = $('#service').val();
+    // let cost = parseFloat($('#costService').val());
     let generalServices = parseFloat($('#generalServices').val());  
     isNaN(generalServices) ? generalServices = 0 : generalServices;
 
     // cost = parseFloat(strReplaceNumber(cost));
 
-    let data = idProduct * cost;
+    // let data = idProduct * cost;
 
-    if (service.trim() == '' || !service.trim() || isNaN(data) || data <= 0) {
-      toastr.error('Ingrese todos los campos');
-      return false;
-    }
+    // if (service.trim() == '' || !service.trim() || isNaN(data) || data <= 0) {
+    //   toastr.error('Ingrese todos los campos');
+    //   return false;
+    // }
 
     let dataExternalService = new FormData(formAddService);
     dataExternalService.append('idProduct', idProduct);

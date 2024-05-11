@@ -76,7 +76,7 @@ $(document).ready(function () {
             magnitude: item.magnitud,
             unit: item.unidad,
             quantity: quantity,
-            // waste: item.desperdicio,
+            waste: item.desperdicio,
             type: item.tipo,
           };
         });

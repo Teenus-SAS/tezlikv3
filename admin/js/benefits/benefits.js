@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function () { 
   $('.cardAddBenefit').hide();
 
   $(document).on('click', '.updateBenefit', function () {

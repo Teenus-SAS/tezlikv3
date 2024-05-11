@@ -78,6 +78,7 @@ $(document).ready(function () {
         if (visible == false) await loadPriceList();
 
         $('.cardCreateCustomPercentages').toggle(800);
+        $('.cardImportCustom').hide(800);
         $('.cardCreateCustomPrices').hide(800);
     }
 

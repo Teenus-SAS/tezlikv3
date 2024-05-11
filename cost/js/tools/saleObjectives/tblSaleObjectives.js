@@ -7,18 +7,27 @@ $(document).ready(function () {
 
         let parents = dataProducts.filter(item => parseInt(item.composite) == 0);
 
-        if(flag_composite_product =='1')
+        if (flag_composite_product == '1')
             sessionStorage.setItem('dataProducts', JSON.stringify(parents));
         else
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
         sessionStorage.setItem('allEconomyScale', JSON.stringify(dataEconomyScale));
 
-        if(flag_composite_product =='1')
-            loadTblProducts(parents);
+        if (flag_composite_product == '1')
+            await loadTblProducts(parents);
         else
-            loadTblProducts(dataProducts);
-    }
+            await loadTblProducts(dataProducts);
+
+        setTimeout(() => {
+            let profitability = parseFloat(sessionStorage.getItem('profitability'));
+    
+            if (!isNaN(profitability) || profitability > 0) { 
+                $('#profitability').val(profitability);
+                $('#profitability').blur();
+            }
+        }, 1000);
+    };
 
     /* Cargue tabla de Proyectos */
 

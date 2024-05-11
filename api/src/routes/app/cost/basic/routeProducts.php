@@ -827,6 +827,7 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
                 if (isset($data['totalPrice']))
                     $products = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+                else break;
 
                 if (isset($products['info'])) break;
 

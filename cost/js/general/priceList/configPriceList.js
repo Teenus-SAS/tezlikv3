@@ -51,8 +51,7 @@ $(document).ready(function () {
         $select.append(
           `<option value = ${value.id_price_list}> ${value.price_name} </option>`
         );
-      });
-      
+      });      
     }
   };
 

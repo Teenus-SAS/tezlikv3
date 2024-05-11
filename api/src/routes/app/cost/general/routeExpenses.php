@@ -864,7 +864,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $response, $args) use (
+$app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Response $response, $args) use (
     $expensesDao,
     $autenticationDao,
     $totalExpenseDao,
@@ -903,7 +903,7 @@ $app->get('/deleteExpenses/{id_expense}', function (Request $request, Response $
     $coverage = $_SESSION['coverage'];
     $flag = $_SESSION['flag_expense_distribution'];
 
-    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {
+    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1 && $args['op'] == 2) {
         $resolution = $expensesProductionCenterDao->deleteExpenses($args['id_expense']);
     } else
         $resolution = $expensesDao->deleteExpenses($args['id_expense']);

@@ -21,6 +21,7 @@ $(document).ready(function () {
     if (inyection == "1") $("#enlistmentTime").prop("readonly", true);
 
     $("#formAddProcess").trigger("reset");
+    $('.inputs').css("border-color", "");
     $("#checkMachine").prop("checked", false);
   });
 
@@ -34,11 +35,11 @@ $(document).ready(function () {
   $(document).on("click keyup", ".time", function (e) {
     let tOperation = parseFloat($("#operationTime").val());
     let tEnlistment = parseFloat($("#enlistmentTime").val());
-    // let efficiency = parseFloat($("#efficiency").val());
+    let efficiency = parseFloat($("#efficiency").val());
 
     isNaN(tOperation) ? (tOperation = 0) : tOperation;
     isNaN(tEnlistment) ? (tEnlistment = 0) : tEnlistment;
-    // isNaN(efficiency) || efficiency == 0 ? (efficiency = 100) : efficiency;
+    isNaN(efficiency) || efficiency == 0 ? (efficiency = 100) : efficiency;
 
     // Subtotal
     if (inyection == 1)
@@ -50,10 +51,10 @@ $(document).ready(function () {
     $("#subTotalTime").val(subtotal);
 
     // Total
-    // total = subtotal / (efficiency / 100);
-    // !isFinite(total) ? (total = 0) : (total = total.toFixed(2));
+    total = subtotal / (efficiency / 100);
+    !isFinite(total) ? (total = 0) : (total = total.toFixed(2));
 
-    // $("#totalTime").val(total);
+    $("#totalTime").val(total);
   });
 
   /* Adicionar nuevo proceso */
@@ -73,6 +74,7 @@ $(document).ready(function () {
   $(document).on("click", ".updateProcess", function (e) {
     $(".cardImportProductsProcess").hide(800);
     $(".cardAddProcess").show(800);
+    $('.inputs').css("border-color", "");
     $("#btnAddProcess").html("Actualizar");
 
     let data = dataProductProcess.find(
@@ -92,7 +94,7 @@ $(document).ready(function () {
     } else $("#enlistmentTime").val(data.enlistment_time);
 
     $("#operationTime").val(data.operation_time);
-    // $("#efficiency").val(data.efficiency);
+    $("#efficiency").val(data.efficiency);
 
     $("#enlistmentTime").click();
 
@@ -112,32 +114,77 @@ $(document).ready(function () {
     );
   });
 
-  /* Revision data productos procesos */
-  checkDataProductsProcess = async (url, idProductProcess) => {
-    idProduct = parseInt($("#selectNameProduct").val());
+  function validateForm() {
+    let emptyInputs = [];
+
     let refP = parseInt($("#idProcess").val());
     let refM = parseInt($("#idMachine").val());
     let enlistmentTime = parseFloat($("#enlistmentTime").val());
     let operationTime = parseFloat($("#operationTime").val());
-    // let efficiency = parseFloat($("#efficiency").val());
+
+    // Verificar cada campo y agregar los vacíos a la lista
+    if (!refP) {
+      emptyInputs.push("#idProcess"); 
+    }
+    if (!refM) {
+      emptyInputs.push("#idMachine");
+    }
+    
+    if (inyection == "0") {
+      if (!enlistmentTime) {
+        emptyInputs.push("#enlistmentTime");
+      }
+    }
+
+    if (!operationTime) {
+      emptyInputs.push("#operationTime");
+    }
+
+    // Marcar los campos vacíos con borde rojo
+    emptyInputs.forEach(function (selector) {
+      $(selector).css("border-color", "red");
+    });
+
+    // Mostrar mensaje de error si hay campos vacíos
+    if (emptyInputs.length > 0) {
+      toastr.error("Ingrese todos los campos");
+      return false;
+    }
+
+    return true;
+  };
+
+  /* Revision data productos procesos */
+  checkDataProductsProcess = async (url, idProductProcess) => {
+    if (!validateForm()) {
+      return false;
+    }
+    // idProduct = parseInt($("#selectNameProduct").val());
+    // let refP = parseInt($("#idProcess").val());
+    // let refM = parseInt($("#idMachine").val());
+    // let enlistmentTime = parseFloat($("#enlistmentTime").val());
+    // let operationTime = parseFloat($("#operationTime").val());
+    // // let efficiency = parseFloat($("#efficiency").val());
     let status = parseInt(
       $("#idProcess").find("option:selected").attr("class")
     );
 
-    let data = idProduct * refP * operationTime;
+    // let data = idProduct * refP * operationTime;
 
-    if (inyection == "0") data += enlistmentTime;
+    // if (inyection == "0") data += enlistmentTime;
 
-    if (!data || isNaN(refM) || data == 0) {
-      toastr.error("Ingrese todos los campos");
-      return false;
-    }
+    // if (!data || isNaN(refM) || data == 0) {
+    //   toastr.error("Ingrese todos los campos");
+    //   return false;
+    // }
 
     let dataProductProcess1 = new FormData(formAddProcess);
     let autoMachine = 1;
 
     if (!$("#checkMachine").is(":checked")) {
       if (status === 0) {
+        $('#idProcess').css("border-color", "red");
+
         toastr.error(
           "Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto"
         );
@@ -162,7 +209,6 @@ $(document).ready(function () {
   };
 
   /* Eliminar proceso */
-
   deleteProcess = (id) => {
     // let row = $(this.activeElement).parent().parent()[0];
     // let data = tblConfigProcess.fnGetData(row);

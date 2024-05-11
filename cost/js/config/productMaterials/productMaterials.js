@@ -103,6 +103,7 @@ $(document).ready(function () {
 
     sessionStorage.removeItem("id_product_material");
 
+    $('.inputs').css("border-color", "");
     $("#formAddMaterials").trigger("reset");
   });
 
@@ -169,6 +170,7 @@ $(document).ready(function () {
   $(document).on("click", ".updateMaterials", async function (e) {
     $(".cardImportProductsMaterials").hide(800);
     $(".cardAddMaterials").show(800);
+    $('.inputs').css("border-color", "");
     $(".cardAddNewProduct").hide(800);
     $(".categories").hide(800);
     $("#btnAddMaterials").html("Actualizar");
@@ -201,36 +203,73 @@ $(document).ready(function () {
     );
   });
 
-  /* Revision data Productos materiales */
-  checkDataProductsMaterials = async (url, idProductMaterial) => {
-    let ref = parseInt($("#nameMaterial").val());
-    let unit = parseInt($("#units").val());
-    let quan = parseFloat($("#quantity").val());
-    // let waste = parseFloat($("#waste").val());
-    idProduct = parseInt($("#selectNameProduct").val());
+  function validateForm() {
+    let emptyInputs = [];
+    let refMaterial = parseInt($('#refMaterial').val());
+    let units = parseInt($('#units').val()); 
+    let quantity = parseInt($('#quantity').val());
 
-    let data = ref * unit * idProduct;
+    // Verificar cada campo y agregar los vacíos a la lista
+    if (!refMaterial) {
+      emptyInputs.push("#refMaterial");
+      emptyInputs.push("#nameMaterial");
+    }
+    if (!units) {
+      emptyInputs.push("#units");
+    }
+    if (!quantity) {
+      emptyInputs.push("#quantity");
+    }
 
-    if (!data || quan == "") {
+    // Marcar los campos vacíos con borde rojo
+    emptyInputs.forEach(function (selector) {
+      $(selector).css("border-color", "red");
+    });
+
+    // Mostrar mensaje de error si hay campos vacíos
+    if (emptyInputs.length > 0) {
       toastr.error("Ingrese todos los campos");
       return false;
     }
 
+    return true;
+  };
+
+  /* Revision data Productos materiales */
+  checkDataProductsMaterials = async (url, idProductMaterial) => {
+    if (!validateForm()) {
+      return false;
+    }
+    // let ref = parseInt($("#nameMaterial").val());
+    // let unit = parseInt($("#units").val());
+    let quan = parseFloat($("#quantity").val());
+    // // let waste = parseFloat($("#waste").val());/
+    // idProduct = parseInt($("#selectNameProduct").val());
+
+    // let data = ref * unit * idProduct;
+
+    // if (!data || quan == "") {
+    //   toastr.error("Ingrese todos los campos");
+    //   return false;
+    // }
+
     quant = 1 * quan;
 
     if (quan <= 0 || isNaN(quan)) {
+      $('#quantity').css("border-color", "red");
       toastr.error("La cantidad debe ser mayor a cero (0)");
       return false;
     }
-
+    
     let dataProductMaterial = new FormData(formAddMaterials);
     dataProductMaterial.append("idProduct", idProduct);
-
+    
     if (idProductMaterial != "" || idProductMaterial != null)
       dataProductMaterial.append("idProductMaterial", idProductMaterial);
-
+    
     let resp = await sendDataPOST(url, dataProductMaterial);
-
+    
+    // $('.inputs').css("border-color", "");
     messageMaterials(resp);
   };
 
