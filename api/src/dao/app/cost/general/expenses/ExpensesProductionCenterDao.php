@@ -20,12 +20,13 @@ class ExpensesProductionCenterDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc,
-                                              e.id_expense, IFNULL(ecp.id_expense_product_center, 0) AS id_expense_product_center, e.id_puc, p.number_count, p.count, IFNULL(ecp.id_production_center, 0) AS id_production_center, IFNULL(ecp.expense_value, 0) AS expense_value, IFNULL(ecp.participation, 0) AS participation
+        $stmt = $connection->prepare("SELECT (SELECT CONCAT(cp.number_count, ' - ', cp.count) FROM puc cp WHERE cp.number_count = (SUBSTRING(p.number_count, 1, 2))) AS puc, e.id_expense, IFNULL(ecp.id_expense_product_center, 0) AS id_expense_product_center, 
+                                              e.id_puc, p.number_count, p.count, IFNULL(ecp.id_production_center, 0) AS id_production_center, IFNULL(pc.production_center, '') AS production_center, IFNULL(ecp.expense_value, 0) AS expense_value, IFNULL(ecp.participation, 0) AS participation
                                       FROM expenses e
                                         LEFT JOIN expenses_products_centers ecp ON ecp.id_expense = e.id_expense
+                                        LEFT JOIN productions_center pc ON pc.id_production_center = ecp.id_production_center
                                         INNER JOIN puc p ON e.id_puc = p.id_puc
-                                      WHERE e.id_company = :id_company  
+                                      WHERE e.id_company = :id_company AND ecp.participation > 0
                                     ORDER BY CAST(SUBSTRING(p.number_count, 1, 2) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 4) AS UNSIGNED), CAST(SUBSTRING(p.number_count, 1, 5) AS UNSIGNED)");
         $stmt->execute(['id_company' => $id_company]);
 
