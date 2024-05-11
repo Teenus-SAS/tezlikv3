@@ -20,13 +20,17 @@ class GeneralCompositeProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT cp.id_composite_product, 0 AS id_product_material, cp.id_child_product, cp.id_product, p.reference, p.reference AS reference_material, p.product AS material, mg.id_magnitude, mg.magnitude, 
-                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, pc.cost_materials, pc.price, pc.sale_price, 'Producto' AS type
+                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, pc.cost_materials, pc.price, pc.sale_price, 'Producto' AS type, 0 AS waste, (cp.cost / total_material_cost.total_cost) * 100 AS participation
                                       FROM products p 
                                         INNER JOIN composite_products cp ON cp.id_child_product = p.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = cp.id_child_product
                                         INNER JOIN convert_units u ON u.id_unit = cp.id_unit
                                         INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
-                                      WHERE cp.id_company = :id_company AND p.active = 1 AND (SELECT active FROM products WHERE id_product = cp.id_product) = 1;");
+                                        INNER JOIN (
+                                            SELECT cpm.id_product, (SUM(cpm.cost) + IFNULL(SUM(ccp.cost), 0)) AS total_cost FROM products_materials cpm 
+                                            LEFT JOIN composite_products ccp ON ccp.id_product = cpm.id_product GROUP BY cpm.id_product
+                                            ) AS total_material_cost ON p.id_product = total_material_cost.id_product
+                                      WHERE cp.id_company = :id_company AND p.active = 1 AND (SELECT active FROM products WHERE id_product = cp.id_product) = 1");
         $stmt->execute(['id_company' => $id_company]);
         $compositeProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $compositeProducts));

@@ -44,7 +44,7 @@ class IndirectCostDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_machine, m.minute_depreciation, pp.enlistment_time, pp.operation_time 
+            $stmt = $connection->prepare("SELECT pp.id_product_process, pp.id_machine, m.minute_depreciation, pp.enlistment_time, pp.operation_time, pp.efficiency
                                       FROM products_process pp 
                                       INNER JOIN machines m ON m.id_machine = pp.id_machine 
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
@@ -79,17 +79,15 @@ class IndirectCostDao
                 $dataCostManufacturingLoad = $stmt->fetch($connection::FETCH_ASSOC);
 
                 // Calculo costo indirecto
-                $processMachineindirectCost = ($dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation']) * $dataProductMachine[$i]['operation_time'];
-                // $processMachineindirectCost = 0;
+                // $processMachineindirectCost = ($dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation']) * $dataProductMachine[$i]['operation_time'];
+                $processMachineindirectCost = 0;
 
-                // // if ($dataProductMachine[$i]['efficiency']) {
-                // $factoryAMachine = $dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation'];
+                $factoryAMachine = $dataCostManufacturingLoad['totalCostMinute'] + $dataProductMachine[$i]['minute_depreciation'];
 
-                // $dataProductMachine[$i]['efficiency'] == 0 ? $efficiency = 100 : $efficiency = $dataProductMachine[$i]['efficiency'];
+                $dataProductMachine[$i]['efficiency'] == 0 ? $efficiency = 100 : $efficiency = $dataProductMachine[$i]['efficiency'];
 
-                // $totalTime = ($dataProductMachine[$i]['enlistment_time'] + $dataProductMachine[$i]['operation_time']) / ($efficiency / 100);
-                // $processMachineindirectCost = $factoryAMachine * $totalTime;
-                // // }
+                $totalTime = ($dataProductMachine[$i]['enlistment_time'] + $dataProductMachine[$i]['operation_time']) / ($efficiency / 100);
+                $processMachineindirectCost = $factoryAMachine * $totalTime;
                 // Guardar Costo indirecto
                 $this->updateCostIndirectCost($processMachineindirectCost, $dataProductMachine[$i]['id_product_process']);
 

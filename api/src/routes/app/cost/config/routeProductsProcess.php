@@ -82,7 +82,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
         for ($i = 0; $i < sizeof($productProcess); $i++) {
             if (
                 empty($productProcess[$i]['referenceProduct']) || empty($productProcess[$i]['product']) || empty($productProcess[$i]['process']) || empty($productProcess[$i]['machine']) ||
-                $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' // || $productProcess[$i]['efficiency'] == '' 
+                $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' || $productProcess[$i]['efficiency'] == ''
                 || empty($productProcess[$i]['autoMachine'])
             ) {
                 $i = $i + 2;
@@ -91,7 +91,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
             }
             if (
                 empty(trim($productProcess[$i]['referenceProduct'])) || empty(trim($productProcess[$i]['product'])) || empty(trim($productProcess[$i]['process'])) || empty(trim($productProcess[$i]['machine'])) ||
-                trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' // || trim($productProcess[$i]['efficiency']) == '' 
+                trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' || trim($productProcess[$i]['efficiency']) == ''
                 || empty(trim($productProcess[$i]['autoMachine']))
             ) {
                 $i = $i + 2;

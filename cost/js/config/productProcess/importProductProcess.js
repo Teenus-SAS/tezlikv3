@@ -79,7 +79,7 @@ $(document).ready(function () {
             machine: item.maquina,
             enlistmentTime: item.tiempo_enlistamiento,
             operationTime: item.tiempo_operacion,
-            // efficiency: item.eficiencia,
+            efficiency: item.eficiencia,
             autoMachine: item.maquina_autonoma
           };
         });

@@ -25,8 +25,45 @@ $firstLoginDao = new FirstLoginDao();
 $contractsDao = new ContractDao();
 $historicalProductsDao = new HistoricalProductsDao();
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+
+/* Autenticacion con JWT */
+
+// $app->post('/auth', function (Request $request, Response $response, $args) use ($autenticationDao) {
+//     $dataUser = $request->getParsedBody();
+
+//     $user = $autenticationDao->findByEmail($dataUser['email']);
+
+//     /* Usuario sn datos */
+//     if ($user == null) {
+//         $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
+//         $response->getBody()->write(json_encode($resp));
+//         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+//     }
+
+//     /* Valida el password del usuario */
+//     if (!password_verify($dataUser['password'], $user['password'])) {
+//         $resp = array('error' => true, 'message' => 'Usuario y/o password incorrectos, valide nuevamente');
+//         $response->getBody()->write(json_encode($resp));
+//         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+//     }
+
+//     $now = strtotime('now');
+//     $key = 'example_key';
+
+//     $payload = [
+//         'exp' => $now + 3600,
+//         'data' => $user['id_user']
+//     ];
+
+//     $jwt = JWT::encode($payload, $key, 'HS256');
+//     $resp = array('success' => true, 'token' => $jwt);
+//     $response->getBody()->write(json_encode($resp));
+//     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+// });
 
 /* Autenticación */
 
@@ -63,9 +100,7 @@ $app->post('/userAutentication', function (Request $request, Response $response,
     }
 
     if (empty($user['rol'])) {
-
         /* valide licenciamiento empresa */
-
         $dataCompany = $licenseDao->findLicenseCompany($user['id_company']);
 
         $today = date('Y-m-d');
@@ -143,14 +178,6 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         // Guardar sesion
         if ($user['id_user'] != 1)
             $historicalUsersDao->insertHistoricalUser($user['id_user']);
-
-        /* Validar licencia 
-        if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 1)
-            $location = '../../selector/';
-        else if ($dataCompany['cost'] == 1 && $dataCompany['planning'] == 0)
-            $location = '../../cost/';
-        else if ($dataCompany['cost'] == 0 && $dataCompany['planning'] == 1)
-            $location = '../../planning/'; */
         $location = '../../cost/';
     } else {
         /* Nueva session admin*/
@@ -167,15 +194,19 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $location = '../../admin/';
     }
 
+    $now = strtotime('now');
+    $key = $_ENV['jwt_key'];
+
+    $payload = [
+        'exp' => $now + 3600,
+        'data' => $_SESSION['idUser']
+    ];
+
+    $jwt = JWT::encode($payload, $key, 'HS256');
+    $_SESSION['token'] = $jwt;
+
     /* Actualizar metodo ultimo logueo */
     $lastLoginDao->findLastLogin();
-
-    /* Genera codigo */
-    //$code = $generateCodeDao->GenerateCode();
-    //$_SESSION["code"] = $code;
-
-    /* Envio el codigo por email */
-    //$sendEmailDao->SendEmailCode($code, $user);
 
     /* Modificar el estado de la sesion del usuario en BD */
     $statusActiveUserDao->changeStatusUserLogin();
