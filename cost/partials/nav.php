@@ -79,7 +79,7 @@
                                     </a>
                                     <ul class="dropdown-menu1">
                                         <a class="dropdown-item" href="/cost/analysis-materials-product">
-                                            <i class="bi bi-graph-up mr-1"></i> Producto
+                                            <i class="bi bi-box-fill mr-1"></i> Producto
                                         </a>
                                         <a class="dropdown-item" href="/cost/analysis-materials-lot">
                                             <i class="fas fa-boxes mr-1"></i> Lote
@@ -96,7 +96,7 @@
                                             <?php } else { ?>
                                                 <a class="nav-link dropdown-toggle" style="display: none;" href="javascript:void(0)" id="navbarEconomy" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <?php } ?>
-                                                <i class="bi bi-card-heading mr-1"></i>Economias de Escala
+                                                <i class="fas fa-coins mr-1"></i>Economias de Escala
                                                 <i class="bx bx-chevron-right"></i>
                                                 </a>
                                                 <ul class="dropdown-menu1">
