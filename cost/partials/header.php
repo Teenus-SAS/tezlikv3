@@ -86,22 +86,25 @@
                                                         <i class="bi bi-file-text mr-1"></i>
                                                         <a href="/cost/product-materials">Ficha Técnica Productos</a>
                                                         </li>
-                                                        <?php if ($_SESSION['external_service'] == 1) { ?>
-                                                            <li class="aGServices">
+
+                                                        <?php if ($_SESSION['factory_load'] == 1) { ?>
+                                                            <li class="aFactoryLoad">
                                                             <?php } else { ?>
-                                                            <li class="aGServices" style="display: none;">
+                                                            <li class="aFactoryLoad" style="display: none;">
                                                             <?php } ?>
-                                                            <i class="bi bi-list"></i>
-                                                            <a href="/cost/external-services">Servicios</a>
+                                                            <i class="bi bi-gear-wide-connected mr-1"></i>
+                                                            <a href="/cost/factory-load">Carga Fabril</a>
                                                             </li>
-                                                            <?php if ($_SESSION['factory_load'] == 1) { ?>
-                                                                <li class="aFactoryLoad">
+
+                                                            <?php if ($_SESSION['external_service'] == 1) { ?>
+                                                                <li class="aGServices">
                                                                 <?php } else { ?>
-                                                                <li class="aFactoryLoad" style="display: none;">
+                                                                <li class="aGServices" style="display: none;">
                                                                 <?php } ?>
-                                                                <i class="bi bi-gear-wide-connected mr-1"></i>
-                                                                <a href="/cost/factory-load">Carga Fabril</a>
+                                                                <i class="fas fa-toolbox"></i>
+                                                                <a href="/cost/external-services">Servicios</a>
                                                                 </li>
+
                                                                 <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
                                                                     <li class="aCustomPrices">
                                                                     <?php } else { ?>
@@ -122,6 +125,7 @@
                                                         <?php } ?>
                                                         <h5 class="font-size-14 font-weight-600">General</h5>
                                                         <ul class="list-unstyled megamenu-list">
+
                                                             <?php if ($_SESSION['payroll_load'] == 1) { ?>
                                                                 <li class="aPayroll">
                                                                 <?php } else { ?>
@@ -130,6 +134,7 @@
                                                                 <i class="bi bi-people-fill mr-1"></i>
                                                                 <a href="/cost/payroll">Nómina Producción</a>
                                                                 </li>
+
                                                                 <?php if (
                                                                     $_SESSION['expense'] == 1
                                                                     || $_SESSION['expense_distribution'] == 1
@@ -155,6 +160,7 @@
                                                                 <?php } ?>
                                                                 <h5 class="font-size-14 font-weight-600">Administrador</h5>
                                                                 <ul class="list-unstyled megamenu-list">
+
                                                                     <?php if ($_SESSION['cost_backup'] == 1) { ?>
                                                                         <li class="aBackup">
                                                                         <?php } else { ?>
@@ -163,6 +169,7 @@
                                                                         <i class="bi bi-shield-lock mr-1"></i>
                                                                         <a href="javascript:;">Backup</a>
                                                                         </li>
+
                                                                         <?php if ($_SESSION['cost_user'] == 1) { ?>
                                                                             <li class="aUsers">
                                                                             <?php } else { ?>
