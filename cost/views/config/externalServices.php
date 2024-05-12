@@ -50,7 +50,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="page-title">
                                     <h3 class="mb-1 font-weight-bold text-dark">Servicios Externos</h3>
                                     <ol class="breadcrumb mb-3 mb-md-0">
-                                        <li class="breadcrumb-item active">Ingrese los productos o servicios complementarios para un producto en especifico y que solo se haya utilizado en este. Ejm: transporte, envio, etc</li>
+                                        <li class="breadcrumb-item active">Cree una lista de servicios externos predefinidos: En tu sistema, crea una lista de servicios externos comunes que se utilizan con frecuencia en las fichas técnicas de productos. Estos pueden incluir servicios como envío, embalaje, instalación, mantenimiento, etc.</li>
                                     </ol>
                                 </div>
                             </div>

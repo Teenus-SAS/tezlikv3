@@ -391,11 +391,11 @@ if (sizeof($_SESSION) == 0)
                                                     <?php } else { ?>
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="display:none">
                                                         <?php } ?>
-                                                        <label>Servicio</label>
+                                                        <label>Servicio Almacenado</label>
                                                         <select class="form-control inputs" name="generalServices" id="generalServices"></select>
                                                         </div>
                                                         <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
-                                                            <label>Servicio</label>
+                                                            <label>Servicio Externo</label>
                                                             <input class="form-control inputs" type="text" name="service" id="service">
                                                         </div>
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">

@@ -102,7 +102,7 @@
                                                                 <li class="aGServices" style="display: none;">
                                                                 <?php } ?>
                                                                 <i class="fas fa-toolbox"></i>
-                                                                <a href="/cost/external-services">Servicios</a>
+                                                                <a href="/cost/external-services">Servicios Externos</a>
                                                                 </li>
 
                                                                 <?php if ($_SESSION['custom_price'] == 1 || $_SESSION['plan_custom_price'] == 1) { ?>
