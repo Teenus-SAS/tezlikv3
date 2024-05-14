@@ -250,20 +250,28 @@ $(document).ready(function () {
           const permissions = [];
 
           permissions.push({
-            name: "Usuarios",
-            icon: data.user
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
-
-          permissions.push({
             name: "Backup",
             icon: data.backup
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
           });
+
+          permissions.push({
+            name: "R. General Costos",
+            icon: data.general_cost_report
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Usuarios",
+            icon: data.user
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });          
 
           let output = '<div class="stacked-column" style="width:60px">';
           for (const permission of permissions) {

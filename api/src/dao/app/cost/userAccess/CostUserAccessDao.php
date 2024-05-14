@@ -48,6 +48,7 @@ class CostUserAccessDao
                                             -- Menú Administrador
                                                 IFNULL(usa.user, 0) AS user, 
                                                 IFNULL(usa.backup, 0) AS backup, 
+                                                IFNULL(usa.general_cost_report, 0) AS general_cost_report, 
                                             -- Menú Cotizacion
                                                 IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, 
                                                 IFNULL(usa.quote_company, 0) AS quote_company, 
@@ -110,6 +111,7 @@ class CostUserAccessDao
                                             -- Menú Administrador
                                                 IFNULL(usa.user, 0) AS user, 
                                                 IFNULL(usa.backup, 0) AS backup, 
+                                                IFNULL(usa.general_cost_report, 0) AS general_cost_report, 
                                             -- Menú Cotizacion
                                                 IFNULL(usa.quote_payment_method, 0) AS quote_payment_method, 
                                                 IFNULL(usa.quote_company, 0) AS quote_company, 
@@ -147,10 +149,10 @@ class CostUserAccessDao
 
         try {
             $stmt = $connection->prepare("INSERT INTO cost_users_access (id_user, create_product, create_materials, create_machines, create_process, product_materials, external_service, production_center, factory_load, 
-                                                                         payroll_load, type_payroll, expense, expense_distribution, type_expense, user, backup, economy_scale, sale_objectives, multiproduct,
+                                                                         payroll_load, type_payroll, expense, expense_distribution, type_expense, user, backup, general_cost_report, economy_scale, sale_objectives, multiproduct,
                                                                          quote_payment_method, quote_company, quote_contact, price, custom_price, type_custom_price, analysis_material, simulator, historical, support, quote)
                                           VALUES (:id_user, :create_product, :create_materials, :create_machines, :create_process, :product_materials, :external_service, :production_center, :factory_load, 
-                                                  :payroll_load, :type_payroll, :expense, :expense_distribution, :type_expense, :user, :backup, :economy_scale, :sale_objectives, :multiproduct,
+                                                  :payroll_load, :type_payroll, :expense, :expense_distribution, :type_expense, :user, :backup, :general_cost_report, :economy_scale, :sale_objectives, :multiproduct,
                                                   :quote_payment_method, :quote_company, :quote_contact, :price, :custom_price, :type_custom_price, :analysis_material, :simulator, :historical, :support, :quote)");
             $stmt->execute([
                 'id_user' => $dataUser['id_user'],                              'economy_scale' => $dataUser['economyScale'],
@@ -168,6 +170,7 @@ class CostUserAccessDao
                 'type_expense' => $dataUser['typeExpenses'],                    'support' => $dataUser['support'],
                 'user' => $dataUser['costUser'],                                'quote' => $dataUser['quote'],
                 'backup' => $dataUser['costBackup'],                            'type_payroll' => $dataUser['typePayroll'],
+                'general_cost_report' => $dataUser['generalCostReport'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -182,6 +185,7 @@ class CostUserAccessDao
         $dataUser['id_user'] = $id_user;
         $dataUser['costUser'] = 1;
         $dataUser['costBackup'] = 1;
+        $dataUser['generalCostReport'] = 1;
         $dataUser['costCreateProducts'] = 1;
         $dataUser['economyScale'] = 1;
         $dataUser['saleObjectives'] = 1;
@@ -233,7 +237,7 @@ class CostUserAccessDao
 
             try {
                 $stmt = $connection->prepare("UPDATE cost_users_access SET create_product = :create_product, create_materials = :create_materials, create_machines = :create_machines, create_process = :create_process, product_materials = :product_materials, external_service = :external_service, type_payroll = :type_payroll, production_center = :production_center,
-                                                                           factory_load = :factory_load, payroll_load = :payroll_load, expense = :expense, expense_distribution = :expense_distribution, type_expense = :type_expense, user = :user, backup = :backup, economy_scale = :economy_scale, sale_objectives = :sale_objectives, multiproduct = :multiproduct, 
+                                                                           factory_load = :factory_load, payroll_load = :payroll_load, expense = :expense, expense_distribution = :expense_distribution, type_expense = :type_expense, user = :user, backup = :backup, general_cost_report = :general_cost_report, economy_scale = :economy_scale, sale_objectives = :sale_objectives, multiproduct = :multiproduct, 
                                                                            price = :price, custom_price = :custom_price, type_custom_price = :type_custom_price, analysis_material = :analysis_material, simulator = :simulator, historical = :historical, support = :support, quote = :quote, quote_payment_method = :quote_payment_method, quote_company = :quote_company, quote_contact = :quote_contact
                                               WHERE id_user = :id_user");
                 $stmt->execute([
@@ -252,6 +256,7 @@ class CostUserAccessDao
                     'type_expense' => $dataUser['typeExpenses'],                    'support' => $dataUser['support'],
                     'user' => $dataUser['costUser'],                                'quote' => $dataUser['quote'],
                     'backup' => $dataUser['costBackup'],                            'type_payroll' => $dataUser['typePayroll'],
+                    'general_cost_report' => $dataUser['generalCostReport'],
                 ]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             } catch (\Exception $e) {
