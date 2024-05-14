@@ -1,16 +1,16 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\DataCostDao;
 use tezlikv3\dao\ExpensesDao;
 use tezlikv3\dao\HistoricalExpenseDistributionDao;
 use tezlikv3\dao\HistoricalExpensesDao;
 use tezlikv3\dao\HistoricalProductsDao;
 use tezlikv3\dao\PricesDao;
+use tezlikv3\dao\WebTokenDao;
 
 $historicalProductsDao = new HistoricalProductsDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $historicalExpensesDao = new HistoricalExpensesDao();
 $expensesDao = new ExpensesDao();
 $historicalEDDao = new HistoricalExpenseDistributionDao();
@@ -23,9 +23,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/historical', function (Request $request, Response $response, $args) use (
     $historicalProductsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -37,7 +37,7 @@ $app->get('/historical', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -55,9 +55,9 @@ $app->get('/historical', function (Request $request, Response $response, $args) 
 
 $app->get('/historical/{id_historic}', function (Request $request, Response $response, $args) use (
     $historicalProductsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -69,7 +69,7 @@ $app->get('/historical/{id_historic}', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -83,9 +83,9 @@ $app->get('/historical/{id_historic}', function (Request $request, Response $res
 
 $app->get('/lastHistorical', function (Request $request, Response $response, $args) use (
     $historicalProductsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -97,7 +97,7 @@ $app->get('/lastHistorical', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -115,7 +115,7 @@ $app->get('/lastHistorical', function (Request $request, Response $response, $ar
 
 $app->post('/saveHistorical', function (Request $request, Response $response, $args) use (
     $pricesDao,
-    $autenticationDao,
+    $webTokenDao,
     $dataCostDao,
     $historicalProductsDao,
     $historicalExpensesDao,
@@ -123,7 +123,7 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
     $assignableExpenseDao,
     $expensesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -135,7 +135,7 @@ $app->post('/saveHistorical', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

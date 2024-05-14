@@ -1,14 +1,14 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\NotificationsDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\UsersDao;
+use tezlikv3\dao\WebTokenDao;
 
 $notificationsDao = new NotificationsDao();
 $sendMakeEmailDao = new SendMakeEmailDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $sendEmailDao = new SendEmailDao();
 $usersDao = new UsersDao();
 
@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/notifications', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -31,7 +31,7 @@ $app->get('/notifications', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -45,9 +45,9 @@ $app->get('/notifications', function (Request $request, Response $response, $arg
 
 $app->get('/recentNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -59,7 +59,7 @@ $app->get('/recentNotification', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -78,12 +78,12 @@ $app->get('/recentNotification', function (Request $request, Response $response,
 
 $app->post('/addNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $autenticationDao,
+    $webTokenDao,
     $usersDao,
     $sendMakeEmailDao,
     $sendEmailDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -95,7 +95,7 @@ $app->post('/addNotification', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -130,12 +130,12 @@ $app->post('/addNotification', function (Request $request, Response $response, $
 
 $app->post('/updateNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $autenticationDao,
+    $webTokenDao,
     $usersDao,
     $sendMakeEmailDao,
     $sendEmailDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -147,7 +147,7 @@ $app->post('/updateNotification', function (Request $request, Response $response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -184,9 +184,9 @@ $app->post('/updateNotification', function (Request $request, Response $response
 
 $app->get('/updateCheckNotification', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -198,7 +198,7 @@ $app->get('/updateCheckNotification', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -222,9 +222,9 @@ $app->get('/updateCheckNotification', function (Request $request, Response $resp
 
 $app->get('/deleteNotification/{id_notification}', function (Request $request, Response $response, $args) use (
     $notificationsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -236,7 +236,7 @@ $app->get('/deleteNotification/{id_notification}', function (Request $request, R
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

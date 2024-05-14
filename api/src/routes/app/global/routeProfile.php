@@ -5,10 +5,12 @@ use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\ProfileDao;
+use tezlikv3\dao\WebTokenDao;
 
 $profileDao = new ProfileDao();
 $FilesDao = new FilesDao();
 $usersDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $companyDao = new CompaniesDao();
 $licenseDao = new LicenseCompanyDao();
 
@@ -19,10 +21,11 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
     $profileDao,
     $FilesDao,
     $usersDao,
+    $webTokenDao,
     $licenseDao,
     $companyDao
 ) {
-    $info = $usersDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -34,7 +37,7 @@ $app->post('/updateProfile', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $usersDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

@@ -1,7 +1,6 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\CostMinuteDao;
@@ -28,12 +27,13 @@ use tezlikv3\dao\ProductsCostDao;
 use tezlikv3\dao\ProductsMaterialsDao;
 use tezlikv3\dao\ProductsProcessDao;
 use tezlikv3\dao\SimulatorDao;
+use tezlikv3\dao\WebTokenDao;
 
 $dashboardProductsDao = new DashboardProductsDao();
 $simulatorDao = new SimulatorDao();
 $externalServicesDao = new ExternalServicesDao();
 $generalServicesDao = new GeneralServicesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $expensesDistributionDao = new ExpensesDistributionDao();
 $generalExpenseRecoverDao = new GeneralExpenseRecoverDao();
 $familiesDao = new FamiliesDao();
@@ -67,12 +67,12 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
     $generalExpenseRecoverDao,
     $expensesDistributionDao,
     $familiesDao,
-    $autenticationDao,
+    $webTokenDao,
     $assignableExpenseDao,
     $generalServicesDao,
     $simulatorDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -84,7 +84,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -134,7 +134,7 @@ $app->get('/dashboardPricesSimulator/{id_product}', function (Request $request, 
 
 $app->post('/addSimulator', function (Request $request, Response $response, $args) use (
     $productsCostDao,
-    $autenticationDao,
+    $webTokenDao,
     $materialsDao,
     $machinesDao,
     $minuteDepreciationDao,
@@ -157,7 +157,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
     $pricesUSDDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -169,7 +169,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

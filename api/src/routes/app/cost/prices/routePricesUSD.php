@@ -1,16 +1,16 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\MaterialsDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\Dao\TrmDao;
+use tezlikv3\dao\WebTokenDao;
 
 $trmDao = new TrmDao();
 $pricesUSDDao = new PriceUSDDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $productsDao = new ProductsDao();
 $materialsDao = new MaterialsDao();
 $generalMaterialsDao = new GeneralMaterialsDao();
@@ -23,9 +23,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/currentDollar', function (Request $request, Response $response, $args) use (
     $trmDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -37,7 +37,7 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -52,11 +52,11 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
 /* Calcular valor de cobertura simulacion */
 $app->post('/simPriceUSD', function (Request $request, Response $response, $args) use (
     $pricesUSDDao,
-    $autenticationDao,
+    $webTokenDao,
     $productsDao,
     $trmDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -68,7 +68,7 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -111,13 +111,13 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
 
 $app->get('/priceUSD/{coverage}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
-    $autenticationDao,
+    $webTokenDao,
     $pricesUSDDao,
     $productsDao,
     $generalMaterialsDao,
     $trmDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -129,7 +129,7 @@ $app->get('/priceUSD/{coverage}', function (Request $request, Response $response
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

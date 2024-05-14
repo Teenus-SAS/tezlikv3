@@ -1,13 +1,13 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\GeneralPricesListDao;
 use tezlikv3\dao\PricesDao;
 use tezlikv3\dao\PricesListDao;
+use tezlikv3\dao\WebTokenDao;
 
 $priceListDao = new PricesListDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $generalPriceListDao = new GeneralPricesListDao();
 $customPriceDao = new GeneralCustomPricesDao();
 $priceDao = new PricesDao();
@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/priceList', function (Request $request, Response $response, $args) use (
     $priceListDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -31,7 +31,7 @@ $app->get('/priceList', function (Request $request, Response $response, $args) u
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -48,9 +48,9 @@ $app->get('/priceList', function (Request $request, Response $response, $args) u
 
 $app->get('/priceListByProduct/{id_product}', function (Request $request, Response $response, $args) use (
     $priceListDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -62,7 +62,7 @@ $app->get('/priceListByProduct/{id_product}', function (Request $request, Respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -76,10 +76,10 @@ $app->get('/priceListByProduct/{id_product}', function (Request $request, Respon
 
 $app->post('/addPriceList', function (Request $request, Response $response, $args) use (
     $priceListDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPriceListDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -91,7 +91,7 @@ $app->post('/addPriceList', function (Request $request, Response $response, $arg
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -123,10 +123,10 @@ $app->post('/addPriceList', function (Request $request, Response $response, $arg
 
 $app->post('/updatePriceList', function (Request $request, Response $response, $args) use (
     $priceListDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPriceListDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -138,7 +138,7 @@ $app->post('/updatePriceList', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -173,10 +173,10 @@ $app->post('/updatePriceList', function (Request $request, Response $response, $
 
 $app->get('/deletePriceList/{id_price_list}', function (Request $request, Response $response, $args) use (
     $priceListDao,
-    $autenticationDao,
+    $webTokenDao,
     $customPriceDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -188,7 +188,7 @@ $app->get('/deletePriceList/{id_price_list}', function (Request $request, Respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

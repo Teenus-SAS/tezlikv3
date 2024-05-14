@@ -1,6 +1,5 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\Dao\BenefitsDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\CostCompositeProductsDao;
@@ -18,10 +17,11 @@ use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\Dao\RisksDao;
 use tezlikv3\dao\ValueMinuteDao;
+use tezlikv3\dao\WebTokenDao;
 
 $payrollDao = new PayrollDao();
 $generalPayrollDao = new GeneralPayrollDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $valueMinuteDao = new ValueMinuteDao();
 $convertDataDao = new ConvertDataDao();
 $processDao = new GeneralProcessDao();
@@ -45,9 +45,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/payroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -59,7 +59,7 @@ $app->get('/payroll', function (Request $request, Response $response, $args) use
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -75,9 +75,9 @@ $app->get('/payroll', function (Request $request, Response $response, $args) use
 
 $app->get('/salarynet', function (Request $request, Response $response, $args) use (
     $generalPayrollDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -89,7 +89,7 @@ $app->get('/salarynet', function (Request $request, Response $response, $args) u
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -105,9 +105,9 @@ $app->get('/salarynet', function (Request $request, Response $response, $args) u
 
 $app->get('/process/{employee}', function (Request $request, Response $response, $args) use (
     $generalPayrollDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -119,7 +119,7 @@ $app->get('/process/{employee}', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -135,10 +135,10 @@ $app->get('/process/{employee}', function (Request $request, Response $response,
 
 $app->post('/payrollDataValidation', function (Request $request, Response $response, $args) use (
     $generalPayrollDao,
-    $autenticationDao,
+    $webTokenDao,
     $processDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -150,7 +150,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -218,7 +218,7 @@ $app->post('/payrollDataValidation', function (Request $request, Response $respo
 
 $app->post('/addPayroll', function (Request $request, Response $response) use (
     $payrollDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPayrollDao,
     $lastDataDao,
     $convertDataDao,
@@ -235,7 +235,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -247,7 +247,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -510,7 +510,7 @@ $app->post('/addPayroll', function (Request $request, Response $response) use (
 
 $app->post('/updatePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPayrollDao,
     $convertDataDao,
     $valueMinuteDao,
@@ -524,7 +524,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -536,7 +536,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -746,7 +746,7 @@ $app->post('/updatePayroll', function (Request $request, Response $response, $ar
 
 $app->post('/copyPayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
-    $autenticationDao,
+    $webTokenDao,
     $lastDataDao,
     $generalPayrollDao,
     $costWorkforceDao,
@@ -757,7 +757,7 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -769,7 +769,7 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -964,9 +964,9 @@ $app->post('/copyPayroll', function (Request $request, Response $response, $args
 
 $app->post('/saveRoutePayroll', function (Request $request, Response $response, $args) use (
     $generalPayrollDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -978,7 +978,7 @@ $app->post('/saveRoutePayroll', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -1010,7 +1010,7 @@ $app->post('/saveRoutePayroll', function (Request $request, Response $response, 
 
 $app->post('/deletePayroll', function (Request $request, Response $response, $args) use (
     $payrollDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPayrollDao,
     $costWorkforceDao,
     $priceProductDao,
@@ -1021,7 +1021,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $costCompositeProductsDao,
     $generalProductProcessDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -1033,7 +1033,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -1206,9 +1206,9 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
 
 $app->get('/checkEmployee/{employee}', function (Request $request, Response $response, $args) use (
     $generalPayrollDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -1220,7 +1220,7 @@ $app->get('/checkEmployee/{employee}', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

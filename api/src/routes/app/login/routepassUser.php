@@ -1,12 +1,12 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\passUserDao;
 use tezlikv3\dao\SendMakeEmailDao;
 use tezlikv3\dao\SendEmailDao;
+use tezlikv3\dao\WebTokenDao;
 
 $passUserDao = new passUserDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $sendMakeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
 
@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->post('/changePassword', function (Request $request, Response $response, $args) use (
     $passUserDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -31,7 +31,7 @@ $app->post('/changePassword', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -61,11 +61,11 @@ $app->post('/changePassword', function (Request $request, Response $response, $a
 
 $app->post('/forgotPassword', function (Request $request, Response $response, $args) use (
     $passUserDao,
-    $autenticationDao,
+    $webTokenDao,
     $sendEmailDao,
     $sendMakeEmailDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -77,7 +77,7 @@ $app->post('/forgotPassword', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

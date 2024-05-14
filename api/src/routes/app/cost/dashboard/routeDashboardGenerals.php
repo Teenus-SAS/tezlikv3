@@ -1,13 +1,13 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\DashboardGeneralDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\MultiproductsDao;
 use tezlikv3\dao\PricesDao;
+use tezlikv3\dao\WebTokenDao;
 
 $dashboardGeneralDao = new DashboardGeneralDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $pricesDao = new PricesDao();
 $LicenseCompanyDao = new LicenseCompanyDao();
 $multiproductsDao = new MultiproductsDao();
@@ -20,11 +20,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 $app->get('/dashboardExpensesGenerals', function (Request $request, Response $response, $args) use (
     $dashboardGeneralDao,
     $pricesDao,
-    $autenticationDao,
+    $webTokenDao,
     $LicenseCompanyDao,
     $multiproductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -36,7 +36,7 @@ $app->get('/dashboardExpensesGenerals', function (Request $request, Response $re
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

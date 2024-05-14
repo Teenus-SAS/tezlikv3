@@ -1,14 +1,14 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralUserAccessDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\UsersDao;
+use tezlikv3\dao\WebTokenDao;
 
 $usersDao = new UsersDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $lastDataDao = new LastDataDao();
 $userAccessDao = new CostUserAccessDao();
 $generalUAccessDao = new GeneralUserAccessDao();
@@ -21,9 +21,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/costUsersAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -35,7 +35,7 @@ $app->get('/costUsersAccess', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -51,9 +51,9 @@ $app->get('/costUsersAccess', function (Request $request, Response $response, $a
 
 $app->get('/costUserAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -65,7 +65,7 @@ $app->get('/costUserAccess', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -83,13 +83,13 @@ $app->get('/costUserAccess', function (Request $request, Response $response, $ar
 
 $app->post('/addCostUserAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
-    $autenticationDao,
+    $webTokenDao,
     $lastDataDao,
     $generalUAccessDao,
     $usersDao,
     $companiesLicenseDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -101,7 +101,7 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -147,11 +147,11 @@ $app->post('/addCostUserAccess', function (Request $request, Response $response,
 
 $app->post('/updateCostUserAccess', function (Request $request, Response $response, $args) use (
     $userAccessDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalUAccessDao,
     $companiesLicenseDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -163,7 +163,7 @@ $app->post('/updateCostUserAccess', function (Request $request, Response $respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
