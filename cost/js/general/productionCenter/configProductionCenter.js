@@ -1,15 +1,30 @@
 $(document).ready(function () {
     loadAllDataPCenter = async () => {
-        try {
-            const dataPCenter = await searchData('/api/productionCenter')
+        try { 
             let $select = $(`.selectProductionCenter`);
-            $select.empty();
+            $select.empty(); 
+            let $firstTwoSelect = $('.first-two-selectors select'); // Selecciona los primeros dos selectores independientemente de su orden
+            let $otherSelect = $('.selectProductionCenter').not('.first-two-selectors select'); // Selecciona los otros selectores
 
+            const dataPCenter = await searchData('/api/productionCenter');
+
+            // Vacía los selectores
+            $firstTwoSelect.empty();
+            $otherSelect.empty();
+
+            // Agrega las opciones a los primeros dos selectores
             $select.append(`<option disabled selected>Seleccionar</option>`);
-            $select.append(`<option value='0'>Todos</option>`);
+            $firstTwoSelect.append(`<option value='0'>Todos</option>`);
             $.each(dataPCenter, function (i, value) {
-                $select.append(
-                    `<option value = ${value.id_production_center}> ${value.production_center} </option>`
+                $firstTwoSelect.append(
+                    `<option value=${value.id_production_center}>${value.production_center}</option>`
+                );
+            });
+
+            // Agrega las opciones a los selectores restantes sin la opción 'Todos'
+            $.each(dataPCenter, function (i, value) {
+                $otherSelect.append(
+                    `<option value=${value.id_production_center}>${value.production_center}</option>`
                 );
             });
 
@@ -17,7 +32,7 @@ $(document).ready(function () {
         } catch (error) {
             console.error('Error loading data:', error);
         }
-    } 
+    };
 
     loadAllDataPCenter();
 
@@ -29,11 +44,14 @@ $(document).ready(function () {
         let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
 
         if (id_production_center == '0') {
-            data = dataExpenses;
+            let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+            var summarizedExpenses = sumAndGroupExpenses(dataExpenses);
+            summarizedExpenses.sort((a, b) => a.puc.localeCompare(b.puc));
+            data = summarizedExpenses;
         } else 
             data = dataExpenses.filter(item => item.id_production_center == id_production_center);
         
-        if (id === 'selectProductionCenterExpenses') { 
+        if (id === 'selectProductionCenterExpenses1') { 
             loadTblAssExpenses(data, 2);
         } else {
             let totalExpense = 0;
