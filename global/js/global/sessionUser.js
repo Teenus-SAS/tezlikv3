@@ -189,6 +189,7 @@ $(document).ready(function () {
   // Función para verificar la sesión del usuario
   async function checkSession() {
     const data = await getApi('/api/checkSessionUser'); 
+    debugger
     if (data === 0) {
       location.href = '/';
     }

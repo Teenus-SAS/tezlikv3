@@ -59,13 +59,13 @@
 <script src="/assets/libs/ckeditor/js/ckeditor.min.js"></script>
 <script src="/assets/js/pages/compose-mail.init.js"></script>
 
-<script src="/global/js/global/loadNotifications.js"></script>
 <script src="/global/js/global/logout.js"></script>
 
 <script src="/global/js/global/searchData.js"></script>
 <script src="/global/js/global/number.js"></script>
 
 <?php if ($_SESSION['case'] == '1') { ?>
+    <script src="/global/js/global/loadNotifications.js"></script>
     <script>
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
