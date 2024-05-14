@@ -16,6 +16,7 @@ $(document).ready(function () {
             // aExpenses: data.expense_distribution,
             aCustomPrices: data.custom_price,
             aBackup: data.backup,
+            aGeneralCostReport: data.general_cost_report,
             aUsers: data.user,
             aPaymentMethods: data.quote_payment_method,
             aCompanies: data.quote_company,
@@ -77,7 +78,8 @@ $(document).ready(function () {
 
         if (
             access.aBackup == 0 &&
-            access.aUsers == 0
+            access.aUsers == 0 &&
+            access.aGeneralCostReport == 0
         ) {
             $('#navCostAdmin').hide();
         } else

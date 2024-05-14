@@ -169,15 +169,22 @@
                                                                         <i class="bi bi-shield-lock mr-1"></i>
                                                                         <a href="javascript:;">Backup</a>
                                                                         </li>
-
-                                                                        <?php if ($_SESSION['cost_user'] == 1) { ?>
-                                                                            <li class="aUsers">
+                                                                        <?php if ($_SESSION['general_cost_report'] == 1) { ?>
+                                                                            <li class="aGeneralCostReport">
                                                                             <?php } else { ?>
-                                                                            <li class="aUsers" style="display: none;">
+                                                                            <li class="aGeneralCostReport" style="display: none;">
                                                                             <?php } ?>
-                                                                            <i class="bi bi-lock-fill mr-1"></i>
-                                                                            <a href="/cost/users">Usuarios y Accesos</a>
+                                                                            <i class="bi bi-shield-lock mr-1"></i>
+                                                                            <a href="javascript:;">Reporte General De Costos</a>
                                                                             </li>
+                                                                            <?php if ($_SESSION['cost_user'] == 1) { ?>
+                                                                                <li class="aUsers">
+                                                                                <?php } else { ?>
+                                                                                <li class="aUsers" style="display: none;">
+                                                                                <?php } ?>
+                                                                                <i class="bi bi-lock-fill mr-1"></i>
+                                                                                <a href="/cost/users">Usuarios y Accesos</a>
+                                                                                </li>
                                                                 </ul>
                                                                 </div>
                                                             </div>

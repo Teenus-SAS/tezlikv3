@@ -37,7 +37,8 @@ class GeneralUserAccessDao
                                             IFNULL(cua.production_center, 0) AS production_center, 
                                             IFNULL(cua.type_expense, 0) AS type_expense, 
                                             IFNULL(cua.user, 0) AS cost_user, 
-                                            IFNULL(cua.backup, 0) AS cost_backup , 
+                                            IFNULL(cua.backup, 0) AS cost_backup, 
+                                            IFNULL(cua.general_cost_report, 0) AS general_cost_report, 
                                             IFNULL(cua.economy_scale, 0) AS cost_economy_scale, 
                                             IFNULL(cua.multiproduct, 0) AS cost_multiproduct, 
                                             IFNULL(cua.sale_objectives, 0) AS sale_objectives, 
@@ -122,6 +123,7 @@ class GeneralUserAccessDao
         $_SESSION['flag_type_price'] = $userAccess['flag_type_price'];
         $_SESSION['cost_user'] = $userAccess['cost_user'];
         $_SESSION['cost_backup'] = $userAccess['cost_backup'];
+        $_SESSION['general_cost_report'] = $userAccess['general_cost_report'];
         $_SESSION['cost_economy_scale'] = $userAccess['cost_economy_scale'];
         $_SESSION['sale_objectives'] = $userAccess['sale_objectives'];
         $_SESSION['quote_payment_method'] = $userAccess['quote_payment_method'];
