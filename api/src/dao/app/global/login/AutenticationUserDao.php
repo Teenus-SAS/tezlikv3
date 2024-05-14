@@ -68,6 +68,13 @@ class AutenticationUserDao
       $stmt = $connection->prepare("SELECT * FROM users WHERE id_user = :id_user");
       $stmt->execute(['id_user' => $info->data]);
       $user = $stmt->fetch($connection::FETCH_ASSOC);
+
+      if (!$user) {
+        $stmt = $connection->prepare("SELECT * FROM admins WHERE id_admin = :id_admin");
+        $stmt->execute(['id_admin' => $info->data]);
+        $user = $stmt->fetch($connection::FETCH_ASSOC);
+      }
+
       return $user;
     } catch (\Exception $e) {
       return $e->getMessage();
