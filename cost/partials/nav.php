@@ -53,7 +53,7 @@
 
                         <?php if (
                             $_SESSION['analysis_material'] == 1 && $_SESSION['plan_cost_analysis_material'] == 1 ||
-                            $_SESSION['plan_cost_economy_sale'] == 1 ||
+                            ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['plan_sale_objectives']) ||
                             ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['flag_economy_scale'] == 1) ||
                             ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1) ||
                             $_SESSION['cost_multiproduct'] == 1 && $_SESSION['plan_cost_multiproduct'] == 1 ||
@@ -88,7 +88,7 @@
                                     </li>
                                     <li class="dropdown-submenu" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
                                         <?php if (
-                                            $_SESSION['plan_cost_economy_sale'] == 1 ||
+                                            ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['plan_sale_objectives'] == 1) ||
                                             ($_SESSION['cost_economy_scale'] == 1 && $_SESSION['flag_economy_scale'] == 1 ||
                                                 $_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)
                                         ) { ?>
@@ -107,7 +107,7 @@
                                                             <?php } ?>
                                                             <i class="fas fa-bullseye mr-1"></i> Negociaciones Eficientes
                                                             </a>
-                                                            <?php if ($_SESSION['plan_cost_economy_sale'] == 1 || ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)) { ?>
+                                                            <?php if ($_SESSION['plan_sale_objectives'] == 1 || ($_SESSION['sale_objectives'] == 1 && $_SESSION['flag_sales_objective'] == 1)) { ?>
                                                                 <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives">
                                                                 <?php } else { ?>
                                                                     <a class="dropdown-item aSaleObjectives" href="/cost/saleObjectives" style="display: none;">
