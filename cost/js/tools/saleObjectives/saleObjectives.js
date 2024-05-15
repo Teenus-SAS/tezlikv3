@@ -122,12 +122,25 @@ $(document).ready(function () {
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
+            saveSaleObjectives(dataProducts);
 
             $('.cardLoading').remove();
             $('.cardBottons').show(400);
         } catch (error) {
             console.log(error);
         }
+    };
+
+    // Guardar datos objetivos de ventas
+    saveSaleObjectives = (data) => {
+        $.ajax({
+            type: "POST",
+            url: "/api/saveSaleObjectives",
+            data: { products: data },
+            success: function (resp) {
+                // console.log(resp);
+            }
+        });
     };
 
     $('#btnExportSObjectives').click(function (e) {
