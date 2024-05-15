@@ -142,7 +142,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             <?php } ?>
                                             <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                                                <div class="col-xs-2 py-2 mr-2 first-two-selectors">
+                                                <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
                                                     <label>Und Produccion</label>
                                                     <select class="form-control selectProductionCenter" id="selectProductionCenterED1"></select>
                                                 </div>
