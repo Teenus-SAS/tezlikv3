@@ -1,6 +1,5 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
@@ -16,9 +15,10 @@ use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\TpInyectionDao;
+use tezlikv3\dao\WebTokenDao;
 
 $machinesDao = new MachinesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $generalMachinesDao = new GeneralMachinesDao();
 $tpInyectionDao = new TpInyectionDao();
 $costWorkforceDao = new CostWorkforceDao();
@@ -41,9 +41,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/machines', function (Request $request, Response $response, $args) use (
     $machinesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -55,7 +55,7 @@ $app->get('/machines', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -73,9 +73,9 @@ $app->get('/machines', function (Request $request, Response $response, $args) us
 $app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use (
     $generalMachinesDao,
     $convertDataDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -87,7 +87,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -152,7 +152,7 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
 /* Agregar Maquinas */
 $app->post('/addMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalMachinesDao,
     $tpInyectionDao,
     $costWorkforceDao,
@@ -167,7 +167,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -179,7 +179,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -409,7 +409,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 /* Actualizar Maquina */
 $app->post('/updateMachines', function (Request $request, Response $response, $args) use (
     $machinesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalMachinesDao,
     $tpInyectionDao,
     $costWorkforceDao,
@@ -423,7 +423,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -435,7 +435,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -636,7 +636,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 /* Eliminar Maquina */
 $app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
     $machinesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalProductProcessDao,
     $indirectCostDao,
     $priceProductDao,
@@ -646,7 +646,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -658,7 +658,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

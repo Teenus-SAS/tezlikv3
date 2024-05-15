@@ -1,16 +1,16 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CustomPricesDao;
 use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\GeneralPricesListDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\Dao\PriceCustomDao;
+use tezlikv3\dao\WebTokenDao;
 
 $customPricesDao = new CustomPricesDao();
 $generalCustomPricesDao = new GeneralCustomPricesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $priceCustomDao = new PriceCustomDao();
 $lastDataDao = new LastDataDao();
 $generalProductsDao = new GeneralProductsDao();
@@ -21,9 +21,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/customPrices', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -35,7 +35,7 @@ $app->get('/customPrices', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -52,11 +52,11 @@ $app->get('/customPrices', function (Request $request, Response $response, $args
 
 $app->post('/customDataValidation', function (Request $request, Response $response, $args) use (
     $generalProductsDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPricesListDao,
     $generalCustomPricesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -68,7 +68,7 @@ $app->post('/customDataValidation', function (Request $request, Response $respon
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -160,13 +160,13 @@ $app->post('/customDataValidation', function (Request $request, Response $respon
 
 $app->post('/addCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalCustomPricesDao,
     $generalPricesListDao,
     $generalProductsDao,
     $priceCustomDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -178,7 +178,7 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -283,10 +283,10 @@ $app->post('/addCustomPrice', function (Request $request, Response $response, $a
 
 $app->post('/updateCustomPrice', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalCustomPricesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -298,7 +298,7 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -333,9 +333,9 @@ $app->post('/updateCustomPrice', function (Request $request, Response $response,
 
 $app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -347,7 +347,7 @@ $app->get('/deleteCustomPrice/{id_custom_price}', function (Request $request, Re
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

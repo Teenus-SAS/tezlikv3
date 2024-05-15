@@ -1,7 +1,6 @@
 <?php
 
 use tezlikv3\dao\AssignableExpenseDao;
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\ExpensesDao;
 use tezlikv3\dao\ExpensesProductionCenterDao;
@@ -18,10 +17,11 @@ use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\ProductionCenterDao;
 use tezlikv3\dao\PucDao;
 use tezlikv3\dao\TotalExpenseDao;
+use tezlikv3\dao\WebTokenDao;
 
 $expensesDao = new ExpensesDao();
 $assignableExpenseDao = new AssignableExpenseDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $pucDao = new PucDao();
 $totalExpenseDao = new TotalExpenseDao();
 $licenseCompanyDao = new LicenseCompanyDao();
@@ -43,9 +43,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/checkTypeExpense', function (Request $request, Response $response, $args) use (
     $licenseCompanyDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -57,7 +57,7 @@ $app->get('/checkTypeExpense', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -72,10 +72,10 @@ $app->get('/checkTypeExpense', function (Request $request, Response $response, $
 });
 
 $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $response, $args) use (
-    $autenticationDao,
+    $webTokenDao,
     $generalCompanyLicenseDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -87,7 +87,7 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -116,10 +116,10 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
 /* Consulta todos */
 $app->get('/expenses', function (Request $request, Response $response, $args) use (
     $expensesDao,
-    $autenticationDao,
+    $webTokenDao,
     $expensesProductionCenterDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -131,7 +131,7 @@ $app->get('/expenses', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -153,9 +153,9 @@ $app->get('/expenses', function (Request $request, Response $response, $args) us
 /* Consulta todos */
 $app->get('/totalExpense', function (Request $request, Response $response, $args) use (
     $totalExpenseDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -167,7 +167,7 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -196,12 +196,12 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
 
 $app->post('/expenseDataValidation', function (Request $request, Response $response, $args) use (
     $expensesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPCenterDao,
     $expensesProductionCenterDao,
     $pucDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -213,7 +213,7 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -308,7 +308,7 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
 
 $app->post('/addExpenses', function (Request $request, Response $response, $args) use (
     $expensesDao,
-    $autenticationDao,
+    $webTokenDao,
     $assignableExpenseDao,
     $pucDao,
     $familiesDao,
@@ -324,7 +324,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
     $expensesProductionCenterDao,
     $lastDataDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -336,7 +336,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -613,7 +613,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 
 $app->post('/updateExpenses', function (Request $request, Response $response, $args) use (
     $expensesDao,
-    $autenticationDao,
+    $webTokenDao,
     $assignableExpenseDao,
     $totalExpenseDao,
     $participationExpenseDao,
@@ -626,7 +626,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
     $productionCenterDao,
     $expensesProductionCenterDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -638,7 +638,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -866,7 +866,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
 
 $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Response $response, $args) use (
     $expensesDao,
-    $autenticationDao,
+    $webTokenDao,
     $totalExpenseDao,
     $participationExpenseDao,
     $familiesDao,
@@ -879,7 +879,7 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
     $productionCenterDao,
     $expensesProductionCenterDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -891,7 +891,7 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

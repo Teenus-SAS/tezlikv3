@@ -1,13 +1,12 @@
 <?php
 
-use PHPMailer\Test\PHPMailer\AuthCRAMMD5Test;
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CategoriesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\GeneralCategoriesDao;
+use tezlikv3\dao\WebTokenDao;
 
 $categoryDao = new CategoriesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $generalCategoryDao = new GeneralCategoriesDao();
 $lastDataDao = new LastDataDao();
 
@@ -18,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/categories', function (Request $request, Response $response, $args) use (
     $categoryDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -32,7 +31,7 @@ $app->get('/categories', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -48,9 +47,9 @@ $app->get('/categories', function (Request $request, Response $response, $args) 
 
 $app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use (
     $generalCategoryDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -62,7 +61,7 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -109,9 +108,9 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
     $categoryDao,
     $generalCategoryDao,
     $lastDataDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -123,7 +122,7 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -178,9 +177,9 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
 $app->post('/updateCategory', function (Request $request, Response $response, $args) use (
     $categoryDao,
     $generalCategoryDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -192,7 +191,7 @@ $app->post('/updateCategory', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -227,9 +226,9 @@ $app->post('/updateCategory', function (Request $request, Response $response, $a
 
 $app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use (
     $categoryDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -241,7 +240,7 @@ $app->get('/deleteCategory/{id_category}', function (Request $request, Response 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

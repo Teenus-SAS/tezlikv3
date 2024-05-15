@@ -1,12 +1,12 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\EconomyScaleDao;
 use tezlikv3\dao\GeneralCompanyLicenseDao;
 use tezlikv3\dao\PricesDao;
+use tezlikv3\dao\WebTokenDao;
 
 $economyScaleDao = new EconomyScaleDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $priceDao = new PricesDao();
 $generalCompanyLicenseDao = new GeneralCompanyLicenseDao();
 
@@ -16,9 +16,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 $app->get('/calcEconomyScale', function (Request $request, Response $response, $args) use (
     $priceDao,
     $economyScaleDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -30,7 +30,7 @@ $app->get('/calcEconomyScale', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -69,9 +69,9 @@ $app->get('/calcEconomyScale', function (Request $request, Response $response, $
 
 $app->get('/changeFlagPrice/{type_price}', function (Request $request, Response $response, $args) use (
     $generalCompanyLicenseDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -83,7 +83,7 @@ $app->get('/changeFlagPrice/{type_price}', function (Request $request, Response 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

@@ -1,11 +1,11 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\CompaniesLicenseStatusDao;
+use tezlikv3\dao\WebTokenDao;
 
 $companiesLicenseDao = new CompaniesLicenseDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $companiesLicenseStatusDao = new CompaniesLicenseStatusDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,9 +15,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 //Nombre de empresa y datos de licencia
 $app->get('/licenses', function (Request $request, Response $response, $args) use (
     $companiesLicenseDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -29,7 +29,7 @@ $app->get('/licenses', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -43,9 +43,9 @@ $app->get('/licenses', function (Request $request, Response $response, $args) us
 
 $app->post('/addLicense', function (Request $request, Response $response, $args) use (
     $companiesLicenseDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -57,7 +57,7 @@ $app->post('/addLicense', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -84,9 +84,9 @@ $app->post('/addLicense', function (Request $request, Response $response, $args)
 //Actualizar fechas de licencia y cantidad de usuarios
 $app->post('/updateLicense', function (Request $request, Response $response, $args) use (
     $companiesLicenseDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -98,7 +98,7 @@ $app->post('/updateLicense', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -121,9 +121,9 @@ $app->post('/updateLicense', function (Request $request, Response $response, $ar
 //Cambiar estado licencia
 $app->post('/changeStatusCompany/{id_company}', function (Request $request, Response $response, $args) use (
     $companiesLicenseStatusDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -135,7 +135,7 @@ $app->post('/changeStatusCompany/{id_company}', function (Request $request, Resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

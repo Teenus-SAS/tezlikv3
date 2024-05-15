@@ -2,10 +2,10 @@
 
 use tezlikv3\dao\AMLotsDao;
 use tezlikv3\dao\AMProductsDao;
-use tezlikv3\dao\AutenticationUserDao;
+use tezlikv3\dao\WebTokenDao;
 
 $AMLotsDao = new AMLotsDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $AMProductsDao = new AMProductsDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -13,10 +13,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->post('/rawMaterialsLots', function (Request $request, Response $response, $args) use (
     $AMLotsDao,
-    $autenticationDao,
+    $webTokenDao,
     $AMProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -28,7 +28,7 @@ $app->post('/rawMaterialsLots', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

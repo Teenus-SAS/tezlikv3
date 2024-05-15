@@ -1,6 +1,5 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CostCompositeProductsDao;
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\FactoryLoadDao;
@@ -13,9 +12,10 @@ use tezlikv3\dao\IndirectCostDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
+use tezlikv3\dao\WebTokenDao;
 
 $factoryloadDao = new FactoryLoadDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $generalFactoryLoadDao = new GeneralFactoryLoadDao();
 $lastDataDao = new LastDataDao();
 $machinesDao = new GeneralMachinesDao();
@@ -35,9 +35,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/factoryLoad', function (Request $request, Response $response, $args) use (
     $factoryloadDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -49,7 +49,7 @@ $app->get('/factoryLoad', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -67,9 +67,9 @@ $app->get('/factoryLoad', function (Request $request, Response $response, $args)
 $app->post('/factoryLoadDataValidation', function (Request $request, Response $response, $args) use (
     $machinesDao,
     $generalFactoryLoadDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -81,7 +81,7 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -136,7 +136,7 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
 
 $app->post('/addFactoryLoad', function (Request $request, Response $response, $args) use (
     $factoryloadDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalFactoryLoadDao,
     $lastDataDao,
     $machinesDao,
@@ -149,7 +149,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -161,7 +161,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -463,7 +463,7 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
 $app->post('/updateFactoryLoad', function (Request $request, Response $response, $args) use (
     $factoryloadDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalFactoryLoadDao,
     $costMinuteDao,
     $indirectCostDao,
@@ -474,7 +474,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -486,7 +486,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -633,7 +633,7 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
 
 $app->post('/deleteFactoryLoad', function (Request $request, Response $response, $args) use (
     $factoryloadDao,
-    $autenticationDao,
+    $webTokenDao,
     $indirectCostDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -642,7 +642,7 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
     $costMaterialsDao,
     $costCompositeProductsDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -654,7 +654,7 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

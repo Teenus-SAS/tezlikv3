@@ -1,14 +1,14 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CustomPricesDao;
 use tezlikv3\dao\GeneralCustomPricesDao;
 use tezlikv3\dao\GeneralPricesListDao;
 use tezlikv3\Dao\PriceCustomDao;
 use tezlikv3\dao\ProductsDao;
+use tezlikv3\dao\WebTokenDao;
 
 $customPricesDao = new CustomPricesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $priceCustomDao = new PriceCustomDao();
 $productsDao = new ProductsDao();
 $generalPricesListDao = new GeneralPricesListDao();
@@ -19,13 +19,13 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->post('/addCustomPercentage', function (Request $request, Response $response, $args) use (
     $customPricesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalCustomPricesDao,
     $productsDao,
     $priceCustomDao,
     $generalPricesListDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -37,7 +37,7 @@ $app->post('/addCustomPercentage', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
