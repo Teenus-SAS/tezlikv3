@@ -19,14 +19,14 @@ $(document).ready(function () {
         else
             await loadTblProducts(dataProducts);
 
-        setTimeout(() => {
-            let profitability = parseFloat(sessionStorage.getItem('profitability'));
+        // setTimeout(() => {
+        //     let profitability = parseFloat(sessionStorage.getItem('profitability'));
     
-            if (!isNaN(profitability) || profitability > 0) { 
-                $('#profitability').val(profitability);
-                $('#profitability').blur();
-            }
-        }, 1000);
+        //     if (!isNaN(profitability) || profitability > 0) { 
+        //         $('#profitability').val(profitability);
+        //         $('#profitability').blur();
+        //     }
+        // }, 1000);
     };
 
     /* Cargue tabla de Proyectos */

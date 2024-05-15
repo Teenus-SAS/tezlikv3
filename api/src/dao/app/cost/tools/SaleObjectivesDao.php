@@ -33,4 +33,48 @@ class SaleObjectivesDao
         $this->logger->notice("products", array('products' => $products));
         return $products;
     }
+
+    public function findSaleObjectiveByProduct($id_product)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT * FROM sale_objectives WHERE id_product = :id_product");
+        $stmt->execute([
+            'id_product' => $id_product
+        ]);
+        $saleObjective = $stmt->fetch($connection::FETCH_ASSOC);
+        return $saleObjective;
+    }
+
+    public function insertSaleObjectiveByCompany($dataSale, $id_company)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+            $stmt = $connection->prepare("INSERT INTO sale_objectives (id_company, id_product, unit_sold, profitability) 
+                                          VALUES (:id_company, :id_product, :unit_sold, :profitability)");
+            $stmt->execute([
+                'id_company' => $id_company,
+                'id_product' => $dataSale['idProduct'],
+                'unit_sold' => $dataSale['unitSold'],
+                'profitability' => $dataSale['profitability']
+            ]);
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
+    }
+
+    public function updateSaleObjective($dataSale)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+            $stmt = $connection->prepare("UPDATE sale_objectives SET unit_sold = :unit_sold, profitability = :profitability 
+                                          WHERE id_product = :id_product");
+            $stmt->execute([
+                'unit_sold' => $dataSale['unitSold'],
+                'profitability' => $dataSale['profitaility'],
+                'id_product' => $dataSale['idProduct'],
+            ]);
+        } catch (\Exception $e) {
+            return array('info' => true, 'message' => $e->getMessage());
+        }
+    }
 }

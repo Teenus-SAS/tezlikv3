@@ -40,3 +40,6 @@ $app->get('/saleObjectives', function (Request $request, Response $response, $ar
     $response->getBody()->write(json_encode($products));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+$app->post('/saveSaleObjectives', function (Request $request, Response $response, $args) use ($saleObjectivesDao) {
+});

@@ -8,7 +8,7 @@ $(document).ready(function () {
             return false;
         }
 
-        sessionStorage.setItem('profitability', this.value);
+        // sessionStorage.setItem('profitability', this.value);
 
         $('.cardBottons').hide();
 
@@ -94,6 +94,8 @@ $(document).ready(function () {
             for (let i = 0; i < dataProducts.length; i++) { 
                 let product_unit = await handleIteration(dataProducts[i]);
 
+                dataProducts[i].profitability = profitability;
+
                 if (typeof product_unit === 'object' && !Array.isArray(product_unit)) {
                     $(`#unitsSold-${dataProducts[i].id_product}`).css('color', 'red');
                     $(`#unitsSold-${dataProducts[i].id_product}`).html(product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0 }));
@@ -116,9 +118,9 @@ $(document).ready(function () {
                         unit = 1;
                         startTime = performance.now();
                     }
-                }
+                } 
             }
-
+ 
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
 
             $('.cardLoading').remove();
