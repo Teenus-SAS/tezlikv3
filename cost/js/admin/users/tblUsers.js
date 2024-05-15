@@ -5,8 +5,8 @@ $(document).ready(function () {
   // price_usd = price_usd === 1;
   visible_custom_price = plan_custom_price === '1';
   visible_analysis_material = plan_cost_analysis_material === '1';
-  visible_economy_sale = plan_cost_economy_sale === '1' && flag_economy_scale === '1';
-  visible_sale_objectives = plan_cost_economy_sale === '1' && flag_sales_objective === '1';
+  visible_economy_sale = plan_cost_economy_sale === '1' || flag_economy_scale === '1';
+  visible_sale_objectives = plan_cost_economy_sale === '1' || flag_sales_objective === '1';
   visible_multiproduct = plan_cost_multiproduct === '1';
   visible_simulator = plan_cost_simulator === '1';
   visible_historical = plan_cost_historical === '1';

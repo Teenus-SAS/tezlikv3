@@ -205,13 +205,13 @@
                                                         <label for="checkbox-17">Analisis Materia Prima</label>
                                                     </div>
                                                 <?php } ?>
-                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['flag_economy_scale'] == 1) { ?>
+                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1 || $_SESSION['flag_economy_scale'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-18" name="economyScale" type="checkbox">
                                                         <label for="checkbox-18">Negociaciones Eficientes</label>
                                                     </div>
                                                 <?php } ?>
-                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1 && $_SESSION['flag_sales_objective'] == 1) { ?>
+                                                <?php if ($_SESSION['plan_cost_economy_sale'] == 1 || $_SESSION['flag_sales_objective'] == 1) { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-19" name="saleObjectives" type="checkbox">
                                                         <label for="checkbox-19">Objetivos De Ventas</label>
