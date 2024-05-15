@@ -5,14 +5,13 @@ $(document).ready(function () {
   allPrices = [];
   parents = [];
 
-  $('#btnComposite').click(function (e) {
-    e.preventDefault(); 
+  $("#btnComposite").click(function (e) {
+    e.preventDefault();
 
     if (op1 == 1) {
       op1 = 2;
       loadTblPrices(composites, 1);
-    }
-    else {
+    } else {
       op1 = 1;
       loadTblPrices(parents, 1);
     }
@@ -21,30 +20,34 @@ $(document).ready(function () {
   loadAllData = async () => {
     try {
       const [prices, actualTrm] = await Promise.all([
-        searchData('/api/prices'),
-        searchData('/api/currentDollar')
+        searchData("/api/prices"),
+        searchData("/api/currentDollar"),
       ]);
 
       allPrices = prices;
-      currentDollar = actualTrm[0]['valor'];
+      currentDollar = actualTrm[0]["valor"];
 
       // price_usd == '1' &&
-      if (plan_cost_price_usd == '1') {
-        $('#exchangeCoverage').val(`$ ${(currentDollar - parseFloat(coverage)).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2, })}`);
+      if (plan_cost_price_usd == "1") {
+        $("#exchangeCoverage").val(
+          `$ ${(currentDollar - parseFloat(coverage)).toLocaleString("es-CO", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}`
+        );
       }
 
-      let typePrice = sessionStorage.getItem('typePrice');
-      typePrice == '2' && plan_cost_price_usd == '1' ? op1 = 2 : op1 = 1;
+      let typePrice = sessionStorage.getItem("typePrice");
+      typePrice == "2" && plan_cost_price_usd == "1" ? (op1 = 2) : (op1 = 1);
 
-      parents = prices.filter(item => item.composite == 0);
-      composites = prices.filter(item => item.composite == 1);
+      parents = prices.filter((item) => item.composite == 0);
+      composites = prices.filter((item) => item.composite == 1);
 
-      if (flag_composite_product == '1') {
+      if (flag_composite_product == "1") {
         loadTblPrices(parents, op1);
-      } else
-        loadTblPrices(prices, op1);
+      } else loadTblPrices(prices, op1);
     } catch (error) {
-      console.error('Error loading data:', error);
+      console.error("Error loading data:", error);
     }
   };
 
@@ -58,10 +61,11 @@ $(document).ready(function () {
 
     acumulated == 0 ? (visible = false) : (visible = true);
 
-    if (id_company == '10')
+    /* if (id_company == '10')
       title = 'Margen';
     else
-      title = 'Rentabilidad'; 
+      title = 'Margen';  */
+    title = "Margen";
 
     tblPrices = $("#tblPrices").DataTable({
       destroy: true,
@@ -96,38 +100,50 @@ $(document).ready(function () {
           className: "classCenter",
         },
         {
-          title: `${op == 1 ? 'Precio (Sugerido)' : 'Precio (Sugerido USD)'}`,
+          title: `${op == 1 ? "Precio (Sugerido)" : "Precio (Sugerido USD)"}`,
           data: null,
           className: "classCenter",
           render: function (data) {
-            op == 1 ? price = parseFloat(data.price) : price = parseFloat(data.price_usd);
+            op == 1
+              ? (price = parseFloat(data.price))
+              : (price = parseFloat(data.price_usd));
 
             if (Math.abs(price) < 0.01) {
-              price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+              price = price.toLocaleString("es-CO", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 9,
+              });
             } else if (op == 1)
-              price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+              price = price.toLocaleString("es-CO", {
+                maximumFractionDigits: 0,
+              });
             else
-              price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+              price = price.toLocaleString("es-CO", {
+                maximumFractionDigits: 2,
+              });
+
             return `$ ${price}`;
           },
         },
         {
-          title: 'Precio (Sugerido USD) Sim',
+          title: "Precio (Sugerido USD) Sim",
           data: null,
           className: "classCenter",
-          visible: op == 3 ? true: false,
+          visible: op == 3 ? true : false,
           render: function (data) {
-            if(!valueCoverage)
-              return ''
-            else
-              price = parseFloat(data.price) / parseFloat(valueCoverage);
+            if (!valueCoverage) return "";
+            else price = parseFloat(data.price) / parseFloat(valueCoverage);
 
             if (Math.abs(price) < 0.01)
-              price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+              price = price.toLocaleString("es-CO", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 9,
+              });
             else
-              price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+              price = price.toLocaleString("es-CO", {
+                maximumFractionDigits: 2,
+              });
+
             return `$ ${price}`;
           },
         },
@@ -137,41 +153,52 @@ $(document).ready(function () {
           className: "classCenter",
           visible: visible,
           render: function (data) {
-            op == 1 ? price = parseFloat(data.sale_price) : price = parseFloat(data.sale_price_usd);
+            op == 1
+              ? (price = parseFloat(data.sale_price))
+              : (price = parseFloat(data.sale_price_usd));
 
             if (price > 0) {
               if (Math.abs(price) < 0.01) {
-                price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+                price = price.toLocaleString("es-CO", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 9,
+                });
               } else if (op == 1)
-                price = price.toLocaleString('es-CO', { maximumFractionDigits: 0 });
+                price = price.toLocaleString("es-CO", {
+                  maximumFractionDigits: 0,
+                });
               else
-                price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+                price = price.toLocaleString("es-CO", {
+                  maximumFractionDigits: 2,
+                });
+
               return `$ ${price}`;
-            }
-            else return '';
+            } else return "";
           },
         },
         {
           title: "Precio (Lista) Sim",
           data: null,
           className: "classCenter",
-          visible: op == 3 ? true: false,
-          render: function (data) { 
-            if(!valueCoverage)
-              return ''
+          visible: op == 3 ? true : false,
+          render: function (data) {
+            if (!valueCoverage) return "";
             else
               price = parseFloat(data.sale_price) / parseFloat(valueCoverage);
 
             if (price > 0) {
               if (Math.abs(price) < 0.01)
-                price = price.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 }); 
+                price = price.toLocaleString("es-CO", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 9,
+                });
               else
-                price = price.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
+                price = price.toLocaleString("es-CO", {
+                  maximumFractionDigits: 2,
+                });
+
               return `$ ${price}`;
-            }
-            else return '';
+            } else return "";
           },
         },
         {
@@ -181,23 +208,23 @@ $(document).ready(function () {
           visible: visible,
           render: function (data) {
             let dataCost = getDataCost(data);
-            if (!isFinite(dataCost.actualProfitability3))
-              dataCost.actualProfitability3 = 0;
+            if (!isFinite(dataCost.actualProfitability2))
+              dataCost.actualProfitability2 = 0;
 
-            let profitabilityText = `${dataCost.actualProfitability3.toLocaleString(
+            let profitabilityText = `${dataCost.actualProfitability2.toLocaleString(
               "es-CO",
               { maximumFractionDigits: 2 }
             )} %`;
             let badgeClass = "";
 
             if (
-              dataCost.actualProfitability3 < data.profitability &&
-              dataCost.actualProfitability3 > 0 &&
+              dataCost.actualProfitability2 < data.profitability &&
+              dataCost.actualProfitability2 > 0 &&
               data.sale_price > 0
             ) {
               badgeClass = "badge badge-warning"; // Use "badge badge-warning" for orange
             } else if (
-              dataCost.actualProfitability3 < data.profitability &&
+              dataCost.actualProfitability2 < data.profitability &&
               data.sale_price > 0
             ) {
               badgeClass = "badge badge-danger"; // Use "badge badge-danger" for red
@@ -223,8 +250,8 @@ $(document).ready(function () {
           data: "img",
           className: "uniqueClassName",
           render: (data, type, row) => {
-            data == '' || !data
-              ? (txt = '')
+            data == "" || !data
+              ? (txt = "")
               : (txt = `<img src="${data}" alt="" style="width:50px;border-radius:100px">`);
             return txt;
           },
