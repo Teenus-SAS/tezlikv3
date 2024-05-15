@@ -1026,6 +1026,7 @@ $app->post('/saveNewProduct', function (Request $request, Response $response, $a
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataExpensesDistribution = $request->getParsedBody();
+    $data = [];
 
     $expensesDistribution = $assignableExpenseDao->insertAssignableExpense($dataExpensesDistribution['idProduct'], $id_company, $dataExpensesDistribution['pAssignableExpense']);
 

@@ -19,7 +19,7 @@ $(document).ready(function () {
 
       if (production_center == '1' && flag_production_center == '1') {       
         // Obtener el elemento select
-        var selectElement = document.getElementById("selectProductionCenterExpenses");
+        var selectElement = document.getElementById("selectProductionCenterExpenses1");
         // Establecer la primera opción como seleccionada por defecto
         selectElement.selectedIndex = 0;
 
