@@ -1,13 +1,13 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\QCompaniesDao;
+use tezlikv3\dao\WebTokenDao;
 
 $companiesDao = new QCompaniesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $FilesDao = new FilesDao();
@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/quotesCompanies', function (Request $request, Response $response, $args) use (
     $companiesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -31,7 +31,7 @@ $app->get('/quotesCompanies', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -48,11 +48,11 @@ $app->get('/quotesCompanies', function (Request $request, Response $response, $a
 
 $app->post('/addQCompany', function (Request $request, Response $response, $args) use (
     $companiesDao,
-    $autenticationDao,
+    $webTokenDao,
     $lastDataDao,
     $FilesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -64,7 +64,7 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -104,10 +104,10 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
 
 $app->post('/updateQCompany', function (Request $request, Response $response, $args) use (
     $companiesDao,
-    $autenticationDao,
+    $webTokenDao,
     $FilesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -119,7 +119,7 @@ $app->post('/updateQCompany', function (Request $request, Response $response, $a
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -154,9 +154,9 @@ $app->post('/updateQCompany', function (Request $request, Response $response, $a
 
 $app->get('/deleteQCompany/{id_company}', function (Request $request, Response $response, $args) use (
     $companiesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -168,7 +168,7 @@ $app->get('/deleteQCompany/{id_company}', function (Request $request, Response $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

@@ -1,13 +1,13 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\FilesDao;
 use tezlikv3\dao\LastDataDao;
+use tezlikv3\dao\WebTokenDao;
 
 $companiesDao = new CompaniesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $FilesDao = new FilesDao();
 $lastDataDao = new LastDataDao();
 $companiesLicDao = new CompaniesLicenseDao();
@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/allCompanies', function (Request $request, Response $response, $args) use (
     $companiesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -31,7 +31,7 @@ $app->get('/allCompanies', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -46,9 +46,9 @@ $app->get('/allCompanies', function (Request $request, Response $response, $args
 //Datos de empresas activas
 $app->get('/companies/{stat}', function (Request $request, Response $response, $args) use (
     $companiesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -60,7 +60,7 @@ $app->get('/companies/{stat}', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -77,10 +77,10 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
     $companiesDao,
     $lastDataDao,
     $FilesDao,
-    $autenticationDao,
+    $webTokenDao,
     $companiesLicDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -92,7 +92,7 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -124,9 +124,9 @@ $app->post('/addNewCompany', function (Request $request, Response $response, $ar
 $app->post('/updateDataCompany', function (Request $request, Response $response, $args) use (
     $companiesDao,
     $FilesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -138,7 +138,7 @@ $app->post('/updateDataCompany', function (Request $request, Response $response,
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

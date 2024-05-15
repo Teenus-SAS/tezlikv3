@@ -1,19 +1,19 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\UnitsDao;
+use tezlikv3\dao\WebTokenDao;
 
 $unitsDao = new UnitsDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/units', function (Request $request, Response $response, $args) use (
     $unitsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -25,7 +25,7 @@ $app->get('/units', function (Request $request, Response $response, $args) use (
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -39,9 +39,9 @@ $app->get('/units', function (Request $request, Response $response, $args) use (
 
 $app->get('/units/{id_magnitude}', function (Request $request, Response $response, $args) use (
     $unitsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -53,7 +53,7 @@ $app->get('/units/{id_magnitude}', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -67,9 +67,9 @@ $app->get('/units/{id_magnitude}', function (Request $request, Response $respons
 
 $app->post('/addUnit', function (Request $request, Response $response, $args) use (
     $unitsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -81,7 +81,7 @@ $app->post('/addUnit', function (Request $request, Response $response, $args) us
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -105,9 +105,9 @@ $app->post('/addUnit', function (Request $request, Response $response, $args) us
 
 $app->post('/updateUnit', function (Request $request, Response $response, $args) use (
     $unitsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -119,7 +119,7 @@ $app->post('/updateUnit', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -143,9 +143,9 @@ $app->post('/updateUnit', function (Request $request, Response $response, $args)
 
 $app->get('/deleteUnit/{id_unit}', function (Request $request, Response $response, $args) use (
     $unitsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -157,7 +157,7 @@ $app->get('/deleteUnit/{id_unit}', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

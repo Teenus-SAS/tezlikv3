@@ -1,11 +1,11 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralPCenterDao;
 use tezlikv3\dao\ProductionCenterDao;
+use tezlikv3\dao\WebTokenDao;
 
 $productionCenterDao = new ProductionCenterDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $generalPCenterDao = new GeneralPCenterDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
@@ -15,9 +15,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/productionCenter', function (Request $request, Response $response, $args) use (
     $productionCenterDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -29,7 +29,7 @@ $app->get('/productionCenter', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -45,9 +45,9 @@ $app->get('/productionCenter', function (Request $request, Response $response, $
 
 $app->post('/productionDataValidation', function (Request $request, Response $response, $args) use (
     $generalPCenterDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -59,7 +59,7 @@ $app->post('/productionDataValidation', function (Request $request, Response $re
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -104,10 +104,10 @@ $app->post('/productionDataValidation', function (Request $request, Response $re
 
 $app->post('/addPCenter', function (Request $request, Response $response, $args) use (
     $productionCenterDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPCenterDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -119,7 +119,7 @@ $app->post('/addPCenter', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -173,10 +173,10 @@ $app->post('/addPCenter', function (Request $request, Response $response, $args)
 
 $app->post('/updatePCenter', function (Request $request, Response $response, $args) use (
     $productionCenterDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalPCenterDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -188,7 +188,7 @@ $app->post('/updatePCenter', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -223,9 +223,9 @@ $app->post('/updatePCenter', function (Request $request, Response $response, $ar
 
 $app->get('/deletePCenter/{id_production_center}', function (Request $request, Response $response, $args) use (
     $productionCenterDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -237,7 +237,7 @@ $app->get('/deletePCenter/{id_production_center}', function (Request $request, R
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

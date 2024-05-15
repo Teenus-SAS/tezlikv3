@@ -1,12 +1,12 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralProcessDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\ProcessDao;
+use tezlikv3\dao\WebTokenDao;
 
 $processDao = new ProcessDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $generalProcessDao = new GeneralProcessDao();
 $lastDataDao = new LastDataDao();
 
@@ -17,9 +17,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/process', function (Request $request, Response $response, $args) use (
     $processDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -31,7 +31,7 @@ $app->get('/process', function (Request $request, Response $response, $args) use
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -47,9 +47,9 @@ $app->get('/process', function (Request $request, Response $response, $args) use
 
 $app->post('/processDataValidation', function (Request $request, Response $response, $args) use (
     $generalProcessDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -61,7 +61,7 @@ $app->post('/processDataValidation', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -108,9 +108,9 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
     $processDao,
     $generalProcessDao,
     $lastDataDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -122,7 +122,7 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -193,9 +193,9 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
 $app->post('/updateProcess', function (Request $request, Response $response, $args) use (
     $processDao,
     $generalProcessDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -207,7 +207,7 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -242,9 +242,9 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
 
 $app->post('/saveRouteProcess', function (Request $request, Response $response, $args) use (
     $generalProcessDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -256,7 +256,7 @@ $app->post('/saveRouteProcess', function (Request $request, Response $response, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -288,9 +288,9 @@ $app->post('/saveRouteProcess', function (Request $request, Response $response, 
 
 $app->get('/deleteProcess/{id_process}', function (Request $request, Response $response, $args) use (
     $processDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -302,7 +302,7 @@ $app->get('/deleteProcess/{id_process}', function (Request $request, Response $r
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

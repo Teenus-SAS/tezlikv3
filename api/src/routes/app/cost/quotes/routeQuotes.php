@@ -1,6 +1,5 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\ConvertDataDao;
 use tezlikv3\dao\GeneralQuotesDao;
 use tezlikv3\dao\FilesDao;
@@ -9,10 +8,11 @@ use tezlikv3\dao\QuoteProductsDao;
 use tezlikv3\dao\QuotesDao;
 use tezlikv3\dao\SendEmailDao;
 use tezlikv3\dao\SendMakeEmailDao;
+use tezlikv3\dao\WebTokenDao;
 
 $quotesDao = new QuotesDao();
 $quoteProductsDao = new QuoteProductsDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 $lastDataDao = new LastDataDao();
 $generalQuotesDao = new GeneralQuotesDao();
 $convertDataDao = new ConvertDataDao();
@@ -27,9 +27,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/quotes', function (Request $request, Response $response, $args) use (
     $quotesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -41,7 +41,7 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -59,13 +59,13 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
 /* Clonar cotización */
 $app->get('/copyQuote/{id_quote}', function (Request $request, Response $response, $args) use (
     $quotesDao,
-    $autenticationDao,
+    $webTokenDao,
     $quoteProductsDao,
     $lastDataDao,
     $convertDataDao,
     $generalQuotesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -77,7 +77,7 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -124,10 +124,10 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 /* Consultar detalle de cotizacion */
 $app->get('/quote/{id_quote}', function (Request $request, Response $response, $args) use (
     $quotesDao,
-    $autenticationDao,
+    $webTokenDao,
     $generalQuotesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -139,7 +139,7 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -157,10 +157,10 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
 });
 
 $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $response, $args) use (
-    $autenticationDao,
+    $webTokenDao,
     $generalQuotesDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -172,7 +172,7 @@ $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $re
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -187,12 +187,12 @@ $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $re
 
 $app->post('/addQuote', function (Request $request, Response $response, $arsg) use (
     $quotesDao,
-    $autenticationDao,
+    $webTokenDao,
     $quoteProductsDao,
     $lastDataDao,
     $convertDataDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -204,7 +204,7 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -257,11 +257,11 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
 
 $app->post('/updateQuote', function (Request $request, Response $response, $args) use (
     $quotesDao,
-    $autenticationDao,
+    $webTokenDao,
     $quoteProductsDao,
     $convertDataDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -273,7 +273,7 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -326,9 +326,9 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
 $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $response, $args) use (
     $quotesDao,
     $quoteProductsDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -340,7 +340,7 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -366,12 +366,12 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
 
 $app->post('/sendQuote', function (Request $request, Response $response, $args) use (
     $generalQuotesDao,
-    $autenticationDao,
+    $webTokenDao,
     $sendMakeEmailDao,
     $FilesDao,
     $sendEmailDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -383,7 +383,7 @@ $app->post('/sendQuote', function (Request $request, Response $response, $args) 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

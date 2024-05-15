@@ -1,10 +1,10 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\StatusUserDao;
+use tezlikv3\dao\WebTokenDao;
 
 $usersStatusDao = new StatusUserDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,9 +13,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/inactivateActivateUser/{id_user}', function (Request $request, Response $response, $args) use (
     $usersStatusDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -27,7 +27,7 @@ $app->get('/inactivateActivateUser/{id_user}', function (Request $request, Respo
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));

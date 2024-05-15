@@ -1,19 +1,19 @@
 <?php
 
-use tezlikv3\dao\AutenticationUserDao;
 use tezlikv3\dao\GeneralExternalServicesDao;
+use tezlikv3\dao\WebTokenDao;
 
 $externalServicesDao = new GeneralExternalServicesDao();
-$autenticationDao = new AutenticationUserDao();
+$webTokenDao = new WebTokenDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/generalExternalservices', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -25,7 +25,7 @@ $app->get('/generalExternalservices', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -41,9 +41,9 @@ $app->get('/generalExternalservices', function (Request $request, Response $resp
 
 $app->post('/generalExternalServiceDataValidation', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -55,7 +55,7 @@ $app->post('/generalExternalServiceDataValidation', function (Request $request, 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -100,9 +100,9 @@ $app->post('/generalExternalServiceDataValidation', function (Request $request, 
 
 $app->post('/addGExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -114,7 +114,7 @@ $app->post('/addGExternalService', function (Request $request, Response $respons
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -169,9 +169,9 @@ $app->post('/addGExternalService', function (Request $request, Response $respons
 
 $app->post('/updateGExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -183,7 +183,7 @@ $app->post('/updateGExternalService', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
@@ -218,9 +218,9 @@ $app->post('/updateGExternalService', function (Request $request, Response $resp
 
 $app->post('/deleteGExternalService', function (Request $request, Response $response, $args) use (
     $externalServicesDao,
-    $autenticationDao
+    $webTokenDao
 ) {
-    $info = $autenticationDao->getToken();
+    $info = $webTokenDao->getToken();
 
     if (!is_object($info) && ($info == 1)) {
         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
@@ -232,7 +232,7 @@ $app->post('/deleteGExternalService', function (Request $request, Response $resp
         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
     }
 
-    $validate = $autenticationDao->validationToken($info);
+    $validate = $webTokenDao->validationToken($info);
 
     if (!$validate) {
         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
