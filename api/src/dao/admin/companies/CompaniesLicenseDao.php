@@ -23,8 +23,8 @@ class CompaniesLicenseDao
         $connection = Connection::getInstance()->getConnection();
 
         $stmt = $connection->prepare("SELECT cp.id_company, cp.nit, cp.company, cl.license_start, cl.license_end, cl.quantity_user, cl.license_status, cl.inyection, cl.flag_production_center, cl.flag_economy_scale, cl.flag_sales_objective,
-                                             CASE WHEN cl.license_end > CURRENT_DATE THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END AS license_days, 
-                                             cl.plan, cl.cost_price_usd, cl.flag_employee, cl.flag_composite_product, cl.cost_historical, cl.flag_indirect, pa.cost_economy_scale
+                                             CASE WHEN cl.license_end > CURRENT_DATE THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END AS license_days, cl.plan, cl.cost_price_usd, 
+                                             cl.flag_employee, cl.flag_composite_product, cl.cost_historical, cl.flag_indirect, pa.cost_economy_scale, pa.cost_sale_objectives
                                       FROM companies cp 
                                         INNER JOIN companies_licenses cl ON cp.id_company = cl.id_company
                                         INNER JOIN plans_access pa ON cl.plan = pa.id_plan

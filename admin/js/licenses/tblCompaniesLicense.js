@@ -109,7 +109,7 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          if (data.cost_economy_scale == 1) {
+          if (data.cost_economy_scale == 0) {
             permissions.push({
               name: "Negociaciones Eficientes",
               icon: data.flag_economy_scale == 1
@@ -119,7 +119,7 @@ $(document).ready(function () {
             });
           }
           
-          if(data.cost_sale_objectives == 1){
+          if(data.cost_sale_objectives == 0){
             permissions.push({
               name: "Objetivos de Venta",
               icon: data.flag_sales_objective == 1

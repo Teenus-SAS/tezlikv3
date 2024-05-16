@@ -134,9 +134,9 @@ $(document).ready(function () {
         let unit = arr[unitMaterial][unitProductMaterial];
 
         quantity = quantity * unit.value;
-        return quantity;
+        return (quantity * (1 + data.waste / 100));
       } else {
-        return quantity;
+        return (quantity * (1 + data.waste / 100));
       }
     } catch (error) {
       console.log(error);
