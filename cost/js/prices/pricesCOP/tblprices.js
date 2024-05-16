@@ -213,7 +213,10 @@ $(document).ready(function () {
 
             let profitabilityText = `${dataCost.actualProfitability2.toLocaleString(
               "es-CO",
-              { maximumFractionDigits: 2 }
+              {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+              }
             )} %`;
             let badgeClass = "";
 
@@ -234,7 +237,10 @@ $(document).ready(function () {
               badgeClass = "badge badge-primary"; // Use "badge badge-warning" for orange
               profitabilityText = `${data.profitability.toLocaleString(
                 "es-CO",
-                { maximumFractionDigits: 0 }
+                {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2
+                }
               )} %`;
             }
 

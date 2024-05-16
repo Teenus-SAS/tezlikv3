@@ -166,7 +166,7 @@ if (sizeof($_SESSION) == 0)
                                                         <th style="width: 150px">Referencia</th>
                                                         <th style="width: 350px">Producto</th>
                                                         <th>No Unidades Vendidas</th>
-                                                        <th style="width: 150px;" id="lblPrice">Precio</th>
+                                                        <th style="width: 150px;">Precio Real</th>
                                                         <!-- <th style="width: 150px;">Costo Variable</th> -->
                                                         <th style="width: 150px;">Participacion</th>
                                                         <th>Margen De Contribucion</th>
@@ -247,12 +247,12 @@ if (sizeof($_SESSION) == 0)
     <script src="/global/js/import/file.js"></script>
     <script src="/global/js/import/import.js"></script>
     <script src="/cost/js/tools/multiproduct/importMultiproducts.js"></script>
-    <script src="/cost/js/tools/economyScale/configTypePrices.js"></script>
-    <script>
+    <!-- <script src="/cost/js/tools/economyScale/configTypePrices.js"></script> -->
+    <!-- <script>
         $(document).ready(function() {
             checkFlagPrice(2);
         });
-    </script>
+    </script> -->
 </body>
 
 </html>

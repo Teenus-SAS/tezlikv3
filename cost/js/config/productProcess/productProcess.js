@@ -101,10 +101,10 @@ $(document).ready(function () {
     let employees = data.employee.toString().split(",");
     checkBoxEmployees = employees;
 
-    if (data.auto_machine === 1) {
+    if (data.auto_machine == 'SI') {
       $("#checkMachine").prop("checked", true);
-      $(".checkMachine").show();
     }
+    $(".checkMachine").show();
 
     $("html, body").animate(
       {

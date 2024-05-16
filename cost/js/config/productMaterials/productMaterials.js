@@ -191,9 +191,9 @@ $(document).ready(function () {
     $(`#units option[value=${data.id_unit}]`).prop("selected", true);
 
     $("#quantity").val(data.quantity);
-    // $("#waste").val(data.waste);
+    $("#waste").val(data.waste);
 
-    // $("#waste").click();
+    $("#waste").click();
 
     $("html, body").animate(
       {
@@ -207,7 +207,7 @@ $(document).ready(function () {
     let emptyInputs = [];
     let refMaterial = parseInt($('#refMaterial').val());
     let units = parseInt($('#units').val()); 
-    let quantity = parseInt($('#quantity').val());
+    let quantity = parseFloat($('#quantity').val());
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!refMaterial) {
