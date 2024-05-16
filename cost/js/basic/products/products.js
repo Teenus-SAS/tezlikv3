@@ -192,7 +192,7 @@ $(document).ready(function () {
     bootbox.confirm({
       title: data.composite == '0' ? 'Agregar' : 'Eliminar',
       message:
-        `Está seguro de que este producto ${data.composite == '0' ? 'se agregue a producto compuesto' : 'se elimine de producto compuesto'}? Esta acción no se puede reversar.`,
+        `Está seguro de que este producto ${data.composite == '0' ? 'se convierta en un subproducto para ser agregado a un producto compuesto' : 'se elimine como subproducto'}?`,
       buttons: {
         confirm: {
           label: 'Si',
