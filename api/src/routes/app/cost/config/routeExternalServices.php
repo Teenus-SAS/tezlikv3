@@ -270,6 +270,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
         for ($i = 0; $i < sizeof($externalService); $i++) {
             $data = [];
+            $externalService[$i]['idGService'] = 0;
             // Obtener id_producto
             $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
             $externalService[$i]['idProduct'] = $findProduct['id_product'];
