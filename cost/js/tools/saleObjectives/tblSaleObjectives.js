@@ -19,14 +19,9 @@ $(document).ready(function () {
         else
             await loadTblProducts(dataProducts);
 
-        setTimeout(() => {
-            let profitability = parseFloat(sessionStorage.getItem('profitability'));
-    
-            if (!isNaN(profitability) || profitability > 0) { 
-                $('#profitability').val(profitability);
-                $('#profitability').blur();
-            }
-        }, 1000);
+        if (dataProducts.length > 0) {
+            $('#profitability').val(dataProducts[0].profitability);
+        };
     };
 
     /* Cargue tabla de Proyectos */
@@ -77,8 +72,10 @@ $(document).ready(function () {
                     title: 'Unidades',
                     data: null,
                     className: 'uniqueClassName',
-                    render: function (data) { 
-                        return `<p id="unitsSold-${data.id_product}"></p>`
+                    render: function (data) {
+                        data.unit_sold == 0 ? units = '' : units = parseInt(data.unit_sold).toLocaleString('es-CO', { minimumFractionDigits: 0 });
+
+                        return `<p id="unitsSold-${data.id_product}">${units}</p>`
                     },
                 },
                 {

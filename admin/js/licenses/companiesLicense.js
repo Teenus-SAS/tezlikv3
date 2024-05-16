@@ -23,7 +23,7 @@ $(document).ready(function () {
 
     let data = dataPlans.find(item => item.id_plan == id_plan);
 
-    if (data.cost_economy_scale == 0) {
+    if (data.cost_economy_scale == 1 && data.cost_sale_objectives == 1) {
       $('.economyScale').hide(800);
     } else {
       $('.economyScale').show(800);
@@ -80,7 +80,7 @@ $(document).ready(function () {
     $(`#indirect option[value=${indirect}]`).prop('selected', true);
     $(`#inyection option[value=${inyection}]`).prop('selected', true);
  
-    if (data.cost_economy_scale == 0) {
+    if (data.cost_economy_scale == 1 && data.cost_sale_objectives == 1) {
       $('.economyScale').hide(800);
     } else {
       $('.economyScale').show(800);

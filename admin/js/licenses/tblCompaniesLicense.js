@@ -117,7 +117,9 @@ $(document).ready(function () {
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
             });
-
+          }
+          
+          if(data.cost_sale_objectives == 1){
             permissions.push({
               name: "Objetivos de Venta",
               icon: data.flag_sales_objective == 1
@@ -126,7 +128,7 @@ $(document).ready(function () {
               color: { text: "black" },
             });
           }
-
+          
           permissions.push({
             name: "Historico",
             icon: data.cost_historical == 1

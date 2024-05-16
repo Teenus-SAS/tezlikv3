@@ -32,16 +32,15 @@ class GeneralProductMaterialsDao
                                       ORDER BY `m`.`material` ASC */
 
         $stmt = $connection->prepare("SELECT p.id_product, p.reference AS reference_product, p.product, m.reference AS reference_material, m.material, mg.magnitude, u.unit, u.abbreviation, pm.quantity, m.cost AS cost_material, 
-                                             pm.cost AS cost_product_material, pm.id_product_material, m.id_material, mg.id_magnitude, pm.id_unit, 'Material' AS type, pm.waste,(pm.cost / total_material_cost.total_cost) * 100 AS participation
+                                             pm.cost AS cost_product_material, pm.id_product_material, m.id_material, mg.id_magnitude, pm.id_unit, 'Material' AS type, pm.waste, ((pm.cost / pc.cost_materials)* 100) AS participation
                                       FROM products p
+                                      	INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                         INNER JOIN products_materials pm ON pm.id_product = p.id_product
+                                        INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
                                         INNER JOIN materials m ON m.id_material = pm.id_material
                                         INNER JOIN convert_units u ON u.id_unit = pm.id_unit
                                         INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
-                                        INNER JOIN (
-                                            SELECT cpm.id_product, (SUM(cpm.cost) + IFNULL(SUM(ccp.cost), 0)) AS total_cost FROM products_materials cpm 
-                                            LEFT JOIN composite_products ccp ON ccp.id_product = cpm.id_product GROUP BY cpm.id_product
-                                            ) AS total_material_cost ON p.id_product = total_material_cost.id_product
+                                        LEFT JOIN composite_products cp ON cp.id_product = p.id_product
                                       WHERE pm.id_company = :id_company
                                         AND pm.id_material IN (SELECT id_material FROM materials INNER JOIN convert_units ON convert_units.id_unit = materials.unit WHERE id_material = pm.id_material)
                                         AND p.active = 1");
