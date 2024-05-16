@@ -51,7 +51,7 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-sm-4 col-xl-6">
                                 <div class="form-inline justify-content-sm-end">
                                     <button class="btn btn-warning" id="btnNewProduct">Nuevo Producto</button>
-                                    <button class="btn btn-info ml-3" id="btnImportNewProducts">Importar Productos</button>
+                                    <button class="btn btn-info ml-3" id="btnImportNewProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Productos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                 </div>
                             </div>
                         </div>

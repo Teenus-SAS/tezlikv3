@@ -86,10 +86,10 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-warning" id="btnNewProduct">Nuevo Producto</button>
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewProducts">Importar Productos</button>
+                                    <button class="btn btn-info" id="btnImportNewProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Productos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                 </div>
                                 <div class="col-xs-2">
-                                    <button class="btn btn btn-primary" id="btnActiveProducts">Activar Productos</button>
+                                    <button class="btn btn btn-primary" id="btnActiveProducts" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Activar Productos"><i class="fas fa-power-off" style="font-size: 20px;"></i></button>
                                 </div>
                             </div>
                         </div>

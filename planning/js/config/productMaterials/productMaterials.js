@@ -146,9 +146,9 @@ $(document).ready(function () {
     idProductMaterial = data.id_product_material;
 
     bootbox.confirm({
-      title: 'Eliminar',
+      title: 'Ficha Técnica de Productos - Eliminar',
       message:
-        'Está seguro de eliminar esta Materia prima? Esta acción no se puede reversar.',
+        'Está seguro de eliminar el consumo de Materia Prima para este producto? Esta acción no se puede reversar.',
       buttons: {
         confirm: {
           label: 'Si',
