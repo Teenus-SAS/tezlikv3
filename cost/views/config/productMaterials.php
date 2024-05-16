@@ -90,7 +90,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     <?php } ?>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewProductsMaterials">Importar Materia Prima</button>
+                                        <button class="btn btn-info" id="btnImportNewProductsMaterials"data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materia Prima"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
