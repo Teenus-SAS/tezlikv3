@@ -190,9 +190,10 @@ $(document).ready(function () {
     let data = tblProducts.fnGetData(row);
 
     bootbox.confirm({
-      title: data.composite == '0' ? 'Agregar' : 'Eliminar',
+      //title: data.composite == '0' ? 'Agregar' : 'Eliminar',
+      title: 'Producto Compuesto',
       message:
-        `Está seguro de que este producto ${data.composite == '0' ? 'se agregue a producto compuesto' : 'se elimine de producto compuesto'}? Esta acción no se puede reversar.`,
+        `Está seguro de que este producto ${data.composite == '0' ? 'se <b>convierta en un subproducto</b> para ser agregado a un producto compuesto' : 'se <b>Elimine</b> como subproducto'}?`,
       buttons: {
         confirm: {
           label: 'Si',
