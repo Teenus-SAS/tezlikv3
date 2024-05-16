@@ -359,17 +359,18 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
-    <script src="/global/js/global/orderData.js"></script>
-    <script src="/cost/js/basic/products/configProducts.js"></script>
-    <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
         // price_usd = 
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         sessionStorage.removeItem('typePrice');
     </script>
+    <script src="/global/js/global/orderData.js"></script>
+    <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/tools/simulator/loadSimulators.js"></script>
     <script src="/cost/js/tools/simulator/generalSimulator.js"></script>

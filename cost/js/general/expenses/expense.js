@@ -4,7 +4,7 @@ $(document).ready(function () {
   $('.selectNavigation').click(function (e) {
     e.preventDefault();
 
-    if (this.id == 'expenses') {
+    if (this.id == 'sExpenses') {
       $('.cardExpenses').show();
       $('.cardExpenseDistribution').hide();
       $('.cardAddNewFamily').hide();

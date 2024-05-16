@@ -115,47 +115,56 @@ $(document).ready(function () {
       }
       return result;
     }, []);
-
-    // Calcular costo x minuto carga fabril
-    dataFactoryLoad.length == 0
-      ? (count = 1)
-      : (count = dataFactoryLoad.length);
-
+ 
     let cost_indirect_cost = 0;
-    for (let i = 0; i < count; i++) {
-      let cost_minute = 0;
-      let minute_depreciation = 0;
-      let cost_factory = 0;
+ 
+    let cost_minute = 0;
+    let minute_depreciation = 0;
+    let cost_factory = 0;
+    let factory_a_machine = 0;
+    let efficiency = 0;
+    let total_time = 0;
+    let process_machine_indirect_cost = 0;
 
-      for (let j = 0; j < dataMachine.length; j++) {
-        if (!dataFactoryLoad[i]) cost_factory = 0;
-        else if (dataFactoryLoad[i].id_machine == dataMachine[j].id_machine)
-          cost_factory = dataFactoryLoad[i].cost;
+    for (let i = 0; i < dataMachine.length; i++) { 
+      let arr = dataFactoryLoad.find(item => item.id_machine == dataMachine[i].id_machine);
+      
+      !arr ? cost_factory = 0 : cost_factory = arr.cost;
+      
+      // Calcular costo x minuto carga fabril
+      cost_minute =
+        (cost_factory /
+          dataMachine[i].days_machine /
+          dataMachine[i].hours_machine /
+          60);
 
-        cost_minute =
-          cost_factory /
-          dataMachine[j].days_machine /
-          dataMachine[j].hours_machine /
-          60;
+      const index = dataSimulator.factoryLoad.findIndex(item => item.id_machine === dataMachine[i].id_machine);
 
-        if (dataFactoryLoad[i])
-          dataSimulator.factoryLoad[i].cost_minute = cost_minute;
-
-        // Calcular minuto de depreciacion
-        minute_depreciation =
-          (dataMachine[j].cost_machine - dataMachine[j].residual_value) /
-          (dataMachine[j].years_depreciation * 12) /
-          dataMachine[j].hours_machine /
-          dataMachine[j].days_machine /
-          60;
-
-        dataSimulator.dataMachine[j].minute_depreciation = minute_depreciation;
-
-        // Calcular costo indirecto
-        cost_indirect_cost +=
-          (cost_minute + minute_depreciation) * dataMachine[j].operation_time;
+      if (index !== -1) {
+        dataSimulator.factoryLoad[index].cost_minute = cost_minute;
       }
-    }
+
+      // Calcular minuto de depreciacion
+      minute_depreciation =
+        (dataMachine[i].cost_machine - dataMachine[i].residual_value) /
+        (dataMachine[i].years_depreciation * 12) /
+        dataMachine[i].hours_machine /
+        dataMachine[i].days_machine /
+        60;
+
+      dataSimulator.dataMachine[i].minute_depreciation = minute_depreciation;
+
+      // Calcular costo indirecto
+      factory_a_machine = cost_minute + minute_depreciation;
+
+      dataMachine[i].efficiency == 0 ? efficiency = 100 : efficiency = dataMachine[i].efficiency;
+
+      total_time = (dataMachine[i].enlistment_time + dataMachine[i].operation_time) / (efficiency / 100);
+
+      process_machine_indirect_cost = factory_a_machine * total_time;
+
+      cost_indirect_cost += process_machine_indirect_cost;
+    } 
     dataSimulator.products[0].cost_indirect_cost = cost_indirect_cost;
   };
 
@@ -175,14 +184,17 @@ $(document).ready(function () {
   /* Calculo mano de obra */
   calcWorkforce = (dataPayroll, dataProductProcess) => {
     let cost_workforce = 0;
-
+    
     for (let i = 0; i < dataProductProcess.length; i++) {
+      let efficiency = 0;
+      dataProductProcess[i].efficiency == 0 ? efficiency = 1 : efficiency = parseFloat(dataProductProcess[i].efficiency) / 100;
+
       for (let j = 0; j < dataPayroll.length; j++) {
         if (dataProductProcess[i].id_process == dataPayroll[j].id_process) {
           let cost =
             dataPayroll[j].minute_value *
-            (dataProductProcess[i].enlistment_time +
-              dataProductProcess[i].operation_time);
+            ((dataProductProcess[i].enlistment_time +
+              dataProductProcess[i].operation_time) / efficiency);
 
           cost_workforce += cost;
         }

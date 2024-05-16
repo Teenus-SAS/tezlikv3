@@ -21,61 +21,54 @@ $(document).ready(function () {
     url: '/api/products',
     success: function (r) {
       sessionStorage.setItem('dataProducts', JSON.stringify(r));
-      
-      let $select = $(`.refProduct`);
-      $select.empty();
+    
+      populateSelect('.refProduct', r, 'reference');
+      populateSelect('.selectNameProduct', r, 'product');
 
-      // let ref = r.sort(sortReference);
-      let ref = sortFunction(r, 'reference');
+      if(flag_composite_product == '1'){
+        economyScaleOtions('.refESProduct', r, 'reference');
+        economyScaleOtions('.selectESNameProduct', r, 'product');
+      }
 
-      $select.append(
-        `<option value='0' disabled selected>Seleccionar</option>`
-      );
-      $.each(ref, function (i, value) {
-        $select.append(
-          `<option value ='${value.id_product}' class='${value.composite}'> ${value.reference} </option>`
-        );
-      });
-
-      let $select1 = $(`.selectNameProduct`);
-      $select1.empty();
-
-      // let prod = r.sort(sortNameProduct);
-      let prod = sortFunction(r, 'product');
-
-      $select1.append(
-        `<option value='0' disabled selected>Seleccionar</option>`
-      );
-      $.each(prod, function (i, value) {
-        $select1.append(
-          `<option value ='${value.id_product}' class='${value.composite}'> ${value.product} </option>`
-        );
-      });
-
-      let compositeProduct = prod.filter(item => item.composite == 1);
-      let $select2 = $(`#refCompositeProduct`);
-      $select2.empty();
-
-      $select2.append(
-        `<option value='0' disabled selected>Seleccionar</option>`
-      );
-      $.each(compositeProduct, function (i, value) {
-        $select2.append(
-          `<option value ="${value.id_product}"> ${value.reference} </option>`
-        );
-      });
-
-      let $select3 = $(`#compositeProduct`);
-      $select3.empty();
-
-      $select3.append(
-        `<option value='0' disabled selected>Seleccionar</option>`
-      );
-      $.each(compositeProduct, function (i, value) {
-        $select3.append(
-          `<option value ="${value.id_product}"> ${value.product} </option>`
-        );
-      });
-    },
+      let compositeProduct = r.filter(item => item.composite == 1);
+      populateOptions('#refCompositeProduct', compositeProduct, 'reference');
+      populateOptions('#compositeProduct', compositeProduct, 'product');
+    }
   });
+
+  function populateSelect(selector, data, property) {
+    let $select = $(selector);
+    $select.empty();
+  
+    let sortedData = sortFunction(data, property);
+    $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
+  
+    $.each(sortedData, function (i, value) {
+      $select.append(`<option value ='${value.id_product}' class='${value.composite}'> ${value[property]} </option>`);
+    });
+  };
+
+  function populateOptions(selector, data, property) {
+    let $select = $(selector);
+    $select.empty();
+  
+    $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
+  
+    $.each(data, function (i, value) {
+      $select.append(`<option value ="${value.id_product}"> ${value[property]} </option>`);
+    });
+  };
+
+  function economyScaleOtions(selector, data, property) {
+    let $select = $(selector);
+    $select.empty();
+
+    data = data.filter(item => item.composite == 0);
+  
+    $select.append(`<option value='0' disabled selected>Seleccionar</option>`);
+  
+    $.each(data, function (i, value) {
+      $select.append(`<option value ="${value.id_product}"> ${value[property]} </option>`);
+    });
+  };
 });

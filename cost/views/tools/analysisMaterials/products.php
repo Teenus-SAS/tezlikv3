@@ -209,6 +209,7 @@ if (sizeof($_SESSION) == 0)
         // price_usd = 
         plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
+        flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/global/js/global/orderData.js"></script>

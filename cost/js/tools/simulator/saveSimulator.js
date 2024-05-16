@@ -209,9 +209,9 @@ $(document).ready(function () {
     $('.cardBottons').show(400);
 
     if (data.success == true) {
-      setTimeout(() => {
-        window.location.reload();
-      }, 4000);
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 4000);
 
       toastr.success(data.message);
       return false;

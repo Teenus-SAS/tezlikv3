@@ -245,6 +245,7 @@ $(document).ready(function () {
       if (op == 1) {
         await loadExpensesDProducts();
         await loadFamilies(2);
+        await loadTblMultiproducts();
       } else if (op == 2) await loadExpensesRProducts();
       else if (op == 3) await loadFamilies(1);
       else if (op == 4) {

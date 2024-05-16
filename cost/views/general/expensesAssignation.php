@@ -513,7 +513,7 @@ if (sizeof($_SESSION) == 0)
                                                 $_SESSION['plan_cost_multiproduct'] == 1)
                                         ) { ?>
                                             <li class="nav-item">
-                                                <a class="nav-link active selectNavigation" id="expenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                <a class="nav-link active selectNavigation" id="sExpenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
                                                     <i class="fas fa-flask mr-1"></i>Asignación
                                                 </a>
                                             </li>
@@ -585,6 +585,44 @@ if (sizeof($_SESSION) == 0)
                                                 <?php } else { ?>
                                                     <div class="row cardExpenseDistribution">
                                                     <?php } ?>
+                                                    <div class="col-12 cardTblMultiproducts" style="display: none;">
+                                                        <div class="card">
+                                                            <div class="card-header row">
+                                                                <h5 class="col-sm-10 card-title">Multiproductos</h5>
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-striped text-center" id="tblMultiproducts">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="width: 350px">Producto</th>
+                                                                                <th>No Unidades Vendidas</th>
+                                                                                <th style="width: 150px;" id="lblPrice">Precio</th>
+                                                                                <!-- <th style="width: 150px;">Costo Variable</th> -->
+                                                                                <th style="width: 150px;">Participacion</th>
+                                                                                <th>Margen De Contribucion</th>
+                                                                                <!-- <th>Promedio Ponderado</th> -->
+                                                                                <th>Unidades A Vender</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody id="tblMultiproductsBody"></tbody>
+                                                                        <tfoot>
+                                                                            <tr>
+                                                                                <td>Total:</td>
+                                                                                <td id="totalSoldsUnits"></td>
+                                                                                <!-- <td></td> -->
+                                                                                <td></td>
+                                                                                <td id="totalParticipation"></td>
+                                                                                <td></td>
+                                                                                <!-- <td id="totalAverages"></td> -->
+                                                                                <td id="totalSumUnits"></td>
+                                                                            </tr>
+                                                                        </tfoot>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-12 cardTblExpensesDistribution">
                                                         <div class="card-body">
                                                             <div class="table-responsive">
@@ -653,6 +691,7 @@ if (sizeof($_SESSION) == 0)
                 flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
                 production_center = "<?= $_SESSION['production_center'] ?>";
                 flag_production_center = "<?= $_SESSION['flag_production_center'] ?>";
+                DatatableTblMultiproducts = 0;
             </script>
 
             <script src="../global/js/import/import.js"></script>
@@ -678,6 +717,9 @@ if (sizeof($_SESSION) == 0)
                 <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
                 <script src="/cost/js/general/expensesDistribution/newProducts.js"></script>
                 <script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
+                <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
+                <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
+                <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
                     <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>
                     <script src="/cost/js/general/expensesDistribution/families/configFamilies.js"></script>
