@@ -126,7 +126,8 @@ $(document).ready(function () {
     if (!refP) {
       emptyInputs.push("#idProcess"); 
     }
-    if (!refM) {
+    
+    if (isNaN(refM)) {
       emptyInputs.push("#idMachine");
     }
     
