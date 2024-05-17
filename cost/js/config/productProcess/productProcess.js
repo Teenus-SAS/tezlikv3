@@ -126,7 +126,7 @@ $(document).ready(function () {
     if (!refP) {
       emptyInputs.push("#idProcess"); 
     }
-    
+
     if (isNaN(refM)) {
       emptyInputs.push("#idMachine");
     }
@@ -160,7 +160,7 @@ $(document).ready(function () {
     if (!validateForm()) {
       return false;
     }
-    // idProduct = parseInt($("#selectNameProduct").val());
+    let idProduct = parseInt($("#selectNameProduct").val());
     // let refP = parseInt($("#idProcess").val());
     // let refM = parseInt($("#idMachine").val());
     // let enlistmentTime = parseFloat($("#enlistmentTime").val());
