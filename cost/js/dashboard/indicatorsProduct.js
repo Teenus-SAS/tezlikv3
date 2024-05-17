@@ -349,7 +349,7 @@ $(document).ready(function () {
                   </div>`;
       $('#actualSalePrice').addClass('text-danger');
     }
-    else if (dataCost.actualProfitability3 < data[0].profitability || dataCost.actualProfitability3 >= 1) {
+    else if (dataCost.actualProfitability3 < data[0].profitability /* dataCost.actualProfitability3 >= 1*/) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
@@ -417,7 +417,7 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-    } else if (dataCost.actualProfitability2 < data[0].profitability || dataCost.actualProfitability2 >= 1) {
+    } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
