@@ -172,7 +172,6 @@ $(document).ready(function () {
   };
 
   /* Eliminar gasto */
-
   deleteExpenseDistribution = (id) => {
     let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpensesDistribution'));
     let data = dataExpenses.find(item => item.id_expenses_distribution == id);
@@ -243,9 +242,17 @@ $(document).ready(function () {
         selectElement.selectedIndex = 0;
       }
       if (op == 1) {
+        $('.loading').show(800);
+        document.body.style.overflow = 'hidden';
+
         await loadExpensesDProducts();
         await loadFamilies(2);
         await loadTblMultiproducts();
+        
+        setTimeout(() => {
+          $('.loading').hide(800);
+          document.body.style.overflow = '';
+        }, 3500);
       } else if (op == 2) await loadExpensesRProducts();
       else if (op == 3) await loadFamilies(1);
       else if (op == 4) {
@@ -253,7 +260,7 @@ $(document).ready(function () {
         // await loadTableProductsFamilies();
       }
 
-      updateTable(op);
+      await updateTable(op);
       toastr.success(data.message);
       return false;
     } else if (data.error == true) toastr.error(data.message);

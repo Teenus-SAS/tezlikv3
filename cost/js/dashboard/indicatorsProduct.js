@@ -417,6 +417,8 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
+      $('#recomendedPrice').addClass('text-danger');
+      
     } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
       content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
@@ -428,18 +430,19 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
+      $('#recomendedPrice').addClass('text-warning');    
     } else {
-      content = `<div class="card radius-10 border-start border-0 border-3">
+      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
                           <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Real)</span>
-                          <h2 class="mb-0 mt-1">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
+                          <h2 class="mb-0 mt-1 text-success">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
                         </div>
                       </div>
                     </div>
                   </div>`;
-      
+      $('#recomendedPrice').addClass('text-success');
     }
 
     $('.cardRecomendedPrice').append(content);

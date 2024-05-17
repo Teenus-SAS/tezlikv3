@@ -159,7 +159,7 @@ $(document).ready(function () {
       XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
       XLSX.writeFile(wb, namexlsx);
     } else {
-      let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
+      let url = 'assets/formatsXlsx/Servicios_Externos_Generales.xlsx';
 
       let link = document.createElement('a');
       link.target = '_blank';

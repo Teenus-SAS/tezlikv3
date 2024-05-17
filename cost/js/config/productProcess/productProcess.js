@@ -130,11 +130,11 @@ $(document).ready(function () {
       emptyInputs.push("#idMachine");
     }
     
-    if (inyection == "0") {
-      if (!enlistmentTime) {
-        emptyInputs.push("#enlistmentTime");
-      }
-    }
+    // if (inyection == "0") {
+    //   if (enlistmentTime) {
+    //     emptyInputs.push("#enlistmentTime");
+    //   }
+    // }
 
     if (!operationTime) {
       emptyInputs.push("#operationTime");
