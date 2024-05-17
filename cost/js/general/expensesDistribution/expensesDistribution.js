@@ -272,10 +272,11 @@ $(document).ready(function () {
     if (op == 1)
       loadAllDataDistribution();
     if (op == 2) {
-      if ($.fn.dataTable.isDataTable("#tblExpenses")) {
-        $('#tblExpenses').DataTable().clear();
-        $('#tblExpenses').DataTable().ajax.reload();
-      }
+      // if ($.fn.dataTable.isDataTable("#tblExpenses")) {
+      //   $('#tblExpenses').DataTable().clear();
+      //   $('#tblExpenses').DataTable().ajax.reload();
+      // }
+      loadTableExpenseRecover();
 
       if ($.fn.dataTable.isDataTable("#tblFamilies")) {
         $('#tblFamilies').DataTable().clear();

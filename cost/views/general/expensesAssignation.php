@@ -717,9 +717,7 @@ if (sizeof($_SESSION) == 0)
                 <script src="/cost/js/general/expensesDistribution/expensesDistribution.js"></script>
                 <script src="/cost/js/general/expensesDistribution/newProducts.js"></script>
                 <script src="/cost/js/general/expensesDistribution/importExpensesDistribution.js"></script>
-                <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
-                <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
-                <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
+
                 <?php if ($_SESSION['flag_expense'] == 1 || $_SESSION['flag_expense'] == 0) { ?>
                     <script src="/cost/js/general/expensesDistribution/configProducts.js"></script>
                     <script src="/cost/js/general/expensesDistribution/families/configFamilies.js"></script>
@@ -727,6 +725,9 @@ if (sizeof($_SESSION) == 0)
                     <script src="/cost/js/general/expensesDistribution/families/tblFamilies.js"></script>
                     <script src="/cost/js/general/expensesDistribution/families/tblExpensesDistributionFamilies.js"></script>
                     <script src="/cost/js/general/expensesDistribution/families/configProducts.js"></script>
+                    <script src="/cost/js/tools/multiproduct/tblMultiproducts.js"></script>
+                    <script src="/cost/js/tools/multiproduct/calcMultiproducts.js"></script>
+                    <script src="/cost/js/tools/multiproduct/saveMultiproducts.js"></script>
                 <?php } ?>
 
                 <?php if ($_SESSION['flag_expense'] == 2) { ?>

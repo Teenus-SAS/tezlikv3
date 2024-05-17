@@ -154,7 +154,7 @@ $(document).ready(function () {
           });
 
           permissions.push({
-            name: "Und Produccion",
+            name: "C. Produccion",
             icon: data.flag_production_center == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",

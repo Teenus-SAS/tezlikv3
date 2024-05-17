@@ -197,7 +197,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
-                                                        <label>C. Produccion</label>
+                                                        <label>U. Produccion</label>
                                                         <select name="production" id="production" class="form-control">
                                                             <option selected disabled value="0">Seleccionar</option>
                                                             <option value="1">Si</option>
