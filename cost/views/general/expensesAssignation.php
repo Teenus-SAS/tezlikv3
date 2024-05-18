@@ -89,7 +89,7 @@ if (sizeof($_SESSION) == 0)
                                             <button class="btn btn-warning" id="btnNewExpense">Nuevo Gasto</button>
                                         </div>
                                         <div class="col-xs-2 py-2 mr-2">
-                                            <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
+                                            <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                         </div>
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                             <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
@@ -134,7 +134,7 @@ if (sizeof($_SESSION) == 0)
                                                 <button class="btn btn-warning" id="btnNewExpenseRecover">Recuperar Gastos</button>
                                             </div>
                                             <div class="col-xs-2 py-2 mr-2 cardBtnImportExpenses" style="display:none">
-                                                <button id="btnImportNewExpenses" class="btn btn-info"></button>
+                                                <button class="btn btn-info" id="btnImportNewExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                             </div>
                                             <?php if ($_SESSION['type_expense'] == 1) { ?>
                                                 <div class="col-xs-2 mr-2 btn-group cardBtnExpensesDistribution" style="display: none;">
@@ -167,7 +167,7 @@ if (sizeof($_SESSION) == 0)
                                                     <button class="btn btn-warning" id="btnNewProductionCenter">Nuevo Und Produccion</button>
                                                 </div>
                                                 <div class="col-xs-2 py-2 mr-2">
-                                                    <button class="btn btn-info" id="btnImportNewAssExpenses">Importar Gastos</button>
+                                                    <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                                 </div>
                                             </div>
                                         </div>

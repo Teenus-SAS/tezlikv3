@@ -34,8 +34,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/factoryLoad', function (Request $request, Response $response, $args) use (
-    $factoryloadDao,
-    $webTokenDao
+    $webTokenDao,
+    $factoryloadDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -65,9 +65,9 @@ $app->get('/factoryLoad', function (Request $request, Response $response, $args)
 
 /* Consultar carga fabril*/
 $app->post('/factoryLoadDataValidation', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $machinesDao,
-    $generalFactoryLoadDao,
-    $webTokenDao
+    $generalFactoryLoadDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -135,8 +135,8 @@ $app->post('/factoryLoadDataValidation', function (Request $request, Response $r
 });
 
 $app->post('/addFactoryLoad', function (Request $request, Response $response, $args) use (
-    $factoryloadDao,
     $webTokenDao,
+    $factoryloadDao,
     $generalFactoryLoadDao,
     $lastDataDao,
     $machinesDao,
@@ -462,8 +462,8 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 });
 
 $app->post('/updateFactoryLoad', function (Request $request, Response $response, $args) use (
-    $factoryloadDao,
     $webTokenDao,
+    $factoryloadDao,
     $generalFactoryLoadDao,
     $costMinuteDao,
     $indirectCostDao,
@@ -632,8 +632,8 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
 });
 
 $app->post('/deleteFactoryLoad', function (Request $request, Response $response, $args) use (
-    $factoryloadDao,
     $webTokenDao,
+    $factoryloadDao,
     $indirectCostDao,
     $priceProductDao,
     $pricesUSDDao,

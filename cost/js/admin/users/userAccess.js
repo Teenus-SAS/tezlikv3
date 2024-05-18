@@ -77,9 +77,15 @@ $(document).ready(function () {
             $('#navCostGeneral').show();
 
         if (
-            access.aBackup == 0 &&
-            access.aUsers == 0 &&
             access.aGeneralCostReport == 0
+        ) {
+            $('#navCostReport').hide();
+        } else
+            $('#navCostReport').show();
+        
+        if (
+            access.aBackup == 0 &&
+            access.aUsers == 0
         ) {
             $('#navCostAdmin').hide();
         } else

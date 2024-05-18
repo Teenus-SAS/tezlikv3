@@ -86,7 +86,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-warning" id="btnNewMaterial" name="btnNewMaterial">Nueva Materia Prima</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewMaterials" name="btnNewImportMaterials">Importar Materias Primas</button>
+                                        <button class="btn btn-info" id="btnImportNewMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materias Primas"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <!-- $_SESSION['price_usd'] -->
                                     <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
@@ -112,7 +112,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-warning" id="btnNewCategory" name="btnNewCategory">Nueva Categoria</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewCategory" name="btnImportNewCategory">Importar Categoria</button>
+                                        <button class="btn btn-info" id="btnImportNewCategory" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Categoria"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                 </div>
                             </div>

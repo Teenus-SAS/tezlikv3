@@ -27,7 +27,8 @@ class CostUserAccessDao
                                                 us.id_user, 
                                                 us.firstname, 
                                                 us.lastname, 
-                                                us.email, 
+                                                us.email,
+                                                us.active,
                                             -- Menú Maestros
                                                 IFNULL(usa.create_product, 0) AS create_product, 
                                                 IFNULL(usa.create_materials, 0) AS create_materials, 

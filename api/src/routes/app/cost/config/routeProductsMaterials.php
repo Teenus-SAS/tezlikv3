@@ -38,8 +38,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/productsMaterials/{idProduct}', function (Request $request, Response $response, $args) use (
-    $productsMaterialsDao,
-    $webTokenDao
+    $webTokenDao,
+    $productsMaterialsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -70,8 +70,8 @@ $app->get('/productsMaterials/{idProduct}', function (Request $request, Response
 });
 
 $app->get('/allProductsMaterials', function (Request $request, Response $response, $args) use (
-    $generalProductMaterialsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProductMaterialsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -102,8 +102,8 @@ $app->get('/allProductsMaterials', function (Request $request, Response $respons
 });
 
 $app->post('/productsMaterialsDataValidation', function (Request $request, Response $response, $args) use (
-    $productsMaterialsDao,
     $webTokenDao,
+    $productsMaterialsDao,
     $magnitudesDao,
     $unitsDao,
     $productsDao,
@@ -247,9 +247,9 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
 });
 
 $app->post('/addProductsMaterials', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $productsMaterialsDao,
     $convertDataDao,
-    $webTokenDao,
     $productsDao,
     $materialsDao,
     $magnitudesDao,
@@ -625,9 +625,9 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
 });
 
 $app->post('/updateProductsMaterials', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $productsMaterialsDao,
     $convertDataDao,
-    $webTokenDao,
     $materialsDao,
     $conversionUnitsDao,
     $costMaterialsDao,
@@ -805,8 +805,8 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
 });
 
 $app->post('/deleteProductMaterial', function (Request $request, Response $response, $args) use (
-    $productsMaterialsDao,
     $webTokenDao,
+    $productsMaterialsDao,
     $costMaterialsDao,
     $materialsDao,
     $conversionUnitsDao,

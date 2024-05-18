@@ -48,6 +48,18 @@ $(document).ready(function () {
         },
       },
       {
+        title: 'Activar/Inactivar',
+        data: null,
+        className: 'uniqueClassName',
+        render: function (data) {
+          data.active == 1 ?
+            content = `<a href="javascript:;" <span id="${data.id_user}" class="badge badge-warning checkUser">Inactivar</span></a>` :
+            content = `<a href="javascript:;" <span id="${data.id_user}" class="badge badge-success checkUser">Activar</span></a>`;
+
+          return content;
+        },
+      },
+      {
         title: "Nombres",
         data: "firstname",
         className: "uniqueClassName",

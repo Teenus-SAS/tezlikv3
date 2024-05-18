@@ -307,37 +307,11 @@ $(document).ready(function () {
     $('#actualSalePrice').removeClass('text-danger');
  
     if (!isFinite(dataCost.actualProfitability2))
-      dataCost.actualProfitability2 = 0;
-     
-    /*
-    if (dataCost.actualProfitability3 < data[0].profitability && dataCost.actualProfitability3 > 0 && parseFloat(data[0].sale_price) > 0) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
-                    <div class="card-body">
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Lista)</span>
-                          <h2 class="mb-0 mt-1 costProduct text-warning">${dataCost.actualProfitability3.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %</h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>`;
-      $('#actualSalePrice').addClass('text-warning');
-    }
-    else if (dataCost.actualProfitability2 < data[0].profitability && parseFloat(data[0].sale_price) > 0) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
-                    <div class="card-body">
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Lista)</span>
-                          <h2 class="mb-0 mt-1 costProduct text-danger">${dataCost.actualProfitability3.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>`;
-      $('#actualSalePrice').addClass('text-danger');
-    } */
-    if (dataCost.actualProfitability3 <= 0) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+      dataCost.actualProfitability2 = 0; 
+
+    if (flag_expense != '2') {
+      if (dataCost.actualProfitability3 <= 0) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -347,10 +321,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#actualSalePrice').addClass('text-danger');
-    }
-    else if (dataCost.actualProfitability3 < data[0].profitability /* dataCost.actualProfitability3 >= 1*/) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+        $('#actualSalePrice').addClass('text-danger');
+      } else if (dataCost.actualProfitability3 < data[0].profitability /* dataCost.actualProfitability3 >= 1*/) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -360,10 +333,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#actualSalePrice').addClass('text-warning');
-    }
-    else {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
+        $('#actualSalePrice').addClass('text-warning');
+      } else {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -373,18 +345,17 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#actualSalePrice').addClass('text-success');
-    }
+        $('#actualSalePrice').addClass('text-success');
+      }
     
-    $('.cardTrafficLight').append(content);
+      $('.cardTrafficLight').append(content);
 
-    let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
-    $('.cardRecomendedPrice').empty();
-    content = '';
-
-    /*  
-      if (price < parseFloat(data[0].sale_price)) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+      let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
+      $('.cardRecomendedPrice').empty();
+      content = '';
+ 
+      if (dataCost.actualProfitability2 <= 0) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -394,33 +365,10 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-        } else if (price == parseFloat(data[0].sale_price)) {
-          content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
-                    <div class="card-body">
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Real)</span>
-                          <h2 class="mb-0 mt-1 text-warning">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>`; 
-    */
-    if (dataCost.actualProfitability2 <= 0) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
-                    <div class="card-body">
-                      <div class="media align-items-center">
-                        <div class="media-body">
-                          <span class="text-muted text-uppercase font-size-12 font-weight-bold">${id_company == '10' ? 'Margen' : 'Rentabilidad'} (Real)</span>
-                          <h2 class="mb-0 mt-1 text-danger">${dataCost.actualProfitability2.toLocaleString('es-CO', { maximumFractionDigits: 2, })} %</h2>
-                        </div>
-                      </div>
-                    </div>
-                  </div>`;
-      $('#recomendedPrice').addClass('text-danger');
+        $('#recomendedPrice').addClass('text-danger');
       
-    } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+      } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -430,9 +378,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#recomendedPrice').addClass('text-warning');    
-    } else {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
+        $('#recomendedPrice').addClass('text-warning');
+      } else {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -442,10 +390,11 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#recomendedPrice').addClass('text-success');
-    }
+        $('#recomendedPrice').addClass('text-success');
+      }
 
-    $('.cardRecomendedPrice').append(content);
+      $('.cardRecomendedPrice').append(content);
+    };
   };
 
   loadIndicatorsProducts(id_product);

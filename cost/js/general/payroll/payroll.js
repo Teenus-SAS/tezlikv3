@@ -229,11 +229,11 @@ $(document).ready(function () {
     var options = ``;
 
     // let dataProcess = await searchData(`/api/process/${employee}`);
-    let process = leaveUniqueKey(allProductProcess, 'id_process');
+    // let process = leaveUniqueKey(allProcess, 'id_process');
     let processByEmployee = allPayroll.filter(item => item.employee == employee);
 
     // Filtrar el primer array para eliminar los elementos que están en el segundo array
-    process = process.filter(item => !processByEmployee.find(p => p.id_process === item.id_process));
+    let process = allProcess.filter(item => !processByEmployee.find(p => p.id_process === item.id_process));
 
     if (process.length == 0) {
       toastr.info('No hay procesos disponibles para este empleado');

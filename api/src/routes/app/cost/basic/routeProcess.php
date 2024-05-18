@@ -16,8 +16,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/process', function (Request $request, Response $response, $args) use (
-    $processDao,
-    $webTokenDao
+    $webTokenDao,
+    $processDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -46,8 +46,8 @@ $app->get('/process', function (Request $request, Response $response, $args) use
 });
 
 $app->post('/processDataValidation', function (Request $request, Response $response, $args) use (
-    $generalProcessDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProcessDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -105,10 +105,10 @@ $app->post('/processDataValidation', function (Request $request, Response $respo
 });
 
 $app->post('/addProcess', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $processDao,
     $generalProcessDao,
-    $lastDataDao,
-    $webTokenDao
+    $lastDataDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -191,9 +191,9 @@ $app->post('/addProcess', function (Request $request, Response $response, $args)
 });
 
 $app->post('/updateProcess', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $processDao,
-    $generalProcessDao,
-    $webTokenDao
+    $generalProcessDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -241,8 +241,8 @@ $app->post('/updateProcess', function (Request $request, Response $response, $ar
 });
 
 $app->post('/saveRouteProcess', function (Request $request, Response $response, $args) use (
-    $generalProcessDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProcessDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -287,8 +287,8 @@ $app->post('/saveRouteProcess', function (Request $request, Response $response, 
 });
 
 $app->get('/deleteProcess/{id_process}', function (Request $request, Response $response, $args) use (
-    $processDao,
-    $webTokenDao
+    $webTokenDao,
+    $processDao
 ) {
     $info = $webTokenDao->getToken();
 

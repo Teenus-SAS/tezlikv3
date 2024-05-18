@@ -40,8 +40,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/materials', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalMaterialsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -71,8 +71,8 @@ $app->get('/materials', function (Request $request, Response $response, $args) u
 
 /* Consultar productos relacionados con la materia prima */
 $app->get('/productsByMaterials/{id_material}', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalMaterialsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -100,8 +100,8 @@ $app->get('/productsByMaterials/{id_material}', function (Request $request, Resp
 
 /* Consultar Materias prima importada */
 $app->post('/materialsDataValidation', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao,
     $webTokenDao,
+    $generalMaterialsDao,
     $generalCategoriesDao,
     $magnitudesDao,
     $unitsDao
@@ -253,8 +253,8 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 });
 
 $app->post('/addMaterials', function (Request $request, Response $response, $args) use (
-    $materialsDao,
     $webTokenDao,
+    $materialsDao,
     $generalMaterialsDao,
     $lastDataDao,
     $trmDao,
@@ -543,8 +543,8 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 });
 
 $app->post('/updateMaterials', function (Request $request, Response $response, $args) use (
-    $materialsDao,
     $webTokenDao,
+    $materialsDao,
     $generalMaterialsDao,
     $trmDao,
     $productMaterialsDao,
@@ -761,8 +761,8 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 });
 
 $app->post('/saveBillMaterial', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao,
     $webTokenDao,
+    $generalMaterialsDao,
     $filesDao
 ) {
     $info = $webTokenDao->getToken();
@@ -804,8 +804,8 @@ $app->post('/saveBillMaterial', function (Request $request, Response $response, 
 });
 
 $app->post('/deleteMaterial', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalMaterialsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -842,8 +842,8 @@ $app->post('/deleteMaterial', function (Request $request, Response $response, $a
 });
 
 $app->get('/changeIndirect/{id_material}/{op}', function (Request $request, Response $response, $args) use (
-    $generalMaterialsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalMaterialsDao
 ) {
     $info = $webTokenDao->getToken();
 

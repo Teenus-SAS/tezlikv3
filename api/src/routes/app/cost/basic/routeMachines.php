@@ -40,8 +40,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/machines', function (Request $request, Response $response, $args) use (
-    $machinesDao,
-    $webTokenDao
+    $webTokenDao,
+    $machinesDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -71,9 +71,9 @@ $app->get('/machines', function (Request $request, Response $response, $args) us
 
 /* Consultar Maquinas importadas */
 $app->post('/machinesDataValidation', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $generalMachinesDao,
-    $convertDataDao,
-    $webTokenDao
+    $convertDataDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -148,11 +148,10 @@ $app->post('/machinesDataValidation', function (Request $request, Response $resp
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-
 /* Agregar Maquinas */
 $app->post('/addMachines', function (Request $request, Response $response, $args) use (
-    $machinesDao,
     $webTokenDao,
+    $machinesDao,
     $generalMachinesDao,
     $tpInyectionDao,
     $costWorkforceDao,
@@ -408,8 +407,8 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
 /* Actualizar Maquina */
 $app->post('/updateMachines', function (Request $request, Response $response, $args) use (
-    $machinesDao,
     $webTokenDao,
+    $machinesDao,
     $generalMachinesDao,
     $tpInyectionDao,
     $costWorkforceDao,
@@ -632,11 +631,10 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-
 /* Eliminar Maquina */
 $app->post('/deleteMachine', function (Request $request, Response $response, $args) use (
-    $machinesDao,
     $webTokenDao,
+    $machinesDao,
     $generalProductProcessDao,
     $indirectCostDao,
     $priceProductDao,

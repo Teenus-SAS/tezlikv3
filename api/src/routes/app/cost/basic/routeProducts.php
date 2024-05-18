@@ -63,8 +63,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/products', function (Request $request, Response $response, $args) use (
-    $productsDao,
-    $webTokenDao
+    $webTokenDao,
+    $productsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -94,8 +94,8 @@ $app->get('/products', function (Request $request, Response $response, $args) us
 
 /* Consultar productos CRM */
 $app->get('/productsCRM', function (Request $request, Response $response, $args) use (
-    $generalProductsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProductsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -123,8 +123,8 @@ $app->get('/productsCRM', function (Request $request, Response $response, $args)
 
 /* Consultar Productos creados */
 $app->get('/productsLimit', function (Request $request, Response $response, $args) use (
-    $productsQuantityDao,
-    $webTokenDao
+    $webTokenDao,
+    $productsQuantityDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -156,8 +156,8 @@ $app->get('/productsLimit', function (Request $request, Response $response, $arg
 });
 
 $app->get('/inactivesProducts', function (Request $request, Response $response, $args) use (
-    $generalProductsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProductsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -186,8 +186,8 @@ $app->get('/inactivesProducts', function (Request $request, Response $response, 
 });
 
 $app->get('/productCost/{id_product}', function (Request $request, Response $response, $args) use (
-    $generalProductsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProductsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -217,9 +217,8 @@ $app->get('/productCost/{id_product}', function (Request $request, Response $res
 
 /* Consultar productos importados */
 $app->post('/productsDataValidation', function (Request $request, Response $response, $args) use (
-    $generalProductsDao,
-    $webTokenDao
-
+    $webTokenDao,
+    $generalProductsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -292,13 +291,13 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
 });
 
 $app->post('/addProducts', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $productsDao,
     $generalProductsDao,
     $lastDataDao,
     $FilesDao,
     $productsCostDao,
-    $productsQuantityDao,
-    $webTokenDao
+    $productsQuantityDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -399,8 +398,8 @@ $app->post('/addProducts', function (Request $request, Response $response, $args
 });
 
 $app->post('/copyProduct', function (Request $request, Response $response, $args) use (
-    $productsDao,
     $webTokenDao,
+    $productsDao,
     $lastDataDao,
     $productsCostDao,
     $generalProductsDao,
@@ -732,8 +731,8 @@ $app->post('/copyProduct', function (Request $request, Response $response, $args
 });
 
 $app->post('/updateProducts', function (Request $request, Response $response, $args) use (
-    $productsDao,
     $webTokenDao,
+    $productsDao,
     $FilesDao,
     $productsCostDao,
     $generalProductsDao,
@@ -888,8 +887,8 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 });
 
 $app->post('/deleteProduct', function (Request $request, Response $response, $args) use (
-    $generalPMaterialsDao,
     $webTokenDao,
+    $generalPMaterialsDao,
     $generalPProcessDao,
     $generalServicesDao,
     $generalExpenseDistributionDao,
@@ -1028,9 +1027,9 @@ $app->post('/deleteProduct', function (Request $request, Response $response, $ar
 
 /* Activar o Inactivar Producto */
 $app->get('/changeActiveProduct/{id_product}/{op}', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $generalProductsDao,
     $assignableExpenseDao,
-    $webTokenDao,
     $familiesDao
 ) {
     $info = $webTokenDao->getToken();
@@ -1126,8 +1125,8 @@ $app->get('/changeActiveProduct/{id_product}/{op}', function (Request $request, 
 
 /* Activar Productos */
 $app->post('/activeProducts', function (Request $request, Response $response, $args) use (
-    $generalProductsDao,
     $webTokenDao,
+    $generalProductsDao,
     $assignableExpenseDao,
     $familiesDao
 ) {
@@ -1226,8 +1225,8 @@ $app->post('/activeProducts', function (Request $request, Response $response, $a
 });
 
 $app->get('/changeComposite/{id_product}/{op}', function (Request $request, Response $response, $args) use (
-    $generalProductsDao,
     $webTokenDao,
+    $generalProductsDao,
     $generalCompositeProductsDao
 ) {
     $info = $webTokenDao->getToken();

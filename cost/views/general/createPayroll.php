@@ -86,7 +86,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-warning" id="btnNewPayroll">Nueva Nómina</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewPayroll">Importar Nómina</button>
+                                        <button class="btn btn-info" id="btnImportNewPayroll" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Nómina"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                 </div>
                             <?php } ?>

@@ -22,8 +22,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/allExternalservices', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
-    $webTokenDao
+    $webTokenDao,
+    $externalServicesDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -52,8 +52,8 @@ $app->get('/allExternalservices', function (Request $request, Response $response
 });
 
 $app->post('/externalServiceDataValidation', function (Request $request, Response $response, $args) use (
-    $generalServicesDao,
     $webTokenDao,
+    $generalServicesDao,
     $productsDao
 ) {
     $info = $webTokenDao->getToken();
@@ -126,8 +126,8 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 });
 
 $app->post('/addExternalService', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
     $webTokenDao,
+    $externalServicesDao,
     $generalServicesDao,
     $productsDao,
     $priceProductDao,
@@ -385,8 +385,8 @@ $app->post('/addExternalService', function (Request $request, Response $response
 });
 
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
     $webTokenDao,
+    $externalServicesDao,
     $generalServicesDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -459,8 +459,8 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 });
 
 $app->post('/deleteExternalService', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
     $webTokenDao,
+    $externalServicesDao,
     $priceProductDao,
     $pricesUSDDao,
     $productsDao

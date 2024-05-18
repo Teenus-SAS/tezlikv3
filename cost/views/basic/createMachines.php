@@ -83,7 +83,7 @@ if (sizeof($_SESSION) == 0)
                                     <button class="btn btn-warning" id="btnNewMachine" name="btnNewMachine">Nueva Máquina</button>
                                 </div>
                                 <div class="col-xs-2 py-2 mr-2">
-                                    <button class="btn btn-info" id="btnImportNewMachines" name="btnNewImportMachines">Importar Máquinas</button>
+                                    <button class="btn btn-info" id="btnNewImportMachines" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Máquinas"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                 </div>
                             </div>
                         </div>

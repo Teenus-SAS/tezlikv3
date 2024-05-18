@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class QuantityUsersDao
+class GeneralUsersDao
 {
     private $logger;
 
@@ -14,6 +14,21 @@ class QuantityUsersDao
     {
         $this->logger = new Logger(self::class);
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
+    }
+
+    public function inactivateActivateUser($id_user, $status)
+    {
+        try {
+            $connection = Connection::getInstance()->getConnection();
+
+            $stmt = $connection->prepare("UPDATE users SET active = :statusUser WHERE id_user = :id_user");
+            $stmt->execute([
+                'id_user' => $id_user,
+                'statusUser' => $status
+            ]);
+        } catch (\Exception $e) {
+            return ['info' => true, 'message' => $e->getMessage()];
+        }
     }
 
     /*Obtener cantidad para creacion de usuario permitidos*/

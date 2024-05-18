@@ -2,20 +2,20 @@ $(document).ready(function () {
   /* Cargue tabla de Máquinas */
   type_payroll == '1' ? visible = true : visible = false;
   allPayroll = [];
-  allProductProcess = [];
+  allProcess = [];
 
   loadAllTblData = async () => {
     try {
-      const [payroll, dataCost, dataProductProcess] = await Promise.all([
+      const [payroll, dataCost, dataProcess] = await Promise.all([
         searchData('/api/payroll'),
         searchData('/api/salarynet'),
-        searchData('/api/allProductsProcess')
+        searchData('/api/process')
       ]);
 
       sessionStorage.setItem('dataCost', JSON.stringify(dataCost));
 
       allPayroll = payroll;
-      allProductProcess = dataProductProcess;
+      allProcess = dataProcess;
 
       loadTblPayroll(payroll);
 

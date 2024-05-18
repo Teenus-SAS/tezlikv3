@@ -16,8 +16,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /* Consulta todos */
 
 $app->get('/categories', function (Request $request, Response $response, $args) use (
-    $categoryDao,
-    $webTokenDao
+    $webTokenDao,
+    $categoryDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -46,8 +46,8 @@ $app->get('/categories', function (Request $request, Response $response, $args) 
 });
 
 $app->post('/categoriesDataValidation', function (Request $request, Response $response, $args) use (
-    $generalCategoryDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalCategoryDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -105,10 +105,10 @@ $app->post('/categoriesDataValidation', function (Request $request, Response $re
 });
 
 $app->post('/addCategory', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $categoryDao,
     $generalCategoryDao,
-    $lastDataDao,
-    $webTokenDao
+    $lastDataDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -175,9 +175,9 @@ $app->post('/addCategory', function (Request $request, Response $response, $args
 });
 
 $app->post('/updateCategory', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $categoryDao,
-    $generalCategoryDao,
-    $webTokenDao
+    $generalCategoryDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -225,8 +225,8 @@ $app->post('/updateCategory', function (Request $request, Response $response, $a
 });
 
 $app->get('/deleteCategory/{id_category}', function (Request $request, Response $response, $args) use (
-    $categoryDao,
-    $webTokenDao
+    $webTokenDao,
+    $categoryDao
 ) {
     $info = $webTokenDao->getToken();
 

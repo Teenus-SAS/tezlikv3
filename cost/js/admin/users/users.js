@@ -213,9 +213,9 @@ $(document).ready(function () {
       payroll: data.payroll_load,
       // generalExpenses: data.expense,
       //distributionExpenses: data.expense_distribution,
+      generalCostReport: data.general_cost_report,
       users: data.user,
       backup: data.backup,
-      generalCostReport: data.general_cost_report,
       quotePaymentMethod: data.quote_payment_method,
       quoteCompany: data.quote_company,
       quoteContact: data.quote_contact,
@@ -416,9 +416,9 @@ $(document).ready(function () {
       payrollLoad: 0,
       // expense: 0,
       // expenseDistribution: 0,
+      generalCostReport:0,
       costUser: 0,
       costBackup: 0,
-      generalCostReport:0,
       quotePaymentMethod: 0,
       quoteCompany: 0,
       quoteContact: 0,
@@ -490,6 +490,48 @@ $(document).ready(function () {
       },
     });
   };
+
+  /* Inactivar / Activar Usuario */
+  $(document).on('click', '.checkUser', function () {
+    let id_user = this.id;
+
+    if (id_user == idUser) {
+      toastr.error('No puede cambiar de estado al usuario actualmente logueado');
+      return false;
+    }
+
+    let className = this.className.toString().split(" ");
+
+    let badge = className[1]; 
+    badge == 'badge-warning' ? op = 0 : op = 1;
+
+    bootbox.dialog({
+      title: op == 0 ? 'Inactivar' : 'Activar',
+      message: `¿Esta Seguro que desea ${op == 0 ? 'inactivar' : 'activar'} este usuario?.`,
+      backdrop: 'static', // Evita que el modal se cierre haciendo clic fuera de él
+      closeButton: false, // Oculta el botón de cierre del modal
+      size: 'small',
+      buttons: {
+        si: {
+          label: 'Si',
+          className: 'btn-success',
+          callback: function () {
+            $.get(`/api/changeActiveUser/${id_user}/${op}`,
+              function (data, textStatus, jqXHR) {
+                message(data);
+              },
+            );
+          }
+        },
+        no: {
+          label: 'No',
+          className: 'btn-danger',
+          callback: function () { 
+          }
+        }
+      }
+    });
+  });
 
   /* Mensaje de exito */
 

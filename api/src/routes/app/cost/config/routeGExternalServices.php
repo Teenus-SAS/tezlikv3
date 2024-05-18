@@ -10,8 +10,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/generalExternalservices', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
-    $webTokenDao
+    $webTokenDao,
+    $externalServicesDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -40,8 +40,8 @@ $app->get('/generalExternalservices', function (Request $request, Response $resp
 });
 
 $app->post('/generalExternalServiceDataValidation', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
-    $webTokenDao
+    $webTokenDao,
+    $externalServicesDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -99,8 +99,8 @@ $app->post('/generalExternalServiceDataValidation', function (Request $request, 
 });
 
 $app->post('/addGExternalService', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
-    $webTokenDao
+    $webTokenDao,
+    $externalServicesDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -168,8 +168,8 @@ $app->post('/addGExternalService', function (Request $request, Response $respons
 });
 
 $app->post('/updateGExternalService', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
-    $webTokenDao
+    $webTokenDao,
+    $externalServicesDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -217,8 +217,8 @@ $app->post('/updateGExternalService', function (Request $request, Response $resp
 });
 
 $app->post('/deleteGExternalService', function (Request $request, Response $response, $args) use (
-    $externalServicesDao,
-    $webTokenDao
+    $webTokenDao,
+    $externalServicesDao
 ) {
     $info = $webTokenDao->getToken();
 

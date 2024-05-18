@@ -6,8 +6,6 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-$quantityUsersDao = new QuantityUsersDao();
-
 class UsersDao
 {
   private $logger;

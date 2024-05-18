@@ -26,8 +26,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/compositeProducts/{id_product}', function (Request $request, Response $response, $args) use (
-    $compositeProductsDao,
-    $webTokenDao
+    $webTokenDao,
+    $compositeProductsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -57,8 +57,8 @@ $app->get('/compositeProducts/{id_product}', function (Request $request, Respons
 });
 
 $app->get('/allCompositeProducts', function (Request $request, Response $response, $args) use (
-    $generalCompositeProductsDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalCompositeProductsDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -88,8 +88,8 @@ $app->get('/allCompositeProducts', function (Request $request, Response $respons
 });
 
 $app->post('/addCompositeProduct', function (Request $request, Response $response, $args) use (
-    $compositeProductsDao,
     $webTokenDao,
+    $compositeProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
@@ -234,8 +234,8 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 });
 
 $app->post('/updateCompositeProduct', function (Request $request, Response $response, $args) use (
-    $compositeProductsDao,
     $webTokenDao,
+    $compositeProductsDao,
     $generalCompositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
@@ -382,8 +382,8 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 });
 
 $app->post('/deleteCompositeProduct', function (Request $request, Response $response, $args) use (
-    $compositeProductsDao,
     $webTokenDao,
+    $compositeProductsDao,
     $costMaterialsDao,
     $priceProductDao,
     $pricesUSDDao,

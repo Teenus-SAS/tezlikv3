@@ -90,7 +90,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     <?php } ?>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewProductsMaterials"data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materia Prima"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-info" id="btnImportNewProductsMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materia Prima"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
@@ -113,7 +113,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-warning" id="btnCreateProcess">Nuevo Proceso</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewProductProcess">Importar Procesos</button>
+                                        <button class="btn btn-info" id="btnImportNewProductProcess" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Procesos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
@@ -136,7 +136,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-warning" id="btnNewService">Nuevo Servicio</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-info" id="btnImportNewExternalServices">Importar Servicios Externos</button>
+                                        <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>

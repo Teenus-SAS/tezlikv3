@@ -3,9 +3,9 @@
 use tezlikv3\dao\CompaniesDao;
 use tezlikv3\dao\CompaniesLicenseDao;
 use tezlikv3\dao\UsersDao;
-use tezlikv3\dao\QuantityUsersDao;
 use tezlikv3\dao\CostUserAccessDao;
 use tezlikv3\dao\GeneralCostUserAccessDao;
+use tezlikv3\dao\GeneralUsersDao;
 use tezlikv3\dao\GenerateCodeDao;
 use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\SendEmailDao;
@@ -17,7 +17,7 @@ $userDao = new UsersDao();
 $generateCodeDao = new GenerateCodeDao();
 $makeEmailDao = new SendMakeEmailDao();
 $sendEmailDao = new SendEmailDao();
-$quantityUsersDao = new QuantityUsersDao();
+$generalUsersDao = new GeneralUsersDao();
 $costAccessUserDao = new CostUserAccessDao();
 $generalCostUserAccessDao = new GeneralCostUserAccessDao();
 $companyDao = new CompaniesDao();
@@ -102,7 +102,7 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     $generateCodeDao,
     $makeEmailDao,
     $sendEmailDao,
-    $quantityUsersDao,
+    $generalUsersDao,
     $costAccessUserDao,
     $companiesLicenseDao,
     $generalCostUserAccessDao
@@ -133,10 +133,10 @@ $app->post('/addUser', function (Request $request, Response $response, $args) us
     !isset($_SESSION['id_company']) ? $id_company = $dataUser['company'] : $id_company = $_SESSION['id_company'];
 
     //selecciona quantity_user de companies_licenses que tengan el id_company
-    $quantityAllowsUsers = $quantityUsersDao->quantityUsersAllows($id_company);
+    $quantityAllowsUsers = $generalUsersDao->quantityUsersAllows($id_company);
 
     //obtener cantidad de usuarios creados con el id_company
-    $quantityCreatedUsers = $quantityUsersDao->quantityUsersCreated($id_company);
+    $quantityCreatedUsers = $generalUsersDao->quantityUsersCreated($id_company);
 
     if ($quantityAllowsUsers['quantity_user'] <= $quantityCreatedUsers['quantity_users'])
         $resp = array('error' => true, 'message' => 'Cantidad de usuarios maxima alcanzada');
@@ -410,6 +410,45 @@ $app->post('/changePrincipalUser', function (Request $request, Response $respons
         $resp = array('info' => true, 'message' => $user['message']);
     else
         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras guardaba la información. Intente nuevamente');
+
+    $response->getBody()->write(json_encode($resp));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+// Activar/Inactivar Usuario
+$app->get('/changeActiveUser/{id_user}/{op}', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
+    $generalUsersDao
+) {
+    $info = $webTokenDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $webTokenDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $resolution = $generalUsersDao->inactivateActivateUser($args['id_user'], $args['op']);
+
+    $args['op'] == '1' ? $msg = 'activado' : $msg = 'inactivado';
+
+    if ($resolution == null)
+        $resp = array('success' => true, 'message' => "Usuario $msg correctamente");
+    else if (isset($resolution['info']))
+        $resp = array('info' => true, 'message' => $resolution['message']);
+    else
+        $resp = array('error' => true, 'message' => 'Ocurrio un error al guardar la información. Intente nuevamente');
 
     $response->getBody()->write(json_encode($resp));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');

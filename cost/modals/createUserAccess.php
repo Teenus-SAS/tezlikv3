@@ -133,18 +133,21 @@
                                                 <?php } ?>
                                             </div>
                                             <div class="col-sm-2 pb-3">
-                                                Creación Usuarios
+                                                Reportes
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-9" name="costUser" type="checkbox">
-                                                    <label for="checkbox-9">Usuarios</label>
+                                                    <input id="checkbox-9" name="generalCostReport" type="checkbox">
+                                                    <label for="checkbox-9">R. General De Costos</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-2 pb-3">
+                                                Administrador
+                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
+                                                    <input id="checkbox-10" name="costUser" type="checkbox">
+                                                    <label for="checkbox-10">Usuarios</label>
                                                 </div>
                                                 <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-10" name="costBackup" type="checkbox">
-                                                    <label for="checkbox-10">Backup</label>
-                                                </div>
-                                                <div class="mt-1 checkbox checkbox-success checkbox-circle">
-                                                    <input id="checkbox-11" name="generalCostReport" type="checkbox">
-                                                    <label for="checkbox-11">R. General De Costos</label>
+                                                    <input id="checkbox-11" name="costBackup" type="checkbox">
+                                                    <label for="checkbox-11">Backup</label>
                                                 </div>
                                             </div>
 

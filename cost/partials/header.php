@@ -23,15 +23,15 @@
                 </a>
                 <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown">
                     <div class="row">
-                        <div class="col-sm-9">
+                        <div class="col-sm-12">
                             <div class="row" id="nav">
                                 <?php if (
                                     $_SESSION['cost_product'] == 0 && $_SESSION['cost_material'] == 0 &&
                                     $_SESSION['cost_machine'] == 0 && $_SESSION['cost_process'] == 0
                                 ) { ?>
-                                    <div class="col-md-3" id="navCostBasics" style="display: none;">
+                                    <div class="col-xs-2 ml-3 mr-3" id="navCostBasics" style="display: none;">
                                     <?php } else { ?>
-                                        <div class="col-md-3" id="navCostBasics">
+                                        <div class="col-xs-2 ml-3 mr-3" id="navCostBasics">
                                         <?php } ?>
                                         <h5 class="font-size-14 font-weight-600">Maestros</h5>
                                         <ul class="list-unstyled megamenu-list">
@@ -72,9 +72,9 @@
                                         <?php if (
                                             $_SESSION['cost_products_material'] == 0 && $_SESSION['factory_load'] == 0
                                         ) { ?>
-                                            <div class="col-md-3" id="navCostSetting" style="display: none;">
+                                            <div class="col-xs-2 ml-3 mr-3" id="navCostSetting" style="display: none;">
                                             <?php } else { ?>
-                                                <div class="col-md-3" id="navCostSetting">
+                                                <div class="col-xs-2 ml-3 mr-3" id="navCostSetting">
                                                 <?php } ?>
                                                 <h5 class="font-size-14 font-weight-600">Configuración</h5>
                                                 <ul class="list-unstyled megamenu-list">
@@ -119,9 +119,9 @@
                                                 <?php if (
                                                     $_SESSION['payroll_load'] == 0 && $_SESSION['expense'] == 0 && $_SESSION['expense_distribution'] == 0
                                                 ) { ?>
-                                                    <div class="col-md-3" id="navCostGeneral" style="display: none;">
+                                                    <div class="col-xs-2 ml-3 mr-3" id="navCostGeneral" style="display: none;">
                                                     <?php } else { ?>
-                                                        <div class="col-md-3" id="navCostGeneral">
+                                                        <div class="col-xs-2 ml-3 mr-3" id="navCostGeneral">
                                                         <?php } ?>
                                                         <h5 class="font-size-14 font-weight-600">General</h5>
                                                         <ul class="list-unstyled megamenu-list">
@@ -153,134 +153,142 @@
                                                         </ul>
                                                         </div>
 
-                                                        <?php if ($_SESSION['cost_user'] == 0 && $_SESSION['cost_backup'] == 0) { ?>
-                                                            <div class="col-md-3" id="navCostAdmin" style="display: none;">
+                                                        <?php if ($_SESSION['general_cost_report'] == 0) { ?>
+                                                            <div class="col-xs-2 ml-3 mr-3" id="navCostReport" style="display: none;">
                                                             <?php } else { ?>
-                                                                <div class="col-md-3" id="navCostAdmin">
+                                                                <div class="col-xs-2 ml-3 mr-3" id="navCostReport">
                                                                 <?php } ?>
-                                                                <h5 class="font-size-14 font-weight-600">Administrador</h5>
+                                                                <h5 class="font-size-14 font-weight-600">Reportes</h5>
                                                                 <ul class="list-unstyled megamenu-list">
-
-                                                                    <?php if ($_SESSION['cost_backup'] == 1) { ?>
-                                                                        <li class="aBackup">
+                                                                    <?php if ($_SESSION['general_cost_report'] == 1) { ?>
+                                                                        <li class="aGeneralCostReport">
                                                                         <?php } else { ?>
-                                                                        <li class="aBackup" style="display: none;">
+                                                                        <li class="aGeneralCostReport" style="display: none;">
                                                                         <?php } ?>
                                                                         <i class="bi bi-shield-lock mr-1"></i>
-                                                                        <a href="javascript:;">Backup</a>
+                                                                        <a href="javascript:;">Reporte General De Costos</a>
                                                                         </li>
-                                                                        <?php if ($_SESSION['general_cost_report'] == 1) { ?>
-                                                                            <li class="aGeneralCostReport">
-                                                                            <?php } else { ?>
-                                                                            <li class="aGeneralCostReport" style="display: none;">
-                                                                            <?php } ?>
-                                                                            <i class="bi bi-shield-lock mr-1"></i>
-                                                                            <a href="javascript:;">Reporte General De Costos</a>
-                                                                            </li>
-                                                                            <?php if ($_SESSION['cost_user'] == 1) { ?>
-                                                                                <li class="aUsers">
-                                                                                <?php } else { ?>
-                                                                                <li class="aUsers" style="display: none;">
-                                                                                <?php } ?>
-                                                                                <i class="bi bi-lock-fill mr-1"></i>
-                                                                                <a href="/cost/users">Usuarios y Accesos</a>
-                                                                                </li>
                                                                 </ul>
                                                                 </div>
+                                                                <?php if ($_SESSION['cost_user'] == 0 && $_SESSION['cost_backup'] == 0) { ?>
+                                                                    <div class="col-xs-2 ml-3" id="navCostAdmin" style="display: none;">
+                                                                    <?php } else { ?>
+                                                                        <div class="col-xs-2 ml-3" id="navCostAdmin">
+                                                                        <?php } ?>
+                                                                        <h5 class="font-size-14 font-weight-600">Administrador</h5>
+                                                                        <ul class="list-unstyled megamenu-list">
+
+                                                                            <?php if ($_SESSION['cost_backup'] == 1) { ?>
+                                                                                <li class="aBackup">
+                                                                                <?php } else { ?>
+                                                                                <li class="aBackup" style="display: none;">
+                                                                                <?php } ?>
+                                                                                <i class="bi bi-shield-lock mr-1"></i>
+                                                                                <a href="javascript:;">Backup</a>
+                                                                                </li>
+                                                                                <?php if ($_SESSION['cost_user'] == 1) { ?>
+                                                                                    <li class="aUsers">
+                                                                                    <?php } else { ?>
+                                                                                    <li class="aUsers" style="display: none;">
+                                                                                    <?php } ?>
+                                                                                    <i class="bi bi-lock-fill mr-1"></i>
+                                                                                    <a href="/cost/users">Usuarios y Accesos</a>
+                                                                                    </li>
+                                                                        </ul>
+                                                                        </div>
+                                                                    </div>
                                                             </div>
                                                     </div>
                                             </div>
                                     </div>
-                            </div>
-                            <?php if ($_SESSION['quote_payment_method'] == 0 && $_SESSION['quote_company'] == 0 && $_SESSION['quote_contact'] == 0) { ?>
-                                <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2" id="navCostQuotesBasics" style="display: none;">
-                                <?php } else { ?>
-                                    <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2" id="navCostQuotesBasics">
-                                    <?php } ?>
-                                    <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
-                                        <i class="bx bx-reset bx-flashing" style="font-size: 2em;" data-toggle="tooltip" title="Configuración Cotización"></i>
-                                    </a>
-                                    <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown" x-placement="bottom-start" style="position: absolute; transform: translate3d(35px, 70px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                        <div class="row">
-                                            <div class="col-sm-9">
+                                    <?php if ($_SESSION['quote_payment_method'] == 0 && $_SESSION['quote_company'] == 0 && $_SESSION['quote_contact'] == 0) { ?>
+                                        <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2" id="navCostQuotesBasics" style="display: none;">
+                                        <?php } else { ?>
+                                            <div class="dropdown-mega dropdown d-inline-flex ml-0 ml-sm-2" id="navCostQuotesBasics">
+                                            <?php } ?>
+                                            <a href="javascript:void(0)" data-toggle="dropdown" id="mega-dropdown" aria-haspopup="true" aria-expanded="false" class="btn header-item">
+                                                <i class="bx bx-reset bx-flashing" style="font-size: 2em;" data-toggle="tooltip" title="Configuración Cotización"></i>
+                                            </a>
+                                            <div class="dropdown-megamenu dropdown-menu" aria-labelledby="mega-dropdown" x-placement="bottom-start" style="position: absolute; transform: translate3d(35px, 70px, 0px); top: 0px; left: 0px; will-change: transform;">
                                                 <div class="row">
-                                                    <div class="col-md-3">
-                                                        <h5 class="font-size-14 font-weight-600">Cotización</h5>
-                                                        <ul class="list-unstyled megamenu-list">
-                                                            <?php if ($_SESSION['quote_payment_method'] == 1) { ?>
-                                                                <li class="aPaymentMethods">
-                                                                <?php } else { ?>
-                                                                <li class="aPaymentMethods" style="display: none;">
-                                                                <?php } ?>
-                                                                <a href="/cost/payment-methods">Metodos de Pago</a>
-                                                                </li>
-                                                                <?php if ($_SESSION['quote_company'] == 1) { ?>
-                                                                    <li class="aCompanies">
-                                                                    <?php } else { ?>
-                                                                    <li class="aCompanies" style="display: none;">
-                                                                    <?php } ?>
-                                                                    <a href="/cost/companies">Empresas</a>
-                                                                    </li>
-                                                                    <?php if ($_SESSION['quote_contact'] == 1) { ?>
-                                                                        <li class="aContacts">
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-xs-2 ml-3 mr-3">
+                                                                <h5 class="font-size-14 font-weight-600">Cotización</h5>
+                                                                <ul class="list-unstyled megamenu-list">
+                                                                    <?php if ($_SESSION['quote_payment_method'] == 1) { ?>
+                                                                        <li class="aPaymentMethods">
                                                                         <?php } else { ?>
-                                                                        <li class="aContacts" style="display: none;">
+                                                                        <li class="aPaymentMethods" style="display: none;">
                                                                         <?php } ?>
-                                                                        <a href="/cost/contacts">Contactos</a>
+                                                                        <a href="/cost/payment-methods">Metodos de Pago</a>
                                                                         </li>
-                                                        </ul>
+                                                                        <?php if ($_SESSION['quote_company'] == 1) { ?>
+                                                                            <li class="aCompanies">
+                                                                            <?php } else { ?>
+                                                                            <li class="aCompanies" style="display: none;">
+                                                                            <?php } ?>
+                                                                            <a href="/cost/companies">Empresas</a>
+                                                                            </li>
+                                                                            <?php if ($_SESSION['quote_contact'] == 1) { ?>
+                                                                                <li class="aContacts">
+                                                                                <?php } else { ?>
+                                                                                <li class="aContacts" style="display: none;">
+                                                                                <?php } ?>
+                                                                                <a href="/cost/contacts">Contactos</a>
+                                                                                </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    </div>
-
-
-                                    <div class="d-none d-lg-inline-flex ml-2">
-                                        <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">
-                                            <i class="bx bx-fullscreen"></i>
-                                        </button>
-                                    </div>
-
-                                    <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
-                                        <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-notification-dropdown" aria-expanded="false" class="btn header-item notify-icon position-relative">
-                                            <i class="bx bx-bell bx-tada" data-toggle="tooltip" title="Área de Notificaciones"></i>
-                                            <span class="badge badge-danger badge-pill notify-icon-badge" id="count"></span>
-                                        </button>
-                                        <div aria-labelledby="page-header-notification-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu notify-scrollbar" style="max-height:280px; overflow-y: auto;">
-
-                                        </div>
-                                    </div>
-                                    <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
-                                        <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-profile-dropdown" aria-expanded="false" class="btn header-item">
-                                            <?php
-                                            if (empty($_SESSION['avatar']))
-                                                $avatar = "/assets/images/users/empty_user.png";
-                                            else
-                                                $avatar = $_SESSION['avatar'];
-                                            ?>
-                                            <img id="hAvatar" src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
-                                            <div class="user-info" style="display: inline-block;">
-                                                <span class="d-none d-xl-inline-block ml-1 userName" style="display: block;"><?php if (!empty($_SESSION))
-                                                                                                                                    echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
-                                                <br>
-                                                <span class="role" style="font-size: 0.8rem;"><?php if (!empty($_SESSION))
-                                                                                                    echo  $_SESSION['position']; ?></span>
                                             </div>
-                                            <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
-                                        </button>
-                                        <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
-                                            <a href="/cost/profile" class="dropdown-item">
-                                                <i class="bx bx-user mr-1"></i> Perfil
-                                            </a>
-                                            <div class="dropdown-divider"></div>
-                                            <a href="javascript: void(0);" class="text-danger dropdown-item logout">
-                                                <i class="bx bx-log-in mr-1 text-danger"></i> Salir
-                                            </a>
+
+                                            <div class="d-none d-lg-inline-flex ml-2">
+                                                <button type="button" data-toggle="fullscreen" class="btn header-item notify-icon" id="full-screen">
+                                                    <i class="bx bx-fullscreen"></i>
+                                                </button>
+                                            </div>
+
+                                            <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
+                                                <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-notification-dropdown" aria-expanded="false" class="btn header-item notify-icon position-relative">
+                                                    <i class="bx bx-bell bx-tada" data-toggle="tooltip" title="Área de Notificaciones"></i>
+                                                    <span class="badge badge-danger badge-pill notify-icon-badge" id="count"></span>
+                                                </button>
+                                                <div aria-labelledby="page-header-notification-dropdown" class="dropdown-menu-lg dropdown-menu-right p-0 dropdown-menu notify-scrollbar" style="max-height:280px; overflow-y: auto;">
+
+                                                </div>
+                                            </div>
+                                            <div class="d-inline-flex ml-0 ml-sm-2 dropdown">
+                                                <button data-toggle="dropdown" aria-haspopup="true" type="button" id="page-header-profile-dropdown" aria-expanded="false" class="btn header-item">
+                                                    <?php
+                                                    if (empty($_SESSION['avatar']))
+                                                        $avatar = "/assets/images/users/empty_user.png";
+                                                    else
+                                                        $avatar = $_SESSION['avatar'];
+                                                    ?>
+                                                    <img id="hAvatar" src="<?php echo $avatar; ?>" alt="Header Avatar" class="avatar avatar-xs mr-0">
+                                                    <div class="user-info" style="display: inline-block;">
+                                                        <span class="d-none d-xl-inline-block ml-1 userName" style="display: block;"><?php if (!empty($_SESSION))
+                                                                                                                                            echo  "{$_SESSION['name']} {$_SESSION['lastname']}"; ?></span>
+                                                        <br>
+                                                        <span class="role" style="font-size: 0.8rem;"><?php if (!empty($_SESSION))
+                                                                                                            echo  $_SESSION['position']; ?></span>
+                                                    </div>
+                                                    <i class="bx bx-chevron-down d-none d-xl-inline-block"></i>
+                                                </button>
+                                                <div aria-labelledby="page-header-profile-dropdown" class="dropdown-menu-right dropdown-menu">
+                                                    <a href="/cost/profile" class="dropdown-item">
+                                                        <i class="bx bx-user mr-1"></i> Perfil
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a href="javascript: void(0);" class="text-danger dropdown-item logout">
+                                                        <i class="bx bx-log-in mr-1 text-danger"></i> Salir
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                        </div>
+                            </div>
 </header>
 <!-- Header End -->

@@ -124,8 +124,11 @@ $(document).ready(function () {
         );
       }
 
-      $('.cardBtnImportExpenses').show(800);
-      $('#btnImportNewExpenses').html('Importar Distribución');
+      $('.cardBtnImportExpenses').show(800); 
+      // Cambiar el atributo title del botón
+      $('#btnImportNewExpenses').attr('title', 'Importar Distribución');
+      // Si estás utilizando Bootstrap Tooltip, necesitas actualizar el tooltip manualmente
+      $('#btnImportNewExpenses').tooltip('dispose').tooltip();
       $('#lblImportExpense').html('Importar Distribución de Gasto');
       $('#descrExpense').html('Distribución Gastos Generales');
 
@@ -164,8 +167,11 @@ $(document).ready(function () {
       // $('.generalExpenses').hide();
       $('.distributionExpenses').html('Recuperación de Gastos');
       $('.cardBtnExpenseRecover').show(800);
-      $('.cardBtnImportExpenses').show(800);
-      $('#btnImportNewExpenses').html('Importar Recuperar Gastos');
+      $('.cardBtnImportExpenses').show(800); 
+      // Cambiar el atributo title del botón
+      $('#btnImportNewExpenses').attr('title', 'Importar Recuperar Gastos');
+      // Si estás utilizando Bootstrap Tooltip, necesitas actualizar el tooltip manualmente
+      $('#btnImportNewExpenses').tooltip('dispose').tooltip();
       $('#lblImportExpense').html('Importar Recuperación');
       $('#descrExpense').html('Recuperación Gastos Generales');
       loadTableExpenseRecover();

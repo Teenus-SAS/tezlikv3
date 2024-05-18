@@ -39,8 +39,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 // Productos procesos
 $app->get('/productsProcess/{idProduct}', function (Request $request, Response $response, $args) use (
-    $productsProcessDao,
-    $webTokenDao
+    $webTokenDao,
+    $productsProcessDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -70,8 +70,8 @@ $app->get('/productsProcess/{idProduct}', function (Request $request, Response $
 });
 
 $app->get('/allProductsProcess', function (Request $request, Response $response, $args) use (
-    $generalProductsProcessDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProductsProcessDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -101,8 +101,8 @@ $app->get('/allProductsProcess', function (Request $request, Response $response,
 });
 
 $app->get('/employees/{id_product_process}', function (Request $request, Response $response, $args) use (
-    $generalProductsProcessDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProductsProcessDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -130,9 +130,9 @@ $app->get('/employees/{id_product_process}', function (Request $request, Respons
 
 // Consultar productos procesos importados
 $app->post('/productsProcessDataValidation', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
     $productsProcessDao,
     $productsDao,
-    $webTokenDao,
     $generalProcessDao,
     $generalPayrollDao,
     $machinesDao
@@ -258,8 +258,8 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
 });
 
 $app->post('/addProductsProcess', function (Request $request, Response $response, $args) use (
-    $productsProcessDao,
     $webTokenDao,
+    $productsProcessDao,
     $generalProcessDao,
     $generalProductsProcessDao,
     $lastDataDao,
@@ -717,8 +717,9 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 });
 
 $app->post('/updateProductsProcess', function (Request $request, Response $response, $args) use (
-    $productsProcessDao,
     $webTokenDao,
+    $productsProcessDao,
+    $generalProductsProcessDao,
     $convertDataDao,
     $costWorkforceDao,
     $indirectCostDao,
@@ -793,7 +794,9 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 
                 $productProcess = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
             }
-        }
+        } else
+            $productProcess = $generalProductsProcessDao->updateEmployees($dataProductProcess['idProductProcess'], '');
+
 
         /* Calcular costo indirecto */
         if ($productProcess == null) {
@@ -957,8 +960,8 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 });
 
 $app->post('/saveEmployees', function (Request $request, Response $response, $args) use (
-    $generalProductsProcessDao,
     $webTokenDao,
+    $generalProductsProcessDao,
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
@@ -1179,8 +1182,8 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
 });
 
 $app->post('/saveRouteProductProcess', function (Request $request, Response $response, $args) use (
-    $generalProductsProcessDao,
-    $webTokenDao
+    $webTokenDao,
+    $generalProductsProcessDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -1225,8 +1228,8 @@ $app->post('/saveRouteProductProcess', function (Request $request, Response $res
 });
 
 $app->post('/deleteProductProcess', function (Request $request, Response $response, $args) use (
-    $productsProcessDao,
     $webTokenDao,
+    $productsProcessDao,
     $costWorkforceDao,
     $indirectCostDao,
     $priceProductDao,
@@ -1431,8 +1434,8 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
 });
 
 $app->get('/calcAllIndirectCost', function (Request $request, Response $response, $args) use (
-    $productsDao,
     $webTokenDao,
+    $productsDao,
     $indirectCostDao
 ) {
     $info = $webTokenDao->getToken();
