@@ -21,6 +21,7 @@ use tezlikv3\dao\WebTokenDao;
 
 $payrollDao = new PayrollDao();
 $generalPayrollDao = new GeneralPayrollDao();
+$generalProductsProcessDao = new GeneralProductsProcessDao();
 $webTokenDao = new WebTokenDao();
 $valueMinuteDao = new ValueMinuteDao();
 $convertDataDao = new ConvertDataDao();
@@ -1012,6 +1013,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $payrollDao,
     $webTokenDao,
     $generalPayrollDao,
+    $generalProductsProcessDao,
     $costWorkforceDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -1044,7 +1046,33 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $coverage = $_SESSION['coverage'];
     $dataPayroll = $request->getParsedBody();
-    $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);
+
+    $productProcess = explode(',', $dataPayroll['id_product_process']);
+
+    if ($productProcess[0] != 0) {
+        for ($i = 0; $i < sizeof($productProcess); $i++) {
+            if (isset($payroll['info'])) break;
+
+            $arr = $generalProductProcessDao->findProductProcessById($productProcess[$i]);
+
+            $employees = explode(',', $arr['employee']);
+
+            // Eliminar el valor de $id del array $arr
+            $employees = array_diff($employees, [$dataPayroll['idPayroll']]);
+
+            // Reindexar el array para evitar índices desordenados
+            $employees = array_values($employees);
+
+            // Convertir a string
+            $employees = implode(',', $employees);
+
+            // Guardar nuevo cambio
+            $payroll = $generalProductsProcessDao->updateEmployees($arr['id_product_process'], $employees);
+        }
+    }
+
+    if ($payroll == null)
+        $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);
 
     if ($payroll == null) {
 
@@ -1075,9 +1103,9 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
                 $payroll = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $arr['id_product'], $id_company);
             }
 
-            if ($arr['employee'] != '') {
-                $payroll = $generalProductProcessDao->updateEmployees($arr['id_product_process'], '');
-            }
+            // if ($arr['employee'] != '') {
+            //     $payroll = $generalProductProcessDao->updateEmployees($arr['id_product_process'], '');
+            // }
 
             if (isset($payroll['info'])) break;
             $data = [];

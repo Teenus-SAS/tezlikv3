@@ -31,17 +31,24 @@ class PayrollDao
                                     WHERE p.id_company = :id_company
                                     ORDER BY p.route ASC;");
     */
-    $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, p.factor_benefit, p.salary_net, p.type_contract, 
-                                         p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage, IF(cl.flag_employee = 1, IFNULL(ppp.id_product_process, 0), 0) AS status_pp,IFNULL(products_process_count.count_pp, 0) AS count_pp
+    $stmt = $connection->prepare("SELECT p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, p.factor_benefit, p.salary_net, 
+                                         p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, IFNULL(rk.percentage, 0) AS percentage, IF(cl.flag_employee = 1, IFNULL(ppp.id_product_process, 0), 0) AS id_product_process, IFNULL(ppp.count_pp, 0) AS count_pp
                                   FROM payroll p 
-                                  INNER JOIN process pp ON p.id_process = pp.id_process
-                                  LEFT JOIN risks rk ON rk.id_risk = p.id_risk
-                                  INNER JOIN companies_licenses cl ON cl.id_company = p.id_company 
-                                  LEFT JOIN products_process ppp ON p.employee LIKE CONCAT('%', ppp.employee, '%') AND ppp.id_company = p.id_company
-                                  LEFT JOIN 
-                                      (SELECT employee, COUNT(id_product_process) AS count_pp 
-                                      FROM products_process GROUP BY employee) AS products_process_count ON products_process_count.employee = p.employee
-                                  WHERE p.id_company = :id_company GROUP BY p.id_payroll
+                                    INNER JOIN process pp ON p.id_process = pp.id_process
+                                    LEFT JOIN risks rk ON rk.id_risk = p.id_risk
+                                    INNER JOIN companies_licenses cl ON cl.id_company = p.id_company 
+                                    LEFT JOIN 
+                                      (SELECT 
+                                          employee, 
+                                          GROUP_CONCAT(id_product_process) AS id_product_process, 
+                                          COUNT(id_product_process) AS count_pp 
+                                      FROM products_process 
+                                      GROUP BY employee) 
+                                    ppp ON ppp.employee LIKE CONCAT('%', p.id_payroll, '%')
+                                  WHERE p.id_company = :id_company
+                                  GROUP BY 
+                                    p.id_payroll, p.id_process, p.id_company, p.employee, p.salary, p.transport, p.extra_time, p.bonification, p.endowment, p.working_days_month, p.hours_day, 
+                                    p.factor_benefit, p.salary_net, p.type_contract, p.minute_value, pp.process, p.id_risk, rk.risk_level, rk.percentage, cl.flag_employee, ppp.id_product_process
                                   ORDER BY p.route ASC");
     $stmt->execute(['id_company' => $id_company]);
 

@@ -1,6 +1,7 @@
 $(document).ready(function () {
   allProductMaterials = [];
   allComposites = [];
+  let visible;
 
   loadAllDataMaterials = async (op) => {
     try {

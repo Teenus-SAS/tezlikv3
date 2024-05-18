@@ -177,13 +177,18 @@ $(document).ready(function () {
       return false;
     }
 
-    if (data.status_pp != 0) {
-      toastr.error('Nomina asociada directamente a Ficha de productos');
-      return false;
+    let id_product_process = data.id_product_process.toString().split(",");
+
+    if (id_product_process[0] != 0) {
+      if (id_product_process.length == 1) {
+        toastr.error('Nomina asociada directamente a Ficha de productos');
+        return false;
+      }
     }
 
     dataPayroll['idPayroll'] = data.id_payroll;
     dataPayroll['idProcess'] = data.id_process;
+    dataPayroll['id_product_process'] = data.id_product_process;
 
     let employee = allPayroll.filter(item => item.employee == data.employee);
     // dataPayroll['employee'] = data.employee;

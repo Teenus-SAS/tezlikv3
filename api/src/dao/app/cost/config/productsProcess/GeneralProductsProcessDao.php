@@ -16,6 +16,20 @@ class GeneralProductsProcessDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    // Consultar datos del prodcuto en la BD
+    public function findProductProcessById($id_product_process)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT * FROM products_process WHERE id_product_process = :id_product_process");
+        $stmt->execute([
+            'id_product_process' => $id_product_process
+        ]);
+        $findProductProcess = $stmt->fetch($connection::FETCH_ASSOC);
+
+        return $findProductProcess;
+    }
+
     public function findAllProductsprocess($id_company)
     {
         $connection = Connection::getInstance()->getConnection();

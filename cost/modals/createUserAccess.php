@@ -190,7 +190,7 @@
 
                                                 <?php if ($_SESSION['plan_custom_price'] == 1) { ?>
                                                     <div class="mb-2 checkbox checkbox-success checkbox-circle">
-                                                        <input class="typeCheckbox" id="checkbox-15" name="customPrices" type="checkbox">
+                                                        <input class="typeCheckbox" id="checkbox-16" name="customPrices" type="checkbox">
                                                         <label for="checkbox-16">Precios Personalizados</label>
                                                     </div>
                                                 <?php } ?>
