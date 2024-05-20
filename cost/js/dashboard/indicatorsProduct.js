@@ -305,14 +305,14 @@ $(document).ready(function () {
     $('.cardTrafficLight').empty();
     let content = '';
     document.getElementById('recomendedPrice').className = 'mb-0 mt-1';
-    document.getElementById('actualSalePrice').className = 'mb-0 mt-1'; 
+    document.getElementById('actualSalePrice').className = 'mb-0 mt-1';
  
     if (!isFinite(dataCost.actualProfitability2))
-      dataCost.actualProfitability2 = 0; 
+      dataCost.actualProfitability2 = 0;
 
-    if (flag_expense != '2') {
-      if (dataCost.actualProfitability3 <= 0) {
-        content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+    // if (flag_expense != '2') {
+    if (dataCost.actualProfitability3 <= 0) {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -322,9 +322,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-        $('#actualSalePrice').addClass('text-danger');
-      } else if (dataCost.actualProfitability3 < data[0].profitability /* dataCost.actualProfitability3 >= 1*/) {
-        content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+      $('#actualSalePrice').addClass('text-danger');
+    } else if (dataCost.actualProfitability3 < data[0].profitability /* dataCost.actualProfitability3 >= 1*/) {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -334,9 +334,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-        $('#actualSalePrice').addClass('text-warning');
-      } else {
-        content = `<div class="card radius-10 border-start border-0 border-3 border-success">
+      $('#actualSalePrice').addClass('text-warning');
+    } else {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -346,17 +346,17 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-        $('#actualSalePrice').addClass('text-success');
-      }
+      $('#actualSalePrice').addClass('text-success');
+    }
     
-      $('.cardTrafficLight').append(content);
+    $('.cardTrafficLight').append(content);
 
-      let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
-      $('.cardRecomendedPrice').empty();
-      content = '';
+    // let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
+    $('.cardRecomendedPrice').empty();
+    content = '';
  
-      if (dataCost.actualProfitability2 <= 0) {
-        content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+    if (dataCost.actualProfitability2 <= 0) {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -366,10 +366,10 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-        $('#recomendedPrice').addClass('text-danger');
+      $('#recomendedPrice').addClass('text-danger');
       
-      } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
-        content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+    } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -379,9 +379,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-        $('#recomendedPrice').addClass('text-warning');
-      } else {
-        content = `<div class="card radius-10 border-start border-0 border-3 border-success">
+      $('#recomendedPrice').addClass('text-warning');
+    } else {
+      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -391,11 +391,11 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-        $('#recomendedPrice').addClass('text-success');
-      }
+      $('#recomendedPrice').addClass('text-success');
+    }
 
-      $('.cardRecomendedPrice').append(content);
-    };
+    $('.cardRecomendedPrice').append(content);
+    // };
   };
 
   loadIndicatorsProducts(id_product);

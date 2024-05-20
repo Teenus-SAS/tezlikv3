@@ -183,10 +183,24 @@ $(document).ready(function () {
     }
 
     let id_product_process = data.id_product_process.toString().split(",");
-
+    
     if (id_product_process[0] != 0) {
-      if (id_product_process.length == 1) {
-        toastr.error('Nomina asociada directamente a Ficha de productos');
+      let status = true;
+      
+      for (let i = 0; i < id_product_process.length; i++) {
+        let dataPProcess = allProductProcess.find(item => item.id_product_process == id_product_process[i]);
+        
+        if (dataPProcess.employee != '') {
+          let employee = dataPProcess.employee.toString().split(",");
+          if (employee.length == 1) {
+            status = false; 
+            break;
+          }
+        }
+      }
+
+      if (status == false) {// Esa ficha de productos tiene solo a esa nomina asociada, si se elimina pasaria a hacer global el costo de la mano de obra
+        toastr.error('Nomina asociada directamente a ficha de productos.'); 
         return false;
       }
     }

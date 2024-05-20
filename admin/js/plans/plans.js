@@ -53,7 +53,7 @@ $(document).ready(function () {
     let i = 1;
 
     $.each(acces, (index, value) => {
-      if (value === 1) {
+      if (value == 1) {
         $(`#checkbox-${i}`).prop('checked', true);
       } else $(`#checkbox-${i}`).prop('checked', false);
       i++;

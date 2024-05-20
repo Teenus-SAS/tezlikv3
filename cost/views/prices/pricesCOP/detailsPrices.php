@@ -193,52 +193,54 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <?php if ($_SESSION['flag_expense'] != 2) { ?>
-                            <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 actualSalePrice">
-                                <div class="col-xl-6">
-                                    <div class="card radius-10 border-start border-0 border-3 border-success">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
-                                                    <div class="media-body align-items-center">
-                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Real)</span>
-                                                        <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
-                                                    </div>
-                                                    <div class="media-body align-items-center">
-                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Lista)</span>
-                                                        <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
-                                                    </div>
-                                                    <div class="media-body align-items-center">
-                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Sugerido)</span>
-                                                        <h3 class="mb-0 mt-1 text-info suggestedPrice" style="font-size: x-large"></h3>
-                                                    </div>
+                        <?php // if ($_SESSION['flag_expense'] != 2) { 
+                        ?>
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-2 actualSalePrice">
+                            <div class="col-xl-6">
+                                <div class="card radius-10 border-start border-0 border-3 border-success">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Real)</span>
+                                                    <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-2 cardRecomendedPrice">
-                                </div>
-                                <div class="col-xl-2 cardTrafficLight">
-                                </div>
-                                <div class="col-xl-2">
-                                    <div class="card radius-10 border-start border-0 border-3 border-info">
-                                        <div class="card-body">
-                                            <div class="media align-items-center">
-                                                <div class="media-body">
-                                                    <?php if ($_SESSION['id_company'] == '10') { ?>
-                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Margen Deseado</span>
-                                                    <?php } else { ?>
-                                                        <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentab Deseada</span>
-                                                    <?php } ?>
-                                                    <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Lista)</span>
+                                                    <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
+                                                </div>
+                                                <div class="media-body align-items-center">
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Sugerido)</span>
+                                                    <h3 class="mb-0 mt-1 text-info suggestedPrice" style="font-size: x-large"></h3>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        <?php } ?>
+                            <div class="col-xl-2 cardRecomendedPrice">
+                            </div>
+                            <div class="col-xl-2 cardTrafficLight">
+                            </div>
+                            <div class="col-xl-2">
+                                <div class="card radius-10 border-start border-0 border-3 border-info">
+                                    <div class="card-body">
+                                        <div class="media align-items-center">
+                                            <div class="media-body">
+                                                <?php if ($_SESSION['id_company'] == '10') { ?>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Margen Deseado</span>
+                                                <?php } else { ?>
+                                                    <span class="text-muted text-uppercase font-size-12 font-weight-bold">Rentab Deseada</span>
+                                                <?php } ?>
+                                                <h2 class="mb-0 mt-1 text-info" id="minProfit"></h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <?php // } 
+                        ?>
 
                         <!-- Row 2-->
                         <div class="row align-items-stretch">
