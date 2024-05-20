@@ -92,9 +92,16 @@ if (sizeof($_SESSION) == 0)
                                 // $_SESSION['price_usd'] == 1 &&
                                 if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
                                     <div class="col-xs-2 mr-2 mt-1">
-                                        <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                        <label class="ml-3 text-dark">Tipo moneda</label>
+                                        <select class="form-control" id="selectCurrency">
+                                            <option disabled selected>Seleccionar</option>
+                                            <option value="1">COP</option>
+                                            <option value="2">USD</option>
+                                            <option value="3">EUR</option>
+                                        </select>
+                                        <!-- <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button> -->
                                     </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;">
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none; margin-top:35px;">
                                         <label class="font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
                                                                                                                                                                                             $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
@@ -517,53 +524,48 @@ if (sizeof($_SESSION) == 0)
                                     // price_usd == '1' &&
                                     if (plan_cost_price_usd == '1')
                                         $(document).ready(function() {
-                                            // Validar que Valor de precio estaba anteriormente seleccionado
-                                            let typePrice = sessionStorage.getItem('typePrice');
+                                            // Validar que el valor de precio estaba anteriormente seleccionado
+                                            let typeCurrency = sessionStorage.getItem('typeCurrency') || '1';
+                                            $('.cardUSD').hide(800);
 
-                                            let element = document.getElementsByClassName('btnPricesUSD')[0];
-                                            
-                                            // Dolares
-                                            if (typePrice == '1' || !typePrice) {
-                                                element.id = 'usd';
-                                                element.innerText = 'Precios USD';
-                                                element.style.marginTop = '';
-                                                document.getElementById('btnPdf').style.marginTop = '';
+                                            switch (typeCurrency) {
+                                                case '1': // Pesos COP
+                                                    $('#selectCurrency').val('1');
+                                                    break;
+                                                case '2': // Dólares  
+                                                    document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
+                                                    document.getElementById('btnPdf').style.marginTop = '40px';
+                                                    $('#selectCurrency').val('2');
 
-                                                $('.cardUSD').hide(800);
-                                            } else { // Pesos
-                                                element.id = 'cop';
-                                                element.innerText = 'Precios COP';
-                                                //element.style.marginTop = '30px';
-                                                document.getElementById('btnPdf').style.marginTop = '30px';
-
-                                                $('.cardUSD').show(800);
+                                                    $('.cardUSD').show(800);
+                                                    break;
+                                                case '3': // Euros
+                                                    $('#selectCurrency').val('3');
+                                                    break;
                                             }
 
                                             // Funcion para cambiar de valor del precio manualmente
-                                            $('.btnPricesUSD').click(async function(e) {
-                                                e.preventDefault();
-                                                let id = this.id;
+                                            $(document).on('change', '#selectCurrency', function() {
+                                                let currency = this.value;
+                                                $('.cardUSD').hide(800);
+                                                document.getElementById('btnPdf').style.marginTop = '';
+                                                document.getElementById('btnPdf').className = 'col-xs-2 mt-2 mr-2';
 
-                                                id == 'cop' ? op = 1 : op = 2;
-                                                sessionStorage.setItem('typePrice', op);
-                                                let element = document.getElementsByClassName('btnPricesUSD')[0];
-
+                                                sessionStorage.setItem('typeCurrency', currency);
                                                 // Dolares
-                                                if (id == 'usd') {
-                                                    element.id = 'cop';
-                                                    element.innerText = 'Precios COP';
-                                                    //element.style.marginTop = '30px';
+                                                if (currency == 2) {
+                                                    document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
                                                     document.getElementById('btnPdf').style.marginTop = '30px';
 
                                                     $('.cardUSD').show(800);
-                                                } else { // Pesos
-                                                    element.id = 'usd';
-                                                    element.innerText = 'Precios USD';
-                                                    element.style.marginTop = '';
-                                                    document.getElementById('btnPdf').style.marginTop = '';
-
-                                                    $('.cardUSD').hide(800);
                                                 }
+                                                // } else { // Pesos
+                                                //     $(`#selectCurrency option[value=1]`).prop("selected", true);
+                                                //     // element.style.marginTop = '';
+                                                //     // document.getElementById('btnPdf').style.marginTop = '';
+
+                                                //     $('.cardUSD').hide(800);
+                                                // }
 
                                                 // Recargar Datos
                                                 let id_product = $('#refProduct').val();

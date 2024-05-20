@@ -10,38 +10,60 @@ $(document).ready(function () {
     if (plan_cost_price_usd == '1') {
       $('.coverageInput').hide();
       $('.cardCOP').hide();
+      $('.cardUSD').hide();
+      $('.cardEUR').hide();
+      $('.cardPricesCOP').hide();
+      $('.cardPricesUSD').hide();
+      $('.cardPricesEUR').hide();
+      
+      let typeCurrency = sessionStorage.getItem('typeCurrency');
+      
+      switch (typeCurrency) {
+        case '1': // Pesos COP
+          $('#selectCurrency').val('1');
+          $('.cardCOP').show(800);
+          $('.cardPricesCOP').show();
 
-      let typePrice = sessionStorage.getItem('typePrice');
-
-      let element = document.getElementsByClassName('btnPricesUSD')[0];
-
-      if (typePrice == '1' || !typePrice) {
-        element.id = 'usd';
-        element.innerText = 'Precios USD';
-
-        $('.cardCOP').show(800);
-
-        $('.cardPricesCOP').show();
-        $('.cardPricesUSD').hide(); 
-
-        if (viewPrices == 2) {
-          // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
-          $('.cardUSD').hide(800);
-        }
-      } else {
-        element.id = 'cop';
-        element.innerText = 'Precios COP';
-
-        $('.cardPricesUSD').show();
-        $('.cardPricesCOP').hide(); 
-
-        $('.coverageInput').show(800);
-
-        if (viewPrices == 2) {
-          // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
+          break;
+        case '2': // Dólares  
+          $('#selectCurrency').val('2');
           $('.cardUSD').show(800);
-        }
+          $('.cardPricesUSD').show();
+          $('.coverageInput').show(800);
+
+          break;
+        case '3': // Euros
+          $('#selectCurrency').val('3');
+          break;
       }
+
+      // if (typeCurrency == '1' || !typeCurrency) {
+      //   element.id = 'usd';
+      //   element.innerText = 'Precios USD';
+
+      //   $('.cardCOP').show(800);
+
+      //   $('.cardPricesCOP').show();
+      //   $('.cardPricesUSD').hide(); 
+
+      //   if (viewPrices == 2) {
+      //     // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
+      //     $('.cardUSD').hide(800);
+      //   }
+      // } else {
+      //   element.id = 'cop';
+      //   element.innerText = 'Precios COP';
+
+      //   $('.cardPricesUSD').show();
+      //   $('.cardPricesCOP').hide(); 
+
+      //   $('.coverageInput').show(800);
+
+      //   if (viewPrices == 2) {
+      //     // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
+      //     $('.cardUSD').show(800);
+      //   }
+      // }
     }
     
     let data = await searchData('/api/prices');

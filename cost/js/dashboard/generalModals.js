@@ -315,10 +315,10 @@ $(document).ready(function () {
     $('#generalDashboardName').html('');
     $('.cardGeneralDashboard').empty();
 
-    let typePrice1 = sessionStorage.getItem('typePrice');
+    let typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '1' && 
-    if (typePrice1 == '2' && plan_cost_price_usd == '1') {
+    if (typeCurrency == '2' && plan_cost_price_usd == '1') {
       value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
     } else {
       value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
