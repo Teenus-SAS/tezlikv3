@@ -96,29 +96,29 @@ $(document).ready(function () {
               color: { text: "black" },
             });
 
-            permissions.push({
-              name: "Economia de Escala",
-              icon: data.cost_economy_scale == 1
-                ? "bi bi-check-circle-fill text-success"
-                : "bi bi-x-circle-fill text-danger",
-              color: { text: "black" },
-            });
-
             // permissions.push({
-            //   name: "Negociaciones Eficientes",
+            //   name: "Economia de Escala",
             //   icon: data.cost_economy_scale == 1
             //     ? "bi bi-check-circle-fill text-success"
             //     : "bi bi-x-circle-fill text-danger",
             //   color: { text: "black" },
             // });
 
-            // permissions.push({
-            //   name: "Objetivos De Ventas",
-            //   icon: data.cost_sale_objectives == 1
-            //     ? "bi bi-check-circle-fill text-success"
-            //     : "bi bi-x-circle-fill text-danger",
-            //   color: { text: "black" },
-            // });
+            permissions.push({
+              name: "Negociaciones Eficientes",
+              icon: data.cost_economy_scale == 1
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
+
+            permissions.push({
+              name: "Objetivos De Ventas",
+              icon: data.cost_sale_objectives == 1
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
             permissions.push({
               name: "Pto De Equilibrio Multiproducto",
