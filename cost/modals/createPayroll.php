@@ -147,9 +147,9 @@
                                         <?php } ?>
                                     </div>
                                     <!-- This button link with id-sw-default-step-1 if you change it change in serial number like below -->
-                                    <div class="d-none">
+                                    <!-- <div class="d-none">
                                         <button class="btn btn-primary" id="btn">submit</button>
-                                    </div>
+                                    </div> -->
                                 </form>
                             </div>
                         </div>

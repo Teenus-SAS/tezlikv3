@@ -157,10 +157,12 @@ $(document).ready(function () {
 
     $('#unitsSold').html(data[0].units_sold.toLocaleString('es-CO'));
     $('#turnover').html(`$ ${data[0].turnover.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
-
     let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
     isNaN(price) ? price = 0 : price;
 
+    $('#recomendedPrice').html(`$ ${price.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
+
+    /*
     let element = document.getElementsByClassName('recomendedPrice');
     
     for (let i = 0; i < element.length; i++) {
@@ -175,7 +177,7 @@ $(document).ready(function () {
         element[i].className = 'mb-0 text-warning recomendedPrice';
       else
         element[i].className = 'mb-0 recomendedPrice';
-    }
+    }*/
   };
 
   /* Costeo Total */
@@ -302,9 +304,8 @@ $(document).ready(function () {
 
     $('.cardTrafficLight').empty();
     let content = '';
-    $('#actualSalePrice').removeClass('text-warning');
-    $('#actualSalePrice').removeClass('text-success');
-    $('#actualSalePrice').removeClass('text-danger');
+    document.getElementById('recomendedPrice').className = 'mb-0 mt-1';
+    document.getElementById('actualSalePrice').className = 'mb-0 mt-1'; 
  
     if (!isFinite(dataCost.actualProfitability2))
       dataCost.actualProfitability2 = 0; 
@@ -404,6 +405,7 @@ $(document).ready(function () {
 
     id_product = this.value;
 
+    sessionStorage.setItem('idProduct', id_product);
     loadIndicatorsProducts(id_product);
   });
 

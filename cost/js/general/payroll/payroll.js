@@ -48,6 +48,7 @@ $(document).ready(function () {
 
     let idPayroll = this.id;
     sessionStorage.setItem('id_payroll', idPayroll);
+    let allPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
 
     let data = allPayroll.find(item => item.id_payroll == idPayroll);
 
@@ -168,11 +169,15 @@ $(document).ready(function () {
   /* Eliminar carga nomina */
 
   deleteFunction = async (id) => {
+    let allPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
+    let allProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+
     let data = allPayroll.find(item => item.id_payroll == id);
 
-    let process = allPayroll.filter(item => item.id_process == data.id_process);
+    let pcProcess = allProductProcess.filter(item => item.id_process == data.id_process);
+    let pyProcess = allPayroll.filter(item => item.id_process == data.id_process);
 
-    if (process.length == 1) {
+    if (pcProcess.length > 0 && pyProcess.length == 1) {
       toastr.error('Proceso asociado a Ficha de productos');
       return false;
     }
@@ -228,6 +233,8 @@ $(document).ready(function () {
   copyFunction = async (id, employee) => {
     var options = ``;
 
+    let allPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
+    let allProcess = JSON.parse(sessionStorage.getItem('dataProcess'));
     // let dataProcess = await searchData(`/api/process/${employee}`);
     // let process = leaveUniqueKey(allProcess, 'id_process');
     let processByEmployee = allPayroll.filter(item => item.employee == employee);
