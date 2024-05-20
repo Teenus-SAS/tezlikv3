@@ -8,11 +8,11 @@ $(document).ready(function () {
       sessionStorage.removeItem('imageProduct');
       $('.social-bar').hide(800);
 
-      let typePrice = sessionStorage.getItem('typePrice');
+      let typeCurrency = sessionStorage.getItem('typeCurrency');
 
       // price_usd == '1' && 
     
-      if (typePrice == '2' && plan_cost_price_usd == '1') {
+      if (typeCurrency == '2' && plan_cost_price_usd == '1') {
         data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage));
         data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage));
         data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage));
@@ -45,7 +45,7 @@ $(document).ready(function () {
 
       // price_usd == '1' && 
 
-      if (typePrice == '2' && plan_cost_price_usd == '1') {
+      if (typeCurrency == '2' && plan_cost_price_usd == '1') {
         for (let i = 0; i < data.length; i++) {
           data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage);
         }
@@ -86,11 +86,11 @@ $(document).ready(function () {
 
     dataCost = getDataCost(data[0]);
 
-    let typePrice = sessionStorage.getItem('typePrice');
+    let typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
 
-    if (typePrice == '1' || !typePrice || plan_cost_price_usd == '0')
+    if (typeCurrency == '1' || !typeCurrency || plan_cost_price_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -146,10 +146,10 @@ $(document).ready(function () {
   /* Ventas */
 
   UnitsVolSold = (data) => {
-    let typePrice = sessionStorage.getItem('typePrice');
+    let typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
-    if (typePrice == '1' || !typePrice || plan_cost_price_usd == '0')
+    if (typeCurrency == '1' || !typeCurrency || plan_cost_price_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -182,10 +182,10 @@ $(document).ready(function () {
 
   /* Costeo Total */
   totalCostData = (data) => {
-    let typePrice = sessionStorage.getItem('typePrice');
+    let typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
-    if (typePrice == '1' || !typePrice || plan_cost_price_usd == '0')
+    if (typeCurrency == '1' || !typeCurrency || plan_cost_price_usd == '0')
       max = 0;
     else {
       max = 2;
