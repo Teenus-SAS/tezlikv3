@@ -159,7 +159,7 @@ $(document).ready(function () {
     }
 
     // price_usd == '1' && 
-    if (sessionStorage.getItem('typeCurrency') == '2' && plan_cost_price_usd == '1') {
+    if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
       totalCost = `$ ${totalCost.toLocaleString("es-CO", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 2,
@@ -311,7 +311,7 @@ $(document).ready(function () {
     }
 
     // price_usd == '1' && 
-    if (sessionStorage.getItem('typeCurrency') == '2' && plan_cost_price_usd == '1') {
+    if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
       totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
         minimumFractionDigits: 1,
         maximumFractionDigits: 2,

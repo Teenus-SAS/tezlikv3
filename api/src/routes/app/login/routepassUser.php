@@ -65,24 +65,24 @@ $app->post('/forgotPassword', function (Request $request, Response $response, $a
     $sendEmailDao,
     $sendMakeEmailDao
 ) {
-    $info = $webTokenDao->getToken();
+    // $info = $webTokenDao->getToken();
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
+    // if (!is_object($info) && ($info == 1)) {
+    //     $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    // }
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
+    // if (is_array($info)) {
+    //     $response->getBody()->write(json_encode(['error' => $info['info']]));
+    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    // }
 
-    $validate = $webTokenDao->validationToken($info);
+    // $validate = $webTokenDao->validationToken($info);
 
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
+    // if (!$validate) {
+    //     $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+    //     return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    // }
 
     $parsedBody = $request->getParsedBody();
     $email = trim($parsedBody["data"]);

@@ -127,7 +127,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         expense = "<?= $_SESSION['expense'] ?>";
         plan_cost_price = "<?= $_SESSION['plan_cost_price'] ?>";
-        // price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        // price_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         plan_custom_price = "<?= $_SESSION['plan_custom_price'] ?>";
         plan_cost_analysis_material = "<?= $_SESSION['plan_cost_analysis_material'] ?>";
         plan_cost_economy_sale = "<?= $_SESSION['plan_cost_economy_sale'] ?>";

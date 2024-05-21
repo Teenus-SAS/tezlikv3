@@ -90,7 +90,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                             <!-- <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
                                 $_SESSION['price_usd'] == 1 && 
-                                <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
                                     <div class="col-xs-2">
                                         <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                     </div>
@@ -139,7 +139,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
         // price_usd = 
-        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
@@ -172,7 +172,7 @@ if (sizeof($_SESSION) == 0)
         //         actualElement.classList.add("btn-primary");
         //     }
 
-        //     if (price_usd == '1' && plan_cost_price_usd == '1') {
+        //     if (price_usd == '1' && flag_currency_usd == '1') {
         //         // Validar que valor de precio esta seleccionado
         //         let typePrice = sessionStorage.getItem('typePrice');
 

@@ -12,7 +12,7 @@ $(document).ready(function () {
 
       // price_usd == '1' && 
     
-      if (typeCurrency == '2' && plan_cost_price_usd == '1') {
+      if (typeCurrency == '2' && flag_currency_usd == '1') {
         data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage));
         data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage));
         data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage));
@@ -45,7 +45,7 @@ $(document).ready(function () {
 
       // price_usd == '1' && 
 
-      if (typeCurrency == '2' && plan_cost_price_usd == '1') {
+      if (typeCurrency == '2' && flag_currency_usd == '1') {
         for (let i = 0; i < data.length; i++) {
           data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage);
         }
@@ -90,7 +90,7 @@ $(document).ready(function () {
 
     // price_usd == '0' || 
 
-    if (typeCurrency == '1' || !typeCurrency || plan_cost_price_usd == '0')
+    if (typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -149,7 +149,7 @@ $(document).ready(function () {
     let typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
-    if (typeCurrency == '1' || !typeCurrency || plan_cost_price_usd == '0')
+    if (typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -160,7 +160,7 @@ $(document).ready(function () {
     let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
     isNaN(price) ? price = 0 : price;
 
-    $('#recomendedPrice').html(`$ ${price.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
+    $('.recomendedPrice').html(`$ ${price.toLocaleString('es-CO', { maximumFractionDigits: max })}`);
 
     /*
     let element = document.getElementsByClassName('recomendedPrice');
@@ -185,7 +185,7 @@ $(document).ready(function () {
     let typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
-    if (typeCurrency == '1' || !typeCurrency || plan_cost_price_usd == '0')
+    if (typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0')
       max = 0;
     else {
       max = 2;
@@ -304,8 +304,8 @@ $(document).ready(function () {
 
     $('.cardTrafficLight').empty();
     let content = '';
-    document.getElementById('recomendedPrice').className = 'mb-0 mt-1';
-    document.getElementById('actualSalePrice').className = 'mb-0 mt-1';
+    document.getElementById('recomendedPrice').className = 'mb-0 recomendedPrice mt-1';
+    document.getElementById('actualSalePrice').className = 'mb-0 mt-1'; 
  
     if (!isFinite(dataCost.actualProfitability2))
       dataCost.actualProfitability2 = 0;

@@ -318,7 +318,7 @@ $(document).ready(function () {
     let typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '1' && 
-    if (typeCurrency == '2' && plan_cost_price_usd == '1') {
+    if (typeCurrency == '2' && flag_currency_usd == '1') {
       value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
     } else {
       value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;

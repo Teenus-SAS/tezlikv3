@@ -81,56 +81,112 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-xl-6 form-inline justify-content-sm-end">
                                     <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
-                                        <div class="col-xs-2 mr-2 cardCOP">
+                                        <div class="col-xs-2 mt-4 mr-2 cardCOP">
                                             <button class="btn btn-warning" id="btnComposite">Productos Compuestos</button>
                                         </div>
                                     <?php } ?>
                                     <?php
                                     // $_SESSION['price_usd'] == 1 && 
-                                    if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                    if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
                                         <!-- <div class="col-xs-2 cardCOP">
                                             <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                         </div> -->
                                         <div class="col-xs-2 mr-2 mt-1">
                                             <label class="ml-3 text-dark">Tipo moneda</label>
-                                            <select class="form-control" id="selectCurrency">
-                                                <option disabled selected>Seleccionar</option>
-                                                <option value="1">COP</option>
-                                                <option value="2">USD</option>
-                                                <option value="3">EUR</option>
+                                            <select class="form-control selectCurrency">
+                                                <option disabled>Seleccionar</option>
+                                                <option value="1" selected>COP</option>
+                                                <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                    <option value="2">USD</option>
+                                                <?php } ?>
+                                                <?php if ($_SESSION['flag_currency_eur'] == 1) { ?>
+                                                    <option value="3">EUR</option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     <?php } ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane cardPricesUSD" style="display: none;">
+                        <div class="tab-pane cardCurrencyUSD" style="display: none;">
                             <div class="row align-items-center">
                                 <div class="col-sm-4 col-xl-4">
                                     <div class="page-title">
-                                        <h3 class="mb-1 font-weight-bold text-dark">Precios Venta USD</h3>
+                                        <h3 class="mb-1 font-weight-bold text-dark">Precios Venta Dolares</h3>
                                         <ol class="breadcrumb mb-3 mb-md-0">
                                             <li class="breadcrumb-item active">La cobertura cambiaria lo protege contra el riesgo de las fluctuaciónes del tipo de cambio.</li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="col-xl-8 form-inline justify-content-sm-end" id="USDHeader">
-                                    <div class="col-xs-2 mr-2 USDInputs">
+                                    <div class="col-xs-2 mt-4 mr-2 USDInputs">
                                         <button class="btn btn-warning" id="btnSimulation">Simular</button>
                                     </div>
                                     <div class="col-xs-2 mr-2 USDInputs">
-                                        <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
+                                        <!-- <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button> -->
+                                        <label class="ml-3 text-dark">Tipo moneda</label>
+                                        <select class="form-control selectCurrency">
+                                            <option disabled>Seleccionar</option>
+                                            <option value="1">COP</option>
+                                            <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                <option value="2" selected>USD</option>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['flag_currency_eur'] == 1) { ?>
+                                                <option value="3">EUR</option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
-                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label coverageInput" style="margin-bottom: 0px;">
+                                    <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label coverageInput" style="margin-bottom: 0px;">
                                         <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
                                                                                                                                                         $coverage = sprintf("%.2f", $_SESSION['coverage']);
                                                                                                                                                         echo  $coverage ?>">
                                     </div>
-                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs coverageInput" style="margin-bottom: 0px;">
+                                    <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label USDInputs coverageInput" style="margin-bottom: 0px;">
                                         <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
                                         <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;" readonly>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane cardCurrencyEUR" style="display: none;">
+                            <div class="row align-items-center">
+                                <div class="col-sm-4 col-xl-4">
+                                    <div class="page-title">
+                                        <h3 class="mb-1 font-weight-bold text-dark">Precios Venta Euros</h3>
+                                        <ol class="breadcrumb mb-3 mb-md-0">
+                                            <li class="breadcrumb-item active">La cobertura cambiaria lo protege contra el riesgo de las fluctuaciónes del tipo de cambio.</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                <div class="col-xl-8 form-inline justify-content-sm-end" id="EURHeader">
+                                    <div class="col-xs-2 mt-4 mr-2 EURInputs">
+                                        <button class="btn btn-warning">Simular</button>
+                                    </div>
+                                    <div class="col-xs-2 mr-2 EURInputs">
+                                        <!-- <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button> -->
+                                        <label class="ml-3 text-dark">Tipo moneda</label>
+                                        <select class="form-control selectCurrency">
+                                            <option disabled>Seleccionar</option>
+                                            <option value="1">COP</option>
+                                            <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                <option value="2" selected>USD</option>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['flag_currency_eur'] == 1) { ?>
+                                                <option value="3">EUR</option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                    <!-- <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label coverageInput" style="margin-bottom: 0px;">
+                                        <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
+                                        <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
+                                                                                                                                                        $coverage = sprintf("%.2f", $_SESSION['coverage']);
+                                                                                                                                                        echo  $coverage ?>">
+                                    </div> -->
+                                    <!-- <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label USDInputs coverageInput" style="margin-bottom: 0px;">
+                                        <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
+                                        <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;" readonly>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -169,7 +225,8 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
         // price_usd = 
-        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
+        flag_currency_eur = "<?= $_SESSION['flag_currency_eur'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
@@ -185,8 +242,7 @@ if (sizeof($_SESSION) == 0)
 
     <?php
     // $_SESSION['price_usd'] == 1 &&
-    if ($_SESSION['plan_cost_price_usd'] == 1) {
-    ?>
+    if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
         <script src="/cost/js/prices/pricesUSD/pricesUSD.js"></script>
     <?php } ?>
 </body>

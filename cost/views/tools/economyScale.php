@@ -79,15 +79,26 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
-                                <div class="col-xs-2 mr-2">
+                                <div class="col-xs-2 mt-4 mr-2">
                                     <button class="btn btn-warning" id="btnNewEconomyScale">Nuevo Calculo</button>
                                 </div>
                                 <!-- $_SESSION['price_usd'] -->
-                                <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                <?php if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
                                     <div class="col-xs-2">
-                                        <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
+                                        <!-- <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button> -->
+                                        <label class="ml-3 text-dark">Tipo moneda</label>
+                                        <select class="form-control selectCurrency" id="selectCurrency">
+                                            <option disabled>Seleccionar</option>
+                                            <option value="1" selected>COP</option>
+                                            <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                <option value="2">USD</option>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['flag_currency_eur'] == 1) { ?>
+                                                <option value="3">EUR</option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
+                                    <div class="col-xs-2 ml-2 mt-4 form-group floating-label enable-floating-label cardUSD" style="display:none;margin-bottom:0px;">
                                         <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
                                                                                                                                                                                             $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
@@ -273,7 +284,8 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
         // price_usd = 
-        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
+        flag_currency_eur = "<?= $_SESSION['flag_currency_eur'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
@@ -307,22 +319,24 @@ if (sizeof($_SESSION) == 0)
             }
 
             // price_usd == '1' && 
-            if (plan_cost_price_usd == '1') {
+            if (flag_currency_usd == '1' || flag_currency_eur == '1') {
                 // Validar que valor de precio esta seleccionado
-                let typePrice = sessionStorage.getItem('typePrice');
+                let typeCurrency = sessionStorage.getItem('typeCurrency');
 
-                let element = document.getElementsByClassName('btnPricesUSD')[0];
+                $('.cardUSD').hide(800);
 
-                // Dolares
-                if (typePrice == '1' || !typePrice) {
-                    element.id = 'usd';
-                    element.innerText = 'Precios USD';
+                switch (typeCurrency) {
+                    case '1': // Pesos COP
+                        $('#selectCurrency').val('1');
+                        break;
+                    case '2': // Dólares  
+                        $('#selectCurrency').val('2');
 
-                    $('.cardUSD').hide(800);
-                } else { // Pesos
-                    element.id = 'cop';
-                    element.innerText = 'Precios COP';
-                    $('.cardUSD').show(800);
+                        $('.cardUSD').show(800);
+                        break;
+                    case '3': // Euros
+                        $('#selectCurrency').val('3');
+                        break;
                 }
             }
         });

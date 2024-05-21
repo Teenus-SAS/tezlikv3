@@ -55,7 +55,8 @@ class GeneralUserAccessDao
                                             IFNULL(cua.quote, 0) AS quote, 
                                         -- Accesos Compañia
                                             IFNULL(cl.date_contract, 0) AS date_contract,
-                                            cl.cost_price_usd AS plan_cost_price_usd, 
+                                            cl.flag_currency_usd, 
+                                            cl.flag_currency_eur, 
                                             cl.flag_composite_product, 
                                             cl.flag_economy_scale, 
                                             cl.flag_sales_objective, 
@@ -141,8 +142,9 @@ class GeneralUserAccessDao
         $_SESSION['cost_multiproduct'] = $userAccess['cost_multiproduct'];
         $_SESSION['support'] = $userAccess['support'];
         $_SESSION['quotes'] = $userAccess['quote'];
+        $_SESSION['flag_currency_usd'] = $userAccess['flag_currency_usd'];
+        $_SESSION['flag_currency_eur'] = $userAccess['flag_currency_eur'];
         $_SESSION['plan_cost_price'] = $userAccess['plan_cost_price'];
-        $_SESSION['plan_cost_price_usd'] = $userAccess['plan_cost_price_usd'];
         $_SESSION['plan_cost_analysis_material'] = $userAccess['plan_cost_analysis_material'];
         $_SESSION['plan_cost_simulator'] = $userAccess['plan_cost_simulator'];
         $_SESSION['plan_cost_historical'] = $userAccess['plan_cost_historical'];

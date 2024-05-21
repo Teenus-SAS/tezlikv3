@@ -117,8 +117,18 @@ if (sizeof($_SESSION) == 0)
                                             <div class="row mt-4">
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
-                                                        <label>Precios USD</label>
-                                                        <select name="pricesUSD" id="pricesUSD" class="form-control">
+                                                        <label>Moneda USD</label>
+                                                        <select name="currencyUSD" id="currencyUSD" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                    <div class="form-group m-0">
+                                                        <label>Moneda EUR</label>
+                                                        <select name="currencyEUR" id="currencyEUR" class="form-control">
                                                             <option selected disabled value="0">Seleccionar</option>
                                                             <option value="1">Si</option>
                                                             <option value="2">No</option>

@@ -96,9 +96,9 @@ $(document).ready(function () {
     //   return false;
     // } 
 
-    typePrice = sessionStorage.getItem('typePrice');
+    typeCurrency = sessionStorage.getItem('typeCurrency');
     // price_usd == '1' && 
-    if (typePrice == '2' && plan_cost_price_usd == '1') {
+    if (typeCurrency == '2' && flag_currency_usd == '1') {
       price = price / parseFloat(coverage);
       costFixed = data.costFixed / parseFloat(coverage);
       variableCost1 = data.variableCost / parseFloat(coverage);
@@ -116,7 +116,7 @@ $(document).ready(function () {
     profitability = (price * data.profitability) / price;
 
     /* Precios price_usd == '1' && */
-    typePrice == '2' && plan_cost_price_usd == '1' ? max = 2 : max = 0;
+    typeCurrency == '2' && flag_currency_usd == '1' ? max = 2 : max = 0;
 
     $('.price').val(price.toFixed(max));
     $('#price-0').val(price.toLocaleString('es-CO', { maximumFractionDigits: max }));
@@ -151,27 +151,29 @@ $(document).ready(function () {
     generalCalc(0);
   };
 
-  $('.btnPricesUSD').click(async function (e) {
-    e.preventDefault();
-    let id = this.id;
+  $(document).on('change','#selectCurrency', function () {
+    let currency = this.value;
+ 
+    sessionStorage.setItem('typeCurrency', currency);
+    $('.cardUSD').hide();
 
-    id == 'cop' ? op = 1 : op = 2;
-    sessionStorage.setItem('typePrice', op);
-    let element = document.getElementsByClassName('btnPricesUSD')[0];
-
-    if (id == 'usd') {
-      element.id = 'cop';
-      element.innerText = 'Precios COP';
+    switch (currency) {
+      case '1': // Pesos
+        
+        break;
+      case '2': // Dolares
       $('.cardUSD').show(800);
+        break;
+      case '3': // Euros
+        break;
+    
+      default:
+        break;
     }
-    else {
-      element.id = 'usd';
-      element.innerText = 'Precios USD';
-      $('.cardUSD').hide(800);
-    }
+ 
     let id_product = $('#refProduct').val();
 
     if (id_product)
       loadDataProduct(id_product, 2);
-  });
+  }); 
 });
