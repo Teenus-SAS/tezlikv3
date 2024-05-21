@@ -50,7 +50,7 @@ $(document).ready(function () {
         const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'tipo_moneda'];
         
         // price_usd == '0' ||
-        if (plan_cost_price_usd == '0')
+        if (flag_currency_usd == '0')
           expectedHeaders.splice(5, 1);
 
         const actualHeaders = Object.keys(data[0]);
@@ -73,7 +73,7 @@ $(document).ready(function () {
             costRawMaterial = item.costo.toString().replace('.', ',');
 
           // price_usd == '0' || 
-          if (plan_cost_price_usd == '0')
+          if (flag_currency_usd == '0')
             typeCost = 'COP';
           else
             typeCost = item.tipo_moneda;          
@@ -154,7 +154,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     // price_usd == '0' || 
-    if (plan_cost_price_usd == '0')
+    if (flag_currency_usd == '0')
       url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
     else
       url = 'assets/formatsXlsx/Materia_prima(USD).xlsx';

@@ -141,7 +141,7 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
         $dataImportMaterial = [];
 
         for ($i = 0; $i < count($materials); $i++) {
-            if ($_SESSION['plan_cost_price_usd'] == '0') {
+            if ($_SESSION['flag_currency_usd'] == '0') {
                 if (
                     empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || $materials[$i]['costRawMaterial'] == '' ||
                     empty($materials[$i]['magnitude']) || empty($materials[$i]['unit'])
@@ -298,7 +298,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
         $material = $generalMaterialsDao->findMaterialByReferenceOrName($dataMaterial, $id_company);
 
         if (!$material) {
-            if ($dataMaterial['usd'] == '1' && $_SESSION['plan_cost_price_usd'] == '1') {
+            if ($dataMaterial['usd'] == '1' && $_SESSION['flag_currency_usd'] == '1') {
                 $cost = $dataMaterial['costRawMaterial'];
                 $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
@@ -361,7 +361,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             $material = $generalMaterialsDao->findMaterial($materials[$i], $id_company);
 
             if (!$material) {
-                if ($materials[$i]['typeCost'] == 'COP' || $_SESSION['plan_cost_price_usd'] == '0') {
+                if ($materials[$i]['typeCost'] == 'COP' || $_SESSION['flag_currency_usd'] == '0') {
                     $materials[$i]['usd'] = 0;
                     $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
                 } else {
@@ -401,7 +401,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             } else {
                 $materials[$i]['idMaterial'] = $material['id_material'];
 
-                if ($materials[$i]['typeCost'] == 'COP' || $_SESSION['plan_cost_price_usd'] == '0') {
+                if ($materials[$i]['typeCost'] == 'COP' || $_SESSION['flag_currency_usd'] == '0') {
                     $materials[$i]['usd'] = 0;
                     $resolution = $materialsDao->updateMaterialsByCompany($materials[$i], $id_company);
                 } else {
@@ -592,7 +592,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
     }
 
     if ($status == true) {
-        if ($dataMaterial['usd'] == '1' && $_SESSION['plan_cost_price_usd'] == '1') {
+        if ($dataMaterial['usd'] == '1' && $_SESSION['flag_currency_usd'] == '1') {
             $cost = $dataMaterial['costRawMaterial'];
             $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 

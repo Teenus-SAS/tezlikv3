@@ -60,7 +60,8 @@ $(document).ready(function () {
     $('#quantityUsers').val(data.quantity_user);
     $(`#plan option[value=${data.plan}]`).prop('selected', true);
 
-    data.cost_price_usd == '1' ? (pricesUSD = '1') : (pricesUSD = '2');
+    data.flag_currency_usd == '1' ? (currencyUSD = '1') : (currencyUSD = '2');
+    data.flag_currency_eur == '1' ? (currencyEUR = '1') : (currencyEUR = '2');
     data.flag_employee == '1' ? (payrollEmployee = '1') : (payrollEmployee = '2');
     data.flag_composite_product == '1' ? (compositeProducts = '1') : (compositeProducts = '2');
     data.flag_economy_scale == '1' ? (economyScale = '1') : (economyScale = '2');
@@ -70,7 +71,8 @@ $(document).ready(function () {
     data.flag_indirect == '1' ? (indirect = '1') : (indirect = '2'); 
     data.inyection == '1' ? (inyection = '1') : (inyection = '2'); 
 
-    $(`#pricesUSD option[value=${pricesUSD}]`).prop('selected', true);
+    $(`#currencyUSD option[value=${currencyUSD}]`).prop('selected', true);
+    $(`#currencyEUR option[value=${currencyEUR}]`).prop('selected', true);
     $(`#payrollEmployee option[value=${payrollEmployee}]`).prop('selected', true);
     $(`#compositeProducts option[value=${compositeProducts}]`).prop('selected', true);
     $(`#economyScale option[value=${economyScale}]`).prop('selected', true);
@@ -96,7 +98,8 @@ $(document).ready(function () {
     let license_end = $('#license_end').val();
     let quantityUsers = parseFloat($('#quantityUsers').val());
     let plan = parseFloat($('#plan').val());
-    let pricesUSD = parseFloat($('#pricesUSD').val());
+    let currencyUSD = parseFloat($('#currencyUSD').val());
+    let currencyEUR = parseFloat($('#currencyEUR').val());
     let payrollEmployee = parseFloat($('#payrollEmployee').val());
     let compositeProducts = parseFloat($('#compositeProducts').val());
     let economyScale = parseFloat($('#economyScale').val());
@@ -106,7 +109,7 @@ $(document).ready(function () {
     let inyection = parseFloat($('#inyection').val());
     let production = parseFloat($('#production').val());
 
-    data = company * quantityUsers * plan * pricesUSD * payrollEmployee * compositeProducts * economyScale
+    data = company * quantityUsers * plan * currencyUSD * currencyEUR * payrollEmployee * compositeProducts * economyScale
       * salesObjective * historical * inyection * indirect * production;
 
     if (license_start == '' || license_end == '' || isNaN(data) || data <= 0) {
@@ -119,7 +122,8 @@ $(document).ready(function () {
       return false;
     }
  
-    pricesUSD == 1 ? (pricesUSD = 1) : (pricesUSD = 0);
+    currencyUSD == 1 ? (currencyUSD = 1) : (currencyUSD = 0);
+    currencyEUR == 1 ? (currencyEUR = 1) : (currencyEUR = 0);
     payrollEmployee == 1 ? (payrollEmployee = 1) : (payrollEmployee = 0);
     compositeProducts == 1 ? (compositeProducts = 1) : (compositeProducts = 0);
     economyScale == 1 ? (economyScale = 1) : (economyScale = 0);
@@ -130,7 +134,8 @@ $(document).ready(function () {
     inyection == 1 ? (inyection = 1) : (inyection = 0);
     
     let dataCompany = new FormData(formAddLicense);
-    dataCompany.append('pricesUSD', pricesUSD);
+    dataCompany.append('currencyUSD', currencyUSD);
+    dataCompany.append('currencyEUR', currencyEUR);
     dataCompany.append('payrollEmployee', payrollEmployee);
     dataCompany.append('compositeProducts', compositeProducts);
     dataCompany.append('economyScale', economyScale);

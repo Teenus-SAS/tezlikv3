@@ -36,7 +36,7 @@ $(document).ready(function () {
         for (i = 0; i < dataMaterials.length; i++) {
           let type_cost = '';
           // price_usd == '0' ||
-          if (plan_cost_price_usd == '0')
+          if (flag_currency_usd == '0')
             data.push({
               referencia: dataMaterials[i].reference,
               material: dataMaterials[i].material,

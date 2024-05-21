@@ -104,7 +104,7 @@ $(document).ready(function () {
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
     
     // price_usd == '1' && 
-    if (plan_cost_price_usd == '1') {
+    if (flag_currency_usd == '1') {
       if (data.flag_usd == 1) {
         $('#costRawMaterial').val(data.cost_usd);
         document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
@@ -163,7 +163,7 @@ $(document).ready(function () {
     let dataMaterial = new FormData(formCreateMaterial);
     
     // price_usd == '1' && 
-    if (plan_cost_price_usd == '1') {
+    if (flag_currency_usd == '1') {
       let className = document.getElementById('btnPriceUSD').className;
       className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
     } else

@@ -89,9 +89,20 @@ if (sizeof($_SESSION) == 0)
                                                 </select>
                                             </div>
                                             <!-- $_SESSION['price_usd'] -->
-                                            <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
-                                                <div class="col-xs-2 mr-2 mt-1">
-                                                    <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
+                                            <?php if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
+                                                <div class="col-xs-2 mr-2" style="margin-top: -28px;">
+                                                    <label class="ml-3 text-dark">Tipo moneda</label>
+                                                    <select class="form-control selectCurrency" id="selectCurrency">
+                                                        <option disabled>Seleccionar</option>
+                                                        <option value="1" selected>COP</option>
+                                                        <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                            <option value="2">USD</option>
+                                                        <?php } ?>
+                                                        <?php if ($_SESSION['flag_currency_eur'] == 1) { ?>
+                                                            <option value="3">EUR</option>
+                                                        <?php } ?>
+                                                    </select>
+                                                    <!-- <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button> -->
                                                 </div>
                                                 <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageInput">
                                                     <label class="font-weight-bold text-dark">Valor Dolar</label>
@@ -450,7 +461,8 @@ if (sizeof($_SESSION) == 0)
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
         // price_usd = 
-        plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+        flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
+        flag_currency_eur = "<?= $_SESSION['flag_currency_eur'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         coverage = "<?= $_SESSION['coverage'] ?>";
         id_company = "<?= $_SESSION['id_company'] ?>";

@@ -13,7 +13,7 @@ $(document).ready(function () {
       let typeCurrency = sessionStorage.getItem('typeCurrency');
 
       // Dolares price_usd == '1' && 
-      if (typeCurrency == '2' && plan_cost_price_usd == '1') {
+      if (typeCurrency == '2' && flag_currency_usd == '1') {
         // Convertir costos a dolares de acuerdo al dolar de cobertura
         for (let i = 0; i < data.details_prices.length; i++) {
           data.details_prices[i].cost_workforce = parseFloat(data.details_prices[i].cost_workforce) / parseFloat(coverage);
@@ -134,7 +134,7 @@ $(document).ready(function () {
       let typeCurrency = sessionStorage.getItem('typeCurrency');
 
       // price_usd == '0' || 
-      typeCurrency == '1' || !typeCurrency || plan_cost_price_usd == '0' ? expenses = 'Gastos Generales' : expenses = 'Gastos Generales (USD)';
+      typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0' ? expenses = 'Gastos Generales' : expenses = 'Gastos Generales (USD)';
     } else {
       expenses = `Gtos Generales`;
       totalExpense = `${expenseRecover.percentageExpense.toLocaleString(
@@ -210,7 +210,7 @@ $(document).ready(function () {
 
       let typeCurrency = sessionStorage.getItem('typeCurrency');
       // price_usd == '1' && 
-      if (typeCurrency == '2' && plan_cost_price_usd == '1') {
+      if (typeCurrency == '2' && flag_currency_usd == '1') {
         price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
       } else {
         price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
@@ -288,7 +288,7 @@ $(document).ready(function () {
 
     let typeCurrency = sessionStorage.getItem('typeCurrency');
     // price_usd == '1' && 
-    if (typeCurrency == '2' && plan_cost_price_usd == '1') {
+    if (typeCurrency == '2' && flag_currency_usd == '1') {
       turnover = `$ ${turnover.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
     } else {
       turnover = `$ ${turnover.toLocaleString('es-CO')}`;      

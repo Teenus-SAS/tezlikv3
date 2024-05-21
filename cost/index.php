@@ -90,14 +90,18 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <?php
                                 // $_SESSION['price_usd'] == 1 &&
-                                if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
                                     <div class="col-xs-2 mr-2 mt-1">
                                         <label class="ml-3 text-dark">Tipo moneda</label>
                                         <select class="form-control" id="selectCurrency">
                                             <option disabled selected>Seleccionar</option>
                                             <option value="1">COP</option>
-                                            <option value="2">USD</option>
-                                            <option value="3">EUR</option>
+                                            <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                <option value="2">USD</option>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['flag_currency_eur'] == 1) { ?>
+                                                <option value="3">EUR</option>
+                                            <?php } ?>
                                         </select>
                                         <!-- <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button> -->
                                     </div>
@@ -507,7 +511,8 @@ if (sizeof($_SESSION) == 0)
                                     flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
                                     // price_usd = 
-                                    plan_cost_price_usd = "<?= $_SESSION['plan_cost_price_usd'] ?>";
+                                    flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
+                                    flag_currency_eur = "<?= $_SESSION['flag_currency_eur'] ?>";
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
@@ -522,7 +527,7 @@ if (sizeof($_SESSION) == 0)
                                     modalActive = false;
 
                                     // price_usd == '1' &&
-                                    if (plan_cost_price_usd == '1')
+                                    if (flag_currency_usd == '1' || flag_currency_eur == '1')
                                         $(document).ready(function() {
                                             // Validar que el valor de precio estaba anteriormente seleccionado
                                             let typeCurrency = sessionStorage.getItem('typeCurrency') || '1';
@@ -533,8 +538,8 @@ if (sizeof($_SESSION) == 0)
                                                     $('#selectCurrency').val('1');
                                                     break;
                                                 case '2': // Dólares  
-                                                    document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
-                                                    document.getElementById('btnPdf').style.marginTop = '40px';
+                                                    // document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
+                                                    // document.getElementById('btnPdf').style.marginTop = '40px';
                                                     $('#selectCurrency').val('2');
 
                                                     $('.cardUSD').show(800);
@@ -548,14 +553,14 @@ if (sizeof($_SESSION) == 0)
                                             $(document).on('change', '#selectCurrency', function() {
                                                 let currency = this.value;
                                                 $('.cardUSD').hide(800);
-                                                document.getElementById('btnPdf').style.marginTop = '';
-                                                document.getElementById('btnPdf').className = 'col-xs-2 mt-2 mr-2';
+                                                // document.getElementById('btnPdf').style.marginTop = '';
+                                                // document.getElementById('btnPdf').className = 'col-xs-2 mt-2 mr-2';
 
                                                 sessionStorage.setItem('typeCurrency', currency);
                                                 // Dolares
                                                 if (currency == 2) {
-                                                    document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
-                                                    document.getElementById('btnPdf').style.marginTop = '30px';
+                                                    // document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
+                                                    // document.getElementById('btnPdf').style.marginTop = '30px';
 
                                                     $('.cardUSD').show(800);
                                                 }

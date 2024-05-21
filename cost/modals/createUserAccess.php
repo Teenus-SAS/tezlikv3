@@ -184,7 +184,7 @@
                                                         <label for="checkbox-15">Precios COP</label>
                                                     </div>
                                                 <?php } ?>
-                                                <?php if ($_SESSION['plan_cost_price_usd'] == 1) { ?>
+                                                <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
                                                     <!-- <div class="checkbox checkbox-success checkbox-circle">
                                                         <input id="checkbox-14" name="pricesUSD" type="checkbox">
                                                         <label for="checkbox-14">Precios USD</label>

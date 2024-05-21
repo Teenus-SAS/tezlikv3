@@ -67,21 +67,28 @@ $(document).ready(function () {
         op = 1;
 
         document.getElementById("USDHeader").className =
-          "col-xl-8 form-inline justify-content-sm-end";
+          "col-xl-8 form-inline justify-content-sm-end"; 
+        
         // Agrega el nuevo contenido con animación después de vaciar el contenido
         USDHeader.append(`
-                <div class="col-xs-2 mr-2 USDInputs">
+                <div class="col-xs-2 mt-4 mr-2 USDInputs">
                   <button class="btn btn-warning" id="btnSimulation">Simular</button>
                 </div>
                 <div class="col-xs-2 mr-2 USDInputs">
-                  <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button>
+                   <label class="ml-3 text-dark">Tipo moneda</label>
+                   <select class="form-control selectCurrency" id="selectCurrency">
+                       <option disabled>Seleccionar</option>
+                       ${flag_currency_usd == '' ? '<option value="1">COP</option>' : ''}
+                       ${flag_currency_eur == '1' ? '<option value="2" selected>USD</option>' : ''}
+                       <option value="3">EUR</option>
+                   </select>
                 </div>
-                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
+                <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
                   <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                   <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
                     value="${parseFloat(coverage).toFixed(2)}">
                 </div>
-                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
+                <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
                   <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;"
                     value="$ ${(

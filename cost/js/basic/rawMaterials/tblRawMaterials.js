@@ -103,7 +103,7 @@ $(document).ready(function () {
                 cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
 
               // price_usd == '1' && 
-              if (plan_cost_price_usd == '1') {
+              if (flag_currency_usd == '1') {
                 if (data.flag_usd == 0)
                   text = `$ ${cost}`;
                 else

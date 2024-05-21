@@ -86,8 +86,16 @@ $(document).ready(function () {
           // });
           
           permissions.push({
-            name: "Precios USD",
-            icon: data.cost_price_usd == 1
+            name: "Moneda USD",
+            icon: data.flag_currency_usd == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+          
+          permissions.push({
+            name: "Moneda EUR",
+            icon: data.flag_currency_eur == 1
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },

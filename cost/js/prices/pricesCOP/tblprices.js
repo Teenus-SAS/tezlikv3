@@ -28,7 +28,7 @@ $(document).ready(function () {
       currentDollar = actualTrm[0]["valor"];
 
       // price_usd == '1' &&
-      if (plan_cost_price_usd == "1") {
+      if (flag_currency_usd == "1") {
         $("#exchangeCoverage").val(
           `$ ${(currentDollar - parseFloat(coverage)).toLocaleString("es-CO", {
             minimumFractionDigits: 2,
@@ -37,8 +37,8 @@ $(document).ready(function () {
         );
       }
 
-      let typePrice = sessionStorage.getItem("typePrice");
-      typePrice == "2" && plan_cost_price_usd == "1" ? (op1 = 2) : (op1 = 1);
+      let typeCurrency = sessionStorage.getItem("typeCurrency");
+      typeCurrency == "2" && flag_currency_usd == "1" ? (op1 = 2) : (op1 = 1);
 
       parents = prices.filter((item) => item.composite == 0);
       composites = prices.filter((item) => item.composite == 1);

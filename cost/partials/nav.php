@@ -12,7 +12,7 @@
                     <!-- $_SESSION['price_usd'] -->
                     <?php if (
                         ($_SESSION['price'] == 1 && $_SESSION['plan_cost_price'] == 1) ||
-                        ($_SESSION['plan_cost_price_usd'] == 1) ||
+                        ($_SESSION['flag_currency_usd'] == 1) ||
                         ($_SESSION['custom_price'] == 1 && $_SESSION['plan_custom_price'] == 1)
                     ) { ?>
                         <li class="nav-item dropdown" id="navPrices">
@@ -31,7 +31,7 @@
                                     <?php } ?>
                                     <span><i class="bi bi-currency-dollar mr-1"></i>Lista de Precios </span>
                                     </a>
-                                    <?php //if ($_SESSION['price_usd'] == 1 && $_SESSION['plan_cost_price_usd'] == 1) { 
+                                    <?php //if ($_SESSION['price_usd'] == 1 && $_SESSION['flag_currency_usd'] == 1) { 
                                     ?>
                                     <!-- <a class="dropdown-item aPricesUSD" href="/cost/prices-usd"> -->
                                     <?php //} else { 
