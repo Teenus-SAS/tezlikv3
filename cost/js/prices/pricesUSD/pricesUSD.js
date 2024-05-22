@@ -71,7 +71,7 @@ $(document).ready(function () {
         
         // Agrega el nuevo contenido con animación después de vaciar el contenido
         USDHeader.append(`
-                <div class="col-xs-2 mr-2 mt-4 USDInputs">
+                <div class="col-xs-2 mr-2 mb-4 USDInputs">
                   <button class="btn btn-warning" id="btnSimulation">Simular</button>
                 </div>
                 <div class="col-xs-2 mr-2 floating-label enable-floating-label show-label USDInputs">
