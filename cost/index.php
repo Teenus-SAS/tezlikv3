@@ -91,7 +91,7 @@ if (sizeof($_SESSION) == 0)
                                 <?php
                                 // $_SESSION['price_usd'] == 1 &&
                                 if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
-                                    <div class="col-xs-2 mr-2 mt-1 floating-label enable-floating-label show-label">
+                                    <div class="col-xs-2 mr-2 floating-label enable-floating-label show-label">
                                         <label class="ml-3 text-dark">Moneda</label>
                                         <select class="form-control" id="selectCurrency">
                                             <option disabled selected>Seleccionar</option>
@@ -105,13 +105,13 @@ if (sizeof($_SESSION) == 0)
                                         </select>
                                         <!-- <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button> -->
                                     </div>
-                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none; margin-top:35px;">
+                                    <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none;">
                                         <label class="font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
                                                                                                                                                                                         $coverage_usd = sprintf('$ %s', number_format($_SESSION['coverage_usd'], 2, ',', '.'));
                                                                                                                                                                                         echo  $coverage_usd ?>" readonly>
                                     </div>
-                                    <div class="col-xs-2 form-group floating-label enable-floating-label cardEUR" style="display: none; margin-top:35px;">
+                                    <div class="col-xs-2 form-group floating-label enable-floating-label cardEUR" style="display: none;">
                                         <label class="font-weight-bold text-dark">Valor Euro</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
                                                                                                                                                                                         $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
