@@ -178,7 +178,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $data = $request->getParsedBody();
 
     $simulator = $data['simulator'];
@@ -253,7 +253,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if (isset($resolution['info'])) break;
 
@@ -310,7 +310,7 @@ $app->post('/addSimulator', function (Request $request, Response $response, $arg
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                 }
             }
         }

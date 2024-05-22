@@ -120,7 +120,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataProduct = $request->getParsedBody();
 
     $composite = $generalCompositeProductsDao->findCompositeProduct($dataProduct);
@@ -182,7 +182,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
             $k['sale_price'] = $product['sale_price'];
             $k['id_product'] = $dataProduct['idProduct'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
 
         if ($resolution == null) {
@@ -215,7 +215,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
         }
 
@@ -266,7 +266,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataProduct = $request->getParsedBody();
     $data = [];
 
@@ -329,7 +329,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
             $k['sale_price'] = $product['sale_price'];
             $k['id_product'] = $dataProduct['idProduct'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
 
         if ($resolution == null) {
@@ -363,7 +363,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
         }
 
@@ -414,7 +414,7 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataProduct = $request->getParsedBody();
 
     $resolution = $compositeProductsDao->deleteCompositeProduct($dataProduct['idCompositeProduct']);
@@ -476,7 +476,7 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
         $k['sale_price'] = $product['sale_price'];
         $k['id_product'] = $dataProduct['idProduct'];
 
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
     }
 
     if ($resolution == null) {
@@ -509,7 +509,7 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $arr['id_product'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
     }
 

@@ -139,29 +139,50 @@
                                                             </a>
                             </ul>
                             </li>
-
-                            <?php if ($_SESSION['quotes'] == 1 && $_SESSION['plan_cost_quote'] == 1) { ?>
-                                <li class="nav-item aQuotes">
+                            <?php if ($_SESSION['general_cost_report'] == 0) { ?>
+                                <li class="nav-item dropdown" id="navCostReport" style="display: none;">
                                 <?php } else { ?>
-                                <li class="nav-item aQuotes" style="display: none;">
+                                <li class="nav-item dropdown" id="navCostReport">
                                 <?php } ?>
-                                <a class="nav-link" href="/cost/quotes">
-                                    <i class="bi bi-cash-stack mr-1"></i> Cotizar
+                                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="bi bi-flag-fill mr-1"></i> Reportes
                                     <i class="bx bx-chevron-right"></i>
                                 </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="margin-left: 3px; margin-top:-7px; margin-bottom:-7px">
+                                    <?php if ($_SESSION['general_cost_report'] == 0) { ?>
+                                        <a class="dropdown-item aGeneralCostReport" href="javasctript:;" style="display: none;">
+                                        <?php } else { ?>
+                                            <a class="dropdown-item aGeneralCostReport" href="javasctript:;">
+                                            <?php } ?>
+                                            <span><i class="bi bi-currency-dollar mr-1"></i>Reporte General De Costos </span>
+                                            </a>
+                                </ul>
                                 </li>
 
-                                <?php if ($_SESSION['support'] == 1 && $_SESSION['plan_cost_support'] == 1) { ?>
-                                    <li class="nav-item aSupport">
+                                <?php if ($_SESSION['quotes'] == 1 && $_SESSION['plan_cost_quote'] == 1) { ?>
+                                    <li class="nav-item aQuotes">
                                     <?php } else { ?>
-                                    <li class="nav-item aSupport" style="display: none;">
+                                    <li class="nav-item aQuotes" style="display: none;">
                                     <?php } ?>
-                                    <a class="nav-link" href="/cost/support">
-                                        <i class="bi bi-headset mr-1"></i>
-                                        <span> Soporte</span>
+                                    <a class="nav-link" href="/cost/quotes">
+                                        <i class="bi bi-cash-stack mr-1"></i> Cotizar
                                         <i class="bx bx-chevron-right"></i>
                                     </a>
                                     </li>
+
+                                    <?php if ($_SESSION['support'] == 1 && $_SESSION['plan_cost_support'] == 1) { ?>
+                                        <li class="nav-item aSupport">
+                                        <?php } else { ?>
+                                        <li class="nav-item aSupport" style="display: none;">
+                                        <?php } ?>
+                                        <a class="nav-link" href="/cost/support">
+                                            <i class="bi bi-headset mr-1"></i>
+                                            <span> Soporte</span>
+                                            <i class="bx bx-chevron-right"></i>
+                                        </a>
+                                        </li>
+
+
                 </ul>
             </div>
         </nav>

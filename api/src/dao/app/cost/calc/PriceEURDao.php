@@ -6,7 +6,7 @@ use tezlikv3\Constants\Constants;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 
-class PriceUSDDao
+class PriceEURDao
 {
     private $logger;
 
@@ -16,6 +16,7 @@ class PriceUSDDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    /*
     public function calcAverageTrm()
     {
         $connection = Connection::getInstance()->getConnection();
@@ -32,34 +33,7 @@ class PriceUSDDao
             $error = array('info' => true, 'message' => $message);
             return $error;
         }
-    }
-
-    public function calcPriceUSDandModify($dataProduct, $coverage)
-    {
-        $connection = Connection::getInstance()->getConnection();
-
-        try {
-            // $_SESSION['flag_type_price'] == '0' ? $price = $dataProduct['sale_price'] : $price = $dataProduct['price'];
-
-            // Calculo
-            $salePriceUsd = floatval($dataProduct['sale_price']) / $coverage;
-            $priceUsd = floatval($dataProduct['price']) / $coverage;
-
-            // Actualizar
-            $stmt = $connection->prepare("UPDATE products_costs SET price_usd = :price_usd, sale_price_usd = :sale_price_usd 
-                                          WHERE id_product = :id_product");
-            $stmt->execute([
-                'price_usd' => $priceUsd,
-                'sale_price_usd' => $salePriceUsd,
-                'id_product' => $dataProduct['id_product'],
-            ]);
-            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            $error = array('info' => true, 'message' => $message);
-            return $error;
-        }
-    }
+    } 
 
     public function calcStandardDeviation($dataHistorical)
     {
@@ -91,19 +65,44 @@ class PriceUSDDao
         $dollarCoverage = $averageTrm - ($standardDeviation * $numDeviation);
 
         return $dollarCoverage;
-    }
+    } */
 
-    public function updateLastDollarCoverage($dollarCoverage, $numDeviation, $id_company)
+    public function calcPriceUSDandModify($dataProduct, $coverage)
     {
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE companies_licenses SET coverage_usd = :coverage_usd, deviation = :deviation 
+            // Calculo
+            $salePriceEUR = floatval($dataProduct['sale_price']) / $coverage;
+            $priceEUR = floatval($dataProduct['price']) / $coverage;
+
+            // Actualizar
+            $stmt = $connection->prepare("UPDATE products_costs SET price_eur = :price_eur, sale_price_eur = :sale_price_eur 
+                                          WHERE id_product = :id_product");
+            $stmt->execute([
+                'price_eur' => $priceEUR,
+                'sale_price_eur' => $salePriceEUR,
+                'id_product' => $dataProduct['id_product'],
+            ]);
+            $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updateLastEuroCoverage($euroCoverage, $numDeviation, $id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE companies_licenses SET coverage_eur = :coverage_eur, deviation = :deviation 
                                           WHERE id_company = :id_company");
             $stmt->execute([
                 'id_company' => $id_company,
                 'deviation' => $numDeviation,
-                'coverage_usd' => $dollarCoverage
+                'coverage_eur' => $euroCoverage
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();

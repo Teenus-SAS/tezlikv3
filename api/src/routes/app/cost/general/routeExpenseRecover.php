@@ -182,7 +182,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
 
     $dataExpense = $request->getParsedBody();
 
@@ -204,7 +204,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $dataExpense['idProduct'];
 
-            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
 
         if ($expensesRecover == null && $_SESSION['flag_composite_product'] == '1') {
@@ -240,7 +240,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if (isset($expensesRecover['info'])) break;
 
@@ -274,7 +274,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                 }
             }
         }
@@ -314,7 +314,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $expenseRecover[$i]['idProduct'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -350,7 +350,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $arr['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                     if (isset($resolution['info'])) break;
 
@@ -384,7 +384,7 @@ $app->post('/addExpenseRecover', function (Request $request, Response $response,
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $j['id_product'];
 
-                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     }
                 }
             }
@@ -429,7 +429,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataExpense = $request->getParsedBody();
 
     $dataExpenses = sizeof($dataExpense);
@@ -451,7 +451,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $dataExpense['idProduct'];
 
-            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
 
         if ($expensesRecover == null && $_SESSION['flag_composite_product'] == '1') {
@@ -487,7 +487,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if (isset($expensesRecover['info'])) break;
 
@@ -521,7 +521,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                 }
             }
         }
@@ -557,7 +557,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $expensesRecover[$i]['idProduct'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -592,7 +592,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $arr['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                     if (isset($resolution['info'])) break;
 
@@ -626,7 +626,7 @@ $app->post('/updateExpenseRecover', function (Request $request, Response $respon
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $j['id_product'];
 
-                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     }
                 }
             }
@@ -673,7 +673,7 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataExpense = $request->getParsedBody();
 
     $expensesRecover = $expenseRecoverDao->deleteRecoverExpense($dataExpense['idExpenseRecover']);
@@ -691,7 +691,7 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
         $k['sale_price'] = $data['sale_price'];
         $k['id_product'] = $dataExpense['idProduct'];
 
-        $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
     }
 
     if ($expensesRecover == null && $_SESSION['flag_composite_product'] == '1') {
@@ -727,7 +727,7 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $arr['id_product'];
 
-            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
             if (isset($expensesRecover['info'])) break;
 
@@ -761,7 +761,7 @@ $app->post('/deleteExpenseRecover', function (Request $request, Response $respon
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $j['id_product'];
 
-                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $expensesRecover = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
         }
     }

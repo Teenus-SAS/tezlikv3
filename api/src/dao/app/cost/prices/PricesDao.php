@@ -19,8 +19,31 @@ class PricesDao
   public function findAllPricesByCompany($id_company)
   {
     $connection = Connection::getInstance()->getConnection();
-    $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, IFNULL(pc.cost_workforce, 0) AS cost_workforce, IFNULL(pc.cost_materials, 0) AS cost_materials, IFNULL(pc.cost_indirect_cost, 0) AS cost_indirect_cost, IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.commission_sale, 0) AS commission_sale, IFNULL(pc.price, 0) AS price, IFNULL(pc.price_usd, 0) AS price_usd, IFNULL(pc.sale_price_usd, 0) AS sale_price_usd, IFNULL(pc.sale_price, 0) AS sale_price, IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_product = p.id_product)) AS units_sold,
-                                         IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover), 0) FROM expenses_distribution WHERE id_product = p.id_product)) AS turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS assignable_expense, IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, IFNULL(er.expense_recover, 0) AS expense_recover, p.composite, p.img
+    $stmt = $connection->prepare("SELECT 
+                                        -- Informacion Basica Producto 
+                                          p.id_product, 
+                                          p.reference, 
+                                          p.product, 
+                                          p.composite, 
+                                          p.img,
+                                        -- Costeo Total
+                                          IFNULL(pc.cost_materials, 0) AS cost_materials, 
+                                          IFNULL(pc.cost_workforce, 0) AS cost_workforce, 
+                                          IFNULL(pc.cost_indirect_cost, 0) AS cost_indirect_cost, 
+                                          IFNULL((SELECT SUM(cost) FROM services WHERE id_product = p.id_product), 0) AS services, 
+                                          IFNULL(pc.commission_sale, 0) AS commission_sale, 
+                                          IFNULL(pc.profitability, 0) AS profitability, 
+                                        -- Precios Producto
+                                          IFNULL(pc.price, 0) AS price, 
+                                          IFNULL(pc.sale_price, 0) AS sale_price, 
+                                          IFNULL(pc.price_usd, 0) AS price_usd, 
+                                          IFNULL(pc.sale_price_usd, 0) AS sale_price_usd, 
+                                          IFNULL(pc.price_eur, 0) AS price_eur, 
+                                          IFNULL(pc.sale_price_eur, 0) AS sale_price_eur, 
+                                        -- Ventas
+                                          IF(cl.flag_family = 2, (SELECT IFNULL(SUM(units_sold), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(units_sold), 0) FROM expenses_distribution WHERE id_product = p.id_product)) AS units_sold,
+                                          IF(cl.flag_family = 2, (SELECT IFNULL(SUM(turnover), 0) FROM families WHERE id_company = p.id_company), (SELECT IFNULL(SUM(turnover), 0) FROM expenses_distribution WHERE id_product = p.id_product)) AS turnover, IF(cl.flag_family = 2, IFNULL(f.assignable_expense, 0), IFNULL(ed.assignable_expense, 0)) AS assignable_expense, 
+                                          IFNULL(er.expense_recover, 0) AS expense_recover
                                   FROM products p
                                     LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
                                     LEFT JOIN expenses_recover er ON er.id_product = p.id_product

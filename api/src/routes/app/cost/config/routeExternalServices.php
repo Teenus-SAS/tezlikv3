@@ -156,7 +156,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataExternalService = $request->getParsedBody();
 
     $dataExternalServices = sizeof($dataExternalService);
@@ -184,7 +184,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $dataExternalService['idProduct'];
 
-                $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
 
             if ($externalServices == null && $_SESSION['flag_composite_product'] == '1') {
@@ -218,7 +218,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                     if (isset($externalService['info'])) break;
 
@@ -252,7 +252,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $arr['id_product'];
 
-                        $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     }
                 }
             }
@@ -297,7 +297,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $externalService[$i]['idProduct'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
             if (isset($resolution['info'])) break;
 
@@ -333,7 +333,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                     if (isset($resolution['info'])) break;
 
@@ -367,7 +367,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $arr['id_product'];
 
-                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     }
                 }
             }
@@ -413,7 +413,7 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
 
     $dataExternalService = $request->getParsedBody();
 
@@ -444,7 +444,7 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $dataExternalService['idProduct'];
 
-            $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $externalService = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
         if ($externalServices == null)
             $resp = array('success' => true, 'message' => 'Servicio externo actualizado correctamente');
@@ -485,7 +485,7 @@ $app->post('/deleteExternalService', function (Request $request, Response $respo
     }
 
     // session_start();
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataExternalService = $request->getParsedBody();
     $data = [];
 
@@ -505,7 +505,7 @@ $app->post('/deleteExternalService', function (Request $request, Response $respo
         $k['sale_price'] = $data['sale_price'];
         $k['id_product'] = $dataExternalService['idProduct'];
 
-        $externalServices = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $externalServices = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
     }
 
     if ($externalServices == null)

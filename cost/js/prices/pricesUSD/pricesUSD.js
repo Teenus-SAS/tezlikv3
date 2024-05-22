@@ -26,27 +26,27 @@ $(document).ready(function () {
                 </div>
                 <div class="col-xs-2 form-group floating-label enable-floating-label mr-2 USDInputs">
                   <label class="font-weight-bold text-dark">Dolar con Cobertura</label>
-                  <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
-                    value="${parseFloat(coverage1).toFixed(2)}">
+                  <input type="number" class="form-control text-center calcUSDInputs" name="valueCoverageUSD" id="valueCoverageUSD"
+                    value="${parseFloat(coverage_usd1).toFixed(2)}">
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
-                  <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;" readonly>
+                  <input type="text" class="form-control text-center" name="exchangeCoverageUSD="exchangeCoverageUSD" style="background-color: aliceblue;" readonly>
                 </div>
                 <div class="col-xs-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Correción TRM</label>
-                  <input type="number" class="form-control text-center calcInputs" name="deviation" id="deviation" value="${deviation}">
+                  <input type="number" class="form-control text-center calcUSDInputs" name="deviation" id="deviation" value="${deviation}">
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Valor Dolar</label>
-                  <input type="number" class="form-control text-center" name="valueCoverage" id="valueCoverage" style="background-color: aliceblue;"
-                    value="${parseFloat(coverage).toFixed(2)}" readonly>
+                  <input type="number" class="form-control text-center" name="valueCoverageUSD" id="valueCoverage" style="background-color: aliceblue;"
+                    value="${parseFloat(coverage_usd).toFixed(2)}" readonly>
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
-                  <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;"
+                  <input type="text" class="form-control text-center" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;"
                     value="$ ${(
-                      currentDollar - parseFloat(coverage)
+                      currentDollar - parseFloat(coverage_usd)
                     ).toLocaleString("es-CO", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
@@ -59,9 +59,9 @@ $(document).ready(function () {
 
         // Realiza cualquier acción adicional después de agregar el contenido
         if (flag_composite_product == "1") {
-          loadTblPrices(parents, 3);
+          loadTblPrices(parents, 4);
         } else {
-          loadTblPrices(allPrices, 3);
+          loadTblPrices(allPrices, 4);
         }
       } else {
         op = 1;
@@ -85,14 +85,14 @@ $(document).ready(function () {
                 </div>
                 <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
                   <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
-                  <input type="number" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage"
-                    value="${parseFloat(coverage).toFixed(2)}">
+                  <input type="number" class="form-control text-center calcUSDInputs" name="valueCoverageUSD" id="valueCoverageUSD"
+                    value="${parseFloat(coverage_usd).toFixed(2)}">
                 </div>
                 <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label USDInputs" style="margin-bottom: 0px;">
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
-                  <input type="text" class="form-control text-center" name="exchangeCoverage" id="exchangeCoverage" style="background-color: aliceblue;"
+                  <input type="text" class="form-control text-center" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;"
                     value="$ ${(
-                      currentDollar - parseFloat(coverage)
+                      currentDollar - parseFloat(coverage_usd)
                     ).toLocaleString("es-CO", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
@@ -113,9 +113,9 @@ $(document).ready(function () {
   });
 
   /* Calcular valor de cobertura ingresando numero de desviación */
-  $(document).on("blur", ".calcInputs", function (e) {
+  $(document).on("blur", ".calcUSDInputs", function (e) {
     let num = $("#deviation").val();
-    let valueCoverage = parseFloat($("#valueCoverage").val());
+    let valueCoverage = parseFloat($("#valueCoverageUSD").val());
 
     if (isNaN(valueCoverage) || valueCoverage <= 0) {
       toastr.error("Ingrese valor covertura valido");
@@ -166,7 +166,7 @@ $(document).ready(function () {
       let data = await searchData(`/api/priceUSD/${valueCoverage}`);
 
       if (data.success) {
-        coverage = valueCoverage;
+        coverage_usd = valueCoverage;
 
         $(".spinner-border").remove();
         $(".USDInputs").show(400);
@@ -177,28 +177,28 @@ $(document).ready(function () {
       // Simulador
       let data = {};
       data["deviation"] = deviation;
-      data["coverage"] = valueCoverage;
+      data["coverage_usd"] = valueCoverage;
       data["id"] = id;
 
       $.post("/api/simPriceUSD", data, function (resp, textStatus, jqXHR) {
         if (resp.success) {
-          $("#exchangeCoverage").val(
+          $("#exchangeCoverageUSD").val(
             `$ ${resp.exchangeCoverage.toLocaleString("es-CO", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}`
           );
 
-          coverage1 = resp.coverage;
+          coverage_usd1 = resp.coverage_usd;
 
-          $("#valueCoverage").val(parseFloat(resp.coverage).toFixed(2));
+          $("#valueCoverageUSD").val(parseFloat(resp.coverage_usd).toFixed(2));
 
           $(".spinner-border").remove();
           $(".USDInputs").show(400);
 
           if (flag_composite_product == "1") {
-            loadTblPrices(parents, 3, resp.coverage);
-          } else loadTblPrices(allPrices, 3, resp.coverage);
+            loadTblPrices(parents, 4, resp.coverage_usd);
+          } else loadTblPrices(allPrices, 4, resp.coverage_usd);
         }
       });
     }

@@ -124,7 +124,8 @@ $app->post('/userAutentication', function (Request $request, Response $response,
         $_SESSION['plan'] = $dataCompany['plan'];
         $_SESSION['license_days'] = $dataCompany['license_days'];
         $_SESSION['status_historical'] = 1;
-        $_SESSION['coverage'] = $dataCompany['coverage'];
+        $_SESSION['coverage_usd'] = $dataCompany['coverage_usd'];
+        $_SESSION['coverage_eur'] = $dataCompany['coverage_eur'];
         $_SESSION['deviation'] = $dataCompany['deviation'];
         $_SESSION['demo'] = 1;
 

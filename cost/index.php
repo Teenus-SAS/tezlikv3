@@ -107,9 +107,15 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                     <div class="col-xs-2 ml-2 form-group floating-label enable-floating-label cardUSD" style="display:none; margin-top:35px;">
                                         <label class="font-weight-bold text-dark">Valor Dolar</label>
-                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                            $coverage = sprintf('$ %s', number_format($_SESSION['coverage'], 2, ',', '.'));
-                                                                                                                                                                                            echo  $coverage ?>" readonly>
+                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
+                                                                                                                                                                                        $coverage_usd = sprintf('$ %s', number_format($_SESSION['coverage_usd'], 2, ',', '.'));
+                                                                                                                                                                                        echo  $coverage_usd ?>" readonly>
+                                    </div>
+                                    <div class="col-xs-2 form-group floating-label enable-floating-label cardEUR" style="display: none; margin-top:35px;">
+                                        <label class="font-weight-bold text-dark">Valor Euro</label>
+                                        <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
+                                                                                                                                                                                        $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
+                                                                                                                                                                                        echo  $coverage_eur ?>" readonly>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -516,7 +522,8 @@ if (sizeof($_SESSION) == 0)
                                     flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
-                                    coverage = "<?= $_SESSION['coverage'] ?>";
+                                    coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
+                                    coverage_eur = "<?= $_SESSION['coverage_eur'] ?>";
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
@@ -532,6 +539,7 @@ if (sizeof($_SESSION) == 0)
                                             // Validar que el valor de precio estaba anteriormente seleccionado
                                             let typeCurrency = sessionStorage.getItem('typeCurrency') || '1';
                                             $('.cardUSD').hide(800);
+                                            $('.cardEUR').hide(800);
 
                                             switch (typeCurrency) {
                                                 case '1': // Pesos COP
@@ -546,6 +554,8 @@ if (sizeof($_SESSION) == 0)
                                                     break;
                                                 case '3': // Euros
                                                     $('#selectCurrency').val('3');
+
+                                                    $('.cardEUR').show(800);
                                                     break;
                                             }
 
@@ -553,16 +563,22 @@ if (sizeof($_SESSION) == 0)
                                             $(document).on('change', '#selectCurrency', function() {
                                                 let currency = this.value;
                                                 $('.cardUSD').hide(800);
+                                                $('.cardEUR').hide(800);
+
                                                 // document.getElementById('btnPdf').style.marginTop = '';
                                                 // document.getElementById('btnPdf').className = 'col-xs-2 mt-2 mr-2';
 
                                                 sessionStorage.setItem('typeCurrency', currency);
-                                                // Dolares
-                                                if (currency == 2) {
-                                                    // document.getElementById('btnPdf').className = 'col-xs-2 mr-2';
-                                                    // document.getElementById('btnPdf').style.marginTop = '30px';
 
-                                                    $('.cardUSD').show(800);
+                                                switch (currency) {
+                                                    case '1': // Pesos COP 
+                                                        break;
+                                                    case '2': // Dólares   
+                                                        $('.cardUSD').show(800);
+                                                        break;
+                                                    case '3': // Euros 
+                                                        $('.cardEUR').show(800);
+                                                        break;
                                                 }
                                                 // } else { // Pesos
                                                 //     $(`#selectCurrency option[value=1]`).prop("selected", true);

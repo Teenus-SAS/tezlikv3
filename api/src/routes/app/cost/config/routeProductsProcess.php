@@ -295,7 +295,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataProductProcess = $request->getParsedBody();
 
     $dataProductsProcess = sizeof($dataProductProcess);
@@ -357,7 +357,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $dataProductProcess['idProduct'];
 
-                $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
 
             if ($productProcess == null && $_SESSION['flag_composite_product'] == '1') {
@@ -416,7 +416,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                     if (isset($productProcess['info'])) break;
 
@@ -473,7 +473,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $arr['id_product'];
 
-                        $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     }
                 }
             }
@@ -584,7 +584,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $productProcess[$i]['idProduct'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
             if ($_SESSION['flag_composite_product'] == '1') {
                 if (isset($resolution['info'])) break;
@@ -643,7 +643,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                     if (isset($resolution['info'])) break;
 
@@ -700,7 +700,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $arr['id_product'];
 
-                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     }
                 }
             }
@@ -751,7 +751,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataProductProcess = $request->getParsedBody();
 
     $data = [];
@@ -824,7 +824,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $dataProductProcess['idProduct'];
 
-            $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
         }
 
         if ($productProcess == null && $_SESSION['flag_composite_product'] == '1') {
@@ -883,7 +883,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $j['id_product'];
 
-                $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if (isset($productProcess['info'])) break;
 
@@ -941,7 +941,7 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $arr['id_product'];
 
-                    $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $productProcess = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                 }
             }
         }
@@ -992,7 +992,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataProductProcess = $request->getParsedBody();
 
     $employees = implode(',', $dataProductProcess['employees']);
@@ -1049,7 +1049,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
         $k['sale_price'] = $data['sale_price'];
         $k['id_product'] = $dataProductProcess['idProduct'];
 
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
     }
 
     if ($resolution == null && $_SESSION['flag_composite_product'] == '1') {
@@ -1108,7 +1108,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $j['id_product'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
             if (isset($resolution['info'])) break;
 
@@ -1166,7 +1166,7 @@ $app->post('/saveEmployees', function (Request $request, Response $response, $ar
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
         }
     }
@@ -1260,7 +1260,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataProductProcess = $request->getParsedBody();
 
     $product = $productsProcessDao->deleteProductProcess($dataProductProcess);
@@ -1304,7 +1304,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
         $k['sale_price'] = $data['sale_price'];
         $k['id_product'] = $dataProductProcess['idProduct'];
 
-        $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
     }
 
     if ($product == null && $_SESSION['flag_composite_product'] == '1') {
@@ -1363,7 +1363,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
             $k['sale_price'] = $data['sale_price'];
             $k['id_product'] = $j['id_product'];
 
-            $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+            $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
             if (isset($product['info'])) break;
 
@@ -1420,7 +1420,7 @@ $app->post('/deleteProductProcess', function (Request $request, Response $respon
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $product = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
             }
         }
     }

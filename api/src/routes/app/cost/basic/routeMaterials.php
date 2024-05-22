@@ -289,7 +289,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     // session_start();
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
 
     $dataMaterials = sizeof($dataMaterial);
 
@@ -302,15 +302,15 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 $cost = $dataMaterial['costRawMaterial'];
                 $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
-                $coverage = $_SESSION['coverage'];
-                $formatCoverage = sprintf('$%s', number_format($coverage, 2, ',', '.'));
+                $coverage_usd = $_SESSION['coverage_usd'];
+                $formatcoverage_usd = sprintf('$%s', number_format($coverage_usd, 2, ',', '.'));
 
                 // if ($trm == 0) {
                 $trm = $trmDao->getLastTrm();
                 $trm = $trm[0]['valor'];
                 // }
 
-                $dataMaterial['costRawMaterial'] = $cost * floatval($coverage);
+                $dataMaterial['costRawMaterial'] = $cost * floatval($coverage_usd);
 
                 $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
@@ -318,7 +318,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                 $data = [];
                 $data['date'] = date('Y-m-d');
-                $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverage. TRM Actual: $formatTrm";
+                $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatcoverage_usd. TRM Actual: $formatTrm";
 
                 $lastData = $lastDataDao->lastInsertedMaterialsId($id_company);
                 $data['idMaterial'] = $lastData['id_material'];
@@ -370,15 +370,15 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                     $cost = str_replace(',', '.', $materials[$i]['costRawMaterial']);
                     $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
-                    $coverage = $_SESSION['coverage'];
-                    $formatCoverage = sprintf('$%s', number_format($coverage, 2, ',', '.'));
+                    $coverage_usd = $_SESSION['coverage_usd'];
+                    $formatcoverage_usd = sprintf('$%s', number_format($coverage_usd, 2, ',', '.'));
 
                     // if ($trm == 0) {
                     $trm = $trmDao->getLastTrm();
                     $trm = $trm[0]['valor'];
                     // }
 
-                    $materials[$i]['costRawMaterial'] = $cost * floatval($coverage);
+                    $materials[$i]['costRawMaterial'] = $cost * floatval($coverage_usd);
 
                     $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
                     if ($resolution != null) break;
@@ -387,7 +387,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                     $data = [];
                     $data['date'] = date('Y-m-d');
-                    $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverage. TRM Actual: $formatTrm";
+                    $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatcoverage_usd. TRM Actual: $formatTrm";
 
                     $lastData = $lastDataDao->lastInsertedMaterialsId($id_company);
                     $data['idMaterial'] = $lastData['id_material'];
@@ -411,15 +411,15 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                     $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
-                    $coverage = $_SESSION['coverage'];
-                    $formatCoverage = sprintf('$%s', number_format($coverage, 2, ',', '.'));
+                    $coverage_usd = $_SESSION['coverage_usd'];
+                    $formatcoverage_usd = sprintf('$%s', number_format($coverage_usd, 2, ',', '.'));
 
                     // if ($trm == 0) {
                     $trm = $trmDao->getLastTrm();
                     $trm = $trm[0]['valor'];
                     // }
 
-                    $materials[$i]['costRawMaterial'] = $cost * floatval($coverage);
+                    $materials[$i]['costRawMaterial'] = $cost * floatval($coverage_usd);
                     $resolution = $materialsDao->updateMaterialsByCompany($materials[$i], $id_company);
                     if ($resolution != null) break;
 
@@ -427,7 +427,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                     $data = [];
                     $data['date'] = date('Y-m-d');
-                    $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverage. TRM Actual: $formatTrm";
+                    $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatcoverage_usd. TRM Actual: $formatTrm";
                     $data['idMaterial'] = $materials[$i]['idMaterial'];
                     $data['cost_usd'] = $cost;
 
@@ -456,7 +456,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $arr['id_product'];
 
-                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                         if (isset($resolution['info'])) break;
 
@@ -491,7 +491,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                                 $k['sale_price'] = $data['sale_price'];
                                 $k['id_product'] = $j['id_product'];
 
-                                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                                 if (isset($resolution['info'])) break;
 
                                 $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
@@ -524,7 +524,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                                     $l['sale_price'] = $data['sale_price'];
                                     $l['id_product'] = $k['id_product'];
 
-                                    $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                                    $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
                                 }
                             }
                         }
@@ -576,7 +576,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataMaterial = $request->getParsedBody();
 
     $data = [];
@@ -596,22 +596,22 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
             $cost = $dataMaterial['costRawMaterial'];
             $formatCost = sprintf('$%s', number_format($cost, 2, ',', '.'));
 
-            $coverage = $_SESSION['coverage'];
-            $formatCoverage = sprintf('$%s', number_format($coverage, 2, ',', '.'));
+            $coverage_usd = $_SESSION['coverage_usd'];
+            $formatcoverage_usd = sprintf('$%s', number_format($coverage_usd, 2, ',', '.'));
 
             // if ($trm == 0) {
             $trm = $trmDao->getLastTrm();
             $trm = $trm[0]['valor'];
             // } 
 
-            $dataMaterial['costRawMaterial'] = $cost * floatval($coverage);
+            $dataMaterial['costRawMaterial'] = $cost * floatval($coverage_usd);
             $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
             $formatTrm = sprintf('$%s', number_format($trm, 2, ',', '.'));
 
             $data = [];
             $data['date'] = date('Y-m-d');
-            $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverage. TRM Actual: $formatTrm";
+            $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatcoverage_usd. TRM Actual: $formatTrm";
             $data['idMaterial'] = $dataMaterial['idMaterial'];
             $data['cost_usd'] = $cost;
 
@@ -672,7 +672,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                     if (isset($materials['info'])) break;
 
@@ -707,7 +707,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                             $k['sale_price'] = $data['sale_price'];
                             $k['id_product'] = $arr['id_product'];
 
-                            $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                            $materials = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                             if (isset($materials['info'])) break;
 
@@ -739,7 +739,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
                                 $l['sale_price'] = $data['sale_price'];
                                 $l['id_product'] = $arr['id_product'];
 
-                                $materials = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                                $materials = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
                             }
                         }
                     }
