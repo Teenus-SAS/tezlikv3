@@ -91,8 +91,8 @@ if (sizeof($_SESSION) == 0)
                                 <?php
                                 // $_SESSION['price_usd'] == 1 &&
                                 if ($_SESSION['flag_currency_usd'] == 1 || $_SESSION['flag_currency_eur'] == 1) { ?>
-                                    <div class="col-xs-2 mr-2 mt-1">
-                                        <label class="ml-3 text-dark">Tipo moneda</label>
+                                    <div class="col-xs-2 mr-2 mt-1 floating-label enable-floating-label show-label">
+                                        <label class="ml-3 text-dark">Moneda</label>
                                         <select class="form-control" id="selectCurrency">
                                             <option disabled selected>Seleccionar</option>
                                             <option value="1">COP</option>
