@@ -74,8 +74,8 @@ $(document).ready(function () {
                 <div class="col-xs-2 mt-4 mr-2 USDInputs">
                   <button class="btn btn-warning" id="btnSimulation">Simular</button>
                 </div>
-                <div class="col-xs-2 mr-2 USDInputs">
-                   <label class="ml-3 text-dark">Tipo moneda</label>
+                <div class="col-xs-2 mr-2 floating-label enable-floating-label show-label USDInputs">
+                   <label class="ml-3 text-dark">Moneda</label>
                    <select class="form-control selectCurrency" id="selectCurrency">
                        <option disabled>Seleccionar</option>
                        ${flag_currency_usd == '' ? '<option value="1">COP</option>' : ''}
