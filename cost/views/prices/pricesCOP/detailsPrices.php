@@ -104,29 +104,30 @@ if (sizeof($_SESSION) == 0)
                                                     </select>
                                                     <!-- <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button> -->
                                                 </div>
-                                                <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(2)" style="font-size: 30px; color:red;"></i></a>
-                                                <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageUSDInput" style="display: none;">
+
+                                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardUSD coverageUSDInput" style="display: none;">
                                                     <label class="font-weight-bold text-dark">Valor Dolar</label>
                                                     <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
                                                                                                                                                                                                     $coverage_usd = sprintf("%.2f", $_SESSION['coverage_usd']);
                                                                                                                                                                                                     echo  $coverage_usd ?>" readonly>
                                                 </div>
-                                                <div class="col-xs-2 form-group floating-label enable-floating-label cardEUR coverageEURInput" style="display: none;">
+                                                <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardEUR coverageEURInput" style="display: none;">
                                                     <label class="font-weight-bold text-dark">Valor Euro</label>
                                                     <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
                                                                                                                                                                                                     $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
                                                                                                                                                                                                     echo  $coverage_eur ?>" readonly>
                                                 </div>
+                                                <div class="col-xs-2 btnPrintPDF" id="btnPdf">
+                                                    <a href="javascript:;" <i class="bi bi-filetype-pdf" data-toggle='tooltip' onclick="printPDF(2)" style="font-size: 30px; color:red;"></i></a>
+                                                </div>
                                             <?php } ?>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-sm-5 col-xl-12 d-flex justify-content-end">
-                                            <div class="col-xs-2 mr-2 btnPrintPDF" id="btnPdf">
-
-                                            </div>
+                                           
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
