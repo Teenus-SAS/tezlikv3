@@ -81,7 +81,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-xl-6 form-inline justify-content-sm-end">
                                     <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
-                                        <div class="col-xs-2 mt-4 mr-2 cardCOP" style="display: none;">
+                                        <div class="col-xs-2 mr-2 cardCOP" style="display: none;">
                                             <button class="btn btn-warning" id="btnComposite">Productos Compuestos</button>
                                         </div>
                                     <?php } ?>
@@ -91,7 +91,7 @@ if (sizeof($_SESSION) == 0)
                                         <!-- <div class="col-xs-2 cardCOP">
                                             <button class="btn btn-info btnPricesUSD" id="usd">Precios USD</button>
                                         </div> -->
-                                        <div class="col-xs-2 mr-2 mt-1 floating-label enable-floating-label show-label">
+                                        <div class="col-xs-2 mr-2 mt-1 floating-label enable-floating-label show-label" style="margin-bottom: 0px;">
                                             <label class="text-dark">Moneda</label>
                                             <select class="form-control selectCurrency">
                                                 <option disabled>Seleccionar</option>
