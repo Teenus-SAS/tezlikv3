@@ -119,10 +119,10 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                                 <div class="col-xl-8 form-inline justify-content-sm-end" id="USDHeader">
-                                    <div class="col-xs-2 mt-4 mr-2 USDInputs">
+                                    <div class="col-xs-2 mr-2 USDInputs">
                                         <button class="btn btn-warning" id="btnSimulation">Simular</button>
                                     </div>
-                                    <div class="col-xs-2 mr-2 USDInputs floating-label enable-floating-label show-label">
+                                    <div class="col-xs-2 mr-2 USDInputs floating-label enable-floating-label show-label" style="margin-bottom: 0px;">
                                         <!-- <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button> -->
                                         <label class="text-dark">Moneda</label>
                                         <select class="form-control selectCurrency">
@@ -136,13 +136,13 @@ if (sizeof($_SESSION) == 0)
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label coverageUSDInput" style="margin-bottom: 0px;">
+                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label coverageUSDInput">
                                         <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
                                         <input type="number" class="form-control text-center calcUSDInputs" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
                                                                                                                                                                     $coverage_usd = sprintf("%.2f", $_SESSION['coverage_usd']);
                                                                                                                                                                     echo  $coverage_usd ?>">
                                     </div>
-                                    <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label USDInputs coverageUSDInput" style="margin-bottom: 0px;">
+                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs coverageUSDInput">
                                         <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
                                         <input type="text" class="form-control text-center" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;" readonly>
                                     </div>
@@ -177,7 +177,7 @@ if (sizeof($_SESSION) == 0)
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    <div class="col-xs-2 mt-4 mr-2 form-group floating-label enable-floating-label coverageEURInput">
+                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label coverageEURInput" style="margin-bottom: 0px;">
                                         <label class="mb-1 font-weight-bold text-dark">Valor Euro</label>
                                         <input type="number" class="form-control text-center calcEURInputs" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
                                                                                                                                                                     $coverage_eur = sprintf("%.2f", $_SESSION['coverage_eur']);
