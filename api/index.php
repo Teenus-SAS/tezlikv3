@@ -114,6 +114,7 @@ require_once('../api/src/routes/app/login/routepassUser.php');
 // Prices
 require_once('../api/src/routes/app/cost/prices/routePrices.php');
 require_once('../api/src/routes/app/cost/prices/routePricesUSD.php');
+require_once('../api/src/routes/app/cost/prices/routePricesEUR.php');
 require_once('../api/src/routes/app/cost/prices/customPrices/routesCustomPrices.php');
 require_once('../api/src/routes/app/cost/prices/customPrices/routeCustomPercentage.php');
 

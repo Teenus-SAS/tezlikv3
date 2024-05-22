@@ -3,13 +3,13 @@
 use tezlikv3\dao\GeneralMaterialsDao;
 use tezlikv3\dao\LicenseCompanyDao;
 use tezlikv3\dao\MaterialsDao;
-use tezlikv3\Dao\PriceUSDDao;
+use tezlikv3\Dao\PriceEURDao;
 use tezlikv3\dao\ProductsDao;
 use tezlikv3\Dao\TrmDao;
 use tezlikv3\dao\WebTokenDao;
 
 $trmDao = new TrmDao();
-$pricesUSDDao = new PriceUSDDao();
+$priceEURDao = new PriceEURDao();
 $webTokenDao = new WebTokenDao();
 $productsDao = new ProductsDao();
 $materialsDao = new MaterialsDao();
@@ -19,7 +19,7 @@ $licenceCompanyDao = new LicenseCompanyDao();
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-/* Consultar dolar actual */
+/* Consultar Euro actual 
 
 $app->get('/currentDollar', function (Request $request, Response $response, $args) use (
     $trmDao,
@@ -47,10 +47,11 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
     $price = $trmDao->getLastTrm();
     $response->getBody()->write(json_encode($price, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+}); */
 
-/* Calcular valor de cobertura simulacion */
-$app->post('/simPriceUSD', function (Request $request, Response $response, $args) use (
+/* Calcular valor de cobertura simulacion 
+
+$app->post('/simPriceEUR', function (Request $request, Response $response, $args) use (
     $pricesUSDDao,
     $webTokenDao,
     $productsDao,
@@ -80,7 +81,7 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
     $dataTrm = $request->getParsedBody();
 
     $deviation = $dataTrm['deviation'];
-    $coverage_usd = $dataTrm['coverage_usd'];
+    $coverage_eur = $dataTrm['coverage_eur'];
     $op = $dataTrm['id'];
 
     if ($op == 'deviation') {
@@ -94,25 +95,25 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
         $standardDeviation = $pricesUSDDao->calcStandardDeviation($historicalTrm);
 
         // Calcular valor de cobertura
-        $coverage_usd = $pricesUSDDao->calcDollarCoverage($price['average_trm'], $standardDeviation, $deviation);
+        $coverage_eur = $pricesUSDDao->calcDollarCoverage($price['average_trm'], $standardDeviation, $deviation);
     }
 
     // Obtener trm actual
     $actualTrm = $trmDao->getLastTrm();
 
     // Covertura Cambiaria
-    $exchangeCoverage = $actualTrm[0]['valor'] - $coverage_usd;
+    $exchangeCoverage = $actualTrm[0]['valor'] - $coverage_eur;
 
-    $resp = array('success' => true, 'coverage_usd' => $coverage_usd, 'exchangeCoverage' => $exchangeCoverage);
+    $resp = array('success' => true, 'coverage_eur' => $coverage_eur, 'exchangeCoverage' => $exchangeCoverage);
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
-});
+}); */
 
-$app->get('/priceUSD/{coverage_usd}', function (Request $request, Response $response, $args) use (
+$app->get('/priceEUR/{coverage_eur}', function (Request $request, Response $response, $args) use (
     $licenceCompanyDao,
     $webTokenDao,
-    $pricesUSDDao,
+    $priceEURDao,
     $productsDao,
     $generalMaterialsDao,
     $trmDao
@@ -142,56 +143,57 @@ $app->get('/priceUSD/{coverage_usd}', function (Request $request, Response $resp
     $company = $licenceCompanyDao->findLicenseCompany($id_company);
 
     $deviation = $company['deviation'];
-    $coverage_usd = $args['coverage_usd'];
+    $coverage_eur = $args['coverage_eur'];
 
     // Obtener productos
     $products = $productsDao->findAllProductsByCompany($id_company);
 
     for ($i = 0; $i < sizeof($products); $i++) {
         // Calcular precio USD y modificar
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($products[$i], $coverage_usd);
+        $resolution = $priceEURDao->calcPriceUSDandModify($products[$i], $coverage_eur);
 
         if (isset($resolution['info'])) break;
     }
 
     // Obtener trm actual
-    $actualTrm = $trmDao->getLastTrm();
+    // $actualTrm = $trmDao->getLastTrm();
 
     // Covertura Cambiaria
-    $exchangeCoverage = $actualTrm[0]['valor'] - $coverage_usd;
+    // $exchangeCoverage = $actualTrm[0]['valor'] - $coverage_eur;
 
     // Modificar valor de cobertura y numero de desviacion en la tabla companies_licences
-    $resolution = $pricesUSDDao->updateLastDollarCoverage($coverage_usd, $deviation, $id_company);
+    $resolution = $priceEURDao->updateLastEuroCoverage($coverage_eur, $deviation, $id_company);
 
-    $_SESSION['coverage_usd'] = $coverage_usd;
+    $_SESSION['coverage_eur'] = $coverage_eur;
 
-    // Materiales
-    $materials = $generalMaterialsDao->findAllMaterialsUSDByCompany($id_company);
+    /* Materiales
+        $materials = $generalMaterialsDao->findAllMaterialsUSDByCompany($id_company);
 
-    foreach ($materials as $arr) {
-        $formatCoverage = sprintf('$%s', number_format($coverage_usd, 2, ',', '.'));
+        foreach ($materials as $arr) {
+            $formatCoverage = sprintf('$%s', number_format($coverage_eur, 2, ',', '.'));
 
-        $trm = $actualTrm[0]['valor'];
-        $formatTrm = sprintf('$%s', number_format($trm, 2, ',', '.'));
+            $trm = $actualTrm[0]['valor'];
+            $formatTrm = sprintf('$%s', number_format($trm, 2, ',', '.'));
 
-        $cost_cop = $arr['cost'];
-        $cost_usd = floatval($cost_cop) / floatval($coverage_usd);
-        $formatCost = sprintf('$%s', number_format($cost_usd, 2, ',', '.'));
+            $cost_cop = $arr['cost'];
+            $cost_usd = floatval($cost_cop) / floatval($coverage_eur);
+            $formatCost = sprintf('$%s', number_format($cost_usd, 2, ',', '.'));
 
-        $data = [];
-        $data['date'] = date('Y-m-d');
-        $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverage. TRM Actual: $formatTrm";
-        $data['idMaterial'] = $arr['id_material'];
-        $data['cost_usd'] = $cost_usd;
+            $data = [];
+            $data['date'] = date('Y-m-d');
+            $data['observation'] = "Precio en Dolares: $formatCost. Valor del Dolar en la que se encuentra ahora: $formatCoverage. TRM Actual: $formatTrm";
+            $data['idMaterial'] = $arr['id_material'];
+            $data['cost_usd'] = $cost_usd;
 
-        $resolution = $generalMaterialsDao->saveBillMaterial($data);
-        if ($resolution != null) break;
-        $resolution = $generalMaterialsDao->saveCostUSDMaterial($data);
-        if ($resolution != null) break;
-    }
+            $resolution = $generalMaterialsDao->saveBillMaterial($data);
+            if ($resolution != null) break;
+            $resolution = $generalMaterialsDao->saveCostUSDMaterial($data);
+            if ($resolution != null) break;
+        } 
+    */
 
     if ($resolution == null)
-        $resp = array('success' => true, 'coverage_usd' => $coverage_usd, 'deviation' => $deviation, 'exchangeCoverage' => $exchangeCoverage);
+        $resp = array('success' => true, 'coverage_eur' => $coverage_eur, 'deviation' => $deviation, 'exchangeCoverage' => 0);
 
     $response->getBody()->write(json_encode($resp, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

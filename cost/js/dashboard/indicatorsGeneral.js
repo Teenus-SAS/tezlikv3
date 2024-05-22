@@ -9,38 +9,74 @@ $(document).ready(function () {
  
       sessionStorage.setItem('indirect', 1); 
 
-      // Validar que el tipo de valor del precio esta en dolares o pesos
-      let typeCurrency = sessionStorage.getItem('typeCurrency');
+      // Validar que el tipo de valor del precio esta en dolares o pesos, si no tiene ningun acceso de cambio de moneda activo queda por defecto COP
+      let typeCurrency = '1';
+    
+      if(flag_currency_usd == '1' || flag_currency_eur == '1')
+        typeCurrency = sessionStorage.getItem('typeCurrency');
 
-      // Dolares price_usd == '1' && 
-      if (typeCurrency == '2' && flag_currency_usd == '1') {
-        // Convertir costos a dolares de acuerdo al dolar de cobertura
-        for (let i = 0; i < data.details_prices.length; i++) {
-          data.details_prices[i].cost_workforce = parseFloat(data.details_prices[i].cost_workforce) / parseFloat(coverage);
-          data.details_prices[i].cost_materials = parseFloat(data.details_prices[i].cost_materials) / parseFloat(coverage);
-          data.details_prices[i].cost_indirect_cost = parseFloat(data.details_prices[i].cost_indirect_cost) / parseFloat(coverage);
-          data.details_prices[i].price = data.details_prices[i].price_usd;
-          data.details_prices[i].sale_price = data.details_prices[i].sale_price_usd;
-          data.details_prices[i].turnover = parseFloat(data.details_prices[i].turnover) / parseFloat(coverage);
-          data.details_prices[i].assignable_expense = parseFloat(data.details_prices[i].assignable_expense) / parseFloat(coverage);
-          data.details_prices[i].services = parseFloat(data.details_prices[i].services) / parseFloat(coverage);
-        }
+      switch (typeCurrency) {
+        case '2':// Dolares
+          // Convertir costos a dolares de acuerdo al dolar de cobertura
+          for (let i = 0; i < data.details_prices.length; i++) {
+            data.details_prices[i].cost_workforce = parseFloat(data.details_prices[i].cost_workforce) / parseFloat(coverage_usd);
+            data.details_prices[i].cost_materials = parseFloat(data.details_prices[i].cost_materials) / parseFloat(coverage_usd);
+            data.details_prices[i].cost_indirect_cost = parseFloat(data.details_prices[i].cost_indirect_cost) / parseFloat(coverage_usd);
+            data.details_prices[i].price = data.details_prices[i].price_usd;
+            data.details_prices[i].sale_price = data.details_prices[i].sale_price_usd;
+            data.details_prices[i].turnover = parseFloat(data.details_prices[i].turnover) / parseFloat(coverage_usd);
+            data.details_prices[i].assignable_expense = parseFloat(data.details_prices[i].assignable_expense) / parseFloat(coverage_usd);
+            data.details_prices[i].services = parseFloat(data.details_prices[i].services) / parseFloat(coverage_usd);
+          }
 
-        for (let i = 0; i < data.expense_value.length; i++) {
-          data.expense_value[i].expenseCount = parseFloat(data.expense_value[i].expenseCount) / parseFloat(coverage);
-        }
+          for (let i = 0; i < data.expense_value.length; i++) {
+            data.expense_value[i].expenseCount = parseFloat(data.expense_value[i].expenseCount) / parseFloat(coverage_usd);
+          }
           
-        for (let i = 0; i < data.expenses.length; i++) {
-          data.expenses[i].expense_value = parseFloat(data.expenses[i].expense_value) / parseFloat(coverage);
-        }
+          for (let i = 0; i < data.expenses.length; i++) {
+            data.expenses[i].expense_value = parseFloat(data.expenses[i].expense_value) / parseFloat(coverage_usd);
+          }
           
-        for (let i = 0; i < data.factory_load_minute_value.length; i++) {
-          data.factory_load_minute_value[i].totalCostMinute = parseFloat(data.factory_load_minute_value[i].totalCostMinute) / parseFloat(coverage);
-        }
+          for (let i = 0; i < data.factory_load_minute_value.length; i++) {
+            data.factory_load_minute_value[i].totalCostMinute = parseFloat(data.factory_load_minute_value[i].totalCostMinute) / parseFloat(coverage_usd);
+          }
 
-        for (let i = 0; i < data.process_minute_value.length; i++) {
-          data.process_minute_value[i].minute_value = parseFloat(data.process_minute_value[i].minute_value) / parseFloat(coverage);
-        }
+          for (let i = 0; i < data.process_minute_value.length; i++) {
+            data.process_minute_value[i].minute_value = parseFloat(data.process_minute_value[i].minute_value) / parseFloat(coverage_usd);
+          }
+          break;
+        case '3':// Euros
+          // Convertir costos a euros de acuerdo al euro de cobertura
+          for (let i = 0; i < data.details_prices.length; i++) {
+            data.details_prices[i].cost_workforce = parseFloat(data.details_prices[i].cost_workforce) / parseFloat(coverage_eur);
+            data.details_prices[i].cost_materials = parseFloat(data.details_prices[i].cost_materials) / parseFloat(coverage_eur);
+            data.details_prices[i].cost_indirect_cost = parseFloat(data.details_prices[i].cost_indirect_cost) / parseFloat(coverage_eur);
+            data.details_prices[i].price = data.details_prices[i].price_eur;
+            data.details_prices[i].sale_price = data.details_prices[i].sale_price_eur;
+            data.details_prices[i].turnover = parseFloat(data.details_prices[i].turnover) / parseFloat(coverage_eur);
+            data.details_prices[i].assignable_expense = parseFloat(data.details_prices[i].assignable_expense) / parseFloat(coverage_eur);
+            data.details_prices[i].services = parseFloat(data.details_prices[i].services) / parseFloat(coverage_eur);
+          }
+
+          for (let i = 0; i < data.expense_value.length; i++) {
+            data.expense_value[i].expenseCount = parseFloat(data.expense_value[i].expenseCount) / parseFloat(coverage_eur);
+          }
+          
+          for (let i = 0; i < data.expenses.length; i++) {
+            data.expenses[i].expense_value = parseFloat(data.expenses[i].expense_value) / parseFloat(coverage_eur);
+          }
+          
+          for (let i = 0; i < data.factory_load_minute_value.length; i++) {
+            data.factory_load_minute_value[i].totalCostMinute = parseFloat(data.factory_load_minute_value[i].totalCostMinute) / parseFloat(coverage_eur);
+          }
+
+          for (let i = 0; i < data.process_minute_value.length; i++) {
+            data.process_minute_value[i].minute_value = parseFloat(data.process_minute_value[i].minute_value) / parseFloat(coverage_eur);
+          }
+          break;
+      
+        default:
+          break;
       }
 
       generalIndicators(
@@ -134,7 +170,12 @@ $(document).ready(function () {
       let typeCurrency = sessionStorage.getItem('typeCurrency');
 
       // price_usd == '0' || 
-      typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0' ? expenses = 'Gastos Generales' : expenses = 'Gastos Generales (USD)';
+      typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0' || flag_currency_eur == '0' ?
+        expenses = 'Gastos Generales' :
+        typeCurrency == '2' ?
+          expenses = 'Gastos Generales (USD)' :
+          expenses = 'Gastos Generales (EUR)';
+      
     } else {
       expenses = `Gtos Generales`;
       totalExpense = `${expenseRecover.percentageExpense.toLocaleString(
@@ -208,13 +249,28 @@ $(document).ready(function () {
         </a>
       </div>`);
 
-      let typeCurrency = sessionStorage.getItem('typeCurrency');
-      // price_usd == '1' && 
-      if (typeCurrency == '2' && flag_currency_usd == '1') {
-        price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
-      } else {
-        price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+      let typeCurrency = '1';
+    
+      if(flag_currency_usd == '1' || flag_currency_eur == '1')
+        typeCurrency = sessionStorage.getItem('typeCurrency');
+      
+      switch (typeCurrency) {
+        case '2': // Dolares
+          price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+          break;
+        case '3': // Euros
+          price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (EUR)`;
+          break;
+        default: // Pesos COP
+          price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`; 
+          break;
       }
+      // price_usd == '1' && 
+      // if (typeCurrency == '2' && flag_currency_usd == '1') {
+      //   price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+      // } else {
+      //   price2 = `$ ${price2.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+      // }
 
       $('#totalCostED').html(price2);
 
@@ -286,13 +342,28 @@ $(document).ready(function () {
     if (sale_price === 0)
       $('.btnActualProfitabilityAverage').hide();
 
-    let typeCurrency = sessionStorage.getItem('typeCurrency');
+    let typeCurrency = '1';
+
+    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
+
+    switch (typeCurrency) {
+      case '2': // Dolares
+        turnover = `$ ${turnover.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+        break;
+      case '3': // Euros
+        turnover = `$ ${turnover.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (EUR)`;
+        break;
+      default:// Pesos COP
+        turnover = `$ ${turnover.toLocaleString('es-CO')}`;
+        break;
+    }
     // price_usd == '1' && 
-    if (typeCurrency == '2' && flag_currency_usd == '1') {
-      turnover = `$ ${turnover.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
-    } else {
-      turnover = `$ ${turnover.toLocaleString('es-CO')}`;      
-    }    
+    // if (typeCurrency == '2' && flag_currency_usd == '1') {
+    //   turnover = `$ ${turnover.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+    // } else {
+    //   turnover = `$ ${turnover.toLocaleString('es-CO')}`;      
+    // }    
 
     $('#productsSold').html(units_sold.toLocaleString('es-CO'));
     $('#salesRevenue').html(turnover);

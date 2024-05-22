@@ -158,18 +158,45 @@ $(document).ready(function () {
       totalCost = totalCost + minuteValue[i];
     }
 
-    // price_usd == '1' && 
-    if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
-      totalCost = `$ ${totalCost.toLocaleString("es-CO", {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 2,
-      })} (USD)`;
-    } else {
-      totalCost = `$ ${totalCost.toLocaleString("es-CO", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      })}`;      
+    let typeCurrency = '1';
+    
+    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
+
+    switch (typeCurrency) {
+      case '2': // Dolares
+        totalCost = `$ ${totalCost.toLocaleString("es-CO", {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 2,
+        })} (USD)`;
+        break;
+      case '3': // Euros
+        totalCost = `$ ${totalCost.toLocaleString("es-CO", {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 2,
+        })} (EUR)`;
+        break;
+      default: // Pesos COP
+        totalCost = `$ ${totalCost.toLocaleString("es-CO", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`;
+        break;
     }
+
+    // price_usd == '1' && 
+
+    // if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
+    //   totalCost = `$ ${totalCost.toLocaleString("es-CO", {
+    //     minimumFractionDigits: 1,
+    //     maximumFractionDigits: 2,
+    //   })} (USD)`;
+    // } else {
+    //   totalCost = `$ ${totalCost.toLocaleString("es-CO", {
+    //     minimumFractionDigits: 0,
+    //     maximumFractionDigits: 0,
+    //   })}`;      
+    // }
 
     $("#totalCostWorkforce").html(totalCost);
 
@@ -310,18 +337,44 @@ $(document).ready(function () {
       totalExpense = totalExpense + data[i].expenseCount;
     }
 
-    // price_usd == '1' && 
-    if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
-      totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 2,
-      })} (USD)`;
-    } else {
-      totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      })}`;      
+    let typeCurrency = '1';
+    
+    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
+
+    switch (typeCurrency) {
+      case '2': // Dolares
+        totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 2,
+        })} (USD)`;
+        break;
+      case '3': // Euros
+        totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
+          minimumFractionDigits: 1,
+          maximumFractionDigits: 2,
+        })} (EUR)`;
+        break;
+      default: // Pesos COP
+        totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`;
+        break;
     }
+
+    // price_usd == '1' && 
+    // if (sessionStorage.getItem('typeCurrency') == '2' && flag_currency_usd == '1') {
+    //   totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
+    //     minimumFractionDigits: 1,
+    //     maximumFractionDigits: 2,
+    //   })} (USD)`;
+    // } else {
+    //   totalExpense = `$ ${totalExpense.toLocaleString("es-CO", {
+    //     minimumFractionDigits: 0,
+    //     maximumFractionDigits: 0,
+    //   })}`;      
+    // }
 
     $("#totalCost").html(totalExpense);
 

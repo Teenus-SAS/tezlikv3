@@ -294,7 +294,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $flag = $_SESSION['flag_expense_distribution'];
     $products = false;
     $dataExpensesDistribution = $request->getParsedBody();
@@ -468,7 +468,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         $k['sale_price'] = $expensesDistribution['sale_price'];
         $k['id_product'] = $products[$i]['selectNameProduct'];
 
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
         // Productos Compuestos
         if ($_SESSION['flag_composite_product'] == '1') {
@@ -506,7 +506,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if (isset($resolution['info'])) break;
 
@@ -539,7 +539,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     if (isset($resolution['info'])) break;
                 }
             }
@@ -597,7 +597,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $flag = $_SESSION['flag_expense_distribution'];
     $products = false;
     $dataExpensesDistribution = $request->getParsedBody();
@@ -706,7 +706,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
         $k['sale_price'] = $data['sale_price'];
         $k['id_product'] = $products[$i]['selectNameProduct'];
 
-        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($expensesDistribution['info'])) break;
@@ -742,7 +742,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if (isset($expensesDistribution['info'])) break;
 
@@ -776,7 +776,7 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                 }
             }
         }
@@ -829,7 +829,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataExpensesDistribution = $request->getParsedBody();
 
     $expensesDistribution = $expensesDistributionDao->deleteExpensesDistribution($dataExpensesDistribution);
@@ -897,7 +897,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
         $k['sale_price'] = $data['sale_price'];
         $k['id_product'] = $products[$i]['id_product'];
 
-        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
         if ($_SESSION['flag_composite_product'] == '1') {
             if (isset($expensesDistribution['info'])) break;
@@ -934,7 +934,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if (isset($expensesDistribution['info'])) break;
 
@@ -968,7 +968,7 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $j['id_product'];
 
-                    $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                 }
             }
         }
@@ -1024,7 +1024,7 @@ $app->post('/saveNewProduct', function (Request $request, Response $response, $a
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataExpensesDistribution = $request->getParsedBody();
     $data = [];
 
@@ -1043,7 +1043,7 @@ $app->post('/saveNewProduct', function (Request $request, Response $response, $a
         $k['sale_price'] = $data['sale_price'];
         $k['id_product'] = $dataExpensesDistribution['idProduct'];
 
-        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+        $expensesDistribution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
     }
 
     if ($expensesDistribution == null)

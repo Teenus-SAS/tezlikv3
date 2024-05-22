@@ -187,7 +187,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
 
     $dataMachine = $request->getParsedBody();
 
@@ -309,7 +309,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                     $k['sale_price'] = $data['sale_price'];
                     $k['id_product'] = $arr['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                     if (isset($resolution['info'])) break;
 
                     if ($_SESSION['flag_composite_product'] == '1') {
@@ -347,7 +347,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                             $k['sale_price'] = $data['sale_price'];
                             $k['id_product'] = $j['id_product'];
 
-                            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                             if (isset($resolution['info'])) break;
 
                             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
@@ -380,7 +380,7 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                                 $l['sale_price'] = $data['sale_price'];
                                 $l['id_product'] = $k['id_product'];
 
-                                $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                                $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
                             }
                         }
                     }
@@ -443,7 +443,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataMachine = $request->getParsedBody();
 
     // $dataMachine = $convertDataDao->strReplaceMachines($dataMachine);
@@ -519,7 +519,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                 if (isset($machines['info'])) break;
 
                 if ($_SESSION['flag_composite_product'] == '1') {
@@ -566,7 +566,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                         $l['sale_price'] = $data['sale_price'];
                         $l['id_product'] = $j['id_product'];
 
-                        $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                        $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
                         if (isset($machines['info'])) break;
 
                         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
@@ -611,7 +611,7 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                             $l['sale_price'] = $data['sale_price'];
                             $l['id_product'] = $k['id_product'];
 
-                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
                             if (isset($machines['info'])) break;
                         }
                     }
@@ -665,7 +665,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
     // session_start();
     $id_company = $_SESSION['id_company'];
-    $coverage = $_SESSION['coverage'];
+    $coverage_usd = $_SESSION['coverage_usd'];
     $dataMachine = $request->getParsedBody();
 
     $machine = $generalProductProcessDao->findProductProcessByIdMachine($dataMachine['idMachine']);
@@ -707,7 +707,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                 $k['sale_price'] = $data['sale_price'];
                 $k['id_product'] = $arr['id_product'];
 
-                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     if (isset($machines['info'])) break;
@@ -756,7 +756,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                         $k['sale_price'] = $data['sale_price'];
                         $k['id_product'] = $j['id_product'];
 
-                        $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage);
+                        $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
                         if (isset($machines['info'])) break;
                         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
@@ -801,7 +801,7 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                             $l['sale_price'] = $data['sale_price'];
                             $l['id_product'] = $k['id_product'];
 
-                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage);
+                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
                         }
                     }
                 }

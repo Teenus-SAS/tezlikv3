@@ -99,9 +99,9 @@ $(document).ready(function () {
     typeCurrency = sessionStorage.getItem('typeCurrency');
     // price_usd == '1' && 
     if (typeCurrency == '2' && flag_currency_usd == '1') {
-      price = price / parseFloat(coverage);
-      costFixed = data.costFixed / parseFloat(coverage);
-      variableCost1 = data.variableCost / parseFloat(coverage);
+      price = price / parseFloat(coverage_usd);
+      costFixed = data.costFixed / parseFloat(coverage_usd);
+      variableCost1 = data.variableCost / parseFloat(coverage_usd);
     } else {
       costFixed = data.costFixed;
       variableCost1 = data.variableCost;
@@ -156,6 +156,7 @@ $(document).ready(function () {
  
     sessionStorage.setItem('typeCurrency', currency);
     $('.cardUSD').hide();
+    $('.cardEUR').hide();
 
     switch (currency) {
       case '1': // Pesos
@@ -163,9 +164,10 @@ $(document).ready(function () {
         break;
       case '2': // Dolares
       $('.cardUSD').show(800);
-        break;
+      break;
       case '3': // Euros
-        break;
+      $('.cardEUR').show(800);
+      break;
     
       default:
         break;

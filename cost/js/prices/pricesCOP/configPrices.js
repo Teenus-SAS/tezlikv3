@@ -8,40 +8,42 @@ $(document).ready(function () {
   loadDataPrices = async () => {
     // price_usd == '1' &&
     if (flag_currency_usd == '1' || flag_currency_eur == '1') {
-      $('.coverageInput').hide();
-      $('.cardCOP').hide();
-      $('.cardUSD').hide();
-      $('.cardEUR').hide();
-      $('.cardPricesCOP').hide();
-      $('.cardCurrencyUSD').hide();
-      $('.cardPricesEUR').hide();
+      // $('.coverageUSDInput').hide();
+      // $('.cardCOP').hide();
+      // $('.cardUSD').hide();
+      // $('.cardEUR').hide();
+      $('.cardCurrencyCOP').hide();
+      // $('.cardCurrencyUSD').hide();
+      // $('.cardPricesEUR').hide();
       
       let typeCurrency = sessionStorage.getItem('typeCurrency');
       
       switch (typeCurrency) {
         case '1': // Pesos COP
           $('.selectCurrency').val('1');
-          $('.cardCOP').show(800);
-          $('.cardPricesCOP').show();
+          $('.cardCOP').show(1000);
+          $('.cardCurrencyCOP').show();
           
           break;
         case '2': // Dólares  
           $('.selectCurrency').val('2');
           $('.cardUSD').show(800);
           $('.cardCurrencyUSD').show();
-          $('.coverageInput').show(800);
+          $('.coverageUSDInput').show(800);
           
           break;
-        case '3': // Euros
+          case '3': // Euros
           $('.selectCurrency').val('3');
+          $('.cardEUR').show(800);
           $('.cardCurrencyEUR').show();
+          $('.coverageEURInput').show(800);
 
           break;
         
         default:
           $('.selectCurrency').val('1');
           $('.cardCOP').show(800);
-          $('.cardPricesCOP').show();
+          $('.cardCurrencyCOP').show();
           break;
       };
     }
@@ -64,110 +66,129 @@ $(document).ready(function () {
   };
 
   loadDataPrices();
-
   $(document).on('change', '.selectCurrency', function () {
     let currency = this.value;
-    let op = 1; 
+    let op = 1;
 
     $('.selectCurrency').val(currency);
-    $('.coverageInput').hide(800);
-    $('.cardCOP').hide(800);
- 
+    $('.cardCurrencyCOP, .cardCurrencyUSD, .cardCurrencyEUR').fadeOut(400);
+    $('.cardCOP, .cardUSD, .cardEUR').slideUp(800);
+
     sessionStorage.setItem('typeCurrency', currency);
 
-    switch (currency) {
-      case '1': // Pesos COP
-        $('.cardCOP').each(function (index) {
-          $(this).delay(800 * index).show(800);
-        });
+    setTimeout(() => {
+      switch (currency) {
+        case '1': // Pesos COP
+          $('.cardCOP').each(function (index) {
+            $(this).delay(400 * index).slideDown(800);
+          });
+          $('.cardCurrencyCOP').fadeIn(800);
+          if (viewPrices == 2) {
+            $('.cardUSD').slideUp(800);
+          }
+          break;
+        case '2': // Dólares  
+          op = 2;
+          $('.coverageUSDInput').each(function (index) {
+            $(this).delay(2000 * index).fadeIn(2000);
+          });
+          if (viewPrices == 2) {
+            $('.cardUSD').slideDown(800);
+          }
+          $('.cardCurrencyUSD').fadeIn(800);
+          break;
+        case '3': // Euros
+          op = 3;
+          $('.coverageEURInput').each(function (index) {
+            $(this).delay(1000 * index).fadeIn(1000);
+          });
+          $('.cardCurrencyEUR').fadeIn(800);
+          if (viewPrices == 2) {
+            $('.cardEUR').slideDown(800);
+          }
+          break;
+      }
+      if (viewPrices == 1) {
+        op1 = 1;
       
-        if (viewPrices == 2) {
-          $('.cardUSD').hide(800);
-        }
+        flag_composite_product == '1' ? data = parents : data = allPrices;
 
-        break;
-      case '2': // Dólares  
-        op = 2;
-        $('.coverageInput').each(function (index) {
-          $(this).delay(800 * index).show(800);
-        });
-      
-        if (viewPrices == 2) {
-          $('.cardUSD').show(800);
-        }
+        loadTblPrices(data, op);
+      } else {
+        let id_product = sessionStorage.getItem('idProduct');
 
-        break;
-      case '3': // Euros
-        op = 3;
-        break;
-    };
+        loadIndicatorsProducts(id_product);
+      };
+    }, 400); // Delay to allow the fadeOut and slideUp to complete before showing new content
     
-    if (viewPrices == 1) {
-      $('.cardPricesCOP').toggle();
-      $('.cardCurrencyUSD').toggle();
-
-      op1 = 1;
-      
-      flag_composite_product == '1' ? data = parents : data = allPrices;
-
-      loadTblPrices(data, op);
-    } else {
-      let id_product = sessionStorage.getItem('idProduct');
-
-      loadIndicatorsProducts(id_product);
-    };
+    
   });
-  // $(document).on('click','.btnPricesUSD', function () {
-  //   let id = this.id;
-  //   let op = 1;
+  // $(document).on('change', '.selectCurrency', function () {
+  //   let currency = this.value;
+  //   let op = 1; 
 
-  //   $('.coverageInput').hide(800);
+  //   $('.selectCurrency').val(currency);
+  //   // $('.coverageUSDInput').hide(800);
+  //   // $('.coverageEURInput').hide(800);
+  //   $('.cardCurrencyCOP').hide();
+  //   $('.cardCurrencyUSD').hide();
+  //   $('.cardCurrencyEUR').hide();
   //   $('.cardCOP').hide(800);
-
-  //   id == 'cop' ? op = 1 : op = 2;
-  //   sessionStorage.setItem('typePrice', op);
-
-  //   let element = document.getElementsByClassName('btnPricesUSD')[0];
-
-  //   if (id == 'usd') {
-  //     element.id = 'cop';
-  //     element.innerText = 'Precios COP';
+  //   $('.cardUSD').hide(800);
+  //   $('.cardEUR').hide(800);
  
-  //     $('.coverageInput').each(function (index) {
-  //       $(this).delay(800 * index).show(800);
-  //     });
+  //   sessionStorage.setItem('typeCurrency', currency);
+
+  //   switch (currency) {
+  //     case '1': // Pesos COP
+  //       $('.cardCOP').each(function (index) {
+  //         $(this).delay(800 * index).show(800);
+  //       });
+  //       $('.cardCurrencyCOP').show();
       
-  //     if (viewPrices == 2) {
-  //       // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF mt-4';
-  //       $('.cardUSD').show(800);
-  //     }
-  //   } else {
-  //     element.id = 'usd';
-  //     element.innerText = 'Precios USD';
-      
-  //     $('.cardCOP').each(function (index) {
-  //       $(this).delay(800 * index).show(800);
-  //     });
-      
-  //     if (viewPrices == 2) {
-  //       // document.getElementById('btnPdf').className = 'col-xs-2 mr-2 btnPrintPDF';
-  //       $('.cardUSD').hide(800);
-  //     }
-  //   }
+  //       if (viewPrices == 2) {
+  //         $('.cardUSD').hide(800);
+  //       }
+
+  //       break;
+  //     case '2': // Dólares  
+  //       op = 2;
+  //       $('.coverageUSDInput').each(function (index) {
+  //         $(this).delay(2000 * index).show(2000);
+  //       }); 
+        
+  //       if (viewPrices == 2) {
+  //         $('.cardUSD').show(800);
+  //       }
+        
+  //       $('.cardCurrencyUSD').show();
+  //       break;
+  //     case '3': // Euros
+  //       op = 3;
+  //       $('.coverageEURInput').each(function (index) {
+  //         $(this).delay(1000 * index).show(1000);
+  //       });
+        
+  //       $('.cardCurrencyEUR').show();
+        
+  //       if (viewPrices == 2) {
+  //         $('.cardEUR').show(800);
+  //       }
+         
+  //       break;
+  //   };
     
   //   if (viewPrices == 1) {
-  //     $('.cardPricesCOP').toggle();
-  //     $('.cardCurrencyUSD').toggle();
 
   //     op1 = 1;
       
   //     flag_composite_product == '1' ? data = parents : data = allPrices;
 
   //     loadTblPrices(data, op);
-  //   } else { 
+  //   } else {
   //     let id_product = sessionStorage.getItem('idProduct');
 
   //     loadIndicatorsProducts(id_product);
-  //   }
-  // });
+  //   };
+  // }); 
 });

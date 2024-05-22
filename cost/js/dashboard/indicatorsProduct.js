@@ -8,23 +8,45 @@ $(document).ready(function () {
       sessionStorage.removeItem('imageProduct');
       $('.social-bar').hide(800);
 
-      let typeCurrency = sessionStorage.getItem('typeCurrency');
-
-      // price_usd == '1' && 
+      let typeCurrency = '1';
     
-      if (typeCurrency == '2' && flag_currency_usd == '1') {
-        data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage));
-        data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage));
-        data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage));
-        data.cost_product[0].services = (parseFloat(data.cost_product[0].services) / parseFloat(coverage));
-        data.cost_product[0].assignable_expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage));
-        data.cost_product[0].price = parseFloat(data.cost_product[0].price_usd);
-        data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_usd);
-        data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage));
+      if (flag_currency_usd == '1' || flag_currency_eur == '1')
+        typeCurrency = sessionStorage.getItem('typeCurrency');
 
-        for (let i = 0; i < data.cost_workforce.length; i++) {
-          data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage);
-        }
+      // price_usd == '1' &&
+
+      switch (typeCurrency) {
+        case '2': // Dolares
+          data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage_usd));
+          data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage_usd));
+          data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage_usd));
+          data.cost_product[0].services = (parseFloat(data.cost_product[0].services) / parseFloat(coverage_usd));
+          data.cost_product[0].assignable_expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage_usd));
+          data.cost_product[0].price = parseFloat(data.cost_product[0].price_usd);
+          data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_usd);
+          data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage_usd));
+
+          for (let i = 0; i < data.cost_workforce.length; i++) {
+            data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_usd);
+          }
+          break;
+        case '3': // Euros
+          data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage_eur));
+          data.cost_product[0].cost_workforce = (parseFloat(data.cost_product[0].cost_workforce) / parseFloat(coverage_eur));
+          data.cost_product[0].cost_indirect_cost = (parseFloat(data.cost_product[0].cost_indirect_cost) / parseFloat(coverage_eur));
+          data.cost_product[0].services = (parseFloat(data.cost_product[0].services) / parseFloat(coverage_eur));
+          data.cost_product[0].assignable_expense = (parseFloat(data.cost_product[0].assignable_expense) / parseFloat(coverage_eur));
+          data.cost_product[0].price = parseFloat(data.cost_product[0].price_eur);
+          data.cost_product[0].sale_price = parseFloat(data.cost_product[0].sale_price_eur);
+          data.cost_product[0].turnover = (parseFloat(data.cost_product[0].turnover) / parseFloat(coverage_eur));
+
+          for (let i = 0; i < data.cost_workforce.length; i++) {
+            data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_eur);
+          }
+          break;
+      
+        default: // Pesos COP
+          break;
       }
 
       await generalIndicators(data.cost_product);
@@ -43,11 +65,15 @@ $(document).ready(function () {
       else
         data = data.cost_materials;
 
-      // price_usd == '1' && 
+      // price_usd == '1' &&
 
-      if (typeCurrency == '2' && flag_currency_usd == '1') {
+      if (typeCurrency == '2') {
         for (let i = 0; i < data.length; i++) {
-          data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage);
+          data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_usd);
+        }
+      } else if (typeCurrency == '3') {
+        for (let i = 0; i < data.length; i++) {
+          data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_eur);
         }
       }
     
@@ -86,11 +112,14 @@ $(document).ready(function () {
 
     dataCost = getDataCost(data[0]);
 
-    let typeCurrency = sessionStorage.getItem('typeCurrency');
+    let typeCurrency = '1';
+    
+    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
 
-    if (typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0')
+    if (typeCurrency == '1')
       max = 0;
     else {
       max = 2;
@@ -146,10 +175,13 @@ $(document).ready(function () {
   /* Ventas */
 
   UnitsVolSold = (data) => {
-    let typeCurrency = sessionStorage.getItem('typeCurrency');
+     let typeCurrency = '1';
+    
+    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
-    if (typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0')
+    if (typeCurrency == '1')
       max = 0;
     else {
       max = 2;
@@ -182,10 +214,13 @@ $(document).ready(function () {
 
   /* Costeo Total */
   totalCostData = (data) => {
-    let typeCurrency = sessionStorage.getItem('typeCurrency');
+    let typeCurrency = '1';
+    
+    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
-    if (typeCurrency == '1' || !typeCurrency || flag_currency_usd == '0')
+    if (typeCurrency == '1')
       max = 0;
     else {
       max = 2;

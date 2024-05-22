@@ -104,11 +104,17 @@ if (sizeof($_SESSION) == 0)
                                                     </select>
                                                     <!-- <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button> -->
                                                 </div>
-                                                <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageInput">
+                                                <div class="col-xs-2 form-group floating-label enable-floating-label cardUSD coverageUSDInput" style="display: none;">
                                                     <label class="font-weight-bold text-dark">Valor Dolar</label>
-                                                    <input type="text" style="background-color: aliceblue;" class="form-control text-center calcInputs" name="valueCoverage" id="valueCoverage" value="<?php
-                                                                                                                                                                                                        $coverage = sprintf("%.2f", $_SESSION['coverage']);
-                                                                                                                                                                                                        echo  $coverage ?>" readonly>
+                                                    <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageUSD" id="valueCoverageUSD" value="<?php
+                                                                                                                                                                                                    $coverage_usd = sprintf("%.2f", $_SESSION['coverage_usd']);
+                                                                                                                                                                                                    echo  $coverage_usd ?>" readonly>
+                                                </div>
+                                                <div class="col-xs-2 form-group floating-label enable-floating-label cardEUR coverageEURInput" style="display: none;">
+                                                    <label class="font-weight-bold text-dark">Valor Euro</label>
+                                                    <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
+                                                                                                                                                                                                    $coverage_usd = sprintf("%.2f", $_SESSION['coverage_eur']);
+                                                                                                                                                                                                    echo  $coverage_usd ?>" readonly>
                                                 </div>
                                             <?php } ?>
                                         </div>
@@ -466,7 +472,7 @@ if (sizeof($_SESSION) == 0)
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_currency_eur = "<?= $_SESSION['flag_currency_eur'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
-        coverage = "<?= $_SESSION['coverage'] ?>";
+        coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
         id_company = "<?= $_SESSION['id_company'] ?>";
         viewPrices = 2;
     </script>

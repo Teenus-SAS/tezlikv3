@@ -315,14 +315,30 @@ $(document).ready(function () {
     $('#generalDashboardName').html('');
     $('.cardGeneralDashboard').empty();
 
-    let typeCurrency = sessionStorage.getItem('typeCurrency');
+    let typeCurrency = '1';
+    
+    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
 
-    // price_usd == '1' && 
-    if (typeCurrency == '2' && flag_currency_usd == '1') {
-      value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
-    } else {
-      value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+    // price_usd == '1' &&
+    switch (typeCurrency) {
+      case '2': // Dolares
+        value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+        break;
+    
+      case '3': // Euros
+        value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (EUR)`;
+        break;
+    
+      default:// Pesos COP
+        value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+        break;
     }
+    // if (typeCurrency == '2' && flag_currency_usd == '1') {
+    //   value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 2 })} (USD)`;
+    // } else {
+    //   value = `$ ${value.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`;
+    // }
 
     $('.cardGeneralDashboard').append(`<div class="chart-container">
                                           <canvas id="chartGeneralDashboard"></canvas> 
