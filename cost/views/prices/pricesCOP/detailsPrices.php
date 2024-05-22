@@ -113,8 +113,8 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-xs-2 form-group floating-label enable-floating-label cardEUR coverageEURInput" style="display: none;">
                                                     <label class="font-weight-bold text-dark">Valor Euro</label>
                                                     <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
-                                                                                                                                                                                                    $coverage_usd = sprintf("%.2f", $_SESSION['coverage_eur']);
-                                                                                                                                                                                                    echo  $coverage_usd ?>" readonly>
+                                                                                                                                                                                                    $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
+                                                                                                                                                                                                    echo  $coverage_eur ?>" readonly>
                                                 </div>
                                             <?php } ?>
                                         </div>
@@ -473,6 +473,7 @@ if (sizeof($_SESSION) == 0)
         flag_currency_eur = "<?= $_SESSION['flag_currency_eur'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
+        coverage_eur = "<?= $_SESSION['coverage_eur'] ?>";
         id_company = "<?= $_SESSION['id_company'] ?>";
         viewPrices = 2;
     </script>

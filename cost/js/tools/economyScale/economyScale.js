@@ -96,15 +96,30 @@ $(document).ready(function () {
     //   return false;
     // } 
 
-    typeCurrency = sessionStorage.getItem('typeCurrency');
-    // price_usd == '1' && 
-    if (typeCurrency == '2' && flag_currency_usd == '1') {
-      price = price / parseFloat(coverage_usd);
-      costFixed = data.costFixed / parseFloat(coverage_usd);
-      variableCost1 = data.variableCost / parseFloat(coverage_usd);
-    } else {
-      costFixed = data.costFixed;
-      variableCost1 = data.variableCost;
+    let typeCurrency = '1';
+    
+    if (flag_currency_usd == '1' || flag_currency_eur == '1')
+      typeCurrency = sessionStorage.getItem('typeCurrency');
+
+    // price_usd == '1' &&
+    switch (typeCurrency) {
+      case '2': // Dolares
+        price = price / parseFloat(coverage_usd);
+        costFixed = data.costFixed / parseFloat(coverage_usd);
+        variableCost1 = data.variableCost / parseFloat(coverage_usd);
+        max = 2;
+        break;
+        case '3': // Euros
+        price = price / parseFloat(coverage_eur);
+        costFixed = data.costFixed / parseFloat(coverage_eur);
+        variableCost1 = data.variableCost / parseFloat(coverage_eur);
+        max = 2;
+        break;
+        default:// Pesos COP
+        costFixed = data.costFixed;
+        variableCost1 = data.variableCost;
+        max = 1;
+        break;
     }
 
     $('#unity-0').val(1);
@@ -116,7 +131,7 @@ $(document).ready(function () {
     profitability = (price * data.profitability) / price;
 
     /* Precios price_usd == '1' && */
-    typeCurrency == '2' && flag_currency_usd == '1' ? max = 2 : max = 0;
+    // typeCurrency == '2' && flag_currency_usd == '1' ? max = 2 : max = 0;
 
     $('.price').val(price.toFixed(max));
     $('#price-0').val(price.toLocaleString('es-CO', { maximumFractionDigits: max }));
@@ -160,7 +175,6 @@ $(document).ready(function () {
 
     switch (currency) {
       case '1': // Pesos
-        
         break;
       case '2': // Dolares
       $('.cardUSD').show(800);

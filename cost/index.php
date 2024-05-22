@@ -114,8 +114,8 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-xs-2 form-group floating-label enable-floating-label cardEUR" style="display: none; margin-top:35px;">
                                         <label class="font-weight-bold text-dark">Valor Euro</label>
                                         <input type="text" style="background-color: aliceblue;" class="form-control text-center" name="valueCoverageEUR" id="valueCoverageEUR" value="<?php
-                                                                                                                                                                                        $coverage_usd = sprintf("%.2f", $_SESSION['coverage_eur']);
-                                                                                                                                                                                        echo  $coverage_usd ?>" readonly>
+                                                                                                                                                                                        $coverage_eur = sprintf('$ %s', number_format($_SESSION['coverage_eur'], 2, ',', '.'));
+                                                                                                                                                                                        echo  $coverage_eur ?>" readonly>
                                     </div>
                                 <?php } ?>
                             </div>
@@ -523,6 +523,7 @@ if (sizeof($_SESSION) == 0)
                                     cost_multiproduct = "<?= $_SESSION['cost_multiproduct'] ?>";
                                     plan_cost_multiproduct = "<?= $_SESSION['plan_cost_multiproduct'] ?>";
                                     coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
+                                    coverage_eur = "<?= $_SESSION['coverage_eur'] ?>";
                                     contract = "<?= $_SESSION['contract'] ?>";
                                     d_contract = "<?= $_SESSION['d_contract'] ?>";
                                     date_contract = "<?= $_SESSION['date_contract'] ?>";
