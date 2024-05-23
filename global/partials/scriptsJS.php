@@ -70,7 +70,7 @@
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
     <script src="/cost/js/admin/backup/backup.js"></script>
-    <script src="/cost/js/admin/generalCostReport/exportReport.js"></script>
+    <script src="/cost/js/report/generalCostReport/exportReport.js"></script>
 <?php } ?>
 
 <script src="/global/js/global/lastText.js"></script>

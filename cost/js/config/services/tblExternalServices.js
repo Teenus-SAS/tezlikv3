@@ -35,7 +35,7 @@ $(document).ready(function () {
     }
   };
 
-  loadAllDataServices(0);
+  // loadAllDataServices(0);
   
   /* Cargue tabla de Proyectos */
   loadTableExternalServices = (id) => {

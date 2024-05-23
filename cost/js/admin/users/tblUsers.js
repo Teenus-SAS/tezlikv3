@@ -267,15 +267,7 @@ $(document).ready(function () {
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
-          });
-
-          permissions.push({
-            name: "R. General Costos",
-            icon: data.general_cost_report
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          }); 
 
           permissions.push({
             name: "Usuarios",
@@ -419,6 +411,33 @@ $(document).ready(function () {
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
             });
+
+          let output =
+            '<div class="stacked-column text-left" style="width:190px">';
+          for (const permission of permissions) {
+            output += `<span class="text-${permission.color} mx-1" style="display: flex; justify-content: flex-start;">
+            <i class="${permission.icon}"></i> ${permission.name}
+          </span>`;
+          }
+          output += "</div>";
+
+          return output;
+        },
+      },
+      {
+        title: "Reportes",
+        data: null,
+        //width: "200px",
+        render: function (data, type, row) {
+          const permissions = [];
+
+          permissions.push({
+            name: "R. General Costos",
+            icon: data.general_cost_report
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
 
           let output =
             '<div class="stacked-column text-left" style="width:190px">';

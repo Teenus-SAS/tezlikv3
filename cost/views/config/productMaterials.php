@@ -37,10 +37,9 @@ if (sizeof($_SESSION) == 0)
         <div class="main-content">
             <!-- Loader -->
             <div class="loading">
-                <a href="javascript:;" class="close-btn"><i class="bi bi-x-circle-fill"></i></a>
+                <a href="javascript:;" class="close-btn" style="display: none;"><i class="bi bi-x-circle-fill"></i></a>
                 <div class="loader"></div>
             </div>
-
             <!-- content -->
             <div class="page-content">
                 <?php if ($_SESSION['license_days'] <= 30) { ?>
@@ -555,8 +554,11 @@ if (sizeof($_SESSION) == 0)
         flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         inyection = "<?= $_SESSION['inyection'] ?>";
+        $('.loading').show(800);
+        document.body.style.overflow = 'hidden';
 
         $(document).ready(function() {
+
             // Evita la duplicación de código al manipular los selectores
             const $refProduct = $('.refProduct');
             const $selectNameProduct = $('.selectNameProduct');
@@ -578,6 +580,7 @@ if (sizeof($_SESSION) == 0)
 
             async function loadAllDataProducts() {
                 try {
+                    // console.time('Load all data products');
                     const [
                         dataUnits,
                         dataProducts,
@@ -585,7 +588,8 @@ if (sizeof($_SESSION) == 0)
                         dataMachines,
                         dataMaterials,
                         dataCategories,
-                        dataServices
+                        dataServices,
+                        dataGServices
                     ] = await Promise.all([
                         loadData('/api/units', 'dataUnits'),
                         loadData('/api/products', 'dataProducts'),
@@ -593,153 +597,121 @@ if (sizeof($_SESSION) == 0)
                         loadData('/api/machines', 'dataMachines'),
                         loadData('/api/materials', 'dataMaterials'),
                         loadData('/api/categories', 'dataCategories'),
+                        loadData('/api/allExternalservices', 'dataServices'),
                         loadData('/api/generalExternalservices', 'dataGServices'),
                     ]);
+                    // console.timeEnd('Load all data products');
+
+                    // console.time('Update DOM');
+
+                    // Función para crear opciones y añadirlas al fragmento
+                    const createOptions = (data, key, textKey) => {
+                        const fragment = document.createDocumentFragment();
+                        data.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item[key];
+                            option.textContent = item[textKey];
+                            fragment.appendChild(option);
+                        });
+                        return fragment;
+                    };
 
                     // Lógica para cargar datos en los selectores
                     // Productos
-                    $refProduct.empty();
-                    let ref = sortFunction(dataProducts, 'reference');
-                    $refProduct.append(
-                        `<option value='0' disabled selected>Seleccionar</option>`
-                    );
-                    $.each(ref, function(i, value) {
-                        $refProduct.append(
-                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.reference} </option>`
-                        );
-                    });
+                    $refProduct.empty().append(createOptions([{
+                        id_product: 0,
+                        reference: 'Seleccionar'
+                    }], 'id_product', 'reference'));
+                    $refProduct.append(createOptions(sortFunction(dataProducts, 'reference'), 'id_product', 'reference'));
 
-                    $selectNameProduct.empty();
-                    let prod = sortFunction(dataProducts, 'product');
-                    $selectNameProduct.append(
-                        `<option value='0' disabled selected>Seleccionar</option>`
-                    );
-                    $.each(ref, function(i, value) {
-                        $selectNameProduct.append(
-                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.product} </option>`
-                        );
-                    });
+                    $selectNameProduct.empty().append(createOptions([{
+                        id_product: 0,
+                        product: 'Seleccionar'
+                    }], 'id_product', 'product'));
+                    $selectNameProduct.append(createOptions(sortFunction(dataProducts, 'product'), 'id_product', 'product'));
 
                     // Productos Compuestos
-                    $refCompositeProduct.empty();
-                    $compositeProduct.empty();
+                    const compositeProduct = dataProducts.filter(item => item.composite == 1);
 
-                    let compositeProduct = dataProducts.filter(item => item.composite == 1);
+                    $refCompositeProduct.empty().append(createOptions([{
+                        id_product: 0,
+                        reference: 'Seleccionar'
+                    }], 'id_product', 'reference'));
+                    $refCompositeProduct.append(createOptions(sortFunction(compositeProduct, 'reference'), 'id_product', 'reference'));
 
-                    ref = sortFunction(compositeProduct, 'reference');
-                    product = sortFunction(compositeProduct, 'product');
-
-                    $refCompositeProduct.append(
-                        `<option value='0' disabled selected>Seleccionar</option>`
-                    );
-                    $.each(ref, function(i, value) {
-                        $refCompositeProduct.append(
-                            `<option value ="${value.id_product}"> ${value.reference} </option>`
-                        );
-                    });
-
-                    $compositeProduct.append(
-                        `<option value='0' disabled selected>Seleccionar</option>`
-                    );
-                    $.each(product, function(i, value) {
-                        $compositeProduct.append(
-                            `<option value ="${value.id_product}"> ${value.product} </option>`
-                        );
-                    });
+                    $compositeProduct.empty().append(createOptions([{
+                        id_product: 0,
+                        product: 'Seleccionar'
+                    }], 'id_product', 'product'));
+                    $compositeProduct.append(createOptions(sortFunction(compositeProduct, 'product'), 'id_product', 'product'));
 
                     // Procesos
-                    $process.empty();
-                    $process.append(`<option disabled selected>Seleccionar</option>`);
-                    $.each(dataProcess, function(i, value) {
-                        $process.append(
-                            `<option value = ${value.id_process} class='${value.status}'> ${value.process} </option>`
-                        );
-                    });
+                    $process.empty().append(createOptions([{
+                        id_process: 0,
+                        process: 'Seleccionar'
+                    }], 'id_process', 'process'));
+                    $process.append(createOptions(dataProcess, 'id_process', 'process'));
 
                     // Maquinas
-                    $machines.empty();
-                    $machines.append(`<option disabled>Seleccionar</option>`);
-                    $machines.append(`<option value="0" selected>PROCESO MANUAL</option>`);
-                    $.each(dataMachines, function(i, value) {
-                        $machines.append(
-                            `<option value = '${value.id_machine}'> ${value.machine} </option>`
-                        );
-                    });
+                    $machines.empty().append(createOptions([{
+                        id_machine: 0,
+                        machine: 'PROCESO MANUAL'
+                    }], 'id_machine', 'machine'));
+                    $machines.append(createOptions(dataMachines, 'id_machine', 'machine'));
 
                     // Materiales
-                    $refMaterial.empty();
-                    ref = sortFunction(dataMaterials, 'reference');
+                    $refMaterial.empty().append(createOptions([{
+                        id_material: 0,
+                        reference: 'Seleccionar'
+                    }], 'id_material', 'reference'));
+                    $refMaterial.append(createOptions(sortFunction(dataMaterials, 'reference'), 'id_material', 'reference'));
 
-                    $refMaterial.append(`<option disabled selected value='0'>Seleccionar</option>`);
-                    $.each(ref, function(i, value) {
-                        $refMaterial.append(
-                            `<option value = ${value.id_material}> ${value.reference} </option>`
-                        );
-                    });
-
-                    $nameMaterial.empty();
-                    let name = sortFunction(dataMaterials, 'material');
-
-                    $nameMaterial.append(`<option disabled selected value='0'>Seleccionar</option>`);
-                    $.each(name, function(i, value) {
-                        $nameMaterial.append(
-                            `<option value = ${value.id_material}> ${value.material} </option>`
-                        );
-                    });
+                    $nameMaterial.empty().append(createOptions([{
+                        id_material: 0,
+                        material: 'Seleccionar'
+                    }], 'id_material', 'material'));
+                    $nameMaterial.append(createOptions(sortFunction(dataMaterials, 'material'), 'id_material', 'material'));
 
                     // Categorias
-                    if (dataCategories.length == 0) {
-                        $('.categories').hide();
-                    } else
-                        $('.categories').show();
-
-                    $categories.empty();
-
-                    $categories.append(`<option disabled selected>Seleccionar</option>`);
-                    $categories.append(`<option value='0'>Todos</option>`);
-                    $.each(dataCategories, function(i, value) {
-                        $categories.append(
-                            `<option value ='${value.id_category}'> ${value.category} </option>`
-                        );
-                    });
+                    $categories.empty().append(createOptions([{
+                        id_category: 0,
+                        category: 'Seleccionar'
+                    }, {
+                        id_category: 0,
+                        category: 'Todos'
+                    }], 'id_category', 'category'));
+                    $categories.append(createOptions(dataCategories, 'id_category', 'category'));
 
                     // Servicios Generales 
-                    $generalServices.empty();
+                    $generalServices.empty().append(createOptions([{
+                        id_general_service: 0,
+                        name_service: 'Seleccionar'
+                    }], 'id_general_service', 'name_service'));
+                    $generalServices.append(createOptions(dataGServices, 'id_general_service', 'name_service'));
 
-                    $generalServices.append(`<option disabled selected value='0'>Seleccionar</option>`);
-                    $.each(dataServices, function(i, value) {
-                        $generalServices.append(
-                            `<option value = ${value.id_general_service}> ${value.name_service} </option>`
-                        );
-                    });
+                    $('.loading').hide(800);
+                    document.body.style.overflow = '';
                 } catch (error) {
                     console.error('Error loading data:', error);
                 }
             }
 
             loadUnitsByMagnitude = async (data, op) => {
-                Object.prototype.toString.call(data) === '[object Object]' ?
-                    (id_magnitude = data.id_magnitude) :
-                    (id_magnitude = data);
+                const id_magnitude = typeof data === 'object' ? data.id_magnitude : data;
 
                 let dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
-
                 let dataPMaterials = dataUnits.filter(item => item.id_magnitude == id_magnitude);
 
-                let $select = $(`#units`);
-                $select.empty();
+                let $select = $('#units');
+                $select.empty().append(`<option disabled selected>Seleccionar</option>`);
 
-                $select.append(`<option disabled selected>Seleccionar</option>`);
-                $.each(dataPMaterials, function(i, value) {
-                    if (id_magnitude == '4' && op == 2) {
-                        if (value.id_unit == data.id_unit) {
-                            $select.empty();
-                            $select.append(
-                                `<option value ='${value.id_unit}' selected> ${value.unit} </option>`
-                            );
-                            return false;
-                        }
-                    } else $select.append(`<option value = ${value.id_unit}> ${value.unit} </option>`);
+                dataPMaterials.forEach(value => {
+                    if (id_magnitude == '4' && op == 2 && value.id_unit == data.id_unit) {
+                        $select.empty().append(`<option value ='${value.id_unit}' selected> ${value.unit} </option>`);
+                        return false;
+                    } else {
+                        $select.append(`<option value = ${value.id_unit}> ${value.unit} </option>`);
+                    }
                 });
             };
 
@@ -802,232 +774,6 @@ if (sizeof($_SESSION) == 0)
             // Inicia la carga de datos
             loadAllDataProducts();
         });
-
-        /* $(document).ready(function() {
-
-            $('#refMaterial').change(async function(e) {
-                e.preventDefault();
-                let id = this.value;
-
-                $('#nameMaterial option').prop('selected', function() {
-                    return $(this).val() == id;
-                });
-            });
-
-            $('#nameMaterial').change(async function(e) {
-                e.preventDefault();
-                let id = this.value;
-
-                $('#refMaterial option').prop('selected', function() {
-                    return $(this).val() == id;
-                });
-            });
-
-            $('#refCompositeProduct').change(async function(e) {
-                e.preventDefault();
-                let id = this.value;
-
-                $('#compositeProduct option').prop('selected', function() {
-                    return $(this).val() == id;
-                });
-            });
-
-            $('#compositeProduct').change(async function(e) {
-                e.preventDefault();
-                let id = this.value;
-
-                $('#refCompositeProduct option').prop('selected', function() {
-                    return $(this).val() == id;
-                });
-            });
-
-            $('#idMachine').change(function(e) {
-                e.preventDefault();
-
-                let data = JSON.parse(sessionStorage.getItem('dataMachines'));
-
-                data = data.filter(item => item.id_machine == this.value);
-
-                !data[0] ? unity_time = 0 : unity_time = data[0].unity_time;
-
-                $('#enlistmentTime').val(unity_time);
-
-                if (this.value === '0') {
-                    $('.checkMachine').hide(800);
-                    $('#checkMachine').prop('checked', false);
-                } else
-                    $('.checkMachine').show(800);
-            });
-
-            loadAllDataProducts = async () => {
-                try {
-                    const [dataUnits, dataProducts, dataProcess, dataMachines, dataMaterials, dataCategories] = await Promise.all([
-                        searchData('/api/units'),
-                        searchData('/api/products'),
-                        searchData('/api/process'),
-                        searchData('/api/machines'),
-                        searchData('/api/materials'),
-                        searchData('/api/categories')
-                    ]);
-
-                    // Unidades
-                    sessionStorage.setItem('dataUnits', JSON.stringify(dataUnits));
-
-                    // Productos
-                    sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-
-                    // Categorias
-                    sessionStorage.setItem('dataCategories', JSON.stringify(dataCategories));
-
-                    let $select = $(`.refProduct`);
-                    $select.empty();
-
-                    // let ref = dataProducts.sort(sortReference); 
-                    let ref = sortFunction(dataProducts, 'reference');
-
-                    $select.append(
-                        `<option value='0' disabled selected>Seleccionar</option>`
-                    );
-                    $.each(ref, function(i, value) {
-                        $select.append(
-                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.reference} </option>`
-                        );
-                    });
-
-                    let $select1 = $(`.selectNameProduct`);
-                    $select1.empty();
-
-                    let prod = sortFunction(dataProducts, 'product');
-
-                    $select1.append(`<option value='0' disabled selected>Seleccionar</option>`);
-                    $.each(prod, function(i, value) {
-                        $select1.append(
-                            `<option value ='${value.id_product}' class='${value.composite}'> ${value.product} </option>`
-                        );
-                    });
-
-                    let compositeProduct = prod.filter(item => item.composite == 1);
-                    let $select2 = $(`#refCompositeProduct`);
-                    $select2.empty();
-
-                    $select2.append(
-                        `<option value='0' disabled selected>Seleccionar</option>`
-                    );
-                    $.each(compositeProduct, function(i, value) {
-                        $select2.append(
-                            `<option value ="${value.id_product}"> ${value.reference} </option>`
-                        );
-                    });
-
-                    let $select3 = $(`#compositeProduct`);
-                    $select3.empty();
-
-                    $select3.append(
-                        `<option value='0' disabled selected>Seleccionar</option>`
-                    );
-                    $.each(compositeProduct, function(i, value) {
-                        $select3.append(
-                            `<option value ="${value.id_product}"> ${value.product} </option>`
-                        );
-                    });
-
-                    // Procesos
-                    $select = $(`#idProcess`);
-                    $select.empty();
-
-                    $select.append(`<option disabled selected>Seleccionar</option>`);
-                    $.each(dataProcess, function(i, value) {
-                        $select.append(
-                            `<option value = ${value.id_process} class='${value.status}'> ${value.process} </option>`
-                        );
-                    });
-
-                    // Maquinas
-                    sessionStorage.setItem('dataMachines', JSON.stringify(dataMachines));
-
-                    $select = $(`#idMachine`);
-                    $select.empty();
-                    $select.append(`<option disabled>Seleccionar</option>`);
-                    $select.append(`<option value="0" selected>PROCESO MANUAL</option>`);
-                    $.each(dataMachines, function(i, value) {
-                        $select.append(
-                            `<option value = '${value.id_machine}'> ${value.machine} </option>`
-                        );
-                    });
-
-                    // Materiales
-                    sessionStorage.setItem('dataMaterials', JSON.stringify(dataMaterials));
-                    ref = sortFunction(dataMaterials, 'reference');
-
-                    $select = $(`#refMaterial`);
-                    $select.empty();
-                    $select.append(`<option disabled selected value='0'>Seleccionar</option>`);
-                    $.each(ref, function(i, value) {
-                        $select.append(
-                            `<option value = ${value.id_material}> ${value.reference} </option>`
-                        );
-                    });
-
-                    let name = sortFunction(dataMaterials, 'material');
-
-                    $select1 = $(`#nameMaterial`);
-                    $select1.empty();
-                    $select1.append(`<option disabled selected value='0'>Seleccionar</option>`);
-                    $.each(name, function(i, value) {
-                        $select1.append(
-                            `<option value = ${value.id_material}> ${value.material} </option>`
-                        );
-                    });
-
-                    // Categorias
-                    if (dataCategories.length == 0) {
-                        $('.categories').hide();
-                    } else
-                        $('.categories').show();
-
-                    $select = $(`#categories`);
-                    $select.empty();
-
-                    $select.append(`<option disabled selected>Seleccionar</option>`);
-                    $select.append(`<option value='0'>Todos</option>`);
-                    $.each(dataCategories, function(i, value) {
-                        $select.append(
-                            `<option value ='${value.id_category}'> ${value.category} </option>`
-                        );
-                    });
-                } catch (error) {
-                    console.error('Error loading data:', error);
-                }
-            }
-
-            loadAllDataProducts();
-
-            loadUnitsByMagnitude = async (data, op) => {
-                Object.prototype.toString.call(data) === '[object Object]' ?
-                    (id_magnitude = data.id_magnitude) :
-                    (id_magnitude = data);
-
-                let dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
-
-                let dataPMaterials = dataUnits.filter(item => item.id_magnitude == id_magnitude);
-
-                let $select = $(`#units`);
-                $select.empty();
-
-                $select.append(`<option disabled selected>Seleccionar</option>`);
-                $.each(dataPMaterials, function(i, value) {
-                    if (id_magnitude == '4' && op == 2) {
-                        if (value.id_unit == data.id_unit) {
-                            $select.empty();
-                            $select.append(
-                                `<option value ='${value.id_unit}' selected> ${value.unit} </option>`
-                            );
-                            return false;
-                        }
-                    } else $select.append(`<option value = ${value.id_unit}> ${value.unit} </option>`);
-                });
-            };
-        }); */
     </script>
     <script src="/cost/js/config/productMaterials/tblConfigMaterials.js"></script>
     <script src="/cost/js/config/productProcess/tblConfigProcess.js"></script>

@@ -4,6 +4,7 @@ $(document).ready(function () {
   $(document).on('click', '.aBackup', async function () {
     try {
       $('.loading').show(800);
+      $('.close-btn').show();
       document.body.style.overflow = 'hidden';
 
       let wb = XLSX.utils.book_new();
@@ -338,6 +339,7 @@ $(document).ready(function () {
         }
       }
 
+      $('.close-btn').hide();
       $('.loading').hide(800);
       document.body.style.overflow = '';
       execute = true;
