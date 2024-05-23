@@ -1,6 +1,6 @@
 $(document).ready(function () {
-  allProductMaterials = [];
-  allComposites = [];
+  // allProductMaterials = [];
+  // allComposites = [];
   let visible;
 
   loadAllDataMaterials = async (op) => {
@@ -10,8 +10,10 @@ $(document).ready(function () {
         searchData('/api/allCompositeProducts')
       ]);
 
-      allProductMaterials = dataProductMaterials;
-      allComposites = dataCompositeProduct;
+      sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
+      sessionStorage.setItem('dataCompositeProduct', JSON.stringify(dataCompositeProduct));
+      // allProductMaterials = dataProductMaterials;
+      // allComposites = dataCompositeProduct;
 
       if (op != 1)
         loadtableMaterials(op);
@@ -62,12 +64,14 @@ $(document).ready(function () {
 
   /* Cargue tabla de Proyectos */
   loadtableMaterials = async (idProduct) => {
-    let data = allProductMaterials.filter(item => item.id_product == idProduct);
-
+    let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+    let data = dataProductMaterials.filter(item => item.id_product == idProduct);
+    
     if (flag_composite_product == '1') {
-      let dataCompositeProduct = allComposites.filter(item => item.id_product == idProduct);
+      let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
+      let arr = dataCompositeProduct.filter(item => item.id_product == idProduct);
 
-      data = [...data, ...dataCompositeProduct];
+      data = [...data, ...arr];
     } 
 
     let waste = 0;

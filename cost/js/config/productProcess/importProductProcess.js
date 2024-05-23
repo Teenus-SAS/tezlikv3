@@ -148,6 +148,7 @@ $(document).ready(function () {
   /* Descargar formato */
   $('#btnDownloadImportsProductsProcess').click(function (e) {
     e.preventDefault();
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
     if (dataProductProcess.length > 0) {
       let wb = XLSX.utils.book_new();

@@ -359,11 +359,15 @@ $(document).ready(function () {
 
     /* Materiales */
     let data = [];
+    let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+    
+    if (flag_composite_product == "1") {
+      let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
+      
+      dataProductMaterials = [...dataProductMaterials, ...dataCompositeProduct];
+    }
 
-    if (flag_composite_product == "1")
-      allProductMaterials = [...allProductMaterials, ...allComposites];
-
-    let arr = allProductMaterials.filter(
+    let arr = dataProductMaterials.filter(
       (item) => item.id_product == id_product
     );
 
