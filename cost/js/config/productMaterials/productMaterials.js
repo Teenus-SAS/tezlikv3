@@ -253,7 +253,7 @@ $(document).ready(function () {
     // let unit = parseInt($("#units").val());
     let quan = parseFloat($("#quantity").val());
     // // let waste = parseFloat($("#waste").val());/
-    // idProduct = parseInt($("#selectNameProduct").val());
+    let idProduct = parseInt($("#selectNameProduct").val());
 
     // let data = ref * unit * idProduct;
 
