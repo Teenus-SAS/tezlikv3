@@ -173,15 +173,15 @@ $(document).ready(function () {
 
   // Función para realizar solicitudes AJAX
   async function getApi(url) {
-    try {
+    try { 
       const response = await fetch(url);
       if (response.ok) {
         return await response.json();
       } else {
-        throw new Error('Network response was not ok.');
+        return 0;
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      // console.error('Error fetching data:', error);
       return 0;
     }
   }
