@@ -76,6 +76,7 @@ $(document).ready(function () {
     $(".cardAddProcess").show(800);
     $('.inputs').css("border-color", "");
     $("#btnAddProcess").html("Actualizar");
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
     let data = dataProductProcess.find(
       (item) => item.id_product_process == this.id
@@ -213,6 +214,7 @@ $(document).ready(function () {
   deleteProcess = (id) => {
     // let row = $(this.activeElement).parent().parent()[0];
     // let data = tblConfigProcess.fnGetData(row);
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
     let data = dataProductProcess.find((item) => item.id_product_process == id);
 
     let idProductProcess = data.id_product_process;
@@ -251,6 +253,8 @@ $(document).ready(function () {
 
   /* Modificar empleados */
   $(document).on("click", ".updateEmployee", async function () {
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+
     let data = dataProductProcess.find(
       (item) => item.id_product_process == this.id
     );

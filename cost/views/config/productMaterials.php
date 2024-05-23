@@ -588,6 +588,9 @@ if (sizeof($_SESSION) == 0)
                         dataMachines,
                         dataMaterials,
                         dataCategories,
+                        dataProductMaterials,
+                        dataCompositeProduct,
+                        dataProductProcess,
                         dataServices,
                         dataGServices
                     ] = await Promise.all([
@@ -597,6 +600,9 @@ if (sizeof($_SESSION) == 0)
                         loadData('/api/machines', 'dataMachines'),
                         loadData('/api/materials', 'dataMaterials'),
                         loadData('/api/categories', 'dataCategories'),
+                        loadData('/api/allProductsMaterials', 'dataProductMaterials'),
+                        loadData('/api/allCompositeProducts', 'dataCompositeProduct'),
+                        loadData('/api/allProductsProcess', 'dataProductProcess'),
                         loadData('/api/allExternalservices', 'dataServices'),
                         loadData('/api/generalExternalservices', 'dataGServices'),
                     ]);
