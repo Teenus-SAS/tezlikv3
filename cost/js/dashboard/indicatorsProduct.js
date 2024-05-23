@@ -216,7 +216,7 @@ $(document).ready(function () {
   totalCostData = (data) => {
     let typeCurrency = '1';
     
-    if(flag_currency_usd == '1' || flag_currency_eur == '1')
+    if (flag_currency_usd == '1' || flag_currency_eur == '1')
       typeCurrency = sessionStorage.getItem('typeCurrency');
 
     // price_usd == '0' || 
@@ -242,7 +242,7 @@ $(document).ready(function () {
     else $('.commission').show();
     if (dataCost.costProfitability == 0) $('.profit').hide();
     else $('.profit').show();
-    if (parseFloat(data[0].sale_price) == 0) $('.actualSalePrice').hide();
+    if (parseFloat(data[0].sale_price) == 0 && parseFloat(data[0].turnover) == 0 && parseFloat(data[0].units_sold) == 0) $('.actualSalePrice').hide();
     else $('.actualSalePrice').show();
 
     $('#costTotal').html(
@@ -337,17 +337,18 @@ $(document).ready(function () {
     
     $('#actualProfitability').html(``);
 
-    $('.cardTrafficLight').empty();
-    let content = '';
-    document.getElementById('recomendedPrice').className = 'mb-0 recomendedPrice mt-1';
-    document.getElementById('actualSalePrice').className = 'mb-0 mt-1'; 
+    if (data[0].sale_price > 0) {
+      $('.cardTrafficLight').empty();
+      let content = '';
+      document.getElementById('recomendedPrice').className = 'mb-0 recomendedPrice mt-1';
+      document.getElementById('actualSalePrice').className = 'mb-0 mt-1';
  
-    if (!isFinite(dataCost.actualProfitability2))
-      dataCost.actualProfitability2 = 0;
+      if (!isFinite(dataCost.actualProfitability2))
+        dataCost.actualProfitability2 = 0;
 
-    // if (flag_expense != '2') {
-    if (dataCost.actualProfitability3 <= 0) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+      // if (flag_expense != '2') {
+      if (dataCost.actualProfitability3 <= 0) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -357,9 +358,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#actualSalePrice').addClass('text-danger');
-    } else if (dataCost.actualProfitability3 < data[0].profitability /* dataCost.actualProfitability3 >= 1*/) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+        $('#actualSalePrice').addClass('text-danger');
+      } else if (dataCost.actualProfitability3 < data[0].profitability /* dataCost.actualProfitability3 >= 1*/) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -369,9 +370,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#actualSalePrice').addClass('text-warning');
-    } else {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
+        $('#actualSalePrice').addClass('text-warning');
+      } else {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -381,17 +382,21 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#actualSalePrice').addClass('text-success');
-    }
-    
-    $('.cardTrafficLight').append(content);
+        $('#actualSalePrice').addClass('text-success');
+      }
 
-    // let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
-    $('.cardRecomendedPrice').empty();
-    content = '';
+      $('.cardTrafficLight').append(content);
+    } else {
+      $('.cardSalePrice').hide();
+    }
+
+    if (data[0].turnover > 0 && data[0].units_sold > 0) {
+      // let price = parseFloat(data[0].turnover) / parseFloat(data[0].units_sold);
+      $('.cardRecomendedPrice').empty();
+      content = '';
  
-    if (dataCost.actualProfitability2 <= 0) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
+      if (dataCost.actualProfitability2 <= 0) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-danger">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -401,10 +406,10 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#recomendedPrice').addClass('text-danger');
+        $('#recomendedPrice').addClass('text-danger');
       
-    } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
+      } else if (dataCost.actualProfitability2 < data[0].profitability /*|| dataCost.actualProfitability2 >= 1*/) {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-warning">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -414,9 +419,9 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#recomendedPrice').addClass('text-warning');
-    } else {
-      content = `<div class="card radius-10 border-start border-0 border-3 border-success">
+        $('#recomendedPrice').addClass('text-warning');
+      } else {
+        content = `<div class="card radius-10 border-start border-0 border-3 border-success">
                     <div class="card-body">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -426,10 +431,14 @@ $(document).ready(function () {
                       </div>
                     </div>
                   </div>`;
-      $('#recomendedPrice').addClass('text-success');
-    }
+        $('#recomendedPrice').addClass('text-success');
+      }
 
-    $('.cardRecomendedPrice').append(content);
+      $('.cardRecomendedPrice').append(content);
+    }
+    else {
+      $('.cardDistribution').hide();
+    }
     // };
   };
 

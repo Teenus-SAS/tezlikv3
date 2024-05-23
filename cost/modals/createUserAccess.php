@@ -118,8 +118,9 @@
                                                             <option value="2">RECUPERACIÓN</option>
                                                         <?php } ?>
                                                         <?php if ($_SESSION['flag_production_center'] == 1) { ?>
-                                                            <option value="3">C. PRODUCCIÓN</option>
+                                                            <option value="3">UND. PRODUCCIÓN</option>
                                                         <?php } ?>
+                                                        <option value="4">GASTOS ANUALES</option>
                                                     </select>
                                                     <label>Tipo Gastos<span class="text-danger">*</span></label>
                                                     <div class="validation-error d-none font-size-13">Requerido</div>

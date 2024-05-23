@@ -218,11 +218,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
-                                                <div class="media-body align-items-center">
+                                                <div class="media-body align-items-center cardDistribution">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Real)</span>
                                                     <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
                                                 </div>
-                                                <div class="media-body align-items-center">
+                                                <div class="media-body align-items-center cardSalePrice">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Lista)</span>
                                                     <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
                                                 </div>
@@ -235,9 +235,9 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-2 cardRecomendedPrice">
+                            <div class="col-xl-2 cardRecomendedPrice cardDistribution">
                             </div>
-                            <div class="col-xl-2 cardTrafficLight">
+                            <div class="col-xl-2 cardTrafficLight cardSalePrice">
                             </div>
                             <div class="col-xl-2">
                                 <div class="card radius-10 border-start border-0 border-3 border-info">

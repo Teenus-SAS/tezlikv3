@@ -35,6 +35,7 @@ class GeneralUserAccessDao
                                             IFNULL(cua.expense, 0) AS expense, 
                                             IFNULL(cua.expense_distribution, 0) AS expense_distribution, 
                                             IFNULL(cua.production_center, 0) AS production_center, 
+                                            IFNULL(cua.anual_expense, 0) AS anual_expense, 
                                             IFNULL(cua.type_expense, 0) AS type_expense, 
                                             IFNULL(cua.user, 0) AS cost_user, 
                                             IFNULL(cua.backup, 0) AS cost_backup, 
@@ -118,6 +119,7 @@ class GeneralUserAccessDao
 
         $_SESSION['expense_distribution'] = $userAccess['expense_distribution'];
         $_SESSION['production_center'] = $userAccess['production_center'];
+        $_SESSION['anual_expense'] = $userAccess['anual_expense'];
         $_SESSION['type_expense'] = $userAccess['type_expense'];
         $_SESSION['flag_expense'] = $userAccess['flag_expense'];
         $_SESSION['flag_expense_distribution'] = $userAccess['flag_family'];
