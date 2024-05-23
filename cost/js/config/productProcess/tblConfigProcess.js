@@ -3,7 +3,7 @@ $(document).ready(function () {
   let value3 = `${inyection == 1 ? 'unity_time' : 'enlistment_time'}`;
   let title4 = `${inyection == 1 ? '% Eficiencia' : 'Tiempo Operación (min)'}`;
   let visible;
-  dataProductProcess = []; 
+  // dataProductProcess = []; 
 
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
@@ -32,7 +32,8 @@ $(document).ready(function () {
     try {
       const productsProcess = await searchData('/api/allProductsProcess');
 
-      dataProductProcess = productsProcess;
+      sessionStorage.setItem('dataProductProcess', JSON.stringify(productsProcess));
+      // dataProductProcess = productsProcess;
 
       if (id != 0) loadtableProcess(id);
     } catch (error) {
@@ -40,7 +41,7 @@ $(document).ready(function () {
     }
   };
 
-  loadAllDataProcess(0);
+  // loadAllDataProcess(0);
 
   flag_employee == '1' ? visible = true : visible = false;
 
@@ -48,7 +49,7 @@ $(document).ready(function () {
 
   const loadtableProcess = (id) => {
     $('.cardAddProcess').hide(800);
-
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
     let data = dataProductProcess.filter(item => item.id_product == id);
 
     if ($.fn.dataTable.isDataTable("#tblConfigProcess")) {

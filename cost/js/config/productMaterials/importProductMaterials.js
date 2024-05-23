@@ -146,28 +146,31 @@ $(document).ready(function () {
   /* Descargar formato */
   $('#btnDownloadImportsProductsMaterials').click(function (e) {
     e.preventDefault();
-
-    if (allProductMaterials.length > 0) {
+    let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+    
+    if (dataProductMaterials.length > 0) {
       let wb = XLSX.utils.book_new();
-
+      
       let data = [];
-
-      if (flag_composite_product == '1')
-        allProductMaterials = [...allProductMaterials, ...allComposites];
+      
+      if (flag_composite_product == '1') {
+        let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
+        dataProductMaterials = [...dataProductMaterials, ...dataCompositeProduct];
+      }
     
       namexlsx = 'Productos_Materias.xlsx';
-      for (i = 0; i < allProductMaterials.length; i++) {
+      for (i = 0; i < dataProductMaterials.length; i++) {
         data.push({
-          referencia_producto: allProductMaterials[i].reference_product,
-          producto: allProductMaterials[i].product,
-          referencia_material: allProductMaterials[i].reference_material,
-          material: allProductMaterials[i].material,
-          magnitud: allProductMaterials[i].magnitude,
-          unidad: allProductMaterials[i].unit,
-          cantidad: allProductMaterials[i].quantity,
-          // desperdicio: allProductMaterials[i].waste,
-          precio_unitario: allProductMaterials[i].cost_product_material,
-          tipo: allProductMaterials[i].type,
+          referencia_producto: dataProductMaterials[i].reference_product,
+          producto: dataProductMaterials[i].product,
+          referencia_material: dataProductMaterials[i].reference_material,
+          material: dataProductMaterials[i].material,
+          magnitud: dataProductMaterials[i].magnitude,
+          unidad: dataProductMaterials[i].unit,
+          cantidad: dataProductMaterials[i].quantity,
+          // desperdicio: dataProductMaterials[i].waste,
+          precio_unitario: dataProductMaterials[i].cost_product_material,
+          tipo: dataProductMaterials[i].type,
         });
       }
 
