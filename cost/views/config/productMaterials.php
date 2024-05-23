@@ -554,8 +554,8 @@ if (sizeof($_SESSION) == 0)
         flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         inyection = "<?= $_SESSION['inyection'] ?>";
-        $('.loading').show(800);
-        document.body.style.overflow = 'hidden';
+        // $('.loading').show(800);
+        // document.body.style.overflow = 'hidden';
 
         $(document).ready(function() {
 
@@ -695,8 +695,8 @@ if (sizeof($_SESSION) == 0)
                     }], 'id_general_service', 'name_service'));
                     $generalServices.append(createOptions(dataGServices, 'id_general_service', 'name_service'));
 
-                    $('.loading').hide(800);
-                    document.body.style.overflow = '';
+                    // $('.loading').hide(800);
+                    // document.body.style.overflow = '';
                 } catch (error) {
                     console.error('Error loading data:', error);
                 }
