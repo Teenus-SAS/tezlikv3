@@ -77,13 +77,13 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="page-title">
                                     <div class="row">
-                                        <div class="col-sm-4 col-xl-4 p-4">
+                                        <div class="col-sm-5 col-xl-5 p-4">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                             <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">
                                                 <li class="breadcrumb-item active">Análisis de Costos</li>
                                             </ol>
                                         </div>
-                                        <div class="col-sm-8 col-xl-8 d-flex justify-content-end mt-4">
+                                        <div class="col-sm-7 col-xl-7 d-flex justify-content-end mt-4">
                                             <div class="col-xs-5 mr-2">
                                                 <select id="product" class="form-control btnPrintPDF">
                                                 </select>
