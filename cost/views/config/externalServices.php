@@ -191,6 +191,11 @@ if (sizeof($_SESSION) == 0)
     <script src="/cost/js/config/generalServices/tblExternalServices.js"></script>
     <script src="/cost/js/config/generalServices/externalServices.js"></script>
     <script src="/cost/js/config/generalServices/configGExternalServices.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadAllDataGServices(1);
+        });
+    </script>
     <script src="../global/js/import/import.js"></script>
     <script src="/cost/js/config/generalServices/importExternalServices.js"></script>
     <script src="../global/js/import/file.js"></script>

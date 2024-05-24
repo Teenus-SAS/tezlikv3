@@ -1,6 +1,6 @@
 $(document).ready(function () { 
   /* Cargue tabla de Proyectos */
-  loadTableExternalServices = (data) => {  
+  loadTableGExternalServices = (data) => {  
     if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
       var table = $("#tblExternalServices").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual

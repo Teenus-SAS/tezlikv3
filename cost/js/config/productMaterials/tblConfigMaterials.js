@@ -3,11 +3,11 @@ $(document).ready(function () {
   // allComposites = [];
   let visible;
 
-  loadAllDataMaterials = async (op) => {
+  loadAllDataMaterials = async (id) => {
     try {
       const [dataProductMaterials, dataCompositeProduct] = await Promise.all([
-        searchData('/api/allProductsMaterials'),
-        searchData('/api/allCompositeProducts')
+        searchData(`/api/productsMaterials/${id}`),
+        searchData(`/api/compositeProducts/${id}`)
       ]);
 
       sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
@@ -15,12 +15,12 @@ $(document).ready(function () {
       // allProductMaterials = dataProductMaterials;
       // allComposites = dataCompositeProduct;
 
-      if (op != 1)
-        loadtableMaterials(op);
+      // if (op != 1)
+      loadtableMaterials(dataProductMaterials);
     } catch (error) {
       console.error('Error loading data:', error);
     }
-  };
+  }; 
 
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
@@ -39,7 +39,7 @@ $(document).ready(function () {
     $('.btnDownloadXlsx').show(800);
     $('.cardAddNewProduct').hide(800);
     $('.cardAddMaterials').hide(800);
-    loadtableMaterials(id);
+    loadAllDataMaterials(id);
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -59,19 +59,19 @@ $(document).ready(function () {
     $('.cardAddNewProduct').hide(800);
     $('.cardAddMaterials').hide(800);
 
-    loadtableMaterials(id);
+    loadAllDataMaterials(id);
   }); 
 
   /* Cargue tabla de Proyectos */
-  loadtableMaterials = async (idProduct) => {
-    let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
-    let data = dataProductMaterials.filter(item => item.id_product == idProduct);
+  loadtableMaterials = async (data) => {
+    // let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+    // let data = dataProductMaterials.filter(item => item.id_product == idProduct);
     
     if (flag_composite_product == '1') {
       let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
-      let arr = dataCompositeProduct.filter(item => item.id_product == idProduct);
+      // let arr = dataCompositeProduct.filter(item => item.id_product == idProduct);
 
-      data = [...data, ...arr];
+      data = [...data, ...dataCompositeProduct];
     } 
 
     let waste = 0;
@@ -229,5 +229,5 @@ $(document).ready(function () {
     });
   };
 
-  loadAllDataMaterials(1);
+  // loadAllDataMaterials(1);
 });

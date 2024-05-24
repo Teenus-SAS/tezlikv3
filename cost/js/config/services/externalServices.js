@@ -188,8 +188,8 @@ $(document).ready(function () {
       $('.cardProducts').show(800);
       $('#formAddService').trigger('reset');
       let idProduct = parseInt($('#selectNameProduct').val());
-      // if (idProduct)
-      loadAllDataServices(idProduct);
+      if (idProduct)
+        loadAllDataServices(idProduct);
       toastr.success(data.message);
       //return false
     } else if (data.error == true) toastr.error(data.message);

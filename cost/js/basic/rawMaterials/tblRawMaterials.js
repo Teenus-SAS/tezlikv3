@@ -1,26 +1,19 @@
 $(document).ready(function () {
   /* Cargue tabla de Materias Primas */
-  allProductMaterials = [];
-  allMaterials = [];
-  visible = true;
+  // allProductMaterials = [];
+  // allMaterials = [];
+  // visible = true;
 
   loadAllData = async (op) => {
     try {
       const [dataCategory, dataMaterials, dataProductMaterials] = await Promise.all([
         op == 1 ? searchData('/api/categories') : '',
         searchData('/api/materials'),
-        op == 1? searchData('/api/allProductsMaterials') : ''
+        op == 1 ? searchData('/api/allProductsMaterials') : ''
       ]);
+      let visible;
 
       if (op == 1) {
-        if (dataCategory.length === 0) {
-          $('.categories').hide();
-          visible = false;
-        } else {
-          $('.categories').show();
-          visible = true;
-        }
-
         let $selectCategory = $(`#idCategory`);
         $selectCategory.empty();
         $selectCategory.append(`<option disabled selected value='0'>Seleccionar</option>`);
@@ -29,20 +22,30 @@ $(document).ready(function () {
             `<option value="${value.id_category}">${value.category}</option>`
           );
         });
-        allCategories = dataCategory;
+        sessionStorage.setItem('dataCategory', JSON.stringify(dataCategory));
         loadTblCategories(dataCategory);
-        allProductMaterials = dataProductMaterials;
+        sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
+        // allProductMaterials = dataProductMaterials;
+      } else
+        dataCategory = JSON.parse(sessionStorage.getItem('dataCategory'));
+        
+      if (dataCategory.length == 0) {
+        $('.categories').hide();
+        visible = false;
+      } else {
+        $('.categories').show();
+        visible = true;
       }
 
-      loadTblRawMaterials(dataMaterials);
+      loadTblRawMaterials(dataMaterials, visible);
         
-      allMaterials = dataMaterials;
+      // allMaterials = dataMaterials;
     } catch (error) {
       console.error('Error loading data:', error);
     }
-  } 
+  }
 
-  loadTblRawMaterials = (data) => {
+  loadTblRawMaterials = (data, visible) => {
     if ($.fn.DataTable.isDataTable('#tblRawMaterials')) { 
       tblRawMaterials.DataTable().clear().rows.add(data).draw();
       $('#tblRawMaterials').DataTable().column(3).visible(visible);

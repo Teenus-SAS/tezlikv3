@@ -19,14 +19,14 @@ class CompositeProductsDao
     public function findAllCompositeProductsByIdProduct($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT cp.id_composite_product, 0 AS id_product_material, cp.id_child_product, cp.id_product, p.reference, p.product AS material, mg.id_magnitude, mg.magnitude, 
-                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, pc.cost_materials, pc.price, pc.sale_price
+        $stmt = $connection->prepare("SELECT cp.id_composite_product, 0 AS id_product_material, cp.id_child_product, cp.id_product, p.reference, p.reference AS reference_material, p.product AS material, mg.id_magnitude, mg.magnitude, 
+                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, pc.cost_materials, pc.price, pc.sale_price, 'Producto' AS type, 0 AS waste, ((cp.cost / pc.cost_materials) * 100) AS participation
                                       FROM products p 
-                                        INNER JOIN composite_products cp ON cp.id_child_product = p.id_product 
-                                        INNER JOIN products_costs pc ON pc.id_product = cp.id_child_product
+                                        INNER JOIN composite_products cp ON cp.id_child_product = p.id_product
+                                        INNER JOIN products_costs pc ON pc.id_product = cp.id_product
                                         INNER JOIN convert_units u ON u.id_unit = cp.id_unit
                                         INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
-                                      WHERE cp.id_product = :id_product AND cp.id_company = :id_company");
+                                      WHERE cp.id_company = :id_company AND cp.id_product = :id_product");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $compositeProducts = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $compositeProducts));

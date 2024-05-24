@@ -344,7 +344,8 @@ $(document).ready(function () {
 
       $("#formAddMaterials").trigger("reset");
       let idProduct = $("#selectNameProduct").val();
-      loadAllDataMaterials(idProduct);
+      if(idProduct)
+        loadAllDataMaterials(idProduct);
 
       toastr.success(data.message);
       return false;
@@ -360,17 +361,17 @@ $(document).ready(function () {
 
     /* Materiales */
     let data = [];
-    let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+    let arr = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
     
     if (flag_composite_product == "1") {
       let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
       
-      dataProductMaterials = [...dataProductMaterials, ...dataCompositeProduct];
+      arr = [...arr, ...dataCompositeProduct];
     }
 
-    let arr = dataProductMaterials.filter(
-      (item) => item.id_product == id_product
-    );
+    // let arr = dataProductMaterials.filter(
+    //   (item) => item.id_product == id_product
+    // );
 
     if (arr.length > 0) {
       for (i = 0; i < arr.length; i++) {
@@ -417,9 +418,9 @@ $(document).ready(function () {
     /* Servicios */
     data = [];
 
-    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
+    arr = JSON.parse(sessionStorage.getItem('dataServices'));
 
-    arr = dataServices.filter((item) => item.id_product == id_product);
+    // arr = dataServices.filter((item) => item.id_product == id_product);
     if (arr.length > 0) {
       for (i = 0; i < arr.length; i++) {
         data.push({

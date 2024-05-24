@@ -8,7 +8,7 @@ $(document).ready(function () {
       return $(this).val() == id;
     });
 
-    loadTableExternalServices(id);
+    loadAllDataServices(id);
   });
 
   $("#selectNameProduct").change(function (e) {
@@ -19,17 +19,17 @@ $(document).ready(function () {
       return $(this).val() == id;
     });
 
-    loadTableExternalServices(id);
+    loadAllDataServices(id);
   });
 
   loadAllDataServices = async (id) => {
     try {
-      const services = await searchData('/api/allExternalservices');
+      const services = await searchData(`/api/externalServices/${id}`);
 
       sessionStorage.setItem('dataServices', JSON.stringify(services));
       // dataServices = services;
 
-      if (id != 0) loadTableExternalServices(id);
+      loadTableExternalServices(services);
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -38,10 +38,10 @@ $(document).ready(function () {
   // loadAllDataServices(0);
   
   /* Cargue tabla de Proyectos */
-  loadTableExternalServices = (id) => {
+  loadTableExternalServices = (data) => {
     $('.cardAddService').hide(800);
-    let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
-    let data = dataServices.filter(item => item.id_product == id);
+    // let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
+    // let data = dataServices.filter(item => item.id_product == id);
 
     // if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
     //   $("#tblExternalServices").DataTable().clear();

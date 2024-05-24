@@ -19,15 +19,17 @@ class ProductsProcessDao
     public function findAllProductsprocessByIdProduct($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, pp.id_process, pp.id_machine, pp.id_product_process, pp.enlistment_time, IFNULL(mc.unity_time, 0) AS unity_time, pp.operation_time, 
-                                             IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process, pp.workforce_cost, pp.indirect_cost, pp.employee, pp.auto_machine, pp.route, pp.efficiency
-                                  FROM products p 
-                                  INNER JOIN products_process pp ON pp.id_product = p.id_product
-                                  LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
-                                  INNER JOIN process pc ON pc.id_process = pp.id_process
-                                  LEFT JOIN payroll py ON py.id_process = pp.id_process
-                                  WHERE p.id_product = :id_product AND p.id_company = :id_company 
-                                  GROUP BY pp.id_product_process ORDER BY pp.route ASC");
+        $stmt = $connection->prepare("SELECT pp.id_product_process, p.id_product, pc.id_process, p.reference, p.product, pp.enlistment_time, pp.efficiency,
+                                             pp.operation_time, IFNULL(mc.id_machine, 0) AS id_machine, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
+                                             pp.workforce_cost, pp.indirect_cost, pp.employee, pp.route, IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine, COUNT(DISTINCT py.employee) AS count_employee
+                                      FROM  products p 
+                                        INNER JOIN products_process pp ON pp.id_product = p.id_product
+                                        INNER JOIN process pc ON pc.id_process = pp.id_process
+                                        LEFT JOIN machines mc ON mc.id_machine = pp.id_machine 
+                                        LEFT JOIN payroll py ON py.id_process = pp.id_process
+                                      WHERE p.id_company = :id_company AND p.id_product = :id_product
+                                      GROUP BY pp.id_product_process
+                                      ORDER BY pp.route ASC");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $productsprocess = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $productsprocess));

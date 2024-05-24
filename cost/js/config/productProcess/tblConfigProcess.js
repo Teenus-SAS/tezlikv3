@@ -14,7 +14,7 @@ $(document).ready(function () {
       return $(this).val() == id;
     });
 
-    loadtableProcess(id);
+    loadAllDataProcess(id);
   });
 
   $('#selectNameProduct').change(function (e) {
@@ -25,17 +25,17 @@ $(document).ready(function () {
       return $(this).val() == id;
     });
 
-    loadtableProcess(id);
+    loadAllDataProcess(id);
   });
 
   loadAllDataProcess = async (id) => {
     try {
-      const productsProcess = await searchData('/api/allProductsProcess');
+      const productsProcess = await searchData(`/api/productsProcess/${id}`);
 
       sessionStorage.setItem('dataProductProcess', JSON.stringify(productsProcess));
       // dataProductProcess = productsProcess;
 
-      if (id != 0) loadtableProcess(id);
+      loadtableProcess(productsProcess);
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -47,11 +47,9 @@ $(document).ready(function () {
 
   /* Cargue tabla de Proyectos */
 
-  const loadtableProcess = (id) => {
-    $('.cardAddProcess').hide(800);
-    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
-    let data = dataProductProcess.filter(item => item.id_product == id);
-
+  const loadtableProcess = (data) => {
+    $('.cardAddProcess').hide(800); 
+    
     if ($.fn.dataTable.isDataTable("#tblConfigProcess")) {
       $("#tblConfigProcess").DataTable().destroy();
       $("#tblConfigProcess").empty();

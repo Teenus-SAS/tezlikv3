@@ -51,6 +51,36 @@ $app->get('/allExternalservices', function (Request $request, Response $response
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/externalServices/{id_product}', function (Request $request, Response $response, $args) use (
+    $webTokenDao,
+    $generalServicesDao
+) {
+    $info = $webTokenDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    $validate = $webTokenDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    // session_start();
+    $id_company = $_SESSION['id_company'];
+    $externalServices = $generalServicesDao->findAllExternalServicesByIdProduct($args['id_product'], $id_company);
+    $response->getBody()->write(json_encode($externalServices));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->post('/externalServiceDataValidation', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $generalServicesDao,

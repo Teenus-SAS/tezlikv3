@@ -146,51 +146,51 @@ $(document).ready(function () {
   /* Descargar formato */
   $('#btnDownloadImportsProductsMaterials').click(function (e) {
     e.preventDefault();
-    let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+    // let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
     
-    if (dataProductMaterials.length > 0) {
-      let wb = XLSX.utils.book_new();
+    // if (dataProductMaterials.length > 0) {
+    //   let wb = XLSX.utils.book_new();
       
-      let data = [];
+    //   let data = [];
       
-      if (flag_composite_product == '1') {
-        let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
-        dataProductMaterials = [...dataProductMaterials, ...dataCompositeProduct];
-      }
+    //   if (flag_composite_product == '1') {
+    //     let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
+    //     dataProductMaterials = [...dataProductMaterials, ...dataCompositeProduct];
+    //   }
     
-      namexlsx = 'Productos_Materias.xlsx';
-      for (i = 0; i < dataProductMaterials.length; i++) {
-        data.push({
-          referencia_producto: dataProductMaterials[i].reference_product,
-          producto: dataProductMaterials[i].product,
-          referencia_material: dataProductMaterials[i].reference_material,
-          material: dataProductMaterials[i].material,
-          magnitud: dataProductMaterials[i].magnitude,
-          unidad: dataProductMaterials[i].unit,
-          cantidad: dataProductMaterials[i].quantity,
-          // desperdicio: dataProductMaterials[i].waste,
-          precio_unitario: dataProductMaterials[i].cost_product_material,
-          tipo: dataProductMaterials[i].type,
-        });
-      }
+    //   namexlsx = 'Productos_Materias.xlsx';
+    //   for (i = 0; i < dataProductMaterials.length; i++) {
+    //     data.push({
+    //       referencia_producto: dataProductMaterials[i].reference_product,
+    //       producto: dataProductMaterials[i].product,
+    //       referencia_material: dataProductMaterials[i].reference_material,
+    //       material: dataProductMaterials[i].material,
+    //       magnitud: dataProductMaterials[i].magnitude,
+    //       unidad: dataProductMaterials[i].unit,
+    //       cantidad: dataProductMaterials[i].quantity,
+    //       // desperdicio: dataProductMaterials[i].waste,
+    //       precio_unitario: dataProductMaterials[i].cost_product_material,
+    //       tipo: dataProductMaterials[i].type,
+    //     });
+    //   }
 
-      let ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
+    //   let ws = XLSX.utils.json_to_sheet(data);
+    //   XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
 
       
-      XLSX.writeFile(wb, namexlsx);
-    } else {
-      let url = 'assets/formatsXlsx/Productos_Materias.xlsx';
+    //   XLSX.writeFile(wb, namexlsx);
+    // } else {
+    let url = 'assets/formatsXlsx/Productos_Materias.xlsx';
 
-      let link = document.createElement('a');
-      link.target = '_blank';
+    let link = document.createElement('a');
+    link.target = '_blank';
 
-      link.href = url;
-      document.body.appendChild(link);
-      link.click();
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
 
-      document.body.removeChild(link);
-      delete link;
-    }
+    document.body.removeChild(link);
+    delete link;
+    // }
   });
 });

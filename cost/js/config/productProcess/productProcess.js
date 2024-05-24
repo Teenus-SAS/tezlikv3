@@ -354,8 +354,8 @@ $(document).ready(function () {
       // $('.cardAddNewProduct').show(800);
       $("#formAddProcess").trigger("reset");
       let idProduct = $("#selectNameProduct").val();
-      // if (idProduct)
-      loadAllDataProcess(idProduct);
+      if (idProduct)
+        loadAllDataProcess(idProduct);
 
       toastr.success(data.message);
     } else if (data.error == true) toastr.error(data.message);

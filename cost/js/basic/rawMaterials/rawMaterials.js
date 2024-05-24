@@ -254,6 +254,7 @@ $(document).ready(function () {
   /* Productos relacionados */
   $(document).on('click', '.seeDetailMaterials', function () {
     // let data = await searchData(`/api/productsByMaterials/${this.id}`);
+    let allProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
     let data = allProductMaterials.filter(item => item.id_material == this.id);
 
     $('#tblProductsBody').empty();

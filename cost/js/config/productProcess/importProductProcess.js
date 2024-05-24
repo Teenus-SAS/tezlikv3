@@ -148,45 +148,45 @@ $(document).ready(function () {
   /* Descargar formato */
   $('#btnDownloadImportsProductsProcess').click(function (e) {
     e.preventDefault();
-    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+    // let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
-    if (dataProductProcess.length > 0) {
-      let wb = XLSX.utils.book_new();
+    // if (dataProductProcess.length > 0) {
+    //   let wb = XLSX.utils.book_new();
 
-      let data = [];
+    //   let data = [];
 
-      namexlsx = 'Productos_Procesos.xlsx';
-      for (i = 0; i < dataProductProcess.length; i++) {
-        data.push({
-          referencia_producto: dataProductProcess[i].reference,
-          producto: dataProductProcess[i].product,
-          proceso: dataProductProcess[i].process,
-          maquina: dataProductProcess[i].machine,
-          tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
-          tiempo_operacion: dataProductProcess[i].operation_time,
-          eficiencia: dataProductProcess[i].efficiency,
-          // mano_de_obra: dataProductProcess[i].workforce_cost,
-          // costo_indirecto: dataProductProcess[i].indirect_cost,
-          maquina_autonoma: dataProductProcess[i].auto_machine
-        });
-      }
+    //   namexlsx = 'Productos_Procesos.xlsx';
+    //   for (i = 0; i < dataProductProcess.length; i++) {
+    //     data.push({
+    //       referencia_producto: dataProductProcess[i].reference,
+    //       producto: dataProductProcess[i].product,
+    //       proceso: dataProductProcess[i].process,
+    //       maquina: dataProductProcess[i].machine,
+    //       tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
+    //       tiempo_operacion: dataProductProcess[i].operation_time,
+    //       eficiencia: dataProductProcess[i].efficiency,
+    //       // mano_de_obra: dataProductProcess[i].workforce_cost,
+    //       // costo_indirecto: dataProductProcess[i].indirect_cost,
+    //       maquina_autonoma: dataProductProcess[i].auto_machine
+    //     });
+    //   }
 
-      let ws = XLSX.utils.json_to_sheet(data);
-      XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
-      XLSX.writeFile(wb, namexlsx);
-    }
-    else {
-      let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
+    //   let ws = XLSX.utils.json_to_sheet(data);
+    //   XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
+    //   XLSX.writeFile(wb, namexlsx);
+    // }
+    // else {
+    let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
 
-      let link = document.createElement('a');
-      link.target = '_blank';
+    let link = document.createElement('a');
+    link.target = '_blank';
 
-      link.href = url;
-      document.body.appendChild(link);
-      link.click();
+    link.href = url;
+    document.body.appendChild(link);
+    link.click();
 
-      document.body.removeChild(link);
-      delete link;
-    }
+    document.body.removeChild(link);
+    delete link;
+    // }
   });
 });
