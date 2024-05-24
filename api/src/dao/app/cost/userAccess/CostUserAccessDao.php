@@ -45,6 +45,7 @@ class CostUserAccessDao
                                                 IFNULL(usa.expense, 0) AS expense, 
                                                 IFNULL(usa.expense_distribution, 0) AS expense_distribution,
                                                 IFNULL(usa.production_center, 0) AS production_center,
+                                                IFNULL(usa.anual_expense, 0) AS anual_expense,
                                                 IFNULL(usa.type_expense, 0) AS type_expense,  
                                             -- Menú Administrador
                                                 IFNULL(usa.user, 0) AS user, 
@@ -108,6 +109,7 @@ class CostUserAccessDao
                                                 IFNULL(usa.expense, 0) AS expense, 
                                                 IFNULL(usa.expense_distribution, 0) AS expense_distribution,
                                                 IFNULL(usa.production_center, 0) AS production_center,
+                                                IFNULL(usa.anual_expense, 0) AS anual_expense,
                                                 IFNULL(usa.type_expense, 0) AS type_expense,  
                                             -- Menú Administrador
                                                 IFNULL(usa.user, 0) AS user, 
@@ -149,29 +151,29 @@ class CostUserAccessDao
         // price_usd,:price_usd, 'price_usd' => $dataUser['priceUSD'],
 
         try {
-            $stmt = $connection->prepare("INSERT INTO cost_users_access (id_user, create_product, create_materials, create_machines, create_process, product_materials, external_service, production_center, factory_load, 
+            $stmt = $connection->prepare("INSERT INTO cost_users_access (id_user, create_product, create_materials, create_machines, create_process, product_materials, external_service, production_center, anual_expense, factory_load, 
                                                                          payroll_load, type_payroll, expense, expense_distribution, type_expense, user, backup, general_cost_report, economy_scale, sale_objectives, multiproduct,
                                                                          quote_payment_method, quote_company, quote_contact, price, custom_price, type_custom_price, analysis_material, simulator, historical, support, quote)
-                                          VALUES (:id_user, :create_product, :create_materials, :create_machines, :create_process, :product_materials, :external_service, :production_center, :factory_load, 
+                                          VALUES (:id_user, :create_product, :create_materials, :create_machines, :create_process, :product_materials, :external_service, :production_center, :anual_expense, :factory_load, 
                                                   :payroll_load, :type_payroll, :expense, :expense_distribution, :type_expense, :user, :backup, :general_cost_report, :economy_scale, :sale_objectives, :multiproduct,
                                                   :quote_payment_method, :quote_company, :quote_contact, :price, :custom_price, :type_custom_price, :analysis_material, :simulator, :historical, :support, :quote)");
             $stmt->execute([
-                'id_user' => $dataUser['id_user'],                              'economy_scale' => $dataUser['economyScale'],
-                'create_product' => $dataUser['costCreateProducts'],            'sale_objectives' => $dataUser['saleObjectives'],
-                'create_materials' => $dataUser['costCreateMaterials'],         'multiproduct' => $dataUser['multiproduct'],
-                'create_machines' => $dataUser['costCreateMachines'],           'quote_payment_method' => $dataUser['quotePaymentMethod'],
-                'create_process' => $dataUser['costCreateProcess'],             'quote_company' => $dataUser['quoteCompany'],
-                'product_materials' => $dataUser['costProductMaterials'],       'quote_contact' => $dataUser['quoteContact'],
-                'external_service' => $dataUser['externalService'],             'price' => $dataUser['price'],
-                'factory_load' => $dataUser['factoryLoad'],                     'custom_price' => $dataUser['customPrices'],
-                'payroll_load' => $dataUser['payrollLoad'],                     'type_custom_price' => $typeCustomPrice,
-                'expense' => $dataUser['expense'],                              'analysis_material' => $dataUser['analysisMaterial'],
-                'expense_distribution' => $dataUser['expenseDistribution'],     'simulator' => $dataUser['simulator'],
-                'production_center' => $dataUser['production'],                 'historical' => $dataUser['historical'],
+                'id_user' => $dataUser['id_user'],                              'general_cost_report' => $dataUser['generalCostReport'],
+                'create_product' => $dataUser['costCreateProducts'],            'economy_scale' => $dataUser['economyScale'],
+                'create_materials' => $dataUser['costCreateMaterials'],         'sale_objectives' => $dataUser['saleObjectives'],
+                'create_machines' => $dataUser['costCreateMachines'],           'multiproduct' => $dataUser['multiproduct'],
+                'create_process' => $dataUser['costCreateProcess'],             'quote_payment_method' => $dataUser['quotePaymentMethod'],
+                'product_materials' => $dataUser['costProductMaterials'],       'quote_company' => $dataUser['quoteCompany'],
+                'external_service' => $dataUser['externalService'],             'quote_contact' => $dataUser['quoteContact'],
+                'factory_load' => $dataUser['factoryLoad'],                     'price' => $dataUser['price'],
+                'payroll_load' => $dataUser['payrollLoad'],                     'custom_price' => $dataUser['customPrices'],
+                'expense' => $dataUser['expense'],                              'type_custom_price' => $typeCustomPrice,
+                'expense_distribution' => $dataUser['expenseDistribution'],     'analysis_material' => $dataUser['analysisMaterial'],
+                'production_center' => $dataUser['production'],                 'simulator' => $dataUser['simulator'],
+                'anual_expense' => $dataUser['anualExpense'],                   'historical' => $dataUser['historical'],
                 'type_expense' => $dataUser['typeExpenses'],                    'support' => $dataUser['support'],
                 'user' => $dataUser['costUser'],                                'quote' => $dataUser['quote'],
                 'backup' => $dataUser['costBackup'],                            'type_payroll' => $dataUser['typePayroll'],
-                'general_cost_report' => $dataUser['generalCostReport'],
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         } catch (\Exception $e) {
@@ -215,6 +217,7 @@ class CostUserAccessDao
         $dataUser['quote'] = 1;
         $dataUser['expenseDistribution'] = 1;
         $dataUser['production'] = 1;
+        $dataUser['anualExpense'] = 1;
         $dataUser['typeExpenses'] = 1;
 
         return $dataUser;
@@ -237,27 +240,27 @@ class CostUserAccessDao
         if ($rows > 1) {
 
             try {
-                $stmt = $connection->prepare("UPDATE cost_users_access SET create_product = :create_product, create_materials = :create_materials, create_machines = :create_machines, create_process = :create_process, product_materials = :product_materials, external_service = :external_service, type_payroll = :type_payroll, production_center = :production_center,
+                $stmt = $connection->prepare("UPDATE cost_users_access SET create_product = :create_product, create_materials = :create_materials, create_machines = :create_machines, create_process = :create_process, product_materials = :product_materials, external_service = :external_service, type_payroll = :type_payroll, production_center = :production_center, anual_expense = :anual_expense,
                                                                            factory_load = :factory_load, payroll_load = :payroll_load, expense = :expense, expense_distribution = :expense_distribution, type_expense = :type_expense, user = :user, backup = :backup, general_cost_report = :general_cost_report, economy_scale = :economy_scale, sale_objectives = :sale_objectives, multiproduct = :multiproduct, 
                                                                            price = :price, custom_price = :custom_price, type_custom_price = :type_custom_price, analysis_material = :analysis_material, simulator = :simulator, historical = :historical, support = :support, quote = :quote, quote_payment_method = :quote_payment_method, quote_company = :quote_company, quote_contact = :quote_contact
                                               WHERE id_user = :id_user");
                 $stmt->execute([
-                    'id_user' => $dataUser['id_user'],                              'economy_scale' => $dataUser['economyScale'],
-                    'create_product' => $dataUser['costCreateProducts'],            'sale_objectives' => $dataUser['saleObjectives'],
-                    'create_materials' => $dataUser['costCreateMaterials'],         'multiproduct' => $dataUser['multiproduct'],
-                    'create_machines' => $dataUser['costCreateMachines'],           'quote_payment_method' => $dataUser['quotePaymentMethod'],
-                    'create_process' => $dataUser['costCreateProcess'],             'quote_company' => $dataUser['quoteCompany'],
-                    'product_materials' => $dataUser['costProductMaterials'],       'quote_contact' => $dataUser['quoteContact'],
-                    'external_service' => $dataUser['externalService'],             'price' => $dataUser['price'],
-                    'factory_load' => $dataUser['factoryLoad'],                     'custom_price' => $dataUser['customPrices'],
-                    'payroll_load' => $dataUser['payrollLoad'],                     'type_custom_price' => $typeCustomPrice,
-                    'expense' => $dataUser['expense'],                              'analysis_material' => $dataUser['analysisMaterial'],
-                    'expense_distribution' => $dataUser['expenseDistribution'],     'simulator' => $dataUser['simulator'],
-                    'production_center' => $dataUser['production'],                 'historical' => $dataUser['historical'],
+                    'id_user' => $dataUser['id_user'],                              'general_cost_report' => $dataUser['generalCostReport'],
+                    'create_product' => $dataUser['costCreateProducts'],            'economy_scale' => $dataUser['economyScale'],
+                    'create_materials' => $dataUser['costCreateMaterials'],         'sale_objectives' => $dataUser['saleObjectives'],
+                    'create_machines' => $dataUser['costCreateMachines'],           'multiproduct' => $dataUser['multiproduct'],
+                    'create_process' => $dataUser['costCreateProcess'],             'quote_payment_method' => $dataUser['quotePaymentMethod'],
+                    'product_materials' => $dataUser['costProductMaterials'],       'quote_company' => $dataUser['quoteCompany'],
+                    'external_service' => $dataUser['externalService'],             'quote_contact' => $dataUser['quoteContact'],
+                    'factory_load' => $dataUser['factoryLoad'],                     'price' => $dataUser['price'],
+                    'payroll_load' => $dataUser['payrollLoad'],                     'custom_price' => $dataUser['customPrices'],
+                    'expense' => $dataUser['expense'],                              'type_custom_price' => $typeCustomPrice,
+                    'expense_distribution' => $dataUser['expenseDistribution'],     'analysis_material' => $dataUser['analysisMaterial'],
+                    'production_center' => $dataUser['production'],                 'simulator' => $dataUser['simulator'],
+                    'anual_expense' => $dataUser['anualExpense'],                   'historical' => $dataUser['historical'],
                     'type_expense' => $dataUser['typeExpenses'],                    'support' => $dataUser['support'],
                     'user' => $dataUser['costUser'],                                'quote' => $dataUser['quote'],
                     'backup' => $dataUser['costBackup'],                            'type_payroll' => $dataUser['typePayroll'],
-                    'general_cost_report' => $dataUser['generalCostReport'],
                 ]);
                 $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             } catch (\Exception $e) {

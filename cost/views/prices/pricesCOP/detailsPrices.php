@@ -77,13 +77,13 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <div class="page-title">
                                     <div class="row">
-                                        <div class="col-sm-4 col-xl-4 p-4">
+                                        <div class="col-sm-5 col-xl-5 p-4">
                                             <h3 class="mb-1 font-weight-bold text-dark" id="nameProduct"></h3>
                                             <ol class="col-sm-5 col-xl-6 breadcrumb mb-3 mb-md-0 cardHeader">
                                                 <li class="breadcrumb-item active">Análisis de Costos</li>
                                             </ol>
                                         </div>
-                                        <div class="col-sm-8 col-xl-8 d-flex justify-content-end mt-4">
+                                        <div class="col-sm-7 col-xl-7 d-flex justify-content-end mt-4">
                                             <div class="col-xs-5 mr-2">
                                                 <select id="product" class="form-control btnPrintPDF">
                                                 </select>
@@ -220,11 +220,11 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <div class="media align-items-center">
                                             <div class="card-body row row-cols-1 row-cols-md-2 row-cols-xl-2" style="padding-bottom: 0px;padding-top: 0px">
-                                                <div class="media-body align-items-center">
+                                                <div class="media-body align-items-center cardDistribution">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Real)</span>
                                                     <h2 class="mb-0 mt-1 text-danger recomendedPrice" id="recomendedPrice" style="font-size: x-large"></h2>
                                                 </div>
-                                                <div class="media-body align-items-center">
+                                                <div class="media-body align-items-center cardSalePrice">
                                                     <span class="text-muted text-uppercase font-size-12 font-weight-bold">Precio (Lista)</span>
                                                     <h2 class="mb-0 mt-1 text-success" id="actualSalePrice" style="font-size: x-large"></h2>
                                                 </div>
@@ -237,9 +237,9 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-2 cardRecomendedPrice">
+                            <div class="col-xl-2 cardRecomendedPrice cardDistribution">
                             </div>
-                            <div class="col-xl-2 cardTrafficLight">
+                            <div class="col-xl-2 cardTrafficLight cardSalePrice">
                             </div>
                             <div class="col-xl-2">
                                 <div class="card radius-10 border-start border-0 border-3 border-info">
