@@ -333,7 +333,8 @@ $(document).ready(function () {
     $(".cardBottons").show(400);
     $("#fileProductsMaterials").val("");
 
-    if (data.success == true) {
+    
+    if (data.success) {
       $(".cardImportProductsMaterials").hide(800);
       $("#formImportProductMaterial").trigger("reset");
       $(".cardAddMaterials").hide(800);
@@ -347,8 +348,8 @@ $(document).ready(function () {
 
       toastr.success(data.message);
       return false;
-    } else if (data.error == true) toastr.error(data.message);
-    else if (data.info == true) toastr.info(data.message);
+    } else if (data.error) toastr.error(data.message);
+    else if (data.info) toastr.info(data.message);
   };
 
   $(".btnDownloadXlsx").click(function (e) {
@@ -392,6 +393,7 @@ $(document).ready(function () {
 
     /* Procesos */
     data = [];
+    let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
     arr = dataProductProcess.filter((item) => item.id_product == id_product);
     if (arr.length > 0) {
