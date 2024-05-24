@@ -105,7 +105,7 @@ $(document).ready(function () {
           className: "classCenter",
         },
         {
-          title: `${op == 1 ? "Precio (Sugerido)" : op == 2 ? "Precio (Sugerido USD)" : "Precio (Sugerido EUR)"}`,
+          title: `${op == 1 ? "Precio (Sugerido)" : op == 3 ? "Precio (Sugerido EUR)" : "Precio (Sugerido USD)"}`,
           data: null,
           className: "classCenter",
           render: function (data) {
@@ -155,7 +155,7 @@ $(document).ready(function () {
           },
         },
         {
-          title: `${op == 1 ? "Precio (Lista)" : op == 2 ? "Precio (Lista USD)" : "Precio (Lista EUR)"}`,
+          title: `${op == 1 ? "Precio (Lista)" : op == 3 ? "Precio (Lista EUR)" : "Precio (Lista USD)"}`,
           data: null,
           className: "classCenter",
           visible: visible,

@@ -26,12 +26,12 @@ $(document).ready(function () {
                 </div>
                 <div class="col-xs-2 form-group floating-label enable-floating-label mr-2 USDInputs">
                   <label class="font-weight-bold text-dark">Dolar con Cobertura</label>
-                  <input type="number" class="form-control text-center calcUSDInputs" name="valueCoverageUSD" id="valueCoverageUSD"
+                  <input type="number" class="form-control text-center calcUSDInputs inputsValue" name="simValueCoverageUSD" id="simValueCoverageUSD"
                     value="${parseFloat(coverage_usd1).toFixed(2)}">
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
-                  <input type="text" class="form-control text-center" name="exchangeCoverageUSD="exchangeCoverageUSD" style="background-color: aliceblue;" readonly>
+                  <input type="text" class="form-control text-center inputsValue" name="simExchangeCoverageUSD" id="simExchangeCoverageUSD" style="background-color: aliceblue;" readonly>
                 </div>
                 <div class="col-xs-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Correción TRM</label>
@@ -39,7 +39,7 @@ $(document).ready(function () {
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Valor Dolar</label>
-                  <input type="number" class="form-control text-center" name="valueCoverageUSD" id="valueCoverage" style="background-color: aliceblue;"
+                  <input type="number" class="form-control text-center inputsValue" name="valueCoverageUSD" id="valueCoverageUSD" style="background-color: aliceblue;"
                     value="${parseFloat(coverage_usd).toFixed(2)}" readonly>
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
@@ -85,12 +85,12 @@ $(document).ready(function () {
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="mb-1 font-weight-bold text-dark">Valor Dolar</label>
-                  <input type="number" class="form-control text-center calcUSDInputs" name="valueCoverageUSD" id="valueCoverageUSD"
+                  <input type="number" class="form-control text-center calcUSDInputs inputsValue" name="valueCoverageUSD" id="valueCoverageUSD"
                     value="${parseFloat(coverage_usd).toFixed(2)}">
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">
                   <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
-                  <input type="text" class="form-control text-center" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;"
+                  <input type="text" class="form-control text-center inputsValue" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;"
                     value="$ ${(
                       currentDollar - parseFloat(coverage_usd)
                     ).toLocaleString("es-CO", {
@@ -115,7 +115,8 @@ $(document).ready(function () {
   /* Calcular valor de cobertura ingresando numero de desviación */
   $(document).on("blur", ".calcUSDInputs", function (e) {
     let num = $("#deviation").val();
-    let valueCoverage = parseFloat($("#valueCoverageUSD").val());
+    // let valueCoverage = parseFloat($("#valueCoverageUSD").val());
+    let valueCoverage = parseFloat(document.getElementsByClassName('inputsValue')[0].value);
 
     if (isNaN(valueCoverage) || valueCoverage <= 0) {
       toastr.error("Ingrese valor covertura valido");
@@ -182,7 +183,7 @@ $(document).ready(function () {
 
       $.post("/api/simPriceUSD", data, function (resp, textStatus, jqXHR) {
         if (resp.success) {
-          $("#exchangeCoverageUSD").val(
+          $("#simExchangeCoverageUSD").val(
             `$ ${resp.exchangeCoverage.toLocaleString("es-CO", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
@@ -191,7 +192,7 @@ $(document).ready(function () {
 
           coverage_usd1 = resp.coverage_usd;
 
-          $("#valueCoverageUSD").val(parseFloat(resp.coverage_usd).toFixed(2));
+          $("#simValueCoverageUSD").val(parseFloat(resp.coverage_usd).toFixed(2));
 
           $(".spinner-border").remove();
           $(".USDInputs").show(400);
