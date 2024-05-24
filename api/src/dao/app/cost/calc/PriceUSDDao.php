@@ -42,8 +42,13 @@ class PriceUSDDao
             // $_SESSION['flag_type_price'] == '0' ? $price = $dataProduct['sale_price'] : $price = $dataProduct['price'];
 
             // Calculo
-            $salePriceUsd = floatval($dataProduct['sale_price']) / $coverage;
-            $priceUsd = floatval($dataProduct['price']) / $coverage;
+            $salePriceUsd = 0;
+            $priceUsd = 0;
+
+            if ($coverage != 0) {
+                $salePriceUsd = floatval($dataProduct['sale_price']) / $coverage;
+                $priceUsd = floatval($dataProduct['price']) / $coverage;
+            }
 
             // Actualizar
             $stmt = $connection->prepare("UPDATE products_costs SET price_usd = :price_usd, sale_price_usd = :sale_price_usd 
