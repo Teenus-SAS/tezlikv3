@@ -82,11 +82,11 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                 <?php if ($_SESSION['type_custom_price'] == '-1') { ?>
                                     <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-info" id="btnNewCustomPercentage">Configurar Lista De Precios</button>
+                                        <button class="btn btn-warning" id="btnNewCustomPercentage">Configurar Lista De Precios</button>
                                     </div>
                                 <?php } ?>
                                 <div class="col-xs-2 mr-2">
-                                    <button class="btn btn-warning" id="btnNewImportCustom">Importar</button>
+                                    <button class="btn btn-info" id="btnNewImportCustom" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Lista de Precios Personalizados"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                 </div>
                                 <div class="col-xs-2 mr-2">
                                     <button class="btn btn-success" id="btnExportCustomPrice" data-toggle="tooltip" title="Exportar" style="height: 39px"><i class="fas fa-file-excel fa-lg"></i></button>
