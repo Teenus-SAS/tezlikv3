@@ -22,13 +22,20 @@ class PriceCustomDao
 
         try {
             if ($dataPrice['typePrice'] == 0)
-                $stmt = $connection->prepare("SELECT (sale_price * (1 + (:percentage / 100))) AS custom_price 
+                $stmt = $connection->prepare("SELECT (sale_price / (1 - (:percentage / 100))) AS custom_price 
                                           FROM products_costs 
                                           WHERE id_product = :id_product");
             else
-                $stmt = $connection->prepare("SELECT (price * (1 + (:percentage / 100))) AS custom_price 
+                $stmt = $connection->prepare("SELECT (price / (1 - (:percentage / 100))) AS custom_price 
                                           FROM products_costs 
                                           WHERE id_product = :id_product");
+            //     $stmt = $connection->prepare("SELECT (sale_price * (1 + (:percentage / 100))) AS custom_price 
+            //                               FROM products_costs 
+            //                               WHERE id_product = :id_product");
+            // else
+            //     $stmt = $connection->prepare("SELECT (price * (1 + (:percentage / 100))) AS custom_price 
+            //                               FROM products_costs 
+            //                               WHERE id_product = :id_product");
             $stmt->execute([
                 'id_product' => $id_product,
                 'percentage' => $dataPrice['percentage']

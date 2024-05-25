@@ -226,6 +226,8 @@ $(document).ready(function () {
       averageExpense = average * total_expense;
       assignableExpense = averageExpense / data[i].units_sold;
 
+      isNaN(assignableExpense) ? assignableExpense = 0 : assignableExpense;
+
       data[i].assignable_expense = assignableExpense;
 
       if (flag_expense_distribution == 2) {

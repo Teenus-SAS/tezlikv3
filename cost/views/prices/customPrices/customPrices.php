@@ -183,7 +183,10 @@ if (sizeof($_SESSION) == 0)
                                                 <button type="text" class="btn btn-success" id="btnImportCustom">Importar</button>
                                             </div>
                                             <div class="col-xs-2 cardBottons" style="margin-top:7px">
-                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustom">Descarga Formato</button>
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustomPrices">Descarga Formato (Precios)</button>
+                                            </div>
+                                            <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                <button type="text" class="btn btn-info" id="btnDownloadImportsCustomPercentage">Descarga Formato (Porcentaje)</button>
                                             </div>
                                         </div>
                                     </div>

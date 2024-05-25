@@ -119,6 +119,7 @@ $(document).ready(function () {
         console.log('Ocurrio un error. Intente Nuevamente:', error);
       });
   };
+
   /* Mensaje de advertencia */
   checkCustom = (data, type) => {
     $.ajax({
@@ -197,41 +198,87 @@ $(document).ready(function () {
     });
   };
 
-  /* Descargar formato */
-  $('#btnDownloadImportsCustom').click(function (e) {
+  /* Descargar formato (Precios)*/
+  $('#btnDownloadImportsCustomPrices').click(function (e) {
     e.preventDefault();
 
     // URLs de los archivos a descargar
-    let url1 = 'assets/formatsXlsx/Precios_Personalizados.xlsx';
-    let url2 = 'assets/formatsXlsx/Porcentaje_Personalizados.xlsx';
+    let url = 'assets/formatsXlsx/Precios_Personalizados.xlsx';
 
     // Función para descargar un archivo dado su URL
-    function descargarArchivo(url) {
-      return new Promise((resolve, reject) => {
-        let link = document.createElement('a');
-        link.href = url;
-        link.target = '_blank';
-        link.download = '';
+    let link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.download = '';
     
-        link.addEventListener('click', () => {
-          setTimeout(() => {
-            document.body.removeChild(link);
-            resolve();
-          }, 100); // Espera breve antes de eliminar el enlace
-        });
+    link.addEventListener('click', () => {
+      setTimeout(() => {
+        document.body.removeChild(link);
+        resolve();
+      }, 100); // Espera breve antes de eliminar el enlace
+    });
 
-        document.body.appendChild(link);
-        link.click();
-      });
-    }
-
-    // Descargar ambos archivos simultáneamente
-    Promise.all([descargarArchivo(url1), descargarArchivo(url2)])
-      .then(() => {
-        // console.log('Descarga completada.');
-      })
-      .catch((error) => {
-        console.error('Error al descargar los archivos:', error);
-      });
+    document.body.appendChild(link);
+    link.click();
   });
+
+  /* Descargar formato (Porcentaje)*/
+  $('#btnDownloadImportsCustomPercentage').click(function (e) {
+    e.preventDefault();
+
+    // URLs de los archivos a descargar 
+    let url = 'assets/formatsXlsx/Porcentaje_Personalizados.xlsx';
+
+    // Función para descargar un archivo dado su URL 
+    let link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    link.download = '';
+    
+    link.addEventListener('click', () => {
+      setTimeout(() => {
+        document.body.removeChild(link);
+        resolve();
+      }, 100); // Espera breve antes de eliminar el enlace
+    });
+
+    document.body.appendChild(link);
+    link.click();
+  });
+  // $('#btnDownloadImportsCustom').click(function (e) {
+  //   e.preventDefault();
+
+  //   // URLs de los archivos a descargar
+  //   let url1 = 'assets/formatsXlsx/Precios_Personalizados.xlsx';
+  //   let url2 = 'assets/formatsXlsx/Porcentaje_Personalizados.xlsx';
+
+  //   // Función para descargar un archivo dado su URL
+  //   function descargarArchivo(url) {
+  //     return new Promise((resolve, reject) => {
+  //       let link = document.createElement('a');
+  //       link.href = url;
+  //       link.target = '_blank';
+  //       link.download = '';
+    
+  //       link.addEventListener('click', () => {
+  //         setTimeout(() => {
+  //           document.body.removeChild(link);
+  //           resolve();
+  //         }, 100); // Espera breve antes de eliminar el enlace
+  //       });
+
+  //       document.body.appendChild(link);
+  //       link.click();
+  //     });
+  //   }
+
+  //   // Descargar ambos archivos simultáneamente
+  //   Promise.all([descargarArchivo(url1), descargarArchivo(url2)])
+  //     .then(() => {
+  //       // console.log('Descarga completada.');
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error al descargar los archivos:', error);
+  //     });
+  // });
 });
