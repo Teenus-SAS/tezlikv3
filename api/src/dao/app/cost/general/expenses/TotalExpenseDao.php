@@ -33,10 +33,23 @@ class TotalExpenseDao
 
     public function calcTotalExpenseByCompany($id_company)
     {
-
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
                                       FROM expenses WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $totalExpense = $stmt->fetch($connection::FETCH_ASSOC);
+        $this->logger->notice("expenses", array('expenses' => $totalExpense));
+        return $totalExpense;
+    }
+
+    public function calcTotalExpenseAnualByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT IFNULL(SUM(expense_value), 0) AS expenses_value 
+                                      FROM expenses_anual WHERE id_company = :id_company");
         $stmt->execute(['id_company' => $id_company]);
 
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

@@ -31,6 +31,7 @@ $(document).ready(function () {
       $(".cardProductsMaterials").hide();
       $(".cardAddMaterials").hide();
       $(".cardImportProductsMaterials").hide();
+      $(".cardImportProductsProcess").hide();
       $(".cardAddNewProduct").hide();
       $(".cardAddService").hide();
       $(".cardImportExternalServices").hide();

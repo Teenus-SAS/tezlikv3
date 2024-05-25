@@ -31,6 +31,21 @@ class ParticipationExpenseDao
         $sumExpenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
         return $sumExpenseCount;
     }
+    // Suma total por numero de cuenta Anual
+    public function sumTotalExpenseAnualByNumberCount($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT LEFT(IFNULL(p.number_count, 0), 2) AS number_count, SUM(ex.expense_value) AS total_expense_value
+                                          FROM expenses_anual ex
+                                          INNER JOIN puc p ON p.id_puc = ex.id_puc
+                                          WHERE ex.id_company = :id_company
+                                          GROUP BY LEFT(p.number_count, 2)
+                                          ORDER BY LEFT(p.number_count, 2) ASC");
+        $stmt->execute(['id_company' => $id_company]);
+        $sumExpenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $sumExpenseCount;
+    }
 
     // Suma total por numero de cuenta unidades de produccion
     public function sumTotalExpenseByNumberCountCP($id_company)
@@ -64,6 +79,21 @@ class ParticipationExpenseDao
         return $expenseCount;
     }
 
+    // Obtener todos los gastos Anual
+    public function findAllExpensesAnualByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT ex.id_expense_anual, p.number_count, ex.expense_value
+                                      FROM expenses_anual ex
+                                        INNER JOIN puc p ON p.id_puc = ex.id_puc
+                                      WHERE ex.id_company = :id_company
+                                      ORDER BY `p`.`number_count` ASC");
+        $stmt->execute(['id_company' => $id_company]);
+        $expenseCount = $stmt->fetchAll($connection::FETCH_ASSOC);
+        return $expenseCount;
+    }
+
     // Obtener todos los gastos unidades produccion
     public function findAllExpensesByCompanyCP($id_company)
     {
@@ -80,7 +110,7 @@ class ParticipationExpenseDao
         return $expenseCount;
     }
 
-    public function calcParticipationExpense($sumExpenseCount, $expenseCount)
+    public function calcParticipationExpense($sumExpenseCount, $expenseCount, $op)
     {
         $connection = Connection::getInstance()->getConnection();
         try {
@@ -108,10 +138,14 @@ class ParticipationExpenseDao
                 $expenseCount[$i]['participation'] = ($expenseCount[$i]['expense_value'] / $totalExpenseCount) * 100;
 
                 // Modificar
-                if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
-                    $this->updateParticipationExpenseCP($expenseCount[$i]);
-                else
-                    $this->updateParticipationExpense($expenseCount[$i]);
+                if ($op == 2)
+                    $this->updateParticipationExpenseAnual($expenseCount[$i]);
+                else {
+                    if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1)
+                        $this->updateParticipationExpenseCP($expenseCount[$i]);
+                    else
+                        $this->updateParticipationExpense($expenseCount[$i]);
+                }
             }
         } catch (\Exception $e) {
             $message = $e->getMessage();
@@ -128,6 +162,22 @@ class ParticipationExpenseDao
             $stmt->execute([
                 'participation' => $dataExpense['participation'],
                 'id_expense' => $dataExpense['id_expense']
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function updateParticipationExpenseAnual($dataExpense)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        try {
+            $stmt = $connection->prepare("UPDATE expenses_anual SET participation = :participation WHERE id_expense_anual = :id_expense_anual");
+            $stmt->execute([
+                'participation' => $dataExpense['participation'],
+                'id_expense_anual' => $dataExpense['id_expense_anual']
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage();

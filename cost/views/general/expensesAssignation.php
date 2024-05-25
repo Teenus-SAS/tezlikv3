@@ -74,7 +74,7 @@ if (sizeof($_SESSION) == 0)
                             $_SESSION['expense'] == 1 || ($_SESSION['cost_multiproduct'] == 1 &&
                                 $_SESSION['plan_cost_multiproduct'] == 1)
                         ) { ?>
-                            <div class="tab-pane cardExpenses">
+                            <div class="tab-pane cardsGeneral cardExpenses">
                                 <div class="row align-items-center">
                                     <div class="col-sm-5 col-xl-6">
                                         <div class="page-title">
@@ -101,13 +101,41 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                         <?php } ?>
+                        <?php if ($_SESSION['anual_expense'] == 1) { ?>
+                            <div class="tab-pane cardsGeneral cardExpensesAnual" style="display: none;">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-5 col-xl-6">
+                                        <div class="page-title">
+                                            <h3 class="mb-1 font-weight-bold text-dark"><i class="bi bi-currency-dollar mr-1"></i>Gastos Generales (Anuales)</h3>
+                                            <ol class="breadcrumb mb-3 mb-md-0">
+                                                <li class="breadcrumb-item active">Ingrese todos los gastos de su empresa de acuerdo con su contabilidad</li>
+                                            </ol>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
+                                        <div class="col-xs-2 mr-2">
+                                            <button class="btn btn-warning" id="btnNewExpenseAnual">Nuevo Gasto</button>
+                                        </div>
+                                        <div class="col-xs-2 py-2 mr-2">
+                                            <button class="btn btn-info" id="btnImportNewAssExpensesAnual" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                        </div>
+                                        <!-- if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                        <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
+                                            <label>Und Produccion</label>
+                                            <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses1"></select>
+                                        </div>
+                                    } -->
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                             <?php if (
                                 $_SESSION['expense_distribution'] == 1 && $_SESSION['expense'] == 1
                                 || ($_SESSION['cost_multiproduct'] == 1 &&
                                     $_SESSION['plan_cost_multiproduct'] == 1)
                             ) { ?>
-                                <div class="tab-pane cardExpenseDistribution" style="display: none;">
+                                <div class="tab-pane cardsGeneral cardExpenseDistribution" style="display: none;">
                                 <?php } else { ?>
                                     <div class="tab-pane cardExpenseDistribution">
                                     <?php } ?>
@@ -152,7 +180,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 <?php } ?>
                                 <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                                    <div class="tab-pane cardProductionCenter" style="display: none;">
+                                    <div class="tab-pane cardsGeneral cardProductionCenter" style="display: none;">
                                         <div class="row align-items-center">
                                             <div class="col-sm-5 col-xl-6">
                                                 <div class="page-title">
@@ -173,7 +201,36 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                     </div>
                                 <?php } ?>
+                                <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                    <div class="tab-pane cardsGeneral cardExpenseDistributionAnual" style="display: none;">
+                                        <div class="row align-items-center">
+                                            <div class="col-sm-4 col-xl-4">
+                                                <div class="page-title">
+                                                    <h3 class="mb-1 font-weight-bold text-dark">Gastos Generales (Anuales)</h3>
+                                                    <ol class="breadcrumb mb-3 mb-md-0">
+                                                        <li class="breadcrumb-item active mt-2">Distribución de gastos anuales</li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-8 col-xl-8 form-inline justify-content-sm-end">
+                                                <div class="col-xs-2 mr-2 cardBtnExpensesDistributionAnual">
+                                                    <button class="btn btn-warning" id="btnExpensesDistributionAnual">Distribuir Gastos</button>
+                                                </div>
+                                                <div class="col-xs-2 py-2 mr-2 cardBtnImportExpensesAnual">
+                                                    <button class="btn btn-info" id="btnImportNewExpensesAnual" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-download" style="font-size: 20px;"></i></button>
+                                                </div>
+                                                <!-- if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
+                                                    <label>Und Produccion</label>
+                                                    <select class="form-control selectProductionCenter" id="selectProductionCenterED1"></select>
+                                                </div>
+                                            } -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                                 </div>
+
                     </div>
 
                     <!-- Asignacion -->
@@ -182,7 +239,7 @@ if (sizeof($_SESSION) == 0)
                         ($_SESSION['cost_multiproduct'] == 1 &&
                             $_SESSION['plan_cost_multiproduct'] == 1)
                     ) { ?>
-                        <div class="page-content-wrapper mt--45 mb-5 cardCreateExpenses">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardCreateExpenses">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -202,7 +259,7 @@ if (sizeof($_SESSION) == 0)
                                                                 <div class="col-sm-6 floating-label enable-floating-label show-label">
                                                                 <?php } ?>
                                                                 <label>Cuenta</label>
-                                                                <select class="form-control" name="idPuc" id="idPuc"></select>
+                                                                <select class="form-control idPuc" name="idPuc" id="idPuc"></select>
                                                                 </div>
                                                                 <div class="col-xs-2 floating-label enable-floating-label show-label">
                                                                     <label>Valor</label>
@@ -220,7 +277,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <div class="page-content-wrapper mt--45 mb-5 cardImportExpensesAssignation">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpensesAssignation">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -247,9 +304,78 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
                     <?php } ?>
+
+                    <!-- Asignacion anual -->
+                    <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardCreateExpensesAnual" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formCreateExpensesAnual">
+                                                    <div class="form-row">
+                                                        <!-- if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                        <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                            <label>Und Produccion</label>
+                                                            <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses"></select>
+                                                        </div>
+                                                     } ?>
+                                                     if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                        <div class="col-sm-4 floating-label enable-floating-label show-label">
+                                                     } else { ?> -->
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label">
+                                                            <!-- } ?> -->
+                                                            <label>Cuenta</label>
+                                                            <select class="form-control idPuc" name="idPuc" id="idPucAnual"></select>
+                                                        </div>
+                                                        <div class="col-xs-2 floating-label enable-floating-label show-label">
+                                                            <label>Valor</label>
+                                                            <input type="number" class="form-control text-center" id="expenseValueAnual" name="expenseValue">
+                                                        </div>
+                                                        <div class="col-xs-2 mt-1">
+                                                            <button class="btn btn-primary" id="btnCreateExpenseAnual">Crear Gasto</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpensesAssignationAnual" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form id="formImportExpesesAssignationAnual" enctype="multipart/form-data">
+                                            <div class="card">
+                                                <div class="card-body pt-3">
+                                                    <div class="form-row" id="formExpensesAnual">
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                            <input class="form-control" type="file" id="fileExpensesAssignationAnual" accept=".xls,.xlsx">
+                                                            <label for="formFile" class="form-label">Importar Asignacion de Gastos</label>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-success" id="btnImportExpensesAssignationAnual">Importar</button>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesAssignationAnual">Descarga Formato</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+
                     <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                         <!-- Distribucion -->
-                        <div class="page-content-wrapper mt--45 mb-5 cardAddNewFamily" style="display: none;">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardAddNewFamily" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -273,7 +399,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <div class="page-content-wrapper mt--45 mb-5 cardAddProductFamily" style="display: none;">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardAddProductFamily" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -305,7 +431,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistribution">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -327,7 +453,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
 
                         <!-- Distribuir Gastos -->
-                        <div class="page-content-wrapper mt--45 mb-5 cardExpensesDistribution">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistribution">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -374,7 +500,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
 
                         <!-- Nuevos Productos -->
-                        <div class="page-content-wrapper mt--45 mb-5 cardNewProduct">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardNewProduct">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -415,7 +541,7 @@ if (sizeof($_SESSION) == 0)
                         </div>
 
                         <!-- Recuperar Gastos -->
-                        <div class="page-content-wrapper mt--45 mb-5 cardExpenseRecover">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpenseRecover">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -447,7 +573,7 @@ if (sizeof($_SESSION) == 0)
                             </div>
                         </div>
 
-                        <div class="page-content-wrapper mt--45 mb-5 cardImportExpenses">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpenses">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -475,8 +601,104 @@ if (sizeof($_SESSION) == 0)
                         </div>
                     <?php } ?>
 
+                    <!-- Distribucion de Gastos Anual -->
+                    <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistributionAnual" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="form-row">
+                                                    <div class="col-sm-3">
+                                                        <label>Gastos a distribuir</label>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control text-center" id="expensesToDistributionAnual" name="assignableExpense" style="width: 200px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Distribuir Gastos -->
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardExpensesDistributionAnual" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form id="formExpensesDistributionAnual">
+                                                    <div class="form-row">
+                                                        <!-- if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
+                                                        <div class="col-sm-3 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <label>Und Produccion</label>
+                                                            <select class="form-control selectProductionCenter" id="selectProductionCenterED"></select>
+                                                        </div>
+                                                     } ?> -->
+                                                        <div class="col-sm-2 distribution floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control refProduct" name="refProduct" id="EDARefProduct"></select>
+                                                            <label for="EDARefProduct">Referencia</label>
+                                                        </div>
+                                                        <div class="col-sm-5 distribution input-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <select class="form-control selectNameProduct" name="selectNameProduct" id="EDANameProduct"></select>
+                                                            <label for="EDANameProduct">Nombre Producto</label>
+                                                        </div>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
+                                                            <input type="number" class="form-control text-center" id="undAVendidas" name="unitsSold">
+                                                            <label for="undVendidas">Und Vendidas (Anual)</label>
+                                                        </div>
+                                                        <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
+                                                            <input type="number" class="form-control text-center" id="volAVendidas" name="turnover">
+                                                            <label for="volVendidas">Total Ventas (Anual)</label>
+                                                        </div>
+                                                        <div class="col-xs-2" style="margin-top:12px">
+                                                            <button class="btn btn-primary" id="btnAssignExpensesAnual">Asignar</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Importar -->
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardImportExpensesAnual" style="display: none;">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form id="formImportExpensesAnual" enctype="multipart/form-data">
+                                            <div class="card">
+                                                <div class="card-body pt-3">
+                                                    <div class="form-row" id="formExpensesDA">
+                                                        <div class="col-sm-6 floating-label enable-floating-label show-label drag-area" style="margin-bottom:10px!important">
+                                                            <input class="form-control" type="file" id="fileExpensesA" accept=".xls,.xlsx">
+                                                            <label for="formFile" id="lblImportExpenseA" class="form-label">Importar Distribución de Gasto</label>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-success" id="btnImportExpensesA">Importar</button>
+                                                        </div>
+                                                        <div class="col-xs-2 cardBottons" style="margin-top:7px">
+                                                            <button type="text" class="btn btn-info" id="btnDownloadImportsExpensesA">Descarga Formato</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+
+                    <!-- Unidad de Produccion -->
                     <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                        <div class="page-content-wrapper mt--45 mb-5 cardAddNewProductionCenter" style="display: none;">
+                        <div class="page-content-wrapper mt--45 mb-5 cardsGeneral cardAddNewProductionCenter" style="display: none;">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-12">
@@ -518,6 +740,13 @@ if (sizeof($_SESSION) == 0)
                                                 </a>
                                             </li>
                                         <?php } ?>
+                                        <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                            <li class="nav-item">
+                                                <a class="nav-link selectNavigation" id="sExpensesA" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                    <i class="fas fa-flask mr-1"></i>Asignación (Anual)
+                                                </a>
+                                            </li>
+                                        <?php } ?>
                                         <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                                             <li class="nav-item">
                                                 <?php if (
@@ -538,9 +767,16 @@ if (sizeof($_SESSION) == 0)
                                                         </a>
                                             </li>
                                         <?php } ?>
+                                        <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                            <li class="nav-item">
+                                                <a class="nav-link selectNavigation" id="sDistributionA" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                    <i class="fas fa-flask mr-1"></i>Distribución (Anual)
+                                                </a>
+                                            </li>
+                                        <?php } ?>
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                             <li class="nav-item">
-                                                <a class="nav-link selectNavigation" id="navProductionCenter" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                <a class="nav-link selectNavigation" id="sProductionCenter" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
                                                     <i class="fas fa-flask mr-1"></i>Unidades Produccion
                                                 </a>
                                             </li>
@@ -556,10 +792,30 @@ if (sizeof($_SESSION) == 0)
                                             ($_SESSION['cost_multiproduct'] == 1 &&
                                                 $_SESSION['plan_cost_multiproduct'] == 1)
                                         ) { ?>
-                                            <div class="tab-pane cardExpenses">
+                                            <div class="tab-pane cardsGeneral cardExpenses">
                                                 <div class="card-body">
                                                     <div class="table-responsive">
                                                         <table class="table table-striped" id="tblAssExpenses">
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                    <th class="classRight">Total:</th>
+                                                                    <th></th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
+                                        <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                            <div class="tab-pane cardsGeneral cardExpensesAnual" style="display: none;">
+                                                <div class="card-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped" id="tblAssExpensesAnual">
                                                             <tfoot>
                                                                 <tr>
                                                                     <th></th>
@@ -581,9 +837,9 @@ if (sizeof($_SESSION) == 0)
                                                 || ($_SESSION['cost_multiproduct'] == 1 &&
                                                     $_SESSION['plan_cost_multiproduct'] == 1)
                                             ) { ?>
-                                                <div class="row cardExpenseDistribution" style="display: none;">
+                                                <div class="row cardsGeneral cardExpenseDistribution" style="display: none;">
                                                 <?php } else { ?>
-                                                    <div class="row cardExpenseDistribution">
+                                                    <div class="row cardsGeneral cardExpenseDistribution">
                                                     <?php } ?>
                                                     <div class="col-12 cardTblMultiproducts" style="display: none;">
                                                         <div class="card">
@@ -656,8 +912,30 @@ if (sizeof($_SESSION) == 0)
                                                     </div>
                                                     </div>
                                                 <?php } ?>
+                                                <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                                    <div class="tab-pane cardsGeneral cardExpenseDistributionAnual" style="display: none;">
+                                                        <div class="card-body">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-striped" id="tblExpensesDistributionAnual">
+                                                                    <tfoot>
+                                                                        <tr>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th>Total:</th>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </tfoot>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <?php } ?>
                                                 <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
-                                                    <div class="tab-pane cardProductionCenter" style="display: none;">
+                                                    <div class="tab-pane cardsGeneral cardProductionCenter" style="display: none;">
                                                         <div class="card-body">
                                                             <div class="table-responsive">
                                                                 <table class="table table-striped" id="tblPCenter">
@@ -708,6 +986,11 @@ if (sizeof($_SESSION) == 0)
                 <script src="/cost/js/general/puc/configPuc.js"></script>
                 <script src="/cost/js/general/expenses/importExpense.js"></script>
             <?php } ?>
+            <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                <script src="/cost/js/general/expensesAnual/expense.js"></script>
+                <script src="/cost/js/general/expensesAnual/tblExpenses.js"></script>
+                <script src="/cost/js/general/expensesAnual/importExpense.js"></script>
+            <?php } ?>
             <?php if ($_SESSION['expense_distribution'] == 1) { ?>
                 <script src="/cost/js/general/expensesDistribution/tblExpensesDistribution.js"></script>
                 <script src="/cost/js/general/expenseRecover/tblExpenseRecover.js"></script>
@@ -738,6 +1021,13 @@ if (sizeof($_SESSION) == 0)
                 <script src="/cost/js/general/productionCenter/productionCenter.js"></script>
                 <script src="/cost/js/general/productionCenter/tblProductionCenter.js"></script>
                 <script src="/cost/js/general/productionCenter/configProductionCenter.js"></script>
+            <?php } ?>
+            <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                <script src="/cost/js/general/expensesDistributionAnual/tblExpensesDistribution.js"></script>
+                <script src="/cost/js/general/expensesDistributionAnual/configExpensesDistribution.js"></script>
+                <script src="/cost/js/general/expensesDistributionAnual/expensesDistribution.js"></script>
+                <script src="/cost/js/general/expensesDistributionAnual/importExpensesDistribution.js"></script>
+                <script src="/cost/js/general/expensesDistributionAnual/configProducts.js"></script>
             <?php } ?>
 </body>
 

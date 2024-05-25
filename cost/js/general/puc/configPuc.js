@@ -2,7 +2,7 @@ $(document).ready(function () {
   $.ajax({
     url: '/api/puc',
     success: function (r) {
-      let $select1 = $(`#idPuc`);
+      let $select1 = $(`.idPuc`);
       $select1.empty();
 
       $select1.append(`<option disabled selected>Seleccionar</option>`);

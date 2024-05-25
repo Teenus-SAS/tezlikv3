@@ -169,6 +169,14 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
+          permissions.push({
+            name: "Gastos Anuales",
+            icon: data.flag_expense_anual == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
           let output =
             '<div class="stacked-column text-left" style="width:190px">';
           for (const permission of permissions) {
