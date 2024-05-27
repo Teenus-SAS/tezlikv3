@@ -79,6 +79,16 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                             </div>
                             <div class="col-sm-4 col-xl-6 form-inline justify-content-sm-end">
+                                <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                    <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
+                                        <select class="form-control" id="selectTypeExpense">
+                                            <option disabled selected>Seleccionar</option>
+                                            <option value="1">Mensual</option>
+                                            <option value="2">Anual</option>
+                                        </select>
+                                        <label for="selectTypeExpense">Tipo Gasto</label>
+                                    </div>
+                                <?php } ?>
                                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
                                     <input type="number" class="form-control text-center" id="profitability">
                                     <label for="profitability">Rentabilidad</label>
@@ -101,7 +111,7 @@ if (sizeof($_SESSION) == 0)
                                                                                                                                                                                             echo  $coverage ?>" readonly>
                                     </div>
                                 <?php } ?>
-                            </div> -->
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -143,7 +153,9 @@ if (sizeof($_SESSION) == 0)
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
-        coverage = "<?= $_SESSION['coverage'] ?>";
+        // coverage = "<?= $_SESSION['coverage_usd'] ?>";
+        anual_expense = "<?= $_SESSION['anual_expense'] ?>";
+        flag_expense_anual = "<?= $_SESSION['flag_expense_anual'] ?>";
 
         // $(document).ready(function() {
 

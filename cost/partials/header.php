@@ -142,7 +142,7 @@
                                                                     || $_SESSION['plan_cost_multiproduct'] == 1
                                                                     || ($_SESSION['production_center'] == 1
                                                                         && $_SESSION['flag_production_center'] == 1)
-                                                                    || ($_SESSION['flag_expense_anual'] == 1
+                                                                    || ($_SESSION['anual_expense'] == 1
                                                                         && $_SESSION['flag_expense_anual'] == 1)
                                                                 ) { ?>
                                                                     <li class="aExpenses">

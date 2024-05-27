@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    loadAllData = async () => {
+    const loadAllData = async () => {
         const [dataProducts, dataEconomyScale] = await Promise.all([
             searchData('/api/saleObjectives'),
             searchData('/api/calcEconomyScale')
@@ -26,7 +26,7 @@ $(document).ready(function () {
 
     /* Cargue tabla de Proyectos */
 
-    loadTblProducts = (data) => {
+    const loadTblProducts = (data) => {
         if ($.fn.dataTable.isDataTable("#tblProducts")) {
             var table = $("#tblProducts").DataTable();
             var pageInfo = table.page.info(); // Guardar información de la página actual

@@ -2,6 +2,40 @@ $(document).ready(function () {
     let unit = 1;
     let cant = 1; 
 
+    // Seleccionar tipo de gasto
+    let typeExpense = '1';
+
+    if (anual_expense == '1' && flag_expense_anual == '1') 
+        typeExpense = sessionStorage.getItem('selectTypeExpense');
+    
+    if(typeExpense)
+        $('#selectTypeExpense').val(typeExpense);
+
+    $('#selectTypeExpense').change(function (e) { 
+        e.preventDefault();
+
+        let type = this.value;
+        sessionStorage.setItem('selectTypeExpense', type);
+
+        let profitability = $('#profitability').val();
+
+        if (profitability) {
+            let form = document.getElementById('spinnerLoading');
+            $('#spinnerLoading').empty();
+
+            form.insertAdjacentHTML(
+                'beforeend',
+                `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
+                <div class="spinner-border text-secondary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>`
+            );
+
+            generalCalc(parseFloat(profitability));
+        }
+    });
+
     // Cuando se ingrese rentabilidad general
     $(document).on('blur', '#profitability', function () {
         if (this.value == '' || !this.value) {
@@ -28,10 +62,16 @@ $(document).ready(function () {
     });
 
     // Calculo general economia de escala para obtener unidades
-    /* */ generalCalc = async (profitability) => {
+    /* */ const generalCalc = async (profitability) => {
         try { 
             let dataProducts = JSON.parse(sessionStorage.getItem('dataProducts'));
             let allEconomyScale = JSON.parse(sessionStorage.getItem('allEconomyScale'));
+
+            let typeExpense = '1';
+
+            if(anual_expense == '1' && flag_expense_anual == '1')
+                typeExpense = sessionStorage.getItem('selectTypeExpense');
+
             unit = 1;
             cant = 1;
 
@@ -42,17 +82,23 @@ $(document).ready(function () {
 
                 let totalVariableCost = economyScale.variableCost * unit;
 
+                let costFixed = economyScale.costFixed;
+                let real_price = parseFloat(arr.real_price);
+
+                typeExpense == '2' ? costFixed = economyScale.costFixedAnual : costFixed;
+                typeExpense == '2' ? real_price = parseFloat(arr.real_price_anual) : costFixed;
+
                 /* Total Costos y Gastos */
-                let totalCostsAndExpense = economyScale.costFixed + totalVariableCost;
+                let totalCostsAndExpense = costFixed + totalVariableCost;
  
                 /* Calculo Total Ingresos */
-                let totalRevenue = unit * arr.real_price;
+                let totalRevenue = unit * real_price;
 
                 /* Calculo Costo x Unidad */
                 let unityCost = parseFloat(totalCostsAndExpense) / unit;
 
                 /* Calculo Utilidad x Unidad */
-                let unitUtility = arr.real_price - unityCost;
+                let unitUtility = real_price - unityCost;
 
                 /* Calculo Utilidad Neta */
                 let netUtility = unitUtility * unit;
@@ -65,7 +111,7 @@ $(document).ready(function () {
                 
                 percentage > 0 ? cant += 2 : cant = 1;
 
-                let division = Math.ceil((totalCostsAndExpense / arr.real_price) + cant);
+                let division = Math.ceil((totalCostsAndExpense / real_price) + cant);
 
                 if (division > 10000000) {
                     toastr.error(`Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes, referencia: ${arr.reference}`);
@@ -122,23 +168,22 @@ $(document).ready(function () {
             }
  
             sessionStorage.setItem('dataProducts', JSON.stringify(dataProducts));
-            saveSaleObjectives(dataProducts);
-
-            $('.cardLoading').remove();
-            $('.cardBottons').show(400);
+            saveSaleObjectives(dataProducts); 
         } catch (error) {
             console.log(error);
         }
     };
 
     // Guardar datos objetivos de ventas
-    saveSaleObjectives = (data) => {
+    const saveSaleObjectives = (data) => {
         $.ajax({
             type: "POST",
             url: "/api/saveSaleObjectives",
             data: { products: data },
             success: function (resp) {
                 // console.log(resp);
+                $('.cardLoading').remove();
+                $('.cardBottons').show(400);
             }
         });
     };
