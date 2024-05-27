@@ -18,24 +18,24 @@ $(document).ready(function () {
     });
   });
 
-  loadAllDataDistribution = async () => {
+  loadAllDataDistributionA = async () => {
     try {
-      const dataExpensesDistribution = await searchData('/api/expensesDistribution');
+      const dataExpensesDistribution = await searchData('/api/expensesDistributionAnual');
 
-      sessionStorage.setItem('dataExpensesDistribution', JSON.stringify(dataExpensesDistribution)); 
+      sessionStorage.setItem('dataExpensesDistributionA', JSON.stringify(dataExpensesDistribution)); 
 
-      loadTableExpensesDistribution(dataExpensesDistribution);
+      loadTableExpensesDistributionA(dataExpensesDistribution);
     } catch (error) {
       console.error('Error loading data:', error);
     }
   }
 
   /* Cargue tabla de Gastos distribuidos */
-  loadTableExpensesDistribution = (data) => { 
-    if ($.fn.DataTable.isDataTable('#tblExpenses')) {
-      tblExpensesDistribution.DataTable().clear().rows.add(data).draw();
+  const loadTableExpensesDistributionA = (data) => { 
+    if ($.fn.DataTable.isDataTable('#tblExpensesDistributionAnual')) {
+      tblExpensesDistributionAnual.DataTable().clear().rows.add(data).draw();
     } else {
-      tblExpensesDistribution = $('#tblExpenses').dataTable({
+      tblExpensesDistributionAnual = $('#tblExpensesDistributionAnual').dataTable({
         destroy: true,
         pageLength: 50,
         data: data,
@@ -131,12 +131,12 @@ $(document).ready(function () {
           },
           {
             title: 'Acciones',
-            data: 'id_expenses_distribution',
+            data: 'id_expense_distribution_anual',
             className: 'uniqueClassName',
             render: function (data) {
               return `
-            <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateExpenseDistribution" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
-            <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteExpenseDistribution(${data})"></i></a>`;
+            <a href="javascript:;" <i id="${data}" class="bx bx-edit-alt updateExpenseDistributionAnual" data-toggle='tooltip' title='Actualizar Gasto' style="font-size: 30px;"></i></a>    
+            <a href="javascript:;" <i id="${data}" class="mdi mdi-delete-forever" data-toggle='tooltip' title='Eliminar Gasto' style="font-size: 30px;color:red" onclick="deleteExpenseDistributionA(${data})"></i></a>`;
             },
           },
         ],
@@ -167,5 +167,5 @@ $(document).ready(function () {
     }
   };
 
-  loadAllDataDistribution();
+  loadAllDataDistributionA();
 });

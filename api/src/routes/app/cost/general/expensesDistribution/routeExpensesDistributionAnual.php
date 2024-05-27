@@ -315,7 +315,7 @@ $app->post('/addExpensesDistributionAnual', function (Request $request, Response
         if (!$findExpenseDistribution)
             $resolution = $expensesDistributionAnualDao->insertExpensesDistributionAnualByCompany($dataExpensesDistribution, $id_company);
         else {
-            $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution_anual'];
+            $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expense_distribution_anual'];
             $resolution = $expensesDistributionAnualDao->updateExpensesDistributionAnual($dataExpensesDistribution, $id_company);
         }
         // }
@@ -347,7 +347,7 @@ $app->post('/addExpensesDistributionAnual', function (Request $request, Response
             if (!$findExpenseDistribution)
                 $resolution = $expensesDistributionAnualDao->insertExpensesDistributionAnualByCompany($expensesDistribution[$i], $id_company);
             else {
-                $expensesDistribution[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution_anual'];
+                $expensesDistribution[$i]['idExpensesDistribution'] = $findExpenseDistribution['id_expense_distribution_anual'];
                 $resolution = $expensesDistributionAnualDao->updateExpensesDistributionAnual($expensesDistribution[$i]);
             }
             if ($resolution != null) break;
@@ -358,16 +358,16 @@ $app->post('/addExpensesDistributionAnual', function (Request $request, Response
             $arrProducts[$i] = $expensesDistribution[$i]['selectNameProduct'];
         }
 
-        if ($expensesDistribution[0]['type'] == '2') {
-            $cProducts = $productsDao->findAllProductsByCompany($id_company);
+        // if ($expensesDistribution[0]['type'] == '2') {
+        //     $cProducts = $productsDao->findAllProductsByCompany($id_company);
 
-            // Consultar si tengo productos que no estan en el importe y inactivarlos
-            foreach ($cProducts as $arr) {
-                if (!in_array($arr['id_product'], $arrProducts)) {
-                    $generalProductsDao->activeOrInactiveProducts($arr['id_product'], 0);
-                }
-            }
-        }
+        //     // Consultar si tengo productos que no estan en el importe y inactivarlos
+        //     foreach ($cProducts as $arr) {
+        //         if (!in_array($arr['id_product'], $arrProducts)) {
+        //             $generalProductsDao->activeOrInactiveProducts($arr['id_product'], 0);
+        //         }
+        //     }
+        // }
 
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Distribución de gasto importada correctamente');
@@ -407,6 +407,7 @@ $app->post('/addExpensesDistributionAnual', function (Request $request, Response
         $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolAnual($id_company);
         // Obtener el total de gastos
         $totalExpense = $totalExpenseDao->calcTotalExpenseAnualByCompany($id_company);
+        $totalExpense['total_expense'] = $totalExpense['expenses_value'];
 
         foreach ($unitVol as $arr) {
             if (isset($resolution['info'])) break;
@@ -609,7 +610,7 @@ $app->post('/updateExpensesDistributionAnual', function (Request $request, Respo
     // } else {
     $findExpenseDistribution = $expensesDistributionAnualDao->findExpenseDistributionAnual($dataExpensesDistribution, $id_company);
 
-    $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expenses_distribution_anual'];
+    $dataExpensesDistribution['idExpensesDistribution'] = $findExpenseDistribution['id_expense_distribution_anual'];
     $expensesDistribution = $expensesDistributionAnualDao->updateExpensesDistributionAnual($dataExpensesDistribution, $id_company);
 
     // if ($expensesDistribution == null) {
@@ -645,6 +646,8 @@ $app->post('/updateExpensesDistributionAnual', function (Request $request, Respo
         $totalUnitVol = $assignableExpenseDao->findTotalUnitsVolAnual($id_company);
         // Obtener el total de gastos
         $totalExpense = $totalExpenseDao->calcTotalExpenseAnualByCompany($id_company);
+        $totalExpense['total_expense'] = $totalExpense['expenses_value'];
+
         //}
 
         foreach ($unitVol as $arr) {
@@ -854,6 +857,8 @@ $app->post('/deleteExpensesDistributionAnual', function (Request $request, Respo
 
         // Obtener el total de gastos 
         $totalExpense = $totalExpenseDao->calcTotalExpenseAnualByCompany($id_company);
+        $totalExpense['total_expense'] = $totalExpense['expenses_value'];
+
         // $totalExpense = $assignableExpenseDao->findTotalExpense($id_company);
 
         foreach ($unitVol as $arr) {

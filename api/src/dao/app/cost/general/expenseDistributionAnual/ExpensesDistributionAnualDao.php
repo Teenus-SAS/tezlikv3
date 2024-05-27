@@ -19,8 +19,8 @@ class ExpensesDistributionAnualDao
     public function findAllExpensesDistributionAnualByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT me.id_expense_distribution_anual, p.id_product, p.reference, p.product, pc.new_product, me.id_production_center,
-                                             me.units_sold, me.turnover, me.assignable_expense, (((me.units_sold / total_units_sold) + (me.turnover / total_turnover)) / 2) * 100 AS participation
+        $stmt = $connection->prepare("SELECT me.id_expense_distribution_anual, p.id_product, p.reference, p.product, me.units_sold, me.turnover, me.assignable_expense, 
+                                             (((me.units_sold / total_units_sold) + (me.turnover / total_turnover)) / 2) * 100 AS participation
                                       FROM expenses_distribution_anual me
                                         INNER JOIN products p ON p.id_product = me.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = me.id_product

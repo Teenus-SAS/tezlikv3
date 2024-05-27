@@ -24,9 +24,9 @@ $(document).ready(function () {
     let idExpense = sessionStorage.getItem('id_expense_anual');
 
     if (idExpense == '' || idExpense == null) {
-      checkDataExpense('/api/addExpensesAnual', idExpense);
+      checkDataExpenseA('/api/addExpensesAnual', idExpense);
     } else {
-      checkDataExpense('/api/updateExpensesAnual', idExpense);
+      checkDataExpenseA('/api/updateExpensesAnual', idExpense);
     }
   });
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
   });
 
   /* Revision data gasto */
-  checkDataExpense = async (url, idExpense) => {
+  const checkDataExpenseA = async (url, idExpense) => {
     let puc = parseInt($('#idPucAnual').val());
     let value = parseFloat($('#expenseValueAnual').val()); 
 

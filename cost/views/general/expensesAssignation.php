@@ -649,11 +649,11 @@ if (sizeof($_SESSION) == 0)
                                                         </div>
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px;margin-top:7px">
                                                             <input type="number" class="form-control text-center" id="undAVendidas" name="unitsSold">
-                                                            <label for="undVendidas">Und Vendidas (Anual)</label>
+                                                            <label for="undAVendidas">Und Vendidas (Anual)</label>
                                                         </div>
                                                         <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px;margin-top:7px">
                                                             <input type="number" class="form-control text-center" id="volAVendidas" name="turnover">
-                                                            <label for="volVendidas">Total Ventas (Anual)</label>
+                                                            <label for="volAVendidas">Total Ventas (Anual)</label>
                                                         </div>
                                                         <div class="col-xs-2" style="margin-top:12px">
                                                             <button class="btn btn-primary" id="btnAssignExpensesAnual">Asignar</button>
@@ -926,7 +926,7 @@ if (sizeof($_SESSION) == 0)
                                                                             <th></th>
                                                                             <th></th>
                                                                             <th></th>
-                                                                            <th></th>
+                                                                            <!-- <th></th> -->
                                                                         </tr>
                                                                     </tfoot>
                                                                 </table>

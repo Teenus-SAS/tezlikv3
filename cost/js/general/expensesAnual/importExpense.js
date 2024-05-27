@@ -92,7 +92,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkExpenseA = (data) => {
+  const checkExpenseA = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/expenseAnualDataValidation',
@@ -133,13 +133,13 @@ $(document).ready(function () {
     });
   };
 
-  saveExpenseA = (data) => {
+  const saveExpenseA = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/addExpensesAnual',
       data: { importExpense: data },
       success: function (r) {
-        messageExpense(r);
+        messageExpenseA(r);
       },
     });
   };
@@ -148,16 +148,22 @@ $(document).ready(function () {
   $('#btnDownloadImportsExpensesAssignationAnual').click(function (e) {
     e.preventDefault();
 
-    let url = 'assets/formatsXlsx/Gastos_Anual.xlsx';
+    let url = 'assets/formatsXlsx/Gastos.xlsx';
+    let newFileName = 'Gastos_Anual.xlsx';
 
-    let link = document.createElement('a');
-    link.target = '_blank';
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = newFileName;
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+        document.body.appendChild(link);
+        link.click();
 
-    document.body.removeChild(link);
-    delete link;
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href); // liberar memoria
+      })
+      .catch(console.error);
   });
 });

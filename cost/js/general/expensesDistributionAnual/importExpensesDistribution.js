@@ -1,72 +1,73 @@
 $(document).ready(function () {
   let selectedFile;
 
-  $(".cardImportExpenses").hide();
+  $(".cardImportExpensesAnual").hide();
 
-  $("#btnImportNewExpenses").click(function (e) {
+  $("#btnImportNewExpensesAnual").click(function (e) {
     e.preventDefault();
-    $(".cardExpensesDistribution").hide(800);
-    $(".cardExpenseRecover").hide(800);
-    $("#lblImprotExpense").html(this.value);
-    $(".cardImportExpenses").toggle(800);
+    $(".cardExpensesDistributionAnual").hide(800);
+    // $(".cardExpenseRecover").hide(800);
+    // $("#lblImprotExpense").html(this.value);
+    $(".cardImportExpensesAnual").toggle(800);
   });
 
-  $("#fileExpenses").change(function (e) {
+  $("#fileExpensesA").change(function (e) {
     e.preventDefault();
     selectedFile = e.target.files[0];
   });
 
-  $("#btnImportExpenses").click(function (e) {
+  $("#btnImportExpensesA").click(function (e) {
     e.preventDefault();
 
-    let expensesToDistribution = $("#expensesToDistribution").val();
+    let expensesToDistributionAnual = $("#expensesToDistributionAnual").val();
 
-    if (expensesToDistribution == "$ 0" || !expensesToDistribution) {
-      $("#fileExpenses").val("");
+    if (expensesToDistributionAnual == "$ 0" || !expensesToDistributionAnual) {
+      $("#fileExpensesA").val("");
       toastr.error("Asigne un gasto primero antes de distribuir");
       return false;
     }
 
-    let file = $("#fileExpenses").val();
+    let file = $("#fileExpensesA").val();
 
     if (!file) {
       toastr.error("Seleccione un archivo");
       return false;
     }
 
-    if (option == 1) {
-      bootbox.dialog({
-        title: 'Importe',
-        message: 'Seleccione tipo de importe que desea realizar.',
-        backdrop: 'static', // Evita que el modal se cierre haciendo clic fuera de él
-        closeButton: false, // Oculta el botón de cierre del modal
-        size: 'small',
-        buttons: {
-          parcial: {
-            label: 'Parcial',
-            className: 'btn-success',
-            callback: function () {
-              sessionStorage.setItem('typeExpenseD', 1);
-              checkImportExpenseD();
-            }
-          },
-          total: {
-            label: 'Total',
-            className: 'btn-danger',
-            callback: function () {
-              sessionStorage.setItem('typeExpenseD', 2);
-              checkImportExpenseD();
-            }
-          }
-        }
-      });
-    } else checkImportExpenseD();
+    // if (option == 1) {
+    // bootbox.dialog({
+    //   title: 'Importe',
+    //   message: 'Seleccione tipo de importe que desea realizar.',
+    //   backdrop: 'static', // Evita que el modal se cierre haciendo clic fuera de él
+    //   closeButton: false, // Oculta el botón de cierre del modal
+    //   size: 'small',
+    //   buttons: {
+    //     parcial: {
+    //       label: 'Parcial',
+    //       className: 'btn-success',
+    //       callback: function () {
+    //         sessionStorage.setItem('typeExpenseD', 1);
+    //         checkImportExpenseD();
+    //       }
+    //     },
+    //     total: {
+    //       label: 'Total',
+    //       className: 'btn-danger',
+    //       callback: function () {
+    //         sessionStorage.setItem('typeExpenseD', 2);
+    //         checkImportExpenseDA();
+    //       }
+    //     }
+    //   }
+    // });
+    // } else checkImportExpenseD();
+    checkImportExpenseDA();
   });
 
-  checkImportExpenseD = () => {
+  const checkImportExpenseDA = () => {
     $(".cardBottons").hide();
 
-    let form = document.getElementById("formExpensesD");
+    let form = document.getElementById("formExpensesDA");
 
     form.insertAdjacentHTML(
       "beforeend",
@@ -82,103 +83,103 @@ $(document).ready(function () {
         if (data.length == 0) {
           $(".cardLoading").remove();
           $(".cardBottons").show(400);
-          $("#fileExpenses").val("");
+          $("#fileExpensesA").val("");
           toastr.error("Archivo vacio. Verifique nuevamente");
           return false;
         }
 
-        if (option == 1) {
-          const expectedHeaders = [
-            "unidades_vendidas",
-            "volumen_ventas",
-            "referencia_producto",
-            "producto",
-            "centro_produccion",
-          ];
-          if (production_center == "0" || flag_production_center == "0")
-            expectedHeaders.splice(4, 1);
+        // if (option == 1) {
+        const expectedHeaders = [
+          "unidades_vendidas",
+          "volumen_ventas",
+          "referencia_producto",
+          "producto",
+          // "centro_produccion",
+        ];
+        // if (production_center == "0" || flag_production_center == "0")
+        //   expectedHeaders.splice(4, 1);
 
-          const actualHeaders = Object.keys(data[0]);
+        const actualHeaders = Object.keys(data[0]);
 
-          const missingHeaders = expectedHeaders.filter(
-            (header) => !actualHeaders.includes(header)
+        const missingHeaders = expectedHeaders.filter(
+          (header) => !actualHeaders.includes(header)
+        );
+
+        if (missingHeaders.length > 0) {
+          $(".cardLoading").remove();
+          $(".cardBottons").show(400);
+          $("#fileExpensesA").val("");
+
+          toastr.error(
+            "Archivo no corresponde a el formato. Verifique nuevamente"
           );
-
-          if (missingHeaders.length > 0) {
-            $(".cardLoading").remove();
-            $(".cardBottons").show(400);
-            $("#fileExpenses").val("");
-
-            toastr.error(
-              "Archivo no corresponde a el formato. Verifique nuevamente"
-            );
-            return false;
-          }
-        } else if (option == 2) {
-          const expectedHeaders = [
-            "referencia_producto",
-            "producto",
-            "porcentaje_recuperado",
-          ];
-          const actualHeaders = Object.keys(data[0]);
-
-          const missingHeaders = expectedHeaders.filter(
-            (header) => !actualHeaders.includes(header)
-          );
-
-          if (missingHeaders.length > 0) {
-            $(".cardLoading").remove();
-            $(".cardBottons").show(400);
-            $("#fileExpenses").val("");
-
-            toastr.error(
-              "Archivo no corresponde a el formato. Verifique nuevamente"
-            );
-            return false;
-          }
+          return false;
         }
+        // } else if (option == 2) {
+        //   const expectedHeaders = [
+        //     "referencia_producto",
+        //     "producto",
+        //     "porcentaje_recuperado",
+        //   ];
+        //   const actualHeaders = Object.keys(data[0]);
 
+        //   const missingHeaders = expectedHeaders.filter(
+        //     (header) => !actualHeaders.includes(header)
+        //   );
+
+        //   if (missingHeaders.length > 0) {
+        //     $(".cardLoading").remove();
+        //     $(".cardBottons").show(400);
+        //     $("#fileExpensesA").val("");
+
+        //     toastr.error(
+        //       "Archivo no corresponde a el formato. Verifique nuevamente"
+        //     );
+        //     return false;
+        //   }
+        // }
+
+        let url = "/api/expenseDistributionAnualDataValidation";
         let expenseToImport = data.map((item) => {
-          if (option == 1) {
-            url = "/api/expenseDistributionDataValidation";
-            let unitsSold = "";
-            let turnover = "";
+          // if (option == 1) {
+          let unitsSold = "";
+          let turnover = "";
 
-            if (item.unidades_vendidas)
-              unitsSold = item.unidades_vendidas.toString().replace(".", ",");
-            else unitsSold = 0;
+          if (item.unidades_vendidas)
+            unitsSold = item.unidades_vendidas.toString().replace(".", ",");
+          else unitsSold = 0;
 
-            if (item.volumen_ventas)
-              turnover = item.volumen_ventas.toString().replace(".", ",");
-            else turnover = 0;
+          if (item.volumen_ventas)
+            turnover = item.volumen_ventas.toString().replace(".", ",");
+          else turnover = 0;
 
-            if (production_center == "1" && flag_production_center == "1")
-              production = item.centro_produccion;
-            else production = 0;
+          // if (production_center == "1" && flag_production_center == "1")
+          //   production = item.centro_produccion;
+          // else production = 0;
 
-            return {
-              referenceProduct: item.referencia_producto,
-              product: item.producto,
-              unitsSold: unitsSold,
-              turnover: turnover,
-              production: production,
-            };
-          } else if (option == 2) {
-            url = "/api/expenseRecoverDataValidation";
-            return {
-              referenceProduct: item.referencia_producto,
-              product: item.producto,
-              percentage: item.porcentaje_recuperado,
-            };
-          }
+          return {
+            referenceProduct: item.referencia_producto,
+            product: item.producto,
+            unitsSold: unitsSold,
+            turnover: turnover,
+            // production: production,
+          };
+          // } else if (option == 2) {
+          //   url = "/api/expenseRecoverDataValidation";
+          //   return {
+          //     referenceProduct: item.referencia_producto,
+          //     product: item.producto,
+          //     percentage: item.porcentaje_recuperado,
+          //   };
+          // }
         });
 
-        if (option == 1) {
-          let type = sessionStorage.getItem("typeExpenseD");
-          expenseToImport[0]["type"] = type;
-        }
+        // if (option == 1) {
+        // let type = sessionStorage.getItem("typeExpenseD");
+        // expenseToImport[0]["type"] = type;
+        // }
 
-        checkExpenseD(expenseToImport, url);
+        checkExpenseDA(expenseToImport, url);
       })
       .catch(() => {
         console.log("Ocurrio un error. Intente Nuevamente");
@@ -186,7 +187,7 @@ $(document).ready(function () {
   };
 
   /* Mensaje de advertencia */
-  checkExpenseD = (data, url) => {
+  const checkExpenseDA = (data, url) => {
     $.ajax({
       type: "POST",
       url: url,
@@ -194,7 +195,7 @@ $(document).ready(function () {
       success: function (resp) {
         if (resp.error == true) {
           toastr.error(resp.message);
-          $("#fileExpenses").val("");
+          $("#fileExpensesA").val("");
           $(".cardLoading").remove();
           $(".cardBottons").show(400);
 
@@ -216,15 +217,15 @@ $(document).ready(function () {
           },
           callback: function (result) {
             if (result == true) {
-              option == 1
-                ? (url = "/api/addExpensesDistribution")
-                : (url = "/api/addExpenseRecover");
+              // option == 1
+              //   ? (url = "/api/addExpensesDistributionAnual")
+              //   : (url = "/api/addExpenseRecover"); 
 
-              saveExpenses(data, url);
+              saveExpensesA(data, '/api/addExpensesDistributionAnual');
             } else {
               $(".cardLoading").remove();
               $(".cardBottons").show(400);
-              $("#fileExpenses").val("");
+              $("#fileExpensesA").val("");
             }
           },
         });
@@ -232,96 +233,37 @@ $(document).ready(function () {
     });
   };
 
-  saveExpenses = (data, url) => {
+  const saveExpensesA = (data, url) => {
     $.ajax({
       type: "POST",
       url: url,
       data: { importExpense: data },
       success: function (r) {
-        messageDistribution(r, 1);
+        messageDistributionA(r, 1);
       },
     });
   };
 
   /* Descargar formato */
-  $("#btnDownloadImportsExpenses").click(async function (e) {
+  $("#btnDownloadImportsExpensesA").click(function (e) {
     e.preventDefault();
-    let wb = XLSX.utils.book_new();
 
-    let data = [];
-    if (flag_expense == "1") {
-      if (flag_expense_distribution == "1") {
-        production_center == "1" && flag_production_center == "1"
-          ? (namexlsx = "distribucion_gastos(CP).xlsx")
-          : (namexlsx = "distribucion_gastos.xlsx");
-        url = "/api/allProductsDistribution";
-        op = 1;
-      } else {
-        namexlsx = "distribucion_gastos_familia.xlsx";
-        url = "/api/expensesDistributionFamilies";
-        op = 2;
-      }
-    } else {
-      namexlsx = "recuperacion_gastos.xlsx";
-      url = "/api/expensesRecover";
-      op = 3;
-    }
-    dataTypeExpense = await searchData(url);
+    let url = 'assets/formatsXlsx/Distribucion_Gastos.xlsx';
+    let newFileName = 'Distribucion_Gastos_Anual.xlsx';
 
-    if (op == 1) {
-      if (dataTypeExpense.length > 0) {
-        for (i = 0; i < dataTypeExpense.length; i++) {
-          if (production_center == "1" && flag_production_center == "1")
-            data.push({
-              referencia_producto: dataTypeExpense[i].reference,
-              producto: dataTypeExpense[i].product,
-              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-              centro_produccion: dataTypeExpense[i].production_center,
-            });
-          else
-            data.push({
-              referencia_producto: dataTypeExpense[i].reference,
-              producto: dataTypeExpense[i].product,
-              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-            });
-        }
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = newFileName;
 
-        let ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "Distribucion Producto");
-      }
-    } else if (op == 2) {
-      if (dataTypeExpense.length > 0) {
-        for (i = 0; i < dataTypeExpense.length; i++) {
-          data.push({
-            // referencia: dataProducts[i].id_family,
-            familia: dataTypeExpense[i].family,
-            unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-            volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-          });
-        }
+        document.body.appendChild(link);
+        link.click();
 
-        let ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "Distribucion Familia");
-      }
-    } else {
-      if (dataTypeExpense.length > 0) {
-        for (i = 0; i < dataTypeExpense.length; i++) {
-          data.push({
-            reference_producto: dataProducts[i].reference,
-            producto: dataTypeExpense[i].product,
-            porcentaje_recuperado: parseFloat(
-              dataTypeExpense[i].expense_recover
-            ),
-          });
-        }
-
-        let ws = XLSX.utils.json_to_sheet(data);
-        XLSX.utils.book_append_sheet(wb, ws, "Recuperacion Gasto");
-      }
-    }
-
-    XLSX.writeFile(wb, namexlsx);
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href); // liberar memoria
+      })
+      .catch(console.error);
   });
 });

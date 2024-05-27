@@ -15,33 +15,33 @@ $(document).ready(function () {
 
     // data = await searchData('/api/checkTypeExpense'); 
 
-    if (flag_expense == 0) {
-      /* Seleccionar tipo de gasto */
-      bootbox.confirm({
-        closeButton: false,
-        title: 'Tipo de Gasto',
-        message: 'Seleccione a cual tipo de gasto desea ingresar.',
-        buttons: {
-          confirm: {
-            label: 'Distribución',
-            className: 'btn-success',
-          },
-          cancel: {
-            label: 'Recuperación',
-            className: 'btn-info',
-          },
-        },
-        callback: function (result) {
-          result == true ? (option = 1) : (option = 2);
-          changeTypeExpense();
-        },
-      });
-    } else {
-      option = flag_expense;
-      // flag_expense_distribution = data.flag_family;
+    // if (flag_expense == 0) {
+    //   /* Seleccionar tipo de gasto */
+    //   bootbox.confirm({
+    //     closeButton: false,
+    //     title: 'Tipo de Gasto',
+    //     message: 'Seleccione a cual tipo de gasto desea ingresar.',
+    //     buttons: {
+    //       confirm: {
+    //         label: 'Distribución',
+    //         className: 'btn-success',
+    //       },
+    //       cancel: {
+    //         label: 'Recuperación',
+    //         className: 'btn-info',
+    //       },
+    //     },
+    //     callback: function (result) {
+    //       result == true ? (option = 1) : (option = 2);
+    //       changeTypeExpense();
+    //     },
+    //   });
+    // } else {
+    //   option = flag_expense;
+    //   // flag_expense_distribution = data.flag_family;
 
-      setDataExpense(data);
-    }
+    //   setDataExpense(data);
+    // }
   };
 
   getExpenseAnual();
