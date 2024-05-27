@@ -19,9 +19,10 @@ class GeneralServicesDao
     public function findAllExternalServicesByIdProduct($id_product, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT sx.id_service, sx.id_general_service, p.id_product, p.reference, p.product, sx.name_service, sx.cost, sx.id_product 
+        $stmt = $connection->prepare("SELECT sx.id_service, gs.id_general_service, p.id_product, p.reference, p.product, gs.name_service, sx.cost, sx.id_product 
                                         FROM services sx 
-                                        INNER JOIN products p ON sx.id_product = p.id_product 
+                                        INNER JOIN products p ON sx.id_product = p.id_product
+                                        LEFT JOIN general_external_services gs ON gs.id_general_service = sx.name_service
                                         WHERE sx.id_company = :id_company AND sx.id_product = :id_product 
                                         ORDER BY sx.name_service ASC;");
         $stmt->execute(['id_product' => trim($id_product), 'id_company' => $id_company]);

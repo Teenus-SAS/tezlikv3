@@ -19,9 +19,10 @@ class ExternalServicesDao
     public function findAllExternalServices($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT sx.id_service, sx.id_general_service, p.id_product, p.reference, p.product, sx.name_service, sx.cost, sx.id_product 
+        $stmt = $connection->prepare("SELECT sx.id_service, sx.id_general_service, p.id_product, p.reference, p.product, gs.name_service, sx.cost, sx.id_product 
                                         FROM services sx 
-                                        INNER JOIN products p ON sx.id_product = p.id_product 
+                                        INNER JOIN products p ON sx.id_product = p.id_product
+                                        LEFT JOIN general_external_services gs ON gs.id_general_service = sx.name_service
                                         WHERE sx.id_company = :id_company AND p.active = 1 
                                         ORDER BY sx.name_service ASC");
         $stmt->execute(['id_company' => $id_company]);
@@ -36,12 +37,12 @@ class ExternalServicesDao
         // $costService = str_replace('.', '', $dataExternalService['costService']);
 
         try {
-            $stmt = $connection->prepare("INSERT INTO services (id_general_service, id_product, id_company, name_service, cost)
-                                          VALUES (:id_general_service, :id_product, :id_company, :name_service, :cost)");
+            $stmt = $connection->prepare("INSERT INTO services (id_product, id_company, name_service, cost)
+                                          VALUES (:id_product, :id_company, :name_service, :cost)");
             $stmt->execute([
                 'id_product' => $dataExternalService['idProduct'],
-                'id_general_service' => $dataExternalService['idGService'],
-                'name_service' => strtoupper(trim($dataExternalService['service'])),
+                // 'id_general_service' => $dataExternalService['idGService'],
+                'name_service' => strtoupper(trim($dataExternalService['idGService'])),
                 'cost' => $dataExternalService['costService'],
                 'id_company' => $id_company
             ]);
@@ -61,12 +62,12 @@ class ExternalServicesDao
         // $costService = str_replace('.', '', $dataExternalService['costService']);
 
         try {
-            $stmt = $connection->prepare("UPDATE services SET id_general_service = :id_general_service, id_product = :id_product, name_service = :name_service, cost = :cost 
+            $stmt = $connection->prepare("UPDATE services SET id_product = :id_product, name_service = :name_service, cost = :cost 
                                           WHERE id_service = :id_service");
             $stmt->execute([
                 'id_product' => $dataExternalService['idProduct'],
-                'id_general_service' => $dataExternalService['idGService'],
-                'name_service' => strtoupper(trim($dataExternalService['service'])),
+                // 'id_general_service' => $dataExternalService['idGService'],
+                'name_service' => strtoupper(trim($dataExternalService['idGService'])),
                 'cost' => $dataExternalService['costService'],
                 'id_service' => $dataExternalService['idService']
             ]);
