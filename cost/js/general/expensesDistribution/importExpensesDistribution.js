@@ -252,17 +252,17 @@ $(document).ready(function () {
     if (flag_expense == "1") {
       if (flag_expense_distribution == "1") {
         production_center == "1" && flag_production_center == "1"
-          ? (namexlsx = "distribucion_gastos(CP).xlsx")
-          : (namexlsx = "distribucion_gastos.xlsx");
+          ? (namexlsx = "Distribucion_Gastos(CP).xlsx")
+          : (namexlsx = "Distribucion_Gastos.xlsx");
         url = "/api/allProductsDistribution";
         op = 1;
       } else {
-        namexlsx = "distribucion_gastos_familia.xlsx";
+        namexlsx = "Distribucion_Gastos_Familia.xlsx";
         url = "/api/expensesDistributionFamilies";
         op = 2;
       }
     } else {
-      namexlsx = "recuperacion_gastos.xlsx";
+      namexlsx = "Recuperacion_Gastos.xlsx";
       url = "/api/expensesRecover";
       op = 3;
     }

@@ -3,6 +3,7 @@
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
+use tezlikv3\dao\GeneralExternalServicesDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralServicesDao;
 use tezlikv3\dao\PriceProductDao;
@@ -12,6 +13,7 @@ use tezlikv3\dao\WebTokenDao;
 $externalServicesDao = new ExternalServicesDao();
 $webTokenDao = new WebTokenDao();
 $generalServicesDao = new GeneralServicesDao();
+$generalExServicesDao = new GeneralExternalServicesDao();
 $productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
 $pricesUSDDao = new PriceUSDDao();
@@ -158,6 +160,7 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 $app->post('/addExternalService', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $externalServicesDao,
+    $generalExServicesDao,
     $generalServicesDao,
     $productsDao,
     $priceProductDao,
@@ -200,6 +203,13 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
         if (!$externalService) {
             $externalServices = $externalServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
+
+            // Guardar servicio en la tabla 'general_external_services'
+            $findExternalService = $generalExServicesDao->findExternalService($dataExternalService, $id_company);
+
+            if (!$findExternalService)
+                $externalService = $generalExServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
+
             // Calcular precio del producto
             if ($externalServices == null)
                 $data = $priceProductDao->calcPrice($dataExternalService['idProduct']);
@@ -304,6 +314,12 @@ $app->post('/addExternalService', function (Request $request, Response $response
             // Obtener id_producto
             $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
             $externalService[$i]['idProduct'] = $findProduct['id_product'];
+
+            // Guardar servicio en la tabla 'general_external_services'
+            $findExternalService = $generalExServicesDao->findExternalService($externalService[$i], $id_company);
+
+            if (!$findExternalService)
+                $externalService = $generalExServicesDao->insertExternalServicesByCompany($externalService[$i], $id_company);
 
             $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
 
@@ -417,6 +433,7 @@ $app->post('/addExternalService', function (Request $request, Response $response
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $externalServicesDao,
+    $generalExServicesDao,
     $generalServicesDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -459,6 +476,12 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
     if ($data['id_service'] == $dataExternalService['idService'] || $data['id_service'] == 0) {
         $data = [];
         $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
+
+        // Guardar servicio en la tabla 'general_external_services'
+        $findExternalService = $generalExServicesDao->findExternalService($dataExternalService, $id_company);
+
+        if (!$findExternalService)
+            $externalService = $generalExServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
 
         // Calcular precio del producto
         if ($externalServices == null)
