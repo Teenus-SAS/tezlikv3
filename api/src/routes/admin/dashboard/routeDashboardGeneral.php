@@ -24,7 +24,8 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -50,6 +51,7 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
     $sCompany = $dashboardGeneralsDao->findAllComaniesAndUsers();
     // Obtener Cantidad Mese activo
     $month = $dashboardGeneralsDao->findAllCountByMonth();
+    $year = $dashboardGeneralsDao->findAllCountByYear();
 
     $generalDashboardCounts['allProducts'] = $products;
     $generalDashboardCounts['allCompanies'] = $companies;
@@ -57,6 +59,7 @@ $app->get('/dashboardCountsGeneral', function (Request $request, Response $respo
     $generalDashboardCounts['allUsersSession'] = $usersSession;
     $generalDashboardCounts['sCompany'] = $sCompany;
     $generalDashboardCounts['month'] = $month;
+    $generalDashboardCounts['year'] = $year;
 
     $response->getBody()->write(json_encode($generalDashboardCounts, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');

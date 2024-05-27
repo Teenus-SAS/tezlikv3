@@ -10,6 +10,7 @@ fetch(`/api/dashboardCountsGeneral`)
     graphicCompanies(data.sCompany);
     graphicUsers(data.sCompany);
     graphicMonth(data.month);
+    graphicYear(data.year);
   });
 
 /* Colors */

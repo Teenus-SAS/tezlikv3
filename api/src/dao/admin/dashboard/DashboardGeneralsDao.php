@@ -111,4 +111,22 @@ class DashboardGeneralsDao
         $this->logger->notice("month", array('month' => $month));
         return $month;
     }
+
+    public function findAllCountByYear()
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SET lc_time_names = 'es_ES'");
+        $stmt->execute();
+
+        $stmt = $connection->prepare("SELECT c.id_company, c.company, u.id_user, u.firstname, u.lastname, hu.date, DAY(hu.date) AS day, DATE(hu.date) AS format_date, CONCAT(UCASE(LEFT(MONTHNAME(hu.date), 1)), LOWER(SUBSTRING(MONTHNAME(hu.date), 2))) AS month
+                                      FROM companies c
+                                        INNER JOIN users u ON u.id_company = c.id_company
+                                        INNER JOIN historical_users hu ON hu.id_user = u.id_user
+                                      WHERE YEAR(hu.date) = YEAR(CURRENT_DATE())");
+        $stmt->execute();
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+        $month = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("month", array('month' => $month));
+        return $month;
+    }
 }

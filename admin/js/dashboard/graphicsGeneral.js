@@ -337,12 +337,12 @@ $(document).ready(function () {
             total = total + data[i].count;
         }
 
-        $('#totalMonth').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
+        // $('#totalMonth').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
 
         cmo = document.getElementById('chartMonth');
         chartMonth = new Chart(cmo, {
             plugins: [ChartDataLabels],
-            type: 'doughnut',
+            type: 'bar',
             data: {
                 labels: date,
                 datasets: [
@@ -370,7 +370,99 @@ $(document).ready(function () {
 
                         // loadModalExpenses(label, data);
                     }
+                }, 
+                 scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: maxYValue,
+                    },
+                    x: {
+                        display: false,
+                    },
                 },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'top',
+                        offset: 2,
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map((data) => {
+                                sum += data;
+                            });
+                            let percentage = (value * 100) / sum;
+                            isNaN(percentage) ? (percentage = 0) : percentage;
+                            return `${percentage.toLocaleString('es-CO', {
+                                maximumFractionDigits: 2,
+                            })} %`;
+                        },
+                        color: 'black',
+                        font: {
+                            size: '10',
+                            weight: 'light',
+                        },
+                    },
+                },
+            },
+        });
+    };
+
+    // Año
+    graphicYear = (data) => {
+        let month = [];
+        let quantity = [];
+        let total = 0;
+
+        data = Object.values(data.reduce((result, currentItem) => {
+            const month = currentItem.month;
+
+            // Si el grupo aún no existe, créalo
+            if (!result[month]) {
+                result[month] = {
+                    id_user: currentItem.id_user,
+                    firstname: currentItem.firstname,
+                    lastname: currentItem.lastname,
+                    id_company: currentItem.id_company,
+                    company: currentItem.company,
+                    day: currentItem.day,
+                    month: currentItem.month,
+                    count: 1,
+                };
+            } else {
+                // Incrementa el contador si el grupo ya existe
+                result[month].count++;
+            }
+
+            return result;
+        }, {}));
+
+        for (let i in data) {
+            month.push(data[i].month);
+            quantity.push(data[i].count);
+            total = total + data[i].count;
+        }
+
+        $('#totalYear').html(`${total.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
+
+        cmo = document.getElementById('chartYear');
+        chartYear = new Chart(cmo, {
+            plugins: [ChartDataLabels],
+            type: 'doughnut',
+            data: {
+                labels: month,
+                datasets: [
+                    {
+                        data: quantity,
+                        backgroundColor: getRandomColor(data.length),
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
                 plugins: {
                     legend: {
                         display: false,
@@ -382,7 +474,7 @@ $(document).ready(function () {
                             dataArr.map((data) => {
                                 sum += data;
                             });
-
+                
                             let percentage = (value * 100) / sum;
                             if (percentage > 3)
                                 return `${percentage.toLocaleString('es-CO', {

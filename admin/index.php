@@ -158,8 +158,24 @@ if (sizeof($_SESSION) == 0)
                                         <div class="chart-container">
                                             <canvas id="chartMonth" style="width: 80%;"></canvas>
                                             <div class="center-text">
-                                                <p class="text-muted mb-1 font-weight-600">Total</p>
+                                                <!-- <p class="text-muted mb-1 font-weight-600">Total</p> -->
                                                 <p class="mb-0 font-weight-bold" id="totalMonth"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title">Año</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="chart-container">
+                                            <canvas id="chartYear" style="width: 80%;"></canvas>
+                                            <div class="center-text">
+                                                <!-- <p class="text-muted mb-1 font-weight-600">Total</p> -->
+                                                <p class="mb-0 font-weight-bold" id="totalYear"></p>
                                             </div>
                                         </div>
                                     </div>

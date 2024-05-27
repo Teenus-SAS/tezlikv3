@@ -20,6 +20,8 @@ class WebTokenDao
 
     public function getToken()
     {
+        $connection = Connection::getInstance()->getConnection();
+
         // $headers = apache_request_headers();
         if (!isset($_SESSION))
             session_start();
@@ -35,6 +37,13 @@ class WebTokenDao
         try {
             $decoded = JWT::decode($token, new Key($_ENV['jwt_key'], 'HS256'));
         } catch (\Exception $e) {
+            $stmt = $connection->prepare("UPDATE users SET session_active = :session_active WHERE id_user = :id_user");
+            $stmt->execute([
+                'session_active' => 0,
+                'id_user' => $_SESSION['idUser']
+            ]);
+            session_destroy();
+
             return ['info' => $e->getMessage()];
         }
         return $decoded;
