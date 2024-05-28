@@ -439,13 +439,25 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                         <!-- End total sales chart -->
                                         <!-- Begin earning chart -->
-                                        <div class="col-lg-12">
+                                        <div class="col-lg-6">
                                             <div class="card">
                                                 <div class="card-header dflex-between-center">
                                                     <h5 class="card-title">Costos Materia Prima</h5>
                                                 </div>
                                                 <div class="card-body pt-2">
                                                     <canvas id="chartMaterialsCosts" style="width: 80%;"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End earning chart -->
+                                        <!-- Begin earning chart -->
+                                        <div class="col-lg-6">
+                                            <div class="card">
+                                                <div class="card-header dflex-between-center">
+                                                    <h5 class="card-title">Costos Servicios</h5>
+                                                </div>
+                                                <div class="card-body pt-2">
+                                                    <canvas id="chartServicesCosts" style="width: 80%;"></canvas>
                                                 </div>
                                             </div>
                                         </div>

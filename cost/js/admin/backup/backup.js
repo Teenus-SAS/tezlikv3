@@ -21,6 +21,7 @@ $(document).ready(function () {
             precio_venta: parseFloat(dataProducts[i].sale_price),
             rentabilidad: parseFloat(dataProducts[i].profitability),
             comision_ventas: parseFloat(dataProducts[i].commission_sale),
+            sub_producto: `${dataProducts[i].composite == 1 ? 'SI' : 'NO'}`,
           });
         }
 

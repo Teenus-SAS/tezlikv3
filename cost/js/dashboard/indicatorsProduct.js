@@ -29,6 +29,10 @@ $(document).ready(function () {
           for (let i = 0; i < data.cost_workforce.length; i++) {
             data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_usd);
           }
+
+          for (let i = 0; i < data.services.length; i++) {
+            data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_usd);            
+          }
           break;
         case '3': // Euros
           data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage_eur));
@@ -42,6 +46,10 @@ $(document).ready(function () {
 
           for (let i = 0; i < data.cost_workforce.length; i++) {
             data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_eur);
+          }
+
+          for (let i = 0; i < data.services.length; i++) {
+            data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_eur);            
           }
           break;
       
@@ -57,6 +65,7 @@ $(document).ready(function () {
       await graphicCostTimeProcess(data.cost_time_process);
       await graphicPromTime(data.average_time_process);
       await graphicCompPrices(data.cost_product);
+      await graphicCostServices(data.services);
 
       if (data.cost_materials.length > 10) {
         data = await searchData(`/api/rawMaterials/${id_product}`);
