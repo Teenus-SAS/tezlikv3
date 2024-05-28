@@ -28,7 +28,8 @@ $app->get('/quotesCompanies', function (Request $request, Response $response, $a
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -61,7 +62,8 @@ $app->post('/addQCompany', function (Request $request, Response $response, $args
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -116,7 +118,8 @@ $app->post('/updateQCompany', function (Request $request, Response $response, $a
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -165,7 +168,8 @@ $app->get('/deleteQCompany/{id_company}', function (Request $request, Response $
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);

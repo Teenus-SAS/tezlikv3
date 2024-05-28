@@ -131,6 +131,22 @@ class LastDataDao
         return $productProcess;
     }
 
+    // Servicios Generales
+    public function findLastInsertedGeneralServices($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT MAX(id_general_service) AS id_general_service FROM general_external_services WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $productProcess = $stmt->fetch($connection::FETCH_ASSOC);
+        $this->logger->notice("factory load", array('factory load' => $productProcess));
+
+        return $productProcess;
+    }
+
+
     /* Nomina */
     public function findLastInsertedPayroll($id_company)
     {

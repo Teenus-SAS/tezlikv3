@@ -38,7 +38,8 @@ $app->get('/quotes', function (Request $request, Response $response, $args) use 
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -74,7 +75,8 @@ $app->get('/copyQuote/{id_quote}', function (Request $request, Response $respons
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -136,7 +138,8 @@ $app->get('/quote/{id_quote}', function (Request $request, Response $response, $
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -169,7 +172,8 @@ $app->get('/quotesProducts/{id_quote}', function (Request $request, Response $re
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -201,7 +205,8 @@ $app->post('/addQuote', function (Request $request, Response $response, $arsg) u
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -270,7 +275,8 @@ $app->post('/updateQuote', function (Request $request, Response $response, $args
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -337,7 +343,8 @@ $app->get('/deleteQuote/{id_quote}', function (Request $request, Response $respo
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -380,7 +387,8 @@ $app->post('/sendQuote', function (Request $request, Response $response, $args) 
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);

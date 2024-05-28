@@ -12,6 +12,7 @@ $(document).ready(function () {
         op == 1 ? searchData('/api/allProductsMaterials') : ''
       ]);
       let visible;
+      let dataCategory1;
 
       if (op == 1) {
         let $selectCategory = $(`#idCategory`);
@@ -25,11 +26,12 @@ $(document).ready(function () {
         sessionStorage.setItem('dataCategory', JSON.stringify(dataCategory));
         loadTblCategories(dataCategory);
         sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
+        dataCategory1 = dataCategory;
         // allProductMaterials = dataProductMaterials;
       } else
-        dataCategory = JSON.parse(sessionStorage.getItem('dataCategory'));
+        dataCategory1 = JSON.parse(sessionStorage.getItem('dataCategory'));
         
-      if (dataCategory.length == 0) {
+      if (dataCategory1.length == 0) {
         $('.categories').hide();
         visible = false;
       } else {

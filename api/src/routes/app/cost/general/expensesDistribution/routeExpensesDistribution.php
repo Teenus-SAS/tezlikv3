@@ -49,7 +49,8 @@ $app->get('/expensesDistribution', function (Request $request, Response $respons
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -79,7 +80,8 @@ $app->get('/allProductsDistribution', function (Request $request, Response $resp
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -109,7 +111,8 @@ $app->get('/expensesDistributionProducts', function (Request $request, Response 
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -140,7 +143,8 @@ $app->get('/expenseTotal', function (Request $request, Response $response, $args
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -173,7 +177,8 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -282,7 +287,8 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -585,7 +591,8 @@ $app->post('/updateExpensesDistribution', function (Request $request, Response $
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -817,7 +824,8 @@ $app->post('/deleteExpensesDistribution', function (Request $request, Response $
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -1012,7 +1020,8 @@ $app->post('/saveNewProduct', function (Request $request, Response $response, $a
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);

@@ -33,9 +33,9 @@ class GeneralUserAccessDao
                                             IFNULL(cua.payroll_load, 0) AS payroll_load, 
                                             IFNULL(cua.type_payroll, 0) AS type_payroll, 
                                             IFNULL(cua.expense, 0) AS expense, 
+                                            IFNULL(cua.anual_expense, 0) AS anual_expense, 
                                             IFNULL(cua.expense_distribution, 0) AS expense_distribution, 
                                             IFNULL(cua.production_center, 0) AS production_center, 
-                                            IFNULL(cua.anual_expense, 0) AS anual_expense, 
                                             IFNULL(cua.type_expense, 0) AS type_expense, 
                                             IFNULL(cua.user, 0) AS cost_user, 
                                             IFNULL(cua.backup, 0) AS cost_backup, 
@@ -62,6 +62,7 @@ class GeneralUserAccessDao
                                             cl.flag_economy_scale, 
                                             cl.flag_sales_objective, 
                                             cl.flag_production_center, 
+                                            cl.flag_expense_anual, 
                                             cl.flag_employee, 
                                             cl.flag_indirect, 
                                             cl.inyection, 
@@ -158,6 +159,7 @@ class GeneralUserAccessDao
         $_SESSION['flag_economy_scale'] = $userAccess['flag_economy_scale'];
         $_SESSION['flag_sales_objective'] = $userAccess['flag_sales_objective'];
         $_SESSION['flag_production_center'] = $userAccess['flag_production_center'];
+        $_SESSION['flag_expense_anual'] = $userAccess['flag_expense_anual'];
         $_SESSION['flag_composite_product'] = $userAccess['flag_composite_product'];
         $_SESSION['flag_indirect'] = $userAccess['flag_indirect'];
         $_SESSION['inyection'] = $userAccess['inyection'];

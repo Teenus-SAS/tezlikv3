@@ -67,6 +67,7 @@ $(document).ready(function () {
     data.flag_economy_scale == '1' ? (economyScale = '1') : (economyScale = '2');
     data.flag_sales_objective == '1' ? (salesObjective = '1') : (salesObjective = '2');
     data.flag_production_center == '1' ? (production = '1') : (production = '2');
+    data.flag_expense_anual == '1' ? (anualExpenses = '1') : (anualExpenses = '2');
     data.cost_historical == '1' ? (historical = '1') : (historical = '2');
     data.flag_indirect == '1' ? (indirect = '1') : (indirect = '2'); 
     data.inyection == '1' ? (inyection = '1') : (inyection = '2'); 
@@ -78,6 +79,7 @@ $(document).ready(function () {
     $(`#economyScale option[value=${economyScale}]`).prop('selected', true);
     $(`#salesObjective option[value=${salesObjective}]`).prop('selected', true);
     $(`#production option[value=${production}]`).prop('selected', true);
+    $(`#anualExpenses option[value=${anualExpenses}]`).prop('selected', true);
     $(`#historical option[value=${historical}]`).prop('selected', true);
     $(`#indirect option[value=${indirect}]`).prop('selected', true);
     $(`#inyection option[value=${inyection}]`).prop('selected', true);
@@ -108,9 +110,10 @@ $(document).ready(function () {
     let indirect = parseFloat($('#indirect').val());
     let inyection = parseFloat($('#inyection').val());
     let production = parseFloat($('#production').val());
+    let anualExpenses = parseFloat($('#anualExpenses').val());
 
     data = company * quantityUsers * plan * currencyUSD * currencyEUR * payrollEmployee * compositeProducts * economyScale
-      * salesObjective * historical * inyection * indirect * production;
+      * salesObjective * historical * inyection * indirect * production * anualExpenses;
 
     if (license_start == '' || license_end == '' || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
@@ -129,6 +132,7 @@ $(document).ready(function () {
     economyScale == 1 ? (economyScale = 1) : (economyScale = 0);
     salesObjective == 1 ? (salesObjective = 1) : (salesObjective = 0);
     production == 1 ? (production = 1) : (production = 0);
+    anualExpenses == 1 ? (anualExpenses = 1) : (anualExpenses = 0);
     historical == 1 ? (historical = 1) : (historical = 0);
     indirect == 1 ? (indirect = 1) : (indirect = 0);
     inyection == 1 ? (inyection = 1) : (inyection = 0);
@@ -141,6 +145,7 @@ $(document).ready(function () {
     dataCompany.append('economyScale', economyScale);
     dataCompany.append('salesObjective', salesObjective);
     dataCompany.append('production', production);
+    dataCompany.append('anualExpenses', anualExpenses);
     dataCompany.append('historical', historical);
     dataCompany.append('indirect', indirect);
     dataCompany.append('inyection', inyection);

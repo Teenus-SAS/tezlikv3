@@ -22,7 +22,8 @@ $app->get('/contacts', function (Request $request, Response $response, $args) us
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -53,7 +54,8 @@ $app->get('/contactsByCompany/{id_company}', function (Request $request, Respons
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -83,7 +85,8 @@ $app->post('/addContact', function (Request $request, Response $response, $args)
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -127,7 +130,8 @@ $app->post('/updateContact', function (Request $request, Response $response, $ar
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -171,7 +175,8 @@ $app->get('/deleteContact/{id_contact}', function (Request $request, Response $r
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);

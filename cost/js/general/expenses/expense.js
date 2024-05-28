@@ -4,66 +4,111 @@ $(document).ready(function () {
   $('.selectNavigation').click(function (e) {
     e.preventDefault();
 
-    if (this.id == 'sExpenses') {
-      $('.cardExpenses').show();
-      $('.cardExpenseDistribution').hide();
-      $('.cardAddNewFamily').hide();
-      $('.cardAddProductFamily').hide();
-      $('.cardExpensesDistribution').hide();
-      $('.cardExpensesDistribution').hide();
-      $('.cardExpenseRecover').hide();
-      $('.cardImportExpenses').hide();
-      $('.cardNewProducts').hide();
-      $('.cardProductionCenter').hide();
-      $('.cardAddNewProductionCenter').hide();
+    $('.cardsGeneral').hide();
 
-      if (production_center == '1' && flag_production_center == '1') {       
-        // Obtener el elemento select
-        var selectElement = document.getElementById("selectProductionCenterExpenses1");
-        // Establecer la primera opción como seleccionada por defecto
-        selectElement.selectedIndex = 0;
+    let option = this.id;
 
-        let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
-        var summarizedExpenses = sumAndGroupExpenses(dataExpenses); 
-        summarizedExpenses.sort((a, b) => a.puc.localeCompare(b.puc));
+    switch (option) {
+      case 'sExpenses':
+        $('.cardExpenses').show();
+        if (production_center == '1' && flag_production_center == '1') {
+          // Obtener el elemento select
+          var selectElement = document.getElementById("selectProductionCenterExpenses1");
+          // Establecer la primera opción como seleccionada por defecto
+          selectElement.selectedIndex = 0;
 
-        loadTblAssExpenses(summarizedExpenses, 1);
-      } 
+          let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+          var summarizedExpenses = sumAndGroupExpenses(dataExpenses);
+          summarizedExpenses.sort((a, b) => a.puc.localeCompare(b.puc));
 
-    } else if (this.id == 'distribution') {
-      $('.cardExpenseDistribution').show();
+          loadTblAssExpenses(summarizedExpenses, 1);
+        }
+        break;
+      case 'sExpensesA':
+        $('.cardExpensesAnual').show();
+        break;
+      case 'distribution':
+        $('.cardExpenseDistribution').show();
       
-      if (flag_expense == '1')
-        $('.cardNewProducts').show();
-    
-      $('.cardExpenses').hide();
-      $('.cardCreateExpenses').hide();
-      $('.cardImportExpensesAssignation').hide();
-      $('.cardNewProduct').hide();
-      $('.cardProductionCenter').hide();
-      $('.cardAddNewProductionCenter').hide();
-
-      if (production_center == '1' && flag_production_center == '1') {       
-        // Obtener el elemento select
-        var selectElement = document.getElementById("selectProductionCenterED");
-        // Establecer la primera opción como seleccionada por defecto
-        selectElement.selectedIndex = 0;
-      }
-    } else {
-      $('.cardProductionCenter').show();
-      $('.cardAddNewProductionCenter').hide();
-      $('.cardNewProduct').hide();
-      $('.cardExpenses').hide();
-      $('.cardImportExpensesAssignation').hide();
-      $('.cardCreateExpenses').hide();
-      $('.cardExpenseDistribution').hide();
-      $('.cardAddNewFamily').hide();
-      $('.cardAddProductFamily').hide();
-      $('.cardExpensesDistribution').hide(); 
-      $('.cardExpenseRecover').hide();
-      $('.cardImportExpenses').hide();
-      $('.cardNewProducts').hide();
+        if (flag_expense == '1')
+          $('.cardNewProducts').show();
+        
+        if (production_center == '1' && flag_production_center == '1') {
+          // Obtener el elemento select
+          var selectElement = document.getElementById("selectProductionCenterED");
+          // Establecer la primera opción como seleccionada por defecto
+          selectElement.selectedIndex = 0;
+        }
+        break;
+      case 'sDistributionA':
+        $('.cardExpenseDistributionAnual').show();
+        break;
+      case 'sProductionCenter':
+        $('.cardProductionCenter').show();
+        break;
     }
+
+    // if (this.id == 'sExpenses') {
+    //   $('.cardExpenses').show();
+    //   $('.cardExpenseDistribution').hide();
+    //   $('.cardAddNewFamily').hide();
+    //   $('.cardAddProductFamily').hide();
+    //   $('.cardExpensesDistribution').hide();
+    //   $('.cardExpensesDistribution').hide();
+    //   $('.cardExpenseRecover').hide();
+    //   $('.cardImportExpenses').hide();
+    //   $('.cardNewProducts').hide();
+    //   $('.cardProductionCenter').hide();
+    //   $('.cardAddNewProductionCenter').hide();
+
+    //   if (production_center == '1' && flag_production_center == '1') {       
+    //     // Obtener el elemento select
+    //     var selectElement = document.getElementById("selectProductionCenterExpenses1");
+    //     // Establecer la primera opción como seleccionada por defecto
+    //     selectElement.selectedIndex = 0;
+
+    //     let dataExpenses = JSON.parse(sessionStorage.getItem('dataExpenses'));
+    //     var summarizedExpenses = sumAndGroupExpenses(dataExpenses); 
+    //     summarizedExpenses.sort((a, b) => a.puc.localeCompare(b.puc));
+
+    //     loadTblAssExpenses(summarizedExpenses, 1);
+    //   } 
+
+    // } 
+    // else if (this.id == 'distribution') {
+    //   $('.cardExpenseDistribution').show();
+      
+    //   if (flag_expense == '1')
+    //     $('.cardNewProducts').show();
+    
+    //   $('.cardExpenses').hide();
+    //   $('.cardCreateExpenses').hide();
+    //   $('.cardImportExpensesAssignation').hide();
+    //   $('.cardNewProduct').hide();
+    //   $('.cardProductionCenter').hide();
+    //   $('.cardAddNewProductionCenter').hide();
+
+    //   if (production_center == '1' && flag_production_center == '1') {       
+    //     // Obtener el elemento select
+    //     var selectElement = document.getElementById("selectProductionCenterED");
+    //     // Establecer la primera opción como seleccionada por defecto
+    //     selectElement.selectedIndex = 0;
+    //   }
+    // } else {
+    //   $('.cardProductionCenter').show();
+    //   $('.cardAddNewProductionCenter').hide();
+    //   $('.cardNewProduct').hide();
+    //   $('.cardExpenses').hide();
+    //   $('.cardImportExpensesAssignation').hide();
+    //   $('.cardCreateExpenses').hide();
+    //   $('.cardExpenseDistribution').hide();
+    //   $('.cardAddNewFamily').hide();
+    //   $('.cardAddProductFamily').hide();
+    //   $('.cardExpensesDistribution').hide(); 
+    //   $('.cardExpenseRecover').hide();
+    //   $('.cardImportExpenses').hide();
+    //   $('.cardNewProducts').hide();
+    // }
 
     let tables = document.getElementsByClassName(
       'dataTable'

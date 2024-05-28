@@ -54,7 +54,8 @@ $app->get('/checkTypeExpense', function (Request $request, Response $response, $
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -84,7 +85,8 @@ $app->get('/changeTypeExpense/{flag}', function (Request $request, Response $res
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -128,7 +130,8 @@ $app->get('/expenses', function (Request $request, Response $response, $args) us
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -164,7 +167,8 @@ $app->get('/totalExpense', function (Request $request, Response $response, $args
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -210,7 +214,8 @@ $app->post('/expenseDataValidation', function (Request $request, Response $respo
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -333,7 +338,8 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -448,7 +454,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCountCP($id_company);
             $expenseCount = $participationExpenseDao->findAllExpensesByCompanyCP($id_company);
 
-            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
 
             $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
 
@@ -475,7 +481,7 @@ $app->post('/addExpenses', function (Request $request, Response $response, $args
             $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
             $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
 
-            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+            $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
             // Consulta unidades vendidades y volumenes de venta por producto
             $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
 
@@ -635,7 +641,8 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -694,7 +701,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                 $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCountCP($id_company);
                 $expenseCount = $participationExpenseDao->findAllExpensesByCompanyCP($id_company);
 
-                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
 
                 $productions = $productionCenterDao->findAllPCenterByCompany($id_company);
 
@@ -721,7 +728,7 @@ $app->post('/updateExpenses', function (Request $request, Response $response, $a
                 $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
                 $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
 
-                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+                $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
 
                 // Consulta unidades vendidades y volumenes de venta por producto
                 $unitVol = $assignableExpenseDao->findAllExpensesDistribution($id_company);
@@ -888,7 +895,8 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -916,7 +924,7 @@ $app->get('/deleteExpenses/{id_expense}/{op}', function (Request $request, Respo
             $sumExpenseCount = $participationExpenseDao->sumTotalExpenseByNumberCount($id_company);
             $expenseCount = $participationExpenseDao->findAllExpensesByCompany($id_company);
         }
-        $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount);
+        $resolution = $participationExpenseDao->calcParticipationExpense($sumExpenseCount, $expenseCount, 1);
     }
 
     // Calcular total del gasto

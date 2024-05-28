@@ -38,6 +38,30 @@ class AssignableExpenseDao
         }
         return $unitVol;
     }
+
+    // Consulta unidades vendidades y volumenes de venta por producto (anual)
+    public function findAllExpensesDistributionAnual($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT ed.id_expense_distribution_anual, ed.id_product, ed.id_company, ed.units_sold, ed.turnover, ed.assignable_expense 
+                                          FROM expenses_distribution_anual ed 
+                                            INNER JOIN products p ON p.id_product = ed.id_product 
+                                            INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
+                                          WHERE ed.id_company = :id_company AND p.active = 1 -- AND pc.new_product = 0
+                                          -- AND (ed.assignable_expense > 0 AND ed.units_sold > 0 AND ed.turnover > 0)
+                                          AND (ed.units_sold > 0 AND ed.turnover > 0)
+                                          ");
+            $stmt->execute(['id_company' => $id_company]);
+            $unitVol = $stmt->fetchAll($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $unitVol = array('info' => true, 'message' => $message);
+        }
+        return $unitVol;
+    }
+
     // Consulta unidades vendidades y volumenes de venta por centro produccion
     public function findAllExpensesDistributionByProduction($id_production_center)
     {
@@ -67,6 +91,26 @@ class AssignableExpenseDao
         try {
             $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
                                           FROM expenses_distribution ed 
+                                            INNER JOIN products p ON p.id_product = ed.id_product 
+                                            INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
+                                          WHERE ed.id_company = :id_company AND p.active = 1 -- AND pc.new_product = 0
+                                          ");
+            $stmt->execute(['id_company' => $id_company]);
+            $totalUnitVol = $stmt->fetch($connection::FETCH_ASSOC);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $totalUnitVol = array('info' => true, 'message' => $message);
+        }
+        return $totalUnitVol;
+    }
+    // Calcular el total de unidades vendidas y volumen de ventas (anual)
+    public function findTotalUnitsVolAnual($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("SELECT SUM(units_sold) as units_sold, SUM(turnover) as turnover 
+                                          FROM expenses_distribution_anual ed 
                                             INNER JOIN products p ON p.id_product = ed.id_product 
                                             INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
                                           WHERE ed.id_company = :id_company AND p.active = 1 -- AND pc.new_product = 0
@@ -210,6 +254,23 @@ class AssignableExpenseDao
 
         try {
             $stmt = $connection->prepare("UPDATE expenses_distribution SET assignable_expense = :assignable_expense WHERE id_product = :id_product");
+            $stmt->execute([
+                'id_product' => $idProduct,
+                'assignable_expense' => $assignableExpense
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+    // Actualizar gasto asignable
+    public function updateAssignableExpenseAnual($idProduct, $assignableExpense)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE expenses_distribution_anual SET assignable_expense = :assignable_expense WHERE id_product = :id_product");
             $stmt->execute([
                 'id_product' => $idProduct,
                 'assignable_expense' => $assignableExpense

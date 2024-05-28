@@ -14,7 +14,7 @@ $(document).ready(function () {
             });
 
             // setSelectsServices(services);
-            if(op== 1)
+            if(op == 1)
                 loadTableGExternalServices(services);  
         } catch (error) {
             console.error('Error loading data:', error);

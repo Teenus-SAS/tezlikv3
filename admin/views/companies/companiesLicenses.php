@@ -215,6 +215,16 @@ if (sizeof($_SESSION) == 0)
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                    <div class="form-group m-0">
+                                                        <label>Gastos Anuales</label>
+                                                        <select name="anualExpenses" id="anualExpenses" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm">
                                                     <button class="btn btn-primary" id="btnAddLicense">Actualizar</button>
                                                 </div>

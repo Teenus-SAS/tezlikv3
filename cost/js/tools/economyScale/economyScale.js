@@ -2,7 +2,7 @@ $(document).ready(function () {
   let economyScale = [];
   cant = 1;
 
-  loadAllData = async () => {
+  const loadAllData = async () => {
     try {
       const data = await searchData('/api/calcEconomyScale');
 
@@ -37,7 +37,7 @@ $(document).ready(function () {
     loadDataProduct(id, 1);
   });
 
-  loadDataProduct = async (id, op) => {
+  const loadDataProduct = async (id, op) => {
     let costFixed = 0;
     let variableCost1 = 0;
 

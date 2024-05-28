@@ -201,13 +201,14 @@ $(document).ready(function () {
               color: { text: "black" },
             });
           
-          permissions.push({
-            name: "Gastos Anuales",
-            icon: data.anual_expense
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if(flag_expense_anual == '1')
+            permissions.push({
+              name: "Gastos Anuales",
+              icon: data.anual_expense
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
           let output = '<div class="stacked-column" style="width:170px">';
           for (const permission of permissions) {

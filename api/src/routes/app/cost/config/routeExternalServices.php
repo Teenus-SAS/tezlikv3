@@ -3,8 +3,10 @@
 use tezlikv3\dao\CostMaterialsDao;
 use tezlikv3\dao\ExternalServicesDao;
 use tezlikv3\dao\GeneralCompositeProductsDao;
+use tezlikv3\dao\GeneralExternalServicesDao;
 use tezlikv3\dao\GeneralProductsDao;
 use tezlikv3\dao\GeneralServicesDao;
+use tezlikv3\dao\LastDataDao;
 use tezlikv3\dao\PriceProductDao;
 use tezlikv3\Dao\PriceUSDDao;
 use tezlikv3\dao\WebTokenDao;
@@ -12,11 +14,13 @@ use tezlikv3\dao\WebTokenDao;
 $externalServicesDao = new ExternalServicesDao();
 $webTokenDao = new WebTokenDao();
 $generalServicesDao = new GeneralServicesDao();
+$generalExServicesDao = new GeneralExternalServicesDao();
 $productsDao = new GeneralProductsDao();
 $priceProductDao = new PriceProductDao();
 $pricesUSDDao = new PriceUSDDao();
 $generalCompositeProductsDao = new GeneralCompositeProductsDao();
 $costMaterialsDao = new CostMaterialsDao();
+$lastDataDao = new LastDataDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -34,7 +38,8 @@ $app->get('/allExternalservices', function (Request $request, Response $response
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -64,7 +69,8 @@ $app->get('/externalServices/{id_product}', function (Request $request, Response
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -158,6 +164,8 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
 $app->post('/addExternalService', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $externalServicesDao,
+    $generalExServicesDao,
+    $lastDataDao,
     $generalServicesDao,
     $productsDao,
     $priceProductDao,
@@ -174,7 +182,8 @@ $app->post('/addExternalService', function (Request $request, Response $response
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -199,7 +208,19 @@ $app->post('/addExternalService', function (Request $request, Response $response
             $externalService = false;
 
         if (!$externalService) {
+            // Guardar servicio en la tabla 'general_external_services'
+            $findExternalService = $generalExServicesDao->findExternalService($dataExternalService, $id_company);
+
+            if (!$findExternalService) {
+                $externalService = $generalExServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
+
+                $lastData = $lastDataDao->findLastInsertedGeneralServices($id_company);
+                $dataExternalService['idGService'] = $lastData['id_general_service'];
+            } else
+                $dataExternalService['idGService'] = $findExternalService['id_general_service'];
+
             $externalServices = $externalServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
+
             // Calcular precio del producto
             if ($externalServices == null)
                 $data = $priceProductDao->calcPrice($dataExternalService['idProduct']);
@@ -304,6 +325,17 @@ $app->post('/addExternalService', function (Request $request, Response $response
             // Obtener id_producto
             $findProduct = $productsDao->findProduct($externalService[$i], $id_company);
             $externalService[$i]['idProduct'] = $findProduct['id_product'];
+
+            // Guardar servicio en la tabla 'general_external_services'
+            $findExternalService = $generalExServicesDao->findExternalService($externalService[$i], $id_company);
+
+            if (!$findExternalService) {
+                $externalService = $generalExServicesDao->insertExternalServicesByCompany($externalService[$i], $id_company);
+
+                $lastData = $lastDataDao->findLastInsertedGeneralServices($id_company);
+                $externalService[$i]['idGService'] = $lastData['id_general_service'];
+            } else
+                $externalService[$i]['idGService'] = $findExternalService['id_general_service'];
 
             $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
 
@@ -417,6 +449,8 @@ $app->post('/addExternalService', function (Request $request, Response $response
 $app->post('/updateExternalService', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $externalServicesDao,
+    $generalExServicesDao,
+    $lastDataDao,
     $generalServicesDao,
     $priceProductDao,
     $pricesUSDDao,
@@ -431,7 +465,8 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);
@@ -458,6 +493,17 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
 
     if ($data['id_service'] == $dataExternalService['idService'] || $data['id_service'] == 0) {
         $data = [];
+        // Guardar servicio en la tabla 'general_external_services'
+        $findExternalService = $generalExServicesDao->findExternalService($dataExternalService, $id_company);
+
+        if (!$findExternalService) {
+            $externalService = $generalExServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);
+
+            $lastData = $lastDataDao->findLastInsertedGeneralServices($id_company);
+            $dataExternalService['idGService'] = $lastData['id_general_service'];
+        } else
+            $dataExternalService['idGService'] = $findExternalService['id_general_service'];
+
         $externalServices = $externalServicesDao->updateExternalServices($dataExternalService);
 
         // Calcular precio del producto
@@ -504,7 +550,8 @@ $app->post('/deleteExternalService', function (Request $request, Response $respo
 
     if (is_array($info)) {
         $response->getBody()->write(json_encode(['error' => $info['info']]));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
     }
 
     $validate = $webTokenDao->validationToken($info);

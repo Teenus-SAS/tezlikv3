@@ -190,6 +190,8 @@ $(document).ready(function () {
       let idProduct = parseInt($('#selectNameProduct').val());
       if (idProduct)
         loadAllDataServices(idProduct);
+
+      loadAllDataGServices(2);
       toastr.success(data.message);
       //return false
     } else if (data.error == true) toastr.error(data.message);
