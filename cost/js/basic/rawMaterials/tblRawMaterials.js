@@ -148,7 +148,7 @@ $(document).ready(function () {
           },
           {
             // width: '80px',
-            title: 'Exportacion',
+            title: 'Nacionalización',
             data: null,
             className: 'classRight',
             visible: visibleCost,
