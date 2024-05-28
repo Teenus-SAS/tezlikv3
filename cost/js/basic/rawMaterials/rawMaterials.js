@@ -82,6 +82,20 @@ $(document).ready(function () {
     }
   });
 
+  $(document).on('keyup', '.calcCost', function () {
+    let costRawMaterial = parseFloat($('#costRawMaterial').val());
+    let costImport = parseFloat($('#costImport').val());
+    let costExport = parseFloat($('#costExport').val());
+
+    isNaN(costRawMaterial) ? costRawMaterial = 0 : costRawMaterial;
+    isNaN(costImport) ? costImport = 0 : costImport;
+    isNaN(costExport) ? costExport = 0 : costExport;
+
+    let costTotal = costRawMaterial + costImport + costExport;
+
+    $('#costTotal').val(costTotal);
+  });
+
   /* Actualizar materia prima */
 
   $(document).on('click', '.updateRawMaterials', function (e) {
@@ -123,6 +137,11 @@ $(document).ready(function () {
     } else
       $('#costRawMaterial').val(data.cost);
     
+    if(export_import == '1'){
+      $('#costImport').val(data.cost_import);
+      $('#costExport').val(data.cost_export);
+      $('#costTotal').val(data.cost_total);
+    }
 
     $('html, body').animate(
       {
@@ -139,6 +158,9 @@ $(document).ready(function () {
     let unity = $('#units').val();
     let category = $('#idCategory').val();
     let cost = parseFloat($('#costRawMaterial').val());
+    let costImport = parseFloat($('#costImport').val());
+    let costExport = parseFloat($('#costExport').val());
+    let costTotal = parseFloat($('#costTotal').val());
 
     if (
       ref == '' ||
@@ -158,6 +180,13 @@ $(document).ready(function () {
     if (cost <= 0 || isNaN(cost)) {
       toastr.error('El costo debe ser mayor a cero (0)');
       return false;
+    }
+    
+    if (export_import == '1') {
+      if (!costTotal || costTotal == '') {
+        toastr.error('Ingrese todos los campos');
+        return false;
+      }
     }
 
     let dataMaterial = new FormData(formCreateMaterial);

@@ -20,7 +20,7 @@ class GeneralMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, c.id_category, c.category, mg.id_magnitude, mg.magnitude, m.cost_usd, m.flag_usd,
-                                             u.id_unit, u.unit, u.abbreviation, m.cost, m.date_material, m.quantity, m.observation, m.img,
+                                             u.id_unit, u.unit, u.abbreviation, m.cost, m.date_material, m.quantity, m.observation, m.img, m.cost_import, m.cost_export, m.cost_total,
                                              IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status, m.flag_indirect
                                       FROM materials m
                                       	  LEFT JOIN categories c ON c.id_category = m.id_category
@@ -123,7 +123,10 @@ class GeneralMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $cost = $quantity * $dataMaterial['cost'];
+            if ($_SESSION['export_import'] == '1' && $dataMaterial['cost_total'] > 0)
+                $cost = $quantity * $dataMaterial['cost_total'];
+            else
+                $cost = $quantity * $dataMaterial['cost'];
 
             $stmt = $connection->prepare("UPDATE products_materials SET cost = :cost WHERE id_product_material = :id_product_material");
             $stmt->execute([
@@ -150,6 +153,26 @@ class GeneralMaterialsDao
             $stmt->execute([
                 'date_material' => $dataMaterial['date'],
                 'observation' => $dataMaterial['observation'],
+                'id_material' => $dataMaterial['idMaterial']
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function saveCostsMaterial($dataMaterial)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE materials SET cost_import = :cost_import, cost_export = :cost_export, cost_total = :cost_total
+                                          WHERE id_material = :id_material");
+            $stmt->execute([
+                'cost_import' => $dataMaterial['costImport'],
+                'cost_export' => $dataMaterial['costExport'],
+                'cost_total' => $dataMaterial['costTotal'],
                 'id_material' => $dataMaterial['idMaterial']
             ]);
         } catch (\Exception $e) {

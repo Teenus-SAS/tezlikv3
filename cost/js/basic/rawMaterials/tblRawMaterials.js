@@ -3,6 +3,8 @@ $(document).ready(function () {
   // allProductMaterials = [];
   // allMaterials = [];
   // visible = true;
+  let visibleCost = true;
+  export_import == '0' ? visibleCost = false : visibleCost;
 
   loadAllData = async (op) => {
     try {
@@ -117,6 +119,81 @@ $(document).ready(function () {
                 text = `$ ${cost}`;
 
               return text;
+            },
+          },
+          {
+            // width: '80px',
+            title: 'Importacion',
+            data: null,
+            className: 'classRight',
+            visible: visibleCost,
+            render: function (data) {
+              let cost = parseFloat(data.cost_import);
+              if (Math.abs(cost) < 0.01) {
+                cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+              } else
+                cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+
+              // price_usd == '1' && 
+              // if (flag_currency_usd == '1') {
+              //   if (data.flag_usd == 0)
+              //     text = `$ ${cost}`;
+              //   else
+              //     text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
+              // } else
+              //   text = `$ ${cost}`;
+
+              return `$ ${cost}`;
+            },
+          },
+          {
+            // width: '80px',
+            title: 'Exportacion',
+            data: null,
+            className: 'classRight',
+            visible: visibleCost,
+            render: function (data) {
+              let cost = parseFloat(data.cost_export);
+              if (Math.abs(cost) < 0.01) {
+                cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+              } else
+                cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+
+              // price_usd == '1' && 
+              // if (flag_currency_usd == '1') {
+              //   if (data.flag_usd == 0)
+              //     text = `$ ${cost}`;
+              //   else
+              //     text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
+              // } else
+              //   text = `$ ${cost}`;
+
+              return `$ ${cost}`;
+            },
+          },
+          {
+            // width: '80px',
+            title: 'Total',
+            data: null,
+            className: 'classRight',
+            visible: visibleCost,
+            render: function (data) {
+              let cost = parseFloat(data.cost_total);
+              if (Math.abs(cost) < 0.01) {
+                cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+              } else
+                cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+
+              // price_usd == '1' && 
+              // if (flag_currency_usd == '1') {
+              //   if (data.flag_usd == 0)
+              //     text = `$ ${cost}`;
+              //   else
+              //     text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
+              // } else
+              //   text = `$ ${cost}`;
+
+              return `$ ${cost}`;
             },
           },
           {

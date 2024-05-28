@@ -133,38 +133,54 @@ if (sizeof($_SESSION) == 0)
                                                     <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
                                                     <label>Referencia</label>
                                                 </div>
-                                                <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
                                                     <label>Nombre Materia Prima</label>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0 categories">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label mb-0 categories">
                                                     <select class="form-control" id="idCategory" name="idCategory"></select>
                                                     <label>Categoria</label>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
                                                     <select class="form-control" id="magnitudes" name="magnitude"></select>
                                                     <label>Magnitud</label>
                                                 </div>
-                                                <div class="col-sm-3 floating-label enable-floating-label show-label mb-0">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
                                                     <select class="form-control" id="units" name="unit">
                                                         <option disabled selected>Seleccionar</option>
                                                     </select>
                                                     <label>Unidad</label>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
-                                                    <input type="number" class="form-control text-center" step="any" id="costRawMaterial" name="costRawMaterial" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
+                                                    <input type="number" class="form-control text-center calcCost" step="any" id="costRawMaterial" name="costRawMaterial" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
                                                     <label>Costo</label>
                                                 </div>
-                                                <div class="col-xs-2" style="margin-bottom:0px;margin-top:5px">
-                                                    <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
-                                                </div>
-                                            </div>
-                                            <!-- $_SESSION['price_usd'] -->
-                                            <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
-                                                <div class="alert alert-warning mt-3 cardAlertPrice" role="alert">
-                                                    Ingrese el valor de compra en COP
-                                                </div>
-                                            <?php } ?>
+                                                <?php if ($_SESSION['export_import'] == 1) { ?>
+                                                    <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
+                                                        <input type="number" class="form-control text-center calcCost" step="any" id="costImport" name="costImport" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
+                                                        <label>Costo Importación</label>
+                                                    </div>
+                                                    <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
+                                                        <input type="number" class="form-control text-center calcCost" step="any" id="costExport" name="costExport" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
+                                                        <label>Costo Nacionalización</label>
+                                                    </div>
+                                                    <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
+                                                        <input type="number" class="form-control text-center" id="costTotal" name="costTotal" readonly>
+                                                        <label>Costo Total</label>
+                                                    </div>
+                                                    <div class="col-xs-2" style="margin-bottom:0px;margin-top:15px">
+                                                    <?php } else { ?>
+                                                        <div class="col-xs-2" style="margin-bottom:0px;margin-top:5px">
+                                                        <?php } ?>
+                                                        <button class="btn btn-info" id="btnCreateMaterial" name="btnCreateMaterial">Crear</button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- $_SESSION['price_usd'] -->
+                                                    <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                                        <div class="alert alert-warning mt-3 cardAlertPrice" role="alert">
+                                                            Ingrese el valor de compra en COP
+                                                        </div>
+                                                    <?php } ?>
                                         </form>
                                     </div>
                                 </div>
@@ -318,6 +334,7 @@ if (sizeof($_SESSION) == 0)
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
+        export_import = "<?= $_SESSION['export_import'] ?>";
     </script>
     <script src="/global/js/global/configMagnitudes.js"></script>
     <script src="/global/js/global/configUnits.js"></script>

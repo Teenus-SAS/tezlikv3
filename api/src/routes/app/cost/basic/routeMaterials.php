@@ -294,7 +294,6 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
     $dataMaterial = $request->getParsedBody();
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
-
     $dataMaterials = sizeof($dataMaterial);
 
     if ($dataMaterials > 1) {
@@ -333,6 +332,13 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             } else
                 $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
+            if ($_SESSION['export_import'] == '1') {
+                $lastData = $lastDataDao->lastInsertedMaterialsId($id_company);
+                $dataMaterial['idMaterial'] = $lastData['id_material'];
+
+                $materials = $generalMaterialsDao->saveCostsMaterial($dataMaterial);
+            }
+
             if ($materials == null)
                 $resp = array('success' => true, 'message' => 'Materia Prima creada correctamente');
             else if (isset($materials['info']))
@@ -368,6 +374,11 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 if ($materials[$i]['typeCost'] == 'COP' || $_SESSION['flag_currency_usd'] == '0') {
                     $materials[$i]['usd'] = 0;
                     $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
+
+                    if ($_SESSION['export_import'] == '1') {
+                        $lastData = $lastDataDao->lastInsertedMaterialsId($id_company);
+                        $materials[$i]['idMaterial'] = $lastData['id_material'];
+                    }
                 } else {
                     $materials[$i]['usd'] = 1;
 
@@ -535,6 +546,10 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                     }
                 }
             }
+
+            if ($_SESSION['export_import'] == '1') {
+                $material = $generalMaterialsDao->saveCostsMaterial($materials[$i]);
+            }
         }
         if ($resolution == null)
             $resp = array('success' => true, 'message' => 'Materia Prima Importada correctamente');
@@ -624,6 +639,10 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
             $materials = $generalMaterialsDao->saveCostUSDMaterial($data);
         } else
             $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
+
+        if ($_SESSION['export_import']) {
+            $materials = $generalMaterialsDao->saveCostsMaterial($dataMaterial);
+        }
 
         if ($materials == null) {
             $dataProducts = $costMaterialsDao->findProductByMaterial($dataMaterial['idMaterial'], $id_company);

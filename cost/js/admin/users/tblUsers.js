@@ -72,7 +72,7 @@ $(document).ready(function () {
       {
         title: "Maestros",
         data: null,
-        //width: "300px",
+        // width: "500px",
         render: function (data, type, row) {
           const permissions = [];
 
@@ -87,6 +87,14 @@ $(document).ready(function () {
           permissions.push({
             name: "Materias Primas",
             icon: data.create_materials
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
+            name: "Exportación/Importación",
+            icon: data.export_import
               ? "bi bi-check-circle-fill text-success"
               : "bi bi-x-circle-fill text-danger",
             color: { text: "black" },
