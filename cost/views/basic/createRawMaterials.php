@@ -133,7 +133,7 @@ if (sizeof($_SESSION) == 0)
                                                     <input type="text" class="form-control text-center" id="refRawMaterial" name="refRawMaterial">
                                                     <label>Referencia</label>
                                                 </div>
-                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <input type="text" class="form-control" id="nameRawMaterial" name="nameRawMaterial">
                                                     <label>Nombre Materia Prima</label>
                                                 </div>
@@ -157,11 +157,11 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <?php if ($_SESSION['export_import'] == 1) { ?>
                                                     <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
-                                                        <input type="number" class="form-control text-center calcCost" step="any" id="costImport" name="costImport" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
+                                                        <input type="number" class="form-control text-center calcCost" step="any" id="costImport" name="costImport" data-toggle="tooltip" title="Ingrese el costo de importación en COP">
                                                         <label>Costo Importación</label>
                                                     </div>
                                                     <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
-                                                        <input type="number" class="form-control text-center calcCost" step="any" id="costExport" name="costExport" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
+                                                        <input type="number" class="form-control text-center calcCost" step="any" id="costExport" name="costExport" data-toggle="tooltip" title="Ingrese el costo de nacionalización en COP">
                                                         <label>Costo Nacionalización</label>
                                                     </div>
                                                     <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">

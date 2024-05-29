@@ -93,7 +93,7 @@ $(document).ready(function () {
             visible: visible,
           },
           {
-            title: 'Unidad',
+            title: 'Medida',
             data: 'abbreviation',
             className: 'classCenter',
           },
@@ -123,9 +123,9 @@ $(document).ready(function () {
           },
           {
             // width: '80px',
-            title: 'Importacion',
+            title: 'Costo Importación',
             data: null,
-            className: 'classRight',
+            className: 'classCenter',
             visible: visibleCost,
             render: function (data) {
               let cost = parseFloat(data.cost_import);
@@ -148,9 +148,9 @@ $(document).ready(function () {
           },
           {
             // width: '80px',
-            title: 'Nacionalización',
+            title: 'Costo Nacionalización',
             data: null,
-            className: 'classRight',
+            className: 'classCenter',
             visible: visibleCost,
             render: function (data) {
               let cost = parseFloat(data.cost_export);
