@@ -19,9 +19,35 @@ class GeneralMaterialsDao
     public function findAllMaterialsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT m.id_material, m.reference, m.material, c.id_category, c.category, mg.id_magnitude, mg.magnitude, m.cost_usd, m.flag_usd,
-                                             u.id_unit, u.unit, u.abbreviation, m.cost, m.date_material, m.quantity, m.observation, m.img, m.cost_import, m.cost_export, m.cost_total,
-                                             IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status, m.flag_indirect
+        $stmt = $connection->prepare("SELECT 
+                                            -- Informacion Basica Material
+                                                m.reference, 
+                                                m.material, 
+                                                c.category, 
+                                                mg.magnitude,
+                                                u.unit,
+                                                u.abbreviation,
+                                                m.date_material, 
+                                                m.quantity, 
+                                                m.observation, 
+                                                m.img,
+                                            -- Ids Material
+                                                m.id_material,
+                                                c.id_category,
+                                                mg.id_magnitude,
+                                                u.id_unit,
+                                            -- Costos Material
+                                                m.cost,
+                                                m.cost_usd,
+                                                m.cost_import, 
+                                                m.cost_import_usd, 
+                                                m.cost_export, 
+                                                m.cost_export_usd, 
+                                                m.cost_total,
+                                            -- General
+                                                m.flag_usd,
+                                                m.flag_indirect,
+                                                IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status
                                       FROM materials m
                                       	  LEFT JOIN categories c ON c.id_category = m.id_category
                                           INNER JOIN convert_units u ON u.id_unit = m.unit
@@ -190,6 +216,25 @@ class GeneralMaterialsDao
             $stmt = $connection->prepare("UPDATE materials SET cost_usd = :cost_usd WHERE id_material = :id_material");
             $stmt->execute([
                 'cost_usd' => $dataMaterial['cost_usd'],
+                'id_material' => $dataMaterial['idMaterial']
+            ]);
+        } catch (\Exception $e) {
+            $message = $e->getMessage();
+            $error = array('info' => true, 'message' => $message);
+            return $error;
+        }
+    }
+
+    public function saveAllCostsUSDMaterial($dataMaterial)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        try {
+            $stmt = $connection->prepare("UPDATE materials SET cost_export_usd = :cost_export_usd, cost_import_usd = :cost_import_usd
+                                          WHERE id_material = :id_material");
+            $stmt->execute([
+                'cost_export_usd' => $dataMaterial['costImport'],
+                'cost_import_usd' => $dataMaterial['costExport'],
                 'id_material' => $dataMaterial['idMaterial']
             ]);
         } catch (\Exception $e) {
