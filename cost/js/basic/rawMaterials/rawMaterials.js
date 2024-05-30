@@ -86,19 +86,21 @@ $(document).ready(function () {
     }
   });
 
-  $(document).on('keyup', '.calcCost', function () {
-    let costRawMaterial = parseFloat($('#costRawMaterial').val());
-    let costImport = parseFloat($('#costImport').val());
-    let costExport = parseFloat($('#costExport').val());
+  if (export_import == '1') {
+    $(document).on('keyup', '.calcCost', function () {
+      let costRawMaterial = parseFloat($('#costRawMaterial').val());
+      let costImport = parseFloat($('#costImport').val());
+      let costExport = parseFloat($('#costExport').val());
 
-    isNaN(costRawMaterial) ? costRawMaterial = 0 : costRawMaterial;
-    isNaN(costImport) ? costImport = 0 : costImport;
-    isNaN(costExport) ? costExport = 0 : costExport;
+      isNaN(costRawMaterial) ? costRawMaterial = 0 : costRawMaterial;
+      isNaN(costImport) ? costImport = 0 : costImport;
+      isNaN(costExport) ? costExport = 0 : costExport;
 
-    let costTotal = costRawMaterial + costImport + costExport;
+      let costTotal = costRawMaterial + costImport + costExport;
 
-    $('#costTotal').val(costTotal);
-  });
+      $('#costTotal').val(costTotal);
+    });
+  }
 
   /* Actualizar materia prima */
 
