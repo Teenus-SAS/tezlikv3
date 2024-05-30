@@ -179,7 +179,7 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
         }
 
         // Convertir a Dolares 
-        if ($resolution == null && isset($product)) {
+        if ($resolution == null && isset($product) && $_SESSION['flag_currency_usd'] == '1') {
             $k = [];
             $k['price'] = $product['totalPrice'];
             $k['sale_price'] = $product['sale_price'];
@@ -212,13 +212,14 @@ $app->post('/addCompositeProduct', function (Request $request, Response $respons
                     $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($resolution['info'])) break;
-                // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $arr['id_product'];
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
             }
         }
 
@@ -327,7 +328,7 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
         }
 
         // Convertir a Dolares 
-        if ($resolution == null && isset($product)) {
+        if ($resolution == null && isset($product) && $_SESSION['flag_currency_usd'] == '1') {
             $k = [];
             $k['price'] = $product['totalPrice'];
             $k['sale_price'] = $product['sale_price'];
@@ -361,13 +362,14 @@ $app->post('/updateCompositeProduct', function (Request $request, Response $resp
 
                 if (isset($resolution['info'])) break;
 
-                // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $arr['id_product'];
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
             }
         }
 
@@ -475,7 +477,7 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
     }
 
     // Convertir a Dolares 
-    if ($resolution == null && isset($product)) {
+    if ($resolution == null && isset($product) && $_SESSION['flag_currency_usd'] == '1') {
         $k = [];
         $k['price'] = $product['totalPrice'];
         $k['sale_price'] = $product['sale_price'];
@@ -508,13 +510,14 @@ $app->post('/deleteCompositeProduct', function (Request $request, Response $resp
                 $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
             if (isset($resolution['info'])) break;
-            // Convertir a Dolares 
-            $k = [];
-            $k['price'] = $data['totalPrice'];
-            $k['sale_price'] = $data['sale_price'];
-            $k['id_product'] = $arr['id_product'];
+            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
 
-            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+            }
         }
     }
 

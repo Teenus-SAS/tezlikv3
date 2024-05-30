@@ -306,13 +306,16 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                         $resolution = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                     if (isset($resolution['info'])) break;
-                    // Convertir a Dolares 
-                    $k = [];
-                    $k['price'] = $data['totalPrice'];
-                    $k['sale_price'] = $data['sale_price'];
-                    $k['id_product'] = $arr['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    if ($_SESSION['flag_currency_usd'] == '1') {
+                        // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $arr['id_product'];
+
+                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    }
                     if (isset($resolution['info'])) break;
 
                     if ($_SESSION['flag_composite_product'] == '1') {
@@ -344,13 +347,14 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
 
                             if (isset($resolution['info'])) break;
 
-                            // Convertir a Dolares 
-                            $k = [];
-                            $k['price'] = $data['totalPrice'];
-                            $k['sale_price'] = $data['sale_price'];
-                            $k['id_product'] = $j['id_product'];
+                            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                $k = [];
+                                $k['price'] = $data['totalPrice'];
+                                $k['sale_price'] = $data['sale_price'];
+                                $k['id_product'] = $j['id_product'];
 
-                            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                            }
                             if (isset($resolution['info'])) break;
 
                             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
@@ -377,13 +381,15 @@ $app->post('/addMachines', function (Request $request, Response $response, $args
                                     $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
 
                                 if (isset($resolution['info'])) break;
-                                // Convertir a Dolares 
-                                $l = [];
-                                $l['price'] = $data['totalPrice'];
-                                $l['sale_price'] = $data['sale_price'];
-                                $l['id_product'] = $k['id_product'];
 
-                                $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                    $l = [];
+                                    $l['price'] = $data['totalPrice'];
+                                    $l['sale_price'] = $data['sale_price'];
+                                    $l['id_product'] = $k['id_product'];
+
+                                    $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                }
                             }
                         }
                     }
@@ -517,13 +523,14 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                 $machines = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($machines['info'])) break;
-                // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $arr['id_product'];
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
 
-                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
                 if (isset($machines['info'])) break;
 
                 if ($_SESSION['flag_composite_product'] == '1') {
@@ -564,13 +571,14 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                             $machines = $generalProductsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
                         if (isset($machines['info'])) break;
-                        // Convertir a Dolares 
-                        $l = [];
-                        $l['price'] = $data['totalPrice'];
-                        $l['sale_price'] = $data['sale_price'];
-                        $l['id_product'] = $j['id_product'];
+                        if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                            $l = [];
+                            $l['price'] = $data['totalPrice'];
+                            $l['sale_price'] = $data['sale_price'];
+                            $l['id_product'] = $j['id_product'];
 
-                        $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                        }
                         if (isset($machines['info'])) break;
 
                         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
@@ -609,13 +617,14 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                             if (isset($data['totalPrice']))
                                 $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
 
-                            // Convertir a Dolares 
-                            $l = [];
-                            $l['price'] = $data['totalPrice'];
-                            $l['sale_price'] = $data['sale_price'];
-                            $l['id_product'] = $k['id_product'];
+                            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                $l = [];
+                                $l['price'] = $data['totalPrice'];
+                                $l['sale_price'] = $data['sale_price'];
+                                $l['id_product'] = $k['id_product'];
 
-                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                            }
                             if (isset($machines['info'])) break;
                         }
                     }
@@ -706,13 +715,14 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                     $machines = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
                 if (isset($machines['info'])) break;
-                // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $arr['id_product'];
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
 
-                $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
 
                 if ($_SESSION['flag_composite_product'] == '1') {
                     if (isset($machines['info'])) break;
@@ -755,13 +765,14 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
 
                         if (isset($machines['info'])) break;
 
-                        // Convertir a Dolares 
-                        $k = [];
-                        $k['price'] = $data['totalPrice'];
-                        $k['sale_price'] = $data['sale_price'];
-                        $k['id_product'] = $j['id_product'];
+                        if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
 
-                        $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                            $machines = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                        }
                         if (isset($machines['info'])) break;
                         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
@@ -800,13 +811,14 @@ $app->post('/deleteMachine', function (Request $request, Response $response, $ar
                                 $machines = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
 
                             if (isset($machines['info'])) break;
-                            // Convertir a Dolares 
-                            $l = [];
-                            $l['price'] = $data['totalPrice'];
-                            $l['sale_price'] = $data['sale_price'];
-                            $l['id_product'] = $k['id_product'];
+                            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                $l = [];
+                                $l['price'] = $data['totalPrice'];
+                                $l['sale_price'] = $data['sale_price'];
+                                $l['id_product'] = $k['id_product'];
 
-                            $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                $machines = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                            }
                         }
                     }
                 }
