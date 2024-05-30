@@ -167,7 +167,7 @@ $(document).ready(function () {
         },
         {
           // width: '80px',
-          title: 'Importacion',
+          title: 'Costo Importacion',
           data: function (row, type, val, meta) {
             if (flag_currency_usd == '1' && op == 2) {
               return parseFloat(row.cost_import_usd);
@@ -181,7 +181,7 @@ $(document).ready(function () {
         },
         {
           // width: '80px',
-          title: 'Nacionalizacion',
+          title: 'Costo Nacionalizacion',
           data: function (row, type, val, meta) {
             if (flag_currency_usd == '1' && op == 2) {
               return parseFloat(row.cost_export_usd);
