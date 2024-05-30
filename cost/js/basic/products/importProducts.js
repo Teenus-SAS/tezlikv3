@@ -47,7 +47,11 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'producto', 'rentabilidad', 'comision_ventas'];
+        let expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas'];
+
+        if(flag_composite_product == '1')
+          expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', 'sub_producto'];
+        
         const actualHeaders = Object.keys(data[0]);
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
@@ -72,6 +76,7 @@ $(document).ready(function () {
             salePrice: salePrice,
             profitability: item.rentabilidad,
             commissionSale: item.comision_ventas,
+            composite: item.sub_producto,
           };
         });
 
@@ -142,7 +147,10 @@ $(document).ready(function () {
   $('#btnDownloadImportsProducts').click(function (e) {
     e.preventDefault();
 
-    url = 'assets/formatsXlsx/Productos.xlsx';
+    let url = 'assets/formatsXlsx/Productos.xlsx';
+
+    if(flag_composite_product == '1')
+      url = 'assets/formatsXlsx/Productos(Compuesto).xlsx';
 
     link = document.createElement('a');
     link.target = '_blank';

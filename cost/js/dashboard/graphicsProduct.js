@@ -6,6 +6,7 @@ $(document).ready(function () {
   var chartTotalTime;
   var charCompPrice;
   var chartMaterials;
+  var chartServicesCosts;
 
   var anchura = Math.max(
     document.documentElement.clientWidth,
@@ -33,8 +34,10 @@ $(document).ready(function () {
     let nameProduct = [];
 
     for (i = 0; i < 4; i++) {
-      nameProduct.push(product[i].name);
-      costExpenses.push(product[i].cost);
+      if (product[i].cost > 0) {
+        nameProduct.push(product[i].name);
+        costExpenses.push(product[i].cost);
+      }
     }
     let maxDataValue = Math.max(...costExpenses);
     let minDataValue = Math.min(...costExpenses);
@@ -108,9 +111,11 @@ $(document).ready(function () {
     let totalCost = 0;
 
     for (let i in data) {
-      process.push(data[i].process);
-      workforce.push(data[i].workforce);
-      totalCost = totalCost + workforce[i];
+      if (data[i].workforce > 0) {
+        process.push(data[i].process);
+        workforce.push(data[i].workforce);
+        totalCost = totalCost + workforce[i];
+      }
     }
 
     let typeCurrency = sessionStorage.getItem('typeCurrency');
@@ -178,9 +183,11 @@ $(document).ready(function () {
     let total = 0;
 
     for (let i in data) {
-      process.push(data[i].process);
-      totalTime.push(data[i].totalTime);
-      total = total + totalTime[i];
+      if (data[i].totalTime > 0) {
+        process.push(data[i].process);
+        totalTime.push(data[i].totalTime);
+        total = total + totalTime[i];
+      }
     }
 
     $('#totalTimeProcess').html(
@@ -379,8 +386,10 @@ $(document).ready(function () {
     data.length > length ? (count = length) : (count = data.length);
 
     for (i = 0; i < count; i++) {
-      material.push(data[i].material);
-      totalMaterial.push(data[i].totalCostMaterial);
+      if (data[i].totalCostMaterial > 0) {
+        material.push(data[i].material);
+        totalMaterial.push(data[i].totalCostMaterial);
+      }
     }
 
     if (totalMaterial.length > 1) {
@@ -409,6 +418,93 @@ $(document).ready(function () {
         datasets: [
           {
             data: totalMaterial,
+            backgroundColor: getRandomColor(data.length),
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: maxYValue,
+          },
+          x: {
+            display: false,
+          },
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+          datalabels: {
+            anchor: 'end',
+            align: 'top',
+            offset: 2,
+            formatter: (value, ctx) => {
+              let sum = 0;
+              let dataArr = ctx.chart.data.datasets[0].data;
+              dataArr.map((data) => {
+                sum += data;
+              });
+              let percentage = (value * 100) / sum;
+              isNaN(percentage) ? (percentage = 0) : percentage;
+              return `${percentage.toLocaleString('es-CO', {
+                maximumFractionDigits: 2,
+              })} %`;
+            },
+            color: 'black',
+            font: {
+              size: '10',
+              weight: 'light',
+            },
+          },
+        },
+      },
+    });
+  };
+
+  /* Costos de servicios */
+  graphicCostServices = (data) => {
+    let service = [];
+    let totalService = [];
+
+    anchura <= 480 ? (length = 5) : (length = data.length);
+    data.length > length ? (count = length) : (count = data.length);
+
+    for (i = 0; i < count; i++) {
+      if (data[i].cost > 0) {
+        service.push(data[i].name_service);
+        totalService.push(data[i].cost);
+      }
+    }
+
+    if (totalService.length > 1) {
+      let maxDataValue = Math.max(...totalService);
+      let minDataValue = Math.min(...totalService);
+      let valueRange = maxDataValue - minDataValue;
+
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    } else {
+      maxYValue = Math.max(...totalService);
+    }
+
+    chartServicesCosts ? chartServicesCosts.destroy() : chartServicesCosts;
+
+    cmc = document.getElementById('chartServicesCosts').getContext('2d');
+    chartServicesCosts = new Chart(cmc, {
+      plugins: [ChartDataLabels],
+      type: 'bar',
+      data: {
+        labels: service,
+        // formatter: function (value, context) {
+        //   return context.chart.data.labels[context.dataIndex];
+        // },
+        datasets: [
+          {
+            data: totalService,
             backgroundColor: getRandomColor(data.length),
             borderWidth: 1,
           },

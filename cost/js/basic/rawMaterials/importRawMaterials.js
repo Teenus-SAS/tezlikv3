@@ -47,11 +47,17 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'tipo_moneda'];
+        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'costo_importacion', 'costo_exportacion', 'tipo_moneda'];
         
         // price_usd == '0' ||
-        if (flag_currency_usd == '0')
-          expectedHeaders.splice(5, 1);
+        if (flag_currency_usd == '0') { // COP
+          if (export_import == '0'){
+            expectedHeaders.splice(5, 1);
+            expectedHeaders.splice(5, 1);
+            expectedHeaders.splice(5, 1);
+          }else
+            expectedHeaders.splice(7, 1);
+        }
 
         const actualHeaders = Object.keys(data[0]);
 
@@ -76,17 +82,19 @@ $(document).ready(function () {
           if (flag_currency_usd == '0')
             typeCost = 'COP';
           else
-            typeCost = item.tipo_moneda;          
+            typeCost = item.tipo_moneda;
 
-            return {
-              refRawMaterial: item.referencia,
-              nameRawMaterial: item.material,
-              category: item.categoria,
-              magnitude: item.magnitud,
-              unit: item.unidad,
-              costRawMaterial: costRawMaterial,
-              typeCost: typeCost,
-            };
+          return {
+            refRawMaterial: item.referencia,
+            nameRawMaterial: item.material,
+            category: item.categoria,
+            magnitude: item.magnitud,
+            unit: item.unidad,
+            costRawMaterial: costRawMaterial,
+            costImport: item.costo_importacion,
+            costExport: item.costo_exportacion,
+            typeCost: typeCost,
+          };
         });
 
         checkProduct(materialsToImport);
@@ -153,21 +161,51 @@ $(document).ready(function () {
   $('#btnDownloadImportsMaterials').click(function (e) {
     e.preventDefault();
 
-    // price_usd == '0' || 
-    if (flag_currency_usd == '0')
-      url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
-    else
-      url = 'assets/formatsXlsx/Materia_prima(USD).xlsx';
+    // price_usd == '0' ||
+    // if (flag_currency_usd == '0')
+    //   url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
+    // else
+    //   url = 'assets/formatsXlsx/Materia_prima(USD).xlsx';
 
-    let link = document.createElement('a');
+    // let link = document.createElement('a');
 
-    link.target = '_blank';
+    // link.target = '_blank';
 
-    link.href = url;
-    document.body.appendChild(link);
-    link.click();
+    // link.href = url;
+    // document.body.appendChild(link);
+    // link.click();
 
-    document.body.removeChild(link);
-    delete link;
+    // document.body.removeChild(link);
+    // delete link;
+    let url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
+
+    if (flag_currency_usd == '1') {
+      if (export_import == '1')
+        url = 'assets/formatsXlsx/Materia_prima(Export_Usd).xlsx';
+      else
+        url = 'assets/formatsXlsx/Materia_prima(USD).xlsx';
+    }
+    else {
+      if (export_import == '1')
+        url = 'assets/formatsXlsx/Materia_prima(Export_Cop).xlsx';
+    }
+
+
+    let newFileName = 'Materia_Prima.xlsx';
+
+    fetch(url)
+      .then(response => response.blob())
+      .then(blob => {
+        let link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = newFileName;
+
+        document.body.appendChild(link);
+        link.click();
+
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href); // liberar memoria
+      })
+      .catch(console.error);
   });
 });

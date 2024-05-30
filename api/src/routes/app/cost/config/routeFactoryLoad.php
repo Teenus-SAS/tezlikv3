@@ -221,13 +221,14 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                         $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                     if (isset($factoryLoad['info'])) break;
 
-                    // Convertir a Dolares 
-                    $k = [];
-                    $k['price'] = $data['totalPrice'];
-                    $k['sale_price'] = $data['sale_price'];
-                    $k['id_product'] = $arr['id_product'];
+                    if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $arr['id_product'];
 
-                    $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                        $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    }
 
                     if (isset($factoryLoad['info'])) break;
 
@@ -259,13 +260,14 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
                             if (isset($factoryLoad['info'])) break;
 
-                            // Convertir a Dolares 
-                            $k = [];
-                            $k['price'] = $data['totalPrice'];
-                            $k['sale_price'] = $data['sale_price'];
-                            $k['id_product'] = $j['id_product'];
+                            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                $k = [];
+                                $k['price'] = $data['totalPrice'];
+                                $k['sale_price'] = $data['sale_price'];
+                                $k['id_product'] = $j['id_product'];
 
-                            $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                                $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                            }
                             if (isset($factoryLoad['info'])) break;
 
                             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
@@ -293,13 +295,14 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
                                 if (isset($factoryLoad['info'])) break;
 
-                                // Convertir a Dolares 
-                                $l = [];
-                                $l['price'] = $data['totalPrice'];
-                                $l['sale_price'] = $data['sale_price'];
-                                $l['id_product'] = $k['id_product'];
+                                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                    $l = [];
+                                    $l['price'] = $data['totalPrice'];
+                                    $l['sale_price'] = $data['sale_price'];
+                                    $l['id_product'] = $k['id_product'];
 
-                                $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                    $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                }
                             }
                         }
                     }
@@ -369,13 +372,14 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
                 if (isset($resolution['info'])) break;
 
-                // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $arr['id_product'];
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
 
                 if (isset($resolution['info'])) break;
 
@@ -407,13 +411,14 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
 
                         if (isset($resolution['info'])) break;
 
-                        // Convertir a Dolares 
-                        $k = [];
-                        $k['price'] = $data['totalPrice'];
-                        $k['sale_price'] = $data['sale_price'];
-                        $k['id_product'] = $j['id_product'];
+                        if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
 
-                        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                            $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                        }
 
                         if (isset($resolution['info'])) break;
 
@@ -441,13 +446,14 @@ $app->post('/addFactoryLoad', function (Request $request, Response $response, $a
                                 $resolution = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
 
                             if (isset($resolution['info'])) break;
-                            // Convertir a Dolares 
-                            $l = [];
-                            $l['price'] = $data['totalPrice'];
-                            $l['sale_price'] = $data['sale_price'];
-                            $l['id_product'] = $k['id_product'];
+                            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                $l = [];
+                                $l['price'] = $data['totalPrice'];
+                                $l['sale_price'] = $data['sale_price'];
+                                $l['id_product'] = $k['id_product'];
 
-                            $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                $resolution = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                            }
                         }
                     }
                 }
@@ -539,13 +545,14 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
                     $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
                 if (isset($factoryLoad['info'])) break;
 
-                // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $arr['id_product'];
+                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                    $k = [];
+                    $k['price'] = $data['totalPrice'];
+                    $k['sale_price'] = $data['sale_price'];
+                    $k['id_product'] = $arr['id_product'];
 
-                $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                }
 
                 if (isset($factoryLoad['info'])) break;
 
@@ -577,13 +584,14 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
 
                         if (isset($factoryLoad['info'])) break;
 
-                        // Convertir a Dolares 
-                        $k = [];
-                        $k['price'] = $data['totalPrice'];
-                        $k['sale_price'] = $data['sale_price'];
-                        $k['id_product'] = $j['id_product'];
+                        if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                            $k = [];
+                            $k['price'] = $data['totalPrice'];
+                            $k['sale_price'] = $data['sale_price'];
+                            $k['id_product'] = $j['id_product'];
 
-                        $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                            $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                        }
 
                         if (isset($factoryLoad['info'])) break;
                         $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
@@ -610,13 +618,14 @@ $app->post('/updateFactoryLoad', function (Request $request, Response $response,
                                 $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
 
                             if (isset($factoryLoad['info'])) break;
-                            // Convertir a Dolares 
-                            $l = [];
-                            $l['price'] = $data['totalPrice'];
-                            $l['sale_price'] = $data['sale_price'];
-                            $l['id_product'] = $k['id_product'];
+                            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                                $l = [];
+                                $l['price'] = $data['totalPrice'];
+                                $l['sale_price'] = $data['sale_price'];
+                                $l['id_product'] = $k['id_product'];
 
-                            $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                                $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                            }
                         }
                     }
                 }
@@ -697,13 +706,14 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
                 $factoryLoad = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
             if (isset($factoryLoad['info'])) break;
 
-            // Convertir a Dolares 
-            $k = [];
-            $k['price'] = $data['totalPrice'];
-            $k['sale_price'] = $data['sale_price'];
-            $k['id_product'] = $arr['id_product'];
+            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                $k = [];
+                $k['price'] = $data['totalPrice'];
+                $k['sale_price'] = $data['sale_price'];
+                $k['id_product'] = $arr['id_product'];
 
-            $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+            }
 
             if (isset($factoryLoad['info'])) break;
 
@@ -748,13 +758,14 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
 
                     if (isset($factoryLoad['info'])) break;
 
-                    // Convertir a Dolares 
-                    $k = [];
-                    $k['price'] = $data['totalPrice'];
-                    $k['sale_price'] = $data['sale_price'];
-                    $k['id_product'] = $j['id_product'];
+                    if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                        $k = [];
+                        $k['price'] = $data['totalPrice'];
+                        $k['sale_price'] = $data['sale_price'];
+                        $k['id_product'] = $j['id_product'];
 
-                    $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                        $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+                    }
 
                     if (isset($factoryLoad['info'])) break;
 
@@ -795,13 +806,14 @@ $app->post('/deleteFactoryLoad', function (Request $request, Response $response,
                             $factoryLoad = $generalProductsDao->updatePrice($k['id_product'], $data['totalPrice']);
 
                         if (isset($factoryLoad['info'])) break;
-                        // Convertir a Dolares 
-                        $l = [];
-                        $l['price'] = $data['totalPrice'];
-                        $l['sale_price'] = $data['sale_price'];
-                        $l['id_product'] = $k['id_product'];
+                        if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+                            $l = [];
+                            $l['price'] = $data['totalPrice'];
+                            $l['sale_price'] = $data['sale_price'];
+                            $l['id_product'] = $k['id_product'];
 
-                        $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                            $factoryLoad = $pricesUSDDao->calcPriceUSDandModify($l, $coverage_usd);
+                        }
                     }
                 }
             }

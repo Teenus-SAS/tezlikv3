@@ -135,15 +135,15 @@ $(document).ready(function () {
                 cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
 
               // price_usd == '1' && 
-              // if (flag_currency_usd == '1') {
-              //   if (data.flag_usd == 0)
-              //     text = `$ ${cost}`;
-              //   else
-              //     text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
-              // } else
-              //   text = `$ ${cost}`;
+              if (flag_currency_usd == '1') {
+                if (data.flag_usd == 0)
+                  text = `$ ${cost}`;
+                else
+                  text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
+              } else
+                text = `$ ${cost}`;
 
-              return `$ ${cost}`;
+              return text;
             },
           },
           {
@@ -160,15 +160,15 @@ $(document).ready(function () {
                 cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
 
               // price_usd == '1' && 
-              // if (flag_currency_usd == '1') {
-              //   if (data.flag_usd == 0)
-              //     text = `$ ${cost}`;
-              //   else
-              //     text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
-              // } else
-              //   text = `$ ${cost}`;
+              if (flag_currency_usd == '1') {
+                if (data.flag_usd == 0)
+                  text = `$ ${cost}`;
+                else
+                  text = `<p style="color: #2eb92e;">$ ${cost}</p>`;
+              } else
+                text = `$ ${cost}`;
 
-              return `$ ${cost}`;
+              return text;
             },
           },
           {

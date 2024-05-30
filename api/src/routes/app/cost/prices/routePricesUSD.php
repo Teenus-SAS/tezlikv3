@@ -191,6 +191,20 @@ $app->get('/priceUSD/{coverage_usd}', function (Request $request, Response $resp
         if ($resolution != null) break;
         $resolution = $generalMaterialsDao->saveCostUSDMaterial($data);
         if ($resolution != null) break;
+
+        if ($_SESSION['export_import'] == '1') {
+            $data['costImport'] = $arr['cost_import'];
+            $data['costExport'] = $arr['cost_export'];
+            $resolution = $generalMaterialsDao->saveAllCostsUSDMaterial($data);
+            if ($resolution != null) break;
+
+            $data['costImport'] = floatval($data['costImport']) * floatval($coverage_usd);
+            $data['costExport'] = floatval($data['costExport']) * floatval($coverage_usd);
+            $data['costTotal'] = $arr['cost'] + $data['costImport'] + $data['costExport'];
+
+            $resolution = $generalMaterialsDao->saveCostsMaterial($data);
+            if ($resolution != null) break;
+        }
     }
 
     if ($resolution == null)

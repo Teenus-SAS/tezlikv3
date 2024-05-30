@@ -32,25 +32,29 @@ $(document).ready(function () {
     }
   });
 
-  $('#btnPriceUSD').click(function (e) { 
+  $('#selectPriceUSD').change(function (e) {
     e.preventDefault();
 
-    let className = document.getElementById('btnPriceUSD').className;
+    const selectPriceUSD = this.value; 
+    let titleText;
+    
+    switch (selectPriceUSD) {
+      case '1': // Precios COP
+        titleText = 'Ingrese el valor de compra en COP';
+        break;
+      case '2': // Precios USD
+        titleText = 'Ingrese el valor de compra en USD';
+        break;
+    }
 
-    if (className == 'btn btn-sm btn-outline-primary') {
-      document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
-      document.getElementById('btnPriceUSD').innerText = 'Moneda (COP)';
-      var costRawMaterial = document.getElementById('costRawMaterial');
-      costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD'); 
-      $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
-    } else {
-      document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-outline-primary';      
-      document.getElementById('btnPriceUSD').innerText = 'Moneda (USD)'; 
-      var costRawMaterial = document.getElementById('costRawMaterial');
-      costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');  
-      $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
-    }    
-  });
+    $('#costRawMaterial').attr('data-original-title', titleText);
+
+    if (export_import == '1') {
+      $('#costImport, #costExport').attr('data-original-title', titleText);
+    }
+
+    $('.cardAlertPrice').html(titleText);
+  }); 
 
   /* Ocultar panel para crear materiales */
   $('.cardRawMaterials').hide();
@@ -118,24 +122,46 @@ $(document).ready(function () {
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
     
     // price_usd == '1' && 
+    // if (flag_currency_usd == '1') {
+    //   if (data.flag_usd == 1) {
+    //     $('#costRawMaterial').val(data.cost_usd);
+    //     $('#selectPriceUSD').val(2);
+    //     var costRawMaterial = document.getElementById('costRawMaterial');
+    //     costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD');
+    //     $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
+
+    //     if (export_import == '1') {
+    //       $('#costImport, #costExport').attr('data-original-title', 'Ingrese el valor de compra en USD');
+    //     }
+    //   } else {
+    //     $('#selectPriceUSD').val(1);
+    //     $('#costRawMaterial').val(data.cost); 
+    //     var costRawMaterial = document.getElementById('costRawMaterial');
+    //     costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');
+    //     $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
+
+    //     if (export_import == '1') {
+    //       $('#costImport, #costExport').attr('data-original-title', 'Ingrese el valor de compra en COP');
+    //     }
+    //   }
+    // } else
+    //   $('#costRawMaterial').val(data.cost);
     if (flag_currency_usd == '1') {
-      if (data.flag_usd == 1) {
-        $('#costRawMaterial').val(data.cost_usd);
-        document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-primary';
-        document.getElementById('btnPriceUSD').innerText = 'Moneda (COP)';
-        var costRawMaterial = document.getElementById('costRawMaterial');
-        costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD');
-        $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
-      } else {
-        $('#costRawMaterial').val(data.cost);
-        document.getElementById('btnPriceUSD').className = 'btn btn-sm btn-outline-primary';
-        document.getElementById('btnPriceUSD').innerText = 'Moneda (USD)';
-        var costRawMaterial = document.getElementById('costRawMaterial');
-        costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');
-        $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
+      const isUSD = data.flag_usd == 1;
+      const cost = isUSD ? data.cost_usd : data.cost;
+      const titleText = isUSD ? 'Ingrese el valor de compra en USD' : 'Ingrese el valor de compra en COP';
+      const priceValue = isUSD ? 2 : 1;
+
+      $('#costRawMaterial').val(cost).attr('data-original-title', titleText);
+      $('#selectPriceUSD').val(priceValue);
+      $('.cardAlertPrice').html(titleText);
+
+      if (export_import == '1') {
+        $('#costImport, #costExport').attr('data-original-title', titleText);
       }
-    } else
+    } else {
       $('#costRawMaterial').val(data.cost);
+    }
     
     if(export_import == '1'){
       $('#costImport').val(data.cost_import);
@@ -192,9 +218,13 @@ $(document).ready(function () {
     let dataMaterial = new FormData(formCreateMaterial);
     
     // price_usd == '1' && 
+    let usd = 0;
+
     if (flag_currency_usd == '1') {
-      let className = document.getElementById('btnPriceUSD').className;
-      className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
+      // let className = document.getElementById('btnPriceUSD').className;
+      // className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
+      let priceUSD = $('#selectPriceUSD').val();
+      priceUSD == '2' ? usd = 1 : usd = 0;
     } else
       usd = 0;
     
