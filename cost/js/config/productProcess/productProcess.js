@@ -25,6 +25,17 @@ $(document).ready(function () {
     $("#checkMachine").prop("checked", false);
   });
 
+  /* Validar numero de empleados por proceso */
+  $('#idProcess').change(function (e) { 
+    e.preventDefault();
+    
+    let count_payroll = parseInt(
+      $("#idProcess").find("option:selected").attr("class")
+    );
+
+    $('#employees').val(count_payroll);
+  });
+
   /* Seleccionar producto */
   $("#selectNameProduct").change(function (e) {
     e.preventDefault();
@@ -85,6 +96,7 @@ $(document).ready(function () {
     sessionStorage.setItem("id_product_process", data.id_product_process);
 
     $(`#idProcess option[value=${data.id_process}]`).prop("selected", true);
+    $('#employees').val(data.count_employee);
 
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop("selected", true);
@@ -167,7 +179,7 @@ $(document).ready(function () {
     // let enlistmentTime = parseFloat($("#enlistmentTime").val());
     // let operationTime = parseFloat($("#operationTime").val());
     // // let efficiency = parseFloat($("#efficiency").val());
-    let status = parseInt(
+    let count_payroll = parseInt(
       $("#idProcess").find("option:selected").attr("class")
     );
 
@@ -184,7 +196,7 @@ $(document).ready(function () {
     let autoMachine = 1;
 
     if (!$("#checkMachine").is(":checked")) {
-      if (status === 0) {
+      if (count_payroll === 0) {
         $('#idProcess').css("border-color", "red");
 
         toastr.error(

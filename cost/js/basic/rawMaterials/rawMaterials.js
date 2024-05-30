@@ -35,15 +35,21 @@ $(document).ready(function () {
   $('#selectPriceUSD').change(function (e) {
     e.preventDefault();
 
-    const selectPriceUSD = this.value; 
+    $('.cardRawMaterials').hide(800);
+    $('.cardImportMaterials').hide(800);
+
+    const selectPriceUSD = this.value;
     let titleText;
-    
+    let op;
+
     switch (selectPriceUSD) {
       case '1': // Precios COP
         titleText = 'Ingrese el valor de compra en COP';
+        op = 1;
         break;
       case '2': // Precios USD
         titleText = 'Ingrese el valor de compra en USD';
+        op = 2;
         break;
     }
 
@@ -54,7 +60,15 @@ $(document).ready(function () {
     }
 
     $('.cardAlertPrice').html(titleText);
-  }); 
+
+    let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
+    let dataCategory = JSON.parse(sessionStorage.getItem('dataCategory'));
+    let visible = true;
+        
+    if (dataCategory.length == 0) visible = false;
+
+    loadTblRawMaterials(dataMaterials, visible, op);
+  });
 
   /* Ocultar panel para crear materiales */
   $('.cardRawMaterials').hide();
@@ -73,6 +87,22 @@ $(document).ready(function () {
     $('#formCreateMaterial').trigger('reset');
   });
 
+  if (export_import == '1') {
+    $(document).on('keyup', '.calcCost', function () {
+      let costRawMaterial = parseFloat($('#costRawMaterial').val());
+      let costImport = parseFloat($('#costImport').val());
+      let costExport = parseFloat($('#costExport').val());
+
+      isNaN(costRawMaterial) ? costRawMaterial = 0 : costRawMaterial;
+      isNaN(costImport) ? costImport = 0 : costImport;
+      isNaN(costExport) ? costExport = 0 : costExport;
+
+      let costTotal = costRawMaterial + costImport + costExport;
+
+      $('#costTotal').val(costTotal);
+    });
+  }
+
   /* Crear materia prima */
 
   $('#btnCreateMaterial').click(function (e) {
@@ -84,21 +114,7 @@ $(document).ready(function () {
     } else {
       checkDataMaterial('/api/updateMaterials', idMaterial);
     }
-  });
-
-  $(document).on('keyup', '.calcCost', function () {
-    let costRawMaterial = parseFloat($('#costRawMaterial').val());
-    let costImport = parseFloat($('#costImport').val());
-    let costExport = parseFloat($('#costExport').val());
-
-    isNaN(costRawMaterial) ? costRawMaterial = 0 : costRawMaterial;
-    isNaN(costImport) ? costImport = 0 : costImport;
-    isNaN(costExport) ? costExport = 0 : costExport;
-
-    let costTotal = costRawMaterial + costImport + costExport;
-
-    $('#costTotal').val(costTotal);
-  });
+  }); 
 
   /* Actualizar materia prima */
 
@@ -146,27 +162,45 @@ $(document).ready(function () {
     //   }
     // } else
     //   $('#costRawMaterial').val(data.cost);
-    if (flag_currency_usd == '1') {
-      const isUSD = data.flag_usd == 1;
-      const cost = isUSD ? data.cost_usd : data.cost;
-      const titleText = isUSD ? 'Ingrese el valor de compra en USD' : 'Ingrese el valor de compra en COP';
-      const priceValue = isUSD ? 2 : 1;
+    // if (flag_currency_usd == '1') {
+    //   const isUSD = data.flag_usd == 1;
+    //   // const cost = isUSD ? data.cost_usd : data.cost;
+    //   const titleText = isUSD ? 'Ingrese el valor de compra en USD' : 'Ingrese el valor de compra en COP';
+    //   const priceValue = isUSD ? 2 : 1;
 
-      $('#costRawMaterial').val(cost).attr('data-original-title', titleText);
-      $('#selectPriceUSD').val(priceValue);
-      $('.cardAlertPrice').html(titleText);
+    //   $('#costRawMaterial').attr('data-original-title', titleText);
+    //   $('#selectPriceUSD').val(priceValue);
+    //   $('.cardAlertPrice').html(titleText);
 
-      if (export_import == '1') {
-        $('#costImport, #costExport').attr('data-original-title', titleText);
-      }
-    } else {
-      $('#costRawMaterial').val(data.cost);
-    }
+    //   if (export_import == '1') {
+    //     $('#costImport, #costExport').attr('data-original-title', titleText);
+    //   }
+    // } else {
+    $('#costRawMaterial').val(data.cost);
+    // }
     
-    if(export_import == '1'){
-      $('#costImport').val(data.cost_import);
-      $('#costExport').val(data.cost_export);
-      $('#costTotal').val(data.cost_total);
+    let selectPriceUSD = $('#selectPriceUSD').val();
+
+    if (flag_currency_usd == '1' && selectPriceUSD == '2') {
+      $('#costRawMaterial').val(data.cost_usd);
+    }
+    if (export_import == '1') {
+      switch (selectPriceUSD) {
+        case '1': // COP
+          $('#costRawMaterial').val(data.cost);
+          $('#costImport').val(data.cost_import);
+          $('#costExport').val(data.cost_export);
+          $('#costTotal').val(data.cost_total);
+          
+          break;
+        case '2': // USD
+          $('#costRawMaterial').val(data.cost_usd);
+          $('#costImport').val(data.cost_import_usd);
+          $('#costExport').val(data.cost_export_usd);
+          $('#costImport').keyup();
+          
+          break;
+      }
     }
 
     $('html, body').animate(
@@ -225,6 +259,7 @@ $(document).ready(function () {
       // className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
       let priceUSD = $('#selectPriceUSD').val();
       priceUSD == '2' ? usd = 1 : usd = 0;
+      // dataMaterial.append('idCategory', category);
     } else
       usd = 0;
     

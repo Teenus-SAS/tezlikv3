@@ -59,6 +59,7 @@ $(document).ready(function () {
           <tr>
             <th></th>
             <th></th>
+            <th></th>
             <th>Total:</th>
             <th id="totalAlistment"></th>
             <th id="totalOperation"></th>
@@ -78,13 +79,13 @@ $(document).ready(function () {
     });
  
     // Encabezados de la tabla
-    var headers = ['No.', 'Proceso', 'Máquina', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
+    var headers = ['No.', 'Proceso', 'Máquina', 'Operarios', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
 
     if (visible == false)
-      headers.splice(8, 1);
+      headers.splice(9, 1);
     
     if (totalEfficiency == 0)
-      headers.splice(5, 1);
+      headers.splice(6, 1);
     
     // Obtén la tabla
     var table = document.getElementById('tblConfigProcess');
@@ -121,6 +122,9 @@ $(document).ready(function () {
             break;
           case 'Máquina':
             cell.textContent = arr.machine;
+            break;
+          case 'Operarios':
+            cell.textContent = arr.count_employee;
             break;
           case title3:
             let value = parseFloat(arr[value3]);

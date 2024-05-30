@@ -68,6 +68,13 @@ $app->get('/loadLastsTrm', function (Request $request, Response $response, $args
     if ($resp == null) {
         $historicalTrm = $trmDao->getAllHistoricalTrm();
 
+        if ($historicalTrm == 1) {
+            $resp = ['error' => true, 'message' => 'Error al cargar la información. Intente mas tarde'];
+
+            $response->getBody()->write(json_encode($resp));
+            return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        }
+
         $status = true;
 
         foreach ($historicalTrm as $arr) {

@@ -19,9 +19,28 @@ class ProductsProcessDao
     public function findAllProductsprocessByIdProduct($idProduct, $id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT pp.id_product_process, p.id_product, pc.id_process, p.reference, p.product, pp.enlistment_time, pp.efficiency,
-                                             pp.operation_time, IFNULL(mc.id_machine, 0) AS id_machine, IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, pc.process,
-                                             pp.workforce_cost, pp.indirect_cost, pp.employee, pp.route, IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine, COUNT(DISTINCT py.employee) AS count_employee
+        $stmt = $connection->prepare("SELECT 
+                                            -- Ides
+                                                pp.id_product_process, 
+                                                p.id_product, 
+                                                pc.id_process, 
+                                                IFNULL(mc.id_machine, 0) AS id_machine,
+                                            -- Informacion Basica
+                                                p.reference, 
+                                                p.product, 
+                                                pp.enlistment_time, 
+                                                pp.efficiency,
+                                                pp.operation_time, 
+                                                IFNULL(mc.machine, 'PROCESO MANUAL') AS machine, 
+                                                pc.process,
+                                            -- Costos
+                                                pp.workforce_cost, 
+                                                pp.indirect_cost, 
+                                            -- Otros 
+                                                pp.employee, 
+                                                pp.route, 
+                                                IF(pp.auto_machine = 0, 'NO','SI') AS auto_machine, 
+                                                COUNT(DISTINCT py.employee) AS count_employee
                                       FROM  products p 
                                         INNER JOIN products_process pp ON pp.id_product = p.id_product
                                         INNER JOIN process pc ON pc.id_process = pp.id_process

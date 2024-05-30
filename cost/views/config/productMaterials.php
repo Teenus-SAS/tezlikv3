@@ -294,7 +294,11 @@ if (sizeof($_SESSION) == 0)
                                                     <label>Proceso</label>
                                                     <select class="form-control inputs" name="idProcess" id="idProcess"></select>
                                                 </div>
-                                                <div class="col-sm-8 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-xs-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                    <label class="text-center">Operadores</label>
+                                                    <input class="form-control text-center" type="number" name="employees" id="employees" readonly>
+                                                </div>
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Maquina</label>
                                                     <select class="form-control inputs" name="idMachine" id="idMachine"></select>
                                                 </div>
@@ -495,6 +499,7 @@ if (sizeof($_SESSION) == 0)
                                                     <tbody id="tblConfigProcessBody"></tbody>
                                                     <tfoot>
                                                         <tr>
+                                                            <th></th>
                                                             <th></th>
                                                             <th></th>
                                                             <th>Total:</th>

@@ -43,10 +43,22 @@ class TrmDao
     public function getLastTrm()
     {
         try {
+            // return 1;
             $url = 'https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=1&$order=vigenciahasta%20DESC';
 
             $json = file_get_contents($url);
+
+            // Verificar si hubo un error al obtener el contenido
+            if ($json === false || !$json) {
+                return 1;
+            }
+
             $historicalTrm = json_decode($json, true);
+
+            // Verificar si hubo un error al decodificar el JSON
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return 1;
+            }
 
             return $historicalTrm;
         } catch (\Exception $e) {
@@ -60,7 +72,18 @@ class TrmDao
             $url = 'https://www.datos.gov.co/resource/32sa-8pi3.json?$limit=480&$order=vigenciahasta%20DESC';
 
             $json = file_get_contents($url);
+
+            // Verificar si hubo un error al obtener el contenido
+            if ($json === false || !$json) {
+                return 1;
+            }
+
             $historicalTrm = json_decode($json, true);
+
+            // Verificar si hubo un error al decodificar el JSON
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                return 1;
+            }
 
             return $historicalTrm;
         } catch (\Exception $e) {

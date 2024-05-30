@@ -19,7 +19,7 @@ class ProcessDao
     public function findAllProcessByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT p.id_process, p.process, p.id_company, IFNULL((SELECT id_payroll FROM payroll WHERE id_process = p.id_process LIMIT 1), 0) AS status, p.route
+        $stmt = $connection->prepare("SELECT p.id_process, p.process, p.id_company, IFNULL((SELECT COUNT(id_payroll) FROM payroll WHERE id_process = p.id_process), 0) AS count_payroll, p.route
                                       FROM process p WHERE p.id_company = :id_company ORDER BY p.route ASC");
         $stmt->execute(['id_company' => $id_company]);
 

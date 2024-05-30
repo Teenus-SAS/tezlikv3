@@ -12,17 +12,29 @@ $IndirectCostDao = new IndirectCostDao();
 $CostWorkforceDao = new CostWorkforceDao();
 $CompaniesDao = new CompaniesDao();
 
+// use Psr\Http\Message\ResponseInterface as Response;
+// use Psr\Http\Message\ServerRequestInterface as Request;
+
 // Modificar TRM historico Diario 
 function updateLastTrm($trmDao, $today)
 {
     try {
         $historicalTrm = $trmDao->getAllHistoricalTrm();
 
+        if ($historicalTrm == 1) {
+            return ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+        }
+
         if (is_array($historicalTrm)) {
             $resp = $trmDao->deleteAllHistoricalTrm();
 
             if ($resp == null) {
                 $historicalTrm = $trmDao->getAllHistoricalTrm();
+
+                if ($historicalTrm == 1) {
+                    return ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+                }
+
                 $status = true;
 
                 foreach ($historicalTrm as $arr) {
