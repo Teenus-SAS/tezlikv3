@@ -47,7 +47,7 @@ $(document).ready(function () {
           return false;
         }
 
-        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'costo_importacion', 'costo_exportacion', 'tipo_moneda'];
+        const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'costo_importacion', 'costo_nacionalizacion', 'tipo_moneda'];
         
         // price_usd == '0' ||
         if (flag_currency_usd == '0') { // COP
@@ -92,7 +92,7 @@ $(document).ready(function () {
             unit: item.unidad,
             costRawMaterial: costRawMaterial,
             costImport: item.costo_importacion,
-            costExport: item.costo_exportacion,
+            costExport: item.costo_nacionalizacion,
             typeCost: typeCost,
           };
         });

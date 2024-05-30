@@ -46,6 +46,13 @@ $app->get('/currentDollar', function (Request $request, Response $response, $arg
     }
 
     $price = $trmDao->getLastTrm();
+    if ($price == 1) {
+        $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    }
+
     $response->getBody()->write(json_encode($price, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -101,6 +108,13 @@ $app->post('/simPriceUSD', function (Request $request, Response $response, $args
 
     // Obtener trm actual
     $actualTrm = $trmDao->getLastTrm();
+
+    if ($actualTrm == 1) {
+        $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    }
 
     // Covertura Cambiaria
     $exchangeCoverage = $actualTrm[0]['valor'] - $coverage_usd;
@@ -159,6 +173,13 @@ $app->get('/priceUSD/{coverage_usd}', function (Request $request, Response $resp
 
     // Obtener trm actual
     $actualTrm = $trmDao->getLastTrm();
+
+    if ($actualTrm == 1) {
+        $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+        $response->getBody()->write(json_encode($resp));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    }
 
     // Covertura Cambiaria
     $exchangeCoverage = $actualTrm[0]['valor'] - $coverage_usd;

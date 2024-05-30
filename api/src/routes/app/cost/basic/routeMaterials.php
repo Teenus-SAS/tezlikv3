@@ -329,6 +329,14 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                 // if ($trm == 0) {
                 $trm = $trmDao->getLastTrm();
+
+                if ($trm == 1) {
+                    $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+                    $response->getBody()->write(json_encode($resp));
+                    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+                }
+
                 $trm = $trm[0]['valor'];
                 // }
 
@@ -427,6 +435,14 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                     // if ($trm == 0) {
                     $trm = $trmDao->getLastTrm();
+
+                    if ($trm == 1) {
+                        $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+                        $response->getBody()->write(json_encode($resp));
+                        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+                    }
+
                     $trm = $trm[0]['valor'];
                     // }
 
@@ -493,6 +509,14 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
 
                     // if ($trm == 0) {
                     $trm = $trmDao->getLastTrm();
+
+                    if ($trm == 1) {
+                        $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+                        $response->getBody()->write(json_encode($resp));
+                        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+                    }
+
                     $trm = $trm[0]['valor'];
                     // }
 
@@ -703,6 +727,14 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
 
             // if ($trm == 0) {
             $trm = $trmDao->getLastTrm();
+
+            if ($trm == 1) {
+                $resp = ['error' => true, 'message' => 'Error al guardar la información. Intente mas tarde'];
+
+                $response->getBody()->write(json_encode($resp));
+                return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+            }
+
             $trm = $trm[0]['valor'];
             // } 
 
