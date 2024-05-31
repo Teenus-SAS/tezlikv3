@@ -20,7 +20,7 @@ class ProductsMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT p.id_product, p.reference AS reference_product, p.product, m.reference AS reference_material, m.material, IFNULL(mg.magnitude, '') AS magnitude, IFNULL(u.unit, '') AS unit, IFNULL(u.abbreviation, '') AS abbreviation, pm.quantity, m.cost, m.cost_total, m.cost AS cost_material, 
-                                             pm.cost AS cost_product_material, pm.id_product_material, m.id_material, IFNULL(mg.id_magnitude, 0) AS id_magnitude, pm.id_unit, 'Material' AS type, pm.waste, ((pm.cost / pc.cost_materials)* 100) AS participation
+                                             pm.cost AS cost_product_material, pm.cost_usd AS cost_product_material_usd, pm.id_product_material, m.id_material, IFNULL(mg.id_magnitude, 0) AS id_magnitude, pm.id_unit, 'Material' AS type, pm.waste, ((pm.cost / pc.cost_materials)* 100) AS participation
                                       FROM products p
                                       	INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                         INNER JOIN products_materials pm ON pm.id_product = p.id_product

@@ -32,6 +32,7 @@ $(document).ready(function () {
     }
   });
 
+  // Cambiar moneda
   $('#selectPriceUSD').change(function (e) {
     e.preventDefault();
 

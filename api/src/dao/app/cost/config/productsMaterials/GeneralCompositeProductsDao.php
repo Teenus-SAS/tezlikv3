@@ -32,7 +32,7 @@ class GeneralCompositeProductsDao
         //                                     ) AS total_material_cost ON p.id_product = total_material_cost.id_product
         //                               WHERE cp.id_company = :id_company AND p.active = 1 AND (SELECT active FROM products WHERE id_product = cp.id_product) = 1");
         $stmt = $connection->prepare("SELECT cp.id_composite_product, 0 AS id_product_material, cp.id_child_product, cp.id_product, p.reference, p.reference AS reference_material, p.product AS material, mg.id_magnitude, mg.magnitude, 
-                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, pc.cost_materials, pc.price, pc.sale_price, 'Producto' AS type, 0 AS waste, ((cp.cost / pc.cost_materials) * 100) AS participation
+                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, TRUNCATE(cp.cost_usd, 2) AS cost_product_material_usd, pc.cost_materials, pc.price, pc.sale_price, 'Producto' AS type, 0 AS waste, ((cp.cost / pc.cost_materials) * 100) AS participation
                                       FROM products p 
                                         INNER JOIN composite_products cp ON cp.id_child_product = p.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = cp.id_product
@@ -115,13 +115,25 @@ class GeneralCompositeProductsDao
     {
         try {
             $connection = Connection::getInstance()->getConnection();
+            if ($_SESSION['flag_currency_usd'] == 1) {
+                $cost_usd = floatval($dataProduct['cost']) / floatval($_SESSION['coverage_usd']);
 
-            $stmt = $connection->prepare("UPDATE composite_products SET cost = :cost WHERE id_product = :id_product AND id_child_product = :id_child_product");
-            $stmt->execute([
-                'cost' => $dataProduct['cost'],
-                'id_product' => $dataProduct['idProduct'],
-                'id_child_product' => $dataProduct['compositeProduct']
-            ]);
+                $stmt = $connection->prepare("UPDATE composite_products SET cost = :cost, cost_usd = :cost_usd
+                                              WHERE id_product = :id_product AND id_child_product = :id_child_product");
+                $stmt->execute([
+                    'cost' => $dataProduct['cost'],
+                    'cost_usd' => $cost_usd,
+                    'id_product' => $dataProduct['idProduct'],
+                    'id_child_product' => $dataProduct['compositeProduct']
+                ]);
+            } else {
+                $stmt = $connection->prepare("UPDATE composite_products SET cost = :cost WHERE id_product = :id_product AND id_child_product = :id_child_product");
+                $stmt->execute([
+                    'cost' => $dataProduct['cost'],
+                    'id_product' => $dataProduct['idProduct'],
+                    'id_child_product' => $dataProduct['compositeProduct']
+                ]);
+            }
         } catch (\Exception $e) {
             $error = array('info' => true, 'message' => $e->getMessage());
             return $error;

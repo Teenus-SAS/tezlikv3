@@ -16,7 +16,14 @@ $(document).ready(function () {
       // allComposites = dataCompositeProduct;
 
       // if (op != 1)
-      loadtableMaterials(dataProductMaterials);
+      let op = 1;
+      if(flag_currency_usd == '1'){
+        let selectPriceUSD = $('#selectPriceUSD').val();
+
+        selectPriceUSD == '2' ? op = 2 : op = 1;
+      }
+
+      loadTableMaterials(dataProductMaterials, op);
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -63,7 +70,7 @@ $(document).ready(function () {
   }); 
 
   /* Cargue tabla de Proyectos */
-  loadtableMaterials = async (data) => {
+  loadTableMaterials = async (data, op) => {
     // let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
     // let data = dataProductMaterials.filter(item => item.id_product == idProduct);
     
@@ -82,15 +89,37 @@ $(document).ready(function () {
 
     waste == 0 ? visible = false : visible = true;
 
-    if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
-      var table = $("#tblConfigMaterials").DataTable();
-      var pageInfo = table.page.info(); // Guardar información de la página actual
-      table.clear();
-      table.rows.add(data).draw();
-      table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos 
-      $('#tblConfigMaterials').DataTable().column(5).visible(visible);
-      return;
-    }
+    // if ($.fn.dataTable.isDataTable("#tblConfigMaterials")) {
+    //   var table = $("#tblConfigMaterials").DataTable();
+    //   var pageInfo = table.page.info(); // Guardar información de la página actual
+    //   table.clear();
+    //   table.rows.add(data).draw();
+    //   table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos 
+    //   $('#tblConfigMaterials').DataTable().column(5).visible(visible);
+    //   return;
+    // }
+    
+    // Función para formatear los costos
+    const renderCost = (data, op) => {
+      let cost;
+
+      if (flag_currency_usd == '1' && op == 2) {
+        cost = parseFloat(data);
+        if (Math.abs(cost) < 0.01) {
+          cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+        } else {
+          cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+      } else {
+        cost = parseFloat(data);
+        if (Math.abs(cost) < 0.01) {
+          cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+        } else {
+          cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+        }
+      }
+      return `$ ${cost}`;
+    };
     
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
       destroy: true,
@@ -154,17 +183,15 @@ $(document).ready(function () {
         },
         {
           title: 'Precio Unitario',
-          data: 'cost_product_material',
-          className: 'classCenter',
-          render: function (data) {
-            data = parseFloat(data);
-            if (Math.abs(data) < 0.01) { 
-              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else
-              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-            return `$ ${data}`;
+          data: function (row, type, val, meta) {
+            if (flag_currency_usd == '1' && op == 2) {
+              return parseFloat(row.cost_product_material_usd);
+            } else {
+              return row.cost_product_material;
+            }
           },
+          className: 'classCenter',
+          render: (data, type, row) => renderCost(data, op),
         },
         {
           title: 'Participacion',

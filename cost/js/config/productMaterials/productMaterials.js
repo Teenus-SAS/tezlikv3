@@ -47,6 +47,34 @@ $(document).ready(function () {
     }
   });
 
+  // Cambiar moneda
+  $('#selectPriceUSD').change(function (e) {
+    e.preventDefault();
+
+    if ($('#selectNameProduct').val()) {
+      $('.cardAddMaterials').hide(800);
+      $('.cardImportProductsMaterials').hide(800);
+      $('.cardAddNewProduct').hide(800);
+
+      const selectPriceUSD = this.value;
+      let op;
+
+      switch (selectPriceUSD) {
+        case '1': // Precios COP 
+          op = 1;
+          break;
+        case '2': // Precios USD
+          // titleText = 'Ingrese el valor de compra en USD';
+          op = 2;
+          break;
+      }
+
+      let dataMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+
+      loadTableMaterials(dataMaterials, op);
+    }
+  });
+
   $("#categories").change(function (e) {
     e.preventDefault();
 

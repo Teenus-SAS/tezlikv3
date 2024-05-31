@@ -154,11 +154,23 @@ class GeneralMaterialsDao
             else
                 $cost = $quantity * $dataMaterial['cost'];
 
-            $stmt = $connection->prepare("UPDATE products_materials SET cost = :cost WHERE id_product_material = :id_product_material");
-            $stmt->execute([
-                'cost' => $cost,
-                'id_product_material' => $dataMaterial['id_product_material']
-            ]);
+            if ($_SESSION['flag_currency_usd'] == 1) {
+                $cost_usd = $cost / floatval($_SESSION['coverage_usd']);
+
+                $stmt = $connection->prepare("UPDATE products_materials SET cost = :cost, cost_usd = :cost_usd 
+                                              WHERE id_product_material = :id_product_material");
+                $stmt->execute([
+                    'cost' => $cost,
+                    'cost_usd' => $cost_usd,
+                    'id_product_material' => $dataMaterial['id_product_material']
+                ]);
+            } else {
+                $stmt = $connection->prepare("UPDATE products_materials SET cost = :cost WHERE id_product_material = :id_product_material");
+                $stmt->execute([
+                    'cost' => $cost,
+                    'id_product_material' => $dataMaterial['id_product_material']
+                ]);
+            }
         } catch (\Exception $e) {
             $message = $e->getMessage();
 
