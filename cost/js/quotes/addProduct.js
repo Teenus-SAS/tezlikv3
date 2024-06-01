@@ -69,6 +69,10 @@ $(document).ready(function () {
     if (custom_price == 0 || op == 1)
       $('#price').val(price);
 
+    if (data.profitability > 0) {
+      $('#profitability').val(data.profitability);
+    }
+
     $('.imgProduct').empty();
 
     if (data.img)

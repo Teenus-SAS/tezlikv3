@@ -384,7 +384,7 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
 
             // Consultar si tengo productos que no estan en el importe y inactivarlos
             foreach ($cProducts as $arr) {
-                if (!in_array($arr['id_product'], $arrProducts)) {
+                if (!in_array($arr['id_product'], $arrProducts) && $arr['composite'] == 0) {
                     $generalProductsDao->activeOrInactiveProducts($arr['id_product'], 0);
                 }
             }

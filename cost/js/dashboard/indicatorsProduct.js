@@ -65,7 +65,7 @@ $(document).ready(function () {
       await graphicCostTimeProcess(data.cost_time_process);
       await graphicPromTime(data.average_time_process);
       await graphicCompPrices(data.cost_product);
-      await graphicCostServices(data.services);
+      // await graphicCostServices(data.services);
 
       if (data.cost_materials.length > 10) {
         data = await searchData(`/api/rawMaterials/${id_product}`);

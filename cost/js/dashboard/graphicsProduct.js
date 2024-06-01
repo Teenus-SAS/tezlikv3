@@ -6,7 +6,7 @@ $(document).ready(function () {
   var chartTotalTime;
   var charCompPrice;
   var chartMaterials;
-  var chartServicesCosts;
+  // var chartServicesCosts;
 
   var anchura = Math.max(
     document.documentElement.clientWidth,
@@ -23,7 +23,8 @@ $(document).ready(function () {
       { name: 'Mano de Obra', cost: data[0].cost_workforce },
       { name: 'Materia Prima', cost: data[0].cost_materials },
       { name: 'Costos Indirectos', cost: data[0].cost_indirect_cost },
-      { name: 'Gastos Generales', cost: dataCost.expense }
+      { name: 'Gastos Generales', cost: dataCost.expense },
+      { name: 'Servicios', cost: data[0].services }
     );
 
     product.sort(function (a, b) {
@@ -464,7 +465,7 @@ $(document).ready(function () {
     });
   };
 
-  /* Costos de servicios */
+  /* Costos de servicios 
   graphicCostServices = (data) => {
     let service = [];
     let totalService = [];
@@ -549,5 +550,5 @@ $(document).ready(function () {
         },
       },
     });
-  };
+  }; */
 });
