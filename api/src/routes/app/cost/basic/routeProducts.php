@@ -293,7 +293,7 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
                 break;
             }
 
-            if ($findProduct['product'] != $nameProduct || $findProduct['reference'] != $refProduct) {
+            if ($findProduct[0]['product'] != $nameProduct || $findProduct[0]['reference'] != $refProduct) {
                 $i = $i + 2;
                 $dataImportProduct =  array('error' => true, 'message' => "Referencia o nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
                 break;
