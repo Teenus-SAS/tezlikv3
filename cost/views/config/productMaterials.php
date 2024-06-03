@@ -116,13 +116,13 @@ if (sizeof($_SESSION) == 0)
                                     <div class="page-title">
                                         <h3 class="mb-1 font-weight-bold text-dark">Productos</h3>
                                         <ol class="breadcrumb mb-3 mb-md-0">
-                                            <li class="breadcrumb-item active">Ingrese los tiempos para la fabricacion de sus productos de acuerdo con sus procesos, máquinas o proceso manual necesario</li>
+                                            <li class="breadcrumb-item active">Ingrese los tiempos para la fabricación de sus productos de acuerdo con sus procesos, máquinas y/o procesos manuales necesarios</li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                     <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnCreateProcess">Nuevo Proceso</button>
+                                        <button class="btn btn-warning" id="btnCreateProcess">Asignar Tiempos y Procesos</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewProductProcess" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Procesos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
@@ -139,13 +139,13 @@ if (sizeof($_SESSION) == 0)
                                     <div class="page-title">
                                         <h3 class="mb-1 font-weight-bold text-dark">Servicios Externos</h3>
                                         <ol class="breadcrumb mb-3 mb-md-0">
-                                            <li class="breadcrumb-item active">Ingrese los productos o servicios complementarios para un producto en especifico y que solo se haya utilizado en este. Ejm: transporte, envio, etc</li>
+                                            <li class="breadcrumb-item active">Ingrese los servicios externos que se utilizaron para la fabricación del producto seleccionado.</li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                     <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnNewService">Nuevo Servicio</button>
+                                        <button class="btn btn-warning" id="btnNewService">Asginar Servicio Externo</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
