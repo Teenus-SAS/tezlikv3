@@ -81,11 +81,11 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                     <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnCreateProduct">Adicionar Nueva Materia Prima</button>
+                                        <button class="btn btn-warning" id="btnCreateProduct">Asignar Materia Prima</button>
                                     </div>
                                     <?php if ($_SESSION['flag_composite_product'] == 1) { ?>
                                         <div class="col-xs-2 mr-2">
-                                            <button class="btn btn-secondary" id="btnAddNewProduct" style="display: none;">Adicionar Nuevo Producto</button>
+                                            <button class="btn btn-secondary" id="btnAddNewProduct" style="display: none;">Asignar SubProducto</button>
                                         </div>
                                     <?php } ?>
                                     <div class="col-xs-2 py-2 mr-2">
