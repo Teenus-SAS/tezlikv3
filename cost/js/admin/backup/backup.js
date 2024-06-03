@@ -134,6 +134,7 @@ $(document).ready(function () {
             magnitud: dataProductsMaterials[i].magnitude,
             unidad: dataProductsMaterials[i].unit,
             cantidad: parseFloat(dataProductsMaterials[i].quantity),
+            desperdicio: parseFloat(dataProductsMaterials[i].waste),
             precio_unitario: parseFloat(dataProductsMaterials[i].cost_product_material),
             tipo: 'Material',
           });
@@ -156,6 +157,7 @@ $(document).ready(function () {
                 magnitud: dataCompositeProduct[i].magnitude,
                 unidad: dataCompositeProduct[i].unit,
                 cantidad: parseFloat(dataCompositeProduct[i].quantity),
+                desperdicio: parseFloat(dataProductsMaterials[i].waste),
                 precio_unitario: parseFloat(dataCompositeProduct[i].cost_product_material),
                 tipo: 'Producto',
               });
@@ -183,6 +185,7 @@ $(document).ready(function () {
             maquina: dataProductsProcess[i].machine,
             tiempo_enlistamiento: parseFloat(dataProductsProcess[i].enlistment_time),
             tiempo_operacion: parseFloat(dataProductsProcess[i].operation_time),
+            eficiencia: parseFloat(dataProductsProcess[i].efficiency),
             mano_de_obra: parseFloat(dataProductsProcess[i].workforce_cost),
             costo_indirecto: parseFloat(dataProductsProcess[i].indirect_cost),
             maquina_autonoma: dataProductsProcess[i].auto_machine

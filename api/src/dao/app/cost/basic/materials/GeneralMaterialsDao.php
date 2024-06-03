@@ -98,7 +98,7 @@ class GeneralMaterialsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT id_material FROM materials 
+        $stmt = $connection->prepare("SELECT * FROM materials 
                                     WHERE id_company = :id_company AND (reference = :reference OR material = :material)");
         $stmt->execute([
             'reference' => trim($dataMaterial['refRawMaterial']),

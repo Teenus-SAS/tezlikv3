@@ -61,7 +61,7 @@ $(document).ready(function () {
         sessionStorage.setItem('id_composite_product', data.id_composite_product);
         $(`#compositeProduct option[value=${data.id_child_product}]`).prop('selected', true); 
 
-        $('#quantity2').val(data.quantity);
+        $('#quantityCP').val(data.quantity);
 
         // data = await searchData('/api/units');
         data = JSON.parse(sessionStorage.getItem('dataUnits'));
@@ -85,14 +85,14 @@ $(document).ready(function () {
     function validateForm() {
         let emptyInputs = [];
         let selectNameProduct = parseInt($('#selectNameProduct').val());
-        let quantity2 = parseInt($('#quantity2').val());
+        let quantityCP = parseFloat($('#quantityCP').val());
 
         // Verificar cada campo y agregar los vacíos a la lista
         if (!selectNameProduct) {
             emptyInputs.push("#selectNameProduct");
         }
-        if (!quantity2) {
-            emptyInputs.push("#quantity2");
+        if (!quantityCP) {
+            emptyInputs.push("#quantityCP");
         }
 
         // Marcar los campos vacíos con borde rojo
@@ -114,7 +114,7 @@ $(document).ready(function () {
         if (!validateForm()) return false;
 
         let ref = parseInt($('#compositeProduct').val());
-        let quan = parseFloat($('#quantity2').val());
+        let quan = parseFloat($('#quantityCP').val());
         let idProduct = parseInt($('#selectNameProduct').val());
 
         // let data = ref * idProduct;
@@ -135,7 +135,7 @@ $(document).ready(function () {
         quant = 1 * quan;
 
         if (quan <= 0 || isNaN(quan)) {
-            $('#quantity2').css("border-color", "red");
+            $('#quantityCP').css("border-color", "red");
             toastr.error('La cantidad debe ser mayor a cero (0)');
             return false;
         }

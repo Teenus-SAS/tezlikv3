@@ -72,7 +72,8 @@ class GeneralProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
 
-        $stmt = $connection->prepare("SELECT p.img, IFNULL(pc.price, 0) AS price, IFNULL(pc.sale_price, 0) AS sale_price, IFNULL(pc.cost_materials, 0) AS cost_materials
+        $stmt = $connection->prepare("SELECT p.img, IFNULL(pc.price, 0) AS price, IFNULL(pc.sale_price, 0) AS sale_price, 
+                                             IFNULL(pc.profitability, 0) AS profitability, IFNULL(pc.cost_materials, 0) AS cost_materials
                                   FROM products p
                                   LEFT JOIN products_costs pc ON pc.id_product = p.id_product
                                   WHERE p.id_product = :id_product AND p.id_company = :id_company");

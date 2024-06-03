@@ -439,7 +439,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                         <!-- End total sales chart -->
                                         <!-- Begin earning chart -->
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-12">
                                             <div class="card">
                                                 <div class="card-header dflex-between-center">
                                                     <h5 class="card-title">Costos Materia Prima</h5>
@@ -451,7 +451,7 @@ if (sizeof($_SESSION) == 0)
                                         </div>
                                         <!-- End earning chart -->
                                         <!-- Begin earning chart -->
-                                        <div class="col-lg-6">
+                                        <!-- <div class="col-lg-6">
                                             <div class="card">
                                                 <div class="card-header dflex-between-center">
                                                     <h5 class="card-title">Costos Servicios</h5>
@@ -460,7 +460,7 @@ if (sizeof($_SESSION) == 0)
                                                     <canvas id="chartServicesCosts" style="width: 80%;"></canvas>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <!-- End earning chart -->
                                     </div>
                                 </div>

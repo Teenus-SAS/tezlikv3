@@ -249,67 +249,96 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
     $dataProduct = $request->getParsedBody();
 
     if (isset($dataProduct)) {
-        // session_start();
+        // Verificar duplicados
+        $duplicateTracker = [];
+        $dataImportProduct = [];
+
         $id_company = $_SESSION['id_company'];
+        $products = $dataProduct['importProducts'];
+
+        for ($i = 0; $i < count($products); $i++) {
+            if (
+                empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) || $products[$i]['commissionSale'] == ''
+            ) {
+                $i = $i + 2;
+                $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            }
+            if (
+                empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) || trim($products[$i]['commissionSale']) == ''
+            ) {
+                $i = $i + 2;
+                $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                break;
+            }
+
+            $item = $products[$i];
+            $refProduct = trim($item['refRawMaterial']);
+            $nameProduct = trim($item['nameRawMaterial']);
+
+            if (isset($duplicateTracker[$refProduct]) || isset($duplicateTracker[$nameProduct])) {
+                $i = $i + 2;
+                $dataImportProduct =  array('error' => true, 'message' => "Duplicación encontrada en la fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
+                break;
+            } else {
+                $duplicateTracker[$refProduct] = true;
+                $duplicateTracker[$nameProduct] = true;
+            }
+
+            $findProduct = $generalProductsDao->findProductByReferenceOrName($products[$i], $id_company);
+
+            if (sizeof($findProduct) > 1) {
+                $i = $i + 2;
+                $dataImportProduct =  array('error' => true, 'message' => "Referencia y nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
+                break;
+            }
+
+            if ($findProduct[0]['product'] != $nameProduct || $findProduct[0]['reference'] != $refProduct) {
+                $i = $i + 2;
+                $dataImportProduct =  array('error' => true, 'message' => "Referencia o nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
+                break;
+            }
+        }
+
+        // session_start();
 
         $insert = 0;
         $update = 0;
+        if (sizeof($dataImportProduct) == 0) {
+            for ($i = 0; $i < sizeof($products); $i++) {
+                $profitability = floatval(str_replace(',', '.', $products[$i]['profitability']));
+                $commissionSale = floatval(str_replace(',', '.', $products[$i]['commissionSale']));
 
-        $products = $dataProduct['importProducts'];
-
-        for ($i = 0; $i < sizeof($products); $i++) {
-            $profitability = floatval(str_replace(',', '.', $products[$i]['profitability']));
-            $commissionSale = floatval(str_replace(',', '.', $products[$i]['commissionSale']));
-
-            // $profitability = 1 * $profitability;
-
-            if (
-                empty($products[$i]['referenceProduct']) || empty($products[$i]['product']) ||
-                $products[$i]['commissionSale'] == '' //|| is_nan($profitability) || $profitability <= 0
-            ) {
-                $i = $i + 2;
-                $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
-                break;
-            }
-
-            if (
-                empty(trim($products[$i]['referenceProduct'])) || empty(trim($products[$i]['product'])) ||
-                trim($products[$i]['commissionSale']) == ''
-            ) {
-                $i = $i + 2;
-                $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
-                break;
-            }
-
-            if ($profitability > 100 || $commissionSale > 100 || is_nan($profitability) || is_nan($commissionSale)) {
-                $i = $i + 2;
-                $dataImportProduct = array('error' => true, 'message' => "La rentabilidad y comision debe ser menor al 100%, fila: $i");
-                break;
-            }
-
-            $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
-
-            if ($_SESSION['flag_composite_product'] == '1') {
-                if (empty(trim($products[$i]['composite'])) || trim($products[$i]['composite']) == '') {
+                if ($profitability > 100 || $commissionSale > 100 || is_nan($profitability) || is_nan($commissionSale)) {
                     $i = $i + 2;
-                    $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
+                    $dataImportProduct = array('error' => true, 'message' => "La rentabilidad y comision debe ser menor al 100%, fila: $i");
                     break;
                 }
 
-                if ($findProduct && $products[$i]['composite'] == 'NO') {
-                    $product = $generalCompositeProductsDao->findCompositeProductByChild($findProduct['id_product']);
+                $findProduct = $generalProductsDao->findProduct($products[$i], $id_company);
 
-                    if (sizeof($product) > 0) {
-                        $dataImportProduct = array('error' => true, 'message' => "No se puede desactivar el producto. Tiene datos relacionados a él, fila: $i");
+                if ($_SESSION['flag_composite_product'] == '1') {
+                    if (empty(trim($products[$i]['composite'])) || trim($products[$i]['composite']) == '') {
+                        $i = $i + 2;
+                        $dataImportProduct = array('error' => true, 'message' => "Campos vacios, fila: $i");
                         break;
                     }
-                }
-            }
 
-            if (!$findProduct) $insert = $insert + 1;
-            else $update = $update + 1;
-            $dataImportProduct['insert'] = $insert;
-            $dataImportProduct['update'] = $update;
+                    if ($findProduct && $products[$i]['composite'] == 'NO') {
+                        $product = $generalCompositeProductsDao->findCompositeProductByChild($findProduct['id_product']);
+
+                        if (sizeof($product) > 0) {
+                            $dataImportProduct = array('error' => true, 'message' => "No se puede desactivar el producto. Tiene datos relacionados a él, fila: $i");
+                            break;
+                        }
+                    }
+                }
+
+                if (!$findProduct) $insert = $insert + 1;
+                else $update = $update + 1;
+                $dataImportProduct['insert'] = $insert;
+                $dataImportProduct['update'] = $update;
+            }
         }
     } else
         $dataImportProduct = array('error' => true, 'message' => 'El archivo se encuentra vacio. Intente nuevamente');

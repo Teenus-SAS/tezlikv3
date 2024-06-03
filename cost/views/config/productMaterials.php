@@ -210,7 +210,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad</label>
-                                                    <input class="form-control text-center quantity inputs" type="number" name="quantity" id="quantity">
+                                                    <input class="form-control text-center quantity inputs" type="number" name="quantity" id="quantityMP">
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Desperdicio (%)</label>
@@ -280,7 +280,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad</label>
-                                                    <input class="form-control text-center inputs" type="number" name="quantity" id="quantity2">
+                                                    <input class="form-control text-center inputs" type="number" name="quantity" id="quantityCP">
                                                 </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddProduct">Adicionar</button>

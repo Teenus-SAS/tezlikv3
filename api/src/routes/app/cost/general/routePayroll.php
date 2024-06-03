@@ -1064,6 +1064,7 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
     $id_company = $_SESSION['id_company'];
     $coverage_usd = $_SESSION['coverage_usd'];
     $dataPayroll = $request->getParsedBody();
+    $payroll = null;
 
     $productProcess = explode(',', $dataPayroll['id_product_process']);
 
@@ -1089,8 +1090,9 @@ $app->post('/deletePayroll', function (Request $request, Response $response, $ar
         }
     }
 
-    if ($payroll == null)
+    if ($payroll == null) {
         $payroll = $payrollDao->deletePayroll($dataPayroll['idPayroll']);
+    }
 
     if ($payroll == null) {
 

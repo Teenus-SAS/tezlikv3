@@ -161,7 +161,7 @@ $(document).ready(function () {
 
   // Calcular cantidad total
   $(document).on("click keyup", ".quantity", function (e) {
-    let quantity = parseFloat($("#quantity").val());
+    let quantity = parseFloat($("#quantityMP").val());
     let waste = parseFloat($("#waste").val());
 
     isNaN(quantity) ? (quantity = 0) : quantity;
@@ -228,7 +228,7 @@ $(document).ready(function () {
     loadUnitsByMagnitude(data, 2);
     $(`#units option[value=${data.id_unit}]`).prop("selected", true);
 
-    $("#quantity").val(data.quantity);
+    $("#quantityMP").val(data.quantity);
     $("#waste").val(data.waste);
 
     $("#waste").click();
@@ -245,7 +245,7 @@ $(document).ready(function () {
     let emptyInputs = [];
     let refMaterial = parseInt($('#refMaterial').val());
     let units = parseInt($('#units').val()); 
-    let quantity = parseFloat($('#quantity').val());
+    let quantity = parseFloat($('#quantityMP').val());
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!refMaterial) {
@@ -256,7 +256,7 @@ $(document).ready(function () {
       emptyInputs.push("#units");
     }
     if (!quantity) {
-      emptyInputs.push("#quantity");
+      emptyInputs.push("#quantityMP");
     }
 
     // Marcar los campos vacíos con borde rojo
@@ -280,7 +280,7 @@ $(document).ready(function () {
     }
     // let ref = parseInt($("#nameMaterial").val());
     // let unit = parseInt($("#units").val());
-    let quan = parseFloat($("#quantity").val());
+    let quan = parseFloat($("#quantityMP").val());
     // // let waste = parseFloat($("#waste").val());/
     let idProduct = parseInt($("#selectNameProduct").val());
 
@@ -294,7 +294,7 @@ $(document).ready(function () {
     quant = 1 * quan;
 
     if (quan <= 0 || isNaN(quan)) {
-      $('#quantity').css("border-color", "red");
+      $('#quantityMP').css("border-color", "red");
       toastr.error("La cantidad debe ser mayor a cero (0)");
       return false;
     }

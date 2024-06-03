@@ -220,6 +220,20 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
                 $duplicateTracker[$refRawMaterial] = true;
                 $duplicateTracker[$nameRawMaterial] = true;
             }
+
+            $findMaterial = $generalMaterialsDao->findMaterialByReferenceOrName($materials[$i], $id_company);
+
+            if (sizeof($findMaterial) > 1) {
+                $i = $i + 2;
+                $dataImportMaterial =  array('error' => true, 'message' => "Referencia y nombre de material ya existente, fila: $i.<br>- Referencia: $refRawMaterial<br>- Material: $nameRawMaterial");
+                break;
+            }
+
+            if ($findMaterial[0]['material'] != $nameRawMaterial || $findMaterial[0]['reference'] != $refRawMaterial) {
+                $i = $i + 2;
+                $dataImportMaterial =  array('error' => true, 'message' => "Referencia o nombre de material ya existente, fila: $i.<br>- Referencia: $refRawMaterial<br>- Material: $nameRawMaterial");
+                break;
+            }
         }
 
         if (sizeof($dataImportMaterial) == 0) {
