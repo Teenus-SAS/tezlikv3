@@ -145,7 +145,7 @@ $app->post('/materialsDataValidation', function (Request $request, Response $res
 
         for ($i = 0; $i < count($materials); $i++) {
             if ($_SESSION['flag_currency_usd'] == '0') {
-                if ($_SESSION['export_import'] == '1') {
+                if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                     if (
                         empty($materials[$i]['refRawMaterial']) || empty($materials[$i]['nameRawMaterial']) || $materials[$i]['costRawMaterial'] == '' ||
                         empty($materials[$i]['magnitude']) || empty($materials[$i]['unit']) || $materials[$i]['costImport'] == '' || $materials[$i]['costExport'] == ''
@@ -373,7 +373,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 $materials = $generalMaterialsDao->saveBillMaterial($data);
                 $materials = $generalMaterialsDao->saveCostUSDMaterial($data);
 
-                if ($_SESSION['export_import'] == '1') {
+                if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                     $materials = $generalMaterialsDao->saveAllCostsUSDMaterial($dataMaterial);
 
                     $dataMaterial['costImport'] = floatval($dataMaterial['costImport']) * floatval($coverage_usd);
@@ -385,7 +385,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
             } else {
                 $materials = $materialsDao->insertMaterialsByCompany($dataMaterial, $id_company);
 
-                if ($_SESSION['export_import'] == '1') {
+                if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                     $lastData = $lastDataDao->lastInsertedMaterialsId($id_company);
                     $dataMaterial['idMaterial'] = $lastData['id_material'];
 
@@ -432,7 +432,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                     $materials[$i]['usd'] = 0;
                     $resolution = $materialsDao->insertMaterialsByCompany($materials[$i], $id_company);
 
-                    if ($_SESSION['export_import'] == '1') {
+                    if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                         $lastData = $lastDataDao->lastInsertedMaterialsId($id_company);
                         $materials[$i]['idMaterial'] = $lastData['id_material'];
 
@@ -482,7 +482,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                     $resolution = $generalMaterialsDao->saveCostUSDMaterial($data);
                     if ($resolution != null) break;
 
-                    if ($_SESSION['export_import'] == '1') {
+                    if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                         $materials[$i]['idMaterial'] = $lastData['id_material'];
                         $resolution = $generalMaterialsDao->saveAllCostsUSDMaterial($materials[$i]);
                         if ($resolution != null) break;
@@ -502,7 +502,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                     $materials[$i]['usd'] = 0;
                     $resolution = $materialsDao->updateMaterialsByCompany($materials[$i], $id_company);
 
-                    if ($_SESSION['export_import'] == '1') {
+                    if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                         $resolution = $generalMaterialsDao->saveAllCostsUSDMaterial($materials[$i]);
 
                         if (!$materials[$i]['costRawMaterial'] || !$materials[$i]['costImport'] || !$materials[$i]['costExport']) {
@@ -553,7 +553,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                     $resolution = $generalMaterialsDao->saveCostUSDMaterial($data);
                     if ($resolution != null) break;
 
-                    if ($_SESSION['export_import'] == '1') {
+                    if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                         $resolution = $generalMaterialsDao->saveAllCostsUSDMaterial($materials[$i]);
                         if ($resolution != null) break;
 
@@ -667,7 +667,7 @@ $app->post('/addMaterials', function (Request $request, Response $response, $arg
                 }
             }
 
-            // if ($_SESSION['export_import'] == '1') {
+            // if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
             //     $materials[$i]['costTotal'] = $materials[$i]['costRawMaterial'] + $materials[$i]['costImport'] + $materials[$i]['costExport'];
 
             //     $material = $generalMaterialsDao->saveCostsMaterial($materials[$i]);
@@ -768,7 +768,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
             $materials = $generalMaterialsDao->saveBillMaterial($data);
             $materials = $generalMaterialsDao->saveCostUSDMaterial($data);
 
-            if ($_SESSION['export_import'] == '1') {
+            if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                 $materials = $generalMaterialsDao->saveAllCostsUSDMaterial($dataMaterial);
 
                 $dataMaterial['costImport'] = floatval($dataMaterial['costImport']) * floatval($coverage_usd);

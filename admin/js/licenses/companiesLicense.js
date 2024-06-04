@@ -70,6 +70,7 @@ $(document).ready(function () {
     data.flag_expense_anual == '1' ? (anualExpenses = '1') : (anualExpenses = '2');
     data.cost_historical == '1' ? (historical = '1') : (historical = '2');
     data.flag_indirect == '1' ? (indirect = '1') : (indirect = '2'); 
+    data.flag_export_import == '1' ? (exportImport = '1') : (exportImport = '2'); 
     data.inyection == '1' ? (inyection = '1') : (inyection = '2'); 
 
     $(`#currencyUSD option[value=${currencyUSD}]`).prop('selected', true);
@@ -82,6 +83,7 @@ $(document).ready(function () {
     $(`#anualExpenses option[value=${anualExpenses}]`).prop('selected', true);
     $(`#historical option[value=${historical}]`).prop('selected', true);
     $(`#indirect option[value=${indirect}]`).prop('selected', true);
+    $(`#exportImport option[value=${exportImport}]`).prop('selected', true);
     $(`#inyection option[value=${inyection}]`).prop('selected', true);
  
     if (data.cost_economy_scale == 1 && data.cost_sale_objectives == 1) {
@@ -107,13 +109,14 @@ $(document).ready(function () {
     let economyScale = parseFloat($('#economyScale').val());
     let salesObjective = parseFloat($('#salesObjective').val());
     let historical = parseFloat($('#historical').val());
+    let exportImport = parseFloat($('#exportImport').val());
     let indirect = parseFloat($('#indirect').val());
     let inyection = parseFloat($('#inyection').val());
     let production = parseFloat($('#production').val());
     let anualExpenses = parseFloat($('#anualExpenses').val());
 
     data = company * quantityUsers * plan * currencyUSD * currencyEUR * payrollEmployee * compositeProducts * economyScale
-      * salesObjective * historical * inyection * indirect * production * anualExpenses;
+      * salesObjective * historical * inyection * indirect * exportImport * production * anualExpenses;
 
     if (license_start == '' || license_end == '' || isNaN(data) || data <= 0) {
       toastr.error('Ingrese todos los campos');
@@ -135,6 +138,7 @@ $(document).ready(function () {
     anualExpenses == 1 ? (anualExpenses = 1) : (anualExpenses = 0);
     historical == 1 ? (historical = 1) : (historical = 0);
     indirect == 1 ? (indirect = 1) : (indirect = 0);
+    exportImport == 1 ? (exportImport = 1) : (exportImport = 0);
     inyection == 1 ? (inyection = 1) : (inyection = 0);
     
     let dataCompany = new FormData(formAddLicense);
@@ -148,6 +152,7 @@ $(document).ready(function () {
     dataCompany.append('anualExpenses', anualExpenses);
     dataCompany.append('historical', historical);
     dataCompany.append('indirect', indirect);
+    dataCompany.append('exportImport', exportImport);
     dataCompany.append('inyection', inyection);
 
     if (idCompany != '' || idCompany != null)

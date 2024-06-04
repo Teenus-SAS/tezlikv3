@@ -197,6 +197,16 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <div class="form-group m-0">
+                                                        <label>Importar/Nacionalizar</label>
+                                                        <select name="exportImport" id="exportImport" class="form-control">
+                                                            <option selected disabled value="0">Seleccionar</option>
+                                                            <option value="1">Si</option>
+                                                            <option value="2">No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                    <div class="form-group m-0">
                                                         <label>Inyección</label>
                                                         <select name="inyection" id="inyection" class="form-control">
                                                             <option selected disabled value="0">Seleccionar</option>

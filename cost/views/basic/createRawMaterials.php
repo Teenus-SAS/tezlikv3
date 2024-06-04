@@ -163,7 +163,7 @@ if (sizeof($_SESSION) == 0)
                                                     <input type="number" class="form-control text-center calcCost" step="any" id="costRawMaterial" name="costRawMaterial" data-toggle="tooltip" title="Ingrese el valor de compra en COP">
                                                     <label>Costo</label>
                                                 </div>
-                                                <?php if ($_SESSION['export_import'] == 1) { ?>
+                                                <?php if ($_SESSION['export_import'] == 1 && $_SESSION['flag_export_import'] == 1) { ?>
                                                     <div class="col-sm-2 floating-label enable-floating-label show-label mb-0">
                                                         <input type="number" class="form-control text-center calcCost" step="any" id="costImport" name="costImport" data-toggle="tooltip" title="Ingrese el costo de importación en COP">
                                                         <label>Costo Importación</label>
@@ -343,6 +343,7 @@ if (sizeof($_SESSION) == 0)
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         export_import = "<?= $_SESSION['export_import'] ?>";
+        flag_export_import = "<?= $_SESSION['flag_export_import'] ?>";
     </script>
     <script src="/global/js/global/configMagnitudes.js"></script>
     <script src="/global/js/global/configUnits.js"></script>

@@ -56,7 +56,7 @@ $(document).ready(function () {
 
     $('#costRawMaterial').attr('data-original-title', titleText);
 
-    if (export_import == '1') {
+    if (export_import == '1' && flag_export_import == '1') {
       $('#costImport, #costExport').attr('data-original-title', titleText);
     }
 
@@ -88,7 +88,7 @@ $(document).ready(function () {
     $('#formCreateMaterial').trigger('reset');
   });
 
-  if (export_import == '1') {
+  if (export_import == '1' && flag_export_import == '1') {
     $(document).on('keyup', '.calcCost', function () {
       let costRawMaterial = parseFloat($('#costRawMaterial').val());
       let costImport = parseFloat($('#costImport').val());
@@ -185,7 +185,7 @@ $(document).ready(function () {
     if (flag_currency_usd == '1' && selectPriceUSD == '2') {
       $('#costRawMaterial').val(data.cost_usd);
     }
-    if (export_import == '1') {
+    if (export_import == '1' && flag_export_import == '1') {
       switch (selectPriceUSD) {
         case '1': // COP
           $('#costRawMaterial').val(data.cost);
@@ -243,7 +243,7 @@ $(document).ready(function () {
       return false;
     }
     
-    if (export_import == '1') {
+    if (export_import == '1' && flag_export_import == '1') {
       if (!costTotal || costTotal == '') {
         toastr.error('Ingrese todos los campos');
         return false;

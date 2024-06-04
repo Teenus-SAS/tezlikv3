@@ -51,7 +51,7 @@ $(document).ready(function () {
         
         // price_usd == '0' ||
         if (flag_currency_usd == '0') { // COP
-          if (export_import == '0'){
+          if (export_import == '0' && flag_export_import == '0'){
             expectedHeaders.splice(5, 1);
             expectedHeaders.splice(5, 1);
             expectedHeaders.splice(5, 1);
@@ -180,13 +180,13 @@ $(document).ready(function () {
     let url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
 
     if (flag_currency_usd == '1') {
-      if (export_import == '1')
+      if (export_import == '1' && flag_export_import == '1')
         url = 'assets/formatsXlsx/Materia_prima(Export_Usd).xlsx';
       else
         url = 'assets/formatsXlsx/Materia_prima(USD).xlsx';
     }
     else {
-      if (export_import == '1')
+      if (export_import == '1' && flag_export_import == '1')
         url = 'assets/formatsXlsx/Materia_prima(Export_Cop).xlsx';
     }
 

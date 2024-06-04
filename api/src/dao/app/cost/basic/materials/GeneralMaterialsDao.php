@@ -149,7 +149,7 @@ class GeneralMaterialsDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            if ($_SESSION['export_import'] == '1' && $dataMaterial['cost_total'] > 0)
+            if (($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') && $dataMaterial['cost_total'] > 0)
                 $cost = $quantity * $dataMaterial['cost_total'];
             else
                 $cost = $quantity * $dataMaterial['cost'];

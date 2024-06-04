@@ -154,6 +154,14 @@ $(document).ready(function () {
           });
 
           permissions.push({
+            name: "Importar/Nacionalizar",
+            icon: data.flag_export_import == 1
+              ? "bi bi-check-circle-fill text-success"
+              : "bi bi-x-circle-fill text-danger",
+            color: { text: "black" },
+          });
+
+          permissions.push({
             name: "Inyección",
             icon: data.inyection == 1
               ? "bi bi-check-circle-fill text-success"

@@ -66,6 +66,7 @@ class GeneralUserAccessDao
                                             cl.flag_expense_anual, 
                                             cl.flag_employee, 
                                             cl.flag_indirect, 
+                                            cl.flag_export_import, 
                                             cl.inyection, 
                                             cl.cost_historical AS plan_cost_historical, 
                                             cl.flag_expense, 
@@ -164,6 +165,7 @@ class GeneralUserAccessDao
         $_SESSION['flag_expense_anual'] = $userAccess['flag_expense_anual'];
         $_SESSION['flag_composite_product'] = $userAccess['flag_composite_product'];
         $_SESSION['flag_indirect'] = $userAccess['flag_indirect'];
+        $_SESSION['flag_export_import'] = $userAccess['flag_export_import'];
         $_SESSION['inyection'] = $userAccess['inyection'];
         $_SESSION['contract'] = $userAccess['contract'];
         $_SESSION['date_contract'] = $userAccess['date_contract'];

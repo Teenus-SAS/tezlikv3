@@ -4,7 +4,7 @@ $(document).ready(function () {
   // allMaterials = [];
   // visible = true;
   let visibleCost = true;
-  export_import == '0' ? visibleCost = false : visibleCost;
+  export_import == '0' && flag_export_import == '1' ? visibleCost = false : visibleCost;
 
   loadAllData = async (op) => {
     try {

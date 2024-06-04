@@ -43,6 +43,7 @@ class CompaniesLicenseDao
                                                 cl.flag_composite_product, 
                                                 cl.cost_historical, 
                                                 cl.flag_indirect, 
+                                                cl.flag_export_import, 
                                             -- Otros
                                                 CASE WHEN cl.license_end > CURRENT_DATE THEN TIMESTAMPDIFF(DAY, CURRENT_DATE, license_end) ELSE 0 END AS license_days, 
                                                 pa.cost_economy_scale, 
@@ -68,8 +69,8 @@ class CompaniesLicenseDao
                 $licenseStart = date('Y-m-d');
                 $licenseEnd = date("Y-m-d", strtotime($licenseStart . "+ 30 day"));
 
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost, planning, flag_currency_usd, flag_currency_eur, flag_employee, flag_composite_product, flag_economy_scale, flag_sales_objective, flag_production_center, flag_expense_anual, cost_historical, flag_indirect, inyection)
-                                              VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost, :planning, :flag_currency_usd, :flag_currency_eur, :flag_employee, :flag_composite_product, :flag_economy_scale, :flag_sales_objective, :flag_production_center, :flag_expense_anual, :cost_historical, :flag_indirect, :inyection)");
+                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, cost, planning, flag_currency_usd, flag_currency_eur, flag_employee, flag_composite_product, flag_economy_scale, flag_sales_objective, flag_production_center, flag_expense_anual, cost_historical, flag_indirect, flag_export_import, inyection)
+                                              VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :cost, :planning, :flag_currency_usd, :flag_currency_eur, :flag_employee, :flag_composite_product, :flag_economy_scale, :flag_sales_objective, :flag_production_center, :flag_expense_anual, :cost_historical, :flag_indirect, :flag_export_import, :inyection)");
                 $stmt->execute([
                     'id_company' => $id_company,
                     'license_start' => $licenseStart,
@@ -89,11 +90,12 @@ class CompaniesLicenseDao
                     'flag_expense_anual' => 1,
                     'cost_historical' => 1,
                     'flag_indirect' => 1,
+                    'flag_export_import' => 1,
                     'inyection' => 1
                 ]);
             } else {
-                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, flag_currency_usd, flag_currency_eur flag_employee, flag_composite_product, flag_economy_scale, flag_sales_objective, flag_production_center, flag_expense_anual, cost_historical, flag_indirect, inyection)
-                                          VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :flag_currency_usd, :flag_currency_eur, :flag_employee, :flag_composite_product, :flag_economy_scale, :flag_sales_objective, :flag_production_center, :flag_expense_anual, :cost_historical, :flag_indirect, :inyection)");
+                $stmt = $connection->prepare("INSERT INTO companies_licenses (id_company, license_start, license_end, quantity_user, license_status, plan, flag_currency_usd, flag_currency_eur flag_employee, flag_composite_product, flag_economy_scale, flag_sales_objective, flag_production_center, flag_expense_anual, cost_historical, flag_indirect, flag_export_import, inyection)
+                                          VALUES (:id_company, :license_start, :license_end, :quantity_user, :license_status, :plan, :flag_currency_usd, :flag_currency_eur, :flag_employee, :flag_composite_product, :flag_economy_scale, :flag_sales_objective, :flag_production_center, :flag_expense_anual, :cost_historical, :flag_indirect, :flag_export_import, :inyection)");
                 $stmt->execute([
                     'id_company' => $id_company,
                     'license_start' => $dataLicense['license_start'],
@@ -111,6 +113,7 @@ class CompaniesLicenseDao
                     'flag_expense_anual' => $dataLicense['anualExpenses'],
                     'cost_historical' => $dataLicense['historical'],
                     'flag_indirect' => $dataLicense['indirect'],
+                    'flag_export_import' => $dataLicense['exportImport'],
                     'inyection' => $dataLicense['inyection'],
                 ]);
             }
@@ -133,7 +136,7 @@ class CompaniesLicenseDao
         $connection = Connection::getInstance()->getConnection();
         try {
             $stmt = $connection->prepare("UPDATE companies_licenses SET license_start = :license_start, license_end = :license_end, quantity_user = :quantity_user, inyection = :inyection, flag_production_center = :flag_production_center, flag_expense_anual = :flag_expense_anual, flag_economy_scale = :flag_economy_scale,
-                                                 flag_sales_objective = :flag_sales_objective, plan = :plan, flag_currency_usd = :flag_currency_usd, flag_currency_eur = :flag_currency_eur, flag_employee = :flag_employee, flag_composite_product = :flag_composite_product, cost_historical = :cost_historical, flag_indirect = :flag_indirect
+                                                 flag_sales_objective = :flag_sales_objective, plan = :plan, flag_currency_usd = :flag_currency_usd, flag_currency_eur = :flag_currency_eur, flag_employee = :flag_employee, flag_composite_product = :flag_composite_product, cost_historical = :cost_historical, flag_indirect = :flag_indirect, flag_export_import = :flag_export_import
                                           WHERE id_company = :id_company");
             $stmt->execute([
                 'license_start' => $dataLicense['license_start'],
@@ -151,6 +154,7 @@ class CompaniesLicenseDao
                 'flag_expense_anual' => $dataLicense['anualExpenses'],
                 'cost_historical' => $dataLicense['historical'],
                 'flag_indirect' => $dataLicense['indirect'],
+                'flag_export_import' => $dataLicense['exportImport'],
                 'inyection' => $dataLicense['inyection']
             ]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));

@@ -213,7 +213,7 @@ $app->get('/priceUSD/{coverage_usd}', function (Request $request, Response $resp
         $resolution = $generalMaterialsDao->saveCostUSDMaterial($data);
         if ($resolution != null) break;
 
-        if ($_SESSION['export_import'] == '1') {
+        if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
             $data['costImport'] = $arr['cost_import'];
             $data['costExport'] = $arr['cost_export'];
             $resolution = $generalMaterialsDao->saveAllCostsUSDMaterial($data);

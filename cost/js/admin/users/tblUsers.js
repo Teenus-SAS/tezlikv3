@@ -92,13 +92,14 @@ $(document).ready(function () {
             color: { text: "black" },
           });
 
-          permissions.push({
-            name: "Exportación/Importación",
-            icon: data.export_import
-              ? "bi bi-check-circle-fill text-success"
-              : "bi bi-x-circle-fill text-danger",
-            color: { text: "black" },
-          });
+          if (flag_export_import == '1')
+            permissions.push({
+              name: "Exportación/Importación",
+              icon: data.export_import
+                ? "bi bi-check-circle-fill text-success"
+                : "bi bi-x-circle-fill text-danger",
+              color: { text: "black" },
+            });
 
           permissions.push({
             name: "Maquinas",
