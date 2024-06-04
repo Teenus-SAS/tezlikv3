@@ -94,7 +94,7 @@ $(document).ready(function () {
             cell.textContent = arr.process;
             break;
           case 'Acciones':
-            if (arr.status == 0)
+            if (arr.count_payroll == 0)
               icon = '/global/assets/images/trash_v.png';
             else
               icon = '/global/assets/images/trash_x.png';

@@ -77,9 +77,9 @@ $(document).ready(function () {
     // let data = tblProcess.fnGetData(row);
 
     let data = dataProcess.find(item => item.id_process == id);
-    let status = parseInt(data.status);
+    let count_payroll = parseInt(data.count_payroll);
 
-    if (status != 0) {
+    if (count_payroll != 0) {
       toastr.error('Este proceso no se puede eliminar, esta configurado a un producto o nomina');
       return false;
     }

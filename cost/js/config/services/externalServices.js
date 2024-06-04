@@ -77,7 +77,7 @@ $(document).ready(function () {
     let emptyInputs = [];
 
     let service = $('#service').val();
-    let costService = parseInt($('#costService').val());  
+    let costService = parseFloat($('#costService').val());  
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!service) {
