@@ -145,7 +145,7 @@ if (sizeof($_SESSION) == 0)
                                 </div>
                                 <div class="col-sm-7 col-xl-6 form-inline justify-content-sm-end">
                                     <div class="col-xs-2 mr-2">
-                                        <button class="btn btn-warning" id="btnNewService">Asginar Servicio Externo</button>
+                                        <button class="btn btn-warning" id="btnNewService">Asignar Servicios Externos</button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
