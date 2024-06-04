@@ -30,9 +30,9 @@ $(document).ready(function () {
             data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_usd);
           }
 
-          for (let i = 0; i < data.services.length; i++) {
-            data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_usd);            
-          }
+          // for (let i = 0; i < data.services.length; i++) {
+          //   data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_usd);            
+          // }
           break;
         case '3': // Euros
           data.cost_product[0].cost_materials = (parseFloat(data.cost_product[0].cost_materials) / parseFloat(coverage_eur));

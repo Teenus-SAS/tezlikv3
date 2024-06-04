@@ -89,12 +89,23 @@ $(document).ready(function () {
     let maxDataValue = Math.max(...totalTime);
     let minDataValue = Math.min(...totalTime);
     let valueRange = maxDataValue - minDataValue;
+    let maxYValue;
 
-    let step = Math.ceil(valueRange / 10 / 10) * 10;
+    if (Math.abs(valueRange) < 1) {
+      maxYValue = 1;
+    } else {
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
-    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+      isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    }
+
+    // let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     const cmc = document.getElementById("chartTimeProcessProducts");
     chartTimeProcessProducts ? chartTimeProcessProducts.destroy() : chartTimeProcessProducts;
@@ -506,11 +517,22 @@ $(document).ready(function () {
     let minDataValue = Math.min(...cost);
     let valueRange = maxDataValue - minDataValue;
 
-    let step = Math.ceil(valueRange / 10 / 10) * 10;
+    let maxYValue;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    if (Math.abs(valueRange) < 1) {
+      maxYValue = 1;
+    } else {
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+      isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    }
+    // let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 
@@ -602,11 +624,23 @@ $(document).ready(function () {
     let minDataValue = Math.min(...cost);
     let valueRange = maxDataValue - minDataValue;
 
-    let step = Math.ceil(valueRange / 10 / 10) * 10;
+    let maxYValue;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    if (Math.abs(valueRange) < 1) {
+      maxYValue = 1;
+    } else {
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+      isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    }
+
+    // let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     chartProductsCost ? chartProductsCost.destroy() : chartProductsCost;
 

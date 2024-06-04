@@ -56,11 +56,22 @@ $(document).ready(function () {
     let minDataValue = Math.min(...profitability);
     let valueRange = maxDataValue - minDataValue;
 
-    let step = Math.ceil(valueRange / 10 / 10) * 10;
+    let maxYValue;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    if (Math.abs(valueRange) < 1) {
+      maxYValue = 1;
+    } else {
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+      isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    }
+    // let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 
@@ -214,11 +225,22 @@ $(document).ready(function () {
     let minDataValue = Math.min(...cost);
     let valueRange = maxDataValue - minDataValue;
 
-    let step = Math.ceil(valueRange / 10 / 10) * 10;
+    let maxYValue;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+    if (Math.abs(valueRange) < 1) {
+      maxYValue = 1;
+    } else {
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+      isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    }
+    // let step = Math.ceil(valueRange / 10 / 10) * 10;
+
+    // let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+    // isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
 
     chartGeneralDashboard ? chartGeneralDashboard.destroy() : chartGeneralDashboard;
 

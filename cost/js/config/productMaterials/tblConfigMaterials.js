@@ -163,10 +163,15 @@ $(document).ready(function () {
           data: 'quantity',
           className: 'classCenter',
           render: function (data) {
-            data = parseFloat(data);
-            data = data.toLocaleString('es-CO');
+            let quantity = parseFloat(data);
+
+            if (Math.abs(quantity) < 0.01) {
+              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else {
+              quantity = quantity.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
             
-            return data;
+            return quantity;
           },
         },
         {
@@ -175,10 +180,14 @@ $(document).ready(function () {
           className: 'classCenter',
           visible: visible,
           render: function (data) {
-            data = parseFloat(data);
-            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            let waste = parseFloat(data);
+            if (Math.abs(waste) < 0.01) {
+              waste = waste.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            } else {
+              waste = waste.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
             
-            return `${data} %`;
+            return `${waste} %`;
           },
         },
         {
@@ -221,7 +230,12 @@ $(document).ready(function () {
         for (let i = 0; i < display.length; i++) {
           // quantity += parseFloat(data[display[i]].quantity);
           waste += parseFloat(data[display[i]].waste);
-          cost += parseFloat(data[display[i]].cost_product_material);
+
+          if (flag_currency_usd == '1' && op == 2)
+            cost += parseFloat(data[display[i]].cost_product_material_usd);
+          else 
+            cost += parseFloat(data[display[i]].cost_product_material);
+          
           participation += parseFloat(data[display[i]].participation);
         }
 

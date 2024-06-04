@@ -43,12 +43,17 @@ $(document).ready(function () {
     let maxDataValue = Math.max(...costExpenses);
     let minDataValue = Math.min(...costExpenses);
     let valueRange = maxDataValue - minDataValue;
+    let maxYValue = 0;
 
-    let step = Math.ceil(valueRange / 10 / 10) * 10;
+    if (Math.abs(valueRange) < 1) {
+      maxYValue = 1;
+    } else {
+      let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-    let maxYValue = Math.ceil(maxDataValue / step) * step + step;
+      maxYValue = Math.ceil(maxDataValue / step) * step + step;
 
-    isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+      isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+    }
 
     /* Ordenar el array */
 
@@ -397,10 +402,17 @@ $(document).ready(function () {
       let maxDataValue = Math.max(...totalMaterial);
       let minDataValue = Math.min(...totalMaterial);
       let valueRange = maxDataValue - minDataValue;
+      let maxYValue;
 
-      let step = Math.ceil(valueRange / 10 / 10) * 10;
+      if (Math.abs(valueRange) < 1) {
+        maxYValue = 1;
+      } else {
+        let step = Math.ceil(valueRange / 10 / 10) * 10;
 
-      maxYValue = Math.ceil(maxDataValue / step) * step + step;
+        maxYValue = Math.ceil(maxDataValue / step) * step + step;
+
+        isNaN(maxYValue) ? maxYValue = 10 : maxYValue;
+      }
     } else {
       maxYValue = Math.max(...totalMaterial);
     }
