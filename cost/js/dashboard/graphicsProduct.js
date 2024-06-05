@@ -42,7 +42,10 @@ $(document).ready(function () {
     }
     let maxDataValue = Math.max(...costExpenses);
     let minDataValue = Math.min(...costExpenses);
-    let valueRange = maxDataValue - minDataValue;
+    let valueRange = maxDataValue;
+
+    (maxDataValue - minDataValue) != 0 ? valueRange = maxDataValue - minDataValue : valueRange;
+
     let maxYValue = 0;
 
     if (Math.abs(valueRange) < 1) {
@@ -403,6 +406,8 @@ $(document).ready(function () {
       let maxDataValue = Math.max(...totalMaterial);
       let minDataValue = Math.min(...totalMaterial);
       let valueRange = maxDataValue - minDataValue;
+
+      // (maxDataValue - minDataValue) != 0 ? valueRange = maxDataValue - minDataValue : valueRange;
 
       if (Math.abs(valueRange) < 1) {
         maxYValue = 1;

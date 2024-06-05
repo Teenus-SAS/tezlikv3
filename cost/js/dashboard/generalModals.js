@@ -54,9 +54,11 @@ $(document).ready(function () {
 
     let maxDataValue = Math.max(...profitability);
     let minDataValue = Math.min(...profitability);
-    let valueRange = maxDataValue - minDataValue;
+    let valueRange = maxDataValue;
 
     let maxYValue;
+
+    (maxDataValue - minDataValue) != 0 ? valueRange = maxDataValue - minDataValue : valueRange;
 
     if (Math.abs(valueRange) < 1) {
       maxYValue = 1;
@@ -223,9 +225,11 @@ $(document).ready(function () {
 
     let maxDataValue = Math.max(...cost);
     let minDataValue = Math.min(...cost);
-    let valueRange = maxDataValue - minDataValue;
+    let valueRange = maxDataValue;
 
     let maxYValue;
+
+    (maxDataValue - minDataValue) != 0 ? valueRange = maxDataValue - minDataValue : valueRange;
 
     if (Math.abs(valueRange) < 1) {
       maxYValue = 1;

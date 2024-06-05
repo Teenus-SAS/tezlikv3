@@ -88,8 +88,10 @@ $(document).ready(function () {
 
     let maxDataValue = Math.max(...totalTime);
     let minDataValue = Math.min(...totalTime);
-    let valueRange = maxDataValue - minDataValue;
+    let valueRange = maxDataValue;
     let maxYValue;
+
+    (maxDataValue - minDataValue) != 0 ? valueRange = maxDataValue - minDataValue : valueRange;
 
     if (Math.abs(valueRange) < 1) {
       maxYValue = 1;
@@ -515,9 +517,11 @@ $(document).ready(function () {
 
     let maxDataValue = Math.max(...cost);
     let minDataValue = Math.min(...cost);
-    let valueRange = maxDataValue - minDataValue;
+    let valueRange = maxDataValue;
 
     let maxYValue;
+
+    (maxDataValue - minDataValue) != 0 ? valueRange = maxDataValue - minDataValue : valueRange;
 
     if (Math.abs(valueRange) < 1) {
       maxYValue = 1;
@@ -622,9 +626,11 @@ $(document).ready(function () {
 
     let maxDataValue = Math.max(...cost);
     let minDataValue = Math.min(...cost);
-    let valueRange = maxDataValue - minDataValue;
+    let valueRange = maxDataValue;
 
     let maxYValue;
+
+    (maxDataValue - minDataValue) != 0 ? valueRange = maxDataValue - minDataValue : valueRange;
 
     if (Math.abs(valueRange) < 1) {
       maxYValue = 1;
