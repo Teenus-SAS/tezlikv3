@@ -90,6 +90,7 @@ $app->get('/externalServices/{id_product}', function (Request $request, Response
 $app->post('/externalServiceDataValidation', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $generalServicesDao,
+    $generalExServicesDao,
     $productsDao
 ) {
     $info = $webTokenDao->getToken();
@@ -148,7 +149,12 @@ $app->post('/externalServiceDataValidation', function (Request $request, Respons
                 break;
             } else $externalService[$i]['idProduct'] = $findProduct['id_product'];
 
+            // $findExternalService = $generalExServicesDao->findExternalService($externalService[$i], $id_company);
+
+            // $findExternalService ? $externalService[$i]['idGService1'] = $findExternalService['id_general_service'] : $externalService[$i]['idGService1'] = '';
+
             $findExternalService = $generalServicesDao->findExternalService($externalService[$i], $id_company);
+
             if (!$findExternalService) $insert = $insert + 1;
             else $update = $update + 1;
             $dataImportExternalService['insert'] = $insert;
@@ -330,8 +336,10 @@ $app->post('/addExternalService', function (Request $request, Response $response
             // Guardar servicio en la tabla 'general_external_services'
             $findExternalService = $generalExServicesDao->findExternalService($externalService[$i], $id_company);
 
+            // $findExternalService ? $externalService[$i]['idGService1'] = $findExternalService['id_general_service'] : $externalService[$i]['idGService1'] = '';
+
             if (!$findExternalService) {
-                $externalService = $generalExServicesDao->insertExternalServicesByCompany($externalService[$i], $id_company);
+                $resolution = $generalExServicesDao->insertExternalServicesByCompany($externalService[$i], $id_company);
 
                 $lastData = $lastDataDao->findLastInsertedGeneralServices($id_company);
                 $externalService[$i]['idGService'] = $lastData['id_general_service'];
@@ -499,6 +507,8 @@ $app->post('/updateExternalService', function (Request $request, Response $respo
         $data = [];
         // Guardar servicio en la tabla 'general_external_services'
         $findExternalService = $generalExServicesDao->findExternalService($dataExternalService, $id_company);
+
+        // $findExternalService ? $dataExternalService['idGService1'] = $findExternalService['id_general_service'] : $externalService[$i];
 
         if (!$findExternalService) {
             $externalService = $generalExServicesDao->insertExternalServicesByCompany($dataExternalService, $id_company);

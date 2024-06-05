@@ -19,7 +19,7 @@ class ExternalServicesDao
     public function findAllExternalServices($id_company)
     {
         $connection = Connection::getInstance()->getConnection();
-        $stmt = $connection->prepare("SELECT sx.id_service, sx.id_general_service, p.id_product, p.reference, p.product, gs.name_service, sx.cost, sx.id_product 
+        $stmt = $connection->prepare("SELECT sx.id_service, sx.id_general_service, p.id_product, p.reference, p.product, IFNULL(gs.name_service, sx.name_service) AS name_service, sx.cost, sx.id_product 
                                         FROM services sx 
                                         INNER JOIN products p ON sx.id_product = p.id_product
                                         LEFT JOIN general_external_services gs ON gs.id_general_service = sx.name_service
