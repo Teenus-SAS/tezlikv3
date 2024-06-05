@@ -57,7 +57,7 @@
                                                     <input id="checkbox-2" name="costCreateMaterials" type="checkbox">
                                                     <label for="checkbox-2">Crear Materiales</label>
                                                 </div>
-                                                <?php if ($_SESSION['flag_export_import'] == '1') { ?>
+                                                <?php if ($_SESSION['flag_export_import'] == '0') { ?>
                                                     <div class="checkbox checkbox-success checkbox-circle" style="display: none;">
                                                     <?php } else { ?>
                                                         <div class="checkbox checkbox-success checkbox-circle">

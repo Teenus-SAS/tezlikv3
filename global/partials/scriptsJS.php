@@ -68,6 +68,9 @@
     <script src="/global/js/global/loadNotifications.js"></script>
     <script>
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
+        flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
+        export_import = "<?= $_SESSION['export_import'] ?>";
+        flag_export_import = "<?= $_SESSION['flag_export_import'] ?>";
     </script>
     <script src="/cost/js/admin/backup/backup.js"></script>
     <script src="/cost/js/report/generalCostReport/exportReport.js"></script>

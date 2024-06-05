@@ -339,11 +339,11 @@ if (sizeof($_SESSION) == 0)
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
-        flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
+        // flag_currency_usd = "< ?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
-        export_import = "<?= $_SESSION['export_import'] ?>";
-        flag_export_import = "<?= $_SESSION['flag_export_import'] ?>";
+        // export_import = "< ?= $_SESSION['export_import'] ?>";
+        // flag_export_import = "< ?= $_SESSION['flag_export_import'] ?>";
     </script>
     <script src="/global/js/global/configMagnitudes.js"></script>
     <script src="/global/js/global/configUnits.js"></script>

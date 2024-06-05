@@ -35,32 +35,93 @@ $(document).ready(function () {
       if (dataMaterials.length > 0) {
         data = [];
 
-        for (i = 0; i < dataMaterials.length; i++) {
-          let type_cost = '';
-          // price_usd == '0' ||
-          if (flag_currency_usd == '0')
-            data.push({
-              referencia: dataMaterials[i].reference,
-              material: dataMaterials[i].material,
-              Categoria: dataMaterials[i].category,
-              magnitud: dataMaterials[i].magnitude,
-              unidad: dataMaterials[i].unit,
-              costo: parseFloat(dataMaterials[i].cost)
-            });
-          else {
-            parseInt(dataMaterials[i].flag_usd) == 1 ? type_cost = 'USD' : type_cost = 'COP';
-            
-            data.push({
-              referencia: dataMaterials[i].reference,
-              material: dataMaterials[i].material,
-              Categoria: dataMaterials[i].category,
-              magnitud: dataMaterials[i].magnitude,
-              unidad: dataMaterials[i].unit,
-              costo: type_cost == 'COP' ? parseFloat(dataMaterials[i].cost) : parseFloat(dataMaterials[i].cost_usd),
-              tipo_costo: type_cost,
-            });
+        // for (i = 0; i < dataMaterials.length; i++) {
+        //   // let type_cost = '';
+        //   // price_usd == '0' ||
+        //   if (flag_currency_usd == '0') {
+        //     if (export_import == '1' && flag_export_import == '1')
+        //       data.push({
+        //         referencia: dataMaterials[i].reference,
+        //         material: dataMaterials[i].material,
+        //         categoria: dataMaterials[i].category,
+        //         magnitud: dataMaterials[i].magnitude,
+        //         unidad: dataMaterials[i].unit,
+        //         costo: parseFloat(dataMaterials[i].cost),
+        //         costo_importacion: parseFloat(dataMaterials[i].cost_import),
+        //         costo_nacionalizacion: parseFloat(dataMaterials[i].cost_export),
+        //       });
+        //     else
+        //       data.push({
+        //         referencia: dataMaterials[i].reference,
+        //         material: dataMaterials[i].material,
+        //         categoria: dataMaterials[i].category,
+        //         magnitud: dataMaterials[i].magnitude,
+        //         unidad: dataMaterials[i].unit,
+        //         costo: parseFloat(dataMaterials[i].cost)
+        //       });
+        //   }
+        //   else {
+        //     // parseInt(dataMaterials[i].flag_usd) == 1 ? type_cost = 'USD' : type_cost = 'COP';
+        //     if (export_import == '1' && flag_export_import == '1')
+        //       data.push({
+        //         referencia: dataMaterials[i].reference,
+        //         material: dataMaterials[i].material,
+        //         categoria: dataMaterials[i].category,
+        //         magnitud: dataMaterials[i].magnitude,
+        //         unidad: dataMaterials[i].unit,
+        //         costo: parseFloat(dataMaterials[i].cost),
+        //         costo_importacion: parseFloat(dataMaterials[i].cost_import),
+        //         costo_nacionalizacion: parseFloat(dataMaterials[i].cost_export),
+        //         tipo_costo: 'COP',
+        //       });
+        //     else
+        //       data.push({
+        //         referencia: dataMaterials[i].reference,
+        //         material: dataMaterials[i].material,
+        //         categoria: dataMaterials[i].category,
+        //         magnitud: dataMaterials[i].magnitude,
+        //         unidad: dataMaterials[i].unit,
+        //         costo: parseFloat(dataMaterials[i].cost),
+        //         tipo_costo: 'COP',
+        //       });
+        //   }
+        // }
+        dataMaterials.forEach(item => {
+          let baseData = {
+            referencia: item.reference,
+            material: item.material,
+            categoria: item.category,
+            magnitud: item.magnitude,
+            unidad: item.unit,
+            costo: parseFloat(item.cost)
+          };
+
+          if (flag_currency_usd === '0') {
+            if (export_import === '1' && flag_export_import === '1') {
+              data.push({
+                ...baseData,
+                costo_importacion: parseFloat(item.cost_import),
+                costo_nacionalizacion: parseFloat(item.cost_export)
+              });
+            } else {
+              data.push(baseData);
+            }
+          } else {
+            if (export_import === '1' && flag_export_import === '1') {
+              data.push({
+                ...baseData,
+                costo_importacion: parseFloat(item.cost_import),
+                costo_nacionalizacion: parseFloat(item.cost_export),
+                tipo_costo: 'COP'
+              });
+            } else {
+              data.push({
+                ...baseData,
+                tipo_costo: 'COP'
+              });
+            }
           }
-        }
+        });
 
         ws = XLSX.utils.json_to_sheet(data);
         XLSX.utils.book_append_sheet(wb, ws, 'Materias Prima');
