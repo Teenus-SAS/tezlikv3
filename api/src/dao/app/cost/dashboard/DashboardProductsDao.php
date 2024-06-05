@@ -27,6 +27,7 @@ class DashboardProductsDao
                                                 p.reference, 
                                                 p.product, 
                                                 p.img,
+                                                p.composite,
                                             -- Costeo total
                                                 pc.cost_materials, 
                                                 pc.cost_indirect_cost, 

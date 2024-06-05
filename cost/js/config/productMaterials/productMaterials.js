@@ -394,6 +394,14 @@ $(document).ready(function () {
     
     if (flag_composite_product == "1") {
       let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
+
+      let refProduct = $('#refProduct :selected').text().trim();
+      let nameProduct = $('#selectNameProduct :selected').text().trim();
+
+      dataCompositeProduct.forEach(item => {
+        item['reference_product'] = refProduct;
+        item['product'] = nameProduct;
+      });
       
       arr = [...arr, ...dataCompositeProduct];
     }

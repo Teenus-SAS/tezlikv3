@@ -201,7 +201,6 @@ if (sizeof($_SESSION) == 0)
                                                 <h2 class="mb-0 mt-1 number text-info" id="assignableExpenses"></h2>
                                             </div>
                                             <div class="text-center">
-                                                <!-- <div id="t-visitor"></div> -->
                                                 <span class="text-info font-weight-bold" style="font-size:large">
                                                     <i class="" id="percentAssignableExpenses" style="font-style: initial;"></i>
                                                 </span>

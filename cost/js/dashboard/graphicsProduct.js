@@ -397,12 +397,12 @@ $(document).ready(function () {
         totalMaterial.push(data[i].totalCostMaterial);
       }
     }
+    let maxYValue;
 
     if (totalMaterial.length > 1) {
       let maxDataValue = Math.max(...totalMaterial);
       let minDataValue = Math.min(...totalMaterial);
       let valueRange = maxDataValue - minDataValue;
-      let maxYValue;
 
       if (Math.abs(valueRange) < 1) {
         maxYValue = 1;

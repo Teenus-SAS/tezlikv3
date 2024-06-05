@@ -202,7 +202,7 @@ $app->post('/productsMaterialsDataValidation', function (Request $request, Respo
                 break;
             } else $productMaterials[$i]['idProduct'] = $findProduct['id_product'];
 
-            $type = $productMaterials[$i]['type'];
+            $type = strtoupper(trim($productMaterials[$i]['type']));
 
             if ($type == 'MATERIAL') {
                 // Obtener id materia prima
@@ -439,7 +439,7 @@ $app->post('/addProductsMaterials', function (Request $request, Response $respon
             $unit = $unitsDao->findUnit($productMaterials[$i]);
             $productMaterials[$i]['unit'] = $unit['id_unit'];
 
-            if ($productMaterials[$i]['type'] == 'MATERIAL') { // Obtener id materia prima
+            if (strtoupper(trim($productMaterials[$i]['type'] == 'MATERIAL'))) { // Obtener id materia prima
                 $findMaterial = $materialsDao->findMaterial($productMaterials[$i], $id_company);
                 $productMaterials[$i]['material'] = $findMaterial['id_material'];
 
