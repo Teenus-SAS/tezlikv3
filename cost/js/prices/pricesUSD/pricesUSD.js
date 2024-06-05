@@ -78,9 +78,9 @@ $(document).ready(function () {
                    <label class="text-dark">Moneda</label>
                    <select class="form-control selectCurrency" id="selectCurrency">
                        <option disabled>Seleccionar</option>
-                       ${flag_currency_usd == '' ? '<option value="1">COP</option>' : ''}
-                       ${flag_currency_eur == '1' ? '<option value="2" selected>USD</option>' : ''}
-                       <option value="3">EUR</option>
+                       <option value="1">COP</option>
+                       ${flag_currency_usd == '1' ? '<option value="2" selected>USD</option>' : ''}
+                       ${flag_currency_eur == '1' ? '<option value="2">EUR</option>' : ''} 
                    </select>
                 </div>
                 <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs">

@@ -412,7 +412,7 @@ $(document).ready(function () {
           magnitud: arr[i].magnitude,
           unidad: arr[i].unit,
           cantidad: arr[i].quantity,
-          // desperdicio: arr[i].waste,
+          desperdicio: arr[i].waste,
           tipo: arr[i].type,
         });
       }
