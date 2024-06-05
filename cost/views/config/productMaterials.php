@@ -99,7 +99,7 @@ if (sizeof($_SESSION) == 0)
                                             <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Moneda (USD)</button>
                                         </div> -->
                                         <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label mt-4">
-                                            <select class="form-control" id="selectPriceUSD">
+                                            <select class="form-control selectPriceUSD" id="selectPriceUSD1">
                                                 <option disabled>Seleccionar</option>
                                                 <option value="1" selected>COP</option>
                                                 <option value="2">USD</option>
@@ -130,6 +130,19 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
                                     </div>
+                                    <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                        <!-- <div class="col-xs-2 py-2 mr-2">
+                                            <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Moneda (USD)</button>
+                                        </div> -->
+                                        <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label mt-4">
+                                            <select class="form-control selectPriceUSD" id="selectPriceUSD2">
+                                                <option disabled>Seleccionar</option>
+                                                <option value="1" selected>COP</option>
+                                                <option value="2">USD</option>
+                                            </select>
+                                            <label for="selectPriceUSD">Moneda</label>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -153,6 +166,19 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
                                     </div>
+                                    <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
+                                        <!-- <div class="col-xs-2 py-2 mr-2">
+                                            <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Moneda (USD)</button>
+                                        </div> -->
+                                        <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label mt-4">
+                                            <select class="form-control selectPriceUSD" id="selectPriceUSD3">
+                                                <option disabled>Seleccionar</option>
+                                                <option value="1" selected>COP</option>
+                                                <option value="2">USD</option>
+                                            </select>
+                                            <label for="selectPriceUSD">Moneda</label>
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -579,6 +605,7 @@ if (sizeof($_SESSION) == 0)
         flag_employee = "<?= $_SESSION['flag_employee'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
         inyection = "<?= $_SESSION['inyection'] ?>";
+        coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
 
         $(document).ready(function() {
             loadDataMaterial(1);

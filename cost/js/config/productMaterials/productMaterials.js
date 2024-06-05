@@ -48,7 +48,7 @@ $(document).ready(function () {
   });
 
   // Cambiar moneda
-  $('#selectPriceUSD').change(function (e) {
+  $('.selectPriceUSD').change(function (e) {
     e.preventDefault();
 
     if ($('#selectNameProduct').val()) {
@@ -57,6 +57,7 @@ $(document).ready(function () {
       $('.cardAddNewProduct').hide(800);
 
       const selectPriceUSD = this.value;
+      $('.selectPriceUSD').val(this.value);
       let op;
 
       switch (selectPriceUSD) {
@@ -70,8 +71,12 @@ $(document).ready(function () {
       }
 
       let dataMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
+      let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+      let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
 
       loadTableMaterials(dataMaterials, op);
+      loadTableProcess(dataProductProcess, op);
+      loadTableExternalServices(dataServices, op);
     }
   });
 

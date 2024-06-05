@@ -17,8 +17,8 @@ $(document).ready(function () {
 
       // if (op != 1)
       let op = 1;
-      if(flag_currency_usd == '1'){
-        let selectPriceUSD = $('#selectPriceUSD').val();
+      if (flag_currency_usd == '1') {
+        let selectPriceUSD = $('#selectPriceUSD1').val();
 
         selectPriceUSD == '2' ? op = 2 : op = 1;
       }
@@ -27,7 +27,7 @@ $(document).ready(function () {
     } catch (error) {
       console.error('Error loading data:', error);
     }
-  }; 
+  };
 
   /* Seleccion producto */
   $('#refProduct').change(function (e) {
@@ -67,7 +67,7 @@ $(document).ready(function () {
     $('.cardAddMaterials').hide(800);
 
     loadAllDataMaterials(id);
-  }); 
+  });
 
   /* Cargue tabla de Proyectos */
   loadTableMaterials = async (data, op) => {
@@ -79,7 +79,7 @@ $(document).ready(function () {
       // let arr = dataCompositeProduct.filter(item => item.id_product == idProduct);
 
       data = [...data, ...dataCompositeProduct];
-    } 
+    }
 
     let waste = 0;
 
@@ -98,28 +98,6 @@ $(document).ready(function () {
     //   $('#tblConfigMaterials').DataTable().column(5).visible(visible);
     //   return;
     // }
-    
-    // Función para formatear los costos
-    const renderCost = (data, op) => {
-      let cost;
-
-      if (flag_currency_usd == '1' && op == 2) {
-        cost = parseFloat(data);
-        if (Math.abs(cost) < 0.01) {
-          cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-        } else {
-          cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-      } else {
-        cost = parseFloat(data);
-        if (Math.abs(cost) < 0.01) {
-          cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-        } else {
-          cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-        }
-      }
-      return `$ ${cost}`;
-    };
     
     tblConfigMaterials = $('#tblConfigMaterials').dataTable({
       destroy: true,
@@ -142,7 +120,7 @@ $(document).ready(function () {
           render: function (data, type, full, meta) {
             return meta.row + 1;
           },
-        }, 
+        },
         {
           title: 'Referencia',
           data: 'reference_material',
@@ -207,7 +185,7 @@ $(document).ready(function () {
           data: 'participation',
           className: 'classCenter',
           render: function (data) {
-            data = parseFloat(data); 
+            data = parseFloat(data);
             return `${data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} %`;
           },
         },
@@ -233,7 +211,7 @@ $(document).ready(function () {
 
           if (flag_currency_usd == '1' && op == 2)
             cost += parseFloat(data[display[i]].cost_product_material_usd);
-          else 
+          else
             cost += parseFloat(data[display[i]].cost_product_material);
           
           participation += parseFloat(data[display[i]].participation);
@@ -268,6 +246,28 @@ $(document).ready(function () {
         );
       },
     });
+  };
+
+  // Función para formatear los costos
+  renderCost = (data, op) => {
+    let cost;
+
+    if (flag_currency_usd == '1' && op == 2) {
+      cost = parseFloat(data);
+      if (Math.abs(cost) < 0.01) {
+        cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+      } else {
+        cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+    } else {
+      cost = parseFloat(data);
+      if (Math.abs(cost) < 0.01) {
+        cost = cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+      } else {
+        cost = cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+      }
+    }
+    return `$ ${cost}`;
   };
 
   // loadAllDataMaterials(1);

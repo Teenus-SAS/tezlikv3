@@ -33,9 +33,16 @@ $(document).ready(function () {
       const productsProcess = await searchData(`/api/productsProcess/${id}`);
 
       sessionStorage.setItem('dataProductProcess', JSON.stringify(productsProcess));
+
+      let op = 1;
+      if(flag_currency_usd == '1'){
+        let selectPriceUSD = $('#selectPriceUSD2').val();
+
+        selectPriceUSD == '2' ? op = 2 : op = 1;
+      }
       // dataProductProcess = productsProcess;
 
-      loadtableProcess(productsProcess);
+      loadTableProcess(productsProcess, op);
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -47,7 +54,7 @@ $(document).ready(function () {
 
   /* Cargue tabla de Proyectos */
 
-  const loadtableProcess = (data) => {
+  loadTableProcess = (data, op) => {
     $('.cardAddProcess').hide(800); 
     
     if ($.fn.dataTable.isDataTable("#tblConfigProcess")) {
@@ -158,23 +165,31 @@ $(document).ready(function () {
             break;
           case 'Mano de Obra':
             let workforce_cost = parseFloat(arr.workforce_cost);
+
+            if (flag_currency_usd == '1' && op == 2)
+              workforce_cost = workforce_cost / parseFloat(coverage_usd);
             
-            if (Math.abs(workforce_cost) < 0.01) { 
-              workforce_cost = workforce_cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else
-              workforce_cost = workforce_cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            // if (Math.abs(workforce_cost) < 0.01) {
+            //   workforce_cost = workforce_cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            // } else
+            //   workforce_cost = workforce_cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            workforce_cost = renderCost(workforce_cost, op);
             
-            cell.textContent = `$ ${workforce_cost}`;
+            cell.textContent = workforce_cost;
             break;
           case 'Costo Indirecto':
             let indirect_cost = parseFloat(arr.indirect_cost);
+
+            if (flag_currency_usd == '1' && op == 2)
+              indirect_cost = indirect_cost / parseFloat(coverage_usd);              
             
-            if (Math.abs(indirect_cost) < 0.01) { 
-              indirect_cost = indirect_cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else
-              indirect_cost = indirect_cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            // if (Math.abs(indirect_cost) < 0.01) {
+            //   indirect_cost = indirect_cost.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
+            // } else
+            //   indirect_cost = indirect_cost.toLocaleString('es-CO', { maximumFractionDigits: 2 });
+            indirect_cost = renderCost(indirect_cost, op); 
             
-            cell.textContent = `$ ${indirect_cost}`;
+            cell.textContent = indirect_cost;
             break;
           case '':
             let textContent = '';
@@ -253,16 +268,19 @@ $(document).ready(function () {
       alistment += parseFloat(item[value3]);
       operation += parseFloat(item.operation_time);
       efficiency += parseFloat(item.efficiency);
-      workForce += parseFloat(item.workforce_cost);
-      indirect += parseFloat(item.indirect_cost);
+      workForce += flag_currency_usd == '1' && op == 2 ? parseFloat(item.workforce_cost) / parseFloat(coverage_usd) : parseFloat(item.workforce_cost);
+      indirect += flag_currency_usd == '1' && op == 2 ? parseFloat(item.indirect_cost) / parseFloat(coverage_usd) : parseFloat(item.indirect_cost);
+      // indirect += parseFloat(item.indirect_cost);
     });
 
     efficiency = efficiency / data.length;
+    workForce = renderCost(workForce, op);
+    indirect = renderCost(indirect, op);
 
     $('#totalAlistment').html(alistment.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalOperation').html(operation.toLocaleString('es-CO', { maximumFractionDigits: 2 }));
     $('#totalEfficiency').html(`${efficiency.toLocaleString('es-CO', { maximumFractionDigits: 2 })} %`);
-    $('#totalWorkforce').html(`$ ${workForce.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
-    $('#totalIndirect').html(`$ ${indirect.toLocaleString('es-CO', { maximumFractionDigits: 0 })}`);
+    $('#totalWorkforce').html(workForce);
+    $('#totalIndirect').html(indirect);
   };
 });

@@ -29,7 +29,14 @@ $(document).ready(function () {
       sessionStorage.setItem('dataServices', JSON.stringify(services));
       // dataServices = services;
 
-      loadTableExternalServices(services);
+      let op = 1;
+      if(flag_currency_usd == '1'){
+        let selectPriceUSD = $('#selectPriceUSD3').val();
+
+        selectPriceUSD == '2' ? op = 2 : op = 1;
+      }
+
+      loadTableExternalServices(services, op);
     } catch (error) {
       console.error('Error loading data:', error);
     }
@@ -38,7 +45,7 @@ $(document).ready(function () {
   // loadAllDataServices(0);
   
   /* Cargue tabla de Proyectos */
-  loadTableExternalServices = (data) => {
+  loadTableExternalServices = (data, op) => {
     $('.cardAddService').hide(800);
     // let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
     // let data = dataServices.filter(item => item.id_product == id);
@@ -48,14 +55,14 @@ $(document).ready(function () {
     //   $("#tblExternalServices").DataTable().rows.add(data).draw();
     //   return;
     // }
-    if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
-      var table = $("#tblExternalServices").DataTable();
-      var pageInfo = table.page.info(); // Guardar información de la página actual
-      table.clear();
-      table.rows.add(data).draw();
-      table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
-      return;
-    }
+    // if ($.fn.dataTable.isDataTable("#tblExternalServices")) {
+    //   var table = $("#tblExternalServices").DataTable();
+    //   var pageInfo = table.page.info(); // Guardar información de la página actual
+    //   table.clear();
+    //   table.rows.add(data).draw();
+    //   table.page(pageInfo.page).draw('page'); // Restaurar la página después de volver a dibujar los datos
+    //   return;
+    // }
 
     tblExternalServices = $("#tblExternalServices").dataTable({
       destroy: true,
@@ -85,19 +92,15 @@ $(document).ready(function () {
         },
         {
           title: "Costo",
-          data: "cost",
-          className: "classRight",
-          render: function (data) {
-            data = parseFloat(data);
-            if (Math.abs(data) < 0.01) {
-              // let decimals = contarDecimales(data);
-              // data = formatNumber(data, decimals);
-              data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-            } else
-              data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-            return `$ ${data}`;
+          data: function (row, type, val, meta) {
+            if (flag_currency_usd == '1' && op == 2) {
+              return parseFloat(row.cost) / parseFloat(coverage_usd);
+            } else {
+              return row.cost;
+            }
           },
+          className: "classRight",
+          render: (data, type, row) => renderCost(data, op)
         },
         {
           title: "Acciones",
@@ -114,15 +117,12 @@ $(document).ready(function () {
         let totalCost = 0;
 
         for (let i = 0; i < data.length; i++) {
-          totalCost += parseFloat(data[i].cost);
+          totalCost += flag_currency_usd == '1' && op == 2 ? parseFloat(data[i].cost) / parseFloat(coverage_usd) : parseFloat(data[i].cost);
         }
 
-        $(this.api().column(2).footer()).html(
-          `$ ${totalCost.toLocaleString("es-CO", {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0,
-          })}`
-        );
+        totalCost = renderCost(totalCost, op);
+
+        $(this.api().column(2).footer()).html(totalCost);
       },
     });
   };
