@@ -234,13 +234,16 @@ if (sizeof($_SESSION) == 0)
         type_custom_price = "<?= $_SESSION['type_custom_price'] ?>";
         flag_type_price = "<?= $_SESSION['flag_type_price'] ?>";
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
-        $(document).ready(function() {
-            loadPriceList(1);
-        });
     </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/cost/js/general/priceList/configPriceList.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadPriceList(1);
+            getDataProducts('/api/products');
+        });
+    </script>
     <script src="/cost/js/prices/customPrices/tblNotProducts.js"></script>
     <script src="/cost/js/prices/customPrices/tblCustomPrices.js"></script>
     <script src="/cost/js/prices/customPrices/customPrices.js"></script>

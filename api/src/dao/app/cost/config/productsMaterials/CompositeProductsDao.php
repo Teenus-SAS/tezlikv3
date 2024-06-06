@@ -20,7 +20,7 @@ class CompositeProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT cp.id_composite_product, 0 AS id_product_material, cp.id_child_product, cp.id_product, p.reference, p.reference AS reference_material, p.product AS material, mg.id_magnitude, mg.magnitude, 
-                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, TRUNCATE(cp.cost_usd, 2) AS cost_product_material_usd, pc.cost_materials, pc.price, pc.sale_price, 'PRODUCTO' AS type, 0 AS waste, ((cp.cost / pc.cost_materials) * 100) AS participation
+                                             u.id_unit, u.unit, u.abbreviation, cp.quantity, TRUNCATE(cp.cost, 2) AS cost_product_material, TRUNCATE(cp.cost_usd, 2) AS cost_product_material_usd, pc.cost_materials, pc.price, pc.sale_price, 'PRODUCTO' AS type, cp.waste, ((cp.cost / pc.cost_materials) * 100) AS participation
                                       FROM products p 
                                         INNER JOIN composite_products cp ON cp.id_child_product = p.id_product
                                         INNER JOIN products_costs pc ON pc.id_product = cp.id_product
@@ -41,14 +41,15 @@ class CompositeProductsDao
 
             $connection = Connection::getInstance()->getConnection();
 
-            $stmt = $connection->prepare("INSERT INTO composite_products (id_company, id_product, id_child_product, id_unit, quantity)
-                                          VALUES (:id_company, :id_product, :id_child_product, :id_unit, :quantity)");
+            $stmt = $connection->prepare("INSERT INTO composite_products (id_company, id_product, id_child_product, id_unit, quantity, waste)
+                                          VALUES (:id_company, :id_product, :id_child_product, :id_unit, :quantity, :waste)");
             $stmt->execute([
                 'id_company' => $id_company,
                 'id_product' => $dataProduct['idProduct'],
                 'id_child_product' => $dataProduct['compositeProduct'],
                 'id_unit' => $dataProduct['unit'],
-                'quantity' => $dataProduct['quantity']
+                'quantity' => $dataProduct['quantity'],
+                'waste' => $dataProduct['waste']
             ]);
         } catch (\Exception $e) {
             $error = array('info' => true, 'message' => $e->getMessage());
@@ -64,13 +65,14 @@ class CompositeProductsDao
 
             $connection = Connection::getInstance()->getConnection();
 
-            $stmt = $connection->prepare("UPDATE composite_products SET id_child_product = :id_child_product, id_unit = :id_unit, quantity = :quantity
+            $stmt = $connection->prepare("UPDATE composite_products SET id_child_product = :id_child_product, id_unit = :id_unit, quantity = :quantity, waste = :waste
                                           WHERE id_composite_product = :id_composite_product");
             $stmt->execute([
                 'id_composite_product' => $dataProduct['idCompositeProduct'],
                 'id_child_product' => $dataProduct['compositeProduct'],
                 'id_unit' => $dataProduct['unit'],
-                'quantity' => $dataProduct['quantity']
+                'quantity' => $dataProduct['quantity'],
+                'waste' => $dataProduct['waste']
             ]);
         } catch (\Exception $e) {
             $error = array('info' => true, 'message' => $e->getMessage());

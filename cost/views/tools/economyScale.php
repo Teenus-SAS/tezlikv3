@@ -286,6 +286,7 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/cost/js/basic/products/configProducts.js"></script>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -299,7 +300,7 @@ if (sizeof($_SESSION) == 0)
         coverage_eur = "<?= $_SESSION['coverage_eur'] ?>";
 
         $(document).ready(function() {
-
+            getDataProducts('/api/products');
             // Validar que precio estaba anteriormente seleccionado
             let session_flag = sessionStorage.getItem('flag_type_price');
 
@@ -352,7 +353,6 @@ if (sizeof($_SESSION) == 0)
     </script>
 
     <script src="/cost/js/tools/economyScale/configTypePrices.js"></script>
-    <script src="/cost/js/basic/products/configProducts.js"></script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/tools/economyScale/economyScale.js"></script>
     <script src="/cost/js/tools/economyScale/calcEconomyScale.js"></script>

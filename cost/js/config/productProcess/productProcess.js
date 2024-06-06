@@ -33,6 +33,10 @@ $(document).ready(function () {
       $("#idProcess").find("option:selected").attr("class")
     );
 
+    if (count_payroll == 0) {
+      toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
+    }
+
     $('#employees').val(count_payroll);
   });
 
@@ -97,6 +101,10 @@ $(document).ready(function () {
 
     $(`#idProcess option[value=${data.id_process}]`).prop("selected", true);
     $('#employees').val(data.count_employee);
+
+    if (parseInt(data.count_employee) == 0) {
+      toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
+    };
 
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop("selected", true);

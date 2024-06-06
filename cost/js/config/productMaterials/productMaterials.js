@@ -165,9 +165,9 @@ $(document).ready(function () {
   });
 
   // Calcular cantidad total
-  $(document).on("click keyup", ".quantity", function (e) {
+  $(document).on("click keyup", ".quantityMP", function (e) {
     let quantity = parseFloat($("#quantityMP").val());
-    let waste = parseFloat($("#waste").val());
+    let waste = parseFloat($("#wasteMP").val());
 
     isNaN(quantity) ? (quantity = 0) : quantity;
     isNaN(waste) ? (waste = 0) : waste;
@@ -177,7 +177,7 @@ $(document).ready(function () {
 
     !isFinite(total) ? (total = 0) : total;
 
-    $("#quantityYotal").val(total);
+    $("#quantityTotal").val(total);
   });
 
   /* Adicionar nueva materia prima */
@@ -234,9 +234,9 @@ $(document).ready(function () {
     $(`#units option[value=${data.id_unit}]`).prop("selected", true);
 
     $("#quantityMP").val(data.quantity);
-    $("#waste").val(data.waste);
+    $("#wasteMP").val(data.waste);
 
-    $("#waste").click();
+    $("#wasteMP").click();
 
     $("html, body").animate(
       {

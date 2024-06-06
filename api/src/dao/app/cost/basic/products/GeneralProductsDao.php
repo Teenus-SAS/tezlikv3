@@ -16,6 +16,21 @@ class GeneralProductsDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findDataBasicProductsByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT p.id_product, p.reference, p.product, p.composite
+                                      FROM products p
+                                      WHERE p.id_company = :id_company AND p.active = 1");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $products = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("products", array('products' => $products));
+        return $products;
+    }
+
     public function findAllEDProductsByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -512,13 +512,9 @@ $app->post('/updateMachines', function (Request $request, Response $response, $a
                 // Calcular precio products_costs
                 $machines = $priceProductDao->calcPrice($arr['id_product']);
 
-                if (is_array($machines)) {
-                    $data['totalPrice'] = 0;
-                    //  $data['sal'] = 0;
-                } else
-                    $data = $machines;
-
                 if (isset($machines['info'])) break;
+
+                $data = $machines;
 
                 $machines = $generalProductsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 

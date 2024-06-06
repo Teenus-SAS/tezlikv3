@@ -217,6 +217,7 @@ if (sizeof($_SESSION) == 0)
     <script>
         $(document).ready(function() {
             loadDataMaterial(1);
+            getDataProducts('/api/products');
         });
     </script>
     <script src="/cost/js/tools/analysisMaterials/products/tblmaterials.js"></script>

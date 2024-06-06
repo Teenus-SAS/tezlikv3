@@ -29,6 +29,22 @@ $(document).ready(function () {
         $select.append(`<option value ="${filterData[0].id_unit}" selected>UNIDAD</option>`);
     });
 
+    // Calcular cantidad total
+    $(document).on("click keyup", ".quantityCP", function (e) {
+        let quantity = parseFloat($("#quantityCP").val());
+        let waste = parseFloat($("#wasteCP").val());
+
+        isNaN(quantity) ? (quantity = 0) : quantity;
+        isNaN(waste) ? (waste = 0) : waste;
+
+        // total
+        let total = quantity * (1 + waste / 100);
+
+        !isFinite(total) ? (total = 0) : total;
+
+        $("#quantityTotalCP").val(total);
+    });
+
     $('#btnAddProduct').click(function (e) {
         e.preventDefault();
 
@@ -59,10 +75,13 @@ $(document).ready(function () {
         let data = tblConfigMaterials.fnGetData(row);
 
         sessionStorage.setItem('id_composite_product', data.id_composite_product);
-        $(`#compositeProduct option[value=${data.id_child_product}]`).prop('selected', true); 
+        $(`#refCompositeProduct option[value=${data.id_child_product}]`).prop('selected', true);
+        $(`#compositeProduct option[value=${data.id_child_product}]`).prop('selected', true);
 
         $('#quantityCP').val(data.quantity);
+        $("#wasteCP").val(data.waste);
 
+        $("#wasteCP").click();
         // data = await searchData('/api/units');
         data = JSON.parse(sessionStorage.getItem('dataUnits'));
 
@@ -72,7 +91,6 @@ $(document).ready(function () {
         $select.empty();
         $select.append(`<option disabled>Seleccionar</option>`);
         $select.append(`<option value ="${filterData[0].id_unit}" selected>UNIDAD</option>`);
-
 
         $('html, body').animate(
             {

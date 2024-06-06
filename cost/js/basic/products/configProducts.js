@@ -17,24 +17,26 @@ $(document).ready(function () {
     });
   });
 
-  $.ajax({
-    url: '/api/products',
-    success: function (r) {
-      sessionStorage.setItem('dataProducts', JSON.stringify(r));
+  getDataProducts = async (url) => {
+    await $.ajax({
+      url: url,
+      success: function (r) {
+        sessionStorage.setItem('dataProducts', JSON.stringify(r));
     
-      populateSelect('.refProduct', r, 'reference');
-      populateSelect('.selectNameProduct', r, 'product');
+        populateSelect('.refProduct', r, 'reference');
+        populateSelect('.selectNameProduct', r, 'product');
 
-      if(flag_composite_product == '1'){
-        economyScaleOtions('.refESProduct', r, 'reference');
-        economyScaleOtions('.selectESNameProduct', r, 'product');
+        if (flag_composite_product == '1') {
+          economyScaleOtions('.refESProduct', r, 'reference');
+          economyScaleOtions('.selectESNameProduct', r, 'product');
+        }
+
+        let compositeProduct = r.filter(item => item.composite == 1);
+        populateOptions('#refCompositeProduct', compositeProduct, 'reference');
+        populateOptions('#compositeProduct', compositeProduct, 'product');
       }
-
-      let compositeProduct = r.filter(item => item.composite == 1);
-      populateOptions('#refCompositeProduct', compositeProduct, 'reference');
-      populateOptions('#compositeProduct', compositeProduct, 'product');
-    }
-  });
+    });
+  };
 
   function populateSelect(selector, data, property) {
     let $select = $(selector);

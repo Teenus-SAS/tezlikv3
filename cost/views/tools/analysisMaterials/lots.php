@@ -234,6 +234,11 @@ if (sizeof($_SESSION) == 0)
         flag_composite_product = "<?= $_SESSION['flag_composite_product'] ?>";
     </script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script>
+        $(document).ready(function() {
+            getDataProducts('/api/products');
+        });
+    </script>
     <script src="/global/js/global/orderData.js"></script>
     <!-- <script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script> -->
     <script src="/cost/js/tools/analysisMaterials/lots/lots.js"></script>

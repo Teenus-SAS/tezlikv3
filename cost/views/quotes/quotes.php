@@ -139,6 +139,7 @@ if (sizeof($_SESSION) == 0)
 	<script>
 		$(document).ready(function() {
 			loadDataMaterial(2);
+			getDataProducts('/api/products');
 		});
 	</script>
 	<script src="/cost/js/quotes/contacts/configContact.js"></script>

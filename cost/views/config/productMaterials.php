@@ -236,15 +236,15 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad</label>
-                                                    <input class="form-control text-center quantity inputs" type="number" name="quantity" id="quantityMP">
+                                                    <input class="form-control text-center quantityMP inputs" type="number" name="quantity" id="quantityMP">
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Desperdicio (%)</label>
-                                                    <input class="form-control text-center quantity" type="number" name="waste" id="waste">
+                                                    <input class="form-control text-center quantityMP" type="number" name="waste" id="wasteMP">
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad Total</label>
-                                                    <input class="form-control text-center" type="number" name="quantityYotal" id="quantityYotal" readonly>
+                                                    <input class="form-control text-center" type="number" name="quantityTotal" id="quantityTotal" readonly>
                                                 </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddMaterials">Adicionar Materia Prima</button>
@@ -291,7 +291,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body pb-0">
                                         <form id="formAddNewProduct">
                                             <div class="form-row">
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Referencia</label>
                                                     <select class="form-control compositeProduct inputs" name="refCompositeProduct" id="refCompositeProduct"></select>
                                                 </div>
@@ -299,14 +299,23 @@ if (sizeof($_SESSION) == 0)
                                                     <label>Producto</label>
                                                     <select class="form-control compositeProduct inputs" name="compositeProduct" id="compositeProduct"></select>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:5px">
+                                                <div class="col-sm-3 floating-label enable-floating-label show-label" style="margin-bottom:5px">
                                                     <select class="form-control inputs" id="unit2" name="unit">
                                                     </select>
                                                     <label>Unidad</label>
                                                 </div>
+                                                <div class="w-100"></div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Cantidad</label>
-                                                    <input class="form-control text-center inputs" type="number" name="quantity" id="quantityCP">
+                                                    <input class="form-control text-center quantityCP inputs" type="number" name="quantity" id="quantityCP">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label>Desperdicio (%)</label>
+                                                    <input class="form-control text-center quantityCP" type="number" name="waste" id="wasteCP">
+                                                </div>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                    <label>Cantidad Total</label>
+                                                    <input class="form-control text-center" type="number" name="quantityTotal" id="quantityTotalCP" readonly>
                                                 </div>
                                                 <div class="col-xs-1 mt-1">
                                                     <button class="btn btn-success" id="btnAddProduct">Adicionar</button>
@@ -610,6 +619,7 @@ if (sizeof($_SESSION) == 0)
         $(document).ready(function() {
             loadDataMaterial(1);
             loadAllDataGServices(2);
+            getDataProducts('/api/selectProducts');
         });
         // $('.loading').show(800);
         // document.body.style.overflow = 'hidden';
