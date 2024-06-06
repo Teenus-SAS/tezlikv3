@@ -617,9 +617,10 @@ if (sizeof($_SESSION) == 0)
         coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
 
         $(document).ready(function() {
-            loadDataMaterial(1);
+            loadDataMaterial(1, '/api/selectMaterials');
             loadAllDataGServices(2);
             getDataProducts('/api/selectProducts');
+            getSelectMachine('/api/selectMachines');
         });
         // $('.loading').show(800);
         // document.body.style.overflow = 'hidden';

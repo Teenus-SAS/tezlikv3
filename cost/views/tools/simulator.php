@@ -370,12 +370,13 @@ if (sizeof($_SESSION) == 0)
     </script>
     <script src="/global/js/global/orderData.js"></script>
     <script src="/cost/js/basic/products/configProducts.js"></script>
+    <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script>
         $(document).ready(function() {
             getDataProducts('/api/products');
+            getSelectMachine('/api/machines');
         });
     </script>
-    <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script src="/cost/js/dashboard/calcDataCost.js"></script>
     <script src="/cost/js/tools/simulator/loadSimulators.js"></script>
     <script src="/cost/js/tools/simulator/generalSimulator.js"></script>

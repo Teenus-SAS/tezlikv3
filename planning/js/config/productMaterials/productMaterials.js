@@ -35,7 +35,7 @@ $(document).ready(function () {
     e.preventDefault();
     id = this.value;
 
-    data = sessionStorage.getItem('dataMaterials');
+    let data = sessionStorage.getItem('dataMaterials');
     if (data) {
       dataMaterials = JSON.parse(dataMaterials);
       sessionStorage.removeItem('dataMaterials');

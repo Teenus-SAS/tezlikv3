@@ -187,14 +187,17 @@ if (sizeof($_SESSION) == 0)
     <!-- Page End -->
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
+    <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script>
+        $(document).ready(function() {
+            getSelectMachine('/api/selectMachines');
+        });
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
         // price_usd = 
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
     </script>
-    <script src="/cost/js/basic/machines/configMachines.js"></script>
     <script src="/cost/js/config/factoryLoad/tblFactoryLoad.js"></script>
     <script src="/cost/js/config/factoryLoad/factoryLoad.js"></script>
     <script src="../global/js/import/import.js"></script>

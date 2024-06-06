@@ -10,6 +10,8 @@ $(document).ready(function () {
     type: 'GET',
     url: '/api/process',
     success: function (r) { 
+      sessionStorage.setItem('dataProcess', JSON.stringify(r));
+      
       let $select = $(`#idProcess`);
       $select.empty();
 

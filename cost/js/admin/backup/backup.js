@@ -197,7 +197,7 @@ $(document).ready(function () {
             cantidad: parseFloat(dataProductsMaterials[i].quantity),
             desperdicio: parseFloat(dataProductsMaterials[i].waste),
             precio_unitario: parseFloat(dataProductsMaterials[i].cost_product_material),
-            tipo: 'Material',
+            tipo: 'MATERIAL',
           });
         }
 
@@ -220,7 +220,7 @@ $(document).ready(function () {
                 cantidad: parseFloat(dataCompositeProduct[i].quantity),
                 desperdicio: parseFloat(dataProductsMaterials[i].waste),
                 precio_unitario: parseFloat(dataCompositeProduct[i].cost_product_material),
-                tipo: 'Producto',
+                tipo: 'PRODUCTO',
               });
             }
  

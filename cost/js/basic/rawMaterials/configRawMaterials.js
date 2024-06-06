@@ -18,9 +18,9 @@ $(document).ready(function () {
   });
 
   /* Cargar data materia prima */
-  loadDataMaterial = async (op) => {
+  loadDataMaterial = async (op, url) => {
     sessionStorage.removeItem('dataMaterials');
-    let data = await searchData('/api/materials');
+    let data = await searchData(url);
 
     let dataMaterials = JSON.stringify(data);
     sessionStorage.setItem('dataMaterials', dataMaterials);

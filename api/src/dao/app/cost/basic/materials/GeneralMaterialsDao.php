@@ -62,6 +62,31 @@ class GeneralMaterialsDao
         return $materials;
     }
 
+    public function findDataBasicMaterialsByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT 
+                                            -- Informacion Basica Material
+                                                m.reference, 
+                                                m.material,  
+                                                u.unit,
+                                            -- Ids Material
+                                                m.id_material, 
+                                                mg.id_magnitude,
+                                                u.id_unit
+                                      FROM materials m
+                                          INNER JOIN convert_units u ON u.id_unit = m.unit
+                                          INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
+                                      WHERE m.id_company = :id_company ORDER BY m.material ASC");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $materials = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("materials", array('materials' => $materials));
+        return $materials;
+    }
+
     public function findAllMaterialsUSDByCompany($id_company)
     {
         $connection = Connection::getInstance()->getConnection();

@@ -16,6 +16,22 @@ class GeneralMachinesDao
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
 
+    public function findDataBasicMachinesByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+        $stmt = $connection->prepare("SELECT m.id_machine, m.machine, m.unity_time
+                                      FROM machines m
+                                      WHERE id_company = :id_company 
+                                      ORDER BY machine ASC");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $machines = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("machines", array('machines' => $machines));
+        return $machines;
+    }
+
     /* Buscar si existe maquina en la BD */
     public function findMachine($dataMachine, $id_company)
     {

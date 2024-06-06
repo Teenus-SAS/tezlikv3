@@ -135,10 +135,7 @@ $app->get('/employees/{id_product_process}', function (Request $request, Respons
 $app->post('/productsProcessDataValidation', function (Request $request, Response $response, $args) use (
     $webTokenDao,
     $productsProcessDao,
-    $productsDao,
-    $generalProcessDao,
-    $generalPayrollDao,
-    $machinesDao
+    $generalPayrollDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -172,40 +169,40 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
         $productProcess = $dataProductProcess['importProductsProcess'];
 
         for ($i = 0; $i < sizeof($productProcess); $i++) {
-            if (
-                empty($productProcess[$i]['referenceProduct']) || empty($productProcess[$i]['product']) || empty($productProcess[$i]['process']) || empty($productProcess[$i]['machine']) ||
-                $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' || $productProcess[$i]['efficiency'] == ''
-                || empty($productProcess[$i]['autoMachine'])
-            ) {
-                $i = $i + 2;
-                $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-                break;
-            }
-            if (
-                empty(trim($productProcess[$i]['referenceProduct'])) || empty(trim($productProcess[$i]['product'])) || empty(trim($productProcess[$i]['process'])) || empty(trim($productProcess[$i]['machine'])) ||
-                trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' || trim($productProcess[$i]['efficiency']) == ''
-                || empty(trim($productProcess[$i]['autoMachine']))
-            ) {
-                $i = $i + 2;
-                $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
-                break;
-            }
+            // if (
+            //     empty($productProcess[$i]['referenceProduct']) || empty($productProcess[$i]['product']) || empty($productProcess[$i]['process']) || empty($productProcess[$i]['machine']) ||
+            //     $productProcess[$i]['enlistmentTime'] == '' || $productProcess[$i]['operationTime'] == '' || $productProcess[$i]['efficiency'] == ''
+            //     || empty($productProcess[$i]['autoMachine'])
+            // ) {
+            //     $i = $i + 2;
+            //     $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+            //     break;
+            // }
+            // if (
+            //     empty(trim($productProcess[$i]['referenceProduct'])) || empty(trim($productProcess[$i]['product'])) || empty(trim($productProcess[$i]['process'])) || empty(trim($productProcess[$i]['machine'])) ||
+            //     trim($productProcess[$i]['enlistmentTime']) == '' || trim($productProcess[$i]['operationTime']) == '' || trim($productProcess[$i]['efficiency']) == ''
+            //     || empty(trim($productProcess[$i]['autoMachine']))
+            // ) {
+            //     $i = $i + 2;
+            //     $dataImportProductProcess = array('error' => true, 'message' => "Columna vacia en la fila: {$i}");
+            //     break;
+            // }
 
             // Obtener id producto
-            $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
-            if (!$findProduct) {
-                $i = $i + 2;
-                $dataImportProductProcess = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
-                break;
-            } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
+            // $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
+            // if (!$findProduct) {
+            //     $i = $i + 2;
+            //     $dataImportProductProcess = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
+            //     break;
+            // } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
 
             // Obtener id proceso
-            $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
-            if (!$findProcess) {
-                $i = $i + 2;
-                $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
-                break;
-            }
+            // $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
+            // if (!$findProcess) {
+            //     $i = $i + 2;
+            //     $dataImportProductProcess = array('error' => true, 'message' => "Proceso no existe en la base de datos<br>Fila: {$i}");
+            //     break;
+            // }
 
             if ($productProcess[$i]['autoMachine'] == 'NO' && strtoupper(trim($productProcess[$i]['machine'])) != 'PROCESO MANUAL') {
                 $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
@@ -214,6 +211,7 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                     $dataImportProductProcess = array('error' => true, 'message' => "No existe nomina asociada a este proceso<br>Fila: {$i}");
                     break;
                 }
+                $productProcess[$i]['idProcess'] = $findProcess['id_process'];
             }
 
             if ($productProcess[$i]['autoMachine'] == 'SI' && strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
@@ -222,30 +220,28 @@ $app->post('/productsProcessDataValidation', function (Request $request, Respons
                 break;
             }
 
-            $productProcess[$i]['idProcess'] = $findProcess['id_process'];
-
             // Obtener id maquina
             // Si no está definida agrega 0 a 'idMachine'
-            if (!isset($productProcess[$i]['machine']) || strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
-                $productProcess[$i]['idMachine'] = 0;
-            } else {
-                $findMachine = $machinesDao->findMachine($productProcess[$i], $id_company);
-                if (!$findMachine) {
-                    $i = $i + 2;
-                    $dataImportProductProcess = array('error' => true, 'message' => "Maquina no existe en la base de datos <br>Fila: {$i}");
-                    break;
-                } else $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
-            }
+            // if (!isset($productProcess[$i]['machine']) || strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
+            //     $productProcess[$i]['idMachine'] = 0;
+            // } else {
+            //     $findMachine = $machinesDao->findMachine($productProcess[$i], $id_company);
+            //     if (!$findMachine) {
+            //         $i = $i + 2;
+            //         $dataImportProductProcess = array('error' => true, 'message' => "Maquina no existe en la base de datos <br>Fila: {$i}");
+            //         break;
+            //     } else $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
+            // }
 
             //tiempo de alistamiento = 0 si no está definido
-            if (!isset($productProcess[$i]['enlistmentTime'])) {
-                $productProcess[$i]['enlistmentTime'] = 0;
-            }
+            // if (!isset($productProcess[$i]['enlistmentTime'])) {
+            //     $productProcess[$i]['enlistmentTime'] = 0;
+            // }
 
-            //Tiempo de operación = 0 si no está definido
-            if (!isset($productProcess[$i]['operationTime'])) {
-                $productProcess[$i]['operationTime'] = 0;
-            }
+            // //Tiempo de operación = 0 si no está definido
+            // if (!isset($productProcess[$i]['operationTime'])) {
+            //     $productProcess[$i]['operationTime'] = 0;
+            // }
 
             $findProductProcess = $productsProcessDao->findProductProcess($productProcess[$i], $id_company);
 
@@ -504,26 +500,27 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
             if (isset($resolution['info'])) break;
 
             // Obtener id producto
-            $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
-            $productProcess[$i]['idProduct'] = $findProduct['id_product'];
+            // $findProduct = $productsDao->findProduct($productProcess[$i], $id_company);
+            // $productProcess[$i]['idProduct'] = $findProduct['id_product'];
 
             // Obtener id proceso
             if ($productProcess[$i]['autoMachine'] == 'NO' && strtoupper(trim($productProcess[$i]['machine'])) != 'PROCESO MANUAL') {
                 $findProcess = $generalPayrollDao->findProcessByPayroll($productProcess[$i], $id_company);
-            } else
-                $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
+                $productProcess[$i]['idProcess'] = $findProcess['id_process'];
+            }
+            // } else
+            //     $findProcess = $generalProcessDao->findProcess($productProcess[$i], $id_company);
 
-            $productProcess[$i]['idProcess'] = $findProcess['id_process'];
 
             // Obtener id maquina
             // Si no está definida agrega 0 a 'idMachine'
-            if (!isset($productProcess[$i]['machine']) || strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
-                $productProcess[$i]['idMachine'] = 0;
-            } else {
-                // Obtener id maquina
-                $findMachine = $machinesDao->findMachine($productProcess[$i], $id_company);
-                $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
-            }
+            // if (!isset($productProcess[$i]['machine']) || strtoupper(trim($productProcess[$i]['machine'])) == 'PROCESO MANUAL') {
+            //     $productProcess[$i]['idMachine'] = 0;
+            // } else {
+            //     // Obtener id maquina
+            //     $findMachine = $machinesDao->findMachine($productProcess[$i], $id_company);
+            //     $productProcess[$i]['idMachine'] = $findMachine['id_machine'];
+            // }
 
             //consultar si existe producto_proceso en bd
             //false = no, id_product_process = si
@@ -540,7 +537,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                     $i = $i + 2;
                     $resp = array('error' => true, 'message' => "El Proceso ya se encuentra en la Base de Datos<br>Fila: {$i}");
                     break;
-                } else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
+                } //else $productProcess[$i]['idProduct'] = $findProduct['id_product'];
 
                 $lastInserted = $lastDataDao->findLastInsertedProductProcess($id_company);
 

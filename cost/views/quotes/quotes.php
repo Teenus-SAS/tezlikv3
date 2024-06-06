@@ -138,7 +138,7 @@ if (sizeof($_SESSION) == 0)
 	<script src="/cost/js/basic/rawMaterials/configRawMaterials.js"></script>
 	<script>
 		$(document).ready(function() {
-			loadDataMaterial(2);
+			loadDataMaterial(2, '/api/materials');
 			getDataProducts('/api/products');
 		});
 	</script>

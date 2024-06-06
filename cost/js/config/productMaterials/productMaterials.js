@@ -83,7 +83,7 @@ $(document).ready(function () {
   $("#categories").change(function (e) {
     e.preventDefault();
 
-    let data = JSON.parse(sessionStorage.getItem("dataMaterials"));
+    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
 
     if (this.value != "0")
       data = data.filter((item) => item.id_category == this.value);
@@ -146,7 +146,7 @@ $(document).ready(function () {
     e.preventDefault();
     let id = this.value;
 
-    let data = sessionStorage.getItem("dataMaterials");
+    let data = sessionStorage.getItem('dataMaterials');
     if (data) {
       dataMaterials = JSON.parse(data);
     }
@@ -208,7 +208,7 @@ $(document).ready(function () {
     $(".cardAddNewProduct").hide(800);
     $(".categories").hide(800);
     $("#btnAddMaterials").html("Actualizar");
-    let data = JSON.parse(sessionStorage.getItem("dataMaterials"));
+    let data = JSON.parse(sessionStorage.getItem('dataMaterials'));
     await addSelectsMaterials(data);
 
     $("#units").empty();
