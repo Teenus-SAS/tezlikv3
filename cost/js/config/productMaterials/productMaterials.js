@@ -469,7 +469,7 @@ $(document).ready(function () {
           referencia_producto: arr[i].reference,
           producto: arr[i].product,
           servicio: arr[i].name_service,
-          costo: arr[i].cost,
+          // costo: arr[i].cost,
         });
       }
 

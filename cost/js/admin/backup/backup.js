@@ -112,12 +112,12 @@ $(document).ready(function () {
                 ...baseData,
                 costo_importacion: parseFloat(item.cost_import),
                 costo_nacionalizacion: parseFloat(item.cost_export),
-                tipo_costo: 'COP'
+                tipo_moneda: 'COP'
               });
             } else {
               data.push({
                 ...baseData,
-                tipo_costo: 'COP'
+                tipo_moneda: 'COP'
               });
             }
           }
