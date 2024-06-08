@@ -100,7 +100,16 @@ $(document).ready(function () {
     sessionStorage.setItem("id_product_process", data.id_product_process);
 
     $(`#idProcess option[value=${data.id_process}]`).prop("selected", true);
-    $('#employees').val(data.count_employee);
+    let count_employee = data.count_employee;
+
+    let employees = data.employee.toString().split(",");
+    checkBoxEmployees = employees;
+
+    if (employees[0] != '') {
+      count_employee = employees.length;
+    }
+
+    $('#employees').val(count_employee);
 
     if (parseInt(data.count_employee) == 0) {
       toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
@@ -117,10 +126,7 @@ $(document).ready(function () {
     $("#operationTime").val(data.operation_time);
     $("#efficiency").val(data.efficiency);
 
-    $("#enlistmentTime").click();
-
-    let employees = data.employee.toString().split(",");
-    checkBoxEmployees = employees;
+    $("#enlistmentTime").click(); 
 
     if (data.auto_machine == 'SI') {
       $("#checkMachine").prop("checked", true);
@@ -299,8 +305,8 @@ $(document).ready(function () {
       }
 
       options += `<div class="checkbox checkbox-success">
-                    <input class="checkboxEmployees" id="${payroll[i].id_payroll}" type="checkbox" ${checked}>
-                    <label for="${payroll[i].id_payroll}">${payroll[i].employee}</label>
+                    <input class="checkboxEmployees" id="chk-${payroll[i].id_payroll}" type="checkbox" ${checked}>
+                    <label for="chk-${payroll[i].id_payroll}">${payroll[i].employee}</label>
                   </div>`;
     }
 
@@ -308,7 +314,7 @@ $(document).ready(function () {
 
     bootbox.confirm({
       title: "Empleados",
-      message: `${options}`,
+      message: options,
       buttons: {
         confirm: {
           label: "Guardar",
@@ -344,18 +350,22 @@ $(document).ready(function () {
   });
 
   $(document).on("click", ".checkboxEmployees", function () {
-    $(`#${this.id}`).is(":checked") ? (op = true) : (op = false);
-    $(`#${this.id}`).prop("checked", op);
+    // Obtener el ID del checkbox
+    let id = $(this).attr('id');
+    // Obtener la parte después del guion '-'
+    let idPayRoll = id.split('-')[1];
+    $(`#${id}`).is(":checked") ? (op = true) : (op = false);
+    $(`#${id}`).prop("checked", op);
 
-    if (!$(`#${this.id}`).is(":checked")) {
+    if (!$(`#${id}`).is(":checked")) {
       for (let i = 0; i < checkBoxEmployees.length; i++) {
-        if (checkBoxEmployees[i] == this.id) checkBoxEmployees.splice(i, 1);
+        if (checkBoxEmployees[i] == idPayRoll) checkBoxEmployees.splice(i, 1);
       }
     } else {
       if (checkBoxEmployees[0] == "") {
         checkBoxEmployees.splice(0, 1);
       }
-      checkBoxEmployees.push(this.id);
+      checkBoxEmployees.push(idPayRoll);
     }
   });
 

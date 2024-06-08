@@ -231,7 +231,15 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
                 $i = $i + 2;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Producto no existe en la base de datos<br>Fila: {$i}");
                 break;
-            } else $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
+            }
+
+            if ($findProduct['composite'] == 1) {
+                $i = $i + 2;
+                $dataImportExpenseDistribution = array('error' => true, 'message' => "El producto es compuesto, no se puede guardar<br>Fila: {$i}");
+                break;
+            }
+
+            $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];
 
             // Obtener centro de produccion
             if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) {

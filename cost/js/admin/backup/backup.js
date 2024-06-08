@@ -11,7 +11,7 @@ $(document).ready(function () {
       let data = [];
 
       if (execute == false) return false;
-      /* Productos */ 
+      /* Productos */
       let dataProducts = await searchData('/api/products');
       if (dataProducts.length > 0) {
         for (i = 0; i < dataProducts.length; i++) {
@@ -341,7 +341,7 @@ $(document).ready(function () {
       }
 
       if (execute == false) return false;
-      /* Tipo de gasto */
+      /* Tipo de gasto 
       data = [];
       if (flag_expense == '1') {
         if (flag_expense_distribution == '1') {
@@ -356,18 +356,26 @@ $(document).ready(function () {
         url = '/api/expensesRecover';
         op = 3;
       }
-      dataTypeExpense = await searchData(url);
+      let dataTypeExpense = await searchData(url);
 
       if (execute == false) return false;
       if (op == 1) {
         if (dataTypeExpense.length > 0) {
           for (i = 0; i < dataTypeExpense.length; i++) {
-            data.push({
-              referencia_producto: dataTypeExpense[i].reference,
-              producto: dataTypeExpense[i].product,
-              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-            });
+            if (flag_composite_product == '1' && dataTypeExpense[i].composite == 0)
+              data.push({
+                referencia_producto: dataTypeExpense[i].reference,
+                producto: dataTypeExpense[i].product,
+                unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+                volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
+              });
+            else if (flag_composite_product == '0')
+              data.push({
+                referencia_producto: dataTypeExpense[i].reference,
+                producto: dataTypeExpense[i].product,
+                unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
+                volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
+              });
           }
 
           let ws = XLSX.utils.json_to_sheet(data);
@@ -402,9 +410,76 @@ $(document).ready(function () {
           let ws = XLSX.utils.json_to_sheet(data);
           XLSX.utils.book_append_sheet(wb, ws, 'Recuperacion Gasto');
         }
+      } */
+      data = [];
+      let url, op;
+
+      if (flag_expense == '1') {
+        if (flag_expense_distribution == '1') {
+          url = '/api/expensesDistribution';
+          op = 1;
+        } else {
+          url = '/api/expensesDistributionFamilies';
+          op = 2;
+        }
+      } else {
+        url = '/api/expensesRecover';
+        op = 3;
       }
 
-      $('.close-btn').hide();
+      let dataTypeExpense = await searchData(url);
+
+      if (execute == false) return false;
+
+      const addToSheet = (sheetName, jsonData) => {
+        if (jsonData.length > 0) {
+          let ws = XLSX.utils.json_to_sheet(jsonData);
+          XLSX.utils.book_append_sheet(wb, ws, sheetName);
+        }
+      };
+
+      const processProductData = (dataTypeExpense) => {
+        return dataTypeExpense.filter(item => flag_composite_product == '1' && item.composite == 0 || flag_composite_product == '0')
+          .map(item => ({
+            referencia_producto: item.reference,
+            producto: item.product,
+            unidades_vendidas: parseFloat(item.units_sold),
+            volumen_ventas: parseFloat(item.turnover),
+          }));
+      };
+
+      const processFamilyData = (dataTypeExpense) => {
+        return dataTypeExpense.map(item => ({
+          familia: item.family,
+          unidades_vendidas: parseFloat(item.units_sold),
+          volumen_ventas: parseFloat(item.turnover),
+        }));
+      };
+
+      const processRecoveryData = (dataTypeExpense) => {
+        return dataTypeExpense.map(item => ({
+          reference_producto: item.reference,
+          producto: item.product,
+          porcentaje_recuperado: parseFloat(item.expense_recover),
+        }));
+      };
+
+      switch (op) {
+        case 1:
+          data = processProductData(dataTypeExpense);
+          addToSheet('Distribucion Producto', data);
+          break;
+        case 2:
+          data = processFamilyData(dataTypeExpense);
+          addToSheet('Distribucion Familia', data);
+          break;
+        case 3:
+          data = processRecoveryData(dataTypeExpense);
+          addToSheet('Recuperacion Gasto', data);
+          break;
+      }
+
+      // $('.close-btn').hide();
       $('.loading').hide(800);
       document.body.style.overflow = '';
       execute = true;
