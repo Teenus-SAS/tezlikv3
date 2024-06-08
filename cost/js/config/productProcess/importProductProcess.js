@@ -91,7 +91,7 @@ $(document).ready(function () {
           let arr = data[i];
 
           let enlistmentTime = '0';
-          let operationTime = '';
+          let operationTime = '0';
           let efficiency = '0';
 
           if (arr.tiempo_enlistamiento > 0) {

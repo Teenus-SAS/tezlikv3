@@ -811,7 +811,7 @@ $app->post('/updateMaterials', function (Request $request, Response $response, $
         } else {
             $materials = $materialsDao->updateMaterialsByCompany($dataMaterial, $id_company);
 
-            if ($_SESSION['export_import']) {
+            if ($_SESSION['export_import'] == '1' && $_SESSION['flag_export_import'] == '1') {
                 $dataMaterial['costTotal'] = floatval($dataMaterial['costRawMaterial']) + floatval($dataMaterial['costImport']) + floatval($dataMaterial['costExport']);
 
                 $materials = $generalMaterialsDao->saveCostsMaterial($dataMaterial);

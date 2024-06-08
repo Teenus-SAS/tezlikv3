@@ -140,8 +140,8 @@ $(document).ready(function () {
 
     let refP = parseInt($("#idProcess").val());
     let refM = parseInt($("#idMachine").val());
-    let enlistmentTime = parseFloat($("#enlistmentTime").val());
-    let operationTime = parseFloat($("#operationTime").val());
+    // let enlistmentTime = parseFloat($("#enlistmentTime").val());
+    // let operationTime = parseFloat($("#operationTime").val());
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!refP) {
@@ -158,9 +158,9 @@ $(document).ready(function () {
     //   }
     // }
 
-    if (!operationTime) {
-      emptyInputs.push("#operationTime");
-    }
+    // if (!operationTime) {
+    //   emptyInputs.push("#operationTime");
+    // }
 
     // Marcar los campos vacíos con borde rojo
     emptyInputs.forEach(function (selector) {

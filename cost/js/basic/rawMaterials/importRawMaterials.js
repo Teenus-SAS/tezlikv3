@@ -50,10 +50,9 @@ $(document).ready(function () {
         const expectedHeaders = ['referencia', 'material', 'magnitud', 'unidad', 'costo', 'costo_importacion', 'costo_nacionalizacion', 'tipo_moneda'];
         
         // price_usd == '0' ||
-        if (export_import == '0' && flag_export_import == '0'){
-          expectedHeaders.splice(5, 1);
-          expectedHeaders.splice(5, 1);
-          expectedHeaders.splice(5, 1);
+        if (export_import == '0' || flag_export_import == '0'){
+          expectedHeaders.splice(expectedHeaders.length - 2, 1);
+          expectedHeaders.splice(expectedHeaders.length - 2, 1); 
         }
 
         if (flag_currency_usd == '0') { // COP
