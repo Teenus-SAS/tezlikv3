@@ -24,12 +24,12 @@ class ProductsMaterialsDao
                                       FROM products p
                                       	INNER JOIN products_costs pc ON pc.id_product = p.id_product
                                         INNER JOIN products_materials pm ON pm.id_product = p.id_product
-                                        INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
+                                        -- INNER JOIN companies_licenses cl ON cl.id_company = p.id_company
                                         INNER JOIN materials m ON m.id_material = pm.id_material
                                         LEFT JOIN convert_units u ON u.id_unit = pm.id_unit
                                         LEFT JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
-                                        LEFT JOIN composite_products cp ON cp.id_product = p.id_product
-                                      WHERE pm.id_company = :id_company AND pm.id_product = :id_product");
+                                        -- LEFT JOIN composite_products cp ON cp.id_product = p.id_product
+                                      WHERE p.id_company = :id_company AND p.id_product = :id_product");
         $stmt->execute(['id_product' => $idProduct, 'id_company' => $id_company]);
         $productsmaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
         $this->logger->notice("products", array('products' => $productsmaterials));

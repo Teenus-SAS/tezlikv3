@@ -280,12 +280,12 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
     $dataProduct = $request->getParsedBody();
 
     if (isset($dataProduct)) {
+        $id_company = $_SESSION['id_company'];
+        $products = $dataProduct['importProducts'];
+
         // Verificar duplicados
         $duplicateTracker = [];
         $dataImportProduct = [];
-
-        $id_company = $_SESSION['id_company'];
-        $products = $dataProduct['importProducts'];
 
         for ($i = 0; $i < count($products); $i++) {
             if (
@@ -304,8 +304,8 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
             }
 
             $item = $products[$i];
-            $refProduct = trim($item['refRawMaterial']);
-            $nameProduct = trim($item['nameRawMaterial']);
+            $refProduct = trim($item['referenceProduct']);
+            $nameProduct = trim($item['product']);
 
             if (isset($duplicateTracker[$refProduct]) || isset($duplicateTracker[$nameProduct])) {
                 $i = $i + 2;
