@@ -106,109 +106,81 @@ $(document).ready(function () {
         },
         {
           title: `${op == 1 ? "Precio (Sugerido)" : op == 3 ? "Precio (Sugerido EUR)" : "Precio (Sugerido USD)"}`,
-          data: null,
-          className: "classCenter",
-          render: function (data) {
-            op == 1
-              ? (price = parseFloat(data.price))
-              : op == 2 ?
-                (price = parseFloat(data.price_usd))
-                : (price = parseFloat(data.price_eur));
-
-            if (Math.abs(price) < 0.01) {
-              price = price.toLocaleString("es-CO", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 9,
-              });
-            } else if (op == 1)
-              price = price.toLocaleString("es-CO", {
-                maximumFractionDigits: 0,
-              });
-            else
-              price = price.toLocaleString("es-CO", {
-                maximumFractionDigits: 2,
-              });
-
-            return `$ ${price}`;
+          data: function (data, type, val, meta) {
+            switch (op) {
+              case 1:// COP
+                return parseFloat(data.price);
+              case 3:// EUR
+                return parseFloat(data.price_eur);
+              default:// USD
+                return parseFloat(data.price_usd);
+            }
           },
+          className: "classCenter",
+          render: (data, type, row) => renderCost(data, op),
         },
         {
           title: "Precio (Sugerido USD) Sim",
-          data: null,
+          data: function (data, type, val, meta) {
+            if (!valueCoverage) return "";
+            else
+              return parseFloat(data.price) / parseFloat(valueCoverage);
+          },
           className: "classCenter",
           visible: op == 4 ? true : false,
-          render: function (data) {
-            if (!valueCoverage) return "";
-            else price = parseFloat(data.price) / parseFloat(valueCoverage);
-
-            if (Math.abs(price) < 0.01)
-              price = price.toLocaleString("es-CO", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 9,
-              });
-            else
-              price = price.toLocaleString("es-CO", {
-                maximumFractionDigits: 2,
-              });
-
-            return `$ ${price}`;
-          },
+          render: (data, type, row) => renderCost(data, op),
         },
         {
           title: `${op == 1 ? "Precio (Lista)" : op == 3 ? "Precio (Lista EUR)" : "Precio (Lista USD)"}`,
-          data: null,
+          data: function (data, type, val, meta) {
+            switch (op) {
+              case 1:// COP
+                return parseFloat(data.sale_price);
+              case 3:// EUR
+                return parseFloat(data.sale_price_eur);
+              default:// USD
+                return parseFloat(data.sale_price_usd);
+            }
+          },
           className: "classCenter",
           visible: visible,
-          render: function (data) {
-            op == 1
-              ? (price = parseFloat(data.sale_price))
-              : op == 2 ?
-              (price = parseFloat(data.sale_price_usd)) :
-              (price = parseFloat(data.sale_price_eur));
+          render: (data, type, row) => renderCost(data, op),
+          // render: function (data) {
+          //   op == 1
+          //     ? (price = parseFloat(data.sale_price))
+          //     : op == 3 ?
+          //     (price = parseFloat(data.sale_price_eur)) :
+          //     (price = parseFloat(data.sale_price_usd));
 
-            if (price > 0) {
-              if (Math.abs(price) < 0.01) {
-                price = price.toLocaleString("es-CO", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 9,
-                });
-              } else if (op == 1)
-                price = price.toLocaleString("es-CO", {
-                  maximumFractionDigits: 0,
-                });
-              else
-                price = price.toLocaleString("es-CO", {
-                  maximumFractionDigits: 2,
-                });
+          //   if (price > 0) {
+          //     if (Math.abs(price) < 0.01) {
+          //       price = price.toLocaleString("es-CO", {
+          //         minimumFractionDigits: 2,
+          //         maximumFractionDigits: 9,
+          //       });
+          //     } else if (op == 1)
+          //       price = price.toLocaleString("es-CO", {
+          //         maximumFractionDigits: 0,
+          //       });
+          //     else
+          //       price = price.toLocaleString("es-CO", {
+          //         maximumFractionDigits: 2,
+          //       });
 
-              return `$ ${price}`;
-            } else return "";
-          },
+          //     return `$ ${price}`;
+          //   } else return "";
+          // },
         },
         {
           title: "Precio (Lista) Sim",
-          data: null,
-          className: "classCenter",
-          visible: op == 4 ? true : false,
-          render: function (data) {
+          data: function (data, type, val, meta) {
             if (!valueCoverage) return "";
             else
-              price = parseFloat(data.sale_price) / parseFloat(valueCoverage);
-
-            if (price > 0) {
-              if (Math.abs(price) < 0.01)
-                price = price.toLocaleString("es-CO", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 9,
-                });
-              else
-                price = price.toLocaleString("es-CO", {
-                  maximumFractionDigits: 2,
-                });
-
-              return `$ ${price}`;
-            } else return "";
+              return parseFloat(data.sale_price) / parseFloat(valueCoverage);
           },
+          className: "classCenter",
+          visible: op == 4 && visible == true ? true : false,
+          render: (data, type, row) => renderCost(data, op),
         },
         {
           title: title,
@@ -282,6 +254,26 @@ $(document).ready(function () {
       ],
     });
   };
+
+  const renderCost = (data, op) => {
+    if (data > 0 || data != '') {
+      if (Math.abs(data) < 0.01) {
+        data = data.toLocaleString("es-CO", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 9,
+        });
+      } else if (op == 1)
+        data = data.toLocaleString("es-CO", {
+          maximumFractionDigits: 0,
+        });
+      else
+        data = data.toLocaleString("es-CO", {
+          maximumFractionDigits: 2,
+        });
+
+      return `$ ${data}`;
+    } else return "";
+  }
 
   loadAllData();
 });
