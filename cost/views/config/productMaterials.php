@@ -92,7 +92,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-info" id="btnImportNewProductsMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materia Prima"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-secondary btnDownloadXlsx"><i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i></button>
+                                        <button class="btn btn-secondary btnDownloadXlsx" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar Ficha Técnica"><i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i></button>
                                     </div>
                                     <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
                                         <!-- <div class="col-xs-2 py-2 mr-2">
@@ -128,7 +128,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-info" id="btnImportNewProductProcess" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Procesos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                                        <button class="btn btn-secondary btnDownloadXlsx" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar Ficha Técnica"><i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i></button>
                                     </div>
                                     <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
                                         <!-- <div class="col-xs-2 py-2 mr-2">
@@ -164,7 +164,7 @@ if (sizeof($_SESSION) == 0)
                                         <button class="btn btn-info" id="btnImportNewExternalServices" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Servicios Externos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
                                     <div class="col-xs-2 py-2 mr-2">
-                                        <button class="btn btn-secondary btnDownloadXlsx"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                                        <button class="btn btn-secondary btnDownloadXlsx" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Exportar Ficha Técnica"><i class="fas fa-cloud-upload-alt" style="font-size: 20px;"></i></button>
                                     </div>
                                     <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
                                         <!-- <div class="col-xs-2 py-2 mr-2">
