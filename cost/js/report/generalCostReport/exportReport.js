@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    // Reportes Generales Costos
     $(document).on('click', '.aGeneralCostReport',async function () {
         try {
             $('.loading').show(800);
@@ -32,6 +33,43 @@ $(document).ready(function () {
             execute = true;
 
             XLSX.writeFile(wb, 'reporte_general_costos.xlsx');
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    // Reporte Procesos
+    $(document).on('click', '.aProcessCostReport',async function () {
+        try {
+            $('.loading').show(800);
+            document.body.style.overflow = 'hidden';
+
+            let wb = XLSX.utils.book_new();
+            let data = [];
+
+            let dataPrices = await searchData('/api/processCostReport');
+            if (dataPrices.length > 0) {
+                data = [];
+
+                for (i = 0; i < dataPrices.length; i++) {
+                    if (dataPrices[i].workforce > 0)
+                        data.push({
+                            referencia: dataPrices[i].reference,
+                            producto: dataPrices[i].product,
+                            proceso: dataPrices[i].process,
+                            costo: dataPrices[i].workforce,
+                        });
+                }
+
+                ws = XLSX.utils.json_to_sheet(data);
+                XLSX.utils.book_append_sheet(wb, ws, 'Costos');
+            }
+
+            $('.loading').hide(800);
+            document.body.style.overflow = '';
+            execute = true;
+
+            XLSX.writeFile(wb, 'reporte_costos_procesos.xlsx');
         } catch (error) {
             console.log(error);
         }

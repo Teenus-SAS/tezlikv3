@@ -156,6 +156,9 @@
                                             <?php } ?>
                                             <span><i class="bi bi-currency-dollar mr-1"></i>Reporte General De Costos </span>
                                             </a>
+                                            <a class="dropdown-item aProcessCostReport" href="javasctript:;">
+                                                <span><i class="bi bi-currency-dollar mr-1"></i>Reporte Costos x Procesos</span>
+                                            </a>
                                 </ul>
                                 </li>
 

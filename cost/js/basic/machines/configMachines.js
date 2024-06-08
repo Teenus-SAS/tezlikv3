@@ -9,7 +9,7 @@ $(document).ready(function () {
   });
 
   getSelectMachine = async (url) => {
-    $.ajax({
+    await $.ajax({
       type: 'GET',
       url: url,
       success: function (r) {

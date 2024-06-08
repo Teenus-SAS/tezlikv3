@@ -83,7 +83,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkExternalService = (data) => {
+  const checkExternalService = (data) => {
     $.ajax({
       type: 'POST',
       url: '../../api/externalServiceDataValidation',
@@ -125,7 +125,7 @@ $(document).ready(function () {
     });
   };
 
-  saveExternalServiceTable = (data) => {
+  const saveExternalServiceTable = (data) => {
     $.ajax({
       type: 'POST',
       url: '../../api/addExternalService',
@@ -138,29 +138,8 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $('#btnDownloadImportsExternalServices').click(function (e) {
-    e.preventDefault();
+    e.preventDefault(); 
 
-    // let dataServices = JSON.parse(sessionStorage.getItem('dataServices'));
-
-    // if (dataServices.length > 0) {
-    //   let wb = XLSX.utils.book_new();
-
-    //   let data = [];
-
-    //   namexlsx = 'Servicios_Externos.xlsx';
-    //   for (i = 0; i < dataServices.length; i++) {
-    //     data.push({
-    //       referencia_producto: dataServices[i].reference,
-    //       producto: dataServices[i].product,
-    //       servicio: dataServices[i].name_service,
-    //       costo: dataServices[i].cost,
-    //     });
-    //   }
-
-    //   let ws = XLSX.utils.json_to_sheet(data);
-    //   XLSX.utils.book_append_sheet(wb, ws, 'Servicios Externos');
-    //   XLSX.writeFile(wb, namexlsx);
-    // } else {
     let url = 'assets/formatsXlsx/Servicios_Externos.xlsx';
 
     let link = document.createElement('a');
@@ -171,7 +150,6 @@ $(document).ready(function () {
     link.click();
 
     document.body.removeChild(link);
-    delete link;
-    // }
+    delete link; 
   });
 });

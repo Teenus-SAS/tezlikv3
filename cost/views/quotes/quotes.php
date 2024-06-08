@@ -37,7 +37,7 @@ if (sizeof($_SESSION) == 0)
 		<div class="main-content">
 			<!-- Loader -->
 			<div class="loading">
-				<a href="javascript:;" class="close-btn"><i class="bi bi-x-circle-fill"></i></a>
+				<a href="javascript:;" class="close-btn" style="display: none;"><i class="bi bi-x-circle-fill"></i></a>
 				<div class="loader"></div>
 			</div>
 

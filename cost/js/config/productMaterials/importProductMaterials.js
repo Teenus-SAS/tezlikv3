@@ -31,9 +31,9 @@ $(document).ready(function () {
 
     form.insertAdjacentHTML(
       'beforeend',
-      `<div class="col-sm-1 cardLoading" style="margin-top: 7px; margin-left: 15px">
-        <div class="spinner-border text-secondary" role="status">
-            <span class="sr-only">Loading...</span>
+      `<div class='col-sm-1 cardLoading' style='margin-top: 7px; margin-left: 15px'>
+        <div class='spinner-border text-secondary' role='status'>
+            <span class='sr-only'>Loading...</span>
         </div>
       </div>`
     );
@@ -61,26 +61,7 @@ $(document).ready(function () {
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
         }
-
-        /* let productMaterialsToImport = data.map((item) => {
-          let quantity = '';
-
-          if (item.cantidad)
-            quantity = item.cantidad.toString().replace('.', ',');
-
-          return {
-            referenceProduct: item.referencia_producto,
-            product: item.producto,
-            refRawMaterial: item.referencia_material,
-            nameRawMaterial: item.material,
-            magnitude: item.magnitud,
-            unit: item.unidad,
-            quantity: quantity,
-            waste: item.desperdicio,
-            type: item.tipo,
-          };
-        }); */
-
+ 
         let productMaterialsToImport = [];
         let importStatus = true;
 
@@ -151,14 +132,6 @@ $(document).ready(function () {
 
           productMaterialsToImport.push({ idProduct: product.id_product });
 
-          // Validar Unidad
-          // let dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
-          // let unit = dataUnits.find(item => item.reference == item.referencia_producto.trim() && item.product == item.producto.toUpperCase().trim());
-
-          // if (!unit) {
-          //   toastr.error(`Producto no existe en la base de datos. Fila: ${i + 2}`);
-          //   break;
-          // }
           let type = arr.tipo.toUpperCase().trim();
 
           switch (type) {
@@ -237,7 +210,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProductMaterial = (data) => {
+  const checkProductMaterial = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/productsMaterialsDataValidation',
@@ -278,7 +251,7 @@ $(document).ready(function () {
     });
   };
 
-  saveProductMaterialTable = (data) => {
+  const saveProductMaterialTable = (data) => {
     // console.log(data);
     $.ajax({
       type: 'POST',
@@ -295,40 +268,7 @@ $(document).ready(function () {
   /* Descargar formato */
   $('#btnDownloadImportsProductsMaterials').click(function (e) {
     e.preventDefault();
-    // let dataProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
-    
-    // if (dataProductMaterials.length > 0) {
-    //   let wb = XLSX.utils.book_new();
-      
-    //   let data = [];
-      
-    //   if (flag_composite_product == '1') {
-    //     let dataCompositeProduct = JSON.parse(sessionStorage.getItem('dataCompositeProduct'));
-    //     dataProductMaterials = [...dataProductMaterials, ...dataCompositeProduct];
-    //   }
-    
-    //   namexlsx = 'Productos_Materias.xlsx';
-    //   for (i = 0; i < dataProductMaterials.length; i++) {
-    //     data.push({
-    //       referencia_producto: dataProductMaterials[i].reference_product,
-    //       producto: dataProductMaterials[i].product,
-    //       referencia_material: dataProductMaterials[i].reference_material,
-    //       material: dataProductMaterials[i].material,
-    //       magnitud: dataProductMaterials[i].magnitude,
-    //       unidad: dataProductMaterials[i].unit,
-    //       cantidad: dataProductMaterials[i].quantity,
-    //       // desperdicio: dataProductMaterials[i].waste,
-    //       precio_unitario: dataProductMaterials[i].cost_product_material,
-    //       tipo: dataProductMaterials[i].type,
-    //     });
-    //   }
-
-    //   let ws = XLSX.utils.json_to_sheet(data);
-    //   XLSX.utils.book_append_sheet(wb, ws, 'Productos Materias');
-
-      
-    //   XLSX.writeFile(wb, namexlsx);
-    // } else {
+     
     let url = 'assets/formatsXlsx/Productos_Materias.xlsx';
 
     let link = document.createElement('a');
@@ -339,7 +279,6 @@ $(document).ready(function () {
     link.click();
 
     document.body.removeChild(link);
-    delete link;
-    // }
+    delete link; 
   });
 });

@@ -128,14 +128,16 @@ class DashboardProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         if ($op == 1) {
-            $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
+            $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT IFNULL(SUM(IFNULL(py.minute_value, 0) *(IFNULL((IFNULL(pr.enlistment_time, 0) + IFNULL(pr.operation_time, 0)) / IFNULL((IF(pr.efficiency = 0, 100, pr.efficiency) / 100), 0), 0))), 0)
+                                             FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process AND pr.auto_machine = 0
                                              WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process), 0) AS workforce	
                                       FROM process p
                                       INNER JOIN products_process pp ON pp.id_process = p.id_process
                                       WHERE pp.id_product = :id_product AND pp.id_company = :id_company");
             $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
         } else {
-            $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT SUM((pr.enlistment_time + pr.operation_time) * py.minute_value) FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process 
+            $stmt = $connection->prepare("SELECT p.process, IFNULL((SELECT IFNULL(SUM(IFNULL(py.minute_value, 0) *(IFNULL((IFNULL(pr.enlistment_time, 0) + IFNULL(pr.operation_time, 0)) / IFNULL((IF(pr.efficiency = 0, 100, pr.efficiency) / 100), 0), 0))), 0)
+                                             FROM payroll py INNER JOIN products_process pr ON pr.id_process = py.id_process AND pr.auto_machine = 0
                                              WHERE pr.id_product = pp.id_product AND pr.id_process = p.id_process), 0) AS workforce	
                                       FROM process p
                                       INNER JOIN products_process pp ON pp.id_process = p.id_process

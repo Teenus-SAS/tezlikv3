@@ -1,20 +1,28 @@
 $(document).ready(function () {
   let idProduct;
   let dataExternalService = {};
+  sessionStorage.removeItem('dataGServices');
 
   /* Ocultar panel Nuevo Servicio */
   $('.cardAddService').hide();
 
   /* Abrir panel crear servicio  */
-  $('#btnNewService').click(function (e) {
+  $('#btnNewService').click(async function (e) {
     e.preventDefault();
 
     $('.cardImportExternalServices').hide(800);
-    $('.cardAddService').toggle(800);
     $('#btnAddService').html('Adicionar');
 
+    let display = $('.cardAddService').css('display');
+    let dataGServices = JSON.parse(sessionStorage.getItem('dataGServices'));
+    
+    if (display == 'none' && !dataGServices) {
+      await loadAllDataGServices(2);
+    };
+    
+    $('.cardAddService').toggle(800);
     sessionStorage.removeItem('id_service');
-    $('.inputs').css("border-color", "");
+    $('.inputs').css('border-color', '');
     $('#formAddService').trigger('reset');
   });
 
@@ -50,10 +58,17 @@ $(document).ready(function () {
 
   /* Actualizar servicio */
 
-  $(document).on('click', '.updateExternalService', function (e) {
+  $(document).on('click', '.updateExternalService',async function (e) {
     $('.cardImportExternalServices').hide(800);
+    $('.inputs').css('border-color', '');
+    
+    let dataGServices = JSON.parse(sessionStorage.getItem('dataGServices'));
+    
+    if (!dataGServices) {
+      await loadAllDataGServices(2);
+    };
+
     $('.cardAddService').show(800);
-    $('.inputs').css("border-color", "");
     $('#btnAddService').html('Actualizar');
 
     let row = $(this).parent().parent()[0];
@@ -63,7 +78,7 @@ $(document).ready(function () {
 
     $('#service').val(data.name_service); 
     $('#costService').val(data.cost);
-    $(`#generalServices option[value=${data.id_general_service}]`).prop("selected", true); 
+    $(`#generalServices option[value=${data.id_general_service}]`).prop('selected', true); 
 
     $('html, body').animate(
       {
@@ -81,20 +96,20 @@ $(document).ready(function () {
 
     // Verificar cada campo y agregar los vacíos a la lista
     if (!service) {
-      emptyInputs.push("#service"); 
+      emptyInputs.push('#service'); 
     }
     if (!costService) {
-      emptyInputs.push("#costService");
+      emptyInputs.push('#costService');
     } 
 
     // Marcar los campos vacíos con borde rojo
     emptyInputs.forEach(function (selector) {
-      $(selector).css("border-color", "red");
+      $(selector).css('border-color', 'red');
     });
 
     // Mostrar mensaje de error si hay campos vacíos
     if (emptyInputs.length > 0) {
-      toastr.error("Ingrese todos los campos");
+      toastr.error('Ingrese todos los campos');
       return false;
     }
 

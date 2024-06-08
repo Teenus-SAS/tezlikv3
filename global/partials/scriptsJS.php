@@ -71,6 +71,25 @@
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         export_import = "<?= $_SESSION['export_import'] ?>";
         flag_export_import = "<?= $_SESSION['flag_export_import'] ?>";
+
+        // Guardar los valores específicos de sessionStorage antes de limpiar
+        const preservedValues = {
+            indirect: sessionStorage.getItem('indirect'),
+            typeCurrency: sessionStorage.getItem('typeCurrency'),
+            flag_type_price: sessionStorage.getItem('flag_type_price'),
+            selectTypeExpense: sessionStorage.getItem('selectTypeExpense'),
+            idProduct: sessionStorage.getItem('idProduct')
+        };
+
+        // Limpiar sessionStorage
+        sessionStorage.clear();
+
+        // Restaurar los valores específicos en sessionStorage
+        for (const key in preservedValues) {
+            if (preservedValues[key] !== null) {
+                sessionStorage.setItem(key, preservedValues[key]);
+            }
+        }
     </script>
     <script src="/cost/js/admin/backup/backup.js"></script>
     <script src="/cost/js/report/generalCostReport/exportReport.js"></script>

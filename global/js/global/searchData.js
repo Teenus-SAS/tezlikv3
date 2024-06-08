@@ -23,4 +23,11 @@ $(document).ready(function () {
       console.error(error);
     }
   };
+
+  // Función para cargar datos desde la API y almacenar en sessionStorage
+  // loadData = async (url, storageKey) => {
+  //   let data = await searchData(url);
+  //   sessionStorage.setItem(storageKey, JSON.stringify(data));
+  //   return data;
+  // };
 });

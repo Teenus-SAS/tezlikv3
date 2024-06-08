@@ -63,27 +63,6 @@ $(document).ready(function () {
           return false;
         }
 
-        // let productProcessToImport = data.map((item) => {
-        //   // let enlistmentTime = '';
-        //   // let operationTime = '';
-
-        //   // if (item.tiempo_enlistamiento)
-        //   //   enlistmentTime = item.tiempo_enlistamiento.toString().replace('.', ',');
-        //   // if (item.tiempo_operacion)
-        //   //   operationTime = item.tiempo_operacion.toString().replace('.', ',');
-
-        //   return {
-        //     referenceProduct: item.referencia_producto,
-        //     product: item.producto,
-        //     process: item.proceso,
-        //     machine: item.maquina,
-        //     enlistmentTime: item.tiempo_enlistamiento,
-        //     operationTime: item.tiempo_operacion,
-        //     efficiency: item.eficiencia,
-        //     autoMachine: item.maquina_autonoma
-        //   };
-        // });
-
         let productProcessToImport = [];
         let importStatus = true;
 
@@ -214,7 +193,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProductProcess = (data) => {
+  const checkProductProcess = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/productsProcessDataValidation',
@@ -257,7 +236,7 @@ $(document).ready(function () {
     });
   };
 
-  saveProductProcessTable = (data) => {
+  const saveProductProcessTable = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/addProductsProcess',
@@ -271,34 +250,7 @@ $(document).ready(function () {
   /* Descargar formato */
   $('#btnDownloadImportsProductsProcess').click(function (e) {
     e.preventDefault();
-    // let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
-
-    // if (dataProductProcess.length > 0) {
-    //   let wb = XLSX.utils.book_new();
-
-    //   let data = [];
-
-    //   namexlsx = 'Productos_Procesos.xlsx';
-    //   for (i = 0; i < dataProductProcess.length; i++) {
-    //     data.push({
-    //       referencia_producto: dataProductProcess[i].reference,
-    //       producto: dataProductProcess[i].product,
-    //       proceso: dataProductProcess[i].process,
-    //       maquina: dataProductProcess[i].machine,
-    //       tiempo_enlistamiento: dataProductProcess[i].enlistment_time,
-    //       tiempo_operacion: dataProductProcess[i].operation_time,
-    //       eficiencia: dataProductProcess[i].efficiency,
-    //       // mano_de_obra: dataProductProcess[i].workforce_cost,
-    //       // costo_indirecto: dataProductProcess[i].indirect_cost,
-    //       maquina_autonoma: dataProductProcess[i].auto_machine
-    //     });
-    //   }
-
-    //   let ws = XLSX.utils.json_to_sheet(data);
-    //   XLSX.utils.book_append_sheet(wb, ws, 'Productos Procesos');
-    //   XLSX.writeFile(wb, namexlsx);
-    // }
-    // else {
+    
     let url = 'assets/formatsXlsx/Productos_Procesos.xlsx';
 
     let link = document.createElement('a');
@@ -310,6 +262,5 @@ $(document).ready(function () {
 
     document.body.removeChild(link);
     delete link;
-    // }
   });
 });

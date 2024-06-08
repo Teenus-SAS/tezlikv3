@@ -67,7 +67,7 @@ $(document).ready(function () {
     } else checkImportExpenseD();
   });
 
-  checkImportExpenseD = () => {
+  const checkImportExpenseD = () => {
     $(".cardBottons").hide();
 
     let form = document.getElementById("formExpensesD");
@@ -190,7 +190,7 @@ $(document).ready(function () {
   };
 
   /* Mensaje de advertencia */
-  checkExpenseD = (data, url) => {
+  const checkExpenseD = (data, url) => {
     $.ajax({
       type: "POST",
       url: url,
@@ -236,7 +236,7 @@ $(document).ready(function () {
     });
   };
 
-  saveExpenses = (data, url) => {
+  const saveExpenses = (data, url) => {
     $.ajax({
       type: "POST",
       url: url,
@@ -249,93 +249,8 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $("#btnDownloadImportsExpenses").click(async function (e) {
-    e.preventDefault();
-    // let wb = XLSX.utils.book_new();
-
-    // let data = [];
-    // if (flag_expense == "1") {
-    //   if (flag_expense_distribution == "1") {
-    //     production_center == "1" && flag_production_center == "1"
-    //       ? (namexlsx = "Distribucion_Gastos(CP).xlsx")
-    //       : (namexlsx = "Distribucion_Gastos.xlsx");
-    //     url = "/api/allProductsDistribution";
-    //     op = 1;
-    //   } else {
-    //     namexlsx = "Distribucion_Gastos_Familia.xlsx";
-    //     url = "/api/expensesDistributionFamilies";
-    //     op = 2;
-    //   }
-    // } else {
-    //   namexlsx = "Recuperacion_Gastos.xlsx";
-    //   url = "/api/expensesRecover";
-    //   op = 3;
-    // }
-    // dataTypeExpense = await searchData(url);
-
-    // if (op == 1) {
-    //   if (dataTypeExpense.length > 0) {
-    //     for (i = 0; i < dataTypeExpense.length; i++) {
-    //       if (production_center == "1" && flag_production_center == "1")
-    //         data.push({
-    //           referencia_producto: dataTypeExpense[i].reference,
-    //           producto: dataTypeExpense[i].product,
-    //           unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-    //           volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-    //           centro_produccion: dataTypeExpense[i].production_center,
-    //         });
-    //       else {
-    //         if (flag_composite_product == '1' && dataTypeExpense[i].composite == 0)
-    //           data.push({
-    //             referencia_producto: dataTypeExpense[i].reference,
-    //             producto: dataTypeExpense[i].product,
-    //             unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-    //             volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-    //           });
-    //         else if(flag_composite_product == '0')
-    //           data.push({
-    //             referencia_producto: dataTypeExpense[i].reference,
-    //             producto: dataTypeExpense[i].product,
-    //             unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-    //             volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-    //           });
-    //       }
-    //     }
-
-    //     let ws = XLSX.utils.json_to_sheet(data);
-    //     XLSX.utils.book_append_sheet(wb, ws, "Distribucion Producto");
-    //   }
-    // } else if (op == 2) {
-    //   if (dataTypeExpense.length > 0) {
-    //     for (i = 0; i < dataTypeExpense.length; i++) {
-    //       data.push({
-    //         // referencia: dataProducts[i].id_family,
-    //         familia: dataTypeExpense[i].family,
-    //         unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-    //         volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-    //       });
-    //     }
-
-    //     let ws = XLSX.utils.json_to_sheet(data);
-    //     XLSX.utils.book_append_sheet(wb, ws, "Distribucion Familia");
-    //   }
-    // } else {
-    //   if (dataTypeExpense.length > 0) {
-    //     for (i = 0; i < dataTypeExpense.length; i++) {
-    //       data.push({
-    //         reference_producto: dataProducts[i].reference,
-    //         producto: dataTypeExpense[i].product,
-    //         porcentaje_recuperado: parseFloat(
-    //           dataTypeExpense[i].expense_recover
-    //         ),
-    //       });
-    //     }
-
-    //     let ws = XLSX.utils.json_to_sheet(data);
-    //     XLSX.utils.book_append_sheet(wb, ws, "Recuperacion Gasto");
-    //   }
-    // }
-
-    // XLSX.writeFile(wb, namexlsx);
+    e.preventDefault();  
+    
     let wb = XLSX.utils.book_new();
     let data = [];
     let namexlsx, url, op;

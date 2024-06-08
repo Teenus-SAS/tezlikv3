@@ -119,11 +119,11 @@ $(document).ready(function () {
     let workforce = [];
     let totalCost = 0;
 
-    for (let i in data) {
+    for (let i = 0; i < data.length; i++) {
       if (data[i].workforce > 0) {
         process.push(data[i].process);
         workforce.push(data[i].workforce);
-        totalCost = totalCost + workforce[i];
+        totalCost = totalCost + data[i].workforce;
       }
     }
 
