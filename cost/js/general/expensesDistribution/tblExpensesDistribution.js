@@ -20,7 +20,10 @@ $(document).ready(function () {
 
   loadAllDataDistribution = async () => {
     try {
-      const dataExpensesDistribution = await searchData('/api/expensesDistribution');
+      let dataExpensesDistribution = await searchData('/api/expensesDistribution');
+
+      if (flag_composite_product == '1')
+        dataExpensesDistribution = dataExpensesDistribution.filter(item => item.composite == 0);
 
       sessionStorage.setItem('dataExpensesDistribution', JSON.stringify(dataExpensesDistribution)); 
 
@@ -167,5 +170,5 @@ $(document).ready(function () {
     }
   };
 
-  loadAllDataDistribution();
+  // loadAllDataDistribution();
 });

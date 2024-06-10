@@ -123,7 +123,7 @@ class GeneralProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT ed.id_expenses_distribution, p.id_product, p.reference, p.product, IFNULL(ed.units_sold, 0) AS units_sold, 
-                                             IFNULL(ed.turnover, 0) AS turnover, ed.assignable_expense, pc.id_production_center, pc.production_center
+                                             IFNULL(ed.turnover, 0) AS turnover, ed.assignable_expense, pc.id_production_center, pc.production_center, p.composite
                                       FROM products p
                                         LEFT JOIN expenses_distribution ed ON ed.id_product = p.id_product
                                         LEFT JOIN productions_center pc ON pc.id_production_center = ed.id_production_center

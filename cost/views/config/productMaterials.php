@@ -185,11 +185,11 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardProducts">
+                <div class="page-content-wrapper mt--45 cardProducts">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card" style="height: 80px;">
+                        <div class="vertical-app-tabs" id="rootwizard">
+                            <div class="col-12 col-lg-12 InputGroup">
+                                <div class="card">
                                     <div class="card-body">
                                         <div class="form-row">
                                             <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
@@ -209,7 +209,7 @@ if (sizeof($_SESSION) == 0)
                 </div>
 
                 <!-- Materiales -->
-                <div class="page-content-wrapper mt--45 mb-5 cardAddMaterials">
+                <div class="page-content-wrapper mt--45 mt-5 cardAddMaterials">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -258,7 +258,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportProductsMaterials">
+                <div class="page-content-wrapper mt--45 mt-5 cardImportProductsMaterials">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportProductMaterial" enctype="multipart/form-data">
@@ -283,7 +283,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardAddNewProduct">
+                <div class="page-content-wrapper mt--45 mt-5 cardAddNewProduct">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -330,7 +330,7 @@ if (sizeof($_SESSION) == 0)
                 </div>
 
                 <!-- Procesos -->
-                <div class="page-content-wrapper mt--45 mb-5 cardAddProcess">
+                <div class="page-content-wrapper mt--45 mt-5 cardAddProcess">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -400,7 +400,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportProductsProcess">
+                <div class="page-content-wrapper mt--45 mt-5 cardImportProductsProcess">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportProductProcess" enctype="multipart/form-data">
@@ -429,7 +429,7 @@ if (sizeof($_SESSION) == 0)
                 </div>
 
                 <!-- Servicios Externos -->
-                <div class="page-content-wrapper mt--45 mb-5 cardAddService">
+                <div class="page-content-wrapper mt--45 mt-5 cardAddService">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -465,7 +465,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mb-5 cardImportExternalServices">
+                <div class="page-content-wrapper mt--45 mt-5 cardImportExternalServices">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -493,7 +493,7 @@ if (sizeof($_SESSION) == 0)
                 </div>
 
                 <!-- page content -->
-                <div class="page-content-wrapper mt--45">
+                <div class="page-content-wrapper mt--45 mt-5">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">
@@ -617,10 +617,9 @@ if (sizeof($_SESSION) == 0)
         coverage_usd = "<?= $_SESSION['coverage_usd'] ?>";
 
         $(document).ready(function() {
-            loadDataMaterial(1, '/api/selectMaterials');
-            loadAllDataGServices(2);
+            // loadAllDataGServices(2);
             getDataProducts('/api/selectProducts');
-            getSelectMachine('/api/selectMachines');
+            // getSelectMachine('/api/selectMachines');
         });
         // $('.loading').show(800);
         // document.body.style.overflow = 'hidden';

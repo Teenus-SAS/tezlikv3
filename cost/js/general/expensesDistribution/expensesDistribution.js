@@ -6,8 +6,12 @@ $(document).ready(function () {
   $('#btnExpensesDistribution').click(async function (e) {
     e.preventDefault();
 
-    if (flag_expense_distribution == 1) await loadExpensesDProducts();
-    else await loadFamilies(2);
+    let display = $('.cardExpensesDistribution').css('display');
+
+    if (display == 'none') {
+      if (flag_expense_distribution == 1) await loadExpensesDProducts();
+      else await loadFamilies(2);
+    }
 
     $('.selectNameProduct option').removeAttr('selected');
     $('.refProduct option').removeAttr('selected');

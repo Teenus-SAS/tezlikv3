@@ -38,7 +38,7 @@ if (sizeof($_SESSION) == 0)
         <div class="main-content">
             <!-- Loader -->
             <div class="loading">
-                <a href="javascript:;" class="close-btn"><i class="bi bi-x-circle-fill"></i></a>
+                <a href="javascript:;" class="close-btn" style="display: none;"><i class="bi bi-x-circle-fill"></i></a>
                 <div class="loader"></div>
             </div>
 
@@ -163,6 +163,7 @@ if (sizeof($_SESSION) == 0)
 
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
 
+    <script src="/cost/js/basic/process/configProcess.js"></script>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
 
@@ -170,11 +171,13 @@ if (sizeof($_SESSION) == 0)
         flag_currency_usd = "<?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         type_payroll = "<?= $_SESSION['type_payroll'] ?>";
+        $(document).ready(function() {
+            findSelectProcess();
+        });
     </script>
     <script src="/cost/js/general/payroll/tblPayroll.js"></script>
     <script src="/admin/js/benefits/configBenefits.js"></script>
     <script src="/admin/js/risks/configRisks.js"></script>
-    <script src="/cost/js/basic/process/configProcess.js"></script>
     <script src="/cost/js/general/payroll/payroll.js"></script>
     <script src="/global/js/general/calcPayroll.js"></script>
     <script src="/global/js/global/orderData.js"></script>

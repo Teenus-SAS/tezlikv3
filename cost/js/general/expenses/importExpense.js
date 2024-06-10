@@ -92,7 +92,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkExpense = (data) => {
+  const checkExpense = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/expenseDataValidation',
@@ -133,7 +133,7 @@ $(document).ready(function () {
     });
   };
 
-  saveExpense = (data) => {
+  const saveExpense = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/addExpenses',

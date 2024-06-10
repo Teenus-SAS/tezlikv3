@@ -8,7 +8,10 @@ $(document).ready(function () {
 
     // if (flag_expense_distribution == 1) await loadExpensesDAProducts();
     // else await loadFamilies(2);
-    await loadExpensesDAProducts();
+
+    let display = $('.cardExpensesDistributionAnual').css('display');
+    if(display == 'none')
+      await loadExpensesDAProducts();
 
     $('.selectNameProduct option').removeAttr('selected');
     $('.refProduct option').removeAttr('selected');

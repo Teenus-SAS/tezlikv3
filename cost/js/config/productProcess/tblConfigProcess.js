@@ -131,7 +131,14 @@ $(document).ready(function () {
             cell.textContent = arr.machine;
             break;
           case 'Operarios':
-            cell.textContent = arr.count_employee;
+            let count_employee = arr.count_employee;
+
+            let employees = arr.employee.toString().split(",");
+            if (employees[0] != '') {
+              count_employee = employees.length;
+            }
+
+            cell.textContent = count_employee;
             break;
           case title3:
             let value = parseFloat(arr[value3]);
