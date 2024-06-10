@@ -119,9 +119,7 @@ if (sizeof($_SESSION) == 0)
                                     </div>
                                 </div>
                                 <div class="col-xl-8 form-inline justify-content-sm-end" id="USDHeader">
-                                    <div class="col-xs-2 mr-2 mb-4 USDInputs">
-                                        <button class="btn btn-warning" id="btnSimulation">Simular</button>
-                                    </div>
+
                                     <div class="col-xs-2 mr-2 USDInputs floating-label enable-floating-label show-label">
                                         <!-- <button class="btn btn-info btnPricesUSD" id="cop">Precios COP</button> -->
                                         <label class="text-dark">Moneda</label>
@@ -145,6 +143,9 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label USDInputs coverageUSDInput">
                                         <label class="font-weight-bold text-dark">Cobertura Cambiaria</label>
                                         <input type="text" class="form-control text-center" name="exchangeCoverageUSD" id="exchangeCoverageUSD" style="background-color: aliceblue;" readonly>
+                                    </div>
+                                    <div class="col-xs-2 mr-2 mb-4 USDInputs">
+                                        <button class="btn btn-warning" id="btnSimulation">Simular</button>
                                     </div>
                                 </div>
                             </div>

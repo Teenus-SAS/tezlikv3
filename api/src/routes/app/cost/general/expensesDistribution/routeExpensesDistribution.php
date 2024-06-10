@@ -235,7 +235,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 
             if ($findProduct['composite'] == 1) {
                 $i = $i + 2;
-                $dataImportExpenseDistribution = array('error' => true, 'message' => "El producto es compuesto, no se puede guardar<br>Fila: {$i}");
+                $dataImportExpenseDistribution = array('error' => true, 'message' => "El producto es parte de un producto compuesto. Eliminelo del archivo e intente nuevamente.<br>Fila: {$i}");
                 break;
             }
 
