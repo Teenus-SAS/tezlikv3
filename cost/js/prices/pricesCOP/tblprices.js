@@ -120,7 +120,7 @@ $(document).ready(function () {
           render: (data, type, row) => renderCost(data, op),
         },
         {
-          title: "Precio (Sugerido USD) Sim",
+          title: "Precio Simulación",
           data: function (data, type, val, meta) {
             if (!valueCoverage) return "";
             else
@@ -172,7 +172,7 @@ $(document).ready(function () {
           // },
         },
         {
-          title: "Precio (Lista) Sim",
+          title: "Precio (Lista) Simulación",
           data: function (data, type, val, meta) {
             if (!valueCoverage) return "";
             else
