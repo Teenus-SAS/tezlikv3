@@ -105,7 +105,7 @@ $(document).ready(function () {
           className: "classCenter",
         },
         {
-          title: `${op == 1 ? "Precio (Sugerido)" : op == 3 ? "Precio (Sugerido EUR)" : "Precio (Sugerido USD)"}`,
+          title: `${op == 1 ? "Precio Sugerido" : op == 3 ? "Precio Sugerido (EUR)" : "Precio Sugerido (USD)"}`,
           data: function (data, type, val, meta) {
             switch (op) {
               case 1:// COP
@@ -131,7 +131,7 @@ $(document).ready(function () {
           render: (data, type, row) => renderCost(data, op),
         },
         {
-          title: `${op == 1 ? "Precio (Lista)" : op == 3 ? "Precio (Lista EUR)" : "Precio (Lista USD)"}`,
+          title: `${op == 1 ? "Precio (Lista)" : op == 3 ? "Precio Lista (EUR)" : "Precio Lista (USD)"}`,
           data: function (data, type, val, meta) {
             switch (op) {
               case 1:// COP
