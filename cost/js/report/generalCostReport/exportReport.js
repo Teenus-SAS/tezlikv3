@@ -39,36 +39,55 @@ $(document).ready(function () {
     });
 
     // Reporte Procesos
-    $(document).on('click', '.aProcessCostReport',async function () {
+    $(document).on('click', '.aProcessCostReport', async function () {
         try {
             $('.loading').show(800);
-            document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden'; 
 
-            let wb = XLSX.utils.book_new();
-            let data = [];
+            let resp = await searchData('/api/processCostReport');
+            let dataExport = resp.costWorkforce;
+            let process = resp.process; 
+            
+            // Diccionario de procesos para búsqueda rápida
+            const processDict = process.reduce((acc, process) => {
+                acc[process.id_process] = process.process;
+                return acc;
+            }, {});
 
-            let dataPrices = await searchData('/api/processCostReport');
-            if (dataPrices.length > 0) {
-                data = [];
-
-                for (i = 0; i < dataPrices.length; i++) {
-                    if (dataPrices[i].workforce > 0)
-                        data.push({
-                            referencia: dataPrices[i].reference,
-                            producto: dataPrices[i].product,
-                            proceso: dataPrices[i].process,
-                            costo: dataPrices[i].workforce,
-                        });
+            // Agrupar los datos por referencia y producto
+            const groupedData = dataExport.reduce((acc, item) => {
+                const key = `${item.reference}-${item.product}`;
+                if (!acc[key]) {
+                    acc[key] = {
+                        referencia: item.reference,
+                        producto: item.product,
+                        ...process.reduce((processAcc, process) => {
+                            processAcc[process.process] = 0; // Inicializar cada proceso con 0
+                            return processAcc;
+                        }, {}),
+                        costo_total: 0
+                    };
                 }
+                acc[key][processDict[item.id_process]] = item.workforce;
+                acc[key].costo_total += item.workforce;
+                return acc;
+            }, {});
 
-                ws = XLSX.utils.json_to_sheet(data);
-                XLSX.utils.book_append_sheet(wb, ws, 'Costos');
-            }
+            // Convertir los datos agrupados en un array
+            const data = Object.values(groupedData);
+
+            // Crear el libro de trabajo y la hoja de trabajo
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(data);
+
+            // Añadir la hoja de trabajo al libro
+            XLSX.utils.book_append_sheet(wb, ws, 'Costos');
 
             $('.loading').hide(800);
             document.body.style.overflow = '';
             execute = true;
-
+            
+            // Guardar el archivo 
             XLSX.writeFile(wb, 'reporte_costos_procesos.xlsx');
         } catch (error) {
             console.log(error);

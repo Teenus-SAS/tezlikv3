@@ -1,10 +1,12 @@
 <?php
 
+use tezlikv3\dao\ProcessDao;
 use tezlikv3\dao\ReportCostDao;
 use tezlikv3\dao\WebTokenDao;
 
 $webTokenDao = new WebTokenDao();
 $reportCostDao = new ReportCostDao();
+$processDao = new ProcessDao();
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -13,7 +15,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $app->get('/processCostReport', function (Request $request, Response $response, $args) use (
     $webTokenDao,
-    $reportCostDao
+    $reportCostDao,
+    $processDao
 ) {
     $info = $webTokenDao->getToken();
 
@@ -38,6 +41,13 @@ $app->get('/processCostReport', function (Request $request, Response $response, 
     $id_company = $_SESSION['id_company'];
 
     $costWorkforce = $reportCostDao->findAllCostWorkforceByCompany($id_company);
-    $response->getBody()->write(json_encode($costWorkforce, JSON_NUMERIC_CHECK));
+
+    $process = $processDao->findAllProcessByCompany($id_company);
+
+    $data = [];
+    $data['costWorkforce'] = $costWorkforce;
+    $data['process'] = $process;
+
+    $response->getBody()->write(json_encode($data, JSON_NUMERIC_CHECK));
     return $response->withHeader('Content-Type', 'application/json');
 });
