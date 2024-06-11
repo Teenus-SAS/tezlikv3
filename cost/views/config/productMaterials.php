@@ -258,7 +258,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mt-5 cardImportProductsMaterials">
+                <div class="page-content-wrapper mt--45 cardImportProductsMaterials">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportProductMaterial" enctype="multipart/form-data">
@@ -400,7 +400,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mt-5 cardImportProductsProcess">
+                <div class="page-content-wrapper mt--45 cardImportProductsProcess">
                     <div class="container-fluid">
                         <div class="row">
                             <form class="col-12" id="formImportProductProcess" enctype="multipart/form-data">
@@ -465,7 +465,7 @@ if (sizeof($_SESSION) == 0)
                     </div>
                 </div>
 
-                <div class="page-content-wrapper mt--45 mt-5 cardImportExternalServices">
+                <div class="page-content-wrapper mt--45 cardImportExternalServices">
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-12">

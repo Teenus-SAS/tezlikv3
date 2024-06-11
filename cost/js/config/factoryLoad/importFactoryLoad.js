@@ -39,7 +39,9 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        let arr = data.rowObject;
+
+         if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileFactoryLoad').val('');
@@ -48,7 +50,7 @@ $(document).ready(function () {
         }
 
         const expectedHeaders = ['maquina', 'descripcion', 'costo'];
-        const actualHeaders = Object.keys(data[0]);
+        const actualHeaders = data.actualHeaders;
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
@@ -61,7 +63,7 @@ $(document).ready(function () {
           return false;
         }
 
-        let factoryLoadToImport = data.map((item) => {
+        let factoryLoadToImport = arr.map((item) => {
           let costFactory = '';
 
           if (item.costo)

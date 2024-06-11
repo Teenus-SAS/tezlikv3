@@ -3,16 +3,61 @@ $(document).ready(function () {
   let visibleCost = true;
   export_import == '0' || flag_export_import == '0' ? visibleCost = false : visibleCost;
  
+  // loadAllData = async (op) => {
+  //   try {
+  //     const promises = [
+  //       op === 1 ? searchData('/api/categories') : Promise.resolve(null),
+  //       searchData('/api/materials'),
+  //       op === 1 ? searchData('/api/productsMaterialsBasic') : Promise.resolve(null)
+  //     ];
+
+  //     const [dataCategory, dataMaterials, dataProductMaterials] = await Promise.all(promises);
+
+  //     sessionStorage.setItem('dataMaterials', JSON.stringify(dataMaterials));
+
+  //     if (op === 1 && dataCategory) {
+  //       const $selectCategory = $('#idCategory');
+  //       $selectCategory.empty();
+  //       $selectCategory.append(`<option disabled selected value='0'>Seleccionar</option>`);
+  //       dataCategory.forEach(value => {
+  //         $selectCategory.append(
+  //           `<option value="${value.id_category}">${value.category}</option>`
+  //         );
+  //       });
+  //       sessionStorage.setItem('dataCategory', JSON.stringify(dataCategory));
+  //       loadTblCategories(dataCategory);
+  //       sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
+  //     }
+
+  //     const dataCategory1 = op === 1 ? dataCategory : JSON.parse(sessionStorage.getItem('dataCategory'));
+
+  //     const visible = dataCategory1 && dataCategory1.length > 0;
+  //     $('.categories').toggle(visible);
+
+  //     let op1 = 1;
+  //     if (flag_currency_usd === '1') {
+  //       const selectPriceUSD = $('#selectPriceUSD').val();
+  //       op1 = selectPriceUSD === '2' ? 2 : 1;
+  //     }
+
+  //     loadTblRawMaterials(dataMaterials, visible, op1);
+  //   } catch (error) {
+  //     console.error('Error loading data:', error);
+  //   }
+  // }; 
   loadAllData = async (op) => {
     try {
+      // Definir las promesas basadas en la opción
       const promises = [
         op === 1 ? searchData('/api/categories') : Promise.resolve(null),
         searchData('/api/materials'),
         op === 1 ? searchData('/api/productsMaterialsBasic') : Promise.resolve(null)
       ];
 
+      // Esperar a que todas las promesas se resuelvan en paralelo
       const [dataCategory, dataMaterials, dataProductMaterials] = await Promise.all(promises);
 
+      // Almacenar los materiales en sessionStorage
       sessionStorage.setItem('dataMaterials', JSON.stringify(dataMaterials));
 
       if (op === 1 && dataCategory) {
@@ -24,27 +69,32 @@ $(document).ready(function () {
             `<option value="${value.id_category}">${value.category}</option>`
           );
         });
+
         sessionStorage.setItem('dataCategory', JSON.stringify(dataCategory));
         loadTblCategories(dataCategory);
         sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
       }
 
+      // Obtener categorías de sessionStorage si no se cargaron en esta llamada
       const dataCategory1 = op === 1 ? dataCategory : JSON.parse(sessionStorage.getItem('dataCategory'));
 
+      // Mostrar o esconder categorías basadas en la disponibilidad de datos
       const visible = dataCategory1 && dataCategory1.length > 0;
       $('.categories').toggle(visible);
 
+      // Determinar la opción de precios basada en la bandera de moneda USD
       let op1 = 1;
       if (flag_currency_usd === '1') {
         const selectPriceUSD = $('#selectPriceUSD').val();
         op1 = selectPriceUSD === '2' ? 2 : 1;
       }
 
+      // Cargar la tabla de materias primas
       loadTblRawMaterials(dataMaterials, visible, op1);
     } catch (error) {
       console.error('Error loading data:', error);
     }
-  }; 
+  };
 
   loadTblRawMaterials = (data, visible, op) => {
     const tableId = '#tblRawMaterials';
@@ -61,8 +111,19 @@ $(document).ready(function () {
       return `$ ${cost}`;
     };
 
+    // Preprocesar los datos para evitar cálculos repetidos en las funciones de renderizado
+    const preprocessedData = data.map(row => ({
+      ...row,
+      price: flag_currency_usd == '1' && op == 2 ? parseFloat(row.cost_usd) : row.cost,
+      costImport: flag_currency_usd == '1' && op == 2 ? parseFloat(row.cost_import_usd) : row.cost_import,
+      costExport: flag_currency_usd == '1' && op == 2 ? parseFloat(row.cost_export_usd) : row.cost_export,
+      total: flag_currency_usd == '1' && op == 2
+        ? parseFloat(row.cost_usd) + parseFloat(row.cost_import_usd) + parseFloat(row.cost_export_usd)
+        : row.cost_total,
+    }));
+
     const renderActions = (data) => {
-      const icon = parseInt(data.status) == 0
+      const icon = parseInt(data.status) === 0
         ? '/global/assets/images/trash_v.png'
         : '/global/assets/images/trash_x.png';
 
@@ -93,47 +154,78 @@ $(document).ready(function () {
       {
         width: '80px',
         title: 'Precio',
-        data: row => flag_currency_usd == '1' && op == 2 ? parseFloat(row.cost_usd) : row.cost,
+        data: 'price',
         className: 'classRight',
-        render: (data, type, row) => renderCost(data, op),
+        render: (data) => renderCost(data, op),
       },
-      {
-        title: 'Costo Importacion',
-        data: row => flag_currency_usd == '1' && op == 2 ? parseFloat(row.cost_import_usd) : row.cost_import,
-        className: 'classRight',
-        visible: visibleCost,
-        render: (data, type, row) => renderCost(data, op),
-      },
-      {
-        title: 'Costo Nacionalizacion',
-        data: row => flag_currency_usd == '1' && op == 2 ? parseFloat(row.cost_export_usd) : row.cost_export,
-        className: 'classRight',
-        visible: visibleCost,
-        render: (data, type, row) => renderCost(data, op),
-      },
-      {
-        title: 'Total',
-        data: row => flag_currency_usd == '1' && op == 2 ? parseFloat(row.cost_usd) + parseFloat(row.cost_import_usd) + parseFloat(row.cost_export_usd) : row.cost_total,
-        className: 'classRight',
-        visible: visibleCost,
-        render: (data, type, row) => renderCost(data, op),
-      },
-      {
-        title: 'Acciones',
-        data: null,
-        className: 'uniqueClassName',
-        render: data => renderActions(data),
-      },
+      // {
+      //   title: 'Costo Importacion',
+      //   data: 'costImport',
+      //   className: 'classRight',
+      //   visible: visibleCost,
+      //   render: (data) => renderCost(data, op),
+      // },
+      // {
+      //   title: 'Costo Nacionalizacion',
+      //   data: 'costExport',
+      //   className: 'classRight',
+      //   visible: visibleCost,
+      //   render: (data) => renderCost(data, op),
+      // },
+      // {
+      //   title: 'Total',
+      //   data: 'total',
+      //   className: 'classRight',
+      //   visible: visibleCost,
+      //   render: (data) => renderCost(data, op),
+      // },
+      // {
+      //   title: 'Acciones',
+      //   data: null,
+      //   className: 'uniqueClassName',
+      //   render: renderActions,
+      // },
     ];
+
+    if (visibleCost == true) {
+      columns.push(
+        {
+          title: 'Costo Importacion',
+          data: row => flag_currency_usd === '1' && op === 2 ? parseFloat(row.cost_import_usd) : row.cost_import,
+          className: 'classRight',
+          render: (data, type, row) => renderCost(data, op),
+        },
+        {
+          title: 'Costo Nacionalizacion',
+          data: row => flag_currency_usd === '1' && op === 2 ? parseFloat(row.cost_export_usd) : row.cost_export,
+          className: 'classRight',
+          render: (data, type, row) => renderCost(data, op),
+        },
+        {
+          title: 'Total',
+          data: row => flag_currency_usd === '1' && op === 2 ? parseFloat(row.cost_usd) + parseFloat(row.cost_import_usd) + parseFloat(row.cost_export_usd) : row.cost_total,
+          className: 'classRight',
+          render: (data, type, row) => renderCost(data, op),
+        }
+      );
+    }
+
+    columns.push({
+      title: 'Acciones',
+      data: null,
+      className: 'uniqueClassName',
+      render: data => renderActions(data),
+    });
 
     tblRawMaterials = $(tableId).dataTable({
       destroy: true,
       pageLength: 50,
-      data: data,
+      data: preprocessedData,
       dom: '<"datatable-error-console">frtip',
       language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+        url: '/assets/plugins/i18n/Spanish.json',
       },
+      deferRender: true, // Mejorar rendimiento para tablas grandes
       fnInfoCallback: (oSettings, iStart, iEnd, iMax, iTotal, sPre) => {
         if (oSettings.json && oSettings.json.hasOwnProperty('error')) {
           console.error(oSettings.json.error);
@@ -142,7 +234,7 @@ $(document).ready(function () {
       columns: columns,
     });
   };
-
+  
   $(document).on('click', '.img', function () {
     var src = $(this).attr('src');
     $('<div>').css({

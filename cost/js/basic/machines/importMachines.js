@@ -39,7 +39,8 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        if (data.length == 0) {
+        let arr = data.rowObject;
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileMachines').val('');
@@ -49,7 +50,7 @@ $(document).ready(function () {
         
         const expectedHeaders = ['maquina', 'costo', 'años_depreciacion', 'horas_maquina', 'dias_maquina'];
 
-        const actualHeaders = Object.keys(data[0]);
+        const actualHeaders = data.actualHeaders;
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
@@ -61,7 +62,7 @@ $(document).ready(function () {
           return false;
         }
 
-        let machinesToImport = data.map((item) => {
+        let machinesToImport = arr.map((item) => {
           let cost = '';
           let residualValue = '';
 

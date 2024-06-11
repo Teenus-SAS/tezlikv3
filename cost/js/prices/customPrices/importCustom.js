@@ -69,7 +69,9 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        if (data.length == 0) {
+        let arr = data.rowObject;
+
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileCustom').val('');
@@ -83,7 +85,7 @@ $(document).ready(function () {
           expectedHeaders = ['referencia', 'producto', 'lista_precio', 'valor'] :
           expectedHeaders = ['referencia', 'producto', 'lista_precio', 'porcentaje'];
         
-        const actualHeaders = Object.keys(data[0]);
+        const actualHeaders = data.actualHeaders;
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
@@ -96,7 +98,7 @@ $(document).ready(function () {
           return false;
         }
 
-        let customToImport = data.map((item) => {
+        let customToImport = arr.map((item) => {
           if (type == '1')
             return {
               referenceProduct: item.referencia,

@@ -39,7 +39,9 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        let arr = data.rowObject;
+
+         if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#filePayroll').val('');
@@ -48,7 +50,7 @@ $(document).ready(function () {
         }
 
         const expectedHeaders = ['nombres_y_apellidos', 'proceso', 'salario_basico', 'transporte', 'dotaciones', 'horas_extras', 'otros_ingresos', 'prestacional', 'horas_trabajo_x_dia', 'dias_trabajo_x_mes', 'tipo_riesgo', 'tipo_nomina', 'factor'];
-        const actualHeaders = Object.keys(data[0]);
+        const actualHeaders = data.actualHeaders;
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
@@ -61,7 +63,7 @@ $(document).ready(function () {
           return false;
         }
 
-        let payrollToImport = data.map((item) => {
+        let payrollToImport = arr.map((item) => {
           let basicSalary = '';
           let transport = '';
           let endowment = '';

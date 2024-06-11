@@ -94,7 +94,7 @@ $(document).ready(function () {
   });
 
   // Crear selects manualmente
-  addSelectsMaterials = (data) => {
+  const addSelectsMaterials = (data) => {
     let ref = sortFunction(data, 'reference');
 
     $select = $(`#refMaterial`);
@@ -117,6 +117,7 @@ $(document).ready(function () {
       );
     });
   };
+  
   /* Ocultar panel crear producto */
   $('.cardAddMaterials').hide();
 

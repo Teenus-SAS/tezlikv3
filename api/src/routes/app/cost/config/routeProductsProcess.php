@@ -544,6 +544,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 $lastRoute = $generalProductsProcessDao->findNextRouteByProduct($productProcess[$i]['idProduct']);
 
                 $resolution = $generalProductsProcessDao->changeRouteById($lastInserted['id_product_process'], $lastRoute['route']);
+                // $productProcess[$i]['idProductProcess'] = $lastInserted['id_product_process'];
             } else {
                 $productProcess[$i]['idProductProcess'] = $findProductProcess['id_product_process'];
                 $resolution = $productsProcessDao->updateProductsProcess($productProcess[$i]);
@@ -559,7 +560,7 @@ $app->post('/addProductsProcess', function (Request $request, Response $response
                 } else {
                     if (isset($productProcess[$i]['idProductProcess'])) {
                         $resolution = $generalProductsProcessDao->updateEmployees($productProcess[$i]['idProductProcess'], '');
-                        $resolution = $costWorkforceDao->updateTotalCostWorkforceByProductProcess(0, $dataProductProcess['idProductProcess'], $id_company);
+                        $resolution = $costWorkforceDao->updateTotalCostWorkforceByProductProcess(0, $productProcess[$i]['idProductProcess'], $id_company);
                     }
                 }
             }

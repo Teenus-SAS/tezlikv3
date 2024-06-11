@@ -21,7 +21,7 @@ $(document).ready(function () {
         dataSrc: '',
       },
       language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+        url: '/assets/plugins/i18n/Spanish.json',
       },
       columns: [
         {
@@ -264,7 +264,7 @@ $(document).ready(function () {
         dataSrc: '',
       },
       language: {
-        url: '//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json',
+        url: '/assets/plugins/i18n/Spanish.json',
       },
       columns: [
         {

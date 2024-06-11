@@ -83,7 +83,9 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-        if (data.length == 0) {
+        let arr = data.rowObject;
+
+        if (arr.length == 0) {
           $(".cardLoading").remove();
           $(".cardBottons").show(400);
           $("#fileExpenses").val("");
@@ -102,7 +104,7 @@ $(document).ready(function () {
           if (production_center == "0" || flag_production_center == "0")
             expectedHeaders.splice(4, 1);
 
-          const actualHeaders = Object.keys(data[0]);
+          const actualHeaders = data.actualHeaders;
 
           const missingHeaders = expectedHeaders.filter(
             (header) => !actualHeaders.includes(header)
@@ -124,7 +126,7 @@ $(document).ready(function () {
             "producto",
             "porcentaje_recuperado",
           ];
-          const actualHeaders = Object.keys(data[0]);
+          const actualHeaders = data.actualHeaders;
 
           const missingHeaders = expectedHeaders.filter(
             (header) => !actualHeaders.includes(header)
@@ -142,7 +144,7 @@ $(document).ready(function () {
           }
         }
 
-        let expenseToImport = data.map((item) => {
+        let expenseToImport = arr.map((item) => {
           if (option == 1) {
             url = "/api/expenseDistributionDataValidation";
             let unitsSold = "";

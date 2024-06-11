@@ -711,9 +711,9 @@ $app->post('/updateProductsMaterials', function (Request $request, Response $res
 
     $productMaterials = $productsMaterialsDao->findProductMaterial($dataProductMaterial, $id_company);
 
-    !is_array($productMaterials) ? $data['id_productMaterial'] = 0 : $data = $productMaterials;
+    !is_array($productMaterials) ? $data['id_product_material'] = 0 : $data = $productMaterials;
 
-    if ($data['id_product_material'] == $dataProductMaterial['idProductMaterial'] || $data['id_productMaterial'] == 0) {
+    if ($data['id_product_material'] == $dataProductMaterial['idProductMaterial'] || $data['id_product_material'] == 0) {
         // $dataProductMaterial = $convertDataDao->strReplaceProductsMaterials($dataProductMaterial);
         $productMaterials = $productsMaterialsDao->updateProductsMaterials($dataProductMaterial);
 

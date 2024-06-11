@@ -39,7 +39,9 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        let arr = data.rowObject;
+
+        if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileProducts').val('');
@@ -49,10 +51,10 @@ $(document).ready(function () {
 
         let expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas'];
 
-        if(flag_composite_product == '1')
+        if (flag_composite_product == '1')
           expectedHeaders = ['referencia', 'producto', 'precio_venta', 'rentabilidad', 'comision_ventas', 'sub_producto'];
         
-        const actualHeaders = Object.keys(data[0]);
+        const actualHeaders = data.actualHeaders;
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
@@ -64,7 +66,7 @@ $(document).ready(function () {
           return false;
         }
         
-        let productsToImport = data.map((item) => {
+        let productsToImport = arr.map((item) => {
           let salePrice = '';
 
           if (item.precio_venta)

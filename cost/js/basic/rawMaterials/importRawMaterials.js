@@ -39,7 +39,9 @@ $(document).ready(function () {
 
     importFile(selectedFile)
       .then((data) => {
-         if (data.length == 0) {
+        let arr = data.rowObject;
+
+         if (arr.length == 0) {
           $('.cardLoading').remove();
           $('.cardBottons').show(400);
           $('#fileMaterials').val('');
@@ -59,7 +61,7 @@ $(document).ready(function () {
           expectedHeaders.splice(expectedHeaders.length - 1, 1);
         }
 
-        const actualHeaders = Object.keys(data[0]);
+        const actualHeaders = data.actualHeaders;
 
         const missingHeaders = expectedHeaders.filter(header => !actualHeaders.includes(header));
 
@@ -72,7 +74,7 @@ $(document).ready(function () {
           return false;
         }
 
-        let materialsToImport = data.map((item) => {
+        let materialsToImport = arr.map((item) => {
           let costRawMaterial = '';
 
           if (item.costo)
