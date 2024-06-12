@@ -300,12 +300,20 @@ $(document).ready(function () {
         $('.cardBtnExpensesDistribution').show(800);
 
         if (type_expense == '1') {
-          const buttons = document.querySelectorAll('.cardBtnExpensesDistribution')[1];
-          buttons.innerHTML = "";
-          buttons.insertAdjacentHTML(
-            'beforeend',
-            `<button class="btn btn-sm ${flag_expense_distribution == '1' ? 'btn-primary' : 'btn-outline-primary'} typeExpense" id="distribute" value="1">Por Producto</button>
-           <button class="btn btn-sm ${flag_expense_distribution == '2' ? 'btn-primary' : 'btn-outline-primary'} typeExpense" id="family" value="2">Por Familia</button>`
+          const selects = document.querySelectorAll('.cardBtnExpensesDistribution')[1];
+          selects.innerHTML = "";
+          // buttons.insertAdjacentHTML(
+          //   'beforeend',
+          //   `<button class="btn btn-sm ${flag_expense_distribution == '1' ? 'btn-primary' : 'btn-outline-primary'} typeExpense" id="distribute" value="1">Por Producto</button>
+          //  <button class="btn btn-sm ${flag_expense_distribution == '2' ? 'btn-primary' : 'btn-outline-primary'} typeExpense" id="family" value="2">Por Familia</button>`
+          // );
+          selects.insertAdjacentHTML('beforeend',
+            `<label class="text-dark">Tipo Distribucion</label>
+            <select class="form-control typeExpense" id="selectTypeED">
+              <option disabled>Seleccionar</option>
+              <option value="1" ${flag_expense_distribution == '1' ? 'selected' : ''}>Producto</option>
+              <option value="2" ${flag_expense_distribution == '2' ? 'selected' : ''}>Familia</option>
+            </select>`
           );
         }
 
@@ -356,8 +364,9 @@ $(document).ready(function () {
     }
   };
 
-  $(document).on('click', '.typeExpense', function () {
+  $(document).on('change', '.typeExpense', function () {
     const op = this.value;
+
     bootbox.confirm({
       title: 'Cambiar Tipo Distribución',
       message: `Está seguro de cambiar el tipo de distribución a ${op == '1' ? 'distribución por producto' : 'distribución por familia'}?`,
@@ -384,7 +393,10 @@ $(document).ready(function () {
               toastr.error(data.message);
             }
           });
-        }
+        } else
+          $('#selectTypeED').val(flag_expense_distribution);
+        
+        
       },
     });
   });

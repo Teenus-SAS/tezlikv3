@@ -1,5 +1,48 @@
 $(document).ready(function () {
   $('.cardCreateExpensesAnual').hide();
+
+  $('.selectExpenses').change(function (e) { 
+    e.preventDefault();
+
+    $('.cardsGeneral').hide();
+    $('.navExpenseMonth').hide();
+    $('.navExpenseAnual').hide(); 
+    let elements = document.getElementsByClassName('selectNavigation');
+
+    for (let i = 0; i < elements.length; i++) {
+      elements[i].className = 'nav-link selectNavigation';      
+    }
+
+    document.getElementById('sExpenses').className = 'nav-link active selectNavigation';
+    document.getElementById('sExpensesA').className = 'nav-link active selectNavigation';
+
+    let option = this.value;
+    $('.selectExpenses').val(option);
+
+    switch (option) {
+      case '1':// Mensual
+        // document.getElementById('sExpenses').className = 'nav-link active selectNavigation';
+        $('.navExpenseMonth').show();
+        $('.cardExpenses').show();
+        break;
+        case '2':// Mensual
+        // document.getElementById('sExpensesA').className = 'nav-link active selectNavigation';
+        $('.navExpenseAnual').show();
+        $('.cardExpensesAnual').show();
+        break;
+    }
+
+    let tables = document.getElementsByClassName(
+      'dataTable'
+    );
+
+    for (let i = 0; i < tables.length; i++) {
+      let attr = tables[i];
+      attr.style.width = '100%';
+      attr = tables[i].firstElementChild;
+      attr.style.width = '100%';
+    }
+  });
   
   $('#btnNewExpenseAnual').click(function (e) {
     e.preventDefault();

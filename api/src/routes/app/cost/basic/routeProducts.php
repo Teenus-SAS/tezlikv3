@@ -316,21 +316,21 @@ $app->post('/productsDataValidation', function (Request $request, Response $resp
                 $duplicateTracker[$nameProduct] = true;
             }
 
-            $findProduct = $generalProductsDao->findProductByReferenceOrName($products[$i], $id_company);
+            // $findProduct = $generalProductsDao->findProductByReferenceOrName($products[$i], $id_company);
 
-            if (sizeof($findProduct) > 1) {
-                $i = $i + 2;
-                $dataImportProduct =  array('error' => true, 'message' => "Referencia y nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
-                break;
-            }
+            // if (sizeof($findProduct) > 1) {
+            //     $i = $i + 2;
+            //     $dataImportProduct =  array('error' => true, 'message' => "Referencia y nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
+            //     break;
+            // }
 
-            if ($findProduct) {
-                if ($findProduct[0]['product'] != $nameProduct || $findProduct[0]['reference'] != $refProduct) {
-                    $i = $i + 2;
-                    $dataImportProduct =  array('error' => true, 'message' => "Referencia o nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
-                    break;
-                }
-            }
+            // if ($findProduct) {
+            //     if ($findProduct[0]['product'] != $nameProduct || $findProduct[0]['reference'] != $refProduct) {
+            //         $i = $i + 2;
+            //         $dataImportProduct =  array('error' => true, 'message' => "Referencia o nombre de producto ya existente, fila: $i.<br>- Referencia: $refProduct<br>- Producto: $nameProduct");
+            //         break;
+            //     }
+            // }
         }
 
         // session_start();
@@ -868,18 +868,23 @@ $app->post('/updateProducts', function (Request $request, Response $response, $a
 
     $data = [];
 
-    $status = true;
+    // $status = true;
 
-    $products = $generalProductsDao->findProductByReferenceOrName($dataProduct, $id_company);
+    // $products = $generalProductsDao->findProductByReferenceOrName($dataProduct, $id_company);
 
-    foreach ($products as $arr) {
-        if ($arr['id_product'] != $dataProduct['idProduct']) {
-            $status = false;
-            break;
-        }
-    }
+    // foreach ($products as $arr) {
+    //     if ($arr['id_product'] != $dataProduct['idProduct']) {
+    //         $status = false;
+    //         break;
+    //     }
+    // }
 
-    if ($status == true) {
+    // if ($status == true) {
+    $product = $generalProductsDao->findProduct($dataProduct, $id_company);
+
+    !is_array($product) ? $data['id_product'] = 0 : $data = $product;
+
+    if ($data['id_material'] == $dataProduct['idProduct'] || $data['id_product'] == 0) {
         // Actualizar Datos, Imagen y Calcular Precio del producto
         $products = $productsDao->updateProductByCompany($dataProduct, $id_company);
 

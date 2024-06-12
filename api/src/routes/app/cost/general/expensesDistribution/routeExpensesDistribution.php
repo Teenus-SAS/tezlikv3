@@ -201,8 +201,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
 
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
             if (
-                empty($expensesDistribution[$i]['referenceProduct']) || empty($expensesDistribution[$i]['product']) ||
-                $expensesDistribution[$i]['unitsSold'] == '' || $expensesDistribution[$i]['turnover'] == ''
+                empty($expensesDistribution[$i]['referenceProduct']) || empty($expensesDistribution[$i]['product']) // || $expensesDistribution[$i]['unitsSold'] == '' || $expensesDistribution[$i]['turnover'] == ''
             ) {
                 $i = $i + 2;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
@@ -210,8 +209,7 @@ $app->post('/expenseDistributionDataValidation', function (Request $request, Res
             }
 
             if (
-                empty(trim($expensesDistribution[$i]['referenceProduct'])) || empty(trim($expensesDistribution[$i]['product'])) ||
-                trim($expensesDistribution[$i]['unitsSold']) == '' || trim($expensesDistribution[$i]['turnover']) == ''
+                empty(trim($expensesDistribution[$i]['referenceProduct'])) || empty(trim($expensesDistribution[$i]['product'])) // || trim($expensesDistribution[$i]['unitsSold']) == '' || trim($expensesDistribution[$i]['turnover']) == ''
             ) {
                 $i = $i + 2;
                 $dataImportExpenseDistribution = array('error' => true, 'message' => "Campos vacios en fila: {$i}");
@@ -361,6 +359,11 @@ $app->post('/addExpensesDistribution', function (Request $request, Response $res
         $arrProducts = [];
 
         for ($i = 0; $i < sizeof($expensesDistribution); $i++) {
+            if (!isset($expensesDistribution[$i]['unitsSold']))
+                $expensesDistribution[$i]['unitsSold'] = 0;
+            if (!isset($expensesDistribution[$i]['turnover']))
+                $expensesDistribution[$i]['turnover'] = 0;
+
             // Obtener id producto
             $findProduct = $generalProductsDao->findProduct($expensesDistribution[$i], $id_company);
             $expensesDistribution[$i]['selectNameProduct'] = $findProduct['id_product'];

@@ -40,7 +40,9 @@ $(document).ready(function () {
           selectElement.selectedIndex = 0;
         }
         break;
-      case 'sDistributionA':
+      case 'sDistributionA': 
+        // document.getElementsByClassName('nav-link').className = 'nav-link selectNavigation';
+
         $('.cardExpenseDistributionAnual').show();
         break;
       case 'sProductionCenter':

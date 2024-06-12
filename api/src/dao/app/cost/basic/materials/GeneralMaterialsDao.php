@@ -50,8 +50,8 @@ class GeneralMaterialsDao
                                                 IFNULL((SELECT id_product_material FROM products_materials WHERE id_material = m.id_material LIMIT 1), 0) AS status
                                       FROM materials m
                                       	  LEFT JOIN categories c ON c.id_category = m.id_category
-                                          INNER JOIN convert_units u ON u.id_unit = m.unit
-                                          INNER JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
+                                          LEFT JOIN convert_units u ON u.id_unit = m.unit
+                                          LEFT JOIN convert_magnitudes mg ON mg.id_magnitude = u.id_magnitude
                                       WHERE m.id_company = :id_company ORDER BY m.material ASC");
         $stmt->execute(['id_company' => $id_company]);
 

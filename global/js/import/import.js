@@ -28,7 +28,10 @@ $(document).ready(function () {
         workbook.SheetNames.forEach((sheet) => {
           const worksheet = workbook.Sheets[sheet];
           actualHeaders = getHeaders(worksheet);
-          rowObject = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null }).slice(1);
+          // rowObject = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: null }).slice(1);
+          rowObject = XLSX.utils.sheet_to_row_object_array(
+            workbook.Sheets[sheet]
+          );
         });
         resolve({rowObject, actualHeaders});
       };

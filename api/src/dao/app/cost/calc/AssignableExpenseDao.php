@@ -212,19 +212,27 @@ class AssignableExpenseDao
         return $totalExpense;
     }
 
-    // Calcula el gasto asignable
+    // Función para calcular el porcentaje
+    function calculatePercentage($numerator, $denominator)
+    {
+        return $denominator > 0 ? $numerator / $denominator : 0;
+    }
+
     public function calcAssignableExpense($unitVol, $totalUnitVol, $totalExpense)
     {
-        $percentageUnitSolds =  $unitVol['units_sold'] / $totalUnitVol['units_sold'];
-        $percentageVolSolds = $unitVol['turnover'] / $totalUnitVol['turnover'];
+
+        // Calcular los porcentajes
+        $percentageUnitSolds = $this->calculatePercentage($unitVol['units_sold'], $totalUnitVol['units_sold']);
+        $percentageVolSolds = $this->calculatePercentage($unitVol['turnover'], $totalUnitVol['turnover']);
+
+        // Calcular el promedio
         $average = ($percentageUnitSolds + $percentageVolSolds) / 2;
 
+        // Calcular el gasto promedio
         $averageExpense = $average * $totalExpense['total_expense'];
 
-        if ($unitVol['units_sold'] > 0)
-            $assignableExpense = $averageExpense / $unitVol['units_sold'];
-        else
-            $assignableExpense = 0;
+        // Calcular el gasto asignable
+        $assignableExpense = $unitVol['units_sold'] > 0 ? $averageExpense / $unitVol['units_sold'] : 0;
 
         return array('averageExpense' => $averageExpense, 'assignableExpense' => $assignableExpense);
     }

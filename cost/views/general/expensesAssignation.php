@@ -97,6 +97,16 @@ if (sizeof($_SESSION) == 0)
                                                 <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses1"></select>
                                             </div>
                                         <?php } ?>
+                                        <?php if ($_SESSION['anual_expense'] == 1) { ?>
+                                            <div class="col-xs-2 py-2 mr-2 mb-0">
+                                                <label class="text-dark">Tipo Gasto</label>
+                                                <select class="form-control selectExpenses">
+                                                    <option disabled>Seleccionar</option>
+                                                    <option selected value="1">MENSUAL</option>
+                                                    <option value="2">ANUAL</option>
+                                                </select>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>
@@ -125,6 +135,14 @@ if (sizeof($_SESSION) == 0)
                                             <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses1"></select>
                                         </div>
                                     } -->
+                                        <div class="col-xs-2 py-2 mr-2 mb-0">
+                                            <label class="text-dark">Tipo Gasto</label>
+                                            <select class="form-control selectExpenses">
+                                                <option disabled>Seleccionar</option>
+                                                <option selected value="1">MENSUAL</option>
+                                                <option value="2">ANUAL</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +183,7 @@ if (sizeof($_SESSION) == 0)
                                                 <button class="btn btn-info" id="btnImportNewExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                             </div>
                                             <?php if ($_SESSION['type_expense'] == 1) { ?>
-                                                <div class="col-xs-2 mr-2 btn-group cardBtnExpensesDistribution" style="display: none;">
+                                                <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display: none;">
 
                                                 </div>
                                             <?php } ?>
@@ -173,6 +191,16 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-xs-2 py-2 mr-2 mb-0 first-two-selectors floating-label enable-floating-label show-label">
                                                     <label>Und Produccion</label>
                                                     <select class="form-control selectProductionCenter" id="selectProductionCenterED1"></select>
+                                                </div>
+                                            <?php } ?>
+                                            <?php if ($_SESSION['anual_expense'] == 1) { ?>
+                                                <div class="col-xs-2 py-2 mr-2 mb-0">
+                                                    <label class="text-dark">Tipo Gasto</label>
+                                                    <select class="form-control selectExpenses">
+                                                        <option disabled>Seleccionar</option>
+                                                        <option selected value="1">MENSUAL</option>
+                                                        <option value="2">ANUAL</option>
+                                                    </select>
                                                 </div>
                                             <?php } ?>
                                         </div>
@@ -197,6 +225,16 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-xs-2 py-2 mr-2">
                                                     <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                                 </div>
+                                                <?php if ($_SESSION['anual_expense'] == 1) { ?>
+                                                    <div class="col-xs-2 py-2 mr-2 mb-0">
+                                                        <label class="text-dark">Tipo Gasto</label>
+                                                        <select class="form-control selectExpenses">
+                                                            <option disabled>Seleccionar</option>
+                                                            <option selected value="1">MENSUAL</option>
+                                                            <option value="2">ANUAL</option>
+                                                        </select>
+                                                    </div>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -225,6 +263,14 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control selectProductionCenter" id="selectProductionCenterED1"></select>
                                                 </div>
                                             } -->
+                                                <div class="col-xs-2 py-2 mr-2 mb-0">
+                                                    <label class="text-dark">Tipo Gasto</label>
+                                                    <select class="form-control selectExpenses">
+                                                        <option disabled>Seleccionar</option>
+                                                        <option selected value="1">MENSUAL</option>
+                                                        <option value="2">ANUAL</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -728,7 +774,22 @@ if (sizeof($_SESSION) == 0)
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-12">
-                                    <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                                    <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
+                                        <ul class="nav nav-tabs navExpenseAnual" id="pills-tab" role="tablist" style="display: none;">
+                                            <li class="nav-item">
+                                                <a class="nav-link active selectNavigation" id="sExpensesA" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                    <i class="fas fa-flask mr-1"></i>Asignación (Anual)
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class=" nav-link selectNavigation" id="sDistributionA" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                                    <i class="fas fa-flask mr-1"></i>Distribución (Anual)
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    <?php } ?>
+
+                                    <ul class="nav nav-tabs navExpenseMonth" id="pills-tab" role="tablist">
                                         <?php if (
                                             $_SESSION['expense'] == 1 ||
                                             ($_SESSION['cost_multiproduct'] == 1 &&
@@ -737,13 +798,6 @@ if (sizeof($_SESSION) == 0)
                                             <li class="nav-item">
                                                 <a class="nav-link active selectNavigation" id="sExpenses" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
                                                     <i class="fas fa-flask mr-1"></i>Asignación
-                                                </a>
-                                            </li>
-                                        <?php } ?>
-                                        <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
-                                            <li class="nav-item">
-                                                <a class="nav-link selectNavigation" id="sExpensesA" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                                    <i class="fas fa-flask mr-1"></i>Asignación (Anual)
                                                 </a>
                                             </li>
                                         <?php } ?>
@@ -767,13 +821,6 @@ if (sizeof($_SESSION) == 0)
                                                         </a>
                                             </li>
                                         <?php } ?>
-                                        <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
-                                            <li class="nav-item">
-                                                <a class="nav-link selectNavigation" id="sDistributionA" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
-                                                    <i class="fas fa-flask mr-1"></i>Distribución (Anual)
-                                                </a>
-                                            </li>
-                                        <?php } ?>
                                         <?php if ($_SESSION['production_center'] == 1 && $_SESSION['flag_production_center'] == 1) { ?>
                                             <li class="nav-item">
                                                 <a class="nav-link selectNavigation" id="sProductionCenter" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
@@ -782,6 +829,7 @@ if (sizeof($_SESSION) == 0)
                                             </li>
                                         <?php } ?>
                                     </ul>
+
                                 </div>
                             </div>
                             <div class="row">
