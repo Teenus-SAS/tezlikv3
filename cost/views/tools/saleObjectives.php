@@ -82,9 +82,9 @@ if (sizeof($_SESSION) == 0)
                                 <?php if ($_SESSION['anual_expense'] == 1 && $_SESSION['flag_expense_anual'] == 1) { ?>
                                     <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label cardBottons mt-4">
                                         <select class="form-control" id="selectTypeExpense">
-                                            <option disabled selected>Seleccionar</option>
-                                            <option value="1">Mensual</option>
-                                            <option value="2">Anual</option>
+                                            <option disabled>Seleccionar</option>
+                                            <option value="1" selected>MENSUAL</option>
+                                            <option value="2">ANUAL</option>
                                         </select>
                                         <label for="selectTypeExpense">Tipo Gasto</label>
                                     </div>

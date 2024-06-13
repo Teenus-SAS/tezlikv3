@@ -73,7 +73,6 @@ $(document).ready(function () {
             <th id="totalEfficiency"></th>
             <th id="totalWorkforce"></th>
             <th id="totalIndirect"></th>
-            ${flag_employee == '1' ? '<th></th>' : ''}
             <th></th>
             </tr>
             </tfoot>`);
@@ -86,10 +85,10 @@ $(document).ready(function () {
     });
  
     // Encabezados de la tabla
-    var headers = ['No.', 'Proceso', 'Máquina', 'Operarios', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', '', 'Acciones'];
+    var headers = ['No.', 'Proceso', 'Máquina', 'Operarios', title3, title4, 'Eficiencia', 'Mano de Obra', 'Costo Indirecto', 'Acciones'];
 
-    if (visible == false)
-      headers.splice(9, 1);
+    // if (visible == false)
+    //   headers.splice(9, 1);
     
     if (totalEfficiency == 0)
       headers.splice(6, 1);
@@ -198,14 +197,14 @@ $(document).ready(function () {
             
             cell.textContent = indirect_cost;
             break;
-          case '':
-            let textContent = '';
+          // case '':
+          //   let textContent = '';
 
-            if(arr.auto_machine === 'NO' && arr.count_employee > 1)
-              textContent = `<a href="javascript:;" <i id="${arr.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
+          //   if(arr.auto_machine === 'NO' && arr.count_employee > 1)
+          //     textContent = `<a href="javascript:;" <i id="${arr.id_product_process}" class="bi bi-arrow-down-up updateEmployee" data-toggle='tooltip' title='Modificar Empleados' style="font-size: 30px; color:orange;"></i></a>`;
 
-            cell.innerHTML = textContent;
-            break;
+          //   cell.innerHTML = textContent;
+          //   break;
           case 'Acciones':  
             cell.innerHTML =
                `<a href="javascript:;" <i id="${arr.id_product_process}" class="bx bx-edit-alt updateProcess" data-toggle='tooltip' title='Actualizar Proceso' style="font-size: 30px;"></i></a>

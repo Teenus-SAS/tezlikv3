@@ -37,7 +37,7 @@ $(document).ready(function () {
     loadDataProduct(id, 1);
   });
 
-  const loadDataProduct = async (id, op) => {
+  loadDataProduct = async (id, op) => {
     let costFixed = 0;
     let variableCost1 = 0;
 

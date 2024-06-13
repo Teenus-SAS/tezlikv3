@@ -15,6 +15,21 @@ class GeneralPayrollDao
         $this->logger = new Logger(self::class);
         $this->logger->pushHandler(new RotatingFileHandler(Constants::LOGS_PATH . 'querys.log', 20, Logger::DEBUG));
     }
+    public function findDataBasicPayrollByCompany($id_company)
+    {
+        $connection = Connection::getInstance()->getConnection();
+
+        $stmt = $connection->prepare("SELECT id_payroll, id_process, employee
+                                      FROM payroll
+                                      WHERE id_company = :id_company");
+        $stmt->execute(['id_company' => $id_company]);
+
+        $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
+
+        $payroll = $stmt->fetchAll($connection::FETCH_ASSOC);
+        $this->logger->notice("payroll", array('payroll' => $payroll));
+        return $payroll;
+    }
 
     // Consultar si existe la nomina en BD
     public function findPayroll($dataPayroll, $id_company)
