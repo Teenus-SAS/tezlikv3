@@ -183,7 +183,7 @@ if (sizeof($_SESSION) == 0)
                                                 <button class="btn btn-info" id="btnImportNewExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title=""><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                             </div>
                                             <?php if ($_SESSION['type_expense'] == 1) { ?>
-                                                <div class="col-xs-2 mb-0 floating-label enable-floating-label show-label cardBtnExpensesDistribution" style="display: none;">
+                                                <div class="col-xs-2 mb-0 mr-1 floating-label enable-floating-label show-label cardBtnExpensesDistribution" style="display: none;">
 
                                                 </div>
                                             <?php } ?>
