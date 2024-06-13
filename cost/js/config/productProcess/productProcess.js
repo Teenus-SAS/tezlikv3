@@ -14,6 +14,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('.cardImportProductsProcess').hide(800);
+    $('.employees').hide();
     $('#btnAddProcess').html('Asignar');
     
     sessionStorage.removeItem('id_product_process');
@@ -36,19 +37,29 @@ $(document).ready(function () {
   });
 
   /* Validar numero de empleados por proceso */
-  $('#idProcess').change(function (e) { 
-    e.preventDefault();
+  if (flag_employee == '1') {
+    $('#idProcess').change(async function (e) {
+      e.preventDefault();
     
-    let count_payroll = parseInt(
-      $('#idProcess').find('option:selected').attr('class')
-    );
+      let count_payroll = parseInt(
+        $('#idProcess').find('option:selected').attr('class')
+      );
 
-    if (count_payroll == 0) {
-      toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
-    }
+      if (count_payroll == 0) {
+        toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
+      }
 
-    $('#employees').val(count_payroll);
-  });
+      // $('#employees').val(count_payroll);
+      let dataPayroll = sessionStorage.getItem('dataPayroll');
+
+      if (!dataPayroll) {
+        let data = await searchData('/api/basicPayroll');
+        sessionStorage.setItem('dataPayroll', JSON.stringify(data));
+      }
+
+      $('.employees').show(800);
+    });
+  }
 
   /* Seleccionar producto */
   $('#selectNameProduct').change(function (e) {
@@ -80,6 +91,77 @@ $(document).ready(function () {
     !isFinite(total) ? (total = 0) : (total = total.toFixed(2));
 
     $('#totalTime').val(total);
+  });
+
+  /* Mostrar operadores */
+  $('#btnEmployees').click(function (e) {
+    e.preventDefault();
+    
+    let id_process = $('#idProcess').val();
+
+    let dataPayroll = JSON.parse(sessionStorage.getItem('dataPayroll'));
+    let idProductProcess = sessionStorage.getItem('id_product_process');
+    let employees = [''];
+
+    // Filtrar empleados por proceso
+    let data = dataPayroll.filter(item => item.id_process == id_process);
+
+    if(checkBoxEmployees[0] == '')
+      checkBoxEmployees = data.map(item=> item.id_payroll);
+
+    if (idProductProcess) {
+      let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
+
+      let arr = dataProductProcess.find(
+        (item) => item.id_product_process == idProductProcess
+      ); 
+
+      if (checkBoxEmployees[0] == '') {
+        employees = arr.employee.toString().split(','); 
+      }
+      else
+        employees = checkBoxEmployees; 
+
+      if (arr.employee != '')
+          checkBoxEmployees = employees;
+    }
+
+    // let copyCheckBoxEmployees = [...checkBoxEmployees];
+    
+    let options = data.map(payrollItem => {
+      let checked = '';
+      if (employees[0] == '') checked = 'checked';
+      else checked = employees.includes(payrollItem.id_payroll) ? 'checked' : '';
+
+      return `<div class='checkbox checkbox-success'>
+            <input class='checkboxEmployees' id='chk-${payrollItem.id_payroll}' type='checkbox' ${checked}>
+            <label for='chk-${payrollItem.id_payroll}'>${payrollItem.employee}</label>
+          </div>`;
+    }).join('');
+
+
+    bootbox.confirm({
+      title: 'Empleados',
+      message: options,
+      buttons: {
+        confirm: {
+          label: 'Guardar',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'Cancelar',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result) {
+          if (checkBoxEmployees.length === 0) {
+            toastr.error('Seleccione un empleado');
+            return false;
+          } 
+        }
+      },
+    });
   });
 
   /* Adicionar nuevo proceso */
@@ -119,20 +201,31 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product_process', data.id_product_process);
 
     $(`#idProcess option[value=${data.id_process}]`).prop('selected', true);
-    let count_employee = data.count_employee;
+    // let count_employee = data.count_employee;
 
-    let employees = data.employee.toString().split(',');
-    checkBoxEmployees = employees;
+    // let employees = data.employee.toString().split(',');
+    checkBoxEmployees = data.employee.toString().split(',');
 
-    if (employees[0] != '') {
-      count_employee = employees.length;
-    }
+    // if (employees[0] != '') {
+    //   count_employee = employees.length;
+    // }
 
-    $('#employees').val(count_employee);
+    // $('#employees').val(count_employee);
 
     if (parseInt(data.count_employee) == 0) {
       toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
     };
+
+    if (flag_employee == '1') {
+      let dataPayroll = sessionStorage.getItem('dataPayroll');
+
+      if (!dataPayroll) {
+        let data = await searchData('/api/basicPayroll');
+        sessionStorage.setItem('dataPayroll', JSON.stringify(data));
+      }
+
+      $('.employees').show(800);
+    }
 
     data.id_machine == null ? (data.id_machine = 0) : data.id_machine;
     $(`#idMachine option[value=${data.id_machine}]`).prop('selected', true);
@@ -150,8 +243,8 @@ $(document).ready(function () {
     if (data.auto_machine == 'SI') {
       $('#checkMachine').prop('checked', true);
     }
-    $('.checkMachine').show();
-
+    $('.checkMachine').show();    
+    
     $('html, body').animate(
       {
         scrollTop: 0,
@@ -225,7 +318,7 @@ $(document).ready(function () {
     //   return false;
     // }
 
-    let dataProductProcess1 = new FormData(formAddProcess);
+    // let dataProductProcess1 = new FormData(formAddProcess);
     let autoMachine = 1;
 
     if (!$('#checkMachine').is(':checked')) {
@@ -239,20 +332,41 @@ $(document).ready(function () {
       }
       autoMachine = 0;
     }
+    let employees = '';
 
-    dataProductProcess1.append('autoMachine', autoMachine);
-    dataProductProcess1.append('idProduct', idProduct);
+    // dataProductProcess1.append('autoMachine', autoMachine);
+    // dataProductProcess1.append('idProduct', idProduct);
 
-    if (idProductProcess != '' || idProductProcess != null) {
-      dataProductProcess1.append('idProductProcess', idProductProcess);
+    // if (idProductProcess != '' || idProductProcess != null) {
+    //   dataProductProcess1.append('idProductProcess', idProductProcess);
 
-      flag_employee == '1' ? (employees = checkBoxEmployees) : (employees = '');
-      dataProductProcess1.append('employees', employees);
-    }
+    flag_employee == '1' ? (employees = checkBoxEmployees.toString()) : (employees);
+      // dataProductProcess1.append('employees', employees);
+    // }
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: {
+        idProcess: $('#idProcess').val(),
+        idMachine: $('#idMachine').val(),
+        enlistmentTime: $('#enlistmentTime').val(),
+        operationTime: $('#operationTime').val(),
+        subTotalTime: $('#subTotalTime').val(),
+        efficiency: $('#efficiency').val(),
+        totalTime: $('#totalTime').val(),
+        autoMachine: autoMachine,
+        idProduct: idProduct,
+        idProductProcess: idProductProcess,
+        employees: employees,
+      },
+      success: function (resp) {
+        messageProcess(resp);
+      }
+    });
 
-    let resp = await sendDataPOST(url, dataProductProcess1);
+    // let resp = await sendDataPOST(url, dataProductProcess1);
 
-    messageProcess(resp);
+    
   };
 
   /* Eliminar proceso */
@@ -296,7 +410,7 @@ $(document).ready(function () {
     });
   };
 
-  /* Modificar empleados */
+  /* Modificar empleados 
   $(document).on('click', '.updateEmployee', async function () {
     let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
 
@@ -366,7 +480,7 @@ $(document).ready(function () {
         }
       },
     });
-  });
+  }); */
 
   $(document).on('click', '.checkboxEmployees', function () {
     // Obtener el ID del checkbox

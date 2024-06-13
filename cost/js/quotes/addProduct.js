@@ -34,6 +34,10 @@ $(document).ready(function () {
     $('#selectNameProduct option').removeAttr('selected');
     $(`#selectNameProduct option[value=${id}]`).prop('selected', true);
 
+    if (flag_indirect == '1') {
+      $('.inputProf').show();
+    }
+    
     let op = 1;
     if (custom_price == 1)
       op = await loadPriceListByProduct(id);
@@ -48,6 +52,10 @@ $(document).ready(function () {
     $(`#pricesList option[value='0']`).prop('selected', true);
     $('#price').val('');
     $('#totalPrice').val('');
+
+    if (flag_indirect == '1') {
+      $('.inputProf').show();
+    }
 
     $('#refProduct option').removeAttr('selected');
     $(`#refProduct option[value=${id}]`).prop('selected', true);
@@ -69,8 +77,9 @@ $(document).ready(function () {
     if (custom_price == 0 || op == 1)
       $('#price').val(price);
 
-    if (data.profitability > 0) {
+    if (data.profitability > 0 && flag_indirect == '1') {
       $('#profitability').val(data.profitability);
+      $('.inputProf').hide();
     }
 
     $('.imgProduct').empty();

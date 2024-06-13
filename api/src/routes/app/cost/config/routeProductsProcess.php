@@ -985,230 +985,230 @@ $app->post('/updateProductsProcess', function (Request $request, Response $respo
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
-$app->post('/saveEmployees', function (Request $request, Response $response, $args) use (
-    $webTokenDao,
-    $generalProductsProcessDao,
-    $costWorkforceDao,
-    $indirectCostDao,
-    $priceProductDao,
-    $pricesUSDDao,
-    $productsDao,
-    $generalCompositeProductsDao,
-    $costMaterialsDao,
-    $costCompositeProductsDao
-) {
-    $info = $webTokenDao->getToken();
+// $app->post('/saveEmployees', function (Request $request, Response $response, $args) use (
+//     $webTokenDao,
+//     $generalProductsProcessDao,
+//     $costWorkforceDao,
+//     $indirectCostDao,
+//     $priceProductDao,
+//     $pricesUSDDao,
+//     $productsDao,
+//     $generalCompositeProductsDao,
+//     $costMaterialsDao,
+//     $costCompositeProductsDao
+// ) {
+//     $info = $webTokenDao->getToken();
 
-    if (!is_object($info) && ($info == 1)) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
+//     if (!is_object($info) && ($info == 1)) {
+//         $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+//         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+//     }
 
-    if (is_array($info)) {
-        $response->getBody()->write(json_encode(['error' => $info['info']]));
-        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-        return $response->withHeader('Location', '/')->withStatus(302);
-    }
+//     if (is_array($info)) {
+//         $response->getBody()->write(json_encode(['error' => $info['info']]));
+//         // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+//         return $response->withHeader('Location', '/')->withStatus(302);
+//     }
 
-    $validate = $webTokenDao->validationToken($info);
+//     $validate = $webTokenDao->validationToken($info);
 
-    if (!$validate) {
-        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
-        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
-    }
+//     if (!$validate) {
+//         $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+//         return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+//     }
 
-    // session_start();
-    $id_company = $_SESSION['id_company'];
-    $coverage_usd = $_SESSION['coverage_usd'];
-    $dataProductProcess = $request->getParsedBody();
+//     // session_start();
+//     $id_company = $_SESSION['id_company'];
+//     $coverage_usd = $_SESSION['coverage_usd'];
+//     $dataProductProcess = $request->getParsedBody();
 
-    $employees = implode(',', $dataProductProcess['employees']);
-    $resolution = $generalProductsProcessDao->updateEmployees($dataProductProcess['idProductProcess'], $employees);
+//     $employees = implode(',', $dataProductProcess['employees']);
+//     $resolution = $generalProductsProcessDao->updateEmployees($dataProductProcess['idProductProcess'], $employees);
 
-    /* Calcular costo nomina */
-    if ($resolution == null) {
-        if ($employees == '' || $_SESSION['flag_employee'] == 0) {
-            if ($_SESSION['inyection'] == 1)
-                $resolution = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
-            else
-                $resolution = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
-        } else {
-            if ($_SESSION['inyection'] == 1)
-                $resolution = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($dataProductProcess['idProduct'], $employees);
-            else
-                $resolution = $costWorkforceDao->calcCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $employees);
-        }
-        // Calcular costo nomina total
-        if ($resolution == null) {
-            if ($employees == '' || $_SESSION['flag_employee'] == 0)
-                $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
-            else {
-                $dataPayroll = $costWorkforceDao->calcTotalCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $employees);
-            }
+//     /* Calcular costo nomina */
+//     if ($resolution == null) {
+//         if ($employees == '' || $_SESSION['flag_employee'] == 0) {
+//             if ($_SESSION['inyection'] == 1)
+//                 $resolution = $costWorkforceDao->calcCostPayrollInyection($dataProductProcess['idProduct'], $id_company);
+//             else
+//                 $resolution = $costWorkforceDao->calcCostPayroll($dataProductProcess['idProduct'], $id_company);
+//         } else {
+//             if ($_SESSION['inyection'] == 1)
+//                 $resolution = $costWorkforceDao->calcCostPayrollInyectionGroupEmployee($dataProductProcess['idProduct'], $employees);
+//             else
+//                 $resolution = $costWorkforceDao->calcCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $employees);
+//         }
+//         // Calcular costo nomina total
+//         if ($resolution == null) {
+//             if ($employees == '' || $_SESSION['flag_employee'] == 0)
+//                 $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($dataProductProcess['idProduct'], $id_company);
+//             else {
+//                 $dataPayroll = $costWorkforceDao->calcTotalCostPayrollGroupByEmployee($dataProductProcess['idProduct'], $id_company, $employees);
+//             }
 
-            $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
-        }
-    }
+//             $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $dataProductProcess['idProduct'], $id_company);
+//         }
+//     }
 
-    /* Calcular costo indirecto */
-    if ($resolution == null) {
-        // Buscar la maquina asociada al producto
-        $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
-        // Cambiar a 0
-        $indirectCostDao->updateCostIndirectCostByProduct(0, $dataProductProcess['idProduct']);
-        // Calcular costo indirecto
-        $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-        // Actualizar campo
-        $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
-    }
+//     /* Calcular costo indirecto */
+//     if ($resolution == null) {
+//         // Buscar la maquina asociada al producto
+//         $dataProductMachine = $indirectCostDao->findMachineByProduct($dataProductProcess['idProduct'], $id_company);
+//         // Cambiar a 0
+//         $indirectCostDao->updateCostIndirectCostByProduct(0, $dataProductProcess['idProduct']);
+//         // Calcular costo indirecto
+//         $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+//         // Actualizar campo
+//         $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $dataProductProcess['idProduct'], $id_company);
+//     }
 
-    $data = [];
-    // Calcular Precio del producto
-    if ($resolution == null)
-        $data = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
-    if (isset($data['totalPrice']))
-        $resolution = $productsDao->updatePrice($dataProductProcess['idProduct'], $data['totalPrice']);
+//     $data = [];
+//     // Calcular Precio del producto
+//     if ($resolution == null)
+//         $data = $priceProductDao->calcPrice($dataProductProcess['idProduct']);
+//     if (isset($data['totalPrice']))
+//         $resolution = $productsDao->updatePrice($dataProductProcess['idProduct'], $data['totalPrice']);
 
-    if ($resolution == null && $data['totalPrice'] && $_SESSION['flag_currency_usd'] == '1') {
-        // Convertir a Dolares 
-        $k = [];
-        $k['price'] = $data['totalPrice'];
-        $k['sale_price'] = $data['sale_price'];
-        $k['id_product'] = $dataProductProcess['idProduct'];
+//     if ($resolution == null && $data['totalPrice'] && $_SESSION['flag_currency_usd'] == '1') {
+//         // Convertir a Dolares 
+//         $k = [];
+//         $k['price'] = $data['totalPrice'];
+//         $k['sale_price'] = $data['sale_price'];
+//         $k['id_product'] = $dataProductProcess['idProduct'];
 
-        $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-    }
+//         $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+//     }
 
-    if ($resolution == null && $_SESSION['flag_composite_product'] == '1') {
-        // Calcular costo material porq
-        $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProductProcess['idProduct']);
+//     if ($resolution == null && $_SESSION['flag_composite_product'] == '1') {
+//         // Calcular costo material porq
+//         $productsCompositer = $generalCompositeProductsDao->findCompositeProductByChild($dataProductProcess['idProduct']);
 
-        foreach ($productsCompositer as $j) {
-            if (isset($resolution['info'])) break;
+//         foreach ($productsCompositer as $j) {
+//             if (isset($resolution['info'])) break;
 
-            $data = [];
-            $data['compositeProduct'] = $j['id_child_product'];
-            $data['idProduct'] = $j['id_product'];
+//             $data = [];
+//             $data['compositeProduct'] = $j['id_child_product'];
+//             $data['idProduct'] = $j['id_product'];
 
-            /* Calcular costo indirecto */
-            // Buscar la maquina asociada al producto
-            // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-            // // Calcular costo indirecto
-            // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-            // // Actualizar campo
-            // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-            // if (isset($resolution['info'])) break;
+//             /* Calcular costo indirecto */
+//             // Buscar la maquina asociada al producto
+//             // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+//             // // Calcular costo indirecto
+//             // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+//             // // Actualizar campo
+//             // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+//             // if (isset($resolution['info'])) break;
 
-            // // Calcular costo nomina total
-            // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+//             // // Calcular costo nomina total
+//             // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-            // $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+//             // $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-            // if (isset($resolution['info'])) break;
+//             // if (isset($resolution['info'])) break;
 
-            // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-            // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-            // if (isset($resolution['info'])) break;
+//             // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+//             // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+//             // if (isset($resolution['info'])) break;
 
-            // $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-            // if (isset($resolution['info'])) break;
+//             // $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+//             // if (isset($resolution['info'])) break;
 
-            $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-            $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+//             $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+//             $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
-            if (isset($resolution['info'])) break;
-            $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-            $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+//             if (isset($resolution['info'])) break;
+//             $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+//             $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-            if (isset($resolution['info'])) break;
+//             if (isset($resolution['info'])) break;
 
-            $data = $priceProductDao->calcPrice($j['id_product']);
+//             $data = $priceProductDao->calcPrice($j['id_product']);
 
-            if (isset($data['totalPrice']))
-                $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
+//             if (isset($data['totalPrice']))
+//                 $resolution = $productsDao->updatePrice($j['id_product'], $data['totalPrice']);
 
-            if (isset($resolution['info'])) break;
+//             if (isset($resolution['info'])) break;
 
-            if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
-                $k = [];
-                $k['price'] = $data['totalPrice'];
-                $k['sale_price'] = $data['sale_price'];
-                $k['id_product'] = $j['id_product'];
+//             if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+//                 $k = [];
+//                 $k['price'] = $data['totalPrice'];
+//                 $k['sale_price'] = $data['sale_price'];
+//                 $k['id_product'] = $j['id_product'];
 
-                $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-            }
+//                 $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+//             }
 
-            if (isset($resolution['info'])) break;
+//             if (isset($resolution['info'])) break;
 
-            $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
+//             $productsCompositer2 = $generalCompositeProductsDao->findCompositeProductByChild($j['id_product']);
 
-            foreach ($productsCompositer2 as $arr) {
-                if (isset($resolution['info'])) break;
+//             foreach ($productsCompositer2 as $arr) {
+//                 if (isset($resolution['info'])) break;
 
-                $data = [];
-                $data['compositeProduct'] = $arr['id_child_product'];
-                $data['idProduct'] = $arr['id_product'];
+//                 $data = [];
+//                 $data['compositeProduct'] = $arr['id_child_product'];
+//                 $data['idProduct'] = $arr['id_product'];
 
-                /* Calcular costo indirecto */
-                // Buscar la maquina asociada al producto
-                // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
-                // // Calcular costo indirecto
-                // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
-                // // Actualizar campo
-                // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
-                // if (isset($resolution['info'])) break;
+//                 /* Calcular costo indirecto */
+//                 // Buscar la maquina asociada al producto
+//                 // $dataProductMachine = $indirectCostDao->findMachineByProduct($data['idProduct'], $id_company);
+//                 // // Calcular costo indirecto
+//                 // $indirectCost = $indirectCostDao->calcIndirectCost($dataProductMachine);
+//                 // // Actualizar campo
+//                 // $resolution = $indirectCostDao->updateTotalCostIndirectCost($indirectCost, $data['idProduct'], $id_company);
+//                 // if (isset($resolution['info'])) break;
 
-                // // Calcular costo nomina total
-                // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
+//                 // // Calcular costo nomina total
+//                 // $dataPayroll = $costWorkforceDao->calcTotalCostPayroll($data['idProduct'], $id_company);
 
-                // $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
+//                 // $resolution = $costWorkforceDao->updateTotalCostWorkforce($dataPayroll['cost'], $data['idProduct'], $id_company);
 
-                // if (isset($resolution['info'])) break;
+//                 // if (isset($resolution['info'])) break;
 
-                // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
-                // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
-                // if (isset($resolution['info'])) break;
+//                 // $data = $costCompositeProductsDao->calcCostCompositeProduct($data);
+//                 // $resolution = $indirectCostDao->updateTotalCostIndirectCost($data['cost_indirect_cost'], $data['idProduct'], $id_company);
+//                 // if (isset($resolution['info'])) break;
 
-                // $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
-                // if (isset($resolution['info'])) break;
+//                 // $resolution = $costWorkforceDao->updateTotalCostWorkforce($data['workforce_cost'], $data['idProduct'], $id_company);
+//                 // if (isset($resolution['info'])) break;
 
-                $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
-                $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
+//                 $data = $generalCompositeProductsDao->findCostMaterialByCompositeProduct($data);
+//                 $resolution = $generalCompositeProductsDao->updateCostCompositeProduct($data);
 
-                if (isset($resolution['info'])) break;
-                $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
-                $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
+//                 if (isset($resolution['info'])) break;
+//                 $data = $costMaterialsDao->calcCostMaterialByCompositeProduct($data);
+//                 $resolution = $costMaterialsDao->updateCostMaterials($data, $id_company);
 
-                if (isset($resolution['info'])) break;
+//                 if (isset($resolution['info'])) break;
 
-                $data = $priceProductDao->calcPrice($arr['id_product']);
+//                 $data = $priceProductDao->calcPrice($arr['id_product']);
 
-                if (isset($data['totalPrice']))
-                    $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
+//                 if (isset($data['totalPrice']))
+//                     $resolution = $productsDao->updatePrice($arr['id_product'], $data['totalPrice']);
 
-                if (isset($resolution['info'])) break;
+//                 if (isset($resolution['info'])) break;
 
-                if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
-                    $k = [];
-                    $k['price'] = $data['totalPrice'];
-                    $k['sale_price'] = $data['sale_price'];
-                    $k['id_product'] = $arr['id_product'];
+//                 if ($_SESSION['flag_currency_usd'] == '1') { // Convertir a Dolares 
+//                     $k = [];
+//                     $k['price'] = $data['totalPrice'];
+//                     $k['sale_price'] = $data['sale_price'];
+//                     $k['id_product'] = $arr['id_product'];
 
-                    $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
-                }
-            }
-        }
-    }
+//                     $resolution = $pricesUSDDao->calcPriceUSDandModify($k, $coverage_usd);
+//                 }
+//             }
+//         }
+//     }
 
-    if ($resolution == null)
-        $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
-    else if (isset($productProcess['info']))
-        $resp = array('info' => true, 'message' => $resolution['message']);
-    else
-        $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
-    $response->getBody()->write(json_encode($resp));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+//     if ($resolution == null)
+//         $resp = array('success' => true, 'message' => 'Proceso actualizado correctamente');
+//     else if (isset($productProcess['info']))
+//         $resp = array('info' => true, 'message' => $resolution['message']);
+//     else
+//         $resp = array('error' => true, 'message' => 'Ocurrio un error mientras actualizaba la información. Intente nuevamente');
+//     $response->getBody()->write(json_encode($resp));
+//     return $response->withHeader('Content-Type', 'application/json');
+// });
 
 $app->post('/saveRouteProductProcess', function (Request $request, Response $response, $args) use (
     $webTokenDao,

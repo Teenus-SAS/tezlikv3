@@ -75,6 +75,37 @@ $app->get('/payroll', function (Request $request, Response $response, $args) use
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/basicPayroll', function (Request $request, Response $response, $args) use (
+    $generalPayrollDao,
+    $webTokenDao
+) {
+    $info = $webTokenDao->getToken();
+
+    if (!is_object($info) && ($info == 1)) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthenticated request']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    if (is_array($info)) {
+        $response->getBody()->write(json_encode(['error' => $info['info']]));
+        // return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+        return $response->withHeader('Location', '/')->withStatus(302);
+    }
+
+    $validate = $webTokenDao->validationToken($info);
+
+    if (!$validate) {
+        $response->getBody()->write(json_encode(['error' => 'Unauthorized']));
+        return $response->withHeader('Content-Type', 'application/json')->withStatus(403);
+    }
+
+    // session_start();
+    $id_company = $_SESSION['id_company'];
+    $payroll = $generalPayrollDao->findDataBasicPayrollByCompany($id_company);
+    $response->getBody()->write(json_encode($payroll, JSON_NUMERIC_CHECK));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 $app->get('/salarynet', function (Request $request, Response $response, $args) use (
     $generalPayrollDao,
     $webTokenDao
