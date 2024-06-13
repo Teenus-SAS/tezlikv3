@@ -75,7 +75,7 @@ if (sizeof($_SESSION) == 0)
                                     <button id="btnImportNewExpenses" class="btn btn-primary"></button>
                                 </div>
                                 <?php if ($_SESSION['type_expense'] == 1) { ?>
-                                    <div class="col-xs-2 mr-2 btn-group mr-2 mb-0 floating-label enable-floating-label show-label cardBtnExpensesDistribution" style="display: none;">
+                                    <div class="col-xs-2 mb-0 floating-label enable-floating-label show-label cardBtnExpensesDistribution" style="display: none;">
 
                                     </div>
                                 <?php } ?>
