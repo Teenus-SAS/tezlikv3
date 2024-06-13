@@ -62,7 +62,7 @@ if (sizeof($_SESSION) == 0)
                                 <div class="col-xs-2 mr-2 cardBtnUpdateExpenses" style="display:none">
                                     <button class="btn btn-secondary" id="btnUpdateExpenses">Modificar Gastos</button>
                                 </div>
-                                <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
+                                <div class="col-xs-2 mr-2 mb-0 floating-label enable-floating-label show-label cardBtnExpensesDistribution" style="display:none">
                                     <button class="btn btn-warning" id="btnExpensesDistribution">Distribuir Gastos</button>
                                 </div>
                                 <div class="col-xs-2 mr-2 cardBtnExpensesDistribution" style="display:none">
