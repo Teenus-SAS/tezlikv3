@@ -98,7 +98,7 @@ if (sizeof($_SESSION) == 0)
                                             </div>
                                         <?php } ?>
                                         <?php if ($_SESSION['anual_expense'] == 1) { ?>
-                                            <div class="col-xs-2 py-2 mr-2 mb-0">
+                                            <div class="col-xs-2 pt0 floating-label enable-floating-label show-label">
                                                 <label class="text-dark">Tipo Gasto</label>
                                                 <select class="form-control selectExpenses">
                                                     <option disabled>Seleccionar</option>
@@ -135,7 +135,7 @@ if (sizeof($_SESSION) == 0)
                                             <select class="form-control selectProductionCenter" id="selectProductionCenterExpenses1"></select>
                                         </div>
                                     } -->
-                                        <div class="col-xs-2 py-2 mr-2 mb-0">
+                                        <div class="col-xs-2 pt0 floating-label enable-floating-label show-label">
                                             <label class="text-dark">Tipo Gasto</label>
                                             <select class="form-control selectExpenses">
                                                 <option disabled>Seleccionar</option>
@@ -194,7 +194,7 @@ if (sizeof($_SESSION) == 0)
                                                 </div>
                                             <?php } ?>
                                             <?php if ($_SESSION['anual_expense'] == 1) { ?>
-                                                <div class="col-xs-2 py-2 mr-2 mb-0">
+                                                <div class="col-xs-2 pt0 floating-label enable-floating-label show-label">
                                                     <label class="text-dark">Tipo Gasto</label>
                                                     <select class="form-control selectExpenses">
                                                         <option disabled>Seleccionar</option>
@@ -226,7 +226,7 @@ if (sizeof($_SESSION) == 0)
                                                     <button class="btn btn-info" id="btnImportNewAssExpenses" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Gastos"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                                 </div>
                                                 <?php if ($_SESSION['anual_expense'] == 1) { ?>
-                                                    <div class="col-xs-2 py-2 mr-2 mb-0">
+                                                    <div class="col-xs-2 pt0 floating-label enable-floating-label show-label">
                                                         <label class="text-dark">Tipo Gasto</label>
                                                         <select class="form-control selectExpenses">
                                                             <option disabled>Seleccionar</option>
@@ -263,7 +263,7 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control selectProductionCenter" id="selectProductionCenterED1"></select>
                                                 </div>
                                             } -->
-                                                <div class="col-xs-2 py-2 mr-2 mb-0">
+                                                <div class="col-xs-2 pt0 floating-label enable-floating-label show-label">
                                                     <label class="text-dark">Tipo Gasto</label>
                                                     <select class="form-control selectExpenses">
                                                         <option disabled>Seleccionar</option>
