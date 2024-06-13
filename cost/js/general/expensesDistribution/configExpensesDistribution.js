@@ -308,7 +308,7 @@ $(document).ready(function () {
           //  <button class="btn btn-sm ${flag_expense_distribution == '2' ? 'btn-primary' : 'btn-outline-primary'} typeExpense" id="family" value="2">Por Familia</button>`
           // );
           selects.insertAdjacentHTML('beforeend',
-            `<label class="text-dark">Tipo Distribucion</label>
+            `<label class="text-dark">Distribución</label>
             <select class="form-control typeExpense" id="selectTypeED">
               <option disabled>Seleccionar</option>
               <option value="1" ${flag_expense_distribution == '1' ? 'selected' : ''}>Producto</option>
