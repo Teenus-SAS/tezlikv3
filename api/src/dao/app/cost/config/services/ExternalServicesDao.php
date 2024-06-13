@@ -22,8 +22,8 @@ class ExternalServicesDao
         $stmt = $connection->prepare("SELECT sx.id_service, sx.id_general_service, p.id_product, p.reference, p.product, IFNULL(gs.name_service, sx.name_service) AS name_service, sx.cost, sx.id_product 
                                         FROM services sx 
                                         INNER JOIN products p ON sx.id_product = p.id_product
-                                        LEFT JOIN general_external_services gs ON gs.id_general_service = sx.name_service
-                                        WHERE sx.id_company = :id_company AND p.active = 1 
+                                        LEFT JOIN general_external_services gs ON CAST(gs.id_general_service AS CHAR) = sx.name_service
+                                        WHERE sx.id_company = :id_company AND p.active = 1
                                         ORDER BY sx.name_service ASC");
         $stmt->execute(['id_company' => $id_company]);
         $externalservices = $stmt->fetchAll($connection::FETCH_ASSOC);

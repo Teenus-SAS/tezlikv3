@@ -93,8 +93,8 @@ class ProductsProcessDao
             if ($row > 0) {
                 return 1;
             } else {
-                $stmt = $connection->prepare("INSERT INTO products_process (id_product, id_company, id_process, id_machine, enlistment_time, operation_time, efficiency, auto_machine) 
-                                              VALUES (:id_product, :id_company, :id_process, :id_machine, :enlistment_time, :operation_time, :efficiency, :auto_machine)");
+                $stmt = $connection->prepare("INSERT INTO products_process (id_product, id_company, id_process, id_machine, enlistment_time, operation_time, efficiency, employees, auto_machine) 
+                                              VALUES (:id_product, :id_company, :id_process, :id_machine, :enlistment_time, :operation_time, :efficiency, :employees, :auto_machine)");
                 $stmt->execute([
                     'id_product' => $dataProductProcess['idProduct'],
                     'id_company' => $id_company,
@@ -103,6 +103,7 @@ class ProductsProcessDao
                     'enlistment_time' => trim($dataProductProcess['enlistmentTime']),
                     'operation_time' => trim($dataProductProcess['operationTime']),
                     'efficiency' => trim($dataProductProcess['efficiency']),
+                    'employee' => $dataProductProcess['employees'],
                     'auto_machine' => $dataProductProcess['autoMachine']
                 ]);
             }
@@ -120,7 +121,8 @@ class ProductsProcessDao
         $connection = Connection::getInstance()->getConnection();
 
         try {
-            $stmt = $connection->prepare("UPDATE products_process SET id_product = :id_product, id_process = :id_process, id_machine = :id_machine, enlistment_time = :enlistment_time, operation_time = :operation_time, efficiency = :efficiency, auto_machine = :auto_machine
+            $stmt = $connection->prepare("UPDATE products_process SET id_product = :id_product, id_process = :id_process, id_machine = :id_machine, enlistment_time = :enlistment_time, 
+                                                                      employee = :employee, operation_time = :operation_time, efficiency = :efficiency, auto_machine = :auto_machine
                                           WHERE id_product_process = :id_product_process");
             $stmt->execute([
                 'id_product_process' => $dataProductProcess['idProductProcess'],
@@ -130,6 +132,7 @@ class ProductsProcessDao
                 'enlistment_time' => trim($dataProductProcess['enlistmentTime']),
                 'operation_time' => trim($dataProductProcess['operationTime']),
                 'efficiency' => trim($dataProductProcess['efficiency']),
+                'employee' => $dataProductProcess['employees'],
                 'auto_machine' => $dataProductProcess['autoMachine']
             ]);
 

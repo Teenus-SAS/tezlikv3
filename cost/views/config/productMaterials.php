@@ -342,11 +342,12 @@ if (sizeof($_SESSION) == 0)
                                                     <label>Proceso</label>
                                                     <select class="form-control inputs" name="idProcess" id="idProcess"></select>
                                                 </div>
-                                                <div class="col-sm-1 floating-label enable-floating-label show-label" style="margin-bottom:5px">
-                                                    <label class="text-center">Operadores</label>
-                                                    <input class="form-control text-center" type="number" name="employees" id="employees" readonly>
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label employees mt-1">
+                                                    <!-- <label class="text-center">Operadores</label> -->
+                                                    <button class="btn btn-success" id="btnEmployees">Operadores</button>
+                                                    <!-- <input class="form-control text-center" type="number" name="employees" id="employees" readonly> -->
                                                 </div>
-                                                <div class="col-sm-7 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Maquina</label>
                                                     <select class="form-control inputs" name="idMachine" id="idMachine"></select>
                                                 </div>
@@ -556,9 +557,6 @@ if (sizeof($_SESSION) == 0)
                                                             <th id="totalEfficiency"></th>
                                                             <th id="totalWorkforce"></th>
                                                             <th id="totalIndirect"></th>
-                                                            <?php if ($_SESSION['flag_employee'] == 1) { ?>
-                                                                <th></th>
-                                                            <?php } ?>
                                                             <th></th>
                                                         </tr>
                                                     </tfoot>
