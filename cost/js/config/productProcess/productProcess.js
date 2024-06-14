@@ -1,6 +1,6 @@
 $(document).ready(function () {
   let idProduct;
-  let checkBoxEmployees;
+  let checkBoxEmployees = [''];
   sessionStorage.removeItem('dataMachines');
 
   /* Ocultar panel crear producto */
@@ -18,7 +18,7 @@ $(document).ready(function () {
     $('#btnAddProcess').html('Asignar');
     
     sessionStorage.removeItem('id_product_process');
-
+    checkBoxEmployees = [''];
     let display = $('.cardAddProcess').css('display');
     let dataMachines = JSON.parse(sessionStorage.getItem('dataMachines'));
     
@@ -106,8 +106,8 @@ $(document).ready(function () {
     // Filtrar empleados por proceso
     let data = dataPayroll.filter(item => item.id_process == id_process);
 
-    if(checkBoxEmployees[0] == '')
-      checkBoxEmployees = data.map(item=> item.id_payroll);
+    if(checkBoxEmployees[0] == '' || checkBoxEmployees.length == 0)
+      checkBoxEmployees = data.map(item=> (item.id_payroll).toString());
 
     if (idProductProcess) {
       let dataProductProcess = JSON.parse(sessionStorage.getItem('dataProductProcess'));
@@ -126,12 +126,12 @@ $(document).ready(function () {
           checkBoxEmployees = employees;
     }
 
-    // let copyCheckBoxEmployees = [...checkBoxEmployees];
+    let copyCheckBoxEmployees = [...checkBoxEmployees];
     
     let options = data.map(payrollItem => {
       let checked = '';
       if (employees[0] == '') checked = 'checked';
-      else checked = employees.includes(payrollItem.id_payroll) ? 'checked' : '';
+      else checked = employees.includes(payrollItem.id_payroll.toString()) ? 'checked' : '';
 
       return `<div class='checkbox checkbox-success'>
             <input class='checkboxEmployees' id='chk-${payrollItem.id_payroll}' type='checkbox' ${checked}>
@@ -159,6 +159,8 @@ $(document).ready(function () {
             toastr.error('Seleccione un empleado');
             return false;
           } 
+        } else {
+          checkBoxEmployees = copyCheckBoxEmployees;
         }
       },
     });
@@ -509,6 +511,7 @@ $(document).ready(function () {
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
 
+    checkBoxEmployees = [''];
     if (data.success == true) {
       $('.cardImportProductsProcess').hide(800);
       $('#formImportProductProcess').trigger('reset');

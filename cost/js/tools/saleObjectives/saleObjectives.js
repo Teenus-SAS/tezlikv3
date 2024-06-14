@@ -114,7 +114,7 @@ $(document).ready(function () {
                 let division = Math.ceil((totalCostsAndExpense / real_price) + cant);
 
                 if (division > 10000000) {
-                    toastr.error(`Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes, referencia: ${arr.reference}`);
+                    // toastr.error(`Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes, referencia: ${arr.reference}`);
                     return { unit: unit };
                 }
                 // } else { 
@@ -143,8 +143,13 @@ $(document).ready(function () {
                 dataProducts[i].profitability = profitability;
 
                 if (typeof product_unit === 'object' && !Array.isArray(product_unit)) {
-                    $(`#unitsSold-${dataProducts[i].id_product}`).css('color', 'red');
-                    $(`#unitsSold-${dataProducts[i].id_product}`).html(product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0 }));
+
+                    typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
+
+                    // $(`#unitsSold-${dataProducts[i].id_product}`).css('color', 'red');
+                    $(`#unitsSold-${dataProducts[i].id_product}`).html(
+                        `<a href="javascript:;" ><span class="badge badge-danger warningUnit" style="font-size: 16px;">${product_unit.unit.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</span></a>`
+                    );
                     
                     dataProducts[i].unitsSold = product_unit.unit;
                     cant = 1;
@@ -156,7 +161,11 @@ $(document).ready(function () {
                     if (product_unit == 0) {
                         i = i - 1;
                     } else {
-                        $(`#unitsSold-${dataProducts[i].id_product}`).html(product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 }));
+                        typeExpense == '2' ? product_unit.unit = parseInt(product_unit.unit) / 12 : product_unit.unit;
+
+                        $(`#unitsSold-${dataProducts[i].id_product}`).html(`
+                            <span class="badge badge-success" style="font-size: 16px;">${product_unit.toLocaleString('es-CO', { minimumFractionDigits: 0 })}</span>
+                        `);
 
                         dataProducts[i].unitsSold = product_unit;
 
@@ -215,4 +224,8 @@ $(document).ready(function () {
         XLSX.writeFile(wb, 'Objetivos_Ventas.xlsx');
         
     }); 
+
+    $(document).on('click', '.warningUnit', function () {
+        toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes');
+    });
 });

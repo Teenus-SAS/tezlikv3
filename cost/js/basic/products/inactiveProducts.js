@@ -70,55 +70,54 @@ $(document).ready(function () {
   });
 
   // Construir tabla con productos inactivos
-  setTblInactivesProducts = async () => { 
-    let data = dataInactiveProducts;
+  const setTblInactivesProducts = async () => {
+    const data = dataInactiveProducts;
+    const tblInactiveProductsBody = document.getElementById("tblInactiveProductsBody");
+    let html = '';
 
-    let tblInactiveProductsBody = document.getElementById(
-      "tblInactiveProductsBody"
-    );
-
-    for (i = 0; i < data.length; i++) {
-      tblInactiveProductsBody.insertAdjacentHTML(
-        "beforeend",
-        `
+    for (let i = 0; i < data.length; i++) {
+      html += `
         <tr>
             <td>${i + 1}</td>
             <td>${data[i].reference}</td>
             <td>${data[i].product}</td>
             <td>
-                <a href="javascript:;" <span id="checkIn-${data[i].id_product}" class="badge badge-success checkInactiveProduct">Activar</span></a>
-                <a href="javascript:;" <i id="${
-                  data[i].id_product
-                }" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px;color:red"></i></a>
+                <a href="javascript:;">
+                    <span id="checkIn-${data[i].id_product}" class="badge badge-success checkInactiveProduct">Activar</span>
+                </a>
+                <a href="javascript:;">
+                    <i id="${data[i].id_product}" class="mdi mdi-delete-forever deleteProduct" data-toggle='tooltip' title='Eliminar Producto' style="font-size: 30px; color: red;"></i>
+                </a>
             </td>
-        </tr>
-      `
-      );
+        </tr>`;
     }
 
+    tblInactiveProductsBody.innerHTML = html;
+
+    // Mostrar modal
     $("#createInactivesProducts").modal("show");
 
+    // Inicializar DataTable
     $("#tblInactiveProducts").DataTable({
       destroy: true,
       scrollY: "150px",
       scrollCollapse: true,
-      // language: {
-      //   url: '/assets/plugins/i18n/Spanish.json',
-      // },
       dom: '<"datatable-error-console">frtip',
       fnInfoCallback: function (oSettings, iStart, iEnd, iMax, iTotal, sPre) {
         if (oSettings.json && oSettings.json.hasOwnProperty("error")) {
           console.error(oSettings.json.error);
         }
-      },
+      }
     });
 
-    let tables = document.getElementsByClassName("dataTables_scrollHeadInner");
-
-    let attr = tables[0];
-    attr.style.width = "100%";
-    attr = tables[0].firstElementChild;
-    attr.style.width = "100%";
+    // Ajustar el ancho de la tabla
+    const tables = document.getElementsByClassName("dataTables_scrollHeadInner");
+    if (tables.length > 0) {
+      tables[0].style.width = "100%";
+      if (tables[0].firstElementChild) {
+        tables[0].firstElementChild.style.width = "100%";
+      }
+    }
   };
 
   /* Guardar productos a activar */
@@ -133,45 +132,5 @@ $(document).ready(function () {
 
     // Eliminar la fila de la DataTable
     $('#tblInactiveProducts').DataTable().row(rowIndex).remove().draw();
-    // if (this.className.includes('badge-success')) {
-    // let planeacion = {
-    //     idProduct: idProduct,
-    //   };
-
-    //   inactiveProducts.push(planeacion);
-
-    //   this.className = 'badge badge-warning checkInactiveProduct';
-    //   this.text = 'Inactivar';
-    // }
-    // else {
-    //   for (i = 0; i < inactiveProducts.length; i++) {
-    //     if (inactiveProducts[i].idProduct == idProduct) {
-    //       inactiveProducts.splice(i, 1);
-    //     }
-    //   }
-
-    //   this.className = 'badge badge-success checkInactiveProduct';
-    //   this.text = 'Activar';
-    // }
   });
-
-  /* Activar productos  
-  $("#btnActivesProducts").click(function (e) {
-    e.preventDefault();
-    if (inactiveProducts.length == 0) {
-      toastr.error("Seleccione un producto para activar");
-      return false;
-    }
-
-    $.ajax({
-      type: "POST",
-      url: "/api/activeProducts",
-      data: { data: inactiveProducts },
-      success: function (data) {
-        $("#createInactivesProducts").modal("hide");
-        inactiveProducts = [];
-        message(data);
-      },
-    });
-  }); */
 });

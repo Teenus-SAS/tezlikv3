@@ -50,7 +50,7 @@ $(document).ready(function () {
     });
 
     /* Revision data categorias */
-    checkDataCategory = async (url, idCategory) => {
+    const checkDataCategory = async (url, idCategory) => {
         let category = $('#category').val();
 
         if (category.trim() == '' || !category.trim()) {
