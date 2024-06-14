@@ -181,8 +181,7 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblProducts.fnGetData(row);
 
-    bootbox.confirm({
-      //title: data.composite == '0' ? 'Agregar' : 'Eliminar',
+    bootbox.confirm({ 
       title: 'Producto Compuesto',
       message:
         `Está seguro de que este producto ${data.composite == '0' ? 'se <b>convierta en un subproducto</b> para ser agregado a un producto compuesto' : 'se <b>Elimine</b> como subproducto'}?`,

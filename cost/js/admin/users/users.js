@@ -1,5 +1,5 @@
-$(document).ready(function () { 
-  typeCustomPrices = [];  
+$(document).ready(function () {
+  typeCustomPrices = [];
 
   // Ocultar Modal Nuevo usuario
   $('#btnCloseUser').click(function (e) {
@@ -30,7 +30,7 @@ $(document).ready(function () {
 
   $(document).on('click', '.typeCheckbox', function () {
     if (this.id == 'checkbox-9')
-      $('.cardTypePayroll').toggle(800); 
+      $('.cardTypePayroll').toggle(800);
     if (this.id == 'chckExpenses')
       $('.cardChkExpenses').toggle(800);
     if (this.id == 'checkbox-16')
@@ -96,15 +96,13 @@ $(document).ready(function () {
         toastr.error('Ingrese nombre, apellido y/o email');
         return false;
       }
+ 
+      let selectExpenses = $('#selectExpenses').val();
 
-      // if (flag_expense != '2') {
-        let selectExpenses = $('#selectExpenses').val();
-
-        if (!selectExpenses) {
-          toastr.error('Seleccione tipo de gasto');
-          return false;
-        }
-      // }
+      if (!selectExpenses) {
+        toastr.error('Seleccione tipo de gasto');
+        return false;
+      }
 
       /* Validar que al menos un acceso sea otorgado */
       if ($('input[type=checkbox]:checked').length === 0) {
@@ -134,31 +132,24 @@ $(document).ready(function () {
         }
       }
       let typeExpenses = flag_expense_distribution;
+ 
+      if ((selectExpenses == '0' || selectExpenses == '2') && (flag_expense == '1' || flag_expense == '0')) {
+        if ($(`#typeExpenses`).is(':checked')) typeExpenses = 1;
+        else typeExpenses = 0;
+      }
 
-      // if (flag_expense != '2') {
-        if ((selectExpenses == '0' || selectExpenses == '2') && (flag_expense == '1' || flag_expense == '0')) {
-          if ($(`#typeExpenses`).is(':checked')) typeExpenses = 1;
-          else typeExpenses = 0;
-        }
+      let dataUser = {};
 
-        let dataUser = {};
-
-        if (selectExpenses == '0') {
-          dataUser['expense'] = 1;
-          dataUser['expenseDistribution'] = 1;
-        } else if (selectExpenses == '1') {
-          dataUser['expense'] = 1;
-          dataUser['expenseDistribution'] = 0;
-        } else {
-          dataUser['expense'] = 0;
-          dataUser['expenseDistribution'] = 1;
-        }
-      // } else {
-      //   if ($('#expenseRecover').is(':checked')) dataUser['expenseDistribution'] = 1;
-      //   else dataUser['expenseDistribution'] = 0;
-        
-      //   dataUser['expense'] = expense;
-      // }
+      if (selectExpenses == '0') {
+        dataUser['expense'] = 1;
+        dataUser['expenseDistribution'] = 1;
+      } else if (selectExpenses == '1') {
+        dataUser['expense'] = 1;
+        dataUser['expenseDistribution'] = 0;
+      } else {
+        dataUser['expense'] = 0;
+        dataUser['expenseDistribution'] = 1;
+      }
       
       dataUser['nameUser'] = nameUser;
       dataUser['lastnameUser'] = lastnameUser;
@@ -208,19 +199,15 @@ $(document).ready(function () {
       costCreateMachines: data.create_machines,
       costCreateProcess: data.create_process,
       productsMaterials: data.product_materials,
-      //productsProcess: data.product_process,
       factoryLoad: data.factory_load,
       servicesExternal: data.external_service,
       payroll: data.payroll_load,
-      // generalExpenses: data.expense,
-      //distributionExpenses: data.expense_distribution,
       users: data.user,
       backup: data.backup,
       quotePaymentMethod: data.quote_payment_method,
       quoteCompany: data.quote_company,
       quoteContact: data.quote_contact,
       prices: data.price,
-      // pricesUSD: data.price_usd,
       customPrices: data.custom_price,
       analysisMaterials: data.analysis_material,
       economyScale: data.economy_scale,
@@ -241,36 +228,27 @@ $(document).ready(function () {
       } else $(`#checkbox-${i}`).prop('checked', false);
       i++;
     });
-
-    // if (flag_expense != '2') {
+ 
     let selectExpenses;
     $(`#chckExpenses`).prop('checked', true);
     $('.cardChkExpenses').show();
-    
-    if (data.expense_distribution == 1 && data.expense == 1 && data.production_center == 1 && data.anual_expense ==1) {
-      selectExpenses = 0;
-    }
 
-    if (data.expense_distribution == 0 && data.expense == 1 && data.production_center == 0 && data.anual_expense ==0) {
-      // $(`#chckExpenses`).prop('checked', true);
-      selectExpenses = 1;
-      // $('.cardChkExpenses').show();
+    // Combinación de condiciones utilizando un objeto para mapeo
+    const conditions = {
+      '1-1-1-1': 0,
+      '0-1-0-0': 1,
+      '1-0-0-0': 2,
+      '0-0-1-0': 3,
+      '0-0-0-1': 4
+    };
+
+    const key = `${data.expense_distribution}-${data.expense}-${data.production_center}-${data.anual_expense}`;
+
+    selectExpenses = conditions[key] ?? selectExpenses;
+
+    if (selectExpenses === 1) {
       $('.cardTypeExpenses').hide();
-    } else if (data.expense_distribution == 1 && data.expense == 0 && data.production_center == 0 && data.anual_expense ==0) {
-      // $(`#chckExpenses`).prop('checked', true);
-      selectExpenses = 2;
-      // $('.cardChkExpenses').show();
-    } else if (data.expense_distribution == 0 && data.expense == 0 && data.production_center == 1 && data.anual_expense ==0) {
-      // $(`#chckExpenses`).prop('checked', true);
-      selectExpenses = 3;
-      // $('.cardChkExpenses').show();
-    } else if (data.expense_distribution == 0 && data.expense == 0 && data.production_center == 0 && data.anual_expense == 1) { 
-      selectExpenses = 4;
-      // $('.cardChkExpenses').show();
-    }
-
-    if ((selectExpenses == 0 || selectExpenses == 2) && (flag_expense == '1' || flag_expense == '0')) {
-      // $('.cardChkExpenses').show();
+    } else if ((selectExpenses === 0 || selectExpenses === 2) && (flag_expense === '1' || flag_expense === '0')) {
       $('.cardTypeExpenses').show();
     }
 
@@ -280,12 +258,6 @@ $(document).ready(function () {
       $(`#typeExpenses`).prop('checked', true);
     else
       $(`#typeExpenses`).prop('checked', false);
-    // } else {
-    //   if (data.expense_distribution == 1)
-    //     $(`#expenseRecover`).prop('checked', true);
-    //   else
-    //     $(`#expenseRecover`).prop('checked', false);
-    // }
       
     if ($(`#checkbox-9`).is(':checked')) $('.cardTypePayroll').show();
 
@@ -322,7 +294,7 @@ $(document).ready(function () {
     );
   });
 
-  updateUserAccess = () => {
+  const updateUserAccess = () => {
     let id_user = sessionStorage.getItem('id_user');
 
     let typePayroll = 0;
@@ -338,8 +310,7 @@ $(document).ready(function () {
     
     let typeExpenses = flag_expense_distribution;
     let dataUser = {};
-    
-    // if (flag_expense != '2') {
+     
     let selectExpenses = $('#selectExpenses').val();
 
     if (!selectExpenses) {
@@ -376,30 +347,6 @@ $(document).ready(function () {
         dataUser['anualExpense'] = 1;
         break;
     }
-
-    // if (selectExpenses == '0') {
-    //   dataUser['expense'] = 1;
-    //   dataUser['expenseDistribution'] = 1;
-    //   dataUser['production'] = 1;
-    // } else if (selectExpenses == '1') {
-    //   dataUser['expense'] = 1;
-    //   dataUser['expenseDistribution'] = 0;
-    //   dataUser['production'] = 0;
-    // } else if (selectExpenses == '2') {
-    //   dataUser['expense'] = 1;
-    //   dataUser['expenseDistribution'] = 0;
-    //   dataUser['production'] = 0;
-    // } else {
-    //   dataUser['expense'] = 0;
-    //   dataUser['expenseDistribution'] = 0;
-    //   dataUser['production'] = 1;
-    // }
-    // } else {
-    //   if ($('#expenseRecover').is(':checked')) dataUser['expenseDistribution'] = 1;
-    //   else dataUser['expenseDistribution'] = 0;
-        
-    //   dataUser['expense'] = expense;
-    // }
     
     if ($(`#checkbox-16`).is(':checked')) {
       if (typeCustomPrices.length == 0) {
@@ -431,7 +378,7 @@ $(document).ready(function () {
   };
 
   /* Seleccionar checkboxes */
-  setCheckBoxes = (dataUser) => {
+  const setCheckBoxes = (dataUser) => {
     let i = 1;
 
     let access = {
@@ -441,19 +388,15 @@ $(document).ready(function () {
       costCreateMachines: 0,
       costCreateProcess: 0,
       costProductMaterials: 0,
-      //costProductProcess: 0,
       factoryLoad: 0,
       externalService: 0,
       payrollLoad: 0,
-      // expense: 0,
-      // expenseDistribution: 0,
       costUser: 0,
       costBackup: 0,
       quotePaymentMethod: 0,
       quoteCompany: 0,
       quoteContact: 0,
       price: 0,
-      // priceUSD: 0,
       customPrices: 0,
       analysisMaterial: 0,
       economyScale: 0,
@@ -461,7 +404,7 @@ $(document).ready(function () {
       multiproduct: 0,
       simulator: 0,
       historical: 0,
-      generalCostReport:0,
+      generalCostReport: 0,
       quote: 0,
       support: 0,
     };
@@ -471,8 +414,7 @@ $(document).ready(function () {
       else dataUser[`${index}`] = 0;
       i++;
     });
-
-    // if (flag_expense != '2')
+ 
     if (!$(`#chckExpenses`).is(':checked')) {
       dataUser[`expense`] = 0;
       dataUser[`expenseDistribution`] = 0;
@@ -534,7 +476,7 @@ $(document).ready(function () {
 
     let className = this.className.toString().split(" ");
 
-    let badge = className[1]; 
+    let badge = className[1];
     badge == 'badge-warning' ? op = 0 : op = 1;
 
     bootbox.dialog({
@@ -558,7 +500,7 @@ $(document).ready(function () {
         no: {
           label: 'No',
           className: 'btn-danger',
-          callback: function () { 
+          callback: function () {
           }
         }
       }
@@ -566,8 +508,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de exito */
-
-  message = async (data, id_user) => {
+  const message = async (data, id_user) => {
     if (data.success == true) {
       $('#createUserAccess').modal('hide');
       $('.cardTypePayroll').hide();

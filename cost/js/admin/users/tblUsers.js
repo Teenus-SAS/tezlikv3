@@ -1,8 +1,7 @@
 $(document).ready(function () {
   /* Cargue tabla de Proyectos */
 
-  visible_cost_price = plan_cost_price === '1';
-  // price_usd = price_usd === 1;
+  visible_cost_price = plan_cost_price === '1'; 
   visible_custom_price = plan_custom_price === '1';
   visible_analysis_material = plan_cost_analysis_material === '1';
   visible_economy_sale = plan_cost_economy_sale === '1' || flag_economy_scale === '1';
@@ -71,8 +70,7 @@ $(document).ready(function () {
       },
       {
         title: "Maestros",
-        data: null,
-        // width: "500px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 
@@ -130,8 +128,7 @@ $(document).ready(function () {
       },
       {
         title: "Configuración",
-        data: null,
-        //width: "200px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 
@@ -172,8 +169,7 @@ $(document).ready(function () {
       },
       {
         title: "General",
-        data: null,
-        //width: "200px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 
@@ -232,8 +228,7 @@ $(document).ready(function () {
       },
       {
         title: "Cotización",
-        data: null,
-        //width: "200px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 
@@ -274,8 +269,7 @@ $(document).ready(function () {
       },
       {
         title: "Administrador",
-        data: null,
-        //width: "200px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 
@@ -308,8 +302,7 @@ $(document).ready(function () {
       },
       {
         title: "Menu Navegación",
-        data: null,
-        //width: "200px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 
@@ -320,16 +313,7 @@ $(document).ready(function () {
                 ? "bi bi-check-circle-fill text-success"
                 : "bi bi-x-circle-fill text-danger",
               color: { text: "black" },
-            });
-
-          // if (price_usd == true)
-          //   permissions.push({
-          //     name: "Precios USD",
-          //     icon: data.price_usd
-          //       ? "bi bi-check-circle-fill text-success"
-          //       : "bi bi-x-circle-fill text-danger",
-          //     color: { text: "black" },
-          //   });
+            }); 
 
           if (visible_custom_price == true)
             permissions.push({
@@ -371,8 +355,7 @@ $(document).ready(function () {
       },
       {
         title: "Herramientas",
-        data: null,
-        //width: "200px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 
@@ -444,8 +427,7 @@ $(document).ready(function () {
       },
       {
         title: "Reportes",
-        data: null,
-        //width: "200px",
+        data: null, 
         render: function (data, type, row) {
           const permissions = [];
 

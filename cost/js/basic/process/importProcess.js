@@ -76,7 +76,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProcess = (data) => {
+  const checkProcess = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/processDataValidation',
@@ -118,7 +118,7 @@ $(document).ready(function () {
     });
   };
 
-  saveProcessTable = (data) => {
+  const saveProcessTable = (data) => {
     $.ajax({
       type: 'POST',
       url: '../../api/addProcess',

@@ -33,59 +33,8 @@ $(document).ready(function () {
       /* Materia Prima */
       let dataMaterials = await searchData('/api/materials');
       if (dataMaterials.length > 0) {
-        data = [];
+        data = []; 
 
-        // for (i = 0; i < dataMaterials.length; i++) {
-        //   // let type_cost = '';
-        //   // price_usd == '0' ||
-        //   if (flag_currency_usd == '0') {
-        //     if (export_import == '1' && flag_export_import == '1')
-        //       data.push({
-        //         referencia: dataMaterials[i].reference,
-        //         material: dataMaterials[i].material,
-        //         categoria: dataMaterials[i].category,
-        //         magnitud: dataMaterials[i].magnitude,
-        //         unidad: dataMaterials[i].unit,
-        //         costo: parseFloat(dataMaterials[i].cost),
-        //         costo_importacion: parseFloat(dataMaterials[i].cost_import),
-        //         costo_nacionalizacion: parseFloat(dataMaterials[i].cost_export),
-        //       });
-        //     else
-        //       data.push({
-        //         referencia: dataMaterials[i].reference,
-        //         material: dataMaterials[i].material,
-        //         categoria: dataMaterials[i].category,
-        //         magnitud: dataMaterials[i].magnitude,
-        //         unidad: dataMaterials[i].unit,
-        //         costo: parseFloat(dataMaterials[i].cost)
-        //       });
-        //   }
-        //   else {
-        //     // parseInt(dataMaterials[i].flag_usd) == 1 ? type_cost = 'USD' : type_cost = 'COP';
-        //     if (export_import == '1' && flag_export_import == '1')
-        //       data.push({
-        //         referencia: dataMaterials[i].reference,
-        //         material: dataMaterials[i].material,
-        //         categoria: dataMaterials[i].category,
-        //         magnitud: dataMaterials[i].magnitude,
-        //         unidad: dataMaterials[i].unit,
-        //         costo: parseFloat(dataMaterials[i].cost),
-        //         costo_importacion: parseFloat(dataMaterials[i].cost_import),
-        //         costo_nacionalizacion: parseFloat(dataMaterials[i].cost_export),
-        //         tipo_costo: 'COP',
-        //       });
-        //     else
-        //       data.push({
-        //         referencia: dataMaterials[i].reference,
-        //         material: dataMaterials[i].material,
-        //         categoria: dataMaterials[i].category,
-        //         magnitud: dataMaterials[i].magnitude,
-        //         unidad: dataMaterials[i].unit,
-        //         costo: parseFloat(dataMaterials[i].cost),
-        //         tipo_costo: 'COP',
-        //       });
-        //   }
-        // }
         dataMaterials.forEach(item => {
           let baseData = {
             referencia: item.reference,
@@ -341,76 +290,7 @@ $(document).ready(function () {
       }
 
       if (execute == false) return false;
-      /* Tipo de gasto 
-      data = [];
-      if (flag_expense == '1') {
-        if (flag_expense_distribution == '1') {
-          url = '/api/expensesDistribution';
-          op = 1;
-        }
-        else {
-          url = '/api/expensesDistributionFamilies';
-          op = 2;
-        }
-      } else {
-        url = '/api/expensesRecover';
-        op = 3;
-      }
-      let dataTypeExpense = await searchData(url);
-
-      if (execute == false) return false;
-      if (op == 1) {
-        if (dataTypeExpense.length > 0) {
-          for (i = 0; i < dataTypeExpense.length; i++) {
-            if (flag_composite_product == '1' && dataTypeExpense[i].composite == 0)
-              data.push({
-                referencia_producto: dataTypeExpense[i].reference,
-                producto: dataTypeExpense[i].product,
-                unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-                volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-              });
-            else if (flag_composite_product == '0')
-              data.push({
-                referencia_producto: dataTypeExpense[i].reference,
-                producto: dataTypeExpense[i].product,
-                unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-                volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-              });
-          }
-
-          let ws = XLSX.utils.json_to_sheet(data);
-          XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Producto');
-        }
-      }
-      else if (op == 2) {
-        if (dataTypeExpense.length > 0) {
-          for (i = 0; i < dataTypeExpense.length; i++) {
-            data.push({
-              // referencia: dataProducts[i].id_family,
-              familia: dataTypeExpense[i].family,
-              unidades_vendidas: parseFloat(dataTypeExpense[i].units_sold),
-              volumen_ventas: parseFloat(dataTypeExpense[i].turnover),
-            });
-          }
-
-          let ws = XLSX.utils.json_to_sheet(data);
-          XLSX.utils.book_append_sheet(wb, ws, 'Distribucion Familia');
-        }
-      }
-      else {
-        if (dataTypeExpense.length > 0) {
-          for (i = 0; i < dataTypeExpense.length; i++) {
-            data.push({
-              reference_producto: dataTypeExpense[i].reference,
-              producto: dataTypeExpense[i].product,
-              porcentaje_recuperado: parseFloat(dataTypeExpense[i].expense_recover),
-            });
-          }
-
-          let ws = XLSX.utils.json_to_sheet(data);
-          XLSX.utils.book_append_sheet(wb, ws, 'Recuperacion Gasto');
-        }
-      } */
+       
       data = [];
       let url, op;
 
@@ -478,8 +358,7 @@ $(document).ready(function () {
           addToSheet('Recuperacion Gasto', data);
           break;
       }
-
-      // $('.close-btn').hide();
+ 
       $('.loading').hide(800);
       document.body.style.overflow = '';
       execute = true;

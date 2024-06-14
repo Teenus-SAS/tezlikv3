@@ -2,49 +2,7 @@ $(document).ready(function () {
   /* Cargue tabla de Materias Primas */ 
   let visibleCost = true;
   export_import == '0' || flag_export_import == '0' ? visibleCost = false : visibleCost;
- 
-  // loadAllData = async (op) => {
-  //   try {
-  //     const promises = [
-  //       op === 1 ? searchData('/api/categories') : Promise.resolve(null),
-  //       searchData('/api/materials'),
-  //       op === 1 ? searchData('/api/productsMaterialsBasic') : Promise.resolve(null)
-  //     ];
-
-  //     const [dataCategory, dataMaterials, dataProductMaterials] = await Promise.all(promises);
-
-  //     sessionStorage.setItem('dataMaterials', JSON.stringify(dataMaterials));
-
-  //     if (op === 1 && dataCategory) {
-  //       const $selectCategory = $('#idCategory');
-  //       $selectCategory.empty();
-  //       $selectCategory.append(`<option disabled selected value='0'>Seleccionar</option>`);
-  //       dataCategory.forEach(value => {
-  //         $selectCategory.append(
-  //           `<option value="${value.id_category}">${value.category}</option>`
-  //         );
-  //       });
-  //       sessionStorage.setItem('dataCategory', JSON.stringify(dataCategory));
-  //       loadTblCategories(dataCategory);
-  //       sessionStorage.setItem('dataProductMaterials', JSON.stringify(dataProductMaterials));
-  //     }
-
-  //     const dataCategory1 = op === 1 ? dataCategory : JSON.parse(sessionStorage.getItem('dataCategory'));
-
-  //     const visible = dataCategory1 && dataCategory1.length > 0;
-  //     $('.categories').toggle(visible);
-
-  //     let op1 = 1;
-  //     if (flag_currency_usd === '1') {
-  //       const selectPriceUSD = $('#selectPriceUSD').val();
-  //       op1 = selectPriceUSD === '2' ? 2 : 1;
-  //     }
-
-  //     loadTblRawMaterials(dataMaterials, visible, op1);
-  //   } catch (error) {
-  //     console.error('Error loading data:', error);
-  //   }
-  // }; 
+  
   loadAllData = async (op) => {
     try {
       // Definir las promesas basadas en la opción

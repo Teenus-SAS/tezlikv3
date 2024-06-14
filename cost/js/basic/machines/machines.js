@@ -38,9 +38,7 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblMachines.fnGetData(row);
 
-    $('#machine').val(data.machine);
-    // let decimals = contarDecimales(data.cost);
-    // let cost = formatNumber(data.cost, decimals);
+    $('#machine').val(data.machine); 
     $('#costMachine').val(data.cost);
     $('#residualValue').val(data.residual_value);
     $('#depreciationYears').val(data.years_depreciation);
@@ -60,7 +58,7 @@ $(document).ready(function () {
   });
 
   /* Verificar datos */
-  checkDataMachines = async (url, idMachine) => {
+  const checkDataMachines = async (url, idMachine) => {
     let Machine = $('#machine').val();
     let costMachine = $('#costMachine').val();
     let yearsDepreciation = $('#depreciationYears').val();
@@ -147,7 +145,6 @@ $(document).ready(function () {
   };
 
   /* Mensaje de exito */
-
   message = (data) => {
     $('.cardLoading').remove();
     $('.cardBottons').show(400);
@@ -166,7 +163,6 @@ $(document).ready(function () {
   };
 
   /* Actualizar tabla */
-
   function updateTable() {
     $('#tblMachines').DataTable().clear();
     $('#tblMachines').DataTable().ajax.reload();

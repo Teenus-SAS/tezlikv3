@@ -7,13 +7,10 @@ $(document).ready(function () {
             aMaterials: data.create_materials,
             aMachines: data.create_machines,
             aProcess: data.create_process,
-            aProductsMaterials: data.product_materials,
-            //aProductsProcess: data.product_process,
+            aProductsMaterials: data.product_materials, 
             aFactoryLoad: data.factory_load,
             aGServices: data.external_service,
-            aPayroll: data.payroll_load,
-            // aExpenses: data.expense,
-            // aExpenses: data.expense_distribution,
+            aPayroll: data.payroll_load, 
             aCustomPrices: data.custom_price,
             aBackup: data.backup,
             aGeneralCostReport: data.general_cost_report,
@@ -21,8 +18,7 @@ $(document).ready(function () {
             aPaymentMethods: data.quote_payment_method,
             aCompanies: data.quote_company,
             aContacts: data.quote_contact,
-            aPricesCOP: data.price,
-            // aPricesUSD: data.price_usd,
+            aPricesCOP: data.price, 
             aAnalysisMaterials: data.analysis_material,
             aEconomyScale: data.economy_scale,
             aSaleObjectives: data.sale_objectives,
@@ -102,8 +98,7 @@ $(document).ready(function () {
 
         if (
             access.aCustomPrices == 0 &&
-            access.aPricesCOP == 0
-            // && access.aPricesUSD == 0
+            access.aPricesCOP == 0 
         ) {
             $('#navPrices').hide();
         } else

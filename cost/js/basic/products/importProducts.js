@@ -137,7 +137,6 @@ $(document).ready(function () {
     $.ajax({
       type: 'POST',
       url: '/api/addProducts',
-      //data: data,
       data: { importProducts: data },
       success: function (r) {
         message(r);

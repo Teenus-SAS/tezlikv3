@@ -17,8 +17,7 @@ $(document).ready(function () {
   }
 
   /* Cargue tabla de Proyectos */
-
-  loadTblProducts = (data) => { 
+  const loadTblProducts = (data) => { 
     if ($.fn.dataTable.isDataTable("#tblProducts")) {
       var table = $("#tblProducts").DataTable();
       var pageInfo = table.page.info(); // Guardar información de la página actual

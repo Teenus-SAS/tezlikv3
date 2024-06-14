@@ -26,7 +26,7 @@ $(document).ready(function () {
     });
   });
 
-  changeStatusProduct = (id, op) => {
+  const changeStatusProduct = (id, op) => {
     $.ajax({
       url: `/api/changeActiveProduct/${id}/${op}`,
       success: function (data) {
