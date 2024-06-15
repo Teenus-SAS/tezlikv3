@@ -342,10 +342,10 @@ if (sizeof($_SESSION) == 0)
                                                     <label>Proceso</label>
                                                     <select class="form-control inputs" name="idProcess" id="idProcess"></select>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label employees mt-1">
+                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label class="text-center">Operadores</label>
                                                     <!-- <button class="btn btn-success" id="btnEmployees">Operadores</button> -->
-                                                    <input class="form-control text-center" type="number" name="employees" id="btnEmployees" readonly>
+                                                    <button class="form-control text-center" type="number" name="employees" id="btnEmployees" readonly></button>
                                                 </div>
                                                 <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Maquina</label>
