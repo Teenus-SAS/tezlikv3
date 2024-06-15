@@ -345,7 +345,7 @@ if (sizeof($_SESSION) == 0)
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label">
                                                     <label class="text-center">Operadores</label>
                                                     <!-- <button class="btn btn-success" id="btnEmployees">Operadores</button> -->
-                                                    <button class="form-control text-center" type="number" name="employees" id="btnEmployees" readonly></button>
+                                                    <button class="form-control text-center" type="number" name="employees" id="btnEmployees" data-toggle="tooltip" title="Seleccione la cantidad de operarios para este proceso" readonly></button>
                                                 </div>
                                                 <div class="col-sm-6 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Maquina</label>
