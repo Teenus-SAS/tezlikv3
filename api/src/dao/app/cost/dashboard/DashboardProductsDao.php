@@ -156,24 +156,32 @@ class DashboardProductsDao
     {
         $connection = Connection::getInstance()->getConnection();
         $stmt = $connection->prepare("SELECT pm.id_product_material, pm.id_product, pm.id_material, m.reference, m.material, pm.cost AS totalCostMaterial, m.cost AS cost_material, pm.id_unit AS unit_product_material, m.unit AS unit_material, cm.magnitude, cu.abbreviation AS abbreviation_material, (SELECT ccu.abbreviation FROM products_materials cpm
-                                            INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials, pm.waste
+                                            INNER JOIN convert_units ccu ON ccu.id_unit = cpm.id_unit WHERE cpm.id_product_material = pm.id_product_material) AS abbreviation_p_materials, pm.quantity, pm.cost AS cost_product_materials, pm.waste, ((pm.cost / pc.cost_materials)* 100) AS participation
                                     FROM products_materials pm
+                                    INNER JOIN products_costs pc ON pc.id_product = pm.id_product
                                     INNER JOIN materials m ON m.id_material = pm.id_material
                                     INNER JOIN convert_units cu ON cu.id_unit = m.unit
                                     INNER JOIN convert_magnitudes cm ON cm.id_magnitude = cu.id_magnitude
                                   WHERE pm.id_product = :id_product AND pm.id_company = :id_company 
-                                  ORDER BY totalCostMaterial DESC");
+                                  ORDER BY participation DESC");
         $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
         $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
         $costRawMaterials = $stmt->fetchAll($connection::FETCH_ASSOC);
 
         if ($op == 2) {
-            $stmt = $connection->prepare("SELECT p.product AS material, cp.cost AS totalCostMaterial
+            // $stmt = $connection->prepare("SELECT p.product AS material, cp.cost AS totalCostMaterial
+            //                             FROM composite_products cp
+            //                             LEFT JOIN products p ON p.id_product = cp.id_child_product 
+            //                           WHERE cp.id_product = :id_product AND cp.id_company = :id_company 
+            //                           GROUP BY p.id_product 
+            //                           ORDER BY totalCostMaterial DESC");
+            $stmt = $connection->prepare("SELECT p.product AS material, cp.cost AS totalCostMaterial, ((cp.cost / pc.cost_materials) * 100) AS participation
                                         FROM composite_products cp
-                                        LEFT JOIN products p ON p.id_product = cp.id_child_product 
+                                        LEFT JOIN products p ON p.id_product = cp.id_child_product
+                                        INNER JOIN products_costs pc ON pc.id_product = cp.id_child_product
                                       WHERE cp.id_product = :id_product AND cp.id_company = :id_company 
                                       GROUP BY p.id_product 
-                                      ORDER BY totalCostMaterial DESC");
+                                      ORDER BY participation DESC");
             $stmt->execute(['id_product' => $id_product, 'id_company' => $id_company]);
             $this->logger->info(__FUNCTION__, array('query' => $stmt->queryString, 'errors' => $stmt->errorInfo()));
             $data = $stmt->fetchAll($connection::FETCH_ASSOC);
@@ -181,7 +189,7 @@ class DashboardProductsDao
             $costRawMaterials = array_merge($costRawMaterials, $data);
 
             foreach ($costRawMaterials as $key => $row) {
-                $cost[$key]  = $row['totalCostMaterial'];
+                $cost[$key] = $row['participation'];
             }
 
             array_multisort($cost, SORT_DESC, $costRawMaterials);

@@ -163,6 +163,8 @@ $(document).ready(function () {
               toastr.error('Precios muy por debajo de lo requerido. Si se sigue calculando automáticamente generará números demasiado grandes');
               return false;
             } else {
+              typeExpense == '2' ? division = Math.ceil(division / 12) : division;
+              
               $(`#unity-${i}`).val(division.toLocaleString('es-CO', {
                 maximumFractionDigits: 0,
               }));

@@ -29,7 +29,9 @@ $(document).ready(function () {
           for (let i = 0; i < data.cost_workforce.length; i++) {
             data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_usd);
           }
-
+          for (let i = 0; i < data.cost_materials.length; i++) {
+            data.cost_materials[i].totalCostMaterial = parseFloat(data.cost_materials[i].totalCostMaterial) / parseFloat(coverage_usd);
+          }
           // for (let i = 0; i < data.services.length; i++) {
           //   data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_usd);            
           // }
@@ -47,10 +49,13 @@ $(document).ready(function () {
           for (let i = 0; i < data.cost_workforce.length; i++) {
             data.cost_workforce[i].workforce = parseFloat(data.cost_workforce[i].workforce) / parseFloat(coverage_eur);
           }
-
-          for (let i = 0; i < data.services.length; i++) {
-            data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_eur);            
+          for (let i = 0; i < data.cost_materials.length; i++) {
+            data.cost_materials[i].totalCostMaterial = parseFloat(data.cost_materials[i].totalCostMaterial) / parseFloat(coverage_eur);
           }
+
+          // for (let i = 0; i < data.services.length; i++) {
+          //   data.services[i].cost = parseFloat(data.services[i].cost) / parseFloat(coverage_eur);            
+          // }
           break;
       
         default: // Pesos COP
@@ -66,27 +71,28 @@ $(document).ready(function () {
       await graphicPromTime(data.average_time_process);
       await graphicCompPrices(data.cost_product);
       // await graphicCostServices(data.services);
+      await graphicCostMaterials(data.cost_materials);
 
-      if (data.cost_materials.length > 10) {
-        data = await searchData(`/api/rawMaterials/${id_product}`);
-        data = data['80RawMaterials'];
-      }
-      else
-        data = data.cost_materials;
+      // if (data.cost_materials.length > 10) {
+      //   data = await searchData(`/api/rawMaterials/${id_product}`);
+      //   data = data['80RawMaterials'];
+      // }
+      // else
+      //   data = data.cost_materials;
 
       // price_usd == '1' &&
 
-      if (typeCurrency == '2') {
-        for (let i = 0; i < data.length; i++) {
-          data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_usd);
-        }
-      } else if (typeCurrency == '3') {
-        for (let i = 0; i < data.length; i++) {
-          data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_eur);
-        }
-      }
+      // if (typeCurrency == '2') {
+      //   for (let i = 0; i < data.length; i++) {
+      //     data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_usd);
+      //   }
+      // } else if (typeCurrency == '3') {
+      //   for (let i = 0; i < data.length; i++) {
+      //     data[i].totalCostMaterial = parseFloat(data[i].totalCostMaterial) / parseFloat(coverage_eur);
+      //   }
+      // }
     
-      await graphicCostMaterials(data);
+      // await graphicCostMaterials(data);
     }
     catch (error) {
       console.error('Error loading data:', error);

@@ -50,13 +50,13 @@ $(document).ready(function () {
     
     let data = economyScale.find(item => item.id_product == id); 
 
+    sugered_price = Math.ceil(data.price);
+    actual_price = Math.ceil(data.sale_price);
     if (typeExpense == '1') {
-      sugered_price = Math.ceil(data.price);
-      actual_price = Math.ceil(data.sale_price);
       real_price = parseFloat(data.turnover) / parseFloat(data.units_sold);
     } else {
-      sugered_price = Math.ceil(data.price) / 12;
-      actual_price = Math.ceil(data.sale_price) / 12;
+      // sugered_price = Math.ceil(data.price) / 12;
+      // actual_price = Math.ceil(data.sale_price) / 12;
       real_price = parseFloat(data.turnover_anual) / parseFloat(data.units_sold_anual);
     }
     

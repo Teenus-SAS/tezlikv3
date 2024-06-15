@@ -41,6 +41,7 @@ $(document).ready(function () {
     $('#idProcess').change(async function (e) {
       e.preventDefault();
     
+      checkBoxEmployees = [''];
       let count_payroll = parseInt(
         $('#idProcess').find('option:selected').attr('class')
       );
@@ -49,7 +50,7 @@ $(document).ready(function () {
         toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');
       }
 
-      // $('#employees').val(count_payroll);
+      $('#btnEmployees').html(count_payroll);
       let dataPayroll = sessionStorage.getItem('dataPayroll');
 
       if (!dataPayroll) {
@@ -114,17 +115,18 @@ $(document).ready(function () {
 
       let arr = dataProductProcess.find(
         (item) => item.id_product_process == idProductProcess
-      ); 
+      );
 
       if (checkBoxEmployees[0] == '') {
-        employees = arr.employee.toString().split(','); 
+        employees = arr.employee.toString().split(',');
       }
       else
-        employees = checkBoxEmployees; 
+        employees = checkBoxEmployees;
 
       if (arr.employee != '')
-          checkBoxEmployees = employees;
-    }
+        checkBoxEmployees = employees;
+    } else
+      employees = checkBoxEmployees;
 
     let copyCheckBoxEmployees = [...checkBoxEmployees];
     
@@ -159,6 +161,8 @@ $(document).ready(function () {
             toastr.error('Seleccione un empleado');
             return false;
           } 
+
+          $('#btnEmployees').html(checkBoxEmployees.length);
         } else {
           checkBoxEmployees = copyCheckBoxEmployees;
         }
@@ -204,16 +208,16 @@ $(document).ready(function () {
     sessionStorage.setItem('id_product_process', data.id_product_process);
 
     $(`#idProcess option[value=${data.id_process}]`).prop('selected', true);
-    // let count_employee = data.count_employee;
+    let count_employee = data.count_employee;
 
-    // let employees = data.employee.toString().split(',');
+    let employees = data.employee.toString().split(',');
     checkBoxEmployees = data.employee.toString().split(',');
 
-    // if (employees[0] != '') {
-    //   count_employee = employees.length;
-    // }
+    if (employees[0] != '') {
+      count_employee = employees.length;
+    }
 
-    // $('#employees').val(count_employee);
+    $('#btnEmployees').html(count_employee);
 
     if (parseInt(data.count_employee) == 0) {
       toastr.error('Active los procesos creando la nomina antes de asignar los procesos y máquinas para un producto');

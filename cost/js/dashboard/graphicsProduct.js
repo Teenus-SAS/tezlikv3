@@ -390,7 +390,12 @@ $(document).ready(function () {
   graphicCostMaterials = (data) => {
     let material = [];
     let totalMaterial = [];
+    let participation = [];
 
+    // Si hay más de 10 elementos, reduce el array a los primeros 10
+    if (data.length > 10) {
+      data = data.slice(0, 10);
+    }
     anchura <= 480 ? (length = 5) : (length = data.length);
     data.length > length ? (count = length) : (count = data.length);
 
@@ -398,6 +403,7 @@ $(document).ready(function () {
       if (data[i].totalCostMaterial > 0) {
         material.push(data[i].material);
         totalMaterial.push(data[i].totalCostMaterial);
+        participation.push(data[i].participation);
       }
     }
     let maxYValue;
@@ -430,9 +436,6 @@ $(document).ready(function () {
       type: 'bar',
       data: {
         labels: material,
-        // formatter: function (value, context) {
-        //   return context.chart.data.labels[context.dataIndex];
-        // },
         datasets: [
           {
             data: totalMaterial,
@@ -459,15 +462,23 @@ $(document).ready(function () {
             anchor: 'end',
             align: 'top',
             offset: 2,
+            // formatter: (value, ctx) => {
+            //   let sum = 0;
+            //   let dataArr = ctx.chart.data.datasets[0].data;
+            //   dataArr.map((data) => {
+            //     sum += data;
+            //   });
+            //   let percentage = (value * 100) / sum;
+            //   isNaN(percentage) ? (percentage = 0) : percentage;
+            //   return `${percentage.toLocaleString('es-CO', {
+            //     maximumFractionDigits: 2,
+            //   })} %`;
+            // },
             formatter: (value, ctx) => {
-              let sum = 0;
-              let dataArr = ctx.chart.data.datasets[0].data;
-              dataArr.map((data) => {
-                sum += data;
-              });
-              let percentage = (value * 100) / sum;
-              isNaN(percentage) ? (percentage = 0) : percentage;
-              return `${percentage.toLocaleString('es-CO', {
+              // Accede al índice de los datos y usa el array 'participation'
+              let index = ctx.dataIndex;
+              let participationValue = participation[index];
+              return `${participationValue.toLocaleString('es-CO', {
                 maximumFractionDigits: 2,
               })} %`;
             },
