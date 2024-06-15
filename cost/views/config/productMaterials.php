@@ -351,7 +351,7 @@ if (sizeof($_SESSION) == 0)
                                                     <label>Maquina</label>
                                                     <select class="form-control inputs" name="idMachine" id="idMachine"></select>
                                                 </div>
-                                                <div class="col-xs-2 ml-3 checkbox checkbox-success mb-2 checkMachine">
+                                                <div class="col-xs-2 ml-3 mb-2 mt-2 checkbox checkbox-success checkMachine">
                                                     <input id="checkMachine" name="checkMachine" type="checkbox"><label for="checkMachine">Máquina Autonoma </label>
                                                 </div>
                                                 <!-- Linea divisoria -->
