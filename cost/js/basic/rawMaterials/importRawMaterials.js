@@ -72,32 +72,7 @@ $(document).ready(function () {
 
           toastr.error('Archivo no corresponde a el formato. Verifique nuevamente');
           return false;
-        }
-
-        // let materialsToImport = arr.map((item) => {
-        //   let costRawMaterial = '';
-
-        //   if (item.costo)
-        //     costRawMaterial = item.costo.toString().replace('.', ',');
-
-        //   // price_usd == '0' || 
-        //   if (flag_currency_usd == '0')
-        //     typeCost = 'COP';
-        //   else
-        //     typeCost = item.tipo_moneda;
-
-        //   return {
-        //     refRawMaterial: item.referencia,
-        //     nameRawMaterial: item.material,
-        //     category: item.categoria,
-        //     magnitude: item.magnitud,
-        //     unit: item.unidad,
-        //     costRawMaterial: costRawMaterial,
-        //     costImport: item.costo_importacion,
-        //     costExport: item.costo_nacionalizacion,
-        //     typeCost: typeCost,
-        //   };
-        // });
+        } 
 
         let resp = await validateDataRM(arr);
         
@@ -144,97 +119,7 @@ $(document).ready(function () {
     let materialsToImport = [];
     let importStatus = true;
     let insert = 0;
-    let update = 0; 
-    /*
-    for (let i = 0; i < data.length; i++) {
-      let arr = data[i];
-      let cost = arr.costo > 0 ? arr.costo.toString() : '';
-      let cost_import = arr.costo_importacion > 0 ? arr.costo_importacion.toString() : '0';
-      let cost_export = arr.costo_nacionalizacion > 0 ? arr.costo_nacionalizacion.toString() : '0';
-
-      let fieldsToValidate = [
-        arr.referencia,
-        arr.material,
-        arr.magnitud,
-        arr.unidad,
-        cost
-      ];
-
-      if (flag_currency_usd === '0') {
-        if (export_import === '1' && flag_export_import === '1') {
-          fieldsToValidate.push(cost_import, cost_export);
-        }
-      } else {
-        fieldsToValidate.push(arr.tipo_moneda);
-      }
-
-      if (!validateFields(fieldsToValidate, i)) {
-        break;
-      }
-
-      let valCost = parseFloat(cost.replace(',', '.')) * 1;
-      if (isNaN(valCost) || valCost <= 0) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileMaterials').val('');
-        importStatus = false;
-
-        toastr.error(`El costo debe ser mayor a cero (0). Fila: ${i + 2}`);
-        break;
-      }
-
-      // Validar magnitud
-      let dataMagnitudes = JSON.parse(sessionStorage.getItem('dataMagnitudes'));
-      let magnitude = dataMagnitudes.find(item => item.magnitude == arr.magnitud.toString().trim());
-
-      if (!magnitude) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileMaterials').val('');
-        importStatus = false;
-
-        toastr.error(`Magnitud no existe en la base de datos. Fila: ${i + 2}`);
-        break;
-      }
-
-      materialsToImport.push({ idMagnitude: magnitude.id_magnitude });
-
-      // Validar Unidad
-      let dataUnits = JSON.parse(sessionStorage.getItem('dataUnits'));
-      let unity = dataUnits.find(item => item.id_magnitude == magnitude.id_magnitude && item.unit == arr.unidad.trim());
-      
-      if (!unity) {
-        $('.cardLoading').remove();
-        $('.cardBottons').show(400);
-        $('#fileMaterials').val('');
-        importStatus = false;
-
-        toastr.error(`Unidad no existe en la base de datos. Fila: ${i + 2}`);
-        break;
-      }
-
-      materialsToImport[i]['unit'] = unity.id_unit;
-      
-      // Validar Categoria
-      materialsToImport[i]['idCategory'] = 0;
-
-      if(arr.categoria){
-        let dataCategory = JSON.parse(sessionStorage.getItem('dataCategory'));
-        let category = dataCategory.find(item => item.category == arr.categoria.trim());
-        materialsToImport[i]['idCategory'] = category.id_category;
-      }
-
-      // Validar Material
-      let dataMaterials = JSON.parse(sessionStorage.getItem('dataMaterials'));
-      let material = dataMaterials.find(item => item.reference == arr.referencia.trim() && item.material == arr.material.trim());
-
-      if (!material)
-        insert += 1
-      else {
-        update += 1;
-        materialsToImport[i]['idMaterial'] = material.id_material;
-      }
-    } */
+    let update = 0;
     
     // Cargar datos desde sessionStorage una vez
     const dataMagnitudes = getSessionData('dataMagnitudes');
@@ -307,8 +192,6 @@ $(document).ready(function () {
       materialsToImport[i].refRawMaterial = arr.referencia;
       materialsToImport[i].nameRawMaterial = arr.material;
       materialsToImport[i].category = arr.categoria;
-      // materialsToImport[i].magnitude = arr.magnitud;
-      // materialsToImport[i].unit = arr.unidad;
       materialsToImport[i].costRawMaterial = arr.costo
       materialsToImport[i].costImport = arr.costo_importacion;
       materialsToImport[i].costExport = arr.costo_nacionalizacion;
@@ -320,45 +203,29 @@ $(document).ready(function () {
 
   /* Mensaje de advertencia */
   const checkProduct = (data, insert, update) => {
-    // $.ajax({
-    //   type: 'POST',
-    //   url: '/api/materialsDataValidation',
-    //   data: { importMaterials: data },
-    //   success: function (resp) {
-    //     if (resp.error == true) {
-    //       $('#fileMaterials').val('');
-    //       $('.cardLoading').remove();
-    //       $('.cardBottons').show(400);
-          
-    //       toastr.error(resp.message);
-    //       return false;
-    // }
-    
-        bootbox.confirm({
-          title: '¿Desea continuar con la importación?',
-          message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${insert} <br>Datos a actualizar: ${update}`,
-          buttons: {
-            confirm: {
-              label: 'Si',
-              className: 'btn-success',
-            },
-            cancel: {
-              label: 'No',
-              className: 'btn-danger',
-            },
-          },
-          callback: function (result) {
-            if (result == true) {
-              saveMaterialTable(data);
-            } else {
-              $('#fileMaterials').val('');
-              $('.cardLoading').remove();
-              $('.cardBottons').show(400);
-            }
-          },
-        });
-      // },
-    // });
+    bootbox.confirm({
+      title: '¿Desea continuar con la importación?',
+      message: `Se han encontrado los siguientes registros:<br><br>Datos a insertar: ${insert} <br>Datos a actualizar: ${update}`,
+      buttons: {
+        confirm: {
+          label: 'Si',
+          className: 'btn-success',
+        },
+        cancel: {
+          label: 'No',
+          className: 'btn-danger',
+        },
+      },
+      callback: function (result) {
+        if (result == true) {
+          saveMaterialTable(data);
+        } else {
+          $('#fileMaterials').val('');
+          $('.cardLoading').remove();
+          $('.cardBottons').show(400);
+        }
+      },
+    });
   };
 
   const saveMaterialTable = (data) => {
@@ -374,24 +241,8 @@ $(document).ready(function () {
 
   /* Descargar formato */
   $('#btnDownloadImportsMaterials').click(function (e) {
-    e.preventDefault();
+    e.preventDefault(); 
 
-    // price_usd == '0' ||
-    // if (flag_currency_usd == '0')
-    //   url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
-    // else
-    //   url = 'assets/formatsXlsx/Materia_prima(USD).xlsx';
-
-    // let link = document.createElement('a');
-
-    // link.target = '_blank';
-
-    // link.href = url;
-    // document.body.appendChild(link);
-    // link.click();
-
-    // document.body.removeChild(link);
-    // delete link;
     let url = 'assets/formatsXlsx/Materia_prima(COP).xlsx';
 
     if (flag_currency_usd == '1') {
@@ -404,7 +255,6 @@ $(document).ready(function () {
       if (export_import == '1' && flag_export_import == '1')
         url = 'assets/formatsXlsx/Materia_prima(Export_Cop).xlsx';
     }
-
 
     let newFileName = 'Materia_Prima.xlsx';
 

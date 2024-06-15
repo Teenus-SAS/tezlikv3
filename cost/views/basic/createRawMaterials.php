@@ -88,11 +88,7 @@ if (sizeof($_SESSION) == 0)
                                     <div class="col-xs-2 py-2 mr-2">
                                         <button class="btn btn-info" id="btnImportNewMaterials" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Importar Materias Primas"><i class="fas fa-download" style="font-size: 20px;"></i></button>
                                     </div>
-                                    <!-- $_SESSION['price_usd'] -->
                                     <?php if ($_SESSION['flag_currency_usd'] == 1) { ?>
-                                        <!-- <div class="col-xs-2 py-2 mr-2">
-                                            <button class="btn btn-sm btn-outline-primary" id="btnPriceUSD">Moneda (USD)</button>
-                                        </div> -->
                                         <div class="col-xs-2 mr-2 form-group floating-label enable-floating-label mt-4">
                                             <select class="form-control" id="selectPriceUSD">
                                                 <option disabled>Seleccionar</option>
@@ -279,12 +275,12 @@ if (sizeof($_SESSION) == 0)
                             <div class="col-12">
                                 <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active selectNavigation" id="materials" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
+                                        <a class="nav-link active selectNavigation" id="navMaterials" data-toggle="pill" href="javascript:;" role="tab" aria-controls="pills-activity" aria-selected="true">
                                             <i class="fas fa-flask mr-1"></i>Materias Primas
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link selectNavigation" id="categories" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
+                                        <a class="nav-link selectNavigation" id="navCategories" data-toggle="pill" href="#pills-projects" role="tab" aria-controls="pills-projects" aria-selected="false">
                                             <i class="bi bi-arrow-repeat mr-1"></i>Categorias
                                         </a>
                                     </li>
@@ -294,15 +290,6 @@ if (sizeof($_SESSION) == 0)
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <!-- <div class="cardMaterials">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped" id="tblRawMaterials">
-
-                                        </table>
-                                    </div>
-                                </div>
-                            </div> -->
                                     <div class="tab-pane cardMaterials">
                                         <div class="card-body">
                                             <div class="table-responsive">
@@ -338,12 +325,8 @@ if (sizeof($_SESSION) == 0)
     <?php include_once dirname(dirname(dirname(__DIR__))) . '/global/partials/scriptsJS.php'; ?>
     <script>
         flag_expense = "<?= $_SESSION['flag_expense'] ?>";
-
-        // flag_currency_usd = "< ?= $_SESSION['flag_currency_usd'] ?>";
         flag_expense_distribution = "<?= $_SESSION['flag_expense_distribution'] ?>";
         flag_indirect = "<?= $_SESSION['flag_indirect'] ?>";
-        // export_import = "< ?= $_SESSION['export_import'] ?>";
-        // flag_export_import = "< ?= $_SESSION['flag_export_import'] ?>";
     </script>
     <script src="/global/js/global/configMagnitudes.js"></script>
     <script src="/global/js/global/configUnits.js"></script>

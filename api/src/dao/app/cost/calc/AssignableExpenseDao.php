@@ -28,7 +28,7 @@ class AssignableExpenseDao
                                             INNER JOIN products_costs pc ON pc.id_product = ed.id_product 
                                           WHERE ed.id_company = :id_company AND p.active = 1 -- AND pc.new_product = 0
                                           -- AND (ed.assignable_expense > 0 AND ed.units_sold > 0 AND ed.turnover > 0)
-                                          AND (ed.units_sold > 0 AND ed.turnover > 0)
+                                          -- AND (ed.units_sold > 0 AND ed.turnover > 0)
                                           ");
             $stmt->execute(['id_company' => $id_company]);
             $unitVol = $stmt->fetchAll($connection::FETCH_ASSOC);

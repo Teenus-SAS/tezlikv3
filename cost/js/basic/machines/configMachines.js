@@ -1,13 +1,4 @@
 $(document).ready(function () {
-  sessionStorage.removeItem('machinesData');
-
-  $('.cardCreateMachines').hide();
-
-  $('#btnNewMachine').click(function (e) {
-    e.preventDefault();
-    $('.cardCreateMachines').toggle(800);
-  });
-
   getSelectMachine = async (url) => {
     await $.ajax({
       type: 'GET',

@@ -45,25 +45,17 @@ $(document).ready(function () {
     $('#product').val(data.product);
     $('#profitability').val(data.profitability);
     $('#commisionSale').val(data.commission_sale);
-    // let decimals = contarDecimales(data.sale_price);
-    // let cost = formatNumber(data.sale_price, decimals);
     $('#salePrice').val(data.sale_price);
 
     $('html, body').animate({ scrollTop: 0 }, 1000);
   });
 
   /* Revisar datos */
-  checkDataProducts = async (url, idProduct) => {
+  const checkDataProducts = async (url, idProduct) => {
     let ref = $('#referenceProduct').val();
     let prod = $('#product').val();
     let prof = parseFloat($('#profitability').val());
-    let comission = parseFloat($('#commisionSale').val());
-
-    // prof = parseFloat(prof.replace(',', '.'));
-    // comission = parseFloat(comission.replace(',', '.'));
-
-    // let data = 1 * prof; 
-    // || ((data <= 0 || isNaN(data)) && (!composite || composite == '0'))
+    let comission = parseFloat($('#commisionSale').val()); 
 
     if (ref.trim() == '' || !ref.trim() || prod.trim() == '' || !prod.trim()) {
       toastr.error('Ingrese todos los campos');
@@ -189,8 +181,7 @@ $(document).ready(function () {
     let row = $(this).parent().parent()[0];
     let data = tblProducts.fnGetData(row);
 
-    bootbox.confirm({
-      //title: data.composite == '0' ? 'Agregar' : 'Eliminar',
+    bootbox.confirm({ 
       title: 'Producto Compuesto',
       message:
         `Está seguro de que este producto ${data.composite == '0' ? 'se <b>convierta en un subproducto</b> para ser agregado a un producto compuesto' : 'se <b>Elimine</b> como subproducto'}?`,
@@ -218,7 +209,6 @@ $(document).ready(function () {
   });
 
   /* Mensaje de exito */
-
   message = (data) => {
     $('#fileProducts').val('');
     $('.cardLoading').remove();
@@ -231,17 +221,9 @@ $(document).ready(function () {
       $('.cardCreateProduct').hide(800);
       $('#formCreateProduct').trigger('reset');
       toastr.success(data.message);
-      loadAllData();
-      // getCantProducts();
+      loadAllData(); 
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
   };
-
-  /* Actualizar tabla */
-
-  // function updateTable() {
-  //   $('#tblProducts').DataTable().clear();
-  //   $('#tblProducts').DataTable().ajax.reload();
-  // }
 });

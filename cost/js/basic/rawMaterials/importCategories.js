@@ -76,7 +76,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkCategories = (data) => {
+  const checkCategories = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/categoriesDataValidation',
@@ -118,7 +118,7 @@ $(document).ready(function () {
     });
   };
 
-  saveCategoriesTable = (data) => {
+  const saveCategoriesTable = (data) => {
     $.ajax({
       type: 'POST',
       url: '../../api/addCategory',

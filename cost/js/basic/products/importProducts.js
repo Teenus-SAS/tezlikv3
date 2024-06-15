@@ -90,7 +90,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkProduct = (data) => {
+  const checkProduct = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/productsDataValidation',
@@ -133,11 +133,10 @@ $(document).ready(function () {
   };
 
   /* Guardar Importacion */
-  saveProductTable = (data) => {
+  const saveProductTable = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/addProducts',
-      //data: data,
       data: { importProducts: data },
       success: function (r) {
         message(r);

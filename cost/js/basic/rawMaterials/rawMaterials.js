@@ -4,20 +4,25 @@ $(document).ready(function () {
   $('.selectNavigation').click(function (e) {
     e.preventDefault();
 
-    if (this.id == 'materials') {
-      $('.cardMaterials').show();
-      $('.cardCategories').hide(); 
-      $('.cardRawMaterials').hide();
-      $('.cardImportMaterials').hide();
-      $('.cardAddCategories').hide(); 
-      $('.cardImportCategories').hide(); 
-    } else {
-      $('.cardCategories').show();
-      $('.cardMaterials').hide();
-      $('.cardAddCategories').hide(); 
-      $('.cardImportCategories').hide();
-      $('.cardRawMaterials').hide();
-      $('.cardImportMaterials').hide(); 
+    let option = this.id;
+
+    switch (option) {
+      case 'navMaterials': // Materiales
+        $('.cardMaterials').show();
+        $('.cardCategories').hide();
+        $('.cardRawMaterials').hide();
+        $('.cardImportMaterials').hide();
+        $('.cardAddCategories').hide();
+        $('.cardImportCategories').hide();
+        break;
+      case 'navCategories': // Categorias
+        $('.cardCategories').show();
+        $('.cardMaterials').hide();
+        $('.cardAddCategories').hide();
+        $('.cardImportCategories').hide();
+        $('.cardRawMaterials').hide();
+        $('.cardImportMaterials').hide();
+        break;
     }
     
     let tables = document.getElementsByClassName(
@@ -137,69 +142,28 @@ $(document).ready(function () {
     $(`#magnitudes option[value=${data.id_magnitude}]`).prop('selected', true);
     loadUnitsByMagnitude(data.id_magnitude, 1);
     $(`#units option[value=${data.id_unit}]`).prop('selected', true);
-    
-    // price_usd == '1' && 
-    // if (flag_currency_usd == '1') {
-    //   if (data.flag_usd == 1) {
-    //     $('#costRawMaterial').val(data.cost_usd);
-    //     $('#selectPriceUSD').val(2);
-    //     var costRawMaterial = document.getElementById('costRawMaterial');
-    //     costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en USD');
-    //     $('.cardAlertPrice').html('Ingrese el valor de compra en USD');
+     
+    $('#costRawMaterial').val(data.cost); 
 
-    //     if (export_import == '1') {
-    //       $('#costImport, #costExport').attr('data-original-title', 'Ingrese el valor de compra en USD');
-    //     }
-    //   } else {
-    //     $('#selectPriceUSD').val(1);
-    //     $('#costRawMaterial').val(data.cost); 
-    //     var costRawMaterial = document.getElementById('costRawMaterial');
-    //     costRawMaterial.setAttribute('data-original-title', 'Ingrese el valor de compra en COP');
-    //     $('.cardAlertPrice').html('Ingrese el valor de compra en COP');
+    const selectPriceUSD = $('#selectPriceUSD').val();
 
-    //     if (export_import == '1') {
-    //       $('#costImport, #costExport').attr('data-original-title', 'Ingrese el valor de compra en COP');
-    //     }
-    //   }
-    // } else
-    //   $('#costRawMaterial').val(data.cost);
-    // if (flag_currency_usd == '1') {
-    //   const isUSD = data.flag_usd == 1;
-    //   // const cost = isUSD ? data.cost_usd : data.cost;
-    //   const titleText = isUSD ? 'Ingrese el valor de compra en USD' : 'Ingrese el valor de compra en COP';
-    //   const priceValue = isUSD ? 2 : 1;
-
-    //   $('#costRawMaterial').attr('data-original-title', titleText);
-    //   $('#selectPriceUSD').val(priceValue);
-    //   $('.cardAlertPrice').html(titleText);
-
-    //   if (export_import == '1') {
-    //     $('#costImport, #costExport').attr('data-original-title', titleText);
-    //   }
-    // } else {
-    $('#costRawMaterial').val(data.cost);
-    // }
-    
-    let selectPriceUSD = $('#selectPriceUSD').val();
-
-    if (flag_currency_usd == '1' && selectPriceUSD == '2') {
+    if (flag_currency_usd === '1' && selectPriceUSD === '2') {
       $('#costRawMaterial').val(data.cost_usd);
     }
-    if (export_import == '1' && flag_export_import == '1') {
+
+    if (export_import === '1' && flag_export_import === '1') {
       switch (selectPriceUSD) {
         case '1': // COP
           $('#costRawMaterial').val(data.cost);
           $('#costImport').val(data.cost_import);
           $('#costExport').val(data.cost_export);
           $('#costTotal').val(data.cost_total);
-          
           break;
         case '2': // USD
           $('#costRawMaterial').val(data.cost_usd);
           $('#costImport').val(data.cost_import_usd);
           $('#costExport').val(data.cost_export_usd);
           $('#costImport').keyup();
-          
           break;
       }
     }
@@ -213,7 +177,7 @@ $(document).ready(function () {
   });
 
   /* Revision data materia prima */
-  checkDataMaterial = async (url, idMaterial) => {
+  const checkDataMaterial = async (url, idMaterial) => {
     let ref = $('#refRawMaterial').val().trim();
     let material = $('#nameRawMaterial').val().trim();
     let unity = $('#units').val();
@@ -251,16 +215,12 @@ $(document).ready(function () {
     }
 
     let dataMaterial = new FormData(formCreateMaterial);
-    
-    // price_usd == '1' && 
+     
     let usd = 0;
 
     if (flag_currency_usd == '1') {
-      // let className = document.getElementById('btnPriceUSD').className;
-      // className == 'btn btn-sm btn-primary' ? usd = 1 : usd = 0;
       let priceUSD = $('#selectPriceUSD').val();
-      priceUSD == '2' ? usd = 1 : usd = 0;
-      // dataMaterial.append('idCategory', category);
+      priceUSD == '2' ? usd = 1 : usd = 0; 
     } else
       usd = 0;
     
@@ -321,7 +281,6 @@ $(document).ready(function () {
   };
 
   /* Mensaje de exito */
-
   messageMaterials = (data) => {
     $('#fileMaterials').val('');
     $('.cardLoading').remove();
@@ -347,8 +306,7 @@ $(document).ready(function () {
   });
 
   /* Productos relacionados */
-  $(document).on('click', '.seeDetailMaterials', function () {
-    // let data = await searchData(`/api/productsByMaterials/${this.id}`);
+  $(document).on('click', '.seeDetailMaterials', function () { 
     let allProductMaterials = JSON.parse(sessionStorage.getItem('dataProductMaterials'));
     let data = allProductMaterials.filter(item => item.id_material == this.id);
 

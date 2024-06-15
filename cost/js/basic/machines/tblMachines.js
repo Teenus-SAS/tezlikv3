@@ -2,6 +2,17 @@ $(document).ready(function () {
   /* Cargue tabla de Máquinas */
   inyection == 1 ? visible = true : visible = false;
 
+  // Función para formatear los numeros
+  const renderNum = (data) => {
+    let num = parseFloat(data);
+    const options = Math.abs(num) < 0.01
+      ? { minimumFractionDigits: 2, maximumFractionDigits: 9 }
+      : { maximumFractionDigits: 2 };
+
+    num = num.toLocaleString('es-CO', options);
+    return num;
+  };
+
   tblMachines = $('#tblMachines').dataTable({
     pageLength: 50,
     ajax: {
@@ -35,18 +46,7 @@ $(document).ready(function () {
         title: 'Costo',
         data: 'cost',
         className: 'classRight',
-        render: function (data) {
-          data = parseFloat(data);
-
-          if (Math.abs(data) < 0.01) {
-            // let decimals = contarDecimales(data);
-            // data = formatNumber(data, decimals);
-            data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-          } else
-            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-          return `$ ${data}`;
-        },
+        render: (data, type, row) => {return `$ ${renderNum(data)}`},
       },
       {
         title: 'Años de Depreciación',
@@ -57,18 +57,7 @@ $(document).ready(function () {
         title: 'Depreciación X Minuto',
         data: 'minute_depreciation',
         className: 'classCenter',
-        render: function (data) {
-          data = parseFloat(data);
-
-          if (Math.abs(data) < 0.01) {
-            // let decimals = contarDecimales(data);
-            // data = formatNumber(data, decimals);
-            data = data.toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 9 });
-          } else
-            data = data.toLocaleString('es-CO', { maximumFractionDigits: 2 });
-            
-          return `${data}`;
-        },
+        render: (data, type, row) => renderNum(data),
       },
       {
         title: 'Ciclos Maquina',

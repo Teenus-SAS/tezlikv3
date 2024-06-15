@@ -311,8 +311,8 @@ $(document).ready(function () {
             `<label class="text-dark">Distribución</label>
             <select class="form-control typeExpense" id="selectTypeED">
               <option disabled>Seleccionar</option>
-              <option value="1" ${flag_expense_distribution == '1' ? 'selected' : ''}>Producto</option>
-              <option value="2" ${flag_expense_distribution == '2' ? 'selected' : ''}>Familia</option>
+              <option value="1" ${flag_expense_distribution == '1' ? 'selected' : ''}>PRODUCTO</option>
+              <option value="2" ${flag_expense_distribution == '2' ? 'selected' : ''}>FAMILIA</option>
             </select>`
           );
         }

@@ -75,7 +75,9 @@ $(document).ready(function () {
                     render: function (data) {
                         data.unit_sold == 0 ? units = '' : units = parseInt(data.unit_sold).toLocaleString('es-CO', { minimumFractionDigits: 0 });
 
-                        return `<p id="unitsSold-${data.id_product}">${units}</p>`
+                        return `<div id="unitsSold-${data.id_product}">
+                            <span class="badge badge-success" style="font-size: 16px;">${units}</span>
+                        </div>`;
                     },
                 },
                 {

@@ -36,8 +36,6 @@ $(document).ready(function () {
     $('.cardCreateProcess').show(800);
     $('#btnCreateProcess').html('Actualizar');
 
-    // let row = $(this).parent().parent()[0];
-    // let data = tblProcess.fnGetData(row);
     let data = dataProcess.find(item => item.id_process == this.id);
 
     sessionStorage.setItem('id_process', data.id_process);
@@ -52,7 +50,7 @@ $(document).ready(function () {
   });
 
   /* Revision data procesos */
-  checkDataProcess = async (url, idProcess) => {
+  const checkDataProcess = async (url, idProcess) => {
     let process = $('#process').val();
 
     if (process.trim() == '' || !process.trim()) {
@@ -72,10 +70,7 @@ $(document).ready(function () {
 
   /* Eliminar proceso */
 
-  deleteFunction = (id) => {
-    // let row = $(this.activeElement).parent().parent()[0];
-    // let data = tblProcess.fnGetData(row);
-
+  deleteFunction = (id) => { 
     let data = dataProcess.find(item => item.id_process == id);
     let count_payroll = parseInt(data.count_payroll);
 
@@ -130,12 +125,5 @@ $(document).ready(function () {
       return false;
     } else if (data.error == true) toastr.error(data.message);
     else if (data.info == true) toastr.info(data.message);
-  };
-
-  /* Actualizar tabla */
-
-  // function updateTable() {
-  //   $('#tblProcess').DataTable().clear();
-  //   $('#tblProcess').DataTable().ajax.reload();
-  // }
+  }; 
 });

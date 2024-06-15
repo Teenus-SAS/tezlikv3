@@ -88,7 +88,7 @@ $(document).ready(function () {
   });
 
   /* Mensaje de advertencia */
-  checkMachine = (data) => {
+  const checkMachine = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/machinesDataValidation',
@@ -129,7 +129,7 @@ $(document).ready(function () {
     });
   };
 
-  saveMachineTable = (data) => {
+  const saveMachineTable = (data) => {
     $.ajax({
       type: 'POST',
       url: '/api/addMachines',
