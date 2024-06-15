@@ -343,7 +343,7 @@ if (sizeof($_SESSION) == 0)
                                                     <select class="form-control inputs" name="idProcess" id="idProcess"></select>
                                                 </div>
                                                 <div class="col-sm-2 floating-label enable-floating-label show-label employees mt-1">
-                                                    <!-- <label class="text-center">Operadores</label> -->
+                                                    <label class="text-center">Operadores</label>
                                                     <!-- <button class="btn btn-success" id="btnEmployees">Operadores</button> -->
                                                     <input class="form-control text-center" type="number" name="employees" id="btnEmployees" readonly>
                                                 </div>
