@@ -338,16 +338,16 @@ if (sizeof($_SESSION) == 0)
                                     <div class="card-body">
                                         <form id="formAddProcess">
                                             <div class="form-row">
-                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-4 mb-0 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Proceso</label>
                                                     <select class="form-control inputs" name="idProcess" id="idProcess"></select>
                                                 </div>
-                                                <div class="col-sm-2 floating-label enable-floating-label show-label">
+                                                <div class="col-sm-2 mb-0 floating-label enable-floating-label show-label">
                                                     <label class="text-center">Operadores</label>
                                                     <!-- <button class="btn btn-success" id="btnEmployees">Operadores</button> -->
                                                     <button class="form-control text-center" type="number" name="employees" id="btnEmployees" data-toggle="tooltip" title="Seleccione la cantidad de operarios para este proceso" readonly></button>
                                                 </div>
-                                                <div class="col-sm-4 floating-label enable-floating-label show-label" style="margin-bottom:20px">
+                                                <div class="col-sm-4 mb-0 floating-label enable-floating-label show-label" style="margin-bottom:20px">
                                                     <label>Maquina</label>
                                                     <select class="form-control inputs" name="idMachine" id="idMachine"></select>
                                                 </div>
